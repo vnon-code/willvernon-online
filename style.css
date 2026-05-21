@@ -214,23 +214,34 @@ h1, h2, h3, h4, h5, h6 {
    -------------------------------------------------------------------------- */
 .grid-2 {
   display: grid;
-  grid-template-cols: 1fr;
+  grid-template-columns: 1fr;
   gap: 2rem;
 }
 @media (min-width: 992px) {
   .grid-2 {
-    grid-template-cols: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.featured-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
+}
+@media (min-width: 600px) {
+  .featured-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 .grid-3 {
   display: grid;
-  grid-template-cols: 1fr;
+  grid-template-columns: 1fr;
   gap: 3rem;
 }
 @media (min-width: 992px) {
   .grid-3 {
-    grid-template-cols: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
   .col-span-2 {
     grid-column: span 2 / span 2;
@@ -721,12 +732,12 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid var(--bg-700);
   border-radius: 0.5rem;
   display: grid;
-  grid-template-cols: 1fr;
+  grid-template-columns: 1fr;
   gap: 3rem;
 }
 @media (min-width: 768px) {
   .contact-card {
-    grid-template-cols: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     padding: 3rem;
   }
 }
@@ -1157,7 +1168,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .process-card {
   display: grid;
-  grid-template-cols: 1fr;
+  grid-template-columns: 1fr;
   gap: 3rem;
   background-color: var(--bg-900);
   padding: 2rem;
@@ -1166,7 +1177,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 @media (min-width: 992px) {
   .process-card {
-    grid-template-cols: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     padding: 3rem;
   }
 }
@@ -1230,14 +1241,14 @@ h1, h2, h3, h4, h5, h6 {
    -------------------------------------------------------------------------- */
 .about-columns-grid {
   display: grid;
-  grid-template-cols: 1fr;
+  grid-template-columns: 1fr;
   gap: 4rem;
   border-top: 1px solid var(--bg-700);
   padding-top: 4rem;
 }
 @media (min-width: 992px) {
   .about-columns-grid {
-    grid-template-cols: repeat(3, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 4rem;
   }
 }
@@ -1290,7 +1301,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .about-skills-list-2 {
   display: grid;
-  grid-template-cols: repeat(2, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   font-family: var(--font-mono);
   font-size: 0.75rem;
