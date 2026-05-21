@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | William Vernon</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        mono: ['Space Mono', 'monospace'],
+                    },
+                    colors: {
+                        base: {
+                            950: '#020000', 
+                            900: '#050000',
+                            800: '#0a0a0a', 
+                            700: '#141414',
+                        },
+                        accent: {
+                            red: '#D91C1C',
+                            darkred: '#5a0000',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        body { background-color: #020000; color: #d1d1d1; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020000; }
+        ::-webkit-scrollbar-thumb { background: #141414; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #D91C1C; }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-accent-red selection:text-white flex flex-col min-h-screen">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-base-950/80 backdrop-blur-md border-b border-white/5 px-6 md:px-12 xl:px-24" id="navbar">
+        <div class="max-w-[1600px] mx-auto w-full py-6 grid grid-cols-3 items-center">
+            <div class="hidden md:flex space-x-8 text-sm font-mono text-gray-500 justify-start">
+                <a href="index.html#work" class="hover:text-accent-red transition-colors">[ WORK ]</a>
+                <a href="index.html#music" class="hover:text-accent-red transition-colors">[ MUSIC ]</a>
+                <a href="about.html" class="text-accent-red transition-colors">[ ABOUT ]</a>
+            </div>
+            <div class="flex justify-center">
+                <a href="index.html" class="flex items-center">
+                    <img src="https://i0.wp.com/willvernon.online/wp-content/uploads/2026/04/monogram-white-trans-1.png?fit=1080%2C1080&ssl=1" alt="WV Monogram" class="h-10 w-10 object-contain hover:rotate-90 transition-transform duration-500">
+                </a>
+            </div>
+            <div class="hidden md:flex space-x-6 text-lg text-gray-500 justify-end items-center">
+                <a href="https://instagram.com/willvernon.av" target="_blank" class="hover:text-accent-red transition-colors"><i class="ph ph-instagram-logo"></i></a>
+                <a href="https://www.linkedin.com/in/william-vernon-a37aa42b8" target="_blank" class="hover:text-accent-red transition-colors"><i class="ph ph-linkedin-logo"></i></a>
+                <a href="mailto:wvernoncsi@gmail.com" class="hover:text-accent-red transition-colors"><i class="ph ph-envelope"></i></a>
+            </div>
+            <button class="md:hidden text-2xl text-gray-400 hover:text-white col-start-3 flex justify-end" id="mobile-menu-btn" aria-label="Toggle Menu"><i class="ph ph-list"></i></button>
+        </div>
+        
+        <div id="mobile-menu" class="fixed inset-0 bg-base-950 bg-opacity-95 z-40 hidden flex-col justify-center items-center space-y-8 text-2xl font-mono">
+            <button id="close-menu-btn" class="absolute top-6 right-6 text-3xl text-gray-400 hover:text-accent-red" aria-label="Close Menu"><i class="ph ph-x"></i></button>
+            <a href="index.html#work" class="mobile-link hover:text-accent-red transition-colors">Work</a>
+            <a href="index.html#music" class="mobile-link hover:text-accent-red transition-colors">Music</a>
+            <a href="about.html" class="mobile-link text-accent-red transition-colors">About</a>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <header class="pt-40 pb-12 px-6 md:px-12 xl:px-24">
+        <div class="max-w-[1600px] mx-auto w-full">
+            <p class="font-mono text-accent-red text-sm tracking-widest uppercase mb-4">// PROFILE_SYSTEM</p>
+            <h1 class="text-5xl md:text-7xl font-bold tracking-tighter text-white uppercase">About & Credentials</h1>
+        </div>
+    </header>
+
+    <main class="flex-grow px-6 md:px-12 xl:px-24 pb-32">
+        <div class="max-w-[1600px] mx-auto w-full border-t border-base-700 pt-16">
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-16 xl:gap-24">
+                
+                <!-- Column 1: Philosophy & Contact -->
+                <div class="space-y-12">
+                    <div class="space-y-6">
+                        <h3 class="text-white font-bold text-xl uppercase border-l-2 border-accent-red pl-4">Design Personality</h3>
+                        <p class="text-gray-400 leading-relaxed text-sm">
+                            Adaptable graduate and customer experience professional with a unique blend of technical design skills and operational reliability. I view software as a toolset to translate complex data or abstract audio into tangible, immersive visual narratives.
+                        </p>
+                        <p class="text-gray-400 leading-relaxed text-sm">
+                            My process integrates generative AI workflows with traditional 3D pipelines, reframing emerging tech as a collaborative partner to accelerate ideation while maintaining ethical standards and creative control.
+                        </p>
+                    </div>
+
+                    <div class="pt-8 border-t border-base-800 space-y-4">
+                        <h4 class="font-mono text-white text-xs uppercase tracking-widest">Contact</h4>
+                        <div class="space-y-3 font-mono text-sm text-gray-400">
+                            <p>Email: wvernoncsi@gmail.com</p>
+                            <p>Phone: +44 7551 379712</p>
+                            <div class="flex space-x-4 pt-2">
+                                <a href="https://www.linkedin.com/in/william-vernon-a37aa42b8" target="_blank" class="hover:text-accent-red"><i class="ph ph-linkedin-logo text-xl"></i></a>
+                                <a href="https://instagram.com/willvernon.av" target="_blank" class="hover:text-accent-red"><i class="ph ph-instagram-logo text-xl"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2: Skills & Software -->
+                <div class="space-y-12">
+                    <div class="space-y-6">
+                        <h3 class="text-white font-bold text-xl uppercase border-l-2 border-accent-red pl-4">Design Skills</h3>
+                        <div class="grid grid-cols-2 gap-4 font-mono text-xs text-gray-400">
+                            <span>Photoshop</span>
+                            <span>Illustrator</span>
+                            <span>InDesign</span>
+                            <span>After Effects</span>
+                            <span>Premiere Pro</span>
+                            <span>TouchDesigner</span>
+                            <span>Blender</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <h3 class="text-white font-bold text-xl uppercase border-l-2 border-accent-red pl-4">Generative AI</h3>
+                        <div class="space-y-2 font-mono text-xs text-gray-400">
+                            <p class="text-gray-200 uppercase text-[10px] tracking-widest">Commercial Tools</p>
+                            <p>Midjourney, ElevenLabs, Higgsfield, Rodin</p>
+                            <p class="text-gray-200 uppercase text-[10px] tracking-widest pt-2">Open Source & Engines</p>
+                            <p>ComfyUI, SDXL, Flux, HighDream, Qwen</p>
+                            <p class="pt-2">Prompt Engineering, LORA training, ControlNet</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6">
+                        <h3 class="text-white font-bold text-xl uppercase border-l-2 border-accent-red pl-4">Operational</h3>
+                        <div class="font-mono text-xs text-gray-400 space-y-1">
+                            <p>Time Management & Team Leadership</p>
+                            <p>Safety & Risk Mitigation</p>
+                            <p>Client Relationships & Conflict Resolution</p>
+                            <p>Technical Troubleshooting</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 3: CV / Experience -->
+                <div class="space-y-12">
+                    <div class="space-y-8">
+                        <h3 class="text-white font-bold text-xl uppercase border-l-2 border-accent-red pl-4">Education</h3>
+                        <div class="relative pl-6 border-l border-base-800 space-y-6">
+                            <div class="relative">
+                                <div class="absolute -left-[31px] top-1 w-3 h-3 bg-accent-red rounded-full"></div>
+                                <h4 class="text-white font-bold">BA Graphic Design (Hons)</h4>
+                                <p class="text-accent-red font-mono text-xs">Oxford Brookes | 2022-2025</p>
+                            </div>
+                            <div class="relative">
+                                <div class="absolute -left-[31px] top-1 w-3 h-3 bg-base-800 rounded-full"></div>
+                                <h4 class="text-white font-bold">CertHE Architecture</h4>
+                                <p class="text-gray-500 font-mono text-xs">Oxford Brookes | 2020-2022</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-8">
+                        <h3 class="text-white font-bold text-xl uppercase border-l-2 border-accent-red pl-4">Experience</h3>
+                        <div class="relative pl-6 border-l border-base-800 space-y-6">
+                            <div class="relative">
+                                <div class="absolute -left-[31px] top-1 w-3 h-3 bg-base-800 rounded-full"></div>
+                                <h4 class="text-white font-bold">Climbing Instructor</h4>
+                                <p class="text-gray-300 font-mono text-xs">Jump Jersey | 2023-2025</p>
+                            </div>
+                            <div class="relative">
+                                <div class="absolute -left-[31px] top-1 w-3 h-3 bg-base-800 rounded-full"></div>
+                                <h4 class="text-white font-bold">Waiter/FOH</h4>
+                                <p class="text-gray-300 font-mono text-xs">Air Mex | 2022-2023</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Mobile Menu Logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('flex');
+            document.body.classList.toggle('overflow-hidden');
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+    </script>
+</body>
+</html>

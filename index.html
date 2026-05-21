@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>William Vernon | Generative Design & Creative Tech</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        mono: ['Space Mono', 'monospace'],
+                    },
+                    colors: {
+                        base: {
+                            950: '#020000', 
+                            900: '#050000',
+                            800: '#0a0a0a', 
+                            700: '#141414',
+                        },
+                        accent: {
+                            red: '#D91C1C',
+                            darkred: '#5a0000',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        body { background-color: #020000; color: #d1d1d1; }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020000; }
+        ::-webkit-scrollbar-thumb { background: #141414; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #D91C1C; }
+        .neon-card { border: 1px solid #141414; background-color: #050000; transition: all 0.3s ease; }
+        .neon-card:hover { border-color: #D91C1C; box-shadow: 0 0 15px rgba(217, 28, 28, 0.15); transform: translateY(-4px); }
+        #hero-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        .glitch-hover:hover { text-shadow: 2px 0 #D91C1C, -2px 0 #5a0000; transition: text-shadow 0.2s ease-in-out; }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-accent-red selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 transition-all duration-300 border-b border-transparent px-6 md:px-12 xl:px-24" id="navbar">
+        <div class="max-w-[1600px] mx-auto w-full py-6 grid grid-cols-3 items-center">
+            
+            <!-- Left: Burger Menu (Mobile) / Navigation Links (Desktop) -->
+            <div class="flex items-center justify-start">
+                <div class="hidden md:flex space-x-8 text-sm font-mono text-gray-500">
+                    <a href="#work" class="hover:text-accent-red transition-colors">[ WORK ]</a>
+                    <a href="#music" class="hover:text-accent-red transition-colors">[ MUSIC ]</a>
+                    <a href="#about" class="hover:text-accent-red transition-colors">[ ABOUT ]</a>
+                </div>
+                <button class="md:hidden text-2xl text-gray-400 hover:text-white flex items-center" id="mobile-menu-btn" aria-label="Toggle Menu">
+                    <i class="ph ph-list"></i>
+                </button>
+            </div>
+
+            <!-- Center: Monogram -->
+            <div class="flex justify-center">
+                <a href="#" class="flex items-center">
+                    <img src="https://i0.wp.com/willvernon.online/wp-content/uploads/2026/04/monogram-white-trans-1.png?fit=1080%2C1080&ssl=1" alt="WV Monogram" class="h-10 w-10 object-contain hover:rotate-90 transition-transform duration-500">
+                </a>
+            </div>
+
+            <!-- Right: Social Links (Mobile & Desktop) -->
+            <div class="flex space-x-4 md:space-x-6 text-lg text-gray-500 justify-end items-center">
+                <a href="https://instagram.com/willvernon.av" target="_blank" class="hover:text-accent-red transition-colors" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+                <a href="https://www.linkedin.com/in/william-vernon-a37aa42b8" target="_blank" class="hover:text-accent-red transition-colors" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
+                <a href="mailto:wvernoncsi@gmail.com" class="hover:text-accent-red transition-colors" aria-label="Email"><i class="ph ph-envelope"></i></a>
+            </div>
+            
+        </div>
+        
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="fixed inset-0 bg-base-950 bg-opacity-95 z-40 hidden flex-col justify-center items-center space-y-8 text-2xl font-mono">
+            <button id="close-menu-btn" class="absolute top-6 right-6 text-3xl text-gray-400 hover:text-accent-red" aria-label="Close Menu"> 
+                 <i class="ph ph-x"></i>
+            </button>
+            <a href="#work" class="mobile-link hover:text-accent-red transition-colors">Work</a>
+            <a href="#music" class="mobile-link hover:text-accent-red transition-colors">Music</a>
+            <a href="#about" class="mobile-link hover:text-accent-red transition-colors">About</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative min-h-screen flex items-center pt-20 px-6 md:px-12 xl:px-24 overflow-hidden">
+        <canvas id="hero-canvas"></canvas>
+        <div class="max-w-[1600px] mx-auto w-full relative z-10">
+            <div class="w-full space-y-6">
+                <!-- Red accents matching your hero image design -->
+                <p class="font-mono text-accent-red text-sm tracking-widest uppercase">System Online // Oxford Brookes Alum</p>
+                
+                <h1 class="text-7xl md:text-8xl lg:text-[9rem] font-bold tracking-tighter text-white uppercase leading-none mt-2 mb-4">
+                    William<br/>Vernon
+                </h1>
+                
+                <h2 class="text-2xl md:text-4xl text-gray-400 font-light mt-8">
+                    Generative Design <span class="text-accent-red">&</span> Creative Technology.
+                </h2>
+                
+                <p class="text-base md:text-lg text-gray-500 font-mono mt-8 max-w-3xl leading-relaxed">
+                    Adaptable designer blending technical skills with operational reliability. Specialising in generative AI workflows, audio-reactive visual systems, and digital practice.
+                </p>
+                
+                <div class="pt-10 flex flex-wrap gap-4">
+                    <a href="#work" class="px-8 py-3 bg-white text-base-950 font-bold hover:bg-accent-red hover:text-white transition-all uppercase text-sm">explore_projects</a>
+                    <a href="/experiments" class="px-8 py-3 border border-gray-800 text-white hover:border-accent-red hover:text-accent-red transition-all font-mono text-sm">> experiments & AI</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex flex-col items-center opacity-50 z-10">
+            <span class="font-mono text-xs mb-2 tracking-widest text-gray-500 uppercase">Scroll</span>
+            <div class="w-[1px] h-12 bg-gradient-to-b from-gray-500 to-transparent"></div>
+        </div>
+    </header>
+
+    <!-- Featured Work Section -->
+    <section id="work" class="py-24 px-6 md:px-12 xl:px-24 border-t border-base-700 bg-base-900">
+        <div class="max-w-[1600px] mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight uppercase mb-16">Featured Work</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                
+                <!-- Project 1: Smuggler's Outpost -->
+                <article class="neon-card rounded-lg overflow-hidden group">
+                    <a href="#" class="block relative aspect-video overflow-hidden bg-base-800">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-base-900 to-accent-darkred opacity-40 mix-blend-overlay z-10 group-hover:opacity-10 transition-opacity"></div>
+                        <img src="https://willvernon.online/wp-content/uploads/2026/04/GIFViewportCompressed.gif" alt="Smuggler's Outpost" class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100">
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-20">
+                            <span class="font-mono text-accent-red border border-accent-red px-6 py-2 rounded-sm bg-black/60">View_Case_Study</span>
+                        </div>
+                    </a>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-2xl font-bold text-white">Smuggler's Outpost</h3>
+                            <span class="font-mono text-xs bg-base-950 px-2 py-1 text-accent-red border border-base-700">Project</span>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-6 leading-relaxed">
+                            Set in a Dune-inspired universe, this project explores AI as an ideation partner in environment design. Used SDXL to iterate a desert hideout concept, taking the final image as a foundation for 3D modelling in Blender.
+                        </p>
+                        <div class="flex flex-wrap gap-2 font-mono text-xs text-gray-500">
+                            <span class="border border-base-700 px-2 py-1">3D</span>
+                            <span class="border border-base-700 px-2 py-1">AI</span>
+                            <span class="border border-base-700 px-2 py-1">Blender</span>
+                            <span class="border border-base-700 px-2 py-1">Premiere Pro</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 2: Amplified Spaces -->
+                <article class="neon-card rounded-lg overflow-hidden group">
+                    <a href="#" class="block relative aspect-video overflow-hidden bg-base-800">
+                        <div class="absolute inset-0 bg-gradient-to-bl from-base-900 to-accent-red opacity-40 mix-blend-overlay z-10 group-hover:opacity-10 transition-opacity"></div>
+                        <video src="https://willvernon.online/wp-content/uploads/2026/04/Amplified-Spaces-Trailer.mp4" autoplay muted loop playsinline class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"></video>
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-20">
+                            <span class="font-mono text-accent-red border border-accent-red px-6 py-2 rounded-sm bg-black/60">View_Case_Study</span>
+                        </div>
+                    </a>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-2xl font-bold text-white">Amplified Spaces</h3>
+                            <span class="font-mono text-xs bg-base-950 px-2 py-1 text-accent-red border border-base-700">Project</span>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-6 leading-relaxed">
+                            Comprehensive exhibition identity system for a theoretical Marimekko retrospective at the Saatchi Gallery. Translated tactile textile patterns into a cohesive spatial experience using responsive typography and colour-coded navigation.
+                        </p>
+                        <div class="flex flex-wrap gap-2 font-mono text-xs text-gray-500">
+                            <span class="border border-base-700 px-2 py-1">TouchDesigner</span>
+                            <span class="border border-base-700 px-2 py-1">Blender</span>
+                            <span class="border border-base-700 px-2 py-1">AR</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 3: Monolithic Survival -->
+                <article class="neon-card rounded-lg overflow-hidden group">
+                    <a href="#" class="block relative aspect-video overflow-hidden bg-base-800">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-base-900 to-accent-red opacity-40 mix-blend-overlay z-10 group-hover:opacity-10 transition-opacity"></div>
+                        <video src="https://willvernon.online/wp-content/uploads/2026/05/social_u7329539893_httpss.mj_.run9zhbIKQJXtg_The_camera_orbits_around_ee9e89a0-7515-4f42-af5c-610f5c378edd_2.mp4" autoplay muted loop playsinline class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"></video>
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-20">
+                            <span class="font-mono text-accent-red border border-accent-red px-6 py-2 rounded-sm bg-black/60">View_Case_Study</span>
+                        </div>
+                    </a>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-2xl font-bold text-white">Monolithic Survival</h3>
+                            <span class="font-mono text-xs bg-base-950 px-2 py-1 text-accent-red border border-base-700">AI</span>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-6 leading-relaxed">
+                            This series of short video experiments explores generative AI as a tool for cinematic world-building and atmosphere. Using Midjourney's video generation capabilities, the goal was to create highly textured, loopable short clips that focus on specific thematic moods.
+                        </p>
+                        <div class="flex flex-wrap gap-2 font-mono text-xs text-gray-500">
+                            <span class="border border-base-700 px-2 py-1">Midjourney</span>
+                            <span class="border border-base-700 px-2 py-1">Video Generation</span>
+                            <span class="border border-base-700 px-2 py-1">Concept</span>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Project 4: Topographic AV -->
+                <article class="neon-card rounded-lg overflow-hidden group">
+                    <a href="#" class="block relative aspect-video overflow-hidden bg-base-800">
+                        <div class="absolute inset-0 bg-gradient-to-br from-base-900 to-accent-darkred opacity-40 mix-blend-overlay z-10 group-hover:opacity-10 transition-opacity"></div>
+                        <video src="https://willvernon.online/wp-content/uploads/2026/04/TopographyAV_Test1_20-_20Trim_upscaled.mp4" autoplay muted loop playsinline class="w-full h-full object-cover filter grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"></video>
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center z-20">
+                            <span class="font-mono text-accent-red border border-accent-red px-6 py-2 rounded-sm bg-black/60">View_Case_Study</span>
+                        </div>
+                    </a>
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-2xl font-bold text-white">Topographic AV</h3>
+                            <span class="font-mono text-xs bg-base-950 px-2 py-1 text-accent-red border border-base-700">Experiment</span>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-6 leading-relaxed">
+                            The purpose of this experiment was to test the fidelity and material realism of the HiDream diffusion model using ComfyUI. The core objective was to build a tailored local pipeline capable of rendering intricate, organic structures.
+                        </p>
+                        <div class="flex flex-wrap gap-2 font-mono text-xs text-gray-500">
+                            <span class="border border-base-700 px-2 py-1">ComfyUI</span>
+                            <span class="border border-base-700 px-2 py-1">HiDream</span>
+                            <span class="border border-base-700 px-2 py-1">Pipeline</span>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Music / VNON Section -->
+    <section id="music" class="py-24 px-6 md:px-12 xl:px-24 border-t border-base-700 relative overflow-hidden bg-base-950">
+        <!-- Abstract background element -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent-red/5 rounded-full blur-[100px] pointer-events-none"></div>
+        
+        <div class="max-w-[1600px] mx-auto relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <div class="order-2 lg:order-1">
+                    <div class="bg-base-900 border border-base-700 p-8 rounded-lg shadow-2xl relative group">
+                        <div class="absolute top-4 right-4 text-gray-600 group-hover:text-[#ff5500] transition-colors text-3xl">
+                            <i class="ph-fill ph-soundcloud-logo"></i>
+                        </div>
+                        <h3 class="text-3xl font-bold text-white mb-2">VNON</h3>
+                        <p class="font-mono text-accent-red text-sm mb-8">Drum & Bass / Music Production</p>
+                        
+                        <!-- Audio Visualizer Mockup -->
+                        <div class="flex items-end space-x-1 h-24 mb-8">
+                            <div class="w-full bg-accent-darkred/40 h-full animate-[pulse_1s_ease-in-out_infinite] rounded-t-sm" style="animation-delay: 0.1s"></div>
+                            <div class="w-full bg-accent-darkred/60 h-4/5 animate-[pulse_1.2s_ease-in-out_infinite_alternate] rounded-t-sm" style="animation-delay: 0.3s"></div>
+                            <div class="w-full bg-accent-darkred h-2/5 animate-[pulse_0.8s_ease-in-out_infinite] rounded-t-sm" style="animation-delay: 0.2s"></div>
+                            <div class="w-full bg-accent-red/80 h-full animate-[pulse_1.5s_ease-in-out_infinite_alternate] rounded-t-sm" style="animation-delay: 0.5s"></div>
+                            <div class="w-full bg-accent-red h-3/5 animate-[pulse_0.9s_ease-in-out_infinite] rounded-t-sm" style="animation-delay: 0.1s"></div>
+                            <div class="w-full bg-accent-darkred/70 h-4/5 animate-[pulse_1.1s_ease-in-out_infinite_alternate] rounded-t-sm" style="animation-delay: 0.4s"></div>
+                            <div class="w-full bg-accent-darkred/40 h-2/5 animate-[pulse_1.3s_ease-in-out_infinite] rounded-t-sm" style="animation-delay: 0.2s"></div>
+                        </div>
+
+                        <a href="https://soundcloud.com/vnondnb" target="_blank" class="w-full block text-center py-3 bg-[#ff5500] text-white font-bold rounded-sm hover:bg-[#cc4400] transition-colors font-mono uppercase text-sm">
+                            Listen on SoundCloud
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="order-1 lg:order-2 space-y-6">
+                    <h2 class="text-4xl font-bold text-white tracking-tight uppercase">Audio Production.</h2>
+                    <p class="text-lg text-gray-400 leading-relaxed">
+                        Under the alias <span class="text-white font-bold">VNON</span>, I produce electronic music, primarily focusing on Drum & Bass.
+                    </p>
+                    <p class="text-lg text-gray-400 leading-relaxed">
+                        Music production is more than just a hobby; it intrinsically ties into my visual work. My understanding of frequency, rhythm, and sound design directly informs my audio-reactive visual systems built in TouchDesigner and Blender.
+                    </p>
+                    <div class="pt-4">
+                        <a href="https://soundcloud.com/vnondnb" target="_blank" class="inline-flex items-center text-accent-red font-mono hover:text-white transition-colors">
+                            > soundcloud.com/vnondnb
+                            <i class="ph ph-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 px-6 md:px-12 xl:px-24 border-t border-base-700 bg-base-900">
+        <div class="max-w-[1600px] mx-auto w-full">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-white tracking-tight uppercase mb-4">Initialise Contact</h2>
+                <p class="text-gray-400 font-mono text-sm max-w-xl mx-auto">Looking to apply my versatile background and technical curiosity to professional environments. Let's build something innovative.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 bg-base-800 p-8 md:p-12 border border-base-700 rounded-lg">
+                <!-- Contact Info -->
+                <div class="space-y-8 font-mono">
+                    <div>
+                        <p class="text-gray-500 text-xs mb-1">EMAIL_ADDRESS</p>
+                        <a href="mailto:wvernoncsi@gmail.com" class="text-lg text-white hover:text-accent-red transition-colors">wvernoncsi@gmail.com</a>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 text-xs mb-1">PHONE</p>
+                        <a href="tel:+447551379712" class="text-lg text-white hover:text-accent-red transition-colors">+44 7551 379712</a>
+                    </div>
+                    <div>
+                        <p class="text-gray-500 text-xs mb-1">SOCIAL_NETWORKS</p>
+                        <div class="flex space-x-4 mt-2">
+                            <a href="https://www.linkedin.com/in/william-vernon-a37aa42b8" target="_blank" class="text-gray-400 hover:text-accent-red text-2xl transition-colors" aria-label="LinkedIn"><i class="ph-fill ph-linkedin-logo"></i></a>
+                            <a href="https://soundcloud.com/vnondnb" target="_blank" class="text-gray-400 hover:text-[#ff5500] text-2xl transition-colors" aria-label="SoundCloud"><i class="ph-fill ph-soundcloud-logo"></i></a>
+                            <a href="https://instagram.com/willvernon.av" target="_blank" class="text-gray-400 hover:text-accent-red text-2xl transition-colors" aria-label="Instagram"><i class="ph-fill ph-instagram-logo"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Education -->
+                <div class="border-l border-base-700 pl-0 md:pl-12 pt-8 md:pt-0 border-t md:border-t-0 space-y-6">
+                    <h3 class="text-white font-bold text-xl uppercase">Education</h3>
+                    <div class="font-mono text-sm space-y-4">
+                        <div>
+                            <p class="text-accent-red">Oxford Brookes University</p>
+                            <p class="text-gray-500 text-xs">BA Graphic Design (Hons) 2:1</p>
+                            <p class="text-gray-400">Sep 2022 - Jul 2025</p>
+                        </div>
+                        <div>
+                            <p class="text-accent-red">Oxford Brookes University</p>
+                            <p class="text-gray-500 text-xs">CertHE Architecture</p>
+                            <p class="text-gray-400">Sep 2020 - Jul 2022</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            nav.classList.toggle('bg-base-950/90', window.scrollY > 50);
+            nav.classList.toggle('border-base-700', window.scrollY > 50);
+            nav.classList.toggle('backdrop-blur-md', window.scrollY > 50);
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('flex');
+            document.body.classList.toggle('overflow-hidden');
+        }
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+        // Particle System
+        const canvas = document.getElementById('hero-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let mouseX = 0;
+        let mouseY = 0;
+        
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = document.querySelector('header').offsetHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        document.querySelector('header').addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouseX = e.clientX - rect.left;
+            mouseY = e.clientY - rect.top;
+        });
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.3;
+                this.vy = (Math.random() - 0.5) * 0.3;
+            }
+            update() {
+                this.x += this.vx; 
+                this.y += this.vy;
+                
+                if(this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+
+                // Interactive mouse repulsion
+                let dx = mouseX - this.x;
+                let dy = mouseY - this.y;
+                let distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < 120) {
+                    this.x -= dx * 0.015;
+                    this.y -= dy * 0.015;
+                }
+            }
+            draw() {
+                ctx.fillStyle = '#D91C1C';
+                ctx.beginPath(); 
+                ctx.arc(this.x, this.y, 1.2, 0, Math.PI * 2); 
+                ctx.fill();
+            }
+        }
+        
+        const particleCount = window.innerWidth < 768 ? 40 : 80;
+        for(let i=0; i<particleCount; i++) {
+            particles.push(new Particle());
+        }
+        
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw connecting lines
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    let dx = particles[i].x - particles[j].x;
+                    let dy = particles[i].y - particles[j].y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 100) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(217, 28, 28, ${0.15 - distance/800})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            particles.forEach(p => { 
+                p.update(); 
+                p.draw(); 
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    </script>
+</body>
+</html>
