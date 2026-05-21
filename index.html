@@ -289,18 +289,19 @@
                 <!-- Contact Form -->
                 <div class="contact-form-panel">
                     <h3 class="uppercase text-xl" style="margin-bottom: 1.5rem;">Send a Message</h3>
-                    <form id="contact-form" class="contact-form" action="#" method="POST" onsubmit="event.preventDefault(); alert('Message sent successfully! (This is a demo contact form.)'); this.reset();">
+                    <form id="contact-form" class="contact-form" action="https://formspree.io/f/maqkobjb" method="POST">
+                        <!-- Formspree Endpoint for live working contact form -->
                         <div class="form-group">
                             <label for="form-name" class="form-label">YOUR_NAME</label>
-                            <input type="text" id="form-name" class="form-input" placeholder="e.g. Adnan" required>
+                            <input type="text" id="form-name" name="name" class="form-input" placeholder="e.g. Adnan" required>
                         </div>
                         <div class="form-group">
                             <label for="form-email" class="form-label">EMAIL_ADDRESS</label>
-                            <input type="email" id="form-email" class="form-input" placeholder="e.g. adnan@example.com" required>
+                            <input type="email" id="form-email" name="email" class="form-input" placeholder="e.g. adnan@example.com" required>
                         </div>
                         <div class="form-group">
                             <label for="form-message" class="form-label">YOUR_MESSAGE</label>
-                            <textarea id="form-message" class="form-input form-textarea" placeholder="Describe your project, timeline, or request..." required></textarea>
+                            <textarea id="form-message" name="message" class="form-input form-textarea" placeholder="Describe your project, timeline, or request..." required></textarea>
                         </div>
                         <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1rem;">Send_Message</button>
                     </form>
