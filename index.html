@@ -83,8 +83,8 @@
                 </p>
                 
                 <div class="hero-buttons">
-                    <a href="#featured-work" class="btn-primary">explore_projects</a>
-                    <a href="experiments.html" class="btn-secondary">&gt; experiments &amp; AI</a>
+                    <a href="projects.html" class="btn-primary">explore_projects</a>
+                    <a href="AI.html" class="btn-secondary">&gt;  AI experiments </a>
                 </div>
             </div>
         </div>
@@ -208,7 +208,7 @@
         </div>
     </section>
 
-    <!-- Music / VNON Section -->
+    <!-- Music / vnon Section -->
     <section id="music" class="section-padding layout-padding" style="border-top: 1px solid var(--bg-700); position: relative; background-color: var(--bg-950);">
         <!-- Abstract background element -->
         <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 600px; background-color: rgba(217, 28, 28, 0.05); border-radius: 50%; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
@@ -219,7 +219,7 @@
                 <div style="display: flex; flex-direction: column; gap: 1.5rem;">
                     <h2 class="text-4xl font-bold uppercase">Audio Production.</h2>
                     <p class="text-lg text-gray-400 leading-relaxed">
-                        Under the alias <span class="text-white font-bold">VNON</span>, I produce electronic music, primarily focusing on Drum & Bass.
+                        Under the alias <span class="text-white font-bold">vnon</span>, I produce electronic music, primarily focusing on Drum & Bass.
                     </p>
                     <p class="text-lg text-gray-400 leading-relaxed">
                         Music production is more than just a hobby; it intrinsically ties into my visual work. My understanding of frequency, rhythm, and sound design directly informs my audio-reactive visual systems built in TouchDesigner and Blender.
@@ -231,13 +231,13 @@
                         </a>
                     </div>
                 </div>
-
+ 
                 <div>
                     <div class="soundcloud-widget">
                         <div class="soundcloud-widget-icon">
                             <i class="ph-fill ph-soundcloud-logo"></i>
                         </div>
-                        <h3 class="text-3xl font-bold mb-2">VNON</h3>
+                        <h3 class="text-3xl font-bold mb-2">vnon</h3>
                         <p class="font-mono text-accent text-sm" style="margin-bottom: 2rem;">Drum &amp; Bass / Music Production</p>
                         
                         <!-- Audio Visualizer Mockup -->
@@ -277,10 +277,6 @@
                         <a href="mailto:wvernoncsi@gmail.com" class="contact-item-val">wvernoncsi@gmail.com</a>
                     </div>
                     <div>
-                        <p class="contact-item-label">PHONE</p>
-                        <a href="tel:+447551379712" class="contact-item-val">+44 7551 379712</a>
-                    </div>
-                    <div>
                         <p class="contact-item-label">SOCIAL_NETWORKS</p>
                         <div class="contact-social-icons">
                             <a href="https://www.linkedin.com/in/william-vernon-a37aa42b8" target="_blank" aria-label="LinkedIn"><i class="ph-fill ph-linkedin-logo"></i></a>
@@ -290,19 +286,24 @@
                     </div>
                 </div>
                 
-                <!-- Education -->
-                <div class="contact-edu-panel">
-                    <h3 class="uppercase text-xl" style="margin-bottom: 1.5rem;">Education</h3>
-                    <div class="contact-edu-item" style="margin-bottom: 1rem;">
-                        <p class="contact-edu-title">Oxford Brookes University</p>
-                        <p class="contact-edu-sub">BA Graphic Design (Hons) 2:1</p>
-                        <p class="contact-edu-year">Sep 2022 - Jul 2025</p>
-                    </div>
-                    <div class="contact-edu-item">
-                        <p class="contact-edu-title">Oxford Brookes University</p>
-                        <p class="contact-edu-sub">CertHE Architecture</p>
-                        <p class="contact-edu-year">Sep 2020 - Jul 2022</p>
-                    </div>
+                <!-- Contact Form -->
+                <div class="contact-form-panel">
+                    <h3 class="uppercase text-xl" style="margin-bottom: 1.5rem;">Send a Message</h3>
+                    <form id="contact-form" class="contact-form" action="#" method="POST" onsubmit="event.preventDefault(); alert('Message sent successfully! (This is a demo contact form.)'); this.reset();">
+                        <div class="form-group">
+                            <label for="form-name" class="form-label">YOUR_NAME</label>
+                            <input type="text" id="form-name" class="form-input" placeholder="e.g. Adnan" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="form-email" class="form-label">EMAIL_ADDRESS</label>
+                            <input type="email" id="form-email" class="form-input" placeholder="e.g. adnan@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="form-message" class="form-label">YOUR_MESSAGE</label>
+                            <textarea id="form-message" class="form-input form-textarea" placeholder="Describe your project, timeline, or request..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary" style="width: 100%; margin-top: 1rem;">Send_Message</button>
+                    </form>
                 </div>
             </div>
         </div>

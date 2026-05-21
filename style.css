@@ -649,7 +649,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /* --------------------------------------------------------------------------
-   VNON / Music Sections & Interactive Elements
+   vnon / Music Sections & Interactive Elements
    -------------------------------------------------------------------------- */
 .music-visualizer-mock {
   display: flex;
@@ -1396,3 +1396,71 @@ h1, h2, h3, h4, h5, h6 {
   padding-top: 3rem;
   padding-bottom: 3rem;
 }
+
+/* --------------------------------------------------------------------------
+   Contact Form Panel (index.html)
+   -------------------------------------------------------------------------- */
+.contact-form-panel {
+  border-top: 1px solid var(--bg-700);
+  padding-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .contact-form-panel {
+    border-top: none;
+    border-left: 1px solid var(--bg-700);
+    padding-top: 0;
+    padding-left: 3rem;
+  }
+}
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+}
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.form-label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.05em;
+}
+.form-input {
+  background-color: var(--bg-950);
+  border: 1px solid var(--bg-700);
+  color: var(--text-white);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  padding: 0.75rem 1rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  width: 100%;
+  outline: none;
+}
+.form-input::placeholder {
+  color: #4b5563;
+}
+.form-input:focus {
+  border-color: var(--accent-red);
+  box-shadow: 0 0 10px rgba(217, 28, 28, 0.2);
+}
+.form-textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* --------------------------------------------------------------------------
+   Social Platform Hovers
+   -------------------------------------------------------------------------- */
+a[href*="linkedin.com"]:hover,
+a[href*="linkedin.com"]:hover * {
+  color: #0077b5 !important;
+}
+
