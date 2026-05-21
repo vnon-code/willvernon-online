@@ -77,7 +77,10 @@
     </header>
 
     <!-- Hidden SoundCloud Iframe Widget -->
-    <iframe id="soundcloud-hidden-player" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1435234555&color=%23D91C1C&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" style="position: absolute; left: -9999px; top: -9999px; visibility: hidden; pointer-events: none;"></iframe>
+    <iframe id="soundcloud-hidden-player" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/vnondnb/heartache&color=%23D91C1C&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" style="position: absolute; left: -9999px; top: -9999px; visibility: hidden; pointer-events: none;"></iframe>
+
+    <!-- Local Audio Element for AnalyserNode -->
+    <audio id="local-audio-element" crossorigin="anonymous" style="display: none;"></audio>
 
     <!-- Main Content: VJ Deck Console -->
     <main class="flex-grow layout-padding" style="padding-top: 4rem; padding-bottom: 4rem;">
@@ -93,13 +96,13 @@
                         <span class="font-mono text-xs text-accent uppercase tracking-wider">// SYSTEM_ACTIVE_MODE: REAL_TIME_PARTICLE_RENDER</span>
                     </div>
                     <div class="vj-track-info-top font-mono text-xs text-gray-500">
-                        TRACK_SELECT: <span id="vj-active-index" class="text-white">01 / 03</span>
+                        TRACK_SELECT: <span id="vj-active-index" class="text-white">01 / 05</span>
                     </div>
                 </div>
 
                 <div class="vj-console-main-grid">
                     
-                    <!-- Left Column: The CRT Visualizer Screen & Dials -->
+                    <!-- Left Column: The Visualizer Screen & Dials -->
                     <div class="vj-screen-col">
                         <!-- Canvas Screen Wrapper -->
                         <div class="vj-screen-wrapper">
@@ -109,44 +112,28 @@
                             
                             <!-- Track Metadata Overlay -->
                             <div class="vj-metadata-display font-mono">
-                                <div id="vj-meta-title" class="vj-meta-title text-white uppercase font-bold text-sm">Spectral Analysis 01</div>
-                                <div id="vj-meta-genre" class="vj-meta-genre text-accent text-xs">Drum & Bass // Techstep</div>
+                                <div id="vj-meta-title" class="vj-meta-title text-white uppercase font-bold text-sm">heartache</div>
+                                <div id="vj-meta-genre" class="vj-meta-genre text-accent text-xs">Drum & Bass // Liquid</div>
                             </div>
                         </div>
 
-                        <!-- Modulation Panel (Rotary Synth Dials) -->
+                        <!-- Modulation Panel (Sleek Sliders) -->
                         <div class="vj-synth-panel">
                             
-                            <div class="vj-dial-group">
-                                <span class="vj-dial-label">SPEED</span>
-                                <div class="vj-dial" id="knob-speed" data-param="speed" data-min="0.5" data-max="4.0" data-value="1.5">
-                                    <div class="vj-dial-tick"></div>
+                            <div class="vj-slider-group">
+                                <div class="vj-slider-label-row">
+                                    <span class="vj-slider-label">CHAOS</span>
+                                    <span class="vj-slider-val" id="val-chaos">0.5</span>
                                 </div>
-                                <span class="vj-dial-val" id="val-speed">1.5x</span>
+                                <input type="range" class="vj-slider" id="slider-chaos" data-param="chaos" min="0" max="1.0" step="0.01" value="0.5">
                             </div>
 
-                            <div class="vj-dial-group">
-                                <span class="vj-dial-label">GRAVITY</span>
-                                <div class="vj-dial" id="knob-gravity" data-param="gravity" data-min="0" data-max="3.0" data-value="0.8">
-                                    <div class="vj-dial-tick"></div>
+                            <div class="vj-slider-group">
+                                <div class="vj-slider-label-row">
+                                    <span class="vj-slider-label">DENSITY</span>
+                                    <span class="vj-slider-val" id="val-density">400</span>
                                 </div>
-                                <span class="vj-dial-val" id="val-gravity">0.8</span>
-                            </div>
-
-                            <div class="vj-dial-group">
-                                <span class="vj-dial-label">GLOW</span>
-                                <div class="vj-dial" id="knob-glow" data-param="glow" data-min="0.5" data-max="3.0" data-value="1.2">
-                                    <div class="vj-dial-tick"></div>
-                                </div>
-                                <span class="vj-dial-val" id="val-glow">1.2</span>
-                            </div>
-
-                            <div class="vj-dial-group">
-                                <span class="vj-dial-label">DENSITY</span>
-                                <div class="vj-dial" id="knob-density" data-param="density" data-min="100" data-max="800" data-value="400">
-                                    <div class="vj-dial-tick"></div>
-                                </div>
-                                <span class="vj-dial-val" id="val-density">400</span>
+                                <input type="range" class="vj-slider" id="slider-density" data-param="density" min="100" max="1200" step="10" value="400">
                             </div>
 
                         </div>
@@ -159,7 +146,7 @@
                         <div class="vj-vinyl-card-wrapper">
                             <div class="vj-vinyl-card" id="vinyl-card">
                                 <div class="vj-album-sleeve">
-                                    <img id="vj-active-artwork" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop" alt="Active Cover Art">
+                                    <img id="vj-active-artwork" src="img/artwork/heartache.jpg" alt="Active Cover Art">
                                 </div>
                                 <div class="vj-vinyl-disc" id="vinyl-disc">
                                     <div class="vj-vinyl-label">
@@ -280,25 +267,44 @@
         // Tracks Database
         const TRACKS_DATABASE = [
             {
-                title: "Spectral Analysis 01",
+                title: "heartache",
+                genre: "Drum & Bass // Liquid",
+                scUrl: "https://soundcloud.com/vnondnb/heartache?si=937e2dd112dd4c3c9034d5cf2a8740bc&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
+                localUrl: "audio/heartache.wav",
+                artwork: "img/artwork/heartache.jpg",
+                desc: "Ethereal, atmospheric liquid Drum & Bass balancing warm melodies with deep sub-bass architecture."
+            },
+            {
+                title: "let me know (2023)",
                 genre: "Drum & Bass // Techstep",
-                scUrl: "https://api.soundcloud.com/tracks/1435234555",
-                artwork: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop",
-                desc: "High-tempo techstep featuring mechanical sub-bass rhythms and generative synth sequences."
+                scUrl: "https://soundcloud.com/vnondnb/let-me-know2023?si=ba8ec328d2734359844e8608552f0527&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
+                localUrl: "audio/let-me-know.wav",
+                artwork: "img/artwork/let-me-know.jpg",
+                desc: "High-tempo techstep featuring sharp transients, modular soundscapes, and mechanical bass design."
             },
             {
-                title: "Spectral Analysis 02",
-                genre: "Drum & Bass // Neurofunk",
-                scUrl: "https://api.soundcloud.com/tracks/1321455562",
-                artwork: "https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=600&auto=format&fit=crop",
-                desc: "Aggressive Reese basslines interacting with organic, syncopated breakbeats."
+                title: "my catching flies bootleg",
+                genre: "Drum & Bass // Bootleg",
+                scUrl: "https://soundcloud.com/vnondnb/catching-flies-silver-linings-vnon-bootleg?si=049cabf9fb274270866ec174e1199f0e&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
+                localUrl: "audio/catching-flies-bootleg.wav",
+                artwork: "img/artwork/catching-flies-bootleg.jpg",
+                desc: "A rich cinematic bootleg rework of Catching Flies' 'Silver Linings', blending rolling percussion with deep atmosphere."
             },
             {
-                title: "VNON Continuous Stream",
-                genre: "Drum & Bass Showcase",
-                scUrl: "https://api.soundcloud.com/users/358897595",
-                artwork: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=600&auto=format&fit=crop",
-                desc: "A showcase stream containing continuous live mixes, unreleased dubplates, and atmospheric visual scores."
+                title: "Midnight runaway",
+                genre: "Drum & Bass // Feat. Lofi Ely",
+                scUrl: "https://soundcloud.com/vnondnb/vnon-midnight-runaway-feat-lofi-ely?si=be780545d6484c0daea5ab35fa8e6d8e&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
+                localUrl: "audio/midnight-runaway.wav",
+                artwork: "img/artwork/midnight-runaway.jpg",
+                desc: "Deep, driving melodic drum & bass roller featuring ethereal vocal sequences by Lofi Ely."
+            },
+            {
+                title: "Somebody To Love",
+                genre: "Drum & Bass // Liquid Roller",
+                scUrl: "",
+                localUrl: "audio/somebody-to-love.wav",
+                artwork: "img/artwork/somebody-to-love.jpg",
+                desc: "A breathtaking high-energy liquid roller blending warm, soulful vocal cuts with a rolling bassline."
             }
         ];
 
@@ -306,6 +312,10 @@
         let activeTrackIndex = 0;
         let isPlaying = false;
         let durationMs = 0;
+        let playbackPosition = 0;
+        let lastProgressTime = Date.now();
+        const BPM = 174;
+        const MS_PER_BEAT = 60000 / BPM;
         
         // DOM Elements
         const hiddenIframe = document.getElementById('soundcloud-hidden-player');
@@ -327,13 +337,21 @@
         const activeIndexLabel = document.getElementById('vj-active-index');
         const vinylCard = document.getElementById('vinyl-card');
 
-        // Setup Dial Variables
+        // Web Audio API State Variables
+        let audioCtx = null;
+        let analyser = null;
+        let sourceNode = null;
+        let dataArray = new Uint8Array(1024);
+        const localAudio = document.getElementById('local-audio-element');
+
+        // Setup VJ Slider Parameter Variables
         const dialValues = {
-            speed: 1.5,
-            gravity: 0.8,
-            glow: 1.2,
+            chaos: 0.5,
             density: 400
         };
+
+        // Artwork dominant color variable (Default: VNON Crimson)
+        let dominantColor = { r: 217, g: 28, b: 28 };
 
         // Render Track List dynamically
         function renderTracklist() {
@@ -360,7 +378,212 @@
             });
         }
 
-        // Select Track and update hidden SoundCloud player
+        // Helper to convert RGB to HSL
+        function rgbToHsl(r, g, b) {
+            r /= 255; g /= 255; b /= 255;
+            const max = Math.max(r, g, b), min = Math.min(r, g, b);
+            let h, s, l = (max + min) / 2;
+
+            if (max === min) {
+                h = s = 0; // achromatic
+            } else {
+                const d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+            return { h: h * 360, s: s * 100, l: l * 100 };
+        }
+
+        // Helper to convert HSL to RGB
+        function hslToRgb(h, s, l) {
+            h /= 360; s /= 100; l /= 100;
+            let r, g, b;
+            if (s === 0) {
+                r = g = b = l; // achromatic
+            } else {
+                const hue2rgb = (p, q, t) => {
+                    if (t < 0) t += 1;
+                    if (t > 1) t -= 1;
+                    if (t < 1/6) return p + (q - p) * 6 * t;
+                    if (t < 1/2) return q;
+                    if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+                    return p;
+                };
+                const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+                const p = 2 * l - q;
+                r = hue2rgb(p, q, h + 1/3);
+                g = hue2rgb(p, q, h);
+                b = hue2rgb(p, q, h - 1/3);
+            }
+            return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
+        }
+
+        // Dynamic Palette Array
+        let paletteColors = [
+            { r: 217, g: 28, b: 28 },  // Accent 1 (Crimson)
+            { r: 217, g: 112, b: 28 }, // Accent 2 (Orange)
+            { r: 217, g: 28, b: 174 }  // Accent 3 (Magenta)
+        ];
+
+        function applyDefaultPalette() {
+            paletteColors = [
+                { r: 217, g: 28, b: 28 },
+                { r: 217, g: 112, b: 28 },
+                { r: 217, g: 28, b: 174 }
+            ];
+            document.documentElement.style.setProperty('--vj-accent-1', 'rgb(217, 28, 28)');
+            document.documentElement.style.setProperty('--vj-accent-1-rgb', '217, 28, 28');
+            document.documentElement.style.setProperty('--vj-accent-2', 'rgb(217, 112, 28)');
+            document.documentElement.style.setProperty('--vj-accent-2-rgb', '217, 112, 28');
+            document.documentElement.style.setProperty('--vj-accent-3', 'rgb(217, 28, 174)');
+            document.documentElement.style.setProperty('--vj-accent-3-rgb', '217, 28, 174');
+            
+            // Legacy fallbacks
+            document.documentElement.style.setProperty('--vj-accent', 'rgb(217, 28, 28)');
+            document.documentElement.style.setProperty('--vj-accent-rgb', '217, 28, 28');
+        }
+
+        // Extract 3-color palette from artwork image dynamically
+        function extractColorPalette(imgSrc) {
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.src = imgSrc;
+            img.onload = function() {
+                try {
+                    const tempCanvas = document.createElement('canvas');
+                    tempCanvas.width = 8;
+                    tempCanvas.height = 8;
+                    const tempCtx = tempCanvas.getContext('2d');
+                    tempCtx.drawImage(img, 0, 0, 8, 8);
+                    const imgData = tempCtx.getImageData(0, 0, 8, 8).data;
+                    
+                    // Collect and convert pixels
+                    const pixels = [];
+                    for (let i = 0; i < imgData.length; i += 4) {
+                        const r = imgData[i];
+                        const g = imgData[i+1];
+                        const b = imgData[i+2];
+                        const hsl = rgbToHsl(r, g, b);
+                        pixels.push({ r, g, b, h: hsl.h, s: hsl.s, l: hsl.l });
+                    }
+                    
+                    // Sort pixels by vibrance
+                    pixels.sort((a, b) => {
+                        const vibA = a.s * (100 - Math.abs(2 * a.l - 100));
+                        const vibB = b.s * (100 - Math.abs(2 * b.l - 100));
+                        return vibB - vibA;
+                    });
+                    
+                    // Find 3 distinct colors
+                    const palette = [];
+                    
+                    // First color: Most vibrant pixel, but not pitch black or pure white
+                    let primary = pixels.find(p => p.l > 15 && p.l < 85 && p.s > 10) || pixels[0];
+                    palette.push(primary);
+                    
+                    // Second color: Dynamic search for hue separation
+                    let secondary = pixels.find(p => {
+                        if (p.l < 15 || p.l > 85 || p.s < 15) return false;
+                        const hueDiff = Math.abs(p.h - primary.h);
+                        const hueDiffWrapped = Math.min(hueDiff, 360 - hueDiff);
+                        return hueDiffWrapped > 35;
+                    });
+                    if (secondary) palette.push(secondary);
+                    
+                    // Third color: Dynamic search for hue separation from both
+                    let tertiary = pixels.find(p => {
+                        if (p.l < 15 || p.l > 85 || p.s < 15) return false;
+                        const hueDiff1 = Math.abs(p.h - primary.h);
+                        const hueDiff1Wrapped = Math.min(hueDiff1, 360 - hueDiff1);
+                        if (hueDiff1Wrapped <= 35) return false;
+                        
+                        if (secondary) {
+                            const hueDiff2 = Math.abs(p.h - secondary.h);
+                            const hueDiff2Wrapped = Math.min(hueDiff2, 360 - hueDiff2);
+                            if (hueDiff2Wrapped <= 35) return false;
+                        }
+                        return true;
+                    });
+                    if (tertiary) palette.push(tertiary);
+                    
+                    // Fallback generator for analogous or complementary steps if dynamic search yielded < 3 colors
+                    const primaryHsl = rgbToHsl(primary.r, primary.g, primary.b);
+                    
+                    if (palette.length < 2) {
+                        const h2 = (primaryHsl.h + 35) % 360;
+                        const s2 = Math.max(60, primaryHsl.s);
+                        const l2 = Math.max(40, Math.min(70, primaryHsl.l));
+                        const rgb2 = hslToRgb(h2, s2, l2);
+                        palette.push({ r: rgb2.r, g: rgb2.g, b: rgb2.b, h: h2, s: s2, l: l2 });
+                    }
+                    
+                    if (palette.length < 3) {
+                        const h3 = (primaryHsl.h + 180) % 360; // Complementary offset
+                        const s3 = Math.max(70, primaryHsl.s);
+                        const l3 = Math.max(45, Math.min(75, primaryHsl.l));
+                        const rgb3 = hslToRgb(h3, s3, l3);
+                        palette.push({ r: rgb3.r, g: rgb3.g, b: rgb3.b, h: h3, s: s3, l: l3 });
+                    }
+                    
+                    // Enforce brightness limits to ensure visualizer elements are highly visible
+                    palette.forEach((color) => {
+                        const brightness = (color.r * 299 + color.g * 587 + color.b * 114) / 1000;
+                        if (brightness < 45) {
+                            color.r = Math.min(255, color.r + 90);
+                            color.g = Math.min(255, color.g + 90);
+                            color.b = Math.min(255, color.b + 90);
+                        }
+                    });
+
+                    // Assign global palette colors
+                    paletteColors[0] = palette[0];
+                    paletteColors[1] = palette[1];
+                    paletteColors[2] = palette[2];
+
+                    // Set standard and translucent custom property styles
+                    document.documentElement.style.setProperty('--vj-accent-1', `rgb(${palette[0].r}, ${palette[0].g}, ${palette[0].b})`);
+                    document.documentElement.style.setProperty('--vj-accent-1-rgb', `${palette[0].r}, ${palette[0].g}, ${palette[0].b}`);
+                    document.documentElement.style.setProperty('--vj-accent-2', `rgb(${palette[1].r}, ${palette[1].g}, ${palette[1].b})`);
+                    document.documentElement.style.setProperty('--vj-accent-2-rgb', `${palette[1].r}, ${palette[1].g}, ${palette[1].b}`);
+                    document.documentElement.style.setProperty('--vj-accent-3', `rgb(${palette[2].r}, ${palette[2].g}, ${palette[2].b})`);
+                    document.documentElement.style.setProperty('--vj-accent-3-rgb', `${palette[2].r}, ${palette[2].g}, ${palette[2].b}`);
+                    
+                    // Fallback mapping for legacy references
+                    document.documentElement.style.setProperty('--vj-accent', `rgb(${palette[0].r}, ${palette[0].g}, ${palette[0].b})`);
+                    document.documentElement.style.setProperty('--vj-accent-rgb', `${palette[0].r}, ${palette[0].g}, ${palette[0].b}`);
+
+                } catch (e) {
+                    console.warn("Dynamic palette extraction failed (likely CORS sandbox restriction), falling back to default.", e);
+                    applyDefaultPalette();
+                }
+            };
+        }
+
+        // Web Audio API Context Initialization
+        function initAudioContext() {
+            if (audioCtx) return;
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioCtx.createAnalyser();
+                analyser.fftSize = 2048; // 1024 frequency bins for high-res spectrum
+                analyser.smoothingTimeConstant = 0.6; // Snappy transient response
+                dataArray = new Uint8Array(analyser.frequencyBinCount);
+                
+                sourceNode = audioCtx.createMediaElementSource(localAudio);
+                sourceNode.connect(analyser);
+                analyser.connect(audioCtx.destination);
+                console.log("Web Audio Context and Analyser successfully initialized.");
+            } catch (e) {
+                console.error("Web Audio Context initialization failed:", e);
+            }
+        }
+
+        // Select Track and update hidden SoundCloud player along with local audio
         function selectTrack(index) {
             activeTrackIndex = index;
             const track = TRACKS_DATABASE[index];
@@ -371,23 +594,60 @@
             metaGenre.textContent = track.genre;
             activeIndexLabel.textContent = `${(index+1).toString().padStart(2, '0')} / ${TRACKS_DATABASE.length.toString().padStart(2, '0')}`;
             
+            // Extract baseline colors immediately
+            extractColorPalette(track.artwork);
+            
             // Set track in list
             renderTracklist();
             
             // Reset Progress UI
             progressFill.style.width = '0%';
             timeCurrentLabel.textContent = '0:00';
+            timeTotalLabel.textContent = '0:00';
             
-            // Load in SC Widget
-            widget.load(track.scUrl, {
-                auto_play: isPlaying, // Keep current play state
-                color: "#D91C1C",
-                hide_related: true,
-                show_comments: false,
-                show_user: true,
-                show_reposts: false,
-                show_teaser: false
-            });
+            // Reset Playhead Local Extrapolators
+            playbackPosition = 0;
+            
+            // Update local audio src
+            localAudio.src = track.localUrl;
+            localAudio.load();
+            
+            // Load in SC Widget if it exists
+            if (track.scUrl) {
+                widget.load(track.scUrl, {
+                    auto_play: isPlaying, // Keep current play state
+                    color: "#D91C1C",
+                    hide_related: true,
+                    show_comments: false,
+                    show_user: true,
+                    show_reposts: false,
+                    show_teaser: false
+                });
+                
+                widget.bind(SC.Widget.Events.READY, () => {
+                    widget.setVolume(0); // Fully mute silent sync partner
+                    if (isPlaying) {
+                        widget.play();
+                        widget.seekTo(0);
+                    }
+                });
+            } else {
+                widget.pause();
+            }
+            
+            // If already playing, trigger local audio playback
+            if (isPlaying) {
+                initAudioContext();
+                if (audioCtx && audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                localAudio.play().catch(err => {
+                    console.log("Autoplay blocked on track change:", err);
+                    isPlaying = false;
+                    playPauseIcon.className = "ph-fill ph-play";
+                    vinylCard.classList.remove('playing');
+                });
+            }
             
             // Trigger visual sweep
             triggerSweep();
@@ -402,364 +662,351 @@
             return `${mins}:${secs.toString().padStart(2, '0')}`;
         }
 
-        // Initialize SoundCloud Widget Events
-        widget.bind(SC.Widget.Events.READY, () => {
-            // Fetch initial duration
-            widget.getDuration((dur) => {
-                durationMs = dur;
-                timeTotalLabel.textContent = formatTime(dur);
-            });
-        });
-
-        widget.bind(SC.Widget.Events.PLAY, () => {
+        // Native HTML5 Local Audio Element Events
+        localAudio.addEventListener('play', () => {
             isPlaying = true;
             playPauseIcon.className = "ph-fill ph-pause";
             vinylCard.classList.add('playing');
             renderTracklist();
+            
+            // Sync background SC widget
+            const track = TRACKS_DATABASE[activeTrackIndex];
+            if (track.scUrl) {
+                widget.setVolume(0);
+                widget.play();
+                widget.seekTo(localAudio.currentTime * 1000);
+            }
         });
 
-        widget.bind(SC.Widget.Events.PAUSE, () => {
+        localAudio.addEventListener('pause', () => {
             isPlaying = false;
             playPauseIcon.className = "ph-fill ph-play";
             vinylCard.classList.remove('playing');
             renderTracklist();
+            
+            // Sync background SC widget
+            const track = TRACKS_DATABASE[activeTrackIndex];
+            if (track.scUrl) {
+                widget.pause();
+            }
         });
 
-        widget.bind(SC.Widget.Events.PLAY_PROGRESS, (progress) => {
-            const currentMs = progress.currentPosition;
-            durationMs = progress.relativePosition * currentMs || durationMs;
+        localAudio.addEventListener('timeupdate', () => {
+            if (!localAudio.duration) return;
+            const currentMs = localAudio.currentTime * 1000;
+            playbackPosition = currentMs;
             
-            // Update time labels
+            // Update time label
             timeCurrentLabel.textContent = formatTime(currentMs);
-            widget.getDuration((dur) => {
-                durationMs = dur;
-                timeTotalLabel.textContent = formatTime(dur);
-            });
 
-            // Update Progress Bar Width
-            const percentage = (progress.relativePosition * 100).toFixed(2);
+            // Update Progress Bar
+            const percentage = (localAudio.currentTime / localAudio.duration * 100).toFixed(2);
             progressFill.style.width = `${percentage}%`;
             
-            // Seed a small transient impulse to the particles based on progress shifts
-            beatImpulse += 1.5;
+            // Periodic sync check with background widget (within 1.2 second tolerance)
+            const track = TRACKS_DATABASE[activeTrackIndex];
+            if (track.scUrl && isPlaying) {
+                widget.getPosition((scPos) => {
+                    if (Math.abs(scPos - currentMs) > 1200) {
+                        widget.seekTo(currentMs);
+                    }
+                });
+            }
         });
 
-        widget.bind(SC.Widget.Events.FINISH, () => {
+        localAudio.addEventListener('durationchange', () => {
+            durationMs = localAudio.duration * 1000;
+            timeTotalLabel.textContent = formatTime(durationMs);
+        });
+
+        localAudio.addEventListener('ended', () => {
             // Auto skip to next
             const nextIdx = (activeTrackIndex + 1) % TRACKS_DATABASE.length;
             selectTrack(nextIdx);
+            
+            // Trigger playback on next track
+            if (audioCtx) {
+                localAudio.play().catch(err => console.log("Local audio autoplay blocked:", err));
+            }
         });
 
-        // Controls click events
+        // Click listeners
         playPauseBtn.addEventListener('click', () => {
-            widget.toggle();
+            initAudioContext();
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            
+            if (isPlaying) {
+                localAudio.pause();
+            } else {
+                localAudio.play().catch(err => {
+                    console.error("Local audio playback initiation failed:", err);
+                });
+            }
         });
 
         prevBtn.addEventListener('click', () => {
+            initAudioContext();
             let prevIdx = activeTrackIndex - 1;
             if (prevIdx < 0) prevIdx = TRACKS_DATABASE.length - 1;
             selectTrack(prevIdx);
         });
 
         nextBtn.addEventListener('click', () => {
+            initAudioContext();
             const nextIdx = (activeTrackIndex + 1) % TRACKS_DATABASE.length;
             selectTrack(nextIdx);
         });
 
-        // Setup Progress scrubber seek click
+        // Progress Scrubber click seek handler
         document.getElementById('vj-progress-bar').addEventListener('click', (e) => {
+            if (!localAudio.duration) return;
             const rect = e.currentTarget.getBoundingClientRect();
             const clickPosition = (e.clientX - rect.left) / rect.width;
-            widget.seekTo(clickPosition * durationMs);
+            const targetSecs = clickPosition * localAudio.duration;
+            localAudio.currentTime = targetSecs;
+            
+            // Sync background SoundCloud player instantly
+            const track = TRACKS_DATABASE[activeTrackIndex];
+            if (track.scUrl) {
+                widget.seekTo(targetSecs * 1000);
+            }
         });
 
         // ==========================================================================
-        // PARTICLE SYSTEM PHYSICS SIMULATOR
+        // MINIMETERS-STYLE SPECTRUM ANALYZER ENGINE
         // ==========================================================================
         let width = canvas.width = canvas.offsetWidth;
         let height = canvas.height = canvas.offsetHeight;
-        let particles = [];
         let sweepOffset = 0;
-        let beatImpulse = 0;
-        let mouse = { x: null, y: null, active: false };
+
+        const NUM_BARS = 128;
+        let smoothedBars = new Float32Array(NUM_BARS);
+        let peakHold = new Float32Array(NUM_BARS);    // peak-hold values
+        let peakVelocity = new Float32Array(NUM_BARS); // peak fall velocity
 
         window.addEventListener('resize', () => {
             width = canvas.width = canvas.offsetWidth;
             height = canvas.height = canvas.offsetHeight;
         });
 
-        class VJParticle {
-            constructor() {
-                this.reset(true);
-            }
-
-            reset(initial = false) {
-                this.x = Math.random() * width;
-                this.y = initial ? Math.random() * height : (Math.random() > 0.5 ? -10 : height + 10);
-                this.size = Math.random() * 1.5 + 0.5;
-                this.vx = (Math.random() - 0.5) * 1.2;
-                this.vy = (Math.random() - 0.5) * 1.2;
-                this.baseSpeed = Math.random() * 0.4 + 0.2;
-                this.angle = Math.random() * Math.PI * 2;
-                this.omega = (Math.random() - 0.5) * 0.05; // angular speed
-                this.colorVal = Math.random();
-            }
-
-            update() {
-                // Interactive parameters based on VJ Knobs
-                const speedMult = dialValues.speed;
-                const gravityStrength = dialValues.gravity;
-                
-                // Add noise path flow
-                this.angle += this.omega;
-                const flowX = Math.cos(this.angle) * this.baseSpeed * speedMult;
-                const flowY = Math.sin(this.angle) * this.baseSpeed * speedMult;
-                
-                this.vx += (flowX - this.vx) * 0.1;
-                this.vy += (flowY - this.vy) * 0.1;
-
-                // Playback boost
-                const stateMultiplier = isPlaying ? 2.2 : 0.6;
-                const progressImpulse = Math.min(beatImpulse * 0.05, 5);
-                
-                this.x += this.vx * stateMultiplier + Math.sin(this.angle) * progressImpulse;
-                this.y += this.vy * stateMultiplier + Math.cos(this.angle) * progressImpulse;
-
-                // Center gravitational pull modulated by dial
-                if (gravityStrength > 0) {
-                    // Pull to cursor if active, otherwise pull to screen center
-                    const targetX = mouse.active ? mouse.x : width / 2;
-                    const targetY = mouse.active ? mouse.y : height / 2;
-                    
-                    const dx = targetX - this.x;
-                    const dy = targetY - this.y;
-                    const dist = Math.sqrt(dx * dx + dy * dy);
-                    if (dist > 1) {
-                        const force = (gravityStrength * 0.015) / (dist * 0.01 + 1);
-                        this.vx += dx * force;
-                        this.vy += dy * force;
-                    }
-                }
-
-                // Bound check
-                if (this.x < -20 || this.x > width + 20 || this.y < -20 || this.y > height + 20) {
-                    this.reset();
-                }
-            }
-
-            draw() {
-                const glowMult = dialValues.glow;
-                const radius = this.size * glowMult;
-                
-                // Track transition scanline effect helper
-                let alpha = 0.5;
-                if (sweepOffset > 0) {
-                    const distToSweep = Math.abs(this.x - sweepOffset);
-                    if (distToSweep < 80) {
-                        alpha = 1.0 - distToSweep / 80;
-                    }
-                }
-
-                ctx.beginPath();
-                if (this.colorVal > 0.85) {
-                    ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
-                } else if (this.colorVal > 0.4) {
-                    ctx.fillStyle = `rgba(217, 28, 28, ${alpha})`;
-                } else {
-                    ctx.fillStyle = `rgba(90, 0, 0, ${alpha * 0.7})`;
-                }
-                
-                ctx.arc(this.x, this.y, radius, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        // Trigger loading sweep visual transition
         function triggerSweep() {
             sweepOffset = 1;
         }
 
-        // Initialize particles
-        function initParticles() {
-            particles = [];
-            const maxDensity = 800; // max supported density
-            for (let i = 0; i < maxDensity; i++) {
-                particles.push(new VJParticle());
+        // Spectrum hue: maps frequency position (0=bass, 1=treble) to vivid HSL
+        // Bass = deep blue/indigo, Mids = magenta/pink, Highs = cyan/white
+        function getSpectrumHSL(ratio, brightness) {
+            let h, s, l;
+            if (ratio < 0.15) {
+                h = 235; s = 75; l = 25 + brightness * 35;
+            } else if (ratio < 0.35) {
+                const t = (ratio - 0.15) / 0.2;
+                h = 235 + t * 45; s = 80 + t * 10; l = 30 + brightness * 40;
+            } else if (ratio < 0.6) {
+                const t = (ratio - 0.35) / 0.25;
+                h = 280 + t * 20; s = 90; l = 35 + brightness * 40;
+            } else if (ratio < 0.8) {
+                const t = (ratio - 0.6) / 0.2;
+                h = 300 - t * 100; s = 75 - t * 25; l = 45 + brightness * 35;
+            } else {
+                const t = (ratio - 0.8) / 0.2;
+                h = 200 + t * 20; s = 50 - t * 35; l = 60 + brightness * 30;
             }
+            return { h, s, l };
         }
 
-        // Particle Visualizer Engine tick
+        // Main Visualizer Animation Loop
         function loop() {
-            // Draw CRT digital backdrop
-            ctx.fillStyle = 'rgba(2, 0, 0, 0.2)'; // semi-transparent to allow particle trails
+            ctx.clearRect(0, 0, width, height);
+            ctx.fillStyle = '#020000';
             ctx.fillRect(0, 0, width, height);
 
-            // Tech Grid matrix lines in visualizer CRT
-            ctx.strokeStyle = 'rgba(217, 28, 28, 0.02)';
-            ctx.lineWidth = 0.5;
+            // Get real frequency data
+            const binCount = analyser ? analyser.frequencyBinCount : 256;
+            if (analyser && isPlaying) {
+                analyser.getByteFrequencyData(dataArray);
+            } else {
+                const now = Date.now();
+                for (let i = 0; i < dataArray.length; i++) {
+                    dataArray[i] = Math.max(0, (Math.sin(now / 700 + i * 0.06) + Math.cos(now / 1100 - i * 0.03)) * 10 + 10);
+                }
+            }
+
+            // Downsample to NUM_BARS with fast smoothing
+            const binsPerBar = Math.floor(binCount / NUM_BARS);
+            for (let i = 0; i < NUM_BARS; i++) {
+                let sum = 0;
+                for (let j = 0; j < binsPerBar; j++) {
+                    sum += dataArray[i * binsPerBar + j];
+                }
+                const raw = sum / binsPerBar;
+                smoothedBars[i] += (raw - smoothedBars[i]) * 0.55;
+
+                // Peak hold logic: instant attack, slow gravity fall
+                const norm = smoothedBars[i] / 255;
+                if (norm > peakHold[i]) {
+                    peakHold[i] = norm;
+                    peakVelocity[i] = 0;
+                } else {
+                    peakVelocity[i] += 0.0004; // gravity acceleration
+                    peakHold[i] -= peakVelocity[i];
+                    if (peakHold[i] < 0) peakHold[i] = 0;
+                }
+            }
+
+            // Layout
+            const margin = 12;
+            const totalWidth = width - margin * 2;
+            const gap = 1;
+            const barWidth = (totalWidth - gap * (NUM_BARS - 1)) / NUM_BARS;
+            const baseY = height - 24;
+            const maxBarHeight = height - 48;
+
+            // ---- DRAW BARS with vertical gradients ----
+            for (let i = 0; i < NUM_BARS; i++) {
+                const amplitude = smoothedBars[i] / 255;
+                const barHeight = amplitude * maxBarHeight;
+                if (barHeight < 0.5) continue;
+
+                const barX = margin + i * (barWidth + gap);
+                const ratio = i / NUM_BARS;
+
+                // Create per-bar vertical gradient (dark at base → vivid at peak)
+                const colDark = getSpectrumHSL(ratio, 0.0);
+                const colMid = getSpectrumHSL(ratio, 0.6);
+                const colBright = getSpectrumHSL(ratio, 1.0);
+
+                const grad = ctx.createLinearGradient(0, baseY, 0, baseY - barHeight);
+                grad.addColorStop(0, `hsla(${colDark.h}, ${colDark.s}%, ${colDark.l}%, 0.6)`);
+                grad.addColorStop(0.4, `hsla(${colMid.h}, ${colMid.s}%, ${colMid.l}%, 0.85)`);
+                grad.addColorStop(1, `hsla(${colBright.h}, ${colBright.s}%, ${colBright.l}%, 1.0)`);
+
+                ctx.fillStyle = grad;
+                ctx.fillRect(barX, baseY - barHeight, barWidth, barHeight);
+
+                // Peak hold line
+                const peakY = baseY - peakHold[i] * maxBarHeight;
+                if (peakHold[i] > 0.01) {
+                    const peakCol = getSpectrumHSL(ratio, 0.95);
+                    ctx.fillStyle = `hsla(${peakCol.h}, ${peakCol.s}%, ${peakCol.l + 10}%, 0.9)`;
+                    ctx.fillRect(barX, peakY, barWidth, 2);
+                }
+            }
+
+            // ---- ENVELOPE CURVE (smooth line connecting bar tops) ----
             ctx.beginPath();
-            const gridSpacing = 30;
-            for (let i = 0; i < width; i += gridSpacing) {
-                ctx.moveTo(i, 0);
-                ctx.lineTo(i, height);
+            const curvePoints = [];
+            for (let i = 0; i < NUM_BARS; i++) {
+                const amplitude = smoothedBars[i] / 255;
+                const barX = margin + i * (barWidth + gap) + barWidth / 2;
+                const barTopY = baseY - amplitude * maxBarHeight;
+                curvePoints.push({ x: barX, y: barTopY });
             }
-            for (let j = 0; j < height; j += gridSpacing) {
-                ctx.moveTo(0, j);
-                ctx.lineTo(width, j);
+
+            // Draw smooth quadratic curve through points
+            if (curvePoints.length > 1) {
+                ctx.moveTo(curvePoints[0].x, curvePoints[0].y);
+                for (let i = 0; i < curvePoints.length - 1; i++) {
+                    const curr = curvePoints[i];
+                    const next = curvePoints[i + 1];
+                    const cpx = (curr.x + next.x) / 2;
+                    const cpy = (curr.y + next.y) / 2;
+                    ctx.quadraticCurveTo(curr.x, curr.y, cpx, cpy);
+                }
+                // Final segment
+                const last = curvePoints[curvePoints.length - 1];
+                ctx.lineTo(last.x, last.y);
             }
+
+            // Envelope stroke with gradient
+            const envGrad = ctx.createLinearGradient(margin, 0, width - margin, 0);
+            envGrad.addColorStop(0, 'rgba(120, 140, 255, 0.7)');
+            envGrad.addColorStop(0.35, 'rgba(220, 100, 255, 0.8)');
+            envGrad.addColorStop(0.65, 'rgba(255, 80, 200, 0.75)');
+            envGrad.addColorStop(1, 'rgba(200, 210, 230, 0.6)');
+            ctx.strokeStyle = envGrad;
+            ctx.lineWidth = 1.5;
             ctx.stroke();
 
-            // Active visualizer sweeps
+            // ---- SECONDARY ENVELOPE (slightly offset, creates depth like minimeters) ----
+            ctx.beginPath();
+            if (curvePoints.length > 1) {
+                ctx.moveTo(curvePoints[0].x, curvePoints[0].y - 3);
+                for (let i = 0; i < curvePoints.length - 1; i++) {
+                    const curr = curvePoints[i];
+                    const next = curvePoints[i + 1];
+                    const cpx = (curr.x + next.x) / 2;
+                    const cpy = ((curr.y - 3) + (next.y - 3)) / 2;
+                    ctx.quadraticCurveTo(curr.x, curr.y - 3, cpx, cpy);
+                }
+                const last = curvePoints[curvePoints.length - 1];
+                ctx.lineTo(last.x, last.y - 3);
+            }
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            // ---- BASELINE GLOW ----
+            const baseGrad = ctx.createLinearGradient(margin, 0, width - margin, 0);
+            baseGrad.addColorStop(0, 'rgba(80, 90, 220, 0.25)');
+            baseGrad.addColorStop(0.4, 'rgba(180, 60, 200, 0.3)');
+            baseGrad.addColorStop(1, 'rgba(160, 180, 220, 0.2)');
+            ctx.strokeStyle = baseGrad;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(margin, baseY);
+            ctx.lineTo(width - margin, baseY);
+            ctx.stroke();
+
+            // Track-change sweep wipe
             if (sweepOffset > 0) {
-                ctx.fillStyle = 'rgba(217, 28, 28, 0.04)';
+                ctx.fillStyle = 'rgba(200, 80, 255, 0.04)';
                 ctx.fillRect(0, 0, sweepOffset, height);
-                
-                ctx.strokeStyle = 'rgba(217, 28, 28, 0.4)';
+                ctx.strokeStyle = 'rgba(200, 150, 255, 0.35)';
                 ctx.lineWidth = 1.5;
                 ctx.beginPath();
                 ctx.moveTo(sweepOffset, 0);
                 ctx.lineTo(sweepOffset, height);
                 ctx.stroke();
-
-                sweepOffset += 14;
-                if (sweepOffset > width) {
-                    sweepOffset = 0;
-                }
+                sweepOffset += 16;
+                if (sweepOffset > width) sweepOffset = 0;
             }
-
-            // Draw and update active subset based on DENSITY dial
-            const currentDensity = Math.floor(dialValues.density);
-            for (let i = 0; i < currentDensity; i++) {
-                if (particles[i]) {
-                    particles[i].update();
-                    particles[i].draw();
-                }
-            }
-
-            // Decay beat impulse
-            if (beatImpulse > 0) beatImpulse *= 0.92;
 
             requestAnimationFrame(loop);
         }
 
-        // Hook up canvas mouse interactions
-        canvas.addEventListener('mousemove', (e) => {
-            const rect = canvas.getBoundingClientRect();
-            mouse.x = e.clientX - rect.left;
-            mouse.y = e.clientY - rect.top;
-            mouse.active = true;
-        });
-
-        canvas.addEventListener('mouseleave', () => {
-            mouse.active = false;
-        });
-
-        canvas.addEventListener('touchstart', (e) => {
-            mouse.active = true;
-            const rect = canvas.getBoundingClientRect();
-            mouse.x = e.touches[0].clientX - rect.left;
-            mouse.y = e.touches[0].clientY - rect.top;
-        });
-
-        canvas.addEventListener('touchmove', (e) => {
-            const rect = canvas.getBoundingClientRect();
-            mouse.x = e.touches[0].clientX - rect.left;
-            mouse.y = e.touches[0].clientY - rect.top;
-        });
-
-        canvas.addEventListener('touchend', () => {
-            mouse.active = false;
-        });
-
         // ==========================================================================
-        // TACTILE ROTARY DIALS ENGINE (DRAG HANDLERS)
+        // MODERN SYNTH RANGE SLIDERS ENGINE
         // ==========================================================================
-        function initDials() {
-            const dials = document.querySelectorAll('.vj-dial');
+        function initSliders() {
+            const sliders = document.querySelectorAll('.vj-slider');
             
-            dials.forEach(dial => {
-                const param = dial.dataset.param;
-                const min = parseFloat(dial.dataset.min);
-                const max = parseFloat(dial.dataset.max);
-                const initialVal = parseFloat(dial.dataset.value);
+            sliders.forEach(slider => {
+                const param = slider.dataset.param;
                 
-                // Set initial dial angle rotation
-                const percent = (initialVal - min) / (max - min);
-                const startAngle = -135 + percent * 270; // Map 0-1 to -135deg to +135deg
-                dial.querySelector('.vj-dial-tick').style.transform = `rotate(${startAngle}deg)`;
-                
-                let isDragging = false;
-                let startY = 0;
-                let startValue = initialVal;
-
-                // Handle click & drag interaction
-                const onStart = (e) => {
-                    isDragging = true;
-                    dial.classList.add('active');
-                    startY = e.clientY || e.touches[0].clientY;
-                    startValue = dialValues[param];
-                    document.body.style.userSelect = 'none';
-                    document.body.style.cursor = 'ns-resize';
-                };
-
-                const onMove = (e) => {
-                    if (!isDragging) return;
-                    const currentY = e.clientY || e.touches[0].clientY;
-                    const deltaY = startY - currentY; // Moving up increases value
-                    
-                    const valueRange = max - min;
-                    const dragSensitivity = 0.005; // Adjust drag speed
-                    let newVal = startValue + (deltaY * valueRange * dragSensitivity);
-                    
-                    // Constrain boundaries
-                    newVal = Math.max(min, Math.min(max, newVal));
+                slider.addEventListener('input', (e) => {
+                    const newVal = parseFloat(e.target.value);
                     dialValues[param] = newVal;
 
-                    // Update dial marker rotation
-                    const newPercent = (newVal - min) / (max - min);
-                    const newAngle = -135 + newPercent * 270;
-                    dial.querySelector('.vj-dial-tick').style.transform = `rotate(${newAngle}deg)`;
-
-                    // Update readout value label
                     const label = document.getElementById(`val-${param}`);
-                    if (param === 'speed') {
-                        label.textContent = `${newVal.toFixed(1)}x`;
-                    } else if (param === 'density') {
-                        label.textContent = Math.floor(newVal);
-                    } else {
-                        label.textContent = newVal.toFixed(1);
+                    if (label) {
+                        if (param === 'density') {
+                            label.textContent = Math.floor(newVal);
+                        } else {
+                            label.textContent = newVal.toFixed(2);
+                        }
                     }
-                };
-
-                const onEnd = () => {
-                    if (isDragging) {
-                        isDragging = false;
-                        dial.classList.remove('active');
-                        document.body.style.userSelect = '';
-                        document.body.style.cursor = '';
-                    }
-                };
-
-                // Mouse events
-                dial.addEventListener('mousedown', onStart);
-                window.addEventListener('mousemove', onMove);
-                window.addEventListener('mouseup', onEnd);
-
-                // Touch events
-                dial.addEventListener('touchstart', onStart);
-                window.addEventListener('touchmove', onMove);
-                window.addEventListener('touchend', onEnd);
+                });
             });
         }
 
         // Initialize App
+        initSliders();
         renderTracklist();
-        initParticles();
-        initDials();
+        selectTrack(0);
         loop();
     </script>
-</body>
-</html>
-
 </body>
 </html>

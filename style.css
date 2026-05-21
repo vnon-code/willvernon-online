@@ -11,6 +11,7 @@
   
   --accent-red: #D91C1C;
   --accent-darkred: #5a0000;
+  --vj-accent: var(--accent-red);
   
   /* Typography System */
   --font-sans: 'Space Grotesk', sans-serif;
@@ -1502,9 +1503,10 @@ a[href*="linkedin.com"]:hover * {
 .vj-led {
   width: 8px;
   height: 8px;
-  background-color: var(--accent-red);
+  background-color: var(--vj-accent-2);
   border-radius: 50%;
-  box-shadow: 0 0 8px var(--accent-red);
+  box-shadow: 0 0 8px var(--vj-accent-2);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .vj-led.pulsing {
@@ -1513,7 +1515,7 @@ a[href*="linkedin.com"]:hover * {
 
 @keyframes ledPulse {
   0%, 100% { opacity: 0.3; transform: scale(0.9); }
-  50% { opacity: 1.0; transform: scale(1.1); box-shadow: 0 0 12px var(--accent-red); }
+  50% { opacity: 1.0; transform: scale(1.1); box-shadow: 0 0 12px var(--vj-accent-2); }
 }
 
 .vj-console-main-grid {
@@ -1538,17 +1540,18 @@ a[href*="linkedin.com"]:hover * {
 
 .vj-screen-wrapper {
   position: relative;
-  height: 300px;
+  height: 400px;
   background-color: #020000;
   border: 1px solid var(--bg-700);
   border-radius: 8px;
   overflow: hidden;
-  box-shadow: inset 0 0 30px rgba(217, 28, 28, 0.1);
+  box-shadow: inset 0 0 30px rgba(var(--vj-accent-1-rgb, 217, 28, 28), 0.05);
+  transition: box-shadow 0.3s ease;
 }
 
 @media (min-width: 768px) {
   .vj-screen-wrapper {
-    height: 380px;
+    height: 580px;
   }
 }
 
@@ -1556,36 +1559,12 @@ a[href*="linkedin.com"]:hover * {
   width: 100%;
   height: 100%;
   display: block;
-}
-
-/* Authentic CRT overlay scanline and flicker effect */
-.vj-screen-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
   pointer-events: none;
-  background: linear-gradient(
-    rgba(18, 16, 16, 0) 50%, 
-    rgba(0, 0, 0, 0.25) 50%
-  ), 
-  linear-gradient(
-    90deg, 
-    rgba(217, 28, 28, 0.04), 
-    rgba(0, 255, 0, 0.01), 
-    rgba(0, 0, 255, 0.04)
-  );
-  background-size: 100% 4px, 6px 100%;
-  z-index: 2;
-  opacity: 0.85;
-  animation: crtFlicker 0.15s infinite;
 }
 
-@keyframes crtFlicker {
-  0% { opacity: 0.82; }
-  50% { opacity: 0.87; }
-  100% { opacity: 0.82; }
+/* Authentic CRT overlay scanline and flicker effect (Disabled) */
+.vj-screen-overlay {
+  display: none;
 }
 
 .vj-metadata-display {
@@ -1595,9 +1574,10 @@ a[href*="linkedin.com"]:hover * {
   z-index: 3;
   pointer-events: none;
   background-color: rgba(2, 0, 0, 0.7);
-  border-left: 2px solid var(--accent-red);
+  border-left: 2px solid var(--vj-accent-1);
   padding: 0.5rem 0.75rem;
   backdrop-filter: blur(4px);
+  transition: border-color 0.3s ease;
 }
 
 .vj-meta-title {
@@ -1611,71 +1591,177 @@ a[href*="linkedin.com"]:hover * {
   text-transform: uppercase;
 }
 
-/* Modulation Panel (Rotary Dials) */
 .vj-synth-panel {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+  gap: 1.25rem;
   padding: 1.5rem;
   background-color: var(--bg-950);
   border: 1px solid var(--bg-700);
   border-radius: 8px;
 }
 
-@media (min-width: 576px) {
-  .vj-synth-panel {
-    grid-template-columns: repeat(4, 1fr);
-    justify-items: center;
-  }
-}
-
-.vj-dial-group {
+.vj-slider-group {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
+  width: 100%;
 }
 
-.vj-dial-label {
+.vj-slider-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   font-family: var(--font-mono);
   font-size: 0.7rem;
+  letter-spacing: 0.05em;
+}
+
+.vj-slider-label {
   color: var(--text-muted);
-  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
-.vj-dial-val {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  color: var(--text-white);
+.vj-slider-val {
+  font-weight: 700;
+  transition: color 0.3s ease;
 }
 
-.vj-dial {
-  position: relative;
-  width: 54px;
-  height: 54px;
-  background: radial-gradient(circle at 35% 35%, #2a2a2a 0%, #0d0d0d 70%, #000 100%);
-  border: 2px solid var(--bg-700);
-  border-radius: 50%;
-  cursor: ns-resize;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+#val-speed {
+  color: var(--vj-accent-1);
+  text-shadow: 0 0 8px rgba(var(--vj-accent-1-rgb), 0.2);
+}
+#val-gravity {
+  color: var(--vj-accent-2);
+  text-shadow: 0 0 8px rgba(var(--vj-accent-2-rgb), 0.2);
+}
+#val-glow {
+  color: var(--vj-accent-3);
+  text-shadow: 0 0 8px rgba(var(--vj-accent-3-rgb), 0.2);
+}
+#val-density {
+  color: var(--vj-accent-1);
+  text-shadow: 0 0 8px rgba(var(--vj-accent-1-rgb), 0.2);
 }
 
-.vj-dial:hover, .vj-dial.active {
-  border-color: var(--accent-red);
-  box-shadow: 0 0 15px rgba(217, 28, 28, 0.35), 0 4px 10px rgba(0, 0, 0, 0.6);
+/* Custom range inputs */
+.vj-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  background: var(--bg-700);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 3px;
+  outline: none;
+  transition: background 0.3s ease;
 }
 
-.vj-dial-tick {
-  position: absolute;
-  top: 4px;
-  left: 50%;
-  width: 2px;
-  height: 12px;
-  background-color: var(--accent-red);
-  transform-origin: 50% 23px;
-  border-radius: 1px;
-  box-shadow: 0 0 4px var(--accent-red);
+.vj-slider::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 6px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.vj-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 16px;
+  width: 8px;
+  border-radius: 2px;
+  background: var(--vj-accent);
+  cursor: pointer;
+  margin-top: -5px; /* (6px track / 2) - (16px thumb / 2) */
+  box-shadow: 0 0 10px var(--vj-accent);
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease;
+}
+
+.vj-slider::-webkit-slider-thumb:hover {
+  transform: scaleY(1.2);
+  box-shadow: 0 0 15px var(--vj-accent);
+}
+
+/* Color-coded Webkit thumbs */
+#slider-speed::-webkit-slider-thumb {
+  background: var(--vj-accent-1);
+  box-shadow: 0 0 10px var(--vj-accent-1);
+}
+#slider-speed::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 15px var(--vj-accent-1);
+}
+#slider-gravity::-webkit-slider-thumb {
+  background: var(--vj-accent-2);
+  box-shadow: 0 0 10px var(--vj-accent-2);
+}
+#slider-gravity::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 15px var(--vj-accent-2);
+}
+#slider-glow::-webkit-slider-thumb {
+  background: var(--vj-accent-3);
+  box-shadow: 0 0 10px var(--vj-accent-3);
+}
+#slider-glow::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 15px var(--vj-accent-3);
+}
+#slider-density::-webkit-slider-thumb {
+  background: var(--vj-accent-1);
+  box-shadow: 0 0 10px var(--vj-accent-1);
+}
+#slider-density::-webkit-slider-thumb:hover {
+  box-shadow: 0 0 15px var(--vj-accent-1);
+}
+
+.vj-slider::-moz-range-track {
+  width: 100%;
+  height: 6px;
+  cursor: pointer;
+  background: var(--bg-700);
+  border-radius: 3px;
+}
+
+.vj-slider::-moz-range-thumb {
+  height: 16px;
+  width: 8px;
+  border-radius: 2px;
+  background: var(--vj-accent);
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 10px var(--vj-accent);
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.1s ease;
+}
+
+.vj-slider::-moz-range-thumb:hover {
+  transform: scaleY(1.2);
+  box-shadow: 0 0 15px var(--vj-accent);
+}
+
+/* Color-coded Mozilla thumbs */
+#slider-speed::-moz-range-thumb {
+  background: var(--vj-accent-1);
+  box-shadow: 0 0 10px var(--vj-accent-1);
+}
+#slider-speed::-moz-range-thumb:hover {
+  box-shadow: 0 0 15px var(--vj-accent-1);
+}
+#slider-gravity::-moz-range-thumb {
+  background: var(--vj-accent-2);
+  box-shadow: 0 0 10px var(--vj-accent-2);
+}
+#slider-gravity::-moz-range-thumb:hover {
+  box-shadow: 0 0 15px var(--vj-accent-2);
+}
+#slider-glow::-moz-range-thumb {
+  background: var(--vj-accent-3);
+  box-shadow: 0 0 10px var(--vj-accent-3);
+}
+#slider-glow::-moz-range-thumb:hover {
+  box-shadow: 0 0 15px var(--vj-accent-3);
+}
+#slider-density::-moz-range-thumb {
+  background: var(--vj-accent-1);
+  box-shadow: 0 0 10px var(--vj-accent-1);
+}
+#slider-density::-moz-range-thumb:hover {
+  box-shadow: 0 0 15px var(--vj-accent-1);
 }
 
 /* Control Deck Panel (Right) */
@@ -1748,12 +1834,13 @@ a[href*="linkedin.com"]:hover * {
 .vj-vinyl-label {
   width: 50px;
   height: 50px;
-  background-color: var(--accent-red);
+  background-color: var(--vj-accent-1);
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   border: 1px solid rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
 }
 
 .vj-vinyl-label-center {
@@ -1807,15 +1894,15 @@ a[href*="linkedin.com"]:hover * {
 .vj-control-btn.btn-play-large {
   width: 58px;
   height: 58px;
-  border-color: var(--accent-red);
-  color: var(--accent-red);
+  border-color: var(--vj-accent-1);
+  color: var(--vj-accent-1);
   font-size: 1.4rem;
 }
 
 .vj-control-btn.btn-play-large:hover {
-  background-color: var(--accent-red);
+  background-color: var(--vj-accent-1);
   color: var(--text-white);
-  box-shadow: 0 0 20px rgba(217, 28, 28, 0.4);
+  box-shadow: 0 0 20px var(--vj-accent-1);
 }
 
 /* Sleek Timeline Scrubber */
@@ -1837,9 +1924,9 @@ a[href*="linkedin.com"]:hover * {
 
 .vj-progress-fill {
   height: 100%;
-  background-color: var(--accent-red);
-  box-shadow: 0 0 8px var(--accent-red);
-  transition: width 0.1s linear;
+  background: linear-gradient(90deg, var(--vj-accent-1), var(--vj-accent-2));
+  box-shadow: 0 0 8px var(--vj-accent-1);
+  transition: width 0.1s linear, background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .vj-time-row {
@@ -1891,13 +1978,13 @@ a[href*="linkedin.com"]:hover * {
 }
 
 .vj-track-item.active {
-  background-color: rgba(217, 28, 28, 0.05);
-  border-color: rgba(217, 28, 28, 0.25);
-  border-left: 3px solid var(--accent-red);
+  background-color: rgba(var(--vj-accent-1-rgb, 217, 28, 28), 0.05);
+  border-color: rgba(var(--vj-accent-1-rgb, 217, 28, 28), 0.25);
+  border-left: 3px solid var(--vj-accent-1);
 }
 
 .vj-track-item-num {
-  color: var(--accent-red);
+  color: var(--vj-accent-1);
   font-size: 0.75rem;
   font-weight: 700;
 }
@@ -1914,7 +2001,7 @@ a[href*="linkedin.com"]:hover * {
 
 .vj-track-item-status {
   font-size: 0.65rem;
-  color: var(--accent-red);
+  color: var(--vj-accent-1);
   letter-spacing: 0.05em;
 }
 
