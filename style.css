@@ -1769,6 +1769,7 @@ a[href*="linkedin.com"]:hover * {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  align-items: stretch !important;
 }
 
 /* 3D Vinyl Sleeve Art */
@@ -1941,6 +1942,8 @@ a[href*="linkedin.com"]:hover * {
   gap: 0.75rem;
   border-top: 1px solid var(--bg-700);
   padding-top: 1.25rem;
+  width: 100% !important;
+  align-items: stretch !important;
 }
 
 .vj-track-list {
@@ -1950,6 +1953,10 @@ a[href*="linkedin.com"]:hover * {
   max-height: 180px;
   overflow-y: auto;
   padding-right: 0.25rem;
+  width: 100% !important;
+  align-self: stretch !important;
+  align-items: stretch !important;
+  box-sizing: border-box;
 }
 
 .vj-track-list::-webkit-scrollbar {
@@ -1970,6 +1977,9 @@ a[href*="linkedin.com"]:hover * {
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 100% !important;
+  align-self: stretch !important;
+  box-sizing: border-box;
 }
 
 .vj-track-item:hover {
