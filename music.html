@@ -76,56 +76,181 @@
         </div>
     </header>
 
-    <!-- Main Content -->
+    <!-- Hidden SoundCloud Iframe Widget -->
+    <iframe id="soundcloud-hidden-player" width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1435234555&color=%23D91C1C&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false" style="position: absolute; left: -9999px; top: -9999px; visibility: hidden; pointer-events: none;"></iframe>
+
+    <!-- Main Content: VJ Deck Console -->
     <main class="flex-grow layout-padding" style="padding-top: 4rem; padding-bottom: 4rem;">
         <div class="container-wide">
-            <div class="grid-3">
+            
+            <!-- VJ Deck Console Container -->
+            <div class="vj-console">
                 
-                <!-- Left: Production Philosophy -->
-                <div style="display: flex; flex-direction: column; gap: 2rem;">
-                    <h3 class="text-white font-bold text-2xl uppercase" style="border-left: 2px solid var(--accent-red); padding-left: 1rem;">Alias: vnon</h3>
-                    <p class="text-gray-400 leading-relaxed text-sm">
-                        Under the alias <span class="text-white font-bold">vnon</span>, I produce electronic music, focusing predominantly on the high-energy, technical structures of Drum &amp; Bass.
-                    </p>
-                    <p class="text-gray-400 leading-relaxed text-sm">
-                        Music production is not isolated from my design work; it is the catalyst for it. My understanding of frequency modulation, transient dynamics, and spectral mapping directly dictates how I program real-time responsive installations inside TouchDesigner and Blender.
-                    </p>
-                    <p class="text-gray-400 leading-relaxed text-sm">
-                        Soundscapes form the atmospheric foundation for my visual projects, establishing a reciprocal cause-and-effect relationship between sight and sound.
-                    </p>
+                <!-- Header/Status Bar of Console -->
+                <div class="vj-console-header">
+                    <div class="vj-status-indicators">
+                        <span class="vj-led pulsing"></span>
+                        <span class="font-mono text-xs text-accent uppercase tracking-wider">// SYSTEM_ACTIVE_MODE: REAL_TIME_PARTICLE_RENDER</span>
+                    </div>
+                    <div class="vj-track-info-top font-mono text-xs text-gray-500">
+                        TRACK_SELECT: <span id="vj-active-index" class="text-white">01 / 03</span>
+                    </div>
                 </div>
 
-                <!-- Right: SoundCloud Integrations (Interactive Grid) -->
-                <div class="col-span-2" style="display: flex; flex-direction: column; gap: 2rem;">
-                    <h3 class="text-white font-bold text-2xl uppercase" style="border-left: 2px solid var(--accent-red); padding-left: 1rem;">SoundCloud Stream</h3>
+                <div class="vj-console-main-grid">
                     
-                    <!-- Primary Feature Embed (Visual Mode) -->
-                    <div class="neon-card" style="padding: 1rem; display: flex; flex-direction: column; gap: 1rem;">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
-                            <span class="font-mono text-xs text-accent">// FEATURE_RELEASE</span>
-                            <a href="https://soundcloud.com/vnondnb" target="_blank" class="font-mono text-xs text-gray-500 hover:text-white" style="text-decoration: none; transition: color 0.3s ease;">VISIT STREAM <i class="ph ph-arrow-square-out"></i></a>
+                    <!-- Left Column: The CRT Visualizer Screen & Dials -->
+                    <div class="vj-screen-col">
+                        <!-- Canvas Screen Wrapper -->
+                        <div class="vj-screen-wrapper">
+                            <canvas id="vj-canvas" class="vj-canvas"></canvas>
+                            <!-- CRT scanline overlay -->
+                            <div class="vj-screen-overlay"></div>
+                            
+                            <!-- Track Metadata Overlay -->
+                            <div class="vj-metadata-display font-mono">
+                                <div id="vj-meta-title" class="vj-meta-title text-white uppercase font-bold text-sm">Spectral Analysis 01</div>
+                                <div id="vj-meta-genre" class="vj-meta-genre text-accent text-xs">Drum & Bass // Techstep</div>
+                            </div>
                         </div>
-                        
-                        <!-- SoundCloud visual widget embed customized with #D91C1C -->
-                        <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/users/358897595&color=%23D91C1C&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true"></iframe>
+
+                        <!-- Modulation Panel (Rotary Synth Dials) -->
+                        <div class="vj-synth-panel">
+                            
+                            <div class="vj-dial-group">
+                                <span class="vj-dial-label">SPEED</span>
+                                <div class="vj-dial" id="knob-speed" data-param="speed" data-min="0.5" data-max="4.0" data-value="1.5">
+                                    <div class="vj-dial-tick"></div>
+                                </div>
+                                <span class="vj-dial-val" id="val-speed">1.5x</span>
+                            </div>
+
+                            <div class="vj-dial-group">
+                                <span class="vj-dial-label">GRAVITY</span>
+                                <div class="vj-dial" id="knob-gravity" data-param="gravity" data-min="0" data-max="3.0" data-value="0.8">
+                                    <div class="vj-dial-tick"></div>
+                                </div>
+                                <span class="vj-dial-val" id="val-gravity">0.8</span>
+                            </div>
+
+                            <div class="vj-dial-group">
+                                <span class="vj-dial-label">GLOW</span>
+                                <div class="vj-dial" id="knob-glow" data-param="glow" data-min="0.5" data-max="3.0" data-value="1.2">
+                                    <div class="vj-dial-tick"></div>
+                                </div>
+                                <span class="vj-dial-val" id="val-glow">1.2</span>
+                            </div>
+
+                            <div class="vj-dial-group">
+                                <span class="vj-dial-label">DENSITY</span>
+                                <div class="vj-dial" id="knob-density" data-param="density" data-min="100" data-max="800" data-value="400">
+                                    <div class="vj-dial-tick"></div>
+                                </div>
+                                <span class="vj-dial-val" id="val-density">400</span>
+                            </div>
+
+                        </div>
                     </div>
 
-                    <!-- Alternate Track Layouts -->
-                    <div class="grid-2">
-                        <div class="neon-card" style="padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
-                            <span class="font-mono text-xs text-gray-500 uppercase">// SPECTRAL_ANALYSIS_01</span>
-                            <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1435234555&color=%23D91C1C&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+                    <!-- Right Column: Control Deck & Track Picker -->
+                    <div class="vj-deck-col">
+                        
+                        <!-- Premium Vinyl Artwork Sleeve -->
+                        <div class="vj-vinyl-card-wrapper">
+                            <div class="vj-vinyl-card" id="vinyl-card">
+                                <div class="vj-album-sleeve">
+                                    <img id="vj-active-artwork" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop" alt="Active Cover Art">
+                                </div>
+                                <div class="vj-vinyl-disc" id="vinyl-disc">
+                                    <div class="vj-vinyl-label">
+                                        <div class="vj-vinyl-label-center"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="neon-card" style="padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
-                            <span class="font-mono text-xs text-gray-500 uppercase">// SPECTRAL_ANALYSIS_02</span>
-                            <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1321455562&color=%23D91C1C&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+
+                        <!-- Track Controls Panel -->
+                        <div class="vj-deck-controls">
+                            <button class="vj-control-btn" id="btn-prev" aria-label="Previous Track">
+                                <i class="ph ph-skip-back"></i>
+                            </button>
+                            <button class="vj-control-btn btn-play-large" id="btn-play-pause" aria-label="Play/Pause">
+                                <i class="ph-fill ph-play" id="play-pause-icon"></i>
+                            </button>
+                            <button class="vj-control-btn" id="btn-next" aria-label="Next Track">
+                                <i class="ph ph-skip-forward"></i>
+                            </button>
                         </div>
+
+                        <!-- Custom Progress Bar -->
+                        <div class="vj-progress-container" id="vj-progress-bar">
+                            <div class="vj-progress-track">
+                                <div class="vj-progress-fill" id="vj-progress-fill" style="width: 0%;"></div>
+                            </div>
+                            <div class="vj-time-row font-mono text-xs text-gray-500">
+                                <span id="vj-time-current">0:00</span>
+                                <span id="vj-time-total">0:00</span>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Track Index list -->
+                        <div class="vj-track-list-wrapper">
+                            <span class="font-mono text-xs text-gray-500 uppercase tracking-widest">// SELECT_INPUT_SIGNAL</span>
+                            <div class="vj-track-list" id="vj-track-list">
+                                <!-- Rendered dynamically by Javascript -->
+                            </div>
+                        </div>
+
                     </div>
 
                 </div>
+
             </div>
+
         </div>
     </main>
+
+    <!-- Bio / Alias section placed beautifully below the deck -->
+    <section class="section-padding layout-padding" style="border-top: 1px solid var(--bg-700); background-color: var(--bg-900); position: relative; z-index: 10;">
+        <div class="container-wide">
+            <div class="grid-2">
+                
+                <!-- Bio Panel -->
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <span class="font-mono text-xs text-accent uppercase tracking-widest">// FILE_SYS_BIO: vnon</span>
+                    <h2 class="text-4xl font-bold uppercase">Alias: vnon</h2>
+                    <p class="text-gray-400 leading-relaxed text-sm">
+                        Under the alias <span class="text-white font-bold">vnon</span>, I construct electronic music, focusing predominantly on the architectural complexities of Drum &amp; Bass. Sound design serves as the central anchor for my work.
+                    </p>
+                    <p class="text-gray-400 leading-relaxed text-sm">
+                        Producing isn't a secondary endeavor; it's the direct source of my visual syntax. Designing synthesized bass modulations, mapping transient shapes, and establishing rhythm loops directly impacts how I program responsive matrices and vector systems.
+                    </p>
+                    <div style="padding-top: 1rem;">
+                        <a href="https://soundcloud.com/vnondnb" target="_blank" class="link-arrow">
+                            &gt; soundcloud.com/vnondnb
+                            <i class="ph ph-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- TouchDesigner Integration Panel -->
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <span class="font-mono text-xs text-gray-500 uppercase tracking-widest">// SYS_INTEGRATION: GEOMETRIC_SYNTHESIS</span>
+                    <h2 class="text-4xl font-bold uppercase">Sound &amp; Geometry</h2>
+                    <p class="text-gray-400 leading-relaxed text-sm">
+                        In TouchDesigner and Blender, I leverage real-time spectral analysis to convert raw frequencies into structural geometry. High frequencies map to intricate displacements, while heavy sub-bass hits deform spatial coordinate fields.
+                    </p>
+                    <p class="text-gray-400 leading-relaxed text-sm">
+                        The VJ Console above demonstrates this reciprocal correlation. Adjusting the dials changes the digital physics of the system, directly mimicking the synthesis parameters used in electronic music production (modulation frequency, decay, distortion, and grain).
+                    </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- SoundCloud Widget API -->
+    <script src="https://w.soundcloud.com/player/api.js"></script>
 
     <script>
         // Navbar scroll effect
@@ -148,95 +273,493 @@
         closeMenuBtn.addEventListener('click', toggleMenu);
         mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
 
-        // Procedural Audio Waveform / Frequencies Visualizer Simulation
-        const canvas = document.getElementById('audio-canvas');
-        const ctx = canvas.getContext('2d');
-        
-        let width = canvas.width = window.innerWidth;
-        let height = canvas.height = canvas.parentElement.offsetHeight;
-        
-        window.addEventListener('resize', () => {
-            width = canvas.width = window.innerWidth;
-            height = canvas.height = canvas.parentElement.offsetHeight;
-        });
+        // ==========================================================================
+        // VJ DECK CONSOLE LOGIC & PARICLE ENGINE
+        // ==========================================================================
 
-        let particles = [];
-        for (let i = 0; i < 40; i++) {
-            particles.push({
-                x: Math.random() * width,
-                y: Math.random() * height,
-                size: Math.random() * 2 + 1,
-                speedY: (Math.random() - 0.5) * 0.4,
-                speedX: (Math.random() - 0.5) * 0.4,
-                freq: Math.random() * 0.05 + 0.01,
-                amplitude: Math.random() * 20 + 5
+        // Tracks Database
+        const TRACKS_DATABASE = [
+            {
+                title: "Spectral Analysis 01",
+                genre: "Drum & Bass // Techstep",
+                scUrl: "https://api.soundcloud.com/tracks/1435234555",
+                artwork: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop",
+                desc: "High-tempo techstep featuring mechanical sub-bass rhythms and generative synth sequences."
+            },
+            {
+                title: "Spectral Analysis 02",
+                genre: "Drum & Bass // Neurofunk",
+                scUrl: "https://api.soundcloud.com/tracks/1321455562",
+                artwork: "https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=600&auto=format&fit=crop",
+                desc: "Aggressive Reese basslines interacting with organic, syncopated breakbeats."
+            },
+            {
+                title: "VNON Continuous Stream",
+                genre: "Drum & Bass Showcase",
+                scUrl: "https://api.soundcloud.com/users/358897595",
+                artwork: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=600&auto=format&fit=crop",
+                desc: "A showcase stream containing continuous live mixes, unreleased dubplates, and atmospheric visual scores."
+            }
+        ];
+
+        // System Constants
+        let activeTrackIndex = 0;
+        let isPlaying = false;
+        let durationMs = 0;
+        
+        // DOM Elements
+        const hiddenIframe = document.getElementById('soundcloud-hidden-player');
+        const widget = SC.Widget(hiddenIframe);
+        
+        const canvas = document.getElementById('vj-canvas');
+        const ctx = canvas.getContext('2d');
+        const playPauseBtn = document.getElementById('btn-play-pause');
+        const playPauseIcon = document.getElementById('play-pause-icon');
+        const prevBtn = document.getElementById('btn-prev');
+        const nextBtn = document.getElementById('btn-next');
+        const activeArtwork = document.getElementById('vj-active-artwork');
+        const metaTitle = document.getElementById('vj-meta-title');
+        const metaGenre = document.getElementById('vj-meta-genre');
+        const progressFill = document.getElementById('vj-progress-fill');
+        const timeCurrentLabel = document.getElementById('vj-time-current');
+        const timeTotalLabel = document.getElementById('vj-time-total');
+        const trackListContainer = document.getElementById('vj-track-list');
+        const activeIndexLabel = document.getElementById('vj-active-index');
+        const vinylCard = document.getElementById('vinyl-card');
+
+        // Setup Dial Variables
+        const dialValues = {
+            speed: 1.5,
+            gravity: 0.8,
+            glow: 1.2,
+            density: 400
+        };
+
+        // Render Track List dynamically
+        function renderTracklist() {
+            trackListContainer.innerHTML = '';
+            TRACKS_DATABASE.forEach((track, i) => {
+                const trackItem = document.createElement('div');
+                trackItem.className = `vj-track-item ${i === activeTrackIndex ? 'active' : ''}`;
+                trackItem.innerHTML = `
+                    <div class="vj-track-item-num font-mono">${(i+1).toString().padStart(2, '0')}</div>
+                    <div class="vj-track-item-main">
+                        <div class="vj-track-item-title font-sans">${track.title}</div>
+                        <div class="vj-track-item-genre font-mono text-xs text-gray-500">${track.genre}</div>
+                    </div>
+                    <div class="vj-track-item-status font-mono text-xs">${i === activeTrackIndex && isPlaying ? 'PLAYING' : 'READY'}</div>
+                `;
+                
+                trackItem.addEventListener('click', () => {
+                    if (i !== activeTrackIndex) {
+                        selectTrack(i);
+                    }
+                });
+                
+                trackListContainer.appendChild(trackItem);
             });
         }
 
-        let phase = 0;
-        function drawVisualizer() {
-            ctx.clearRect(0, 0, width, height);
+        // Select Track and update hidden SoundCloud player
+        function selectTrack(index) {
+            activeTrackIndex = index;
+            const track = TRACKS_DATABASE[index];
             
-            // Render ambient synthetic frequency grids
-            ctx.strokeStyle = 'rgba(217, 28, 28, 0.05)';
-            ctx.lineWidth = 1;
+            // UI Updates
+            activeArtwork.src = track.artwork;
+            metaTitle.textContent = track.title;
+            metaGenre.textContent = track.genre;
+            activeIndexLabel.textContent = `${(index+1).toString().padStart(2, '0')} / ${TRACKS_DATABASE.length.toString().padStart(2, '0')}`;
+            
+            // Set track in list
+            renderTracklist();
+            
+            // Reset Progress UI
+            progressFill.style.width = '0%';
+            timeCurrentLabel.textContent = '0:00';
+            
+            // Load in SC Widget
+            widget.load(track.scUrl, {
+                auto_play: isPlaying, // Keep current play state
+                color: "#D91C1C",
+                hide_related: true,
+                show_comments: false,
+                show_user: true,
+                show_reposts: false,
+                show_teaser: false
+            });
+            
+            // Trigger visual sweep
+            triggerSweep();
+        }
+
+        // Helper to format milliseconds to mm:ss
+        function formatTime(ms) {
+            if (isNaN(ms) || ms < 0) return '0:00';
+            const totalSecs = Math.floor(ms / 1000);
+            const mins = Math.floor(totalSecs / 60);
+            const secs = totalSecs % 60;
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        // Initialize SoundCloud Widget Events
+        widget.bind(SC.Widget.Events.READY, () => {
+            // Fetch initial duration
+            widget.getDuration((dur) => {
+                durationMs = dur;
+                timeTotalLabel.textContent = formatTime(dur);
+            });
+        });
+
+        widget.bind(SC.Widget.Events.PLAY, () => {
+            isPlaying = true;
+            playPauseIcon.className = "ph-fill ph-pause";
+            vinylCard.classList.add('playing');
+            renderTracklist();
+        });
+
+        widget.bind(SC.Widget.Events.PAUSE, () => {
+            isPlaying = false;
+            playPauseIcon.className = "ph-fill ph-play";
+            vinylCard.classList.remove('playing');
+            renderTracklist();
+        });
+
+        widget.bind(SC.Widget.Events.PLAY_PROGRESS, (progress) => {
+            const currentMs = progress.currentPosition;
+            durationMs = progress.relativePosition * currentMs || durationMs;
+            
+            // Update time labels
+            timeCurrentLabel.textContent = formatTime(currentMs);
+            widget.getDuration((dur) => {
+                durationMs = dur;
+                timeTotalLabel.textContent = formatTime(dur);
+            });
+
+            // Update Progress Bar Width
+            const percentage = (progress.relativePosition * 100).toFixed(2);
+            progressFill.style.width = `${percentage}%`;
+            
+            // Seed a small transient impulse to the particles based on progress shifts
+            beatImpulse += 1.5;
+        });
+
+        widget.bind(SC.Widget.Events.FINISH, () => {
+            // Auto skip to next
+            const nextIdx = (activeTrackIndex + 1) % TRACKS_DATABASE.length;
+            selectTrack(nextIdx);
+        });
+
+        // Controls click events
+        playPauseBtn.addEventListener('click', () => {
+            widget.toggle();
+        });
+
+        prevBtn.addEventListener('click', () => {
+            let prevIdx = activeTrackIndex - 1;
+            if (prevIdx < 0) prevIdx = TRACKS_DATABASE.length - 1;
+            selectTrack(prevIdx);
+        });
+
+        nextBtn.addEventListener('click', () => {
+            const nextIdx = (activeTrackIndex + 1) % TRACKS_DATABASE.length;
+            selectTrack(nextIdx);
+        });
+
+        // Setup Progress scrubber seek click
+        document.getElementById('vj-progress-bar').addEventListener('click', (e) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const clickPosition = (e.clientX - rect.left) / rect.width;
+            widget.seekTo(clickPosition * durationMs);
+        });
+
+        // ==========================================================================
+        // PARTICLE SYSTEM PHYSICS SIMULATOR
+        // ==========================================================================
+        let width = canvas.width = canvas.offsetWidth;
+        let height = canvas.height = canvas.offsetHeight;
+        let particles = [];
+        let sweepOffset = 0;
+        let beatImpulse = 0;
+        let mouse = { x: null, y: null, active: false };
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = canvas.offsetWidth;
+            height = canvas.height = canvas.offsetHeight;
+        });
+
+        class VJParticle {
+            constructor() {
+                this.reset(true);
+            }
+
+            reset(initial = false) {
+                this.x = Math.random() * width;
+                this.y = initial ? Math.random() * height : (Math.random() > 0.5 ? -10 : height + 10);
+                this.size = Math.random() * 1.5 + 0.5;
+                this.vx = (Math.random() - 0.5) * 1.2;
+                this.vy = (Math.random() - 0.5) * 1.2;
+                this.baseSpeed = Math.random() * 0.4 + 0.2;
+                this.angle = Math.random() * Math.PI * 2;
+                this.omega = (Math.random() - 0.5) * 0.05; // angular speed
+                this.colorVal = Math.random();
+            }
+
+            update() {
+                // Interactive parameters based on VJ Knobs
+                const speedMult = dialValues.speed;
+                const gravityStrength = dialValues.gravity;
+                
+                // Add noise path flow
+                this.angle += this.omega;
+                const flowX = Math.cos(this.angle) * this.baseSpeed * speedMult;
+                const flowY = Math.sin(this.angle) * this.baseSpeed * speedMult;
+                
+                this.vx += (flowX - this.vx) * 0.1;
+                this.vy += (flowY - this.vy) * 0.1;
+
+                // Playback boost
+                const stateMultiplier = isPlaying ? 2.2 : 0.6;
+                const progressImpulse = Math.min(beatImpulse * 0.05, 5);
+                
+                this.x += this.vx * stateMultiplier + Math.sin(this.angle) * progressImpulse;
+                this.y += this.vy * stateMultiplier + Math.cos(this.angle) * progressImpulse;
+
+                // Center gravitational pull modulated by dial
+                if (gravityStrength > 0) {
+                    // Pull to cursor if active, otherwise pull to screen center
+                    const targetX = mouse.active ? mouse.x : width / 2;
+                    const targetY = mouse.active ? mouse.y : height / 2;
+                    
+                    const dx = targetX - this.x;
+                    const dy = targetY - this.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist > 1) {
+                        const force = (gravityStrength * 0.015) / (dist * 0.01 + 1);
+                        this.vx += dx * force;
+                        this.vy += dy * force;
+                    }
+                }
+
+                // Bound check
+                if (this.x < -20 || this.x > width + 20 || this.y < -20 || this.y > height + 20) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                const glowMult = dialValues.glow;
+                const radius = this.size * glowMult;
+                
+                // Track transition scanline effect helper
+                let alpha = 0.5;
+                if (sweepOffset > 0) {
+                    const distToSweep = Math.abs(this.x - sweepOffset);
+                    if (distToSweep < 80) {
+                        alpha = 1.0 - distToSweep / 80;
+                    }
+                }
+
+                ctx.beginPath();
+                if (this.colorVal > 0.85) {
+                    ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+                } else if (this.colorVal > 0.4) {
+                    ctx.fillStyle = `rgba(217, 28, 28, ${alpha})`;
+                } else {
+                    ctx.fillStyle = `rgba(90, 0, 0, ${alpha * 0.7})`;
+                }
+                
+                ctx.arc(this.x, this.y, radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        // Trigger loading sweep visual transition
+        function triggerSweep() {
+            sweepOffset = 1;
+        }
+
+        // Initialize particles
+        function initParticles() {
+            particles = [];
+            const maxDensity = 800; // max supported density
+            for (let i = 0; i < maxDensity; i++) {
+                particles.push(new VJParticle());
+            }
+        }
+
+        // Particle Visualizer Engine tick
+        function loop() {
+            // Draw CRT digital backdrop
+            ctx.fillStyle = 'rgba(2, 0, 0, 0.2)'; // semi-transparent to allow particle trails
+            ctx.fillRect(0, 0, width, height);
+
+            // Tech Grid matrix lines in visualizer CRT
+            ctx.strokeStyle = 'rgba(217, 28, 28, 0.02)';
+            ctx.lineWidth = 0.5;
             ctx.beginPath();
-            for (let i = 0; i < width; i += 40) {
+            const gridSpacing = 30;
+            for (let i = 0; i < width; i += gridSpacing) {
                 ctx.moveTo(i, 0);
                 ctx.lineTo(i, height);
             }
-            for (let j = 0; j < height; j += 40) {
+            for (let j = 0; j < height; j += gridSpacing) {
                 ctx.moveTo(0, j);
                 ctx.lineTo(width, j);
             }
             ctx.stroke();
 
-            // Render flowing sub-bass frequency waves
-            ctx.beginPath();
-            ctx.strokeStyle = 'rgba(217, 28, 28, 0.25)';
-            ctx.lineWidth = 1.5;
-            for (let i = 0; i < width; i++) {
-                let wave1 = Math.sin(i * 0.003 + phase) * 60;
-                let wave2 = Math.cos(i * 0.008 - phase * 0.5) * 20;
-                let y = height / 2 + wave1 + wave2;
-                if (i === 0) ctx.moveTo(i, y);
-                else ctx.lineTo(i, y);
-            }
-            ctx.stroke();
-
-            // Render mid-frequency secondary wave
-            ctx.beginPath();
-            ctx.strokeStyle = 'rgba(217, 28, 28, 0.1)';
-            ctx.lineWidth = 1;
-            for (let i = 0; i < width; i++) {
-                let wave1 = Math.sin(i * 0.01 + phase * 2) * 30;
-                let y = height / 2 + wave1;
-                if (i === 0) ctx.moveTo(i, y);
-                else ctx.lineTo(i, y);
-            }
-            ctx.stroke();
-
-            // Particles behaving as spatial frequency nodes
-            particles.forEach(p => {
-                p.y += p.speedY;
-                p.x += p.speedX;
+            // Active visualizer sweeps
+            if (sweepOffset > 0) {
+                ctx.fillStyle = 'rgba(217, 28, 28, 0.04)';
+                ctx.fillRect(0, 0, sweepOffset, height);
                 
-                // Boundaries
-                if (p.y < 0 || p.y > height) p.speedY *= -1;
-                if (p.x < 0 || p.x > width) p.speedX *= -1;
-
-                let sizeOffset = Math.sin(phase * p.freq) * p.amplitude;
-                
-                ctx.fillStyle = 'rgba(217, 28, 28, 0.5)';
+                ctx.strokeStyle = 'rgba(217, 28, 28, 0.4)';
+                ctx.lineWidth = 1.5;
                 ctx.beginPath();
-                ctx.arc(p.x, p.y + sizeOffset * 0.1, p.size, 0, Math.PI * 2);
-                ctx.fill();
-            });
+                ctx.moveTo(sweepOffset, 0);
+                ctx.lineTo(sweepOffset, height);
+                ctx.stroke();
 
-            phase += 0.01;
-            requestAnimationFrame(drawVisualizer);
+                sweepOffset += 14;
+                if (sweepOffset > width) {
+                    sweepOffset = 0;
+                }
+            }
+
+            // Draw and update active subset based on DENSITY dial
+            const currentDensity = Math.floor(dialValues.density);
+            for (let i = 0; i < currentDensity; i++) {
+                if (particles[i]) {
+                    particles[i].update();
+                    particles[i].draw();
+                }
+            }
+
+            // Decay beat impulse
+            if (beatImpulse > 0) beatImpulse *= 0.92;
+
+            requestAnimationFrame(loop);
         }
-        drawVisualizer();
+
+        // Hook up canvas mouse interactions
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = e.clientX - rect.left;
+            mouse.y = e.clientY - rect.top;
+            mouse.active = true;
+        });
+
+        canvas.addEventListener('mouseleave', () => {
+            mouse.active = false;
+        });
+
+        canvas.addEventListener('touchstart', (e) => {
+            mouse.active = true;
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = e.touches[0].clientX - rect.left;
+            mouse.y = e.touches[0].clientY - rect.top;
+        });
+
+        canvas.addEventListener('touchmove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            mouse.x = e.touches[0].clientX - rect.left;
+            mouse.y = e.touches[0].clientY - rect.top;
+        });
+
+        canvas.addEventListener('touchend', () => {
+            mouse.active = false;
+        });
+
+        // ==========================================================================
+        // TACTILE ROTARY DIALS ENGINE (DRAG HANDLERS)
+        // ==========================================================================
+        function initDials() {
+            const dials = document.querySelectorAll('.vj-dial');
+            
+            dials.forEach(dial => {
+                const param = dial.dataset.param;
+                const min = parseFloat(dial.dataset.min);
+                const max = parseFloat(dial.dataset.max);
+                const initialVal = parseFloat(dial.dataset.value);
+                
+                // Set initial dial angle rotation
+                const percent = (initialVal - min) / (max - min);
+                const startAngle = -135 + percent * 270; // Map 0-1 to -135deg to +135deg
+                dial.querySelector('.vj-dial-tick').style.transform = `rotate(${startAngle}deg)`;
+                
+                let isDragging = false;
+                let startY = 0;
+                let startValue = initialVal;
+
+                // Handle click & drag interaction
+                const onStart = (e) => {
+                    isDragging = true;
+                    dial.classList.add('active');
+                    startY = e.clientY || e.touches[0].clientY;
+                    startValue = dialValues[param];
+                    document.body.style.userSelect = 'none';
+                    document.body.style.cursor = 'ns-resize';
+                };
+
+                const onMove = (e) => {
+                    if (!isDragging) return;
+                    const currentY = e.clientY || e.touches[0].clientY;
+                    const deltaY = startY - currentY; // Moving up increases value
+                    
+                    const valueRange = max - min;
+                    const dragSensitivity = 0.005; // Adjust drag speed
+                    let newVal = startValue + (deltaY * valueRange * dragSensitivity);
+                    
+                    // Constrain boundaries
+                    newVal = Math.max(min, Math.min(max, newVal));
+                    dialValues[param] = newVal;
+
+                    // Update dial marker rotation
+                    const newPercent = (newVal - min) / (max - min);
+                    const newAngle = -135 + newPercent * 270;
+                    dial.querySelector('.vj-dial-tick').style.transform = `rotate(${newAngle}deg)`;
+
+                    // Update readout value label
+                    const label = document.getElementById(`val-${param}`);
+                    if (param === 'speed') {
+                        label.textContent = `${newVal.toFixed(1)}x`;
+                    } else if (param === 'density') {
+                        label.textContent = Math.floor(newVal);
+                    } else {
+                        label.textContent = newVal.toFixed(1);
+                    }
+                };
+
+                const onEnd = () => {
+                    if (isDragging) {
+                        isDragging = false;
+                        dial.classList.remove('active');
+                        document.body.style.userSelect = '';
+                        document.body.style.cursor = '';
+                    }
+                };
+
+                // Mouse events
+                dial.addEventListener('mousedown', onStart);
+                window.addEventListener('mousemove', onMove);
+                window.addEventListener('mouseup', onEnd);
+
+                // Touch events
+                dial.addEventListener('touchstart', onStart);
+                window.addEventListener('touchmove', onMove);
+                window.addEventListener('touchend', onEnd);
+            });
+        }
+
+        // Initialize App
+        renderTracklist();
+        initParticles();
+        initDials();
+        loop();
     </script>
+</body>
+</html>
+
 </body>
 </html>

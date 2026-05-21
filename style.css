@@ -1464,3 +1464,458 @@ a[href*="linkedin.com"]:hover * {
   color: #0077b5 !important;
 }
 
+/* --------------------------------------------------------------------------
+   VJ Deck Console Styling
+   -------------------------------------------------------------------------- */
+
+.vj-console {
+  background-color: rgba(10, 10, 10, 0.6);
+  border: 1px solid var(--bg-700);
+  border-radius: 12px;
+  padding: 1.5rem;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+  margin-top: 2rem;
+}
+
+@media (min-width: 768px) {
+  .vj-console {
+    padding: 2.5rem;
+  }
+}
+
+.vj-console-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--bg-700);
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
+}
+
+.vj-status-indicators {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.vj-led {
+  width: 8px;
+  height: 8px;
+  background-color: var(--accent-red);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent-red);
+}
+
+.vj-led.pulsing {
+  animation: ledPulse 1.8s infinite ease-in-out;
+}
+
+@keyframes ledPulse {
+  0%, 100% { opacity: 0.3; transform: scale(0.9); }
+  50% { opacity: 1.0; transform: scale(1.1); box-shadow: 0 0 12px var(--accent-red); }
+}
+
+.vj-console-main-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 992px) {
+  .vj-console-main-grid {
+    grid-template-columns: 2.2fr 1fr;
+    gap: 3rem;
+  }
+}
+
+/* CRT Visualizer Screen */
+.vj-screen-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.vj-screen-wrapper {
+  position: relative;
+  height: 300px;
+  background-color: #020000;
+  border: 1px solid var(--bg-700);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: inset 0 0 30px rgba(217, 28, 28, 0.1);
+}
+
+@media (min-width: 768px) {
+  .vj-screen-wrapper {
+    height: 380px;
+  }
+}
+
+.vj-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Authentic CRT overlay scanline and flicker effect */
+.vj-screen-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  ), 
+  linear-gradient(
+    90deg, 
+    rgba(217, 28, 28, 0.04), 
+    rgba(0, 255, 0, 0.01), 
+    rgba(0, 0, 255, 0.04)
+  );
+  background-size: 100% 4px, 6px 100%;
+  z-index: 2;
+  opacity: 0.85;
+  animation: crtFlicker 0.15s infinite;
+}
+
+@keyframes crtFlicker {
+  0% { opacity: 0.82; }
+  50% { opacity: 0.87; }
+  100% { opacity: 0.82; }
+}
+
+.vj-metadata-display {
+  position: absolute;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  z-index: 3;
+  pointer-events: none;
+  background-color: rgba(2, 0, 0, 0.7);
+  border-left: 2px solid var(--accent-red);
+  padding: 0.5rem 0.75rem;
+  backdrop-filter: blur(4px);
+}
+
+.vj-meta-title {
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
+}
+
+.vj-meta-genre {
+  margin-top: 0.15rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Modulation Panel (Rotary Dials) */
+.vj-synth-panel {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background-color: var(--bg-950);
+  border: 1px solid var(--bg-700);
+  border-radius: 8px;
+}
+
+@media (min-width: 576px) {
+  .vj-synth-panel {
+    grid-template-columns: repeat(4, 1fr);
+    justify-items: center;
+  }
+}
+
+.vj-dial-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.vj-dial-label {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+
+.vj-dial-val {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-white);
+}
+
+.vj-dial {
+  position: relative;
+  width: 54px;
+  height: 54px;
+  background: radial-gradient(circle at 35% 35%, #2a2a2a 0%, #0d0d0d 70%, #000 100%);
+  border: 2px solid var(--bg-700);
+  border-radius: 50%;
+  cursor: ns-resize;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.vj-dial:hover, .vj-dial.active {
+  border-color: var(--accent-red);
+  box-shadow: 0 0 15px rgba(217, 28, 28, 0.35), 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.vj-dial-tick {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  width: 2px;
+  height: 12px;
+  background-color: var(--accent-red);
+  transform-origin: 50% 23px;
+  border-radius: 1px;
+  box-shadow: 0 0 4px var(--accent-red);
+}
+
+/* Control Deck Panel (Right) */
+.vj-deck-col {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* 3D Vinyl Sleeve Art */
+.vj-vinyl-card-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem 0;
+  background-color: var(--bg-950);
+  border: 1px solid var(--bg-700);
+  border-radius: 8px;
+}
+
+.vj-vinyl-card {
+  position: relative;
+  width: 170px;
+  height: 170px;
+  perspective: 1000px;
+}
+
+.vj-album-sleeve {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8), inset 0 0 20px rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.05);
+  background-color: var(--bg-900);
+}
+
+.vj-album-sleeve img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.vj-vinyl-disc {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 162px;
+  height: 162px;
+  background: repeating-radial-gradient(
+    circle,
+    #111,
+    #111 2px,
+    #0a0a0a 3px,
+    #1a1a1a 4px
+  );
+  border-radius: 50%;
+  z-index: 4;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+  transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vj-vinyl-label {
+  width: 50px;
+  height: 50px;
+  background-color: var(--accent-red);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+.vj-vinyl-label-center {
+  width: 8px;
+  height: 8px;
+  background-color: #000;
+  border-radius: 50%;
+}
+
+/* Vinyl slide out and spin animations when playing */
+.vj-vinyl-card.playing .vj-vinyl-disc {
+  transform: translateX(45px);
+  animation: spinVinyl 3.5s linear infinite;
+  animation-delay: 0.8s;
+}
+
+@keyframes spinVinyl {
+  from { transform: translateX(45px) rotate(0deg); }
+  to { transform: translateX(45px) rotate(360deg); }
+}
+
+/* Playback Control Deck buttons */
+.vj-deck-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.vj-control-btn {
+  background: none;
+  border: 1px solid var(--bg-700);
+  color: var(--text-muted);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.15rem;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.vj-control-btn:hover {
+  border-color: var(--text-white);
+  color: var(--text-white);
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.vj-control-btn.btn-play-large {
+  width: 58px;
+  height: 58px;
+  border-color: var(--accent-red);
+  color: var(--accent-red);
+  font-size: 1.4rem;
+}
+
+.vj-control-btn.btn-play-large:hover {
+  background-color: var(--accent-red);
+  color: var(--text-white);
+  box-shadow: 0 0 20px rgba(217, 28, 28, 0.4);
+}
+
+/* Sleek Timeline Scrubber */
+.vj-progress-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+.vj-progress-track {
+  width: 100%;
+  height: 4px;
+  background-color: var(--bg-700);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.vj-progress-fill {
+  height: 100%;
+  background-color: var(--accent-red);
+  box-shadow: 0 0 8px var(--accent-red);
+  transition: width 0.1s linear;
+}
+
+.vj-time-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Interactive Song Selection Index */
+.vj-track-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  border-top: 1px solid var(--bg-700);
+  padding-top: 1.25rem;
+}
+
+.vj-track-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 180px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.vj-track-list::-webkit-scrollbar {
+  width: 4px;
+}
+.vj-track-list::-webkit-scrollbar-thumb {
+  background: var(--bg-700);
+  border-radius: 2px;
+}
+
+.vj-track-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  background-color: var(--bg-950);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.vj-track-item:hover {
+  background-color: rgba(20, 20, 20, 0.8);
+  border-color: var(--bg-700);
+}
+
+.vj-track-item.active {
+  background-color: rgba(217, 28, 28, 0.05);
+  border-color: rgba(217, 28, 28, 0.25);
+  border-left: 3px solid var(--accent-red);
+}
+
+.vj-track-item-num {
+  color: var(--accent-red);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.vj-track-item-main {
+  flex-grow: 1;
+}
+
+.vj-track-item-title {
+  color: var(--text-white);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.vj-track-item-status {
+  font-size: 0.65rem;
+  color: var(--accent-red);
+  letter-spacing: 0.05em;
+}
+
+
