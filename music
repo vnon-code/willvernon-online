@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music | William Vernon Portfolio</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Space Grotesk', 'sans-serif'],
+                        mono: ['Space Mono', 'monospace'],
+                    },
+                    colors: {
+                        base: {
+                            950: '#020000', 
+                            900: '#050000',
+                            800: '#0a0a0a', 
+                            700: '#141414',
+                        },
+                        accent: {
+                            red: '#D91C1C',
+                            darkred: '#5a0000',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        body { background-color: #020000; color: #d1d1d1; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #020000; }
+        ::-webkit-scrollbar-thumb { background: #141414; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #D91C1C; }
+
+        .neon-card { border: 1px solid #141414; background-color: #050000; transition: all 0.3s ease; }
+        .neon-card:hover { border-color: #D91C1C; box-shadow: 0 0 15px rgba(217, 28, 28, 0.15); transform: translateY(-4px); }
+        
+        #audio-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: 0.35; }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-accent-red selection:text-white flex flex-col min-h-screen">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-base-950/80 backdrop-blur-md border-b border-white/5 px-6 md:px-12 xl:px-24" id="navbar">
+        <div class="max-w-[1600px] mx-auto w-full py-6 grid grid-cols-3 items-center">
+            
+            <!-- Left: Burger Menu (Mobile) / Navigation Links (Desktop) -->
+            <div class="flex items-center justify-start">
+                <div class="hidden md:flex space-x-8 text-sm font-mono text-gray-500">
+                    <a href="index.html" class="hover:text-accent-red transition-colors">[ HOME ]</a>
+                    <a href="work.html" class="hover:text-accent-red transition-colors">[ WORK ]</a>
+                    <a href="music.html" class="text-accent-red transition-colors">[ MUSIC ]</a>
+                    <a href="about.html" class="hover:text-accent-red transition-colors">[ ABOUT ]</a>
+                </div>
+                <button class="md:hidden text-2xl text-gray-400 hover:text-white flex items-center" id="mobile-menu-btn" aria-label="Toggle Menu">
+                    <i class="ph ph-list"></i>
+                </button>
+            </div>
+
+            <!-- Center: Monogram (No Hover effects) -->
+            <div class="flex justify-center">
+                <a href="index.html" class="flex items-center">
+                    <img src="https://i0.wp.com/willvernon.online/wp-content/uploads/2026/04/monogram-white-trans-1.png?fit=1080%2C1080&ssl=1" alt="WV Monogram" class="h-10 w-10 object-contain">
+                </a>
+            </div>
+
+            <!-- Right: Social Links + Email (Mobile & Desktop) -->
+            <div class="flex space-x-4 md:space-x-6 text-lg text-gray-500 justify-end items-center">
+                <a href="https://instagram.com/willvernon.av" target="_blank" class="hover:text-accent-red transition-colors" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+                <a href="https://www.linkedin.com/in/william-vernon-a37aa42b8" target="_blank" class="hover:text-accent-red transition-colors" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
+                <a href="mailto:wvernoncsi@gmail.com" class="hover:text-accent-red transition-colors" aria-label="Email"><i class="ph ph-envelope"></i></a>
+            </div>
+            
+        </div>
+        
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="fixed inset-0 bg-base-950 bg-opacity-95 z-40 hidden flex-col justify-center items-center space-y-8 text-2xl font-mono">
+            <button id="close-menu-btn" class="absolute top-6 right-6 text-3xl text-gray-400 hover:text-accent-red" aria-label="Close Menu"> 
+                 <i class="ph ph-x"></i>
+            </button>
+            <a href="index.html" class="mobile-link hover:text-accent-red transition-colors">Home</a>
+            <a href="work.html" class="mobile-link hover:text-accent-red transition-colors">Work</a>
+            <a href="music.html" class="mobile-link hover:text-accent-red transition-colors">Music</a>
+            <a href="about.html" class="mobile-link hover:text-accent-red transition-colors">About</a>
+        </div>
+    </nav>
+
+    <!-- Page Header & Canvas Wrapper -->
+    <header class="relative min-h-[40vh] flex items-center pt-32 px-6 md:px-12 xl:px-24 overflow-hidden border-b border-base-800">
+        <!-- Interactive Node-Audio Waveform Canvas -->
+        <canvas id="audio-canvas"></canvas>
+        <div class="max-w-[1600px] mx-auto w-full relative z-10 py-12">
+            <p class="font-mono text-accent-red text-sm tracking-widest uppercase mb-4">// SYNTAX_TRANSLATION</p>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white uppercase leading-none mb-6">Music & Audio</h1>
+            <p class="text-gray-400 font-mono mt-6 max-w-2xl text-sm leading-relaxed">
+                Exploring the relationship between high-tempo sound structures and generative architecture. Synthesizing frequencies to influence physical geometry.
+            </p>
+        </div>
+    </header>
+
+    <main class="flex-grow px-6 md:px-12 xl:px-24 py-16">
+        <div class="max-w-[1600px] mx-auto w-full">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 xl:gap-24">
+                
+                <!-- Left: Production Philosophy -->
+                <div class="space-y-8 lg:col-span-1">
+                    <h3 class="text-white font-bold text-2xl uppercase border-l-2 border-accent-red pl-4">Alias: VNON</h3>
+                    <p class="text-gray-400 leading-relaxed text-sm md:text-base">
+                        Under the alias <span class="text-white font-bold">VNON</span>, I produce electronic music, focusing predominantly on the high-energy, technical structures of Drum & Bass.
+                    </p>
+                    <p class="text-gray-400 leading-relaxed text-sm md:text-base">
+                        Music production is not isolated from my design work; it is the catalyst for it. My understanding of frequency modulation, transient dynamics, and spectral mapping directly dictates how I program real-time responsive installations inside TouchDesigner and Blender.
+                    </p>
+                    <p class="text-gray-400 leading-relaxed text-sm md:text-base">
+                        Soundscapes form the atmospheric foundation for my visual projects, establishing a reciprocal cause-and-effect relationship between sight and sound.
+                    </p>
+                </div>
+
+                <!-- Right: SoundCloud Integrations (Interactive Grid) -->
+                <div class="lg:col-span-2 space-y-8">
+                    <h3 class="text-white font-bold text-2xl uppercase border-l-2 border-accent-red pl-4">SoundCloud Stream</h3>
+                    
+                    <!-- Primary Feature Embed (Visual Mode) -->
+                    <div class="neon-card rounded-lg overflow-hidden border border-base-800 p-4 space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="font-mono text-xs text-accent-red">// FEATURE_RELEASE</span>
+                            <a href="https://soundcloud.com/vnondnb" target="_blank" class="font-mono text-xs text-gray-500 hover:text-white transition-colors">VISIT STREAM <i class="ph ph-arrow-square-out"></i></a>
+                        </div>
+                        
+                        <!-- SoundCloud visual widget embed customized with #D91C1C -->
+                        <iframe width="100%" height="300" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/users/358897595&color=%23D91C1C&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false&visual=true"></iframe>
+                    </div>
+
+                    <!-- Alternate Track Layouts -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="neon-card rounded-lg overflow-hidden border border-base-800 p-4 space-y-2">
+                            <span class="font-mono text-xs text-gray-600 uppercase">// SPECTRAL_ANALYSIS_01</span>
+                            <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1435234555&color=%23D91C1C&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+                        </div>
+                        <div class="neon-card rounded-lg overflow-hidden border border-base-800 p-4 space-y-2">
+                            <span class="font-mono text-xs text-gray-600 uppercase">// SPECTRAL_ANALYSIS_02</span>
+                            <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1321455562&color=%23D91C1C&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Mobile Menu Logic
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('flex');
+            document.body.classList.toggle('overflow-hidden');
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+        // Procedural Audio Waveform / Frequencies Visualizer Simulation
+        const canvas = document.getElementById('audio-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width = canvas.width = window.innerWidth;
+        let height = canvas.height = canvas.parentElement.offsetHeight;
+        
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = canvas.parentElement.offsetHeight;
+        });
+
+        let particles = [];
+        for (let i = 0; i < 40; i++) {
+            particles.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                size: Math.random() * 2 + 1,
+                speedY: (Math.random() - 0.5) * 0.4,
+                speedX: (Math.random() - 0.5) * 0.4,
+                freq: Math.random() * 0.05 + 0.01,
+                amplitude: Math.random() * 20 + 5
+            });
+        }
+
+        let phase = 0;
+        function drawVisualizer() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // Render ambient synthetic frequency grids
+            ctx.strokeStyle = 'rgba(217, 28, 28, 0.05)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            for (let i = 0; i < width; i += 40) {
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i, height);
+            }
+            for (let j = 0; j < height; j += 40) {
+                ctx.moveTo(0, j);
+                ctx.lineTo(width, j);
+            }
+            ctx.stroke();
+
+            // Render flowing sub-bass frequency waves
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgba(217, 28, 28, 0.25)';
+            ctx.lineWidth = 1.5;
+            for (let i = 0; i < width; i++) {
+                let wave1 = Math.sin(i * 0.003 + phase) * 60;
+                let wave2 = Math.cos(i * 0.008 - phase * 0.5) * 20;
+                let y = height / 2 + wave1 + wave2;
+                if (i === 0) ctx.moveTo(i, y);
+                else ctx.lineTo(i, y);
+            }
+            ctx.stroke();
+
+            // Render mid-frequency secondary wave
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgba(217, 28, 28, 0.1)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < width; i++) {
+                let wave1 = Math.sin(i * 0.01 + phase * 2) * 30;
+                let y = height / 2 + wave1;
+                if (i === 0) ctx.moveTo(i, y);
+                else ctx.lineTo(i, y);
+            }
+            ctx.stroke();
+
+            // Particles behaving as spatial frequency nodes
+            particles.forEach(p => {
+                p.y += p.speedY;
+                p.x += p.speedX;
+                
+                // Boundaries
+                if (p.y < 0 || p.y > height) p.speedY *= -1;
+                if (p.x < 0 || p.x > width) p.speedX *= -1;
+
+                let sizeOffset = Math.sin(phase * p.freq) * p.amplitude;
+                
+                ctx.fillStyle = 'rgba(217, 28, 28, 0.5)';
+                ctx.beginPath();
+                ctx.arc(p.x, p.y + sizeOffset * 0.1, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            });
+
+            phase += 0.01;
+            requestAnimationFrame(drawVisualizer);
+        }
+        drawVisualizer();
+    </script>
+</body>
+</html>
