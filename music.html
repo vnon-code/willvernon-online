@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,133 +10,100 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Space Grotesk', 'sans-serif'],
-                        mono: ['Space Mono', 'monospace'],
-                    },
-                    colors: {
-                        base: {
-                            950: '#020000', 
-                            900: '#050000',
-                            800: '#0a0a0a', 
-                            700: '#141414',
-                        },
-                        accent: {
-                            red: '#D91C1C',
-                            darkred: '#5a0000',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <style>
-        body { background-color: #020000; color: #d1d1d1; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #020000; }
-        ::-webkit-scrollbar-thumb { background: #141414; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #D91C1C; }
-
-        .neon-card { border: 1px solid #141414; background-color: #050000; transition: all 0.3s ease; }
-        .neon-card:hover { border-color: #D91C1C; box-shadow: 0 0 15px rgba(217, 28, 28, 0.15); transform: translateY(-4px); }
-        
-        #audio-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: 0.35; }
-    </style>
+    
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="font-sans antialiased selection:bg-accent-red selection:text-white flex flex-col min-h-screen">
+<body class="font-sans">
 
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 bg-base-950/80 backdrop-blur-md border-b border-white/5 px-6 md:px-12 xl:px-24" id="navbar">
-        <div class="max-w-[1600px] mx-auto w-full py-6 grid grid-cols-3 items-center">
+    <nav class="navbar layout-padding" id="navbar">
+        <div class="container-wide navbar-inner">
             
             <!-- Left: Burger Menu (Mobile) / Navigation Links (Desktop) -->
-            <div class="flex items-center justify-start">
-                <div class="hidden md:flex space-x-8 text-sm font-mono text-gray-500">
-                    <a href="index.html" class="hover:text-accent-red transition-colors">[ HOME ]</a>
-                    <a href="work.html" class="hover:text-accent-red transition-colors">[ WORK ]</a>
-                    <a href="music.html" class="text-accent-red transition-colors">[ MUSIC ]</a>
-                    <a href="about.html" class="hover:text-accent-red transition-colors">[ ABOUT ]</a>
+            <div class="nav-links-left">
+                <div class="nav-links">
+                    <a href="index.html">[ HOME ]</a>
+                    <a href="work.html">[ WORK ]</a>
+                    <a href="music.html" class="active">[ MUSIC ]</a>
+                    <a href="about.html">[ ABOUT ]</a>
                 </div>
-                <button class="md:hidden text-2xl text-gray-400 hover:text-white flex items-center" id="mobile-menu-btn" aria-label="Toggle Menu">
+                <button class="menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu">
                     <i class="ph ph-list"></i>
                 </button>
             </div>
 
-            <!-- Center: Monogram (No Hover effects) -->
-            <div class="flex justify-center">
-                <a href="index.html" class="flex items-center">
-                    <img src="https://i0.wp.com/willvernon.online/wp-content/uploads/2026/04/monogram-white-trans-1.png?fit=1080%2C1080&ssl=1" alt="WV Monogram" class="h-10 w-10 object-contain">
+            <!-- Center: Monogram -->
+            <div class="nav-logo">
+                <a href="index.html">
+                    <img src="https://i0.wp.com/willvernon.online/wp-content/uploads/2026/04/monogram-white-trans-1.png?fit=1080%2C1080&ssl=1" alt="WV Monogram">
                 </a>
             </div>
 
-            <!-- Right: Social Links + Email (Mobile & Desktop) -->
-            <div class="flex space-x-4 md:space-x-6 text-lg text-gray-500 justify-end items-center">
-                <a href="https://instagram.com/willvernon.av" target="_blank" class="hover:text-accent-red transition-colors" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
-                <a href="https://www.linkedin.com/in/william-vernon-a37aa42b8" target="_blank" class="hover:text-accent-red transition-colors" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
-                <a href="mailto:wvernoncsi@gmail.com" class="hover:text-accent-red transition-colors" aria-label="Email"><i class="ph ph-envelope"></i></a>
+            <!-- Right: Social Links (Mobile & Desktop) -->
+            <div class="social-links">
+                <a href="https://instagram.com/willvernon.av" target="_blank" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+                <a href="https://www.linkedin.com/in/william-vernon-a37aa42b8" target="_blank" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
+                <a href="mailto:wvernoncsi@gmail.com" aria-label="Email"><i class="ph ph-envelope"></i></a>
             </div>
             
         </div>
         
         <!-- Mobile Menu Overlay -->
-        <div id="mobile-menu" class="fixed inset-0 bg-base-950 bg-opacity-95 z-40 hidden flex-col justify-center items-center space-y-8 text-2xl font-mono">
-            <button id="close-menu-btn" class="absolute top-6 right-6 text-3xl text-gray-400 hover:text-accent-red" aria-label="Close Menu"> 
+        <div id="mobile-menu" class="mobile-menu">
+            <button id="close-menu-btn" class="close-menu-btn" aria-label="Close Menu"> 
                  <i class="ph ph-x"></i>
             </button>
-            <a href="index.html" class="mobile-link hover:text-accent-red transition-colors">Home</a>
-            <a href="work.html" class="mobile-link hover:text-accent-red transition-colors">Work</a>
-            <a href="music.html" class="mobile-link hover:text-accent-red transition-colors">Music</a>
-            <a href="about.html" class="mobile-link hover:text-accent-red transition-colors">About</a>
+            <a href="index.html" class="mobile-link">Home</a>
+            <a href="work.html" class="mobile-link">Work</a>
+            <a href="music.html" class="mobile-link active">Music</a>
+            <a href="about.html" class="mobile-link">About</a>
         </div>
     </nav>
 
     <!-- Page Header & Canvas Wrapper -->
-    <header class="relative min-h-[40vh] flex items-center pt-32 px-6 md:px-12 xl:px-24 overflow-hidden border-b border-base-800">
+    <header class="hero-section layout-padding header-padding" style="min-height: 40vh; border-bottom: 1px solid var(--bg-700);">
         <!-- Interactive Node-Audio Waveform Canvas -->
-        <canvas id="audio-canvas"></canvas>
-        <div class="max-w-[1600px] mx-auto w-full relative z-10 py-12">
-            <p class="font-mono text-accent-red text-sm tracking-widest uppercase mb-4">// SYNTAX_TRANSLATION</p>
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-white uppercase leading-none mb-6">Music & Audio</h1>
+        <canvas id="audio-canvas" class="hero-canvas" style="opacity: 0.35;"></canvas>
+        <div class="container-wide hero-content">
+            <p class="font-mono text-accent text-sm tracking-widest uppercase">// SYNTAX_TRANSLATION</p>
+            <h1 class="text-8xl font-bold tracking-tighter uppercase leading-none mt-2 mb-6">Music &amp; Audio</h1>
             <p class="text-gray-400 font-mono mt-6 max-w-2xl text-sm leading-relaxed">
                 Exploring the relationship between high-tempo sound structures and generative architecture. Synthesizing frequencies to influence physical geometry.
             </p>
         </div>
     </header>
 
-    <main class="flex-grow px-6 md:px-12 xl:px-24 py-16">
-        <div class="max-w-[1600px] mx-auto w-full">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 xl:gap-24">
+    <!-- Main Content -->
+    <main class="flex-grow layout-padding" style="padding-top: 4rem; padding-bottom: 4rem;">
+        <div class="container-wide">
+            <div class="grid-3">
                 
                 <!-- Left: Production Philosophy -->
-                <div class="space-y-8 lg:col-span-1">
-                    <h3 class="text-white font-bold text-2xl uppercase border-l-2 border-accent-red pl-4">Alias: VNON</h3>
-                    <p class="text-gray-400 leading-relaxed text-sm md:text-base">
-                        Under the alias <span class="text-white font-bold">VNON</span>, I produce electronic music, focusing predominantly on the high-energy, technical structures of Drum & Bass.
+                <div style="display: flex; flex-direction: column; gap: 2rem;">
+                    <h3 class="text-white font-bold text-2xl uppercase" style="border-left: 2px solid var(--accent-red); padding-left: 1rem;">Alias: VNON</h3>
+                    <p class="text-gray-400 leading-relaxed text-sm">
+                        Under the alias <span class="text-white font-bold">VNON</span>, I produce electronic music, focusing predominantly on the high-energy, technical structures of Drum &amp; Bass.
                     </p>
-                    <p class="text-gray-400 leading-relaxed text-sm md:text-base">
+                    <p class="text-gray-400 leading-relaxed text-sm">
                         Music production is not isolated from my design work; it is the catalyst for it. My understanding of frequency modulation, transient dynamics, and spectral mapping directly dictates how I program real-time responsive installations inside TouchDesigner and Blender.
                     </p>
-                    <p class="text-gray-400 leading-relaxed text-sm md:text-base">
+                    <p class="text-gray-400 leading-relaxed text-sm">
                         Soundscapes form the atmospheric foundation for my visual projects, establishing a reciprocal cause-and-effect relationship between sight and sound.
                     </p>
                 </div>
 
                 <!-- Right: SoundCloud Integrations (Interactive Grid) -->
-                <div class="lg:col-span-2 space-y-8">
-                    <h3 class="text-white font-bold text-2xl uppercase border-l-2 border-accent-red pl-4">SoundCloud Stream</h3>
+                <div class="col-span-2" style="display: flex; flex-direction: column; gap: 2rem;">
+                    <h3 class="text-white font-bold text-2xl uppercase" style="border-left: 2px solid var(--accent-red); padding-left: 1rem;">SoundCloud Stream</h3>
                     
                     <!-- Primary Feature Embed (Visual Mode) -->
-                    <div class="neon-card rounded-lg overflow-hidden border border-base-800 p-4 space-y-4">
-                        <div class="flex justify-between items-center">
-                            <span class="font-mono text-xs text-accent-red">// FEATURE_RELEASE</span>
-                            <a href="https://soundcloud.com/vnondnb" target="_blank" class="font-mono text-xs text-gray-500 hover:text-white transition-colors">VISIT STREAM <i class="ph ph-arrow-square-out"></i></a>
+                    <div class="neon-card" style="padding: 1rem; display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span class="font-mono text-xs text-accent">// FEATURE_RELEASE</span>
+                            <a href="https://soundcloud.com/vnondnb" target="_blank" class="font-mono text-xs text-gray-500 hover:text-white" style="text-decoration: none; transition: color 0.3s ease;">VISIT STREAM <i class="ph ph-arrow-square-out"></i></a>
                         </div>
                         
                         <!-- SoundCloud visual widget embed customized with #D91C1C -->
@@ -144,13 +111,13 @@
                     </div>
 
                     <!-- Alternate Track Layouts -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="neon-card rounded-lg overflow-hidden border border-base-800 p-4 space-y-2">
-                            <span class="font-mono text-xs text-gray-600 uppercase">// SPECTRAL_ANALYSIS_01</span>
+                    <div class="grid-2">
+                        <div class="neon-card" style="padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                            <span class="font-mono text-xs text-gray-500 uppercase">// SPECTRAL_ANALYSIS_01</span>
                             <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1435234555&color=%23D91C1C&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
                         </div>
-                        <div class="neon-card rounded-lg overflow-hidden border border-base-800 p-4 space-y-2">
-                            <span class="font-mono text-xs text-gray-600 uppercase">// SPECTRAL_ANALYSIS_02</span>
+                        <div class="neon-card" style="padding: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
+                            <span class="font-mono text-xs text-gray-500 uppercase">// SPECTRAL_ANALYSIS_02</span>
                             <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/1321455562&color=%23D91C1C&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false"></iframe>
                         </div>
                     </div>
@@ -161,18 +128,22 @@
     </main>
 
     <script>
-        // Mobile Menu Logic
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Mobile Menu Toggle
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const closeMenuBtn = document.getElementById('close-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const mobileLinks = document.querySelectorAll('.mobile-link');
 
         function toggleMenu() {
-            mobileMenu.classList.toggle('hidden');
-            mobileMenu.classList.toggle('flex');
+            mobileMenu.classList.toggle('active');
             document.body.classList.toggle('overflow-hidden');
         }
-
         mobileMenuBtn.addEventListener('click', toggleMenu);
         closeMenuBtn.addEventListener('click', toggleMenu);
         mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,223 +10,139 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Space Grotesk', 'sans-serif'],
-                        mono: ['Space Mono', 'monospace'],
-                    },
-                    colors: {
-                        base: {
-                            950: '#020000', 
-                            900: '#050000',
-                            800: '#0a0a0a', 
-                            700: '#141414',
-                        },
-                        accent: {
-                            red: '#D91C1C',
-                            darkred: '#5a0000',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <style>
-        body { background-color: #020000; color: #d1d1d1; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #020000; }
-        ::-webkit-scrollbar-thumb { background: #141414; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #D91C1C; }
-
-        /* Project Toggle Logic */
-        .css-toggle-checkbox { display: none; }
-        .custom-toggle-btn { cursor: pointer; display: inline-flex; align-items: center; margin-left: auto; }
-        .toggle-label-text { font-family: 'Space Mono', monospace; text-transform: uppercase; font-size: 14px; letter-spacing: 1px; margin-right: 10px; color: #ffffff; transition: color 0.3s ease; }
-        
-        .toggle-label-text::before { content: "View Case Study"; }
-        .project-container:has(.css-toggle-checkbox:checked) .toggle-label-text::before { content: "Close Case Study"; }
-        
-        .toggle-arrow-svg { color: #ffffff; transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), color 0.3s ease; transform-origin: center; display: block; }
-        .project-container:has(.css-toggle-checkbox:checked) .toggle-label-text,
-        .project-container:has(.css-toggle-checkbox:checked) .toggle-arrow-svg { color: #D91C1C; }
-        .project-container:has(.css-toggle-checkbox:checked) .toggle-arrow-svg { transform: rotate(90deg); }
-
-        /* Expansion & Collapse Logic */
-        .toggle-content {
-            max-height: 0; opacity: 0; overflow: hidden; visibility: hidden;
-            transition: max-height 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease, visibility 0s linear 0.6s;
-        }
-        .project-container:has(.css-toggle-checkbox:checked) .toggle-content {
-            max-height: 8000px; opacity: 1; visibility: visible;
-            transition: max-height 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease 0.3s, visibility 0s linear 0s;
-        }
-
-        /* Order Swapping for the Splash Container */
-        /* By default, splash is below the header. When expanded, we change flex order to push it below the content */
-        .project-inner-wrapper { display: flex; flex-direction: column; }
-        .project-splash-wrapper { order: 1; margin-top: 2rem; transition: all 0.5s ease; }
-        .project-expanded-wrapper { order: 2; }
-        
-        .project-container:has(.css-toggle-checkbox:checked) .project-splash-wrapper {
-            order: 3;
-            margin-top: 4rem; /* Add more space when it acts as the footer outcome */
-        }
-
-        /* Splash Video Default (No Grayscale) */
-        .splash-video { object-fit: cover; width: 100%; height: 100%; }
-
-        /* Filtering Transitions */
-        .project-container { transition: opacity 0.4s ease, transform 0.4s ease, height 0.4s ease; }
-        .project-container.hidden-project { display: none; opacity: 0; transform: scale(0.95); }
-        
-        /* Filter Button Styles */
-        .filter-btn {
-            border: 1px solid #141414;
-            background-color: #050000;
-            transition: all 0.2s ease;
-        }
-        .filter-btn:hover:not(.hidden-filter) {
-            border-color: #5a0000;
-            color: #ffffff;
-        }
-        .filter-btn.active {
-            background-color: #D91C1C;
-            border-color: #D91C1C;
-            color: #ffffff;
-        }
-        .filter-btn.hidden-filter {
-            display: none;
-        }
-        
-        /* Ensure Process Titles match the new styling */
-        .process-title {
-            color: #ffffff;
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 1.25rem;
-            border-left: 2px solid #D91C1C;
-            padding-left: 1rem;
-        }
-    </style>
+    
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="font-sans antialiased selection:bg-accent-red selection:text-white">
+<body class="font-sans">
 
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 bg-base-950/80 backdrop-blur-md border-b border-white/5 px-6 md:px-12 xl:px-24" id="navbar">
-        <div class="max-w-[1600px] mx-auto w-full py-6 grid grid-cols-3 items-center">
-            <div class="hidden md:flex space-x-8 text-sm font-mono text-gray-500 justify-start">
-                <a href="index.html" class="hover:text-accent-red transition-colors">[ HOME ]</a>
-                <a href="work.html" class="hover:text-accent-red transition-colors">[ WORK ]</a>
-                <a href="music.html" class="hover:text-accent-red transition-colors">[ MUSIC ]</a>
-                <a href="about.html" class="hover:text-accent-red transition-colors">[ ABOUT ]</a>
+    <nav class="navbar layout-padding" id="navbar">
+        <div class="container-wide navbar-inner">
+            
+            <!-- Left: Burger Menu (Mobile) / Navigation Links (Desktop) -->
+            <div class="nav-links-left">
+                <div class="nav-links">
+                    <a href="index.html">[ HOME ]</a>
+                    <a href="work.html" class="active">[ WORK ]</a>
+                    <a href="music.html">[ MUSIC ]</a>
+                    <a href="about.html">[ ABOUT ]</a>
+                </div>
+                <button class="menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu">
+                    <i class="ph ph-list"></i>
+                </button>
             </div>
-            <div class="flex justify-center">
-                <a href="index.html" class="flex items-center">
-                    <img src="https://i0.wp.com/willvernon.online/wp-content/uploads/2026/04/monogram-white-trans-1.png?fit=1080%2C1080&ssl=1" alt="WV Monogram" class="h-10 w-10 object-contain hover:rotate-90 transition-transform duration-500">
+
+            <!-- Center: Monogram -->
+            <div class="nav-logo">
+                <a href="index.html">
+                    <img src="https://i0.wp.com/willvernon.online/wp-content/uploads/2026/04/monogram-white-trans-1.png?fit=1080%2C1080&ssl=1" alt="WV Monogram">
                 </a>
             </div>
-            <div class="hidden md:flex space-x-6 text-lg text-gray-500 justify-end items-center">
-                <a href="https://instagram.com/willvernon.av" target="_blank" class="hover:text-accent-red transition-colors"><i class="ph ph-instagram-logo"></i></a>
-                <a href="https://www.linkedin.com/in/william-vernon-a37aa42b8" target="_blank" class="hover:text-accent-red transition-colors"><i class="ph ph-linkedin-logo"></i></a>
-                <a href="mailto:wvernoncsi@gmail.com" class="hover:text-accent-red transition-colors"><i class="ph ph-envelope"></i></a>
+
+            <!-- Right: Social Links (Mobile & Desktop) -->
+            <div class="social-links">
+                <a href="https://instagram.com/willvernon.av" target="_blank" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+                <a href="https://www.linkedin.com/in/william-vernon-a37aa42b8" target="_blank" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
+                <a href="mailto:wvernoncsi@gmail.com" aria-label="Email"><i class="ph ph-envelope"></i></a>
             </div>
-            <button class="md:hidden text-2xl text-gray-400 hover:text-white col-start-3 flex justify-end" id="mobile-menu-btn" aria-label="Toggle Menu"><i class="ph ph-list"></i></button>
+            
         </div>
         
-        <div id="mobile-menu" class="fixed inset-0 bg-base-950 bg-opacity-95 z-40 hidden flex-col justify-center items-center space-y-8 text-2xl font-mono">
-            <button id="close-menu-btn" class="absolute top-6 right-6 text-3xl text-gray-400 hover:text-accent-red" aria-label="Close Menu"><i class="ph ph-x"></i></button>
-            <a href="index.html" class="mobile-link hover:text-accent-red transition-colors">Home</a>
-            <a href="work.html" class="mobile-link hover:text-accent-red transition-colors">Work</a>
-            <a href="music.html" class="mobile-link hover:text-accent-red transition-colors">Music</a>
-            <a href="about.html" class="mobile-link hover:text-accent-red transition-colors">About</a>
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="mobile-menu">
+            <button id="close-menu-btn" class="close-menu-btn" aria-label="Close Menu"> 
+                 <i class="ph ph-x"></i>
+            </button>
+            <a href="index.html" class="mobile-link">Home</a>
+            <a href="work.html" class="mobile-link active">Work</a>
+            <a href="music.html" class="mobile-link">Music</a>
+            <a href="about.html" class="mobile-link">About</a>
         </div>
     </nav>
 
     <!-- Page Header -->
-    <header class="pt-40 pb-8 px-6 md:px-12 xl:px-24">
-        <div class="max-w-[1600px] mx-auto w-full">
-            <p class="font-mono text-accent-red text-sm tracking-widest uppercase mb-4">// ARCHIVE_01</p>
-            <h1 class="text-5xl md:text-7xl font-bold tracking-tighter text-white uppercase">Project Archive</h1>
-            <p class="text-gray-500 font-mono mt-6 max-w-2xl text-sm leading-relaxed">
+    <header class="hero-section layout-padding header-padding" style="min-height: auto; border-bottom: 1px solid var(--bg-700);">
+        <div class="container-wide hero-content">
+            <p class="font-mono text-accent text-sm tracking-widest uppercase">// ARCHIVE_01</p>
+            <h1 class="text-7xl font-bold tracking-tighter uppercase leading-none mt-2 mb-4">Project Archive</h1>
+            <p class="text-gray-400 font-mono mt-6 max-w-2xl text-sm leading-relaxed">
                 A comprehensive collection of finished case studies spanning 3D environment design, real-time audio-reactive systems, generative AI pipelines, and adaptive typographic campaigns.
             </p>
         </div>
     </header>
 
     <!-- Filtering System -->
-    <section class="px-6 md:px-12 xl:px-24 pb-8 pt-4 sticky top-[88px] z-40 bg-base-950/90 backdrop-blur-md border-b border-base-800">
-        <div class="max-w-[1600px] mx-auto w-full">
-            <div class="flex items-center gap-4">
-                <span class="font-mono text-xs text-gray-600 uppercase tracking-widest">Filter by:</span>
-                <div id="filter-container" class="flex flex-wrap gap-2 font-mono text-xs text-gray-400 uppercase">
+    <section class="filter-bar layout-padding">
+        <div class="container-wide">
+            <div class="filter-inner">
+                <span class="filter-label">Filter by:</span>
+                <div id="filter-container" class="filter-tags">
                     <!-- Filters will be injected here via JS -->
                 </div>
-                <button id="clear-filters" class="hidden font-mono text-xs text-accent-red hover:text-white transition-colors uppercase tracking-widest ml-auto">[ Clear Filters ]</button>
+                <button id="clear-filters" class="clear-filters-btn">[ Clear Filters ]</button>
             </div>
         </div>
     </section>
 
-    <main class="px-6 md:px-12 xl:px-24 pb-32">
-        <div class="max-w-[1600px] mx-auto w-full space-y-24 pt-12" id="projects-wrapper">
+    <!-- Main Section -->
+    <main class="layout-padding" style="padding-top: 4rem; padding-bottom: 8rem;">
+        <div class="container-wide" style="display: flex; flex-direction: column; gap: 6rem;" id="projects-wrapper">
 
             <!-- 01. Amplified Spaces -->
-            <div class="project-container border-b border-base-800 pb-20" data-tags="TouchDesigner,Blender">
-                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
-                    <div class="space-y-4">
-                        <p class="font-mono text-accent-red text-lg uppercase tracking-widest">01 /</p>
-                        <h2 class="text-3xl md:text-5xl font-bold text-white uppercase tracking-tight">Amplified Spaces</h2>
-                        <p class="text-gray-400 text-sm md:text-base max-w-3xl leading-relaxed">
+            <div class="project-container" data-tags="TouchDesigner,Blender">
+                <div class="project-header-row">
+                    <div class="project-header-info">
+                        <p class="project-number">01 /</p>
+                        <h2 class="project-title">Amplified Spaces</h2>
+                        <p class="project-desc-short">
                             An exploration of the transition from auditory experience to immersive visual environments. Built bespoke, real-time node systems to translate tracks into simulated architectural installations.
                         </p>
-                        <div class="flex flex-wrap gap-2 font-mono text-xs text-gray-500 pt-2">
-                            <span class="border border-base-800 bg-base-900 px-3 py-1 rounded-full">TouchDesigner</span>
-                            <span class="border border-base-800 bg-base-900 px-3 py-1 rounded-full">Blender</span>
+                        <div class="project-header-tags">
+                            <span>TouchDesigner</span>
+                            <span>Blender</span>
                         </div>
                     </div>
-                    <label class="custom-toggle-btn group">
+                    <label class="custom-toggle-btn">
                         <input type="checkbox" class="css-toggle-checkbox">
-                        <span class="toggle-label-text group-hover:text-accent-red"></span>
-                        <svg class="toggle-arrow-svg group-hover:text-accent-red" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <span class="toggle-label-text"></span>
+                        <svg class="toggle-arrow-svg" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </label>
                 </div>
                 
                 <div class="project-inner-wrapper">
                     <!-- Splash / Outcome -->
-                    <div class="project-splash-wrapper relative w-full aspect-video md:aspect-[21/9] bg-base-900 border border-base-800 rounded-lg overflow-hidden">
-                        <video src="https://willvernon.online/wp-content/uploads/2026/04/Amplified-Spaces-Trailer.mp4" autoplay muted loop playsinline class="splash-video w-full h-full object-cover"></video>
-                        <div class="absolute bottom-4 left-4 font-mono text-xs bg-black/60 px-3 py-1 text-white/70 tracking-widest uppercase">Final Outcome</div>
+                    <div class="project-splash-wrapper">
+                        <video src="https://willvernon.online/wp-content/uploads/2026/04/Amplified-Spaces-Trailer.mp4" autoplay muted loop playsinline class="splash-video"></video>
+                        <div class="project-splash-label">Final Outcome</div>
                     </div>
 
                     <!-- Expanded Content (Process) -->
                     <div class="project-expanded-wrapper toggle-content">
-                        <div class="mt-16 space-y-12">
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-base-900 p-8 md:p-12 border border-base-800 rounded-lg">
-                                <div class="space-y-6">
+                        <div class="process-grid-row">
+                            <div class="process-card">
+                                <div class="process-card-content">
                                     <h4 class="process-title">01. Real-time Node Systems</h4>
-                                    <p class="text-gray-400 text-sm leading-relaxed">
+                                    <p class="process-desc">
                                         Bridging the gap between sound and spatial volume, this project manipulates environmental parameters in real-time. Audio frequencies dictate geometry formation and scaling within TouchDesigner.
                                     </p>
                                 </div>
-                                <div class="aspect-video bg-base-950 border border-base-800 rounded-lg flex items-center justify-center overflow-hidden">
-                                    <span class="font-mono text-xs text-gray-700 uppercase">Amplified_Spaces_Process_1</span>
+                                <div class="process-card-media">
+                                    <span>Amplified_Spaces_Process_1</span>
                                 </div>
                             </div>
                             
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-base-900 p-8 md:p-12 border border-base-800 rounded-lg">
-                                <div class="space-y-6 order-2 lg:order-1">
+                            <div class="process-card">
+                                <div class="process-card-content order-2 order-lg-1">
                                     <h4 class="process-title">02. 3D Contextualisation</h4>
-                                    <p class="text-gray-400 text-sm leading-relaxed">
+                                    <p class="process-desc">
                                         The dynamic geometry data is fed directly into a 3D gallery context. The final outcome functions as a digital installation—a space where Tom Vernon's auditory textures hold physical, architectural weight.
                                     </p>
                                 </div>
-                                <div class="aspect-video bg-base-950 border border-base-800 rounded-lg flex items-center justify-center overflow-hidden order-1 lg:order-2">
-                                    <span class="font-mono text-xs text-gray-700 uppercase">Amplified_Spaces_Process_2</span>
+                                <div class="process-card-media order-1 order-lg-2">
+                                    <span>Amplified_Spaces_Process_2</span>
                                 </div>
                             </div>
                         </div>
@@ -235,68 +151,68 @@
             </div>
 
             <!-- 02. Handheld Stories -->
-            <div class="project-container border-b border-base-800 pb-20" data-tags="UI/UX,Motion Design,Typography">
-                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
-                    <div class="space-y-4">
-                        <p class="font-mono text-accent-red text-lg uppercase tracking-widest">02 /</p>
-                        <h2 class="text-3xl md:text-5xl font-bold text-white uppercase tracking-tight">Handheld Stories</h2>
-                        <p class="text-gray-400 text-sm md:text-base max-w-3xl leading-relaxed">
+            <div class="project-container" data-tags="UI/UX,Motion Design,Typography">
+                <div class="project-header-row">
+                    <div class="project-header-info">
+                        <p class="project-number">02 /</p>
+                        <h2 class="project-title">Handheld Stories</h2>
+                        <p class="project-desc-short">
                             A reimagined interactive digital exhibition for the British Museum's Netsuke collection, transforming traditional static displays into a dynamic, 3D storytelling journey.
                         </p>
-                        <div class="flex flex-wrap gap-2 font-mono text-xs text-gray-500 pt-2">
-                            <span class="border border-base-800 bg-base-900 px-3 py-1 rounded-full">UI/UX</span>
-                            <span class="border border-base-800 bg-base-900 px-3 py-1 rounded-full">Motion Design</span>
-                            <span class="border border-base-800 bg-base-900 px-3 py-1 rounded-full">Typography</span>
+                        <div class="project-header-tags">
+                            <span>UI/UX</span>
+                            <span>Motion Design</span>
+                            <span>Typography</span>
                         </div>
                     </div>
-                    <label class="custom-toggle-btn group">
+                    <label class="custom-toggle-btn">
                         <input type="checkbox" class="css-toggle-checkbox">
-                        <span class="toggle-label-text group-hover:text-accent-red"></span>
-                        <svg class="toggle-arrow-svg group-hover:text-accent-red" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <span class="toggle-label-text"></span>
+                        <svg class="toggle-arrow-svg" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </label>
                 </div>
                 
                 <div class="project-inner-wrapper">
-                    <div class="project-splash-wrapper relative w-full aspect-video md:aspect-[21/9] bg-base-900 border border-base-800 rounded-lg overflow-hidden">
-                        <video src="Vernon_HandheldStories_GDES6004.mp4" autoplay muted loop playsinline class="splash-video w-full h-full object-cover"></video>
-                        <div class="absolute bottom-4 left-4 font-mono text-xs bg-black/60 px-3 py-1 text-white/70 tracking-widest uppercase">Final Outcome</div>
+                    <div class="project-splash-wrapper">
+                        <video src="Vernon_HandheldStories_GDES6004.mp4" autoplay muted loop playsinline class="splash-video"></video>
+                        <div class="project-splash-label">Final Outcome</div>
                     </div>
 
                     <div class="project-expanded-wrapper toggle-content">
-                        <div class="mt-16 space-y-12">
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-base-900 p-8 md:p-12 border border-base-800 rounded-lg">
-                                <div class="space-y-6">
+                        <div class="process-grid-row">
+                            <div class="process-card">
+                                <div class="process-card-content">
                                     <h4 class="process-title">01. Interactive 3D Models</h4>
-                                    <p class="text-gray-400 text-sm leading-relaxed">
+                                    <p class="process-desc">
                                         The concept shifts the museum experience from passive observation to exploratory interaction. I leveraged high-resolution Sketchfab 3D models of the Edo-period Netsuke artifacts to construct the foundation of an immersive web interface prototype.
                                     </p>
                                 </div>
-                                <div class="aspect-video bg-base-950 border border-base-800 rounded-lg flex items-center justify-center overflow-hidden">
-                                     <span class="font-mono text-xs text-gray-700 uppercase">Handheld_Stories_Process_1</span>
+                                <div class="process-card-media">
+                                     <span>Handheld_Stories_Process_1</span>
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-base-900 p-8 md:p-12 border border-base-800 rounded-lg">
-                                <div class="space-y-6 order-2 lg:order-1">
+                            <div class="process-card">
+                                <div class="process-card-content order-2 order-lg-1">
                                     <h4 class="process-title">02. Typographic Hierarchy</h4>
-                                    <p class="text-gray-400 text-sm leading-relaxed">
+                                    <p class="process-desc">
                                         A strict typographic hierarchy was established using 'Noto Sans' and 'Osake'. This was crucial to cleanly separate institutional, educational information from the more expressive, narrative branding of the exhibition.
                                     </p>
                                 </div>
-                                <div class="aspect-video bg-base-950 border border-base-800 rounded-lg flex items-center justify-center overflow-hidden order-1 lg:order-2">
-                                     <span class="font-mono text-xs text-gray-700 uppercase">Handheld_Stories_Process_2</span>
+                                <div class="process-card-media order-1 order-lg-2">
+                                     <span>Handheld_Stories_Process_2</span>
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-base-900 p-8 md:p-12 border border-base-800 rounded-lg">
-                                <div class="space-y-6">
-                                    <h4 class="process-title">03. UI Prototyping & Motion</h4>
-                                    <p class="text-gray-400 text-sm leading-relaxed">
+                            <div class="process-card">
+                                <div class="process-card-content">
+                                    <h4 class="process-title">03. UI Prototyping &amp; Motion</h4>
+                                    <p class="process-desc">
                                         The final demonstration was animated and composited entirely in After Effects. I incorporated carefully rotoscoped interactions and smooth ease-in-out scaling to simulate what a live, responsive 3D web exploration would feel like to the end user.
                                     </p>
                                 </div>
-                                <div class="aspect-video bg-base-950 border border-base-800 rounded-lg flex items-center justify-center overflow-hidden">
-                                     <span class="font-mono text-xs text-gray-700 uppercase">Handheld_Stories_Process_3</span>
+                                <div class="process-card-media">
+                                     <span>Handheld_Stories_Process_3</span>
                                 </div>
                             </div>
                         </div>
@@ -305,74 +221,73 @@
             </div>
 
             <!-- 03. Remnants -->
-            <div class="project-container border-b border-base-800 pb-20" data-tags="Generative AI,Typography,Motion Design">
-                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
-                    <div class="space-y-4">
-                        <p class="font-mono text-accent-red text-lg uppercase tracking-widest">03 /</p>
-                        <h2 class="text-3xl md:text-5xl font-bold text-white uppercase tracking-tight">Remnants</h2>
-                        <p class="text-gray-400 text-sm md:text-base max-w-3xl leading-relaxed">
+            <div class="project-container" data-tags="Generative AI,Typography,Motion Design">
+                <div class="project-header-row">
+                    <div class="project-header-info">
+                        <p class="project-number">03 /</p>
+                        <h2 class="project-title">Remnants</h2>
+                        <p class="project-desc-short">
                             Concepting a lost civilization through invented visual systems. Blending tactile glyph creation with AI-driven architectural generation to form an atmospheric, surreal narrative.
                         </p>
-                        <div class="flex flex-wrap gap-2 font-mono text-xs text-gray-500 pt-2">
-                            <span class="border border-base-800 bg-base-900 px-3 py-1 rounded-full">Generative AI</span>
-                            <span class="border border-base-800 bg-base-900 px-3 py-1 rounded-full">Typography</span>
-                            <span class="border border-base-800 bg-base-900 px-3 py-1 rounded-full">Motion Design</span>
+                        <div class="project-header-tags">
+                            <span>Generative AI</span>
+                            <span>Typography</span>
+                            <span>Motion Design</span>
                         </div>
                     </div>
-                    <label class="custom-toggle-btn group">
+                    <label class="custom-toggle-btn">
                         <input type="checkbox" class="css-toggle-checkbox">
-                        <span class="toggle-label-text group-hover:text-accent-red"></span>
-                        <svg class="toggle-arrow-svg group-hover:text-accent-red" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <span class="toggle-label-text"></span>
+                        <svg class="toggle-arrow-svg" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </label>
                 </div>
                 
                 <div class="project-inner-wrapper">
-                    <div class="project-splash-wrapper relative w-full aspect-video md:aspect-[21/9] bg-base-900 border border-base-800 rounded-lg overflow-hidden">
-                        <span class="font-mono text-xs text-gray-700 uppercase absolute inset-0 flex items-center justify-center">Remnants_Outcome_Splash</span>
-                        <div class="absolute bottom-4 left-4 font-mono text-xs bg-black/60 px-3 py-1 text-white/70 tracking-widest uppercase">Final Outcome</div>
+                    <div class="project-splash-wrapper">
+                        <div class="project-splash-label">Final Outcome</div>
                     </div>
 
                     <div class="project-expanded-wrapper toggle-content">
-                        <div class="mt-16 space-y-12">
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-base-900 p-8 md:p-12 border border-base-800 rounded-lg">
-                                <div class="space-y-6">
-                                    <h4 class="process-title">01. Found Type & Glyph Creation</h4>
-                                    <p class="text-gray-400 text-sm leading-relaxed">
+                        <div class="process-grid-row">
+                            <div class="process-card">
+                                <div class="process-card-content">
+                                    <h4 class="process-title">01. Found Type &amp; Glyph Creation</h4>
+                                    <p class="process-desc">
                                         Initially tasked with inventing a written language, I derived structural lines from physical marks and wear found in the environment. Finding letters within irregular damage was oddly satisfying.
                                     </p>
-                                    <p class="text-gray-400 text-sm leading-relaxed">
+                                    <p class="process-desc">
                                         These markings formed the basis of a unique typographic glyph set, assigning phonetic values to create fictional scripts like "Haa'sk" and "Cra'sk".
                                     </p>
                                 </div>
-                                <div class="aspect-video bg-base-950 border border-base-800 rounded-lg flex items-center justify-center overflow-hidden">
-                                     <span class="font-mono text-xs text-gray-700 uppercase">Remnants_Process_1_Glyphs</span>
+                                <div class="process-card-media">
+                                     <span>Remnants_Process_1_Glyphs</span>
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-base-900 p-8 md:p-12 border border-base-800 rounded-lg">
-                                <div class="space-y-6 order-2 lg:order-1">
+                            <div class="process-card">
+                                <div class="process-card-content order-2 order-lg-1">
                                     <h4 class="process-title">02. ControlNet Architectural Generation</h4>
-                                    <p class="text-gray-400 text-sm leading-relaxed">
+                                    <p class="process-desc">
                                         I utilised ControlNet in Stable Diffusion, using the 2D vector glyphs as hard structural constraints. The AI model interpreted these shapes to generate towering, monolithic stone ruins, effectively translating 2D typography directly into 3D architecture.
                                     </p>
                                 </div>
-                                <div class="aspect-video bg-base-950 border border-base-800 rounded-lg flex items-center justify-center overflow-hidden order-1 lg:order-2">
-                                     <span class="font-mono text-xs text-gray-700 uppercase">Remnants_Process_2_ControlNet</span>
+                                <div class="process-card-media order-1 order-lg-2">
+                                     <span>Remnants_Process_2_ControlNet</span>
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-base-900 p-8 md:p-12 border border-base-800 rounded-lg">
-                                <div class="space-y-6">
-                                    <h4 class="process-title">03. Post-Processing & Audio</h4>
-                                    <p class="text-gray-400 text-sm leading-relaxed">
+                            <div class="process-card">
+                                <div class="process-card-content">
+                                    <h4 class="process-title">03. Post-Processing &amp; Audio</h4>
+                                    <p class="process-desc">
                                         The generated stills were brought into Premiere Pro and After Effects. I slowed the optical flow down to 60% of its original speed to create a brooding, immense atmosphere.
                                     </p>
-                                    <p class="text-gray-400 text-sm leading-relaxed">
+                                    <p class="process-desc">
                                         Finally, the visual pacing was synchronised to an ambient soundscape ('Ambi Drift' by Bliss Signal) to invoke a sense of mystery and a calming presence.
                                     </p>
                                 </div>
-                                <div class="aspect-video bg-base-950 border border-base-800 rounded-lg flex items-center justify-center overflow-hidden">
-                                     <span class="font-mono text-xs text-gray-700 uppercase">Remnants_Process_3_Post</span>
+                                <div class="process-card-media">
+                                     <span>Remnants_Process_3_Post</span>
                                 </div>
                             </div>
                         </div>
@@ -381,61 +296,60 @@
             </div>
 
             <!-- 04. Powersurge -->
-            <div class="project-container border-b border-base-800 pb-20" data-tags="TouchDesigner,Data Visualisation">
-                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
-                    <div class="space-y-4">
-                        <p class="font-mono text-accent-red text-lg uppercase tracking-widest">04 /</p>
-                        <h2 class="text-3xl md:text-5xl font-bold text-white uppercase tracking-tight">Powersurge</h2>
-                        <p class="text-gray-400 text-sm md:text-base max-w-3xl leading-relaxed">
+            <div class="project-container" data-tags="TouchDesigner,Data Visualisation">
+                <div class="project-header-row">
+                    <div class="project-header-info">
+                        <p class="project-number">04 /</p>
+                        <h2 class="project-title">Powersurge</h2>
+                        <p class="project-desc-short">
                             A collaborative visual journey exploring the exponential growth of computing power, translating Moore's Law and historical FLOPS data into a dynamic, data-driven simulation.
                         </p>
-                        <div class="flex flex-wrap gap-2 font-mono text-xs text-gray-500 pt-2">
-                            <span class="border border-base-800 bg-base-900 px-3 py-1 rounded-full">TouchDesigner</span>
-                            <span class="border border-base-800 bg-base-900 px-3 py-1 rounded-full">Data Visualisation</span>
+                        <div class="project-header-tags">
+                            <span>TouchDesigner</span>
+                            <span>Data Visualisation</span>
                         </div>
                     </div>
-                    <label class="custom-toggle-btn group">
+                    <label class="custom-toggle-btn">
                         <input type="checkbox" class="css-toggle-checkbox">
-                        <span class="toggle-label-text group-hover:text-accent-red"></span>
-                        <svg class="toggle-arrow-svg group-hover:text-accent-red" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <span class="toggle-label-text"></span>
+                        <svg class="toggle-arrow-svg" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </label>
                 </div>
                 
                 <div class="project-inner-wrapper">
-                    <div class="project-splash-wrapper relative w-full aspect-video md:aspect-[21/9] bg-base-900 border border-base-800 rounded-lg overflow-hidden">
-                         <span class="font-mono text-xs text-gray-700 uppercase absolute inset-0 flex items-center justify-center">Powersurge_Outcome_Splash</span>
-                         <div class="absolute bottom-4 left-4 font-mono text-xs bg-black/60 px-3 py-1 text-white/70 tracking-widest uppercase">Final Outcome</div>
+                    <div class="project-splash-wrapper">
+                         <div class="project-splash-label">Final Outcome</div>
                     </div>
 
                     <div class="project-expanded-wrapper toggle-content">
-                        <div class="mt-16 space-y-12">
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-base-900 p-8 md:p-12 border border-base-800 rounded-lg">
-                                <div class="space-y-6">
-                                    <h4 class="process-title">01. Sourcing Data & Moore's Law</h4>
-                                    <p class="text-gray-400 text-sm leading-relaxed">
+                        <div class="process-grid-row">
+                            <div class="process-card">
+                                <div class="process-card-content">
+                                    <h4 class="process-title">01. Sourcing Data &amp; Moore's Law</h4>
+                                    <p class="process-desc">
                                         Created in collaboration with Suyash Sunar. We wanted to create a "Data Portrait", observing how technology rapidly advances.
                                     </p>
-                                    <p class="text-gray-400 text-sm leading-relaxed">
+                                    <p class="process-desc">
                                         We sourced datasets from 'Our World in Data' tracking global supercomputer FLOPs over 30 years, reflecting the exponential growth predicted by Moore's Law.
                                     </p>
                                 </div>
-                                <div class="aspect-video bg-base-950 border border-base-800 rounded-lg flex items-center justify-center overflow-hidden">
-                                     <span class="font-mono text-xs text-gray-700 uppercase">Powersurge_Process_1_Data</span>
+                                <div class="process-card-media">
+                                     <span>Powersurge_Process_1_Data</span>
                                 </div>
                             </div>
 
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-base-900 p-8 md:p-12 border border-base-800 rounded-lg">
-                                <div class="space-y-6 order-2 lg:order-1">
+                            <div class="process-card">
+                                <div class="process-card-content order-2 order-lg-1">
                                     <h4 class="process-title">02. Semeer Data Painting</h4>
-                                    <p class="text-gray-400 text-sm leading-relaxed">
+                                    <p class="process-desc">
                                         This exponential curve was directly integrated into a TouchDesigner network. The mathematical data drove the parameters of a spherical remap and particle simulation.
                                     </p>
-                                    <p class="text-gray-400 text-sm leading-relaxed">
+                                    <p class="process-desc">
                                         We later converted the network into an interactive experimental tool, linking parameters to sliders so users could explore the data painting process in real-time.
                                     </p>
                                 </div>
-                                <div class="aspect-video bg-base-950 border border-base-800 rounded-lg flex items-center justify-center overflow-hidden order-1 lg:order-2">
-                                     <span class="font-mono text-xs text-gray-700 uppercase">Powersurge_Process_2_Nodes</span>
+                                <div class="process-card-media order-1 order-lg-2">
+                                     <span>Powersurge_Process_2_Nodes</span>
                                 </div>
                             </div>
                         </div>
@@ -444,55 +358,55 @@
             </div>
 
             <!-- 05. Marimekko Exhibition -->
-            <div class="project-container border-b border-base-800 pb-20" data-tags="Campaign,Branding,Typography">
-                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
-                    <div class="space-y-4">
-                        <p class="font-mono text-accent-red text-lg uppercase tracking-widest">05 /</p>
-                        <h2 class="text-3xl md:text-5xl font-bold text-white uppercase tracking-tight">Marimekko Exhibition</h2>
-                        <p class="text-gray-400 text-sm md:text-base max-w-3xl leading-relaxed">
+            <div class="project-container" data-tags="Campaign,Branding,Typography">
+                <div class="project-header-row">
+                    <div class="project-header-info">
+                        <p class="project-number">05 /</p>
+                        <h2 class="project-title">Marimekko Exhibition</h2>
+                        <p class="project-desc-short">
                             Comprehensive exhibition identity system for a theoretical Marimekko retrospective at the Saatchi Gallery. Translated tactile textile patterns into a cohesive spatial experience.
                         </p>
-                        <div class="flex flex-wrap gap-2 font-mono text-xs text-gray-500 pt-2">
-                            <span class="border border-base-800 bg-base-900 px-3 py-1 rounded-full">Campaign</span>
-                            <span class="border border-base-800 bg-base-900 px-3 py-1 rounded-full">Branding</span>
-                            <span class="border border-base-800 bg-base-900 px-3 py-1 rounded-full">Typography</span>
+                        <div class="project-header-tags">
+                            <span>Campaign</span>
+                            <span>Branding</span>
+                            <span>Typography</span>
                         </div>
                     </div>
-                    <label class="custom-toggle-btn group">
+                    <label class="custom-toggle-btn">
                         <input type="checkbox" class="css-toggle-checkbox">
-                        <span class="toggle-label-text group-hover:text-accent-red"></span>
-                        <svg class="toggle-arrow-svg group-hover:text-accent-red" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <span class="toggle-label-text"></span>
+                        <svg class="toggle-arrow-svg" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </label>
                 </div>
                 
                 <div class="project-inner-wrapper">
-                    <div class="project-splash-wrapper relative w-full aspect-video md:aspect-[21/9] bg-base-900 border border-base-800 rounded-lg overflow-hidden">
-                        <video src="https://willvernon.online/wp-content/uploads/2026/05/Vernon_GDES50014_animation.mp4" autoplay muted loop playsinline class="splash-video w-full h-full object-cover"></video>
-                        <div class="absolute bottom-4 left-4 font-mono text-xs bg-black/60 px-3 py-1 text-white/70 tracking-widest uppercase">Final Outcome</div>
+                    <div class="project-splash-wrapper">
+                        <video src="https://willvernon.online/wp-content/uploads/2026/05/Vernon_GDES50014_animation.mp4" autoplay muted loop playsinline class="splash-video"></video>
+                        <div class="project-splash-label">Final Outcome</div>
                     </div>
 
                     <div class="project-expanded-wrapper toggle-content">
-                        <div class="mt-16 space-y-12">
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-base-900 p-8 md:p-12 border border-base-800 rounded-lg">
-                                <div class="space-y-6">
+                        <div class="process-grid-row">
+                            <div class="process-card">
+                                <div class="process-card-content">
                                     <h4 class="process-title">01. Spatial Translation</h4>
-                                    <p class="text-gray-400 text-sm leading-relaxed">
+                                    <p class="process-desc">
                                         A holistic approach to spatial design, wayfinding, and institutional branding. The project required translating Marimekko's notoriously bold and colourful 2D prints into 3D environments without causing visual fatigue.
                                     </p>
                                 </div>
-                                <div class="aspect-video bg-base-950 border border-base-800 rounded-lg flex items-center justify-center overflow-hidden">
-                                     <span class="font-mono text-xs text-gray-700 uppercase">Marimekko_Process_1</span>
+                                <div class="process-card-media">
+                                     <span>Marimekko_Process_1</span>
                                 </div>
                             </div>
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-base-900 p-8 md:p-12 border border-base-800 rounded-lg">
-                                <div class="space-y-6 order-2 lg:order-1">
+                            <div class="process-card">
+                                <div class="process-card-content order-2 order-lg-1">
                                     <h4 class="process-title">02. Navigation Systems</h4>
-                                    <p class="text-gray-400 text-sm leading-relaxed">
+                                    <p class="process-desc">
                                         Responsive typography and rigorous colour-coded navigation systems were deployed to ensure clarity and accessibility, guiding visitors through the sprawling narrative of the textile house.
                                     </p>
                                 </div>
-                                <div class="aspect-video bg-base-950 border border-base-800 rounded-lg flex items-center justify-center overflow-hidden order-1 lg:order-2">
-                                     <span class="font-mono text-xs text-gray-700 uppercase">Marimekko_Process_2</span>
+                                <div class="process-card-media order-1 order-lg-2">
+                                     <span>Marimekko_Process_2</span>
                                 </div>
                             </div>
                         </div>
@@ -501,54 +415,54 @@
             </div>
 
             <!-- 06. Smuggler's Outpost -->
-            <div class="project-container border-b border-base-800 pb-20" data-tags="Generative AI,Blender">
-                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
-                    <div class="space-y-4">
-                        <p class="font-mono text-accent-red text-lg uppercase tracking-widest">06 /</p>
-                        <h2 class="text-3xl md:text-5xl font-bold text-white uppercase tracking-tight">Smuggler's Outpost</h2>
-                        <p class="text-gray-400 text-sm md:text-base max-w-3xl leading-relaxed">
+            <div class="project-container" data-tags="Generative AI,Blender">
+                <div class="project-header-row">
+                    <div class="project-header-info">
+                        <p class="project-number">06 /</p>
+                        <h2 class="project-title">Smuggler's Outpost</h2>
+                        <p class="project-desc-short">
                             Set in a Dune-inspired universe, this project explores AI as an ideation partner in environment design, shifting from algorithmic generation to manual 3D modelling.
                         </p>
-                        <div class="flex flex-wrap gap-2 font-mono text-xs text-gray-500 pt-2">
-                            <span class="border border-base-800 bg-base-900 px-3 py-1 rounded-full">Generative AI</span>
-                            <span class="border border-base-800 bg-base-900 px-3 py-1 rounded-full">Blender</span>
+                        <div class="project-header-tags">
+                            <span>Generative AI</span>
+                            <span>Blender</span>
                         </div>
                     </div>
-                    <label class="custom-toggle-btn group">
+                    <label class="custom-toggle-btn">
                         <input type="checkbox" class="css-toggle-checkbox">
-                        <span class="toggle-label-text group-hover:text-accent-red"></span>
-                        <svg class="toggle-arrow-svg group-hover:text-accent-red" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <span class="toggle-label-text"></span>
+                        <svg class="toggle-arrow-svg" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </label>
                 </div>
                 
                 <div class="project-inner-wrapper">
-                    <div class="project-splash-wrapper relative w-full aspect-video md:aspect-[21/9] bg-base-900 border border-base-800 rounded-lg overflow-hidden">
-                        <img src="https://willvernon.online/wp-content/uploads/2026/04/GIFViewportCompressed.gif" class="splash-video w-full h-full object-cover">
-                        <div class="absolute bottom-4 left-4 font-mono text-xs bg-black/60 px-3 py-1 text-white/70 tracking-widest uppercase">Final Outcome</div>
+                    <div class="project-splash-wrapper">
+                        <img src="https://willvernon.online/wp-content/uploads/2026/04/GIFViewportCompressed.gif" class="splash-video">
+                        <div class="project-splash-label">Final Outcome</div>
                     </div>
 
                     <div class="project-expanded-wrapper toggle-content">
-                        <div class="mt-16 space-y-12">
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-base-900 p-8 md:p-12 border border-base-800 rounded-lg">
-                                <div class="space-y-6">
+                        <div class="process-grid-row">
+                            <div class="process-card">
+                                <div class="process-card-content">
                                     <h4 class="process-title">01. AI Ideation</h4>
-                                    <p class="text-gray-400 text-sm leading-relaxed">
+                                    <p class="process-desc">
                                         Exploring the synergy between human curation and machine generation. I utilised SDXL to rapidly test and iterate a desert hideout concept, adjusting prompts to refine the lighting and scale.
                                     </p>
                                 </div>
-                                <div class="aspect-video bg-base-950 border border-base-800 rounded-lg flex items-center justify-center overflow-hidden">
-                                     <span class="font-mono text-xs text-gray-700 uppercase">Smugglers_Process_1</span>
+                                <div class="process-card-media">
+                                     <span>Smugglers_Process_1</span>
                                 </div>
                             </div>
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-base-900 p-8 md:p-12 border border-base-800 rounded-lg">
-                                <div class="space-y-6 order-2 lg:order-1">
+                            <div class="process-card">
+                                <div class="process-card-content order-2 order-lg-1">
                                     <h4 class="process-title">02. 3D Realisation</h4>
-                                    <p class="text-gray-400 text-sm leading-relaxed">
+                                    <p class="process-desc">
                                         The most successful generation was used as a strict foundation piece. I then moved into Blender to manually model, light, and texture the environment, bridging the gap between flat AI ideation and a fully realised 3D block-out.
                                     </p>
                                 </div>
-                                <div class="aspect-video bg-base-950 border border-base-800 rounded-lg flex items-center justify-center overflow-hidden order-1 lg:order-2">
-                                     <span class="font-mono text-xs text-gray-700 uppercase">Smugglers_Process_2</span>
+                                <div class="process-card-media order-1 order-lg-2">
+                                     <span>Smugglers_Process_2</span>
                                 </div>
                             </div>
                         </div>
@@ -557,54 +471,54 @@
             </div>
 
             <!-- 07. The World Plays Here -->
-            <div class="project-container pb-20" data-tags="Campaign,Motion Design">
-                <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
-                    <div class="space-y-4">
-                        <p class="font-mono text-accent-red text-lg uppercase tracking-widest">07 /</p>
-                        <h2 class="text-3xl md:text-5xl font-bold text-white uppercase tracking-tight">The World Plays Here</h2>
-                        <p class="text-gray-400 text-sm md:text-base max-w-3xl leading-relaxed">
+            <div class="project-container" data-tags="Campaign,Motion Design">
+                <div class="project-header-row">
+                    <div class="project-header-info">
+                        <p class="project-number">07 /</p>
+                        <h2 class="project-title">The World Plays Here</h2>
+                        <p class="project-desc-short">
                             A copy-led campaign for Xbox celebrating the borderless nature of modern gaming. Shifts focus onto the human experience with an inclusive aesthetic and 3D motion design.
                         </p>
-                        <div class="flex flex-wrap gap-2 font-mono text-xs text-gray-500 pt-2">
-                            <span class="border border-base-800 bg-base-900 px-3 py-1 rounded-full">Campaign</span>
-                            <span class="border border-base-800 bg-base-900 px-3 py-1 rounded-full">Motion Design</span>
+                        <div class="project-header-tags">
+                            <span>Campaign</span>
+                            <span>Motion Design</span>
                         </div>
                     </div>
-                    <label class="custom-toggle-btn group">
+                    <label class="custom-toggle-btn">
                         <input type="checkbox" class="css-toggle-checkbox">
-                        <span class="toggle-label-text group-hover:text-accent-red"></span>
-                        <svg class="toggle-arrow-svg group-hover:text-accent-red" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <span class="toggle-label-text"></span>
+                        <svg class="toggle-arrow-svg" viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </label>
                 </div>
                 
                 <div class="project-inner-wrapper">
-                    <div class="project-splash-wrapper relative w-full aspect-video md:aspect-[21/9] bg-base-900 border border-base-800 rounded-lg overflow-hidden">
-                        <img src="https://willvernon.online/wp-content/uploads/2026/04/LogoAnimGif.gif" class="splash-video w-full h-full object-cover">
-                        <div class="absolute bottom-4 left-4 font-mono text-xs bg-black/60 px-3 py-1 text-white/70 tracking-widest uppercase">Final Outcome</div>
+                    <div class="project-splash-wrapper">
+                        <img src="https://willvernon.online/wp-content/uploads/2026/04/LogoAnimGif.gif" class="splash-video">
+                        <div class="project-splash-label">Final Outcome</div>
                     </div>
 
                     <div class="project-expanded-wrapper toggle-content">
-                        <div class="mt-16 space-y-12">
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-base-900 p-8 md:p-12 border border-base-800 rounded-lg">
-                                <div class="space-y-6">
+                        <div class="process-grid-row">
+                            <div class="process-card">
+                                <div class="process-card-content">
                                     <h4 class="process-title">01. Global Storytelling</h4>
-                                    <p class="text-gray-400 text-sm leading-relaxed">
+                                    <p class="process-desc">
                                         Designing for a massive global community required an adaptable, culturally agnostic visual approach. The campaign relies heavily on powerful, copy-led storytelling designed to unite players.
                                     </p>
                                 </div>
-                                <div class="aspect-video bg-base-950 border border-base-800 rounded-lg flex items-center justify-center overflow-hidden">
-                                     <span class="font-mono text-xs text-gray-700 uppercase">World_Plays_Process_1</span>
+                                <div class="process-card-media">
+                                     <span>World_Plays_Process_1</span>
                                 </div>
                             </div>
-                            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-base-900 p-8 md:p-12 border border-base-800 rounded-lg">
-                                <div class="space-y-6 order-2 lg:order-1">
+                            <div class="process-card">
+                                <div class="process-card-content order-2 order-lg-1">
                                     <h4 class="process-title">02. Kinetic Typography</h4>
-                                    <p class="text-gray-400 text-sm leading-relaxed">
+                                    <p class="process-desc">
                                         Kinetic typographic systems were paired with bold 3D motion design developed in Cinema 4D and Blender, ensuring the campaign retained energy and momentum.
                                     </p>
                                 </div>
-                                <div class="aspect-video bg-base-950 border border-base-800 rounded-lg flex items-center justify-center overflow-hidden order-1 lg:order-2">
-                                     <span class="font-mono text-xs text-gray-700 uppercase">World_Plays_Process_2</span>
+                                <div class="process-card-media order-1 order-lg-2">
+                                     <span>World_Plays_Process_2</span>
                                 </div>
                             </div>
                         </div>
@@ -616,18 +530,22 @@
     </main>
 
     <script>
-        // Mobile Menu Logic
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Mobile Menu Toggle
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const closeMenuBtn = document.getElementById('close-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const mobileLinks = document.querySelectorAll('.mobile-link');
 
         function toggleMenu() {
-            mobileMenu.classList.toggle('hidden');
-            mobileMenu.classList.toggle('flex');
+            mobileMenu.classList.toggle('active');
             document.body.classList.toggle('overflow-hidden');
         }
-
         mobileMenuBtn.addEventListener('click', toggleMenu);
         closeMenuBtn.addEventListener('click', toggleMenu);
         mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
@@ -652,7 +570,7 @@
             const createFilterBtn = (text) => {
                 const btn = document.createElement('button');
                 btn.textContent = text;
-                btn.className = `filter-btn px-4 py-1.5 rounded-full transition-colors font-bold`;
+                btn.className = `filter-btn`;
                 return btn;
             };
 
@@ -668,11 +586,7 @@
                 let anyActive = activeFilters.size > 0;
                 
                 // Show/hide clear button
-                if(anyActive) {
-                    clearFiltersBtn.classList.remove('hidden');
-                } else {
-                    clearFiltersBtn.classList.add('hidden');
-                }
+                clearFiltersBtn.classList.toggle('active', anyActive);
 
                 // Identify which projects match ALL active filters
                 const visibleProjects = new Set();

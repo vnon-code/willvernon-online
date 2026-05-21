@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,157 +10,105 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Space Grotesk', 'sans-serif'],
-                        mono: ['Space Mono', 'monospace'],
-                    },
-                    colors: {
-                        base: {
-                            950: '#020000', 
-                            900: '#050000',
-                            800: '#0a0a0a', 
-                            700: '#141414',
-                        },
-                        accent: {
-                            red: '#D91C1C',
-                            darkred: '#5a0000',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <style>
-        body { background-color: #020000; color: #d1d1d1; overflow: hidden; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #020000; }
-        ::-webkit-scrollbar-thumb { background: #141414; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #D91C1C; }
-
-        @media (min-width: 768px) {
-            .work-panel { transition: flex 0.8s cubic-bezier(0.25, 1, 0.5, 1), filter 0.8s ease; }
-            .work-panel:hover { flex: 1.5; }
-        }
-
-        h3 { font-weight: 800; text-transform: uppercase; }
-
-        .panel-video {
-            object-fit: cover !important;
-            width: 100% !important;
-            height: 100% !important;
-            filter: grayscale(100%);
-            transition: filter 0.6s ease-in-out, transform 0.8s ease;
-        }
-        .work-panel:hover .panel-video { filter: grayscale(0%); transform: scale(1.03); }
-
-        .panel-title { transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), color 0.3s ease; }
-        .work-panel:hover .panel-title {
-            color: #ffffff;
-            transform: scale(1.05);
-            text-shadow: 2px 0 #D91C1C, -2px 0 #5a0000;
-        }
-    </style>
+    
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="style.css">
 </head>
-<body class="font-sans antialiased selection:bg-accent-red selection:text-white h-screen flex flex-col">
+<body class="font-sans overflow-hidden">
 
     <!-- Navigation -->
-    <nav class="fixed w-full z-50 bg-base-950/80 backdrop-blur-md border-b border-white/5 px-6 md:px-12 xl:px-24" id="navbar">
-        <div class="max-w-[1600px] mx-auto w-full py-6 grid grid-cols-3 items-center">
+    <nav class="navbar layout-padding" id="navbar">
+        <div class="container-wide navbar-inner">
             
             <!-- Left: Burger Menu (Mobile) / Navigation Links (Desktop) -->
-            <div class="flex items-center justify-start">
-                <div class="hidden md:flex space-x-8 text-sm font-mono text-gray-500">
-                    <a href="index.html" class="hover:text-accent-red transition-colors">[ HOME ]</a>
-                    <a href="work.html" class="text-accent-red transition-colors">[ WORK ]</a>
-                    <a href="music.html" class="hover:text-accent-red transition-colors">[ MUSIC ]</a>
-                    <a href="about.html" class="hover:text-accent-red transition-colors">[ ABOUT ]</a>
+            <div class="nav-links-left">
+                <div class="nav-links">
+                    <a href="index.html">[ HOME ]</a>
+                    <a href="work.html" class="active">[ WORK ]</a>
+                    <a href="music.html">[ MUSIC ]</a>
+                    <a href="about.html">[ ABOUT ]</a>
                 </div>
-                <button class="md:hidden text-2xl text-gray-400 hover:text-white flex items-center" id="mobile-menu-btn" aria-label="Toggle Menu">
+                <button class="menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu">
                     <i class="ph ph-list"></i>
                 </button>
             </div>
 
             <!-- Center: Monogram -->
-            <div class="flex justify-center">
-                <a href="index.html" class="flex items-center">
-                    <img src="https://i0.wp.com/willvernon.online/wp-content/uploads/2026/04/monogram-white-trans-1.png?fit=1080%2C1080&ssl=1" alt="WV Monogram" class="h-10 w-10 object-contain hover:rotate-90 transition-transform duration-500">
+            <div class="nav-logo">
+                <a href="index.html">
+                    <img src="https://i0.wp.com/willvernon.online/wp-content/uploads/2026/04/monogram-white-trans-1.png?fit=1080%2C1080&ssl=1" alt="WV Monogram">
                 </a>
             </div>
 
-            <!-- Right: Social Links + Email (Mobile & Desktop) -->
-            <div class="flex space-x-4 md:space-x-6 text-lg text-gray-500 justify-end items-center">
-                <a href="https://instagram.com/willvernon.av" target="_blank" class="hover:text-accent-red transition-colors" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
-                <a href="https://www.linkedin.com/in/william-vernon-a37aa42b8" target="_blank" class="hover:text-accent-red transition-colors" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
-                <a href="mailto:wvernoncsi@gmail.com" class="hover:text-accent-red transition-colors" aria-label="Email"><i class="ph ph-envelope"></i></a>
+            <!-- Right: Social Links (Mobile & Desktop) -->
+            <div class="social-links">
+                <a href="https://instagram.com/willvernon.av" target="_blank" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+                <a href="https://www.linkedin.com/in/william-vernon-a37aa42b8" target="_blank" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
+                <a href="mailto:wvernoncsi@gmail.com" aria-label="Email"><i class="ph ph-envelope"></i></a>
             </div>
             
         </div>
         
         <!-- Mobile Menu Overlay -->
-        <div id="mobile-menu" class="fixed inset-0 bg-base-950 bg-opacity-95 z-40 hidden flex-col justify-center items-center space-y-8 text-2xl font-mono">
-            <button id="close-menu-btn" class="absolute top-6 right-6 text-3xl text-gray-400 hover:text-accent-red" aria-label="Close Menu"> 
+        <div id="mobile-menu" class="mobile-menu">
+            <button id="close-menu-btn" class="close-menu-btn" aria-label="Close Menu"> 
                  <i class="ph ph-x"></i>
             </button>
-            <a href="index.html" class="mobile-link hover:text-accent-red transition-colors">Home</a>
-            <a href="work.html" class="mobile-link hover:text-accent-red transition-colors">Work</a>
-            <a href="music.html" class="mobile-link hover:text-accent-red transition-colors">Music</a>
-            <a href="about.html" class="mobile-link hover:text-accent-red transition-colors">About</a>
+            <a href="index.html" class="mobile-link">Home</a>
+            <a href="work.html" class="mobile-link active">Work</a>
+            <a href="music.html" class="mobile-link">Music</a>
+            <a href="about.html" class="mobile-link">About</a>
         </div>
     </nav>
 
     <!-- Interactive 3-Panel Grid container -->
-    <main class="flex-grow flex flex-col md:flex-row w-full pt-[88px] overflow-hidden bg-base-950">
+    <main class="work-panel-grid" style="margin-top: 88px;">
         
         <!-- Panel 1: Projects -->
-        <a href="projects.html" class="work-panel flex-1 relative overflow-hidden flex flex-col justify-end p-8 md:p-12 group border-b md:border-b-0 md:border-r border-white/5">
-            <div class="absolute inset-0 z-0">
+        <a href="projects.html" class="work-panel">
+            <div class="work-panel-bg">
                 <video src="https://willvernon.online/wp-content/uploads/2026/04/vidsmugglersoutpost-1.mp4" autoplay muted loop playsinline class="panel-video"></video>
-                <div class="absolute inset-0 bg-gradient-to-t from-base-950 via-base-950/40 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-40"></div>
+                <div class="panel-overlay"></div>
             </div>
             
-            <div class="relative z-20 space-y-4">
-                <p class="font-mono text-accent-red text-xs uppercase tracking-widest">// ARCHIVE_01</p>
-                <h3 class="text-4xl md:text-5xl lg:text-6xl text-white tracking-tighter uppercase panel-title">Projects</h3>
-                <p class="text-gray-400 max-w-md text-sm md:text-base leading-relaxed opacity-0 md:opacity-100 max-h-0 md:max-h-24 overflow-hidden transition-all duration-700 group-hover:max-h-24">
+            <div class="panel-content">
+                <p class="font-mono text-accent text-xs uppercase tracking-widest">// ARCHIVE_01</p>
+                <h3 class="text-5xl text-4xl-mobile text-white tracking-tighter uppercase panel-title">Projects</h3>
+                <p class="panel-desc">
                     Case studies highlighting 3D architectural realisation, spatial campaign builds, and vector graphic restorations.
                 </p>
             </div>
         </a>
 
         <!-- Panel 2: AI -->
-        <a href="AI.html" class="work-panel flex-1 relative overflow-hidden flex flex-col justify-end p-8 md:p-12 group border-b md:border-b-0 md:border-r border-white/5">
-            <div class="absolute inset-0 z-0">
+        <a href="AI.html" class="work-panel">
+            <div class="work-panel-bg">
                 <video src="https://willvernon.online/wp-content/uploads/2026/04/monolith-survival-trailer.mp4" autoplay muted loop playsinline class="panel-video"></video>
-                <div class="absolute inset-0 bg-gradient-to-t from-base-950 via-base-950/40 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-40"></div>
+                <div class="panel-overlay"></div>
             </div>
             
-            <div class="relative z-20 space-y-4">
-                <p class="font-mono text-accent-red text-xs uppercase tracking-widest">// PIPELINES_02</p>
-                <h3 class="text-4xl md:text-5xl lg:text-6xl text-white tracking-tighter uppercase panel-title">AI</h3>
-                <p class="text-gray-400 max-w-md text-sm md:text-base leading-relaxed opacity-0 md:opacity-100 max-h-0 md:max-h-24 overflow-hidden transition-all duration-700 group-hover:max-h-24">
+            <div class="panel-content">
+                <p class="font-mono text-accent text-xs uppercase tracking-widest">// PIPELINES_02</p>
+                <h3 class="text-5xl text-4xl-mobile text-white tracking-tighter uppercase panel-title">AI</h3>
+                <p class="panel-desc">
                     Exploration and use cases of commercial and open-source models across all forms of generative AI and LLMs.
                 </p>
             </div>
         </a>
 
         <!-- Panel 3: Experiments -->
-        <a href="experiments.html" class="work-panel flex-1 relative overflow-hidden flex flex-col justify-end p-8 md:p-12 group">
-            <div class="absolute inset-0 z-0">
+        <a href="experiments.html" class="work-panel">
+            <div class="work-panel-bg">
                 <video src="https://willvernon.online/wp-content/uploads/2026/04/other-trailer.mp4" autoplay muted loop playsinline class="panel-video"></video>
-                <div class="absolute inset-0 bg-gradient-to-t from-base-950 via-base-950/40 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-40"></div>
+                <div class="panel-overlay"></div>
             </div>
             
-            <div class="relative z-20 space-y-4">
-                <p class="font-mono text-accent-red text-xs uppercase tracking-widest">// SYNTHETIC_03</p>
-                <h3 class="text-4xl md:text-5xl lg:text-6xl text-white tracking-tighter uppercase panel-title">Experiments</h3>
-                <p class="text-gray-400 max-w-md text-sm md:text-base leading-relaxed opacity-0 md:opacity-100 max-h-0 md:max-h-24 overflow-hidden transition-all duration-700 group-hover:max-h-24">
+            <div class="panel-content">
+                <p class="font-mono text-accent text-xs uppercase tracking-widest">// SYNTHETIC_03</p>
+                <h3 class="text-5xl text-4xl-mobile text-white tracking-tighter uppercase panel-title">Experiments</h3>
+                <p class="panel-desc">
                     Personal projects/ more exploratory work to build understanding that can influence later projects.
                 </p>
             </div>
@@ -168,16 +116,22 @@
     </main>
 
     <script>
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            nav.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        // Mobile Menu Toggle
         const mobileMenuBtn = document.getElementById('mobile-menu-btn');
         const closeMenuBtn = document.getElementById('close-menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         const mobileLinks = document.querySelectorAll('.mobile-link');
 
         function toggleMenu() {
-            mobileMenu.classList.toggle('hidden');
-            mobileMenu.classList.toggle('flex');
+            mobileMenu.classList.toggle('active');
+            document.body.classList.toggle('overflow-hidden');
         }
-
         mobileMenuBtn.addEventListener('click', toggleMenu);
         closeMenuBtn.addEventListener('click', toggleMenu);
         mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
