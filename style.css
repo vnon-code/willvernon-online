@@ -315,10 +315,6 @@ h1, h2, h3, h4, h5, h6 {
   height: 2.5rem;
   width: 2.5rem;
   object-fit: contain;
-  transition: transform 0.5s ease;
-}
-.nav-logo img:hover {
-  transform: rotate(90deg);
 }
 .social-links {
   gap: 1rem;
