@@ -414,6 +414,9 @@
                     <button class="slideover-close-btn" id="slideover-close-btn" aria-label="Close Case Study">
                         <i class="ph ph-arrow-left"></i> [ Back to Archive ]
                     </button>
+                    <button class="modal-close-icon" id="modal-close-icon" aria-label="Close Case Study">
+                        <i class="ph ph-x"></i>
+                    </button>
                     <div class="slideover-header-meta">// PROJECT_${proj.id}</div>
                     <h2 class="slideover-title">${proj.title}</h2>
                     <div class="slideover-tags">
@@ -433,6 +436,7 @@
                 `;
                 
                 document.getElementById('slideover-close-btn').addEventListener('click', closeSlideover);
+                document.getElementById('modal-close-icon').addEventListener('click', closeSlideover);
                 
                 backdrop.classList.add('active');
                 slideover.classList.add('active');

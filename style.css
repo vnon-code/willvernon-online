@@ -1179,36 +1179,51 @@ h1, h2, h3, h4, h5, h6 {
 
 .project-slideover {
   position: fixed;
-  top: 0;
-  right: -100%;
-  width: 100%;
-  height: 100vh;
-  background: rgba(5, 5, 5, 0.96);
-  backdrop-filter: blur(20px);
-  border-left: 1px solid var(--bg-700);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.95);
+  width: 95vw;
+  height: 90vh;
+  max-height: 90vh;
+  background: rgba(5, 5, 5, 0.97);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--bg-700);
+  border-radius: 16px;
   z-index: 10000;
   overflow-y: auto;
-  transition: right 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   box-sizing: border-box;
-  padding: 2rem 1.5rem;
+  padding: 2.5rem 1.5rem 2rem 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, visibility 0s linear 0.4s;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95), 0 0 50px rgba(217, 28, 28, 0.05);
 }
 
 @media (min-width: 768px) {
   .project-slideover {
-    width: 600px;
-    padding: 3rem 2.5rem;
+    width: 90vw;
+    height: 85vh;
+    max-height: 800px;
+    padding: 3.5rem 3rem;
   }
 }
 
 @media (min-width: 1200px) {
   .project-slideover {
-    width: 800px;
-    padding: 4rem 3.5rem;
+    width: 85vw;
+    max-width: 1280px; /* Highly immersive, ultra-wide cinematic view */
+    height: 85vh;
+    max-height: 850px;
+    padding: 4.5rem 4.0rem;
   }
 }
 
 .project-slideover.active {
-  right: 0;
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  visibility: visible;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, visibility 0s linear 0s;
 }
 
 .slideover-close-btn {
@@ -1232,6 +1247,33 @@ h1, h2, h3, h4, h5, h6 {
   border-color: var(--accent-red);
   color: var(--text-white);
   box-shadow: 0 0 12px rgba(217, 28, 28, 0.15);
+}
+
+/* Modal Floating Close Icon */
+.modal-close-icon {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: rgba(5, 5, 5, 0.5);
+  border: 1px solid var(--bg-700);
+  color: var(--text-muted);
+  font-size: 1.25rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.modal-close-icon:hover {
+  border-color: var(--accent-red);
+  color: var(--text-white);
+  box-shadow: 0 0 12px rgba(217, 28, 28, 0.2);
+  transform: scale(1.05);
 }
 
 .slideover-header-meta {
