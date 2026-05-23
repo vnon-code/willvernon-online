@@ -325,7 +325,7 @@ h1, h2, h3, h4, h5, h6 {
 .social-links {
   gap: 1rem;
   font-size: 1.25rem; /* Larger, clearer icons */
-  color: var(--text-gray-500); /* Slightly brighter gray for better visibility */
+  color: #ffffff; /* High contrast white for perfect visibility */
   justify-content: flex-end;
 }
 @media (min-width: 768px) {
