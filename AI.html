@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Experiments & Research | William Vernon</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="style.css?v=10">
+</head>
+<body class="font-sans bg-black text-white">
+
+    <!-- Navigation -->
+    <nav class="navbar layout-padding" id="navbar">
+        <div class="container-wide navbar-inner">
+            
+            <!-- Left: Burger Menu (Mobile) / Navigation Links (Desktop) -->
+            <div class="nav-links-left">
+                <div class="nav-links">
+                    <a href="index.html">[ HOME ]</a>
+                    <a href="work.html" class="active">[ WORK ]</a>
+                    <a href="music.html">[ MUSIC ]</a>
+                    <a href="about.html">[ ABOUT ]</a>
+                </div>
+                <button class="menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu">
+                    <i class="ph ph-list"></i>
+                </button>
+            </div>
+
+            <!-- Center: WV Monogram -->
+            <div class="nav-logo">
+                <a href="index.html">
+                    <img src="img/monogram-white-trans.png" alt="WV Monogram">
+                </a>
+            </div>
+
+            <!-- Right: Social Links -->
+            <div class="social-links">
+                <a href="https://instagram.com/willvernon.av" target="_blank" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+                <a href="https://www.linkedin.com/in/william-vernon-a37aa42b8" target="_blank" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
+                <a href="mailto:wvernoncsi@gmail.com" aria-label="Email"><i class="ph ph-envelope"></i></a>
+            </div>
+            
+        </div>
+        
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="mobile-menu">
+            <button id="close-menu-btn" class="close-menu-btn" aria-label="Close Menu"> 
+                 <i class="ph ph-x"></i>
+            </button>
+            <a href="index.html" class="mobile-link">Home</a>
+            <a href="work.html" class="mobile-link active">Work</a>
+            <a href="music.html" class="mobile-link">Music</a>
+            <a href="about.html" class="mobile-link">About</a>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="container-wide" style="margin-top: 140px; padding-bottom: 8rem;">
+        
+        <!-- AI Header Block -->
+        <section class="ai-header">
+            <p class="font-mono text-accent text-xs uppercase tracking-widest">// COGNITIVE_IDEATION_02</p>
+            <h1 class="text-6xl text-5xl-mobile font-bold tracking-tighter uppercase mt-2" style="color: #c084fc; text-shadow: 0 0 30px rgba(192, 132, 252, 0.1);">
+                AI Experiments & Research
+            </h1>
+            <p class="text-gray-500 max-w-3xl mt-4 leading-relaxed text-lg">
+                Generative AI is not a replacement for the human eye, but an algorithmic co-creator. This space houses rapid ideation loops, custom diffusion weights, and node-based models designed to accelerate spatial context and capture complex visual syntax.
+            </p>
+        </section>
+
+        <!-- Track A: Cinematic Visual Synthetics Grid -->
+        <section class="mb-12">
+            <h2 class="comfy-section-title font-mono text-sm tracking-widest">// FEATURED_VISUAL_SYNTHETICS</h2>
+            <div class="ai-grid">
+                
+                <!-- Project 1: Dredge -->
+                <div class="ai-card" onclick="openDrawer('dredge')">
+                    <div class="ai-card-media">
+                        <video src="https://assets.willvernon.online/ai/dredge_outcome.mp4" autoplay muted loop playsinline></video>
+                        <div class="ai-card-overlay">
+                            <span class="ai-tag">[ MIDJOURNEY_V6 ]</span>
+                            <span class="ai-tag">[ LORALoop ]</span>
+                        </div>
+                    </div>
+                    <div class="ai-card-content">
+                        <h3 class="ai-card-title">Dredge</h3>
+                        <p class="ai-card-desc">
+                            A high-fidelity cinematic exploration of oceanic depths, bioluminescent motion, and marine giants. Emphasizes fluid light scatter and underwater lens simulation.
+                        </p>
+                        <div class="ai-card-footer">
+                            <span>Inspect Prompt Architecture</span>
+                            <i class="ph ph-arrow-up-right"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 2: Kura -->
+                <div class="ai-card" onclick="openDrawer('kura')">
+                    <div class="ai-card-media">
+                        <img src="https://assets.willvernon.online/ai/kura_outcome.png" alt="Kura Portrait Study">
+                        <div class="ai-card-overlay">
+                            <span class="ai-tag">[ MJ_PORTRAITURE ]</span>
+                            <span class="ai-tag">[ RAW_STYLE ]</span>
+                        </div>
+                    </div>
+                    <div class="ai-card-content">
+                        <h3 class="ai-card-title">Kura (蔵)</h3>
+                        <p class="ai-card-desc">
+                            Japanese historical portrait study capturing a female samurai. Focuses on detailed armor physics, micro-facial expressions, and high-contrast ambient lighting.
+                        </p>
+                        <div class="ai-card-footer">
+                            <span>Inspect Prompt Architecture</span>
+                            <i class="ph ph-arrow-up-right"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 3: Monolith Survival -->
+                <div class="ai-card" onclick="openDrawer('monolith')">
+                    <div class="ai-card-media">
+                        <video src="https://assets.willvernon.online/ai/monolith_outcome.mp4" autoplay muted loop playsinline></video>
+                        <div class="ai-card-overlay">
+                            <span class="ai-tag">[ GORPCORE_AE ]</span>
+                            <span class="ai-tag">[ MOTION_VECTOR ]</span>
+                        </div>
+                    </div>
+                    <div class="ai-card-content">
+                        <h3 class="ai-card-title">Monolith Survival</h3>
+                        <p class="ai-card-desc">
+                            Outdoor technical gorpcore style campaign simulation. Showcases cinematic drone sweeping mechanics, frame interpolation, and macro-level technical footwear texture.
+                        </p>
+                        <div class="ai-card-footer">
+                            <span>Inspect Prompt Architecture</span>
+                            <i class="ph ph-arrow-up-right"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Track B: Interactive ComfyUI Node Map (Synthetic Corals) -->
+        <section class="comfy-showcase-container">
+            <div class="flex justify-between items-baseline mb-6">
+                <div>
+                    <span class="font-mono text-accent text-xs uppercase tracking-widest">// PIPELINES_03</span>
+                    <h2 class="comfy-section-title mt-2">Pipeline Map: Synthetic Corals</h2>
+                </div>
+            </div>
+            
+            <p class="text-gray-500 max-w-3xl mb-8 leading-relaxed text-sm">
+                This is a visual mapping of the actual 17-node ComfyUI workflow (`hidream_core.json`) used to model generative marine reef structures. Inputs flow dynamically through model sample weight adjustments to yield complex bio-organic outcomes.
+            </p>
+
+            <div class="comfy-workspace">
+                
+                <!-- Node 1: Model & CLIP Loader -->
+                <div class="comfy-node">
+                    <div class="comfy-node-header comfy-header-orange">
+                        <span>UNETLoader</span>
+                        <span class="text-xs">#94</span>
+                    </div>
+                    <div class="comfy-node-body">
+                        <div class="comfy-node-pin-row">
+                            <span>unet_name</span>
+                            <span class="comfy-pin-right"><span class="comfy-dot comfy-dot-model"></span>MODEL</span>
+                        </div>
+                        <div class="comfy-node-value font-mono text-xs">flux1-dev-fp8.safetensors</div>
+                    </div>
+                </div>
+
+                <!-- Node 2: QuadrupleCLIPLoader -->
+                <div class="comfy-node">
+                    <div class="comfy-node-header comfy-header-orange">
+                        <span>QuadrupleCLIPLoader</span>
+                        <span class="text-xs">#82</span>
+                    </div>
+                    <div class="comfy-node-body">
+                        <div class="comfy-node-pin-row">
+                            <span>clip_1 / clip_2 / clip_3 / clip_4</span>
+                            <span class="comfy-pin-right"><span class="comfy-dot comfy-dot-clip"></span>CLIP</span>
+                        </div>
+                        <div class="comfy-node-value font-mono text-xs">sd3_clip_g.safetensors + t5xxl_fp8.safetensors</div>
+                    </div>
+                </div>
+
+                <!-- Node 3: ModelSamplingSD3 -->
+                <div class="comfy-node">
+                    <div class="comfy-node-header comfy-header-purple">
+                        <span>ModelSamplingSD3</span>
+                        <span class="text-xs">#84</span>
+                    </div>
+                    <div class="comfy-node-body">
+                        <div class="comfy-node-pin-row">
+                            <span class="comfy-pin-left"><span class="comfy-dot comfy-dot-model"></span>model</span>
+                            <span class="comfy-pin-right"><span class="comfy-dot comfy-dot-model"></span>MODEL</span>
+                        </div>
+                        <div class="comfy-node-pin-row mt-1">
+                            <span>shift = 1.15</span>
+                            <span>steps = 28</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Node 4: Positive Prompt -->
+                <div class="comfy-node">
+                    <div class="comfy-node-header comfy-header-blue">
+                        <span>Positive Prompt</span>
+                        <span class="text-xs">#91</span>
+                    </div>
+                    <div class="comfy-node-body">
+                        <div class="comfy-node-pin-row">
+                            <span class="comfy-pin-left"><span class="comfy-dot comfy-dot-clip"></span>clip</span>
+                            <span class="comfy-pin-right"><span class="comfy-dot comfy-dot-latent"></span>CONDITIONING</span>
+                        </div>
+                        <div class="comfy-node-value text-xs line-clamp-3 leading-relaxed" style="font-family: var(--font-sans);">
+                            intricate synthetic coral structures, glowing neon cyan and purple veins, hyper-detailed bioluminescent reef, octane render, complex mathematics organic formations, 8k --ar 16:9
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Node 5: EmptyLatent -->
+                <div class="comfy-node">
+                    <div class="comfy-node-header comfy-header-green">
+                        <span>EmptyLatentImage</span>
+                        <span class="text-xs">#86</span>
+                    </div>
+                    <div class="comfy-node-body">
+                        <div class="comfy-node-pin-row">
+                            <span>width: 1024</span>
+                            <span class="comfy-pin-right"><span class="comfy-dot comfy-dot-latent"></span>LATENT</span>
+                        </div>
+                        <div class="comfy-node-pin-row mt-1">
+                            <span>height: 1024</span>
+                            <span>batch: 1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Node 6: KSampler -->
+                <div class="comfy-node">
+                    <div class="comfy-node-header comfy-header-purple">
+                        <span>KSampler (Denoiser)</span>
+                        <span class="text-xs">#93</span>
+                    </div>
+                    <div class="comfy-node-body">
+                        <div class="comfy-node-pin-row">
+                            <span class="comfy-pin-left"><span class="comfy-dot comfy-dot-model"></span>model</span>
+                            <span class="comfy-pin-right"><span class="comfy-dot comfy-dot-latent"></span>LATENT</span>
+                        </div>
+                        <div class="comfy-node-pin-row mt-1">
+                            <span class="comfy-pin-left"><span class="comfy-dot comfy-dot-latent"></span>positive</span>
+                            <span>seed: 5829104820</span>
+                        </div>
+                        <div class="comfy-node-pin-row mt-1">
+                            <span class="comfy-pin-left"><span class="comfy-dot comfy-dot-latent"></span>latent</span>
+                            <span>cfg: 4.5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Node 7: VAELoader & Decode -->
+                <div class="comfy-node">
+                    <div class="comfy-node-header comfy-header-orange">
+                        <span>VAEDecode</span>
+                        <span class="text-xs">#89</span>
+                    </div>
+                    <div class="comfy-node-body">
+                        <div class="comfy-node-pin-row">
+                            <span class="comfy-pin-left"><span class="comfy-dot comfy-dot-latent"></span>samples</span>
+                            <span class="comfy-pin-right"><span class="comfy-dot comfy-dot-image"></span>IMAGE</span>
+                        </div>
+                        <div class="comfy-node-pin-row mt-1">
+                            <span class="comfy-pin-left"><span class="comfy-dot comfy-dot-vae"></span>vae</span>
+                            <span>vae_name: ae.safetensors</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Node 8: Outcome Output -->
+                <div class="comfy-node" style="border-color: #c084fc;">
+                    <div class="comfy-node-header comfy-header-red" style="background-color: #581c87;">
+                        <span>Synthetic Corals</span>
+                        <span class="text-xs">#102</span>
+                    </div>
+                    <div style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: #000;">
+                        <img src="https://assets.willvernon.online/ai/synthetic_corals_outcome.png" alt="Synthetic Corals Visual Output" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- General Experiences & Conceptual Grids -->
+        <section class="ai-general-experience">
+            <h2 class="comfy-section-title font-mono text-sm tracking-widest">// CONCEPTUAL_WORKFLOWS_&_RESEARCH</h2>
+            <div class="ai-general-grid">
+                
+                <!-- General Card 1: Flux.1 Dev & Canny Pipelines -->
+                <div class="ai-general-card">
+                    <h3 class="ai-general-title">Flux.1 Dev Outpainting & Dataset Pipelines</h3>
+                    <p class="ai-general-desc">
+                        Deep workflow testing around Flux.1 Dev models. This includes building custom automated pipelines for LoRA dataset creation—structuring bounding box croppers and prompt tag consolidators (`CharFLUXDatasetCreator`). I have also engineered custom outpainting noise bypass configurations inside ComfyUI to bypass standard canvas frame edge seam bottlenecks.
+                    </p>
+                </div>
+
+                <!-- General Card 2: Custom LoRA Face-detailers -->
+                <div class="ai-general-card">
+                    <h3 class="ai-general-title">Consistent Feature & Character LoRA Training</h3>
+                    <p class="ai-general-desc">
+                        Research into preserving structural features across varying camera vectors. Implemented multi-pass conditioning with face/hand preservation rigs. This pipeline merges FaceDetailer upscalers with low-denoise IP-Adapter configurations, allowing a single trained target subject to be consistently placed in wildly varying architectural backgrounds.
+                    </p>
+                </div>
+
+                <!-- General Card 3: Wan 2.2 Image-To-Video Models -->
+                <div class="ai-general-card">
+                    <h3 class="ai-general-title">Wan 2.2 Next-Gen Diffusion Video Inference</h3>
+                    <p class="ai-general-desc">
+                        Experimental tracking of state-of-the-art open-source text-to-video / image-to-video architectures. Testing localized motion vectors, temporal stability scales, and optical flow weights inside Wan 2.2 workflows, optimizing latency and hardware-bound VRAM configurations.
+                    </p>
+                </div>
+
+                <!-- General Card 4: Generative Ideation Philosophy -->
+                <div class="ai-general-card">
+                    <h3 class="ai-general-title">Creative Stance & Ideation Acceleration</h3>
+                    <p class="ai-general-desc">
+                        We view generative tools not as complete answers, but as a robust creative multiplier. By linking text prompts to physical and spatial variables, we can rapidly construct 3D environments, test architectural colorways, and build context and moods in hours that would otherwise require weeks of asset modeling.
+                    </p>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Slideover Prompt Drawer -->
+    <div class="slideover-backdrop" id="drawer-backdrop" onclick="closeDrawer()"></div>
+    
+    <div class="project-slideover ai-slideover" id="ai-drawer">
+        <!-- Floating Close Icon -->
+        <button class="modal-close-icon" onclick="closeDrawer()" aria-label="Close Drawer">
+            <i class="ph ph-x"></i>
+        </button>
+        
+        <div class="slideover-header-meta font-mono ai-meta-purple" id="drawer-meta">[ TRACK_METADATA ]</div>
+        <h2 class="slideover-title" id="drawer-title">PROJECT_TITLE</h2>
+        
+        <div class="slideover-tags" id="drawer-tags">
+            <!-- Tags injected dynamically -->
+        </div>
+
+        <div class="slideover-outcome-section">
+            <div id="drawer-media-container" style="width: 100%; height: 100%;">
+                <!-- Media injected dynamically -->
+            </div>
+            <span class="slideover-outcome-label">GENERATIVE_SYNTAX_OUTCOME</span>
+        </div>
+
+        <p class="slideover-summary" id="drawer-desc">
+            Technical and narrative summary.
+        </p>
+
+        <div>
+            <h3 class="slideover-process-title font-sans">Prompt & Generation Parameters</h3>
+            
+            <span class="ai-prompt-label">Primary Prompt</span>
+            <div class="ai-prompt-box">
+                <span id="drawer-prompt">Prompt text...</span>
+                <button class="ai-prompt-copy-btn" onclick="copyPrompt()" aria-label="Copy Prompt">
+                    <i class="ph ph-copy" id="copy-icon"></i>
+                </button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 2rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-gray-500);">
+                <div>
+                    <span style="display:block; text-transform:uppercase; color:var(--text-muted); font-size:0.65rem;">Platform / Engine</span>
+                    <strong style="color:var(--text-white);" id="param-engine">Midjourney V6</strong>
+                </div>
+                <div>
+                    <span style="display:block; text-transform:uppercase; color:var(--text-muted); font-size:0.65rem;">Aspect Ratio</span>
+                    <strong style="color:var(--text-white);" id="param-ar">--ar 16:9</strong>
+                </div>
+                <div>
+                    <span style="display:block; text-transform:uppercase; color:var(--text-muted); font-size:0.65rem;">Style Parameter</span>
+                    <strong style="color:var(--text-white);" id="param-style">--style raw</strong>
+                </div>
+                <div>
+                    <span style="display:block; text-transform:uppercase; color:var(--text-muted); font-size:0.65rem;">Upscale Iteration</span>
+                    <strong style="color:var(--text-white);" id="param-upscale">Subtle 2x (Creative)</strong>
+                </div>
+            </div>
+        </div>
+        
+        <div style="margin-top: 4rem; text-align: left;">
+            <button class="slideover-close-btn ai-slideover-close-btn" onclick="closeDrawer()">
+                <i class="ph ph-arrow-left"></i> [ CLOSE_RESEARCH_INDEX ]
+            </button>
+        </div>
+    </div>
+
+    <!-- JS Logic -->
+    <script>
+        // Project Data Model for dynamic drawer injection
+        const AI_DATA = {
+            dredge: {
+                title: "DREDGE",
+                meta: "[ MIDJOURNEY_V6 // FLUID_DYNAMICS ]",
+                tags: ["Midjourney V6", "Oceanic Scale", "Luma Dream Machine", "Light Scatter"],
+                mediaHtml: `<video src="https://assets.willvernon.online/ai/dredge_outcome.mp4" controls autoplay muted loop playsinline style="width:100%; height:100%; object-fit:cover;"></video>`,
+                desc: "A cinematically paced study centered on marine giants, heavy light-refraction, and deep aquatic volumetric light scattering. This experiment focused on creating deep-ocean mood aesthetics using multi-layered prompts that govern light propagation, bubble density, and scale ratios.",
+                prompt: "ultra-realistic cinematic photography of a massive bioluminescent white whale leaping from the abyssal ocean, glowing internal light grid, deep volumetric light rays piercing underwater, heavy particles, slow-motion bubbles, high-detail water textures, octane render, Arri Alexa style --ar 2.35:1 --style raw --v 6.0",
+                engine: "Midjourney V6 + Frame Interpolation",
+                ar: "--ar 2.35:1",
+                style: "--style raw --v 6.0",
+                upscale: "Upscaled Creative 2x"
+            },
+            kura: {
+                title: "Kura (蔵)",
+                meta: "[ MJ_PORTRAITURE // RAW_STYLE ]",
+                tags: ["Midjourney V6", "Historical Study", "Portraiture", "Material Textures"],
+                mediaHtml: `<img src="https://assets.willvernon.online/ai/kura_outcome.png" style="width:100%; height:100%; object-fit:cover;" alt="Kura Samurai Study">`,
+                desc: "An elaborate character and portraiture experiment designed to test armor texture rendering and facial micro-details in historical simulations. The research concentrated on prompt keywords governing steel plates, traditional fabric weaving, and the capture of solemn facial tension under natural overhead lighting.",
+                prompt: "hyper-realistic close-up portrait photograph of a battle-tested female samurai, wearing intricate custom-fitted lacquered steel plates armor with leather woven straps, high-contrast chiaroscuro lighting, natural micro facial skin textures, solemn look, cinematic depth of field, captured on 85mm lens, f/1.8 --ar 16:9 --style raw --stylize 250",
+                engine: "Midjourney V6.0",
+                ar: "--ar 16:9",
+                style: "--style raw --stylize 250",
+                upscale: "Upscaled Subtle 2x"
+            },
+            monolith: {
+                title: "Monolith Survival",
+                meta: "[ GORPCORE_AE // CAM_VECTORS ]",
+                tags: ["Midjourney V6", "Gorpcore Aesthetic", "Luma Dream Machine", "Slow Motion"],
+                mediaHtml: `<video src="https://assets.willvernon.online/ai/monolith_outcome.mp4" controls autoplay muted loop playsinline style="width:100%; height:100%; object-fit:cover;"></video>`,
+                desc: "A stylized technical apparel 'gorpcore' campaign test. By combining structural geometry and commercial apparel grammar, we simulated macro boot stomping and technical nylon folds during heavy movement. Used Luma Dream Machine to interpolate high-motion camera pans around physical monoliths.",
+                prompt: "social_u7329539893_httpss.mj.runS83Gb2M2trU_the_shoe_stomps_the_ground --ar 9:16 --style raw --v 6.0 (High-motion hiking boot technical gorpcore campaign, massive stone monolith background, slow-motion splash, camera orbits technical shoe)",
+                engine: "Midjourney V6 + Luma Dream Machine",
+                ar: "--ar 9:16",
+                style: "--style raw --v 6.0",
+                upscale: "Upscaled Creative 2x"
+            }
+        };
+
+        // Open Slide-Over Drawer
+        function openDrawer(projectId) {
+            const data = AI_DATA[projectId];
+            if (!data) return;
+
+            document.getElementById('drawer-meta').innerText = data.meta;
+            document.getElementById('drawer-title').innerText = data.title;
+            document.getElementById('drawer-desc').innerText = data.desc;
+            document.getElementById('drawer-prompt').innerText = data.prompt;
+            
+            document.getElementById('param-engine').innerText = data.engine;
+            document.getElementById('param-ar').innerText = data.ar;
+            document.getElementById('param-style').innerText = data.style;
+            document.getElementById('param-upscale').innerText = data.upscale;
+
+            // Inject Tags
+            const tagsContainer = document.getElementById('drawer-tags');
+            tagsContainer.innerHTML = '';
+            data.tags.forEach(tag => {
+                const span = document.createElement('span');
+                span.innerText = tag;
+                tagsContainer.appendChild(span);
+            });
+
+            // Inject Media
+            document.getElementById('drawer-media-container').innerHTML = data.mediaHtml;
+
+            // Activate Drawer UI
+            document.getElementById('drawer-backdrop').classList.add('active');
+            document.getElementById('ai-drawer').classList.add('active');
+            document.body.style.overflow = 'hidden'; // Lock background scrolling
+        }
+
+        // Close Slide-Over Drawer
+        function closeDrawer() {
+            document.getElementById('drawer-backdrop').classList.remove('active');
+            document.getElementById('ai-drawer').classList.remove('active');
+            document.body.style.overflow = ''; // Unlock scrolling
+            
+            // Clear media after transition finishes to stop background audio/videos
+            setTimeout(() => {
+                document.getElementById('drawer-media-container').innerHTML = '';
+            }, 400);
+        }
+
+        // Copy Prompt to Clipboard
+        function copyPrompt() {
+            const promptText = document.getElementById('drawer-prompt').innerText;
+            navigator.clipboard.writeText(promptText).then(() => {
+                const icon = document.getElementById('copy-icon');
+                icon.className = "ph ph-check";
+                icon.style.color = "#4ade80"; // Bright green for success
+                
+                setTimeout(() => {
+                    icon.className = "ph ph-copy";
+                    icon.style.color = "";
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        // Navbar Scroll Styling
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('active');
+            document.body.classList.toggle('overflow-hidden');
+        }
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+    </script>
+</body>
+</html>
