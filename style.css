@@ -995,21 +995,14 @@ h1, h2, h3, h4, h5, h6 {
 .projects-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: 2.5rem;
   width: 100%;
 }
 
 @media (min-width: 768px) {
   .projects-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .projects-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
+    gap: 3rem;
   }
 }
 
@@ -1036,7 +1029,7 @@ h1, h2, h3, h4, h5, h6 {
 .project-card-media-wrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   background-color: var(--bg-900);
   border-bottom: 1px solid var(--bg-800);
@@ -2393,7 +2386,7 @@ a[href*="linkedin.com"]:hover * {
 .ai-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: 3rem;
   width: 100%;
 }
 
@@ -2403,7 +2396,7 @@ a[href*="linkedin.com"]:hover * {
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1200px) {
   .ai-grid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -2431,7 +2424,7 @@ a[href*="linkedin.com"]:hover * {
 .ai-card-media {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   background-color: #030303;
   border-bottom: 1px solid #161616;

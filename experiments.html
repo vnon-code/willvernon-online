@@ -18,6 +18,28 @@
 
     <!-- Custom Embed Styles for Experiments Page -->
     <style>
+        /* Custom Overrides for Experiments Page Grid & Minimalist Cards */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .projects-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+            }
+        }
+
         .experiment-card-media {
             position: relative;
             width: 100%;
@@ -37,6 +59,31 @@
 
         .project-card:hover .experiment-card-media video {
             transform: scale(1.03);
+        }
+
+        .project-card-overlay {
+            position: absolute;
+            top: 0.75rem;
+            left: 0.75rem;
+            z-index: 10;
+            display: flex;
+            gap: 0.5rem;
+            pointer-events: none;
+            opacity: 0.9;
+            background: none !important;
+            padding: 0 !important;
+        }
+
+        .project-card:hover .project-card-overlay {
+            opacity: 1;
+        }
+
+        .project-card-content {
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            gap: 0.5rem;
         }
 
         /* Glassmorphism Theater Lightbox Modal */
@@ -313,21 +360,13 @@
                     <div class="experiment-card-media">
                         <video src="${exp.mediaSrc}" muted loop playsinline></video>
                         <div class="project-card-overlay">
-                            <span class="project-card-splash-label">[ Click to Expand ]</span>
+                            ${exp.software.map(s => `<span class="project-card-splash-label">${s}</span>`).join('')}
                         </div>
                     </div>
                     <div class="project-card-content">
                         <div class="project-card-header">
                             <span class="project-card-num">${exp.id} /</span>
                             <h3 class="project-card-title">${exp.title}</h3>
-                        </div>
-                        <p class="project-card-desc">${exp.descShort}</p>
-                        <div class="project-card-tags">
-                            ${exp.software.map(s => `<span>${s}</span>`).join('')}
-                        </div>
-                        <div class="project-card-footer">
-                            <span>[ Play Fullscreen ]</span>
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                         </div>
                     </div>
                 `;
