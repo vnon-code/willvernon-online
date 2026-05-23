@@ -580,7 +580,7 @@
                 title: "DREDGE",
                 meta: "[ MIDJOURNEY_V6 // FLUID_DYNAMICS ]",
                 tags: ["Midjourney V6", "Oceanic Scale", "Luma Dream Machine", "Light Scatter"],
-                mediaHtml: `<div class="carousel-container"><div class="carousel-slide active"><video src="https://assets.willvernon.online/ai/dredge_outcome.mp4" controls autoplay muted loop playsinline></video></div></div>`,
+                mediaHtml: `<div class="carousel-container"><div class="carousel-slide active"><video src="https://assets.willvernon.online/ai/dredge_outcome_full.mp4" controls autoplay muted loop playsinline></video></div></div>`,
                 desc: "A cinematically paced study centered on marine giants, heavy light-refraction, and deep aquatic volumetric light scattering. This experiment focused on creating deep-ocean mood aesthetics using multi-layered prompts that govern light propagation, bubble density, and scale ratios.",
                 prompt: "ultra-realistic cinematic photography of a massive bioluminescent white whale leaping from the abyssal ocean, glowing internal light grid, deep volumetric light rays piercing underwater, heavy particles, slow-motion bubbles, high-detail water textures, octane render, Arri Alexa style --ar 2.35:1 --style raw --v 6.0",
                 engine: "Midjourney V6 + Frame Interpolation",
@@ -604,7 +604,7 @@
                 title: "Monolith Survival",
                 meta: "[ GORPCORE_AE // CAM_VECTORS ]",
                 tags: ["Midjourney V6", "Gorpcore Aesthetic", "Luma Dream Machine", "Slow Motion"],
-                mediaHtml: `<div class="carousel-container"><div class="carousel-slide active"><video src="https://assets.willvernon.online/ai/monolith_outcome.mp4" controls autoplay muted loop playsinline></video></div></div>`,
+                mediaHtml: `<div class="carousel-container"><div class="carousel-slide active"><video src="https://assets.willvernon.online/ai/monolith_outcome_full.mp4" controls autoplay muted loop playsinline></video></div></div>`,
                 desc: "A stylized technical apparel 'gorpcore' campaign test. By combining structural geometry and commercial apparel grammar, we simulated macro boot stomping and technical nylon folds during heavy movement. Used Luma Dream Machine to interpolate high-motion camera pans around physical monoliths.",
                 prompt: "social_u7329539893_httpss.mj.runS83Gb2M2trU_the_shoe_stomps_the_ground --ar 9:16 --style raw --v 6.0 (High-motion hiking boot technical gorpcore campaign, massive stone monolith background, slow-motion splash, camera orbits technical shoe)",
                 engine: "Midjourney V6 + Luma Dream Machine",
@@ -616,23 +616,29 @@
                 title: "Synthetic Corals",
                 meta: "[ COMFYUI_NODE // HIDREAM_CORE // CLOUDFLARE_R2 ]",
                 tags: ["ComfyUI", "HiDream weights", "Flux.1 Dev", "Bioluminescent", "Multi-Outcome"],
-                // Interactive 5-image Carousel markup
+                // Interactive 7-slide Carousel markup (2 videos + 5 images!)
                 mediaHtml: `
                     <div class="carousel-container">
-                        <!-- Carousel Slides (5 outcomes!) -->
+                        <!-- Carousel Slides -->
                         <div class="carousel-slide active" data-index="0">
-                            <img src="https://assets.willvernon.online/ai/synthetic_corals_1.jpg" alt="Synthetic Coral 1 - White Calcification">
+                            <video src="https://assets.willvernon.online/ai/coral_rotate.mp4" controls autoplay muted loop playsinline></video>
                         </div>
                         <div class="carousel-slide" data-index="1">
-                            <img src="https://assets.willvernon.online/ai/synthetic_corals_2.png" alt="Synthetic Coral 2 - Bioluminescent Cyan Blue">
+                            <video src="https://assets.willvernon.online/ai/coral_rotate_vertical.mp4" controls autoplay muted loop playsinline></video>
                         </div>
                         <div class="carousel-slide" data-index="2">
-                            <img src="https://assets.willvernon.online/ai/synthetic_corals_3.jpg" alt="Synthetic Coral 3 - Dark Red Obsidian">
+                            <img src="https://assets.willvernon.online/ai/synthetic_corals_1.jpg" alt="Synthetic Coral 1 - White Calcification">
                         </div>
                         <div class="carousel-slide" data-index="3">
-                            <img src="https://assets.willvernon.online/ai/synthetic_corals_4.jpg" alt="Synthetic Coral 4 - Polyps Bouquet">
+                            <img src="https://assets.willvernon.online/ai/synthetic_corals_2.png" alt="Synthetic Coral 2 - Bioluminescent Cyan Blue">
                         </div>
                         <div class="carousel-slide" data-index="4">
+                            <img src="https://assets.willvernon.online/ai/synthetic_corals_3.jpg" alt="Synthetic Coral 3 - Dark Obsidian Red">
+                        </div>
+                        <div class="carousel-slide" data-index="5">
+                            <img src="https://assets.willvernon.online/ai/synthetic_corals_4.jpg" alt="Synthetic Coral 4 - Polyps Bouquet">
+                        </div>
+                        <div class="carousel-slide" data-index="6">
                             <img src="https://assets.willvernon.online/ai/synthetic_corals_5.jpg" alt="Synthetic Coral 5 - Volcanic Coral Graft">
                         </div>
 
@@ -651,6 +657,8 @@
                             <span class="carousel-dot-indicator" onclick="gotoCarouselSlide(2)"></span>
                             <span class="carousel-dot-indicator" onclick="gotoCarouselSlide(3)"></span>
                             <span class="carousel-dot-indicator" onclick="gotoCarouselSlide(4)"></span>
+                            <span class="carousel-dot-indicator" onclick="gotoCarouselSlide(5)"></span>
+                            <span class="carousel-dot-indicator" onclick="gotoCarouselSlide(6)"></span>
                         </div>
                     </div>
                 `,
