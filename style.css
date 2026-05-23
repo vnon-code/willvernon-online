@@ -1026,65 +1026,6 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 16px 40px rgba(217, 28, 28, 0.08);
 }
 
-/* AI Grid & Card layout */
-.ai-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 3rem;
-  width: 100%;
-  align-items: start; /* Prevents vertical stretching, supporting masonry style dynamic heights */
-}
-
-@media (min-width: 768px) {
-  .ai-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1200px) {
-  .ai-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-.ai-card {
-  background-color: #0a0a0a;
-  border: 1px solid #161616;
-  border-radius: 12px;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  position: relative;
-  cursor: pointer;
-}
-
-.ai-card:hover {
-  transform: translateY(-8px);
-  border-color: var(--accent-red);
-  box-shadow: 0 16px 40px rgba(217, 28, 28, 0.08);
-}
-
-.ai-card-media {
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  background-color: #030303;
-  border-bottom: 1px solid #161616;
-}
-
-.ai-card-media.aspect-landscape {
-  aspect-ratio: 16 / 9;
-}
-
-.ai-card-media.aspect-portrait {
-  aspect-ratio: 3 / 4;
-}
-
-.ai-card-media.aspect-square {
-  aspect-ratio: 1 / 1;
-}
-
 .project-card-media-wrapper {
   position: relative;
   width: 100%;
