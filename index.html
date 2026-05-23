@@ -14,7 +14,7 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
     <!-- Custom Style Sheet -->
-    <link rel="stylesheet" href="style.css?v=17">
+    <link rel="stylesheet" href="style.css?v=18">
 </head>
 <body class="font-sans">
 
@@ -155,11 +155,11 @@
                     </div>
                 </article>
 
-                <!-- Project 3: Monolithic Survival (Remnants) -->
+                <!-- Project 3: Monolithic Survival -->
                 <article class="neon-card">
-                    <a href="projects.html#03" class="neon-card-image-wrap">
+                    <a href="AI.html" class="neon-card-image-wrap">
                         <div class="neon-card-gradient"></div>
-                        <video src="https://assets.willvernon.online/projects/03_remnants/assets/Remnants Outcome_1.mp4" autoplay muted loop playsinline></video>
+                        <video src="https://assets.willvernon.online/ai/monolith_preview.mp4" autoplay muted loop playsinline></video>
                         <div class="neon-card-overlay">
                             <span class="neon-card-overlay-btn">View_Case_Study</span>
                         </div>
@@ -209,39 +209,81 @@
         </div>
     </section>
 
-    <!-- Music / vnon Section -->
-    <section id="music" class="section-padding layout-padding" style="border-top: 1px solid var(--bg-700); position: relative; background-color: var(--bg-950); overflow: hidden;">
-        <!-- Abstract background element -->
-        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 600px; background-color: rgba(217, 28, 28, 0.05); border-radius: 50%; filter: blur(100px); pointer-events: none; z-index: 0;"></div>
+    <!-- AI & Generative Design Section -->
+    <section id="ai-ethos" class="section-padding layout-padding" style="border-top: 1px solid var(--bg-700); background-color: var(--bg-950); position: relative; overflow: hidden;">
+        <!-- Subtle background glow -->
+        <div style="position: absolute; top: 30%; right: -10%; width: 400px; height: 400px; background-color: rgba(217, 28, 28, 0.04); border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0;"></div>
         
         <div class="container-wide" style="position: relative; z-index: 10;">
             <div class="grid-2" style="align-items: center;">
                 
                 <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                    <h2 class="text-4xl font-bold uppercase">Audio Production.</h2>
+                    <p class="font-mono text-accent text-sm tracking-widest uppercase">// Generative AI</p>
+                    <h2 class="text-4xl font-bold uppercase">AI as a Creative Partner.</h2>
                     <p class="text-lg text-gray-400 leading-relaxed">
-                        Under the alias <span class="text-white font-bold">vnon</span>, I produce electronic music, primarily focusing on Drum & Bass.
+                        I treat generative AI not as a shortcut, but as a collaborative tool that accelerates ideation whilst maintaining creative integrity. From building local ComfyUI pipelines to prompt engineering with Midjourney, my practice bridges the gap between emerging technology and intentional design.
                     </p>
                     <p class="text-lg text-gray-400 leading-relaxed">
-                        Music production is more than just a hobby; it intrinsically ties into my visual work. My understanding of frequency, rhythm, and sound design directly informs my audio-reactive visual systems built in TouchDesigner and Blender.
+                        Every output is guided by ethical consideration and artistic direction &mdash; AI amplifies the process, but the vision remains human.
                     </p>
                     <div style="padding-top: 1rem;">
-                        <a href="https://soundcloud.com/vnondnb" target="_blank" class="link-arrow">
-                            &gt; soundcloud.com/vnondnb
-                            <i class="ph ph-arrow-right"></i>
-                        </a>
+                        <a href="AI.html" class="btn-primary">explore_ai_work</a>
                     </div>
                 </div>
- 
+                
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div style="background-color: var(--bg-900); border: 1px solid var(--bg-700); border-radius: 0.5rem; padding: 1.5rem;">
+                        <p class="font-mono text-accent text-xs uppercase tracking-widest" style="margin-bottom: 0.75rem;">Toolset</p>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                            <span style="border: 1px solid var(--bg-700); padding: 0.25rem 0.75rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-gray-500);">ComfyUI</span>
+                            <span style="border: 1px solid var(--bg-700); padding: 0.25rem 0.75rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-gray-500);">Midjourney</span>
+                            <span style="border: 1px solid var(--bg-700); padding: 0.25rem 0.75rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-gray-500);">SDXL</span>
+                            <span style="border: 1px solid var(--bg-700); padding: 0.25rem 0.75rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-gray-500);">Flux</span>
+                            <span style="border: 1px solid var(--bg-700); padding: 0.25rem 0.75rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-gray-500);">HiDream</span>
+                            <span style="border: 1px solid var(--bg-700); padding: 0.25rem 0.75rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-gray-500);">Luma</span>
+                        </div>
+                    </div>
+                    <div style="background-color: var(--bg-900); border: 1px solid var(--bg-700); border-radius: 0.5rem; padding: 1.5rem;">
+                        <p class="font-mono text-accent text-xs uppercase tracking-widest" style="margin-bottom: 0.75rem;">Capabilities</p>
+                        <div style="display: flex; flex-direction: column; gap: 0.35rem; font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-gray-500);">
+                            <p>Prompt Engineering &amp; ControlNet</p>
+                            <p>Local Diffusion Pipelines</p>
+                            <p>LORA Training &amp; Fine-tuning</p>
+                            <p>AI Video Generation</p>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </section>
+
+    <!-- Music Production Section -->
+    <section id="music" class="section-padding layout-padding" style="border-top: 1px solid var(--bg-700); position: relative; background-color: var(--bg-900); overflow: hidden;">
+        <div class="container-wide">
+            <div class="grid-2" style="align-items: center;">
+                
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <p class="font-mono text-accent text-sm tracking-widest uppercase">// vnon</p>
+                    <h2 class="text-4xl font-bold uppercase">Music Production.</h2>
+                    <p class="text-lg text-gray-400 leading-relaxed">
+                        Under the alias <span class="text-white font-bold">vnon</span>, I produce electronic music with a focus on Drum &amp; Bass. Music production is intrinsically tied to my visual practice &mdash; my understanding of frequency, rhythm, and sound design directly informs my audio-reactive visual systems.
+                    </p>
+                    <div style="padding-top: 1rem; display: flex; flex-wrap: wrap; gap: 1rem;">
+                        <a href="music.html" class="btn-primary">explore_music</a>
+                        <a href="https://soundcloud.com/vnondnb" target="_blank" class="btn-secondary">&gt; soundcloud</a>
+                    </div>
+                </div>
+                
                 <div>
                     <div class="soundcloud-widget">
                         <div class="soundcloud-widget-icon">
                             <i class="ph-fill ph-soundcloud-logo"></i>
                         </div>
                         <h3 class="text-3xl font-bold mb-2">vnon</h3>
-                        <p class="font-mono text-accent text-sm" style="margin-bottom: 2rem;">Drum &amp; Bass / Music Production</p>
+                        <p class="font-mono text-accent text-sm" style="margin-bottom: 2rem;">Drum &amp; Bass / Electronic</p>
                         
-                        <!-- Audio Visualizer Mockup -->
+                        <!-- Audio Visualiser Mockup -->
                         <div class="music-visualizer-mock">
                             <div class="visualizer-bar visualizer-bar-animated"></div>
                             <div class="visualizer-bar visualizer-bar-animated"></div>
@@ -252,8 +294,8 @@
                             <div class="visualizer-bar visualizer-bar-animated"></div>
                         </div>
 
-                        <a href="https://soundcloud.com/vnondnb" target="_blank" class="soundcloud-widget-btn">
-                            Listen on SoundCloud
+                        <a href="music.html" class="soundcloud-widget-btn">
+                            Listen on Music Page
                         </a>
                     </div>
                 </div>
@@ -266,8 +308,8 @@
     <section id="contact" class="section-padding layout-padding" style="border-top: 1px solid var(--bg-700); background-color: var(--bg-900);">
         <div class="container-wide">
             <div class="text-center" style="margin-bottom: 4rem;">
-                <h2 class="text-5xl text-5xl-mobile uppercase tracking-tight" style="margin-bottom: 1rem;">Initialise Contact</h2>
-                <p class="text-gray-400 font-mono text-sm" style="max-width: 36rem; margin-left: auto; margin-right: auto; line-height: 1.625;">Looking to apply my versatile background and technical curiosity to professional environments. Let's build something innovative.</p>
+                <h2 class="text-5xl text-5xl-mobile uppercase tracking-tight" style="margin-bottom: 1rem;">Contact</h2>
+                <p class="text-gray-400 font-mono text-sm" style="max-width: 36rem; margin-left: auto; margin-right: auto; line-height: 1.625;">Interested in collaborating or have a project in mind? I&rsquo;d love to hear about it. Get in touch and let&rsquo;s make something together.</p>
             </div>
             
             <div class="contact-card">
