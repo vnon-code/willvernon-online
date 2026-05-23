@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal Experiments | William Vernon</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="style.css?v=12">
+
+    <!-- Custom Embed Styles for Experiments Page -->
+    <style>
+        .experiment-card-media {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            background-color: var(--bg-900);
+            border-bottom: 1px solid var(--bg-800);
+        }
+
+        .experiment-card-media video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .project-card:hover .experiment-card-media video {
+            transform: scale(1.03);
+        }
+
+        /* Glassmorphism Theater Lightbox Modal */
+        .lightbox-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(2, 0, 0, 0.85);
+            backdrop-filter: blur(15px);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .lightbox-backdrop.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.95);
+            width: 90%;
+            max-width: 1000px;
+            background-color: var(--bg-950);
+            border: 1px solid var(--bg-800);
+            border-radius: 16px;
+            z-index: 1001;
+            opacity: 0;
+            visibility: hidden;
+            overflow: hidden;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, visibility 0.4s ease;
+            box-shadow: 0 30px 70px rgba(217, 28, 28, 0.15);
+        }
+
+        .lightbox-modal.active {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-media-container {
+            width: 100%;
+            background-color: #000;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox-media-container video {
+            max-width: 100%;
+            max-height: 65vh;
+            display: block;
+            object-fit: contain;
+        }
+
+        .lightbox-content {
+            padding: 1.75rem;
+            background-color: var(--bg-950);
+        }
+
+        .lightbox-title {
+            font-family: var(--font-sans);
+            font-weight: 700;
+            font-size: 1.75rem;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            color: var(--text-white);
+            margin-bottom: 0.5rem;
+        }
+
+        .lightbox-desc {
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            color: var(--text-gray-500);
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+        }
+
+        .lightbox-meta {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            border-top: 1px solid var(--bg-800);
+            padding-top: 1rem;
+            color: var(--text-muted);
+        }
+
+        .lightbox-close-btn {
+            position: absolute;
+            top: 1.25rem;
+            right: 1.25rem;
+            background-color: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 1002;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .lightbox-close-btn:hover {
+            background-color: var(--accent-red);
+            border-color: var(--accent-red);
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body class="font-sans bg-black text-white">
+
+    <!-- Navigation -->
+    <nav class="navbar layout-padding" id="navbar">
+        <div class="container-wide navbar-inner">
+            
+            <!-- Left: Burger Menu (Mobile) / Navigation Links (Desktop) -->
+            <div class="nav-links-left">
+                <div class="nav-links">
+                    <a href="index.html">[ HOME ]</a>
+                    <a href="work.html" class="active">[ WORK ]</a>
+                    <a href="music.html">[ MUSIC ]</a>
+                    <a href="about.html">[ ABOUT ]</a>
+                </div>
+                <button class="menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu">
+                    <i class="ph ph-list"></i>
+                </button>
+            </div>
+
+            <!-- Center: WV Monogram -->
+            <div class="nav-logo">
+                <a href="index.html">
+                    <img src="img/monogram-white-trans.png" alt="WV Monogram">
+                </a>
+            </div>
+
+            <!-- Right: Social Links -->
+            <div class="social-links">
+                <a href="https://instagram.com/willvernon.av" target="_blank" aria-label="Instagram"><i class="ph ph-instagram-logo"></i></a>
+                <a href="https://www.linkedin.com/in/william-vernon-a37aa42b8" target="_blank" aria-label="LinkedIn"><i class="ph ph-linkedin-logo"></i></a>
+                <a href="mailto:wvernoncsi@gmail.com" aria-label="Email"><i class="ph ph-envelope"></i></a>
+            </div>
+            
+        </div>
+        
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="mobile-menu">
+            <button id="close-menu-btn" class="close-menu-btn" aria-label="Close Menu"> 
+                 <i class="ph ph-x"></i>
+            </button>
+            <a href="index.html" class="mobile-link">Home</a>
+            <a href="work.html" class="mobile-link active">Work</a>
+            <a href="music.html" class="mobile-link">Music</a>
+            <a href="about.html" class="mobile-link">About</a>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="container-wide" style="margin-top: 140px; padding-bottom: 8rem;">
+        
+        <!-- Page Header -->
+        <section class="ai-header mb-12">
+            <p class="font-mono text-accent text-xs uppercase tracking-widest">// SYNTHETIC_03</p>
+            <h1 class="text-6xl text-5xl-mobile font-bold tracking-tighter uppercase mt-2" style="color: var(--accent-red); text-shadow: 0 0 30px rgba(217, 28, 28, 0.15);">
+                Minimal Experiments
+            </h1>
+            <p class="text-gray-400 font-mono mt-6 max-w-2xl text-sm leading-relaxed">
+                A quick log of personal motion design test runs, real-time node pipelines, and procedural spatial research. Focuses on technical mechanics, visual synthesis, and generative geometry.
+            </p>
+        </section>
+
+        <!-- Experiments Grid -->
+        <section class="mb-16">
+            <div class="projects-grid" id="experiments-wrapper">
+                <!-- Dynamically populated via JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Theater Lightbox Modal -->
+    <div class="lightbox-backdrop" id="lightbox-backdrop" onclick="closeLightbox()"></div>
+    <div class="lightbox-modal" id="lightbox-modal">
+        <button class="lightbox-close-btn" onclick="closeLightbox()" aria-label="Close Player">
+            <i class="ph ph-x"></i>
+        </button>
+        <div class="lightbox-media-container">
+            <video id="lightbox-video" controls autoplay playsinline></video>
+        </div>
+        <div class="lightbox-content">
+            <h2 class="lightbox-title" id="lightbox-title">EXPERIMENT_TITLE</h2>
+            <p class="lightbox-desc" id="lightbox-desc">Experiment description goes here...</p>
+            <div class="lightbox-meta">
+                <div>
+                    <span style="color: var(--text-muted); font-size: 0.65rem; text-transform: uppercase; display: block; margin-bottom: 0.15rem;">SOFTWARE / SYSTEM</span>
+                    <strong style="color: var(--text-white);" id="lightbox-software">Software list</strong>
+                </div>
+                <div>
+                    <span style="color: var(--text-muted); font-size: 0.65rem; text-transform: uppercase; display: block; margin-bottom: 0.15rem;">MEDIA TYPE</span>
+                    <strong style="color: var(--text-white);">MP4 VIDEO LOOP</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JS Logic -->
+    <script>
+        // Experiments Data
+        const EXPERIMENTS_DATA = [
+            {
+                id: "01",
+                title: "Blender Particles AV Test",
+                descShort: "An exploration of real-time particle simulations driven by multi-band audio inputs. Frequencies control gravity, turbulence field scales, and emission rates to translate sound into visual kinetic energy.",
+                mediaSrc: "https://assets.willvernon.online/experiments/BlenderParticlesAVTest_2(2)_1.mp4",
+                aspectRatio: "16/9",
+                software: ["Blender", "After Effects"]
+            },
+            {
+                id: "02",
+                title: "Deadly Clout",
+                descShort: "An audio-reactive, dark typographic motion piece. Merges high-frequency sound transients with kinetic grid systems and heavy displacement loops to project a sense of intense digital noise.",
+                mediaSrc: "https://assets.willvernon.online/experiments/DeadlyCloutAV.mp4",
+                aspectRatio: "16/9",
+                software: ["TouchDesigner", "After Effects"]
+            },
+            {
+                id: "03",
+                title: "FUCKED UP 01",
+                descShort: "A glitch-focused motion study investigating modern visual degradation. Employs analog video synthesis, decimation filters, and RGB chromatic aberrations to create a highly distressed typographic loop.",
+                mediaSrc: "https://assets.willvernon.online/experiments/FUCKED%20UP_1.mp4",
+                aspectRatio: "16/9",
+                software: ["After Effects", "Premiere Pro"]
+            },
+            {
+                id: "04",
+                title: "Topography AV Test",
+                descShort: "A real-time 3D topographic map deformed dynamically by sub-bass wave vectors. Slices spatial peak limits and grid heights based on low-frequency sound pressure levels.",
+                mediaSrc: "https://assets.willvernon.online/experiments/TopographyAV_Test2.mp4",
+                aspectRatio: "1/1",
+                software: ["TouchDesigner", "Blender"]
+            },
+            {
+                id: "05",
+                title: "Topography Static Gens",
+                descShort: "An exploration of heightmap procedurals and vector line displacements. Focuses on minimal, high-contrast contour mapping, gradient-mapped heights, and architectural mesh extractions.",
+                mediaSrc: "https://assets.willvernon.online/experiments/TopographyStaticGens.mp4",
+                aspectRatio: "1/1",
+                software: ["Blender", "Photoshop"]
+            }
+        ];
+
+        // Populate Cards
+        document.addEventListener('DOMContentLoaded', () => {
+            const wrapper = document.getElementById('experiments-wrapper');
+            wrapper.innerHTML = '';
+
+            EXPERIMENTS_DATA.forEach(exp => {
+                const card = document.createElement('div');
+                card.className = 'project-card';
+                card.setAttribute('onclick', `openLightbox('${exp.id}')`);
+
+                card.innerHTML = `
+                    <div class="experiment-card-media" style="aspect-ratio: ${exp.aspectRatio};">
+                        <video src="${exp.mediaSrc}" muted loop playsinline></video>
+                        <div class="project-card-overlay">
+                            <span class="project-card-splash-label">[ Click to Expand ]</span>
+                        </div>
+                    </div>
+                    <div class="project-card-content">
+                        <div class="project-card-header">
+                            <span class="project-card-num">${exp.id} /</span>
+                            <h3 class="project-card-title">${exp.title}</h3>
+                        </div>
+                        <p class="project-card-desc">${exp.descShort}</p>
+                        <div class="project-card-tags">
+                            ${exp.software.map(s => `<span>${s}</span>`).join('')}
+                        </div>
+                        <div class="project-card-footer">
+                            <span>[ Play Fullscreen ]</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </div>
+                    </div>
+                `;
+
+                wrapper.appendChild(card);
+            });
+
+            // Bind video hover play/pause
+            const cards = document.querySelectorAll('.project-card');
+            cards.forEach(card => {
+                const video = card.querySelector('video');
+                if (video) {
+                    card.addEventListener('mouseenter', () => {
+                        video.play().catch(err => console.log('Autoplay blocked or interrupted:', err));
+                    });
+                    card.addEventListener('mouseleave', () => {
+                        video.pause();
+                        video.currentTime = 0;
+                    });
+                }
+            });
+        });
+
+        // Lightbox Functions
+        function openLightbox(id) {
+            const exp = EXPERIMENTS_DATA.find(e => e.id === id);
+            if (!exp) return;
+
+            const video = document.getElementById('lightbox-video');
+            video.src = exp.mediaSrc;
+            
+            document.getElementById('lightbox-title').innerText = exp.title;
+            document.getElementById('lightbox-desc').innerText = exp.descShort;
+            document.getElementById('lightbox-software').innerText = exp.software.join(', ');
+
+            document.getElementById('lightbox-backdrop').classList.add('active');
+            document.getElementById('lightbox-modal').classList.add('active');
+            document.body.style.overflow = 'hidden'; // Lock scrolling
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-backdrop').classList.remove('active');
+            document.getElementById('lightbox-modal').classList.remove('active');
+            document.body.style.overflow = ''; // Unlock scrolling
+
+            const video = document.getElementById('lightbox-video');
+            video.pause();
+            video.src = '';
+        }
+
+        // Close on ESC
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeLightbox();
+        });
+
+        // Navbar Scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('active');
+            document.body.classList.toggle('overflow-hidden');
+        }
+        mobileMenuBtn.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+        mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+    </script>
+</body>
+</html>
