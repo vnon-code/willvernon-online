@@ -594,6 +594,23 @@
                 filterButtons.forEach(b => b.element.classList.remove('active'));
                 evaluateProjects();
             });
+
+            // 7. Check URL Hash to Auto-Open Case Study
+            const handleHashChange = () => {
+                const hash = window.location.hash; // e.g. '#06' or '#01'
+                if (hash) {
+                    const projId = hash.substring(1);
+                    // Small timeout ensures that renderProjects() has finished compiling elements
+                    setTimeout(() => {
+                        openSlideover(projId);
+                    }, 150);
+                }
+            };
+
+            // Check on load
+            handleHashChange();
+            // Listen for changes
+            window.addEventListener('hashchange', handleHashChange);
         });
     </script>
 </body>
