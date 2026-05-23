@@ -2277,10 +2277,112 @@ a[href*="linkedin.com"]:hover * {
 
 .ai-header {
   border-bottom: 1px solid var(--bg-800);
-  padding-bottom: 3rem;
-  margin-bottom: 4rem;
+  padding-bottom: 3.5rem;
+  margin-bottom: 5rem;
 }
 
+/* Ethos & Philosophy Essay Callout styling */
+.ai-ethos-wrapper {
+  background-color: #060606;
+  border: 1px solid var(--bg-800);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 5rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+}
+
+@media (min-width: 992px) {
+  .ai-ethos-wrapper {
+    padding: 3.5rem;
+  }
+}
+
+.ai-ethos-quote {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: var(--text-main);
+  border-left: 3px solid var(--accent-red);
+  padding-left: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .ai-ethos-quote {
+    font-size: 1.25rem;
+  }
+}
+
+/* Tools Directory & Brand Badges styling */
+.ai-tools-directory {
+  border-top: 1px solid var(--bg-800);
+  padding-top: 4rem;
+  margin-top: 4rem;
+}
+
+.ai-tools-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .ai-tools-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .ai-tools-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.ai-tool-badge {
+  background-color: #0a0a0a;
+  border: 1px solid var(--bg-800);
+  border-radius: 8px;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.85rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.ai-tool-badge:hover {
+  border-color: var(--accent-red);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(217, 28, 28, 0.05);
+}
+
+.ai-tool-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ai-tool-name {
+  font-family: var(--font-mono);
+  font-size: 0.725rem;
+  text-transform: uppercase;
+  color: var(--text-white);
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+.ai-tool-desc {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+/* AI Grid & Card layout */
 .ai-grid {
   display: grid;
   grid-template-columns: 1fr;
@@ -2288,7 +2390,13 @@ a[href*="linkedin.com"]:hover * {
   width: 100%;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 768px) {
+  .ai-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
   .ai-grid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -2309,8 +2417,8 @@ a[href*="linkedin.com"]:hover * {
 
 .ai-card:hover {
   transform: translateY(-8px);
-  border-color: #c084fc; /* Cosmic purple highlight for AI */
-  box-shadow: 0 16px 40px rgba(192, 132, 252, 0.08);
+  border-color: var(--accent-red);
+  box-shadow: 0 16px 40px rgba(217, 28, 28, 0.08);
 }
 
 .ai-card-media {
@@ -2347,10 +2455,10 @@ a[href*="linkedin.com"]:hover * {
 .ai-tag {
   font-family: var(--font-mono);
   font-size: 0.6rem;
-  background-color: rgba(192, 132, 252, 0.15);
-  border: 1px solid rgba(192, 132, 252, 0.3);
+  background-color: rgba(217, 28, 28, 0.15);
+  border: 1px solid rgba(217, 28, 28, 0.3);
   padding: 0.2rem 0.5rem;
-  color: #c084fc;
+  color: var(--accent-red);
   letter-spacing: 0.05em;
   text-transform: uppercase;
   border-radius: 4px;
@@ -2373,7 +2481,7 @@ a[href*="linkedin.com"]:hover * {
 }
 
 .ai-card:hover .ai-card-title {
-  color: #c084fc;
+  color: var(--accent-red);
 }
 
 .ai-card-desc {
@@ -2391,7 +2499,7 @@ a[href*="linkedin.com"]:hover * {
   gap: 0.5rem;
   font-family: var(--font-mono);
   font-size: 0.7rem;
-  color: #c084fc;
+  color: var(--accent-red);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-weight: 600;
@@ -2462,8 +2570,8 @@ a[href*="linkedin.com"]:hover * {
 }
 
 .comfy-node:hover {
-  border-color: #c084fc;
-  box-shadow: 0 15px 40px rgba(192, 132, 252, 0.15), 0 0 0 1px rgba(192, 132, 252, 0.2);
+  border-color: var(--accent-red);
+  box-shadow: 0 15px 40px rgba(217, 28, 28, 0.15), 0 0 0 1px rgba(217, 28, 28, 0.2);
   transform: translateY(-4px);
 }
 
@@ -2589,8 +2697,8 @@ a[href*="linkedin.com"]:hover * {
 }
 
 .ai-general-card:hover {
-  border-color: #c084fc;
-  box-shadow: 0 10px 25px rgba(192, 132, 252, 0.05);
+  border-color: var(--accent-red);
+  box-shadow: 0 10px 25px rgba(217, 28, 28, 0.05);
 }
 
 .ai-general-title {
@@ -2599,7 +2707,7 @@ a[href*="linkedin.com"]:hover * {
   font-weight: 700;
   color: var(--text-white);
   text-transform: uppercase;
-  border-left: 2px solid #c084fc;
+  border-left: 2px solid var(--accent-red);
   padding-left: 1rem;
 }
 
@@ -2613,18 +2721,18 @@ a[href*="linkedin.com"]:hover * {
    Prompt Details Drawer / Slideover styles specific to AI page
    -------------------------------------------------------------------------- */
 .ai-slideover {
-  border-color: #2b1f3a !important;
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95), 0 0 50px rgba(192, 132, 252, 0.08) !important;
+  border-color: rgba(217, 28, 28, 0.15) !important;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.95), 0 0 50px rgba(217, 28, 28, 0.05) !important;
 }
 
 .ai-slideover-close-btn:hover {
-  border-color: #c084fc !important;
+  border-color: var(--accent-red) !important;
   color: var(--text-white) !important;
-  box-shadow: 0 0 12px rgba(192, 132, 252, 0.2) !important;
+  box-shadow: 0 0 12px rgba(217, 28, 28, 0.2) !important;
 }
 
 .ai-meta-purple {
-  color: #c084fc !important;
+  color: var(--accent-red) !important;
 }
 
 .ai-prompt-box {
@@ -2660,7 +2768,7 @@ a[href*="linkedin.com"]:hover * {
 }
 
 .ai-prompt-copy-btn:hover {
-  border-color: #c084fc;
+  border-color: var(--accent-red);
   color: var(--text-white);
 }
 
@@ -2674,5 +2782,90 @@ a[href*="linkedin.com"]:hover * {
   display: block;
 }
 
+/* --------------------------------------------------------------------------
+   Dynamic Carousel Component (Featured Multi-Media Cases)
+   -------------------------------------------------------------------------- */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background-color: #030303;
+  border-radius: 8px;
+  border: 1px solid var(--bg-800);
+}
 
+.carousel-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease, visibility 0s linear 0.5s;
+}
 
+.carousel-slide.active {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.5s ease, visibility 0s linear 0s;
+}
+
+.carousel-slide img,
+.carousel-slide video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.carousel-control-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(2,0,0,0.6);
+  border: 1px solid var(--bg-700);
+  color: #fff;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 15;
+  transition: all 0.3s ease;
+}
+
+.carousel-control-btn:hover {
+  background: var(--accent-red);
+  border-color: var(--accent-red);
+  box-shadow: 0 0 10px var(--accent-red);
+}
+
+.carousel-prev { left: 1rem; }
+.carousel-next { right: 1rem; }
+
+.carousel-indicator-row {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+  z-index: 15;
+}
+
+.carousel-dot-indicator {
+  width: 8px;
+  height: 8px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.carousel-dot-indicator.active {
+  background: var(--accent-red);
+  box-shadow: 0 0 5px var(--accent-red);
+}

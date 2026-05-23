@@ -14,7 +14,7 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
     <!-- Custom Style Sheet -->
-    <link rel="stylesheet" href="style.css?v=10">
+    <link rel="stylesheet" href="style.css?v=11">
 </head>
 <body class="font-sans bg-black text-white">
 
@@ -66,20 +66,139 @@
     <!-- Main Container -->
     <main class="container-wide" style="margin-top: 140px; padding-bottom: 8rem;">
         
-        <!-- AI Header Block -->
+        <!-- AI Title Block -->
         <section class="ai-header">
             <p class="font-mono text-accent text-xs uppercase tracking-widest">// COGNITIVE_IDEATION_02</p>
-            <h1 class="text-6xl text-5xl-mobile font-bold tracking-tighter uppercase mt-2" style="color: #c084fc; text-shadow: 0 0 30px rgba(192, 132, 252, 0.1);">
+            <h1 class="text-6xl text-5xl-mobile font-bold tracking-tighter uppercase mt-2" style="color: var(--accent-red); text-shadow: 0 0 30px rgba(217, 28, 28, 0.15);">
                 AI Experiments & Research
             </h1>
-            <p class="text-gray-500 max-w-3xl mt-4 leading-relaxed text-lg">
-                Generative AI is not a replacement for the human eye, but an algorithmic co-creator. This space houses rapid ideation loops, custom diffusion weights, and node-based models designed to accelerate spatial context and capture complex visual syntax.
-            </p>
         </section>
 
-        <!-- Track A: Cinematic Visual Synthetics Grid -->
-        <section class="mb-12">
-            <h2 class="comfy-section-title font-mono text-sm tracking-widest">// FEATURED_VISUAL_SYNTHETICS</h2>
+        <!-- Section 1: Ethos & Experience -->
+        <section class="mb-16">
+            <div class="flex justify-between items-baseline mb-6">
+                <div>
+                    <span class="font-mono text-accent text-xs uppercase tracking-widest">// FOUNDATION_ETHOS</span>
+                    <h2 class="comfy-section-title mt-2">Ethos: Artificial Acceptance</h2>
+                </div>
+            </div>
+
+            <!-- Ethos Callout based on Artificial Acceptance Essay -->
+            <div class="ai-ethos-wrapper">
+                <div class="ai-ethos-quote">
+                    "Generative AI, while powerful, is not a replacement for human creative workers. Much like the printing press centuries ago or the digitisation of design recently, this technology is a powerful augmentative tool for enhancing the creative process—automating repetitive tasks and rapidly generating conceptual variations, freeing the designer to focus on higher-level conceptual thinking and problem-solving."
+                    <span style="display:block; font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted); margin-top:0.75rem; text-transform:uppercase;">
+                        — Excerpt from the essay "Artificial Acceptance" (William Vernon)
+                    </span>
+                </div>
+                <p class="text-gray-500 leading-relaxed text-sm">
+                    In the creative landscape, generative systems are frequently stigmatised by simple, text-only prompting. In practice, a professional generative methodology relies on a <strong>Design-Directed Flow (DDF)</strong>—where detailed design sketches, contextually mapped prompts, and localized constraints (such as Canny edge layers and IP-Adapters) translate architectural or brand intents into visual formats. Under this pipeline, the designer's critique and direction remain the central steering force, turning the machine into a fluid co-creator.
+                </p>
+            </div>
+
+            <!-- Tools Directory with Styled Brand SVG Logos -->
+            <div class="ai-tools-directory">
+                <span class="font-mono text-accent text-xs uppercase tracking-widest">// DEPLOYED_PLATFORMS_&_MODELS</span>
+                <h3 class="text-2xl font-bold tracking-tight uppercase mt-2 mb-8">Platform & Model Directory</h3>
+                
+                <div class="ai-tools-grid">
+                    
+                    <!-- Midjourney -->
+                    <div class="ai-tool-badge">
+                        <div class="ai-tool-icon">
+                            <!-- Custom Styled Midjourney Logo (Boat/Ship sails SVG) -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="1.5" class="w-8 h-8">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+                                <path d="M5.5 12h13" stroke-linecap="round" />
+                            </svg>
+                        </div>
+                        <span class="ai-tool-name">Midjourney</span>
+                        <span class="ai-tool-desc">Text-to-Image / V6 RAW Engine</span>
+                    </div>
+
+                    <!-- ComfyUI -->
+                    <div class="ai-tool-badge">
+                        <div class="ai-tool-icon">
+                            <!-- Custom Node Flow SVG representing ComfyUI -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="1.5" class="w-8 h-8">
+                                <rect x="3" y="3" width="6" height="6" rx="1" />
+                                <rect x="15" y="15" width="6" height="6" rx="1" />
+                                <circle cx="6" cy="18" r="3" />
+                                <path d="M9 6h3a3 3 0 013 3v6" stroke-dasharray="2 2" />
+                                <path d="M6 15v-6" />
+                            </svg>
+                        </div>
+                        <span class="ai-tool-name">ComfyUI</span>
+                        <span class="ai-tool-desc">Node-Based Pipeline Design</span>
+                    </div>
+
+                    <!-- Flux.1 Dev -->
+                    <div class="ai-tool-badge">
+                        <div class="ai-tool-icon">
+                            <!-- Clean Neural Model SVG for Flux -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="1.5" class="w-8 h-8">
+                                <circle cx="12" cy="5" r="2.5" />
+                                <circle cx="5" cy="12" r="2.5" />
+                                <circle cx="19" cy="12" r="2.5" />
+                                <circle cx="12" cy="19" r="2.5" />
+                                <path d="M12 7.5v9M7.5 12h9M6.7 6.7l10.6 10.6" />
+                            </svg>
+                        </div>
+                        <span class="ai-tool-name">Flux.1 Dev</span>
+                        <span class="ai-tool-desc">Open-Source Base Diffusion</span>
+                    </div>
+
+                    <!-- Wan 2.2 -->
+                    <div class="ai-tool-badge">
+                        <div class="ai-tool-icon">
+                            <!-- Motion/Velocity Vectors SVG for Wan -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="1.5" class="w-8 h-8">
+                                <path d="M3 12h18M15 5l7 7-7 7M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <span class="ai-tool-name">Wan 2.2</span>
+                        <span class="ai-tool-desc">Temporal Video Inference</span>
+                    </div>
+
+                    <!-- HiDream -->
+                    <div class="ai-tool-badge">
+                        <div class="ai-tool-icon">
+                            <!-- Dream/Styling Starburst SVG for HiDream -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="1.5" class="w-8 h-8">
+                                <path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <span class="ai-tool-name">HiDream</span>
+                        <span class="ai-tool-desc">Artistic Styling Weights</span>
+                    </div>
+
+                    <!-- Luma Dream -->
+                    <div class="ai-tool-badge">
+                        <div class="ai-tool-icon">
+                            <!-- Frame Camera/Cinematography SVG for Luma -->
+                            <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="1.5" class="w-8 h-8">
+                                <rect x="3" y="6" width="12" height="12" rx="2" />
+                                <path d="M15 10l6-4v12l-6-4" stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <span class="ai-tool-name">Luma D.M.</span>
+                        <span class="ai-tool-desc">Frame Interpolation</span>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Projects & Research Cases -->
+        <section class="mb-16">
+            <div class="flex justify-between items-baseline mb-6">
+                <div>
+                    <span class="font-mono text-accent text-xs uppercase tracking-widest">// WORK_&_EXPERIMENT_INDEX</span>
+                    <h2 class="comfy-section-title mt-2">AI Projects & Case Studies</h2>
+                </div>
+            </div>
+            
             <div class="ai-grid">
                 
                 <!-- Project 1: Dredge -->
@@ -140,6 +259,51 @@
                         </p>
                         <div class="ai-card-footer">
                             <span>Inspect Prompt Architecture</span>
+                            <i class="ph ph-arrow-up-right"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4: Synthetic Corals (HiDream) -->
+                <div class="ai-card" onclick="openDrawer('synthetic_corals')">
+                    <div class="ai-card-media">
+                        <img src="https://assets.willvernon.online/ai/synthetic_corals_2.png" alt="Synthetic Corals Generated Outcome">
+                        <div class="ai-card-overlay">
+                            <span class="ai-tag">[ COMFYUI_NODE ]</span>
+                            <span class="ai-tag">[ HIDREAM_CORE ]</span>
+                        </div>
+                    </div>
+                    <div class="ai-card-content">
+                        <h3 class="ai-card-title">Synthetic Corals</h3>
+                        <p class="ai-card-desc">
+                            Generative marine reef structures engineered through high-diffusion node architectures. Blends custom outpainting and artistic styling weights to yield structural biological complexity.
+                        </p>
+                        <div class="ai-card-footer">
+                            <span>Inspect Node Flow & Outcomes</span>
+                            <i class="ph ph-arrow-up-right"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5: website Rebuild with Antigravity -->
+                <div class="ai-card" onclick="openDrawer('website_rebuild')">
+                    <div class="ai-card-media">
+                        <!-- Custom styled monogram placement as project outcome preview -->
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background-color: #030303;">
+                            <img src="img/monogram-white-trans.png" alt="WV Monogram" style="width: 80px; height: auto; opacity: 0.6; filter: drop-shadow(0 0 15px rgba(217, 28, 28, 0.3));">
+                        </div>
+                        <div class="ai-card-overlay">
+                            <span class="ai-tag">[ AGENTIC_PAIR ]</span>
+                            <span class="ai-tag">[ GEMINI_CANVAS ]</span>
+                        </div>
+                    </div>
+                    <div class="ai-card-content">
+                        <h3 class="ai-card-title">willvernon.online Rebuild</h3>
+                        <p class="ai-card-desc">
+                            Technical case study of modular pair-programming with Antigravity (advanced agentic coder) and Gemini Canvas. Highlights edge assets pipelines, Web Audio CORS solutions, and UI system refactors.
+                        </p>
+                        <div class="ai-card-footer">
+                            <span>Inspect Workflow Architecture</span>
                             <i class="ph ph-arrow-up-right"></i>
                         </div>
                     </div>
@@ -287,13 +451,13 @@
                 </div>
 
                 <!-- Node 8: Outcome Output -->
-                <div class="comfy-node" style="border-color: #c084fc;">
+                <div class="comfy-node" style="border-color: var(--accent-red);">
                     <div class="comfy-node-header comfy-header-red" style="background-color: #581c87;">
                         <span>Synthetic Corals</span>
                         <span class="text-xs">#102</span>
                     </div>
                     <div style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; background: #000;">
-                        <img src="https://assets.willvernon.online/ai/synthetic_corals_outcome.png" alt="Synthetic Corals Visual Output" style="width: 100%; height: 100%; object-fit: cover;">
+                        <img src="https://assets.willvernon.online/ai/synthetic_corals_2.png" alt="Synthetic Corals Visual Output" style="width: 100%; height: 100%; object-fit: cover;">
                     </div>
                 </div>
 
@@ -358,9 +522,10 @@
             <!-- Tags injected dynamically -->
         </div>
 
-        <div class="slideover-outcome-section">
+        <div class="slideover-outcome-section" style="height: auto; aspect-ratio: auto;">
+            <!-- Outer Media Wrapper - will either house a single element OR the carousel -->
             <div id="drawer-media-container" style="width: 100%; height: 100%;">
-                <!-- Media injected dynamically -->
+                <!-- Dynamic Content (Video, single Image, or Carousel HTML) injected here -->
             </div>
             <span class="slideover-outcome-label">GENERATIVE_SYNTAX_OUTCOME</span>
         </div>
@@ -372,7 +537,7 @@
         <div>
             <h3 class="slideover-process-title font-sans">Prompt & Generation Parameters</h3>
             
-            <span class="ai-prompt-label">Primary Prompt</span>
+            <span class="ai-prompt-label">Primary Prompt / Engineering Sequence</span>
             <div class="ai-prompt-box">
                 <span id="drawer-prompt">Prompt text...</span>
                 <button class="ai-prompt-copy-btn" onclick="copyPrompt()" aria-label="Copy Prompt">
@@ -386,15 +551,15 @@
                     <strong style="color:var(--text-white);" id="param-engine">Midjourney V6</strong>
                 </div>
                 <div>
-                    <span style="display:block; text-transform:uppercase; color:var(--text-muted); font-size:0.65rem;">Aspect Ratio</span>
+                    <span style="display:block; text-transform:uppercase; color:var(--text-muted); font-size:0.65rem;">Aspect Ratio / R2 Target</span>
                     <strong style="color:var(--text-white);" id="param-ar">--ar 16:9</strong>
                 </div>
                 <div>
-                    <span style="display:block; text-transform:uppercase; color:var(--text-muted); font-size:0.65rem;">Style Parameter</span>
+                    <span style="display:block; text-transform:uppercase; color:var(--text-muted); font-size:0.65rem;">Style Parameter / Flow</span>
                     <strong style="color:var(--text-white);" id="param-style">--style raw</strong>
                 </div>
                 <div>
-                    <span style="display:block; text-transform:uppercase; color:var(--text-muted); font-size:0.65rem;">Upscale Iteration</span>
+                    <span style="display:block; text-transform:uppercase; color:var(--text-muted); font-size:0.65rem;">Upscale / Denoise Loop</span>
                     <strong style="color:var(--text-white);" id="param-upscale">Subtle 2x (Creative)</strong>
                 </div>
             </div>
@@ -415,7 +580,7 @@
                 title: "DREDGE",
                 meta: "[ MIDJOURNEY_V6 // FLUID_DYNAMICS ]",
                 tags: ["Midjourney V6", "Oceanic Scale", "Luma Dream Machine", "Light Scatter"],
-                mediaHtml: `<video src="https://assets.willvernon.online/ai/dredge_outcome.mp4" controls autoplay muted loop playsinline style="width:100%; height:100%; object-fit:cover;"></video>`,
+                mediaHtml: `<div class="carousel-container"><div class="carousel-slide active"><video src="https://assets.willvernon.online/ai/dredge_outcome.mp4" controls autoplay muted loop playsinline></video></div></div>`,
                 desc: "A cinematically paced study centered on marine giants, heavy light-refraction, and deep aquatic volumetric light scattering. This experiment focused on creating deep-ocean mood aesthetics using multi-layered prompts that govern light propagation, bubble density, and scale ratios.",
                 prompt: "ultra-realistic cinematic photography of a massive bioluminescent white whale leaping from the abyssal ocean, glowing internal light grid, deep volumetric light rays piercing underwater, heavy particles, slow-motion bubbles, high-detail water textures, octane render, Arri Alexa style --ar 2.35:1 --style raw --v 6.0",
                 engine: "Midjourney V6 + Frame Interpolation",
@@ -427,7 +592,7 @@
                 title: "Kura (蔵)",
                 meta: "[ MJ_PORTRAITURE // RAW_STYLE ]",
                 tags: ["Midjourney V6", "Historical Study", "Portraiture", "Material Textures"],
-                mediaHtml: `<img src="https://assets.willvernon.online/ai/kura_outcome.png" style="width:100%; height:100%; object-fit:cover;" alt="Kura Samurai Study">`,
+                mediaHtml: `<div class="carousel-container"><div class="carousel-slide active"><img src="https://assets.willvernon.online/ai/kura_outcome.png" alt="Kura Samurai Study"></div></div>`,
                 desc: "An elaborate character and portraiture experiment designed to test armor texture rendering and facial micro-details in historical simulations. The research concentrated on prompt keywords governing steel plates, traditional fabric weaving, and the capture of solemn facial tension under natural overhead lighting.",
                 prompt: "hyper-realistic close-up portrait photograph of a battle-tested female samurai, wearing intricate custom-fitted lacquered steel plates armor with leather woven straps, high-contrast chiaroscuro lighting, natural micro facial skin textures, solemn look, cinematic depth of field, captured on 85mm lens, f/1.8 --ar 16:9 --style raw --stylize 250",
                 engine: "Midjourney V6.0",
@@ -439,15 +604,80 @@
                 title: "Monolith Survival",
                 meta: "[ GORPCORE_AE // CAM_VECTORS ]",
                 tags: ["Midjourney V6", "Gorpcore Aesthetic", "Luma Dream Machine", "Slow Motion"],
-                mediaHtml: `<video src="https://assets.willvernon.online/ai/monolith_outcome.mp4" controls autoplay muted loop playsinline style="width:100%; height:100%; object-fit:cover;"></video>`,
+                mediaHtml: `<div class="carousel-container"><div class="carousel-slide active"><video src="https://assets.willvernon.online/ai/monolith_outcome.mp4" controls autoplay muted loop playsinline></video></div></div>`,
                 desc: "A stylized technical apparel 'gorpcore' campaign test. By combining structural geometry and commercial apparel grammar, we simulated macro boot stomping and technical nylon folds during heavy movement. Used Luma Dream Machine to interpolate high-motion camera pans around physical monoliths.",
                 prompt: "social_u7329539893_httpss.mj.runS83Gb2M2trU_the_shoe_stomps_the_ground --ar 9:16 --style raw --v 6.0 (High-motion hiking boot technical gorpcore campaign, massive stone monolith background, slow-motion splash, camera orbits technical shoe)",
                 engine: "Midjourney V6 + Luma Dream Machine",
                 ar: "--ar 9:16",
                 style: "--style raw --v 6.0",
                 upscale: "Upscaled Creative 2x"
+            },
+            synthetic_corals: {
+                title: "Synthetic Corals",
+                meta: "[ COMFYUI_NODE // HIDREAM_CORE // CLOUDFLARE_R2 ]",
+                tags: ["ComfyUI", "HiDream weights", "Flux.1 Dev", "Bioluminescent", "Multi-Outcome"],
+                // Interactive 5-image Carousel markup
+                mediaHtml: `
+                    <div class="carousel-container">
+                        <!-- Carousel Slides (5 outcomes!) -->
+                        <div class="carousel-slide active" data-index="0">
+                            <img src="https://assets.willvernon.online/ai/synthetic_corals_1.jpg" alt="Synthetic Coral 1 - White Calcification">
+                        </div>
+                        <div class="carousel-slide" data-index="1">
+                            <img src="https://assets.willvernon.online/ai/synthetic_corals_2.png" alt="Synthetic Coral 2 - Bioluminescent Cyan Blue">
+                        </div>
+                        <div class="carousel-slide" data-index="2">
+                            <img src="https://assets.willvernon.online/ai/synthetic_corals_3.jpg" alt="Synthetic Coral 3 - Dark Red Obsidian">
+                        </div>
+                        <div class="carousel-slide" data-index="3">
+                            <img src="https://assets.willvernon.online/ai/synthetic_corals_4.jpg" alt="Synthetic Coral 4 - Polyps Bouquet">
+                        </div>
+                        <div class="carousel-slide" data-index="4">
+                            <img src="https://assets.willvernon.online/ai/synthetic_corals_5.jpg" alt="Synthetic Coral 5 - Volcanic Coral Graft">
+                        </div>
+
+                        <!-- Controls -->
+                        <button class="carousel-control-btn carousel-prev" onclick="moveCarousel(-1)" aria-label="Previous Slide">
+                            <i class="ph ph-caret-left"></i>
+                        </button>
+                        <button class="carousel-control-btn carousel-next" onclick="moveCarousel(1)" aria-label="Next Slide">
+                            <i class="ph ph-caret-right"></i>
+                        </button>
+
+                        <!-- Indicators -->
+                        <div class="carousel-indicator-row">
+                            <span class="carousel-dot-indicator active" onclick="gotoCarouselSlide(0)"></span>
+                            <span class="carousel-dot-indicator" onclick="gotoCarouselSlide(1)"></span>
+                            <span class="carousel-dot-indicator" onclick="gotoCarouselSlide(2)"></span>
+                            <span class="carousel-dot-indicator" onclick="gotoCarouselSlide(3)"></span>
+                            <span class="carousel-dot-indicator" onclick="gotoCarouselSlide(4)"></span>
+                        </div>
+                    </div>
+                `,
+                desc: "A major research case exploring artificial marine reef structures. Developed using a 17-node ComfyUI custom workflow running under flux1-dev and HiDream artistic styling weights. By manipulating noise shift values (shift = 1.15) and sampling seeds across five discrete test runs, the system rendered distinct chemical-calcification, volcanic-graft, and bioluminescent bio-polyps phenotypes.",
+                prompt: "intricate synthetic coral structures, glowing neon cyan and purple veins, hyper-detailed bioluminescent reef, octane render, complex mathematics organic formations, 8k --ar 16:9 // Node Loader: flux1-dev-fp8.safetensors, shifted ModelSamplingSD3 noise coordinates, KSampler cfg: 4.5, VAE ae.safetensors",
+                engine: "ComfyUI Node + HiDream core (Flux.1 Dev base)",
+                ar: "1:1 / 16:9 Multi-resolutions",
+                style: "Design-Directed Flow (DDF)",
+                upscale: "Upscaled Subtle (Ultrasharp 4x Model)"
+            },
+            website_rebuild: {
+                title: "willvernon.online Rebuild",
+                meta: "[ AGENTIC_PAIR // GEMINI_CANVAS ]",
+                tags: ["Antigravity AI", "Gemini Canvas", "R2 Bucket Storage", "Serverless CDN", "Vanilla CSS"],
+                mediaHtml: `<div class="carousel-container"><div class="carousel-slide active" style="display:flex; align-items:center; justify-content:center; background:#030303;"><img src="img/monogram-white-trans.png" style="width:120px; height:auto; opacity:0.8; filter:drop-shadow(0 0 20px rgba(217, 28, 28, 0.4));" alt="WV Monogram Rebuild"></div></div>`,
+                desc: "A highly collaborative casing of digital engineering. This website was rebuilt from scratch through a pair-programming loop between designer William Vernon and agentic AI Antigravity running inside Gemini Canvas. Resolving real-world systems roadblocks: resolving cross-origin OPTIONS blocks in R2 CORS rules to support Web Audio wav streams, shifting massive 310MB WAV packages into object buckets, and establishing auto-deploy Cloudflare Edge CDN builds.",
+                prompt: "Pair programming interaction: William Vernon (Artistic Direction & structural sketches) + Antigravity (Advanced Agentic CSS grid restoration, CORS XML header parser, boto3 media staging automated scripting, HTML responsive drawers)",
+                engine: "Antigravity AI + Gemini Canvas Workspace",
+                ar: "Pure Vanilla HTML5 / CSS3 Grid",
+                style: "Agentic Collaboration Flow",
+                upscale: "Cloudflare Edge Global Cache (100ms load)"
             }
         };
+
+        // Slide State for Carousel
+        let currentSlideIndex = 0;
+        let maxSlides = 0;
 
         // Open Slide-Over Drawer
         function openDrawer(projectId) {
@@ -476,6 +706,11 @@
             // Inject Media
             document.getElementById('drawer-media-container').innerHTML = data.mediaHtml;
 
+            // Initialize carousel states if there are slides
+            const slides = document.querySelectorAll('#drawer-media-container .carousel-slide');
+            maxSlides = slides.length;
+            currentSlideIndex = 0;
+
             // Activate Drawer UI
             document.getElementById('drawer-backdrop').classList.add('active');
             document.getElementById('ai-drawer').classList.add('active');
@@ -492,6 +727,38 @@
             setTimeout(() => {
                 document.getElementById('drawer-media-container').innerHTML = '';
             }, 400);
+        }
+
+        // Carousel Movement Logic
+        function moveCarousel(direction) {
+            const slides = document.querySelectorAll('#drawer-media-container .carousel-slide');
+            const indicators = document.querySelectorAll('#drawer-media-container .carousel-dot-indicator');
+            if (slides.length <= 1) return;
+
+            // Hide old slide
+            slides[currentSlideIndex].classList.remove('active');
+            indicators[currentSlideIndex].classList.remove('active');
+
+            // Calculate new slide index
+            currentSlideIndex = (currentSlideIndex + direction + maxSlides) % maxSlides;
+
+            // Show new slide
+            slides[currentSlideIndex].classList.add('active');
+            indicators[currentSlideIndex].classList.add('active');
+        }
+
+        function gotoCarouselSlide(index) {
+            const slides = document.querySelectorAll('#drawer-media-container .carousel-slide');
+            const indicators = document.querySelectorAll('#drawer-media-container .carousel-dot-indicator');
+            if (slides.length <= 1 || index === currentSlideIndex) return;
+
+            slides[currentSlideIndex].classList.remove('active');
+            indicators[currentSlideIndex].classList.remove('active');
+
+            currentSlideIndex = index;
+
+            slides[currentSlideIndex].classList.add('active');
+            indicators[currentSlideIndex].classList.add('active');
         }
 
         // Copy Prompt to Clipboard
