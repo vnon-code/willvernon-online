@@ -21,6 +21,7 @@
         .experiment-card-media {
             position: relative;
             width: 100%;
+            aspect-ratio: 1 / 1;
             overflow: hidden;
             background-color: var(--bg-900);
             border-bottom: 1px solid var(--bg-800);
@@ -309,7 +310,7 @@
                 card.setAttribute('onclick', `openLightbox('${exp.id}')`);
 
                 card.innerHTML = `
-                    <div class="experiment-card-media" style="aspect-ratio: ${exp.aspectRatio};">
+                    <div class="experiment-card-media">
                         <video src="${exp.mediaSrc}" muted loop playsinline></video>
                         <div class="project-card-overlay">
                             <span class="project-card-splash-label">[ Click to Expand ]</span>
