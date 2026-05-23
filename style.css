@@ -1026,6 +1026,65 @@ h1, h2, h3, h4, h5, h6 {
   box-shadow: 0 16px 40px rgba(217, 28, 28, 0.08);
 }
 
+/* AI Grid & Card layout */
+.ai-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  width: 100%;
+  align-items: start; /* Prevents vertical stretching, supporting masonry style dynamic heights */
+}
+
+@media (min-width: 768px) {
+  .ai-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .ai-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.ai-card {
+  background-color: #0a0a0a;
+  border: 1px solid #161616;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  cursor: pointer;
+}
+
+.ai-card:hover {
+  transform: translateY(-8px);
+  border-color: var(--accent-red);
+  box-shadow: 0 16px 40px rgba(217, 28, 28, 0.08);
+}
+
+.ai-card-media {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  background-color: #030303;
+  border-bottom: 1px solid #161616;
+}
+
+.ai-card-media.aspect-landscape {
+  aspect-ratio: 16 / 9;
+}
+
+.ai-card-media.aspect-portrait {
+  aspect-ratio: 3 / 4;
+}
+
+.ai-card-media.aspect-square {
+  aspect-ratio: 1 / 1;
+}
+
 .project-card-media-wrapper {
   position: relative;
   width: 100%;
@@ -2778,8 +2837,8 @@ a[href*="linkedin.com"]:hover * {
   color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-top: 1.5rem;
-  display: block;
+  justify-content: space-between;
+  align-items: center;
 }
 
 /* --------------------------------------------------------------------------
@@ -2788,84 +2847,104 @@ a[href*="linkedin.com"]:hover * {
 .carousel-container {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
+  height: 60vh;
+  max-height: 520px;
   background-color: #030303;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
   border-radius: 8px;
   border: 1px solid var(--bg-800);
 }
 
 .carousel-slide {
-  position: absolute;
-  top: 0;
-  left: 0;
+  display: none;
   width: 100%;
   height: 100%;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.5s ease, visibility 0s linear 0.5s;
+  align-items: center;
+  justify-content: center;
 }
 
 .carousel-slide.active {
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 0.5s ease, visibility 0s linear 0s;
+  display: flex;
 }
 
 .carousel-slide img,
 .carousel-slide video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 4px;
 }
 
+/* Premium Control Arrows style */
 .carousel-control-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: rgba(2,0,0,0.6);
-  border: 1px solid var(--bg-700);
-  color: #fff;
-  width: 2.5rem;
-  height: 2.5rem;
+  background-color: rgba(10, 10, 10, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-white);
+  width: 2.75rem;
+  height: 2.75rem;
   border-radius: 50%;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  z-index: 15;
-  transition: all 0.3s ease;
+  z-index: 10;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .carousel-control-btn:hover {
-  background: var(--accent-red);
+  background-color: rgba(217, 28, 28, 0.9);
   border-color: var(--accent-red);
-  box-shadow: 0 0 10px var(--accent-red);
+  box-shadow: 0 0 15px rgba(217, 28, 28, 0.4);
 }
 
-.carousel-prev { left: 1rem; }
-.carousel-next { right: 1rem; }
+.carousel-prev {
+  left: 1.25rem;
+}
 
+.carousel-next {
+  right: 1.25rem;
+}
+
+/* Indicator dots row */
 .carousel-indicator-row {
   position: absolute;
-  bottom: 1rem;
+  bottom: 1.25rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   gap: 0.5rem;
-  z-index: 15;
+  z-index: 10;
+  background-color: rgba(10, 10, 10, 0.6);
+  padding: 0.4rem 0.75rem;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .carousel-dot-indicator {
-  width: 8px;
-  height: 8px;
-  background: rgba(255,255,255,0.3);
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3);
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.carousel-dot-indicator:hover {
+  background-color: rgba(255, 255, 255, 0.8);
 }
 
 .carousel-dot-indicator.active {
-  background: var(--accent-red);
-  box-shadow: 0 0 5px var(--accent-red);
+  background-color: var(--accent-red);
+  box-shadow: 0 0 8px var(--accent-red);
+  transform: scale(1.2);
 }
+
+/* --------------------------------------------------------------------------
