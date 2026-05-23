@@ -14,7 +14,7 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     
     <!-- Custom Style Sheet -->
-    <link rel="stylesheet" href="style.css?v=18">
+    <link rel="stylesheet" href="style.css?v=19">
     
     <!-- Music Hero Redesign Styles -->
     <style>
@@ -187,6 +187,15 @@
             50% {
                 transform: translateY(6px);
                 opacity: 1;
+            }
+        }
+
+        @media (max-width: 767px) {
+            .hero-section {
+                height: auto !important;
+                min-height: 100dvh !important;
+                padding-top: 8rem !important;
+                padding-bottom: 4rem !important;
             }
         }
     </style>

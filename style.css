@@ -1058,16 +1058,16 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   flex-direction: column;
   height: 100%;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.3s ease;
   position: relative;
   cursor: pointer;
   box-sizing: border-box;
 }
 
 .project-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-4px);
   border-color: var(--accent-red);
-  box-shadow: 0 16px 40px rgba(217, 28, 28, 0.08);
+  box-shadow: 0 0 15px rgba(217, 28, 28, 0.15);
 }
 
 .project-card-media-wrapper {
@@ -1079,17 +1079,36 @@ h1, h2, h3, h4, h5, h6 {
   border-bottom: 1px solid var(--bg-800);
 }
 
+.project-card-media-wrapper::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top right, var(--bg-900), var(--accent-darkred));
+  opacity: 0.4;
+  mix-blend-mode: overlay;
+  z-index: 10;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.project-card:hover .project-card-media-wrapper::after {
+  opacity: 0.1;
+}
+
 .project-card-media-wrapper video,
 .project-card-media-wrapper img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: grayscale(100%);
+  transform: scale(1.05);
+  transition: filter 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .project-card:hover .project-card-media-wrapper video,
 .project-card:hover .project-card-media-wrapper img {
-  transform: scale(1.05);
+  filter: grayscale(0%);
+  transform: scale(1);
 }
 
 .project-card-overlay {
@@ -2454,15 +2473,15 @@ a[href*="linkedin.com"]:hover * {
   display: flex;
   flex-direction: column;
   height: 100%;
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.3s ease;
   position: relative;
   cursor: pointer;
 }
 
 .ai-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-4px);
   border-color: var(--accent-red);
-  box-shadow: 0 16px 40px rgba(217, 28, 28, 0.08);
+  box-shadow: 0 0 15px rgba(217, 28, 28, 0.15);
 }
 
 .ai-card-media {
@@ -2474,17 +2493,36 @@ a[href*="linkedin.com"]:hover * {
   border-bottom: 1px solid #161616;
 }
 
+.ai-card-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top right, var(--bg-900), var(--accent-darkred));
+  opacity: 0.4;
+  mix-blend-mode: overlay;
+  z-index: 10;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.ai-card:hover .ai-card-media::after {
+  opacity: 0.1;
+}
+
 .ai-card-media video,
 .ai-card-media img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: grayscale(100%);
+  transform: scale(1.05);
+  transition: filter 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .ai-card:hover .ai-card-media video,
 .ai-card:hover .ai-card-media img {
-  transform: scale(1.03);
+  filter: grayscale(0%);
+  transform: scale(1);
 }
 
 .ai-card-overlay {
