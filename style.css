@@ -490,6 +490,35 @@ h1, h2, h3, h4, h5, h6 {
   background: linear-gradient(to bottom, var(--text-gray-500), transparent);
 }
 
+@media (max-width: 767px) {
+  .hero-section {
+    padding-top: 6.5rem !important;
+    min-height: auto !important;
+    height: 100dvh !important;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .hero-grid {
+    gap: 0.75rem !important;
+  }
+  .hero-section .mt-8 {
+    margin-top: 0.5rem !important;
+  }
+  .hero-desc {
+    margin-top: 0.5rem !important;
+    font-size: 0.875rem !important;
+    line-height: 1.5 !important;
+  }
+  .hero-buttons {
+    padding-top: 0.75rem !important;
+  }
+  .scroll-indicator {
+    display: none !important;
+  }
+}
+
 /* --------------------------------------------------------------------------
    UI Cards & Components
    -------------------------------------------------------------------------- */
@@ -824,7 +853,7 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   flex-direction: column;
   width: 100%;
-  flex-grow: 1;
+  height: calc(100dvh - 88px);
   background-color: var(--bg-950);
 }
 @media (min-width: 768px) {
@@ -841,7 +870,7 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding: 2rem;
+  padding: 1.5rem;
   text-decoration: none;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
