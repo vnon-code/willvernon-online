@@ -428,45 +428,13 @@
 
                                 <!-- Focus FX Panel Rack (Right) -->
                                 <div class="mixer-fx-panel" id="focus-fx-panel">
-                                    <div class="mixer-fx-title-row">
+                                    <div class="mixer-fx-title-row" style="margin-bottom: 0.75rem;">
                                         <span class="mixer-fx-title" id="fx-focus-title">01. Drums FX</span>
                                         <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red);">ACTIVE_CHANNEL</span>
                                     </div>
                                     
-                                    <!-- Parameter 1: Volume -->
-                                    <div style="display: flex; flex-direction: column; gap: 0.35rem;">
-                                        <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted);">
-                                            <span>VOLUME // GAIN</span>
-                                            <span id="label-vol" style="color: var(--accent-red);">100%</span>
-                                        </div>
-                                        <input type="range" id="param-vol" min="0" max="1" step="0.05" value="1.0" style="width: 100%; -webkit-appearance: none; background: var(--bg-800); height: 4px; border-radius: 2px; outline: none; border: 1px solid var(--bg-700);" class="deck-slider">
-                                    </div>
-
-                                    <!-- Parameter 2: Filter Cutoff -->
-                                    <div style="display: flex; flex-direction: column; gap: 0.35rem;">
-                                        <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted);">
-                                            <span>LPF_FILTER // CUTOFF</span>
-                                            <span id="label-filter" style="color: var(--accent-red);">BYPASS</span>
-                                        </div>
-                                        <input type="range" id="param-filter" min="150" max="4000" value="4000" style="width: 100%; -webkit-appearance: none; background: var(--bg-800); height: 4px; border-radius: 2px; outline: none; border: 1px solid var(--bg-700);" class="deck-slider">
-                                    </div>
-
-                                    <!-- Parameter 3: Distortion Drive -->
-                                    <div style="display: flex; flex-direction: column; gap: 0.35rem;">
-                                        <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted);">
-                                            <span>ANALOG_DRIVE // DISTORTION</span>
-                                            <span id="label-dist" style="color: var(--accent-red);">OFF</span>
-                                        </div>
-                                        <input type="range" id="param-dist" min="0" max="50" value="0" style="width: 100%; -webkit-appearance: none; background: var(--bg-800); height: 4px; border-radius: 2px; outline: none; border: 1px solid var(--bg-700);" class="deck-slider">
-                                    </div>
-
-                                    <!-- Parameter 4: Chorus Depth -->
-                                    <div style="display: flex; flex-direction: column; gap: 0.35rem;">
-                                        <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted);">
-                                            <span>MOD_CHORUS // DEPTH</span>
-                                            <span id="label-chorus" style="color: var(--accent-red);">OFF</span>
-                                        </div>
-                                        <input type="range" id="param-chorus" min="0" max="100" value="0" style="width: 100%; -webkit-appearance: none; background: var(--bg-800); height: 4px; border-radius: 2px; outline: none; border: 1px solid var(--bg-700);" class="deck-slider">
+                                    <div id="fx-controls-container" style="display: flex; flex-direction: column; gap: 1.1rem; width: 100%;">
+                                        <!-- Built dynamically on load -->
                                     </div>
                                 </div>
 
@@ -772,37 +740,136 @@
         };
 
         const trackParams = {
-            drums: { vol: 1.0, filter: 4000, dist: 0, chorus: 0, muted: false },
-            bass: { vol: 1.0, filter: 4000, dist: 0, chorus: 0, muted: false },
-            melody: { vol: 1.0, filter: 4000, dist: 0, chorus: 0, muted: false },
-            atmos: { vol: 1.0, filter: 4000, dist: 0, chorus: 0, muted: false },
-            vocals: { vol: 1.0, filter: 4000, dist: 0, chorus: 0, muted: false }
+            drums: { filter: 4000, dist: 0, muted: false },
+            bass: { filter: 4000, dist: 0, muted: false },
+            melody: { shine: 0, reverb: 0, wander: 0, filter: 4000, muted: false },
+            atmos: { reverb: 0, delay: 0, muted: false },
+            vocals: { flanger: 0, cyber: 0, muted: false }
+        };
+
+        // Configuration of sliders for each stem
+        const FX_SLIDERS_CONFIG = {
+            drums: [
+                {
+                    id: "filter",
+                    label: "LPF Filter",
+                    min: 150,
+                    max: 4000,
+                    step: 10,
+                    getDisplay: (val) => val >= 3900 ? "BYPASS" : `${val} Hz`
+                },
+                {
+                    id: "dist",
+                    label: "Distortion",
+                    min: 0,
+                    max: 50,
+                    step: 1,
+                    getDisplay: (val) => val === 0 ? "OFF" : `${val} DB`
+                }
+            ],
+            bass: [
+                {
+                    id: "filter",
+                    label: "LPF Filter",
+                    min: 150,
+                    max: 4000,
+                    step: 10,
+                    getDisplay: (val) => val >= 3900 ? "BYPASS" : `${val} Hz`
+                },
+                {
+                    id: "dist",
+                    label: "Distortion",
+                    min: 0,
+                    max: 50,
+                    step: 1,
+                    getDisplay: (val) => val === 0 ? "OFF" : `${val} DB`
+                }
+            ],
+            melody: [
+                {
+                    id: "shine",
+                    label: "Brighten",
+                    min: -10,
+                    max: 10,
+                    step: 1,
+                    getDisplay: (val) => val === 0 ? "FLAT" : val > 0 ? `+${val} DB` : `${val} DB`
+                },
+                {
+                    id: "reverb",
+                    label: "Reverb",
+                    min: 0,
+                    max: 100,
+                    step: 1,
+                    getDisplay: (val) => val === 0 ? "DRY" : `${val}%`
+                },
+                {
+                    id: "wander",
+                    label: "Panning/Tremolo",
+                    min: 0,
+                    max: 100,
+                    step: 1,
+                    getDisplay: (val) => val === 0 ? "CENTER" : `${val}%`
+                },
+                {
+                    id: "filter",
+                    label: "Filter",
+                    min: 150,
+                    max: 4000,
+                    step: 10,
+                    getDisplay: (val) => val >= 3900 ? "BYPASS" : `${val} Hz`
+                }
+            ],
+            atmos: [
+                {
+                    id: "reverb",
+                    label: "Reverb",
+                    min: 0,
+                    max: 100,
+                    step: 1,
+                    getDisplay: (val) => val === 0 ? "DRY" : `${val}%`
+                },
+                {
+                    id: "delay",
+                    label: "Delay",
+                    min: 0,
+                    max: 80,
+                    step: 1,
+                    getDisplay: (val) => val === 0 ? "OFF" : `${val}%`
+                }
+            ],
+            vocals: [
+                {
+                    id: "flanger",
+                    label: "Flanger",
+                    min: 0,
+                    max: 100,
+                    step: 1,
+                    getDisplay: (val) => val === 0 ? "OFF" : `${val}%`
+                },
+                {
+                    id: "cyber", // Maps to Pitch (Robotic RingMod freq)
+                    label: "Pitch",
+                    min: 0,
+                    max: 100,
+                    step: 1,
+                    getDisplay: (val) => val === 0 ? "OFF" : `${val}%`
+                }
+            ]
         };
 
         let audioCtx = null;
         let isPlaying = false;
-        let stems = {}; // Holds: { audio, source, filter, distortion, chorusDelay, chorusLfoGain, gain, analyser }
+        let stems = {}; // Holds dynamic audio node maps for each channel
         let masterGainNode = null;
         let selectedTrack = 'drums';
-        let sidechainDucking = 1.0; // Current sidechain compression gain factor
+        let sidechainDucking = 1.0; // Current sidechain compression factor
         let animFrame = null;
 
         const playBtn = document.getElementById('av-play-btn');
         const playIcon = document.getElementById('av-play-icon');
         const statusTxt = document.getElementById('av-status-txt');
         const masterVolSlider = document.getElementById('master-vol');
-        
-        // FX Sliders & Labels
         const fxTitle = document.getElementById('fx-focus-title');
-        const sliderVol = document.getElementById('param-vol');
-        const sliderFilter = document.getElementById('param-filter');
-        const sliderDist = document.getElementById('param-dist');
-        const sliderChorus = document.getElementById('param-chorus');
-        
-        const labelVol = document.getElementById('label-vol');
-        const labelFilter = document.getElementById('label-filter');
-        const labelDist = document.getElementById('label-dist');
-        const labelChorus = document.getElementById('label-chorus');
 
         // Waveshaper distortion curve generator
         function makeDistortionCurve(amount) {
@@ -817,7 +884,7 @@
             return curve;
         }
 
-        // Initialize Web Audio Graph
+        // Initialize Web Audio Graph with stem-specific DSP structures
         function initAudio() {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             masterGainNode = audioCtx.createGain();
@@ -827,74 +894,179 @@
             Object.keys(STEMS_CONFIG).forEach(key => {
                 const config = STEMS_CONFIG[key];
                 
-                // Create programmatic Audio loop element
+                // Create HTML5 Audio Loop element
                 const audio = new Audio();
                 audio.src = config.file;
                 audio.loop = true;
                 audio.crossOrigin = "anonymous";
                 
                 const source = audioCtx.createMediaElementSource(audio);
-                
-                // 1. Filter
-                const filter = audioCtx.createBiquadFilter();
-                filter.type = 'lowpass';
-                filter.frequency.value = trackParams[key].filter;
-                
-                // 2. Distortion (Waveshaper)
-                const distortion = audioCtx.createWaveShaper();
-                distortion.curve = null; // Bypass by default
-                distortion.oversample = '4x';
-                
-                // 3. Chorus delay line and modulator LFO
-                const chorusDelay = audioCtx.createDelay(0.1);
-                chorusDelay.delayTime.value = 0.03; // Base delay of 30ms
-                
-                const chorusLfo = audioCtx.createOscillator();
-                chorusLfo.frequency.value = 1.5; // slow modulation speed
-                
-                const chorusLfoGain = audioCtx.createGain();
-                chorusLfoGain.gain.value = 0; // Off by default (0 depth)
-                
-                chorusLfo.connect(chorusLfoGain);
-                chorusLfoGain.connect(chorusDelay.delayTime);
-                chorusLfo.start();
-                
-                // 4. Volume (Gain)
                 const gain = audioCtx.createGain();
-                gain.gain.value = trackParams[key].vol;
+                gain.gain.value = 1.0;
                 
-                // 5. Analyser
                 const analyser = audioCtx.createAnalyser();
-                analyser.fftSize = 64; // Small fft for fast envelope tracking
+                analyser.fftSize = 64; // fast time domain envelope tracking
 
-                // Route: Source -> Filter -> Distortion -> Chorus -> Gain -> Analyser -> Master
-                source.connect(filter);
-                filter.connect(distortion);
-                distortion.connect(chorusDelay);
-                chorusDelay.connect(gain);
-                gain.connect(analyser);
-                analyser.connect(masterGainNode);
+                if (key === 'drums' || key === 'bass') {
+                    // Drums / Bass DSP: Source -> Filter -> Distortion -> Gain -> Analyser -> Master
+                    const filter = audioCtx.createBiquadFilter();
+                    filter.type = trackParams[key].filter >= 3900 ? 'allpass' : 'lowpass';
+                    filter.frequency.value = trackParams[key].filter;
 
-                stems[key] = {
-                    audio,
-                    source,
-                    filter,
-                    distortion,
-                    chorusDelay,
-                    chorusLfoGain,
-                    gain,
-                    analyser
-                };
+                    const distortion = audioCtx.createWaveShaper();
+                    distortion.curve = null;
+                    distortion.oversample = '4x';
+
+                    source.connect(filter);
+                    filter.connect(distortion);
+                    distortion.connect(gain);
+                    gain.connect(analyser);
+                    analyser.connect(masterGainNode);
+
+                    stems[key] = { audio, source, filter, distortion, gain, analyser };
+
+                } else if (key === 'melody') {
+                    // Melody DSP: Source -> Filter -> Shine -> Wander -> Gain (with send return Reverb loop)
+                    const filter = audioCtx.createBiquadFilter();
+                    filter.type = trackParams.melody.filter >= 3900 ? 'allpass' : 'lowpass';
+                    filter.frequency.value = trackParams.melody.filter;
+
+                    const shine = audioCtx.createBiquadFilter();
+                    shine.type = 'highshelf';
+                    shine.frequency.value = 3000;
+                    shine.gain.value = trackParams.melody.shine;
+
+                    const wanderPanner = audioCtx.createStereoPanner();
+                    wanderPanner.pan.value = 0;
+
+                    const wanderLfo = audioCtx.createOscillator();
+                    wanderLfo.frequency.value = 0.8; // slow panning
+                    const wanderGain = audioCtx.createGain();
+                    wanderGain.gain.value = trackParams.melody.wander / 100;
+                    wanderLfo.connect(wanderGain);
+                    wanderGain.connect(wanderPanner.pan);
+                    wanderLfo.start();
+
+                    // Reverb loop
+                    const reverbDelay = audioCtx.createDelay(0.5);
+                    reverbDelay.delayTime.value = 0.085; // dense early reflections
+                    const reverbFeedback = audioCtx.createGain();
+                    reverbFeedback.gain.value = 0.55;
+                    const reverbWet = audioCtx.createGain();
+                    reverbWet.gain.value = (trackParams.melody.reverb / 100) * 0.45;
+
+                    source.connect(filter);
+                    filter.connect(shine);
+                    shine.connect(wanderPanner);
+
+                    // Dry
+                    wanderPanner.connect(gain);
+
+                    // Wet send
+                    wanderPanner.connect(reverbWet);
+                    reverbWet.connect(reverbDelay);
+                    reverbDelay.connect(reverbFeedback);
+                    reverbFeedback.connect(reverbDelay); // loop
+                    reverbDelay.connect(gain); // return
+
+                    gain.connect(analyser);
+                    analyser.connect(masterGainNode);
+
+                    stems[key] = {
+                        audio, source, filter, shine, wanderPanner, wanderGain,
+                        reverbWet, reverbDelay, gain, analyser
+                    };
+
+                } else if (key === 'atmos') {
+                    // Atmos DSP: Source -> Gain (with parallel delay & reverb return loops)
+                    const reverbDelay = audioCtx.createDelay(0.5);
+                    reverbDelay.delayTime.value = 0.12; // deep pad reflections
+                    const reverbFeedback = audioCtx.createGain();
+                    reverbFeedback.gain.value = 0.6;
+                    const reverbWet = audioCtx.createGain();
+                    reverbWet.gain.value = (trackParams.atmos.reverb / 100) * 0.45;
+
+                    const delayNode = audioCtx.createDelay(1.0);
+                    delayNode.delayTime.value = 0.375; // synced dotted-eighth delay
+                    const delayFeedback = audioCtx.createGain();
+                    delayFeedback.gain.value = (trackParams.atmos.delay / 100) * 0.75;
+
+                    source.connect(gain); // dry
+
+                    // Reverb return
+                    source.connect(reverbWet);
+                    reverbWet.connect(reverbDelay);
+                    reverbDelay.connect(reverbFeedback);
+                    reverbFeedback.connect(reverbDelay);
+                    reverbDelay.connect(gain);
+
+                    // Synced delay return
+                    source.connect(delayNode);
+                    delayNode.connect(delayFeedback);
+                    delayFeedback.connect(delayNode);
+                    delayNode.connect(gain);
+
+                    gain.connect(analyser);
+                    analyser.connect(masterGainNode);
+
+                    stems[key] = {
+                        audio, source, reverbWet, reverbDelay,
+                        delayNode, delayFeedback, gain, analyser
+                    };
+
+                } else if (key === 'vocals') {
+                    // Vocals DSP: Source -> Flanger -> Cyber Voice (Ring Mod) -> gain
+                    const flangerDelay = audioCtx.createDelay(0.1);
+                    flangerDelay.delayTime.value = 0.005;
+                    const flangerLfo = audioCtx.createOscillator();
+                    flangerLfo.frequency.value = 0.35;
+                    const flangerGain = audioCtx.createGain();
+                    flangerGain.gain.value = (trackParams.vocals.flanger / 100) * 0.004;
+                    flangerLfo.connect(flangerGain);
+                    flangerGain.connect(flangerDelay.delayTime);
+                    flangerLfo.start();
+
+                    source.connect(flangerDelay);
+
+                    const cyberDry = audioCtx.createGain();
+                    const cyberWet = audioCtx.createGain();
+                    const cyberWetBlend = trackParams.vocals.cyber > 0 ? 0.8 : 0;
+                    cyberDry.gain.value = 1.0 - cyberWetBlend;
+                    cyberWet.gain.value = cyberWetBlend;
+
+                    const ringMod = audioCtx.createGain();
+                    ringMod.gain.value = 0;
+                    const carrierOsc = audioCtx.createOscillator();
+                    carrierOsc.type = 'sine';
+                    const initialFreq = 70 + (trackParams.vocals.cyber * 2.8);
+                    carrierOsc.frequency.value = initialFreq;
+                    carrierOsc.connect(ringMod.gain);
+                    carrierOsc.start();
+
+                    flangerDelay.connect(cyberDry);
+                    flangerDelay.connect(cyberWet);
+                    cyberWet.connect(ringMod);
+
+                    cyberDry.connect(gain);
+                    ringMod.connect(gain);
+
+                    gain.connect(analyser);
+                    analyser.connect(masterGainNode);
+
+                    stems[key] = {
+                        audio, source, flangerDelay, flangerGain,
+                        cyberDry, cyberWet, ringMod, carrierOsc,
+                        gain, analyser
+                    };
+                }
             });
         }
 
-        // Focus Selector Triggering
+        // Focus Selector Triggering and Slider Builder
         const strips = document.querySelectorAll('.mixer-track-strip');
         strips.forEach(strip => {
             strip.addEventListener('click', (e) => {
-                // Ignore click if it's on the mute button directly
                 if (e.target.classList.contains('mixer-track-mute-btn')) return;
-                
                 const trackKey = strip.getAttribute('data-track');
                 focusTrack(trackKey);
             });
@@ -916,15 +1088,46 @@
             const config = STEMS_CONFIG[trackKey];
             fxTitle.textContent = `0${getTrackNum(trackKey)}. ${config.name} FX`;
 
-            // Load parameters into FX Sliders
+            // Build dynamic sliders in DOM
+            const container = document.getElementById('fx-controls-container');
+            container.innerHTML = ''; // Clear previous sliders
+            
+            const sliders = FX_SLIDERS_CONFIG[trackKey];
             const params = trackParams[trackKey];
-            sliderVol.value = params.vol;
-            sliderFilter.value = params.filter;
-            sliderDist.value = params.dist;
-            sliderChorus.value = params.chorus;
-
-            // Sync visual labels
-            updateFXLabels(trackKey);
+            
+            sliders.forEach(slider => {
+                const paramVal = params[slider.id];
+                const displayVal = slider.getDisplay(paramVal);
+                
+                const sliderDiv = document.createElement('div');
+                sliderDiv.style.display = 'flex';
+                sliderDiv.style.flexDirection = 'column';
+                sliderDiv.style.gap = '0.35rem';
+                
+                sliderDiv.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted);">
+                        <span>${slider.label}</span>
+                        <span id="label-${slider.id}" style="color: var(--accent-red); font-weight: 700;">${displayVal}</span>
+                    </div>
+                    <input type="range" id="param-${slider.id}" min="${slider.min}" max="${slider.max}" step="${slider.step}" value="${paramVal}" style="width: 100%; -webkit-appearance: none; background: var(--bg-800); height: 4px; border-radius: 2px; outline: none; border: 1px solid var(--bg-700);" class="deck-slider">
+                `;
+                
+                container.appendChild(sliderDiv);
+                
+                // Bind real-time input sliders
+                const inputEl = sliderDiv.querySelector('input');
+                inputEl.addEventListener('input', (e) => {
+                    const newVal = parseFloat(e.target.value);
+                    params[slider.id] = newVal;
+                    
+                    // Update visual HUD labels
+                    const labelEl = document.getElementById(`label-${slider.id}`);
+                    labelEl.textContent = slider.getDisplay(newVal);
+                    
+                    // Route dynamic changes into audio thread
+                    updateNodeValue(trackKey, slider.id, newVal);
+                });
+            });
         }
 
         function getTrackNum(key) {
@@ -932,31 +1135,48 @@
             return keys.indexOf(key) + 1;
         }
 
-        function updateFXLabels(key) {
-            const params = trackParams[key];
-            
-            // Volume Label
-            labelVol.textContent = `${Math.round(params.vol * 100)}%`;
-            
-            // Filter Label
-            if (params.filter >= 3900) {
-                labelFilter.textContent = "BYPASS";
-            } else {
-                labelFilter.textContent = `${params.filter} Hz`;
-            }
-            
-            // Distortion Label
-            if (params.dist === 0) {
-                labelDist.textContent = "OFF";
-            } else {
-                labelDist.textContent = `${params.dist} DB`;
-            }
+        // Live Audio DSP node update router
+        function updateNodeValue(trackKey, paramId, val) {
+            const stem = stems[trackKey];
+            if (!stem || !audioCtx) return;
 
-            // Chorus Label
-            if (params.chorus === 0) {
-                labelChorus.textContent = "OFF";
-            } else {
-                labelChorus.textContent = `${params.chorus}%`;
+            const time = audioCtx.currentTime;
+
+            if (paramId === 'filter') {
+                if (val >= 3900) {
+                    stem.filter.type = 'allpass';
+                } else {
+                    stem.filter.type = 'lowpass';
+                    stem.filter.frequency.setValueAtTime(val, time);
+                }
+            } else if (paramId === 'dist') {
+                if (val === 0) {
+                    stem.distortion.curve = null;
+                } else {
+                    stem.distortion.curve = makeDistortionCurve(val * 10);
+                }
+            } else if (paramId === 'shine') {
+                stem.shine.gain.setValueAtTime(val, time);
+            } else if (paramId === 'reverb') {
+                stem.reverbWet.gain.setValueAtTime((val / 100) * 0.45, time);
+            } else if (paramId === 'wander') {
+                stem.wanderGain.gain.setValueAtTime(val / 100, time);
+            } else if (paramId === 'delay') {
+                stem.delayFeedback.gain.setValueAtTime((val / 100) * 0.75, time);
+            } else if (paramId === 'flanger') {
+                stem.flangerGain.gain.setValueAtTime((val / 100) * 0.004, time);
+            } else if (paramId === 'cyber') {
+                if (val === 0) {
+                    stem.cyberDry.gain.setValueAtTime(1.0, time);
+                    stem.cyberWet.gain.setValueAtTime(0.0, time);
+                } else {
+                    const wetBlend = 0.8; // High wet blend for robot effect
+                    stem.cyberDry.gain.setValueAtTime(1.0 - wetBlend, time);
+                    stem.cyberWet.gain.setValueAtTime(wetBlend, time);
+                    // Control carrier oscillator frequency from 70Hz to 350Hz based on Pitch slider
+                    const targetFreq = 70 + (val * 2.8);
+                    stem.carrierOsc.frequency.setValueAtTime(targetFreq, time);
+                }
             }
         }
 
@@ -974,20 +1194,10 @@
                 muteBtn.textContent = "MUTED";
                 muteBtn.classList.add('is-muted');
                 strip.classList.add('muted');
-                
-                // Ramp volume down instantly to avoid clicks
-                if (stems[trackKey]) {
-                    stems[trackKey].gain.gain.setValueAtTime(0, audioCtx.currentTime);
-                }
             } else {
                 muteBtn.textContent = "MUTE";
                 muteBtn.classList.remove('is-muted');
                 strip.classList.remove('muted');
-                
-                // Restore volume
-                if (stems[trackKey]) {
-                    stems[trackKey].gain.gain.setValueAtTime(params.vol, audioCtx.currentTime);
-                }
             }
         }
 
@@ -996,70 +1206,6 @@
             document.getElementById(`mute-${key}`).addEventListener('click', (e) => {
                 toggleMute(key, e);
             });
-        });
-
-        // Sliders Input Listeners
-        sliderVol.addEventListener('input', (e) => {
-            const val = parseFloat(e.target.value);
-            trackParams[selectedTrack].vol = val;
-            labelVol.textContent = `${Math.round(val * 100)}%`;
-
-            if (stems[selectedTrack] && !trackParams[selectedTrack].muted) {
-                stems[selectedTrack].gain.gain.setValueAtTime(val, audioCtx.currentTime);
-            }
-        });
-
-        sliderFilter.addEventListener('input', (e) => {
-            const val = parseInt(e.target.value);
-            trackParams[selectedTrack].filter = val;
-            
-            if (val >= 3900) {
-                labelFilter.textContent = "BYPASS";
-                if (stems[selectedTrack]) {
-                    stems[selectedTrack].filter.frequency.setValueAtTime(20000, audioCtx.currentTime); // bypass
-                }
-            } else {
-                labelFilter.textContent = `${val} Hz`;
-                if (stems[selectedTrack]) {
-                    stems[selectedTrack].filter.frequency.setValueAtTime(val, audioCtx.currentTime);
-                }
-            }
-        });
-
-        sliderDist.addEventListener('input', (e) => {
-            const val = parseInt(e.target.value);
-            trackParams[selectedTrack].dist = val;
-            
-            if (val === 0) {
-                labelDist.textContent = "OFF";
-                if (stems[selectedTrack]) {
-                    stems[selectedTrack].distortion.curve = null; // bypass
-                }
-            } else {
-                labelDist.textContent = `${val} DB`;
-                if (stems[selectedTrack]) {
-                    stems[selectedTrack].distortion.curve = makeDistortionCurve(val * 10);
-                }
-            }
-        });
-
-        sliderChorus.addEventListener('input', (e) => {
-            const val = parseInt(e.target.value);
-            trackParams[selectedTrack].chorus = val;
-            
-            if (val === 0) {
-                labelChorus.textContent = "OFF";
-                if (stems[selectedTrack]) {
-                    stems[selectedTrack].chorusLfoGain.gain.setValueAtTime(0, audioCtx.currentTime);
-                }
-            } else {
-                labelChorus.textContent = `${val}%`;
-                if (stems[selectedTrack]) {
-                    // Maximum delay sweep amplitude of 5ms
-                    const depth = (val / 100) * 0.005;
-                    stems[selectedTrack].chorusLfoGain.gain.setValueAtTime(depth, audioCtx.currentTime);
-                }
-            }
         });
 
         // Master Volume
@@ -1071,7 +1217,6 @@
         });
 
         // --- Real-time Loop Synchronizer, Analyser & Envelope Pumping Sidechain ---
-
         function telemetryMixerLoop() {
             if (!isPlaying) return;
 
@@ -1082,19 +1227,13 @@
                 const drumsAnalyser = stems.drums.analyser;
                 const freqData = new Uint8Array(drumsAnalyser.frequencyBinCount);
                 drumsAnalyser.getByteFrequencyData(freqData);
-
-                // Average lower bins (20Hz - 90Hz) representing Kick drum energy
                 kickEnergy = (freqData[0] + freqData[1] + freqData[2] + freqData[3]) / 4;
             }
 
-            // Calculate smooth sidechain ducking ratio based on kick peaks
             const baseDuck = 1.0 - Math.min(0.65, (kickEnergy / 255) * 0.95);
-            // Smooth ducking transition to prevent pops/clicks (release time curve)
             sidechainDucking = sidechainDucking * 0.75 + baseDuck * 0.25;
 
-            // Sidechain active telemetry calculated automatically
-
-            // 2. Process all Stems for Volume Analyser bounce & volume adjustments
+            // 2. Process all Stems for Volume Analyser bounce & dynamic volume adjustments
             Object.keys(STEMS_CONFIG).forEach(key => {
                 const stem = stems[key];
                 if (!stem) return;
@@ -1124,12 +1263,21 @@
                     vBar.style.boxShadow = `0 0 8px rgba(217, 28, 28, ${scaledHeight / 180})`;
                 }
 
-                // 3. Dynamic Sidechain Ducking applied in real-time to Bass, Melody, Atmos, Vocals
-                if (key !== 'drums') {
-                    const targetVol = params.muted ? 0 : params.vol * sidechainDucking;
-                    stem.gain.gain.setValueAtTime(targetVol, audioCtx.currentTime);
+                // 3. Dynamic Sidechain Ducking and Distortion volume compensation
+                if (params.muted) {
+                    stem.gain.gain.setValueAtTime(0, audioCtx.currentTime);
                 } else {
-                    const targetVol = params.muted ? 0 : params.vol;
+                    let compFactor = 1.0;
+                    if (key === 'drums' || key === 'bass') {
+                        if (params.dist > 0) {
+                            compFactor = 1.0 / (1.0 + (params.dist * 0.045));
+                        }
+                    }
+
+                    let targetVol = 1.0 * compFactor;
+                    if (key !== 'drums') {
+                        targetVol *= sidechainDucking;
+                    }
                     stem.gain.gain.setValueAtTime(targetVol, audioCtx.currentTime);
                 }
             });
@@ -1184,6 +1332,9 @@
                 startPlayback();
             }
         });
+
+        // Initialize UI default sliders for Drums on page load
+        focusTrack('drums');
     </script>
 </body>
 </html>
