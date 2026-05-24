@@ -3072,7 +3072,7 @@ a[href*="linkedin.com"]:hover * {
   padding: 1.35rem;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  min-height: 160px;
+  height: 210px; /* Fixed height on desktop prevents layout wiggling/shifts */
   width: 100%;
   max-width: 580px;
   display: flex;
@@ -3080,6 +3080,13 @@ a[href*="linkedin.com"]:hover * {
   justify-content: center;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .ai-hud-card {
+    height: auto; /* Dynamic height on mobile to accommodate wrapped text layout */
+    min-height: 250px;
+  }
 }
 
 .hud-spec-row {
