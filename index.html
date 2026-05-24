@@ -1428,13 +1428,18 @@
         bindScrambleHover('.mobile-menu a');
 
         // --- Organic System Telemetry Scramble Chatter ---
-        // We compile a pool of elements (secondary CTA buttons and stems mixer labels)
+        // We compile a pool of elements (secondary CTA buttons, featured work titles, and stems mixer labels)
         // to organically scramble on their own in the background, simulating real-time telemetry updates.
         const telemetryPool = [];
 
-        // Add secondary CTA buttons (excluding 'explore_projects' primary button)
-        document.querySelectorAll('.hero-buttons .btn-secondary').forEach(btn => {
+        // Add all secondary CTA buttons globally (includes both Hero buttons and SoundCloud button)
+        document.querySelectorAll('.btn-secondary').forEach(btn => {
             telemetryPool.push(btn);
+        });
+
+        // Add featured work project titles
+        document.querySelectorAll('.neon-card-title-row h3').forEach(title => {
+            telemetryPool.push(title);
         });
 
         // Add stems mixer channel track labels
@@ -1452,8 +1457,8 @@
             // Trigger scramble animation
             scrambleText(targetEl);
 
-            // Schedule the next organic flicker at random intervals (e.g. between 3 and 7.5 seconds)
-            const nextFlickerInterval = 3000 + Math.random() * 4500;
+            // Schedule the next organic flicker at random intervals (e.g. between 2 and 5 seconds)
+            const nextFlickerInterval = 2000 + Math.random() * 3000;
             setTimeout(triggerOrganicTelemetryScramble, nextFlickerInterval);
         }
 
