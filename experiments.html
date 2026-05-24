@@ -446,6 +446,67 @@
         mobileMenuBtn.addEventListener('click', toggleMenu);
         closeMenuBtn.addEventListener('click', toggleMenu);
         mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+        // --- Character Text Scrambler System (Options 1, 2, 3, 4) ---
+        const technicalChars = "01XY/[]_#&@$%?><*";
+        
+        function scrambleText(element, speedOverride) {
+            if (element.dataset.isScrambling === "true") return;
+            element.dataset.isScrambling = "true";
+
+            const originalText = element.dataset.original || element.textContent.trim();
+            if (!element.dataset.original) {
+                element.dataset.original = originalText;
+            }
+
+            // Snappy reveal speeds: descriptions decrypt under 0.75s, titles flicker longer
+            const speedStep = speedOverride || (originalText.length > 20 ? 4.5 : 1 / 3);
+            let iteration = 0;
+            
+            const interval = setInterval(() => {
+                element.textContent = originalText
+                    .split("")
+                    .map((char, index) => {
+                        // Preserve spaces, brackets, underscores, and greater-than symbols
+                        if (char === " " || char === "[" || char === "]" || char === "_" || char === ">") return char;
+                        if (index < iteration) {
+                            return originalText[index];
+                        }
+                        return technicalChars[Math.floor(Math.random() * technicalChars.length)];
+                    })
+                    .join("");
+
+                if (iteration >= originalText.length) {
+                    clearInterval(interval);
+                    element.textContent = originalText; // Lock to clean text
+                    element.dataset.isScrambling = "false";
+                }
+                iteration += speedStep;
+            }, 30);
+        }
+
+        // Helper to bind scrambles to hover events
+        function bindScrambleHover(selector) {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    scrambleText(el);
+                });
+                el.addEventListener('mouseleave', () => {
+                    if (el.dataset.original) {
+                        el.textContent = el.dataset.original;
+                        el.dataset.isScrambling = "false";
+                    }
+                });
+                el.addEventListener('touchstart', () => {
+                    scrambleText(el);
+                }, { passive: true });
+            });
+        }
+
+        // Bind global scramble elements
+        bindScrambleHover('.nav-links a');
+        bindScrambleHover('.mobile-menu a');
     </script>
 </body>
 </html>
