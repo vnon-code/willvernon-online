@@ -764,6 +764,48 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #cc4400;
 }
 
+/* Interactive AV Telemetry Deck Styles */
+.av-interactive-deck {
+  border-left: 2px solid var(--accent-red) !important;
+}
+.av-deck-btn {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.av-deck-btn:hover {
+  border-color: var(--accent-red) !important;
+  color: var(--text-white) !important;
+  box-shadow: 0 0 15px rgba(217, 28, 28, 0.3) !important;
+  background-color: var(--bg-700) !important;
+}
+.av-deck-btn.playing {
+  background-color: var(--accent-red) !important;
+  color: var(--text-white) !important;
+  border-color: var(--accent-red) !important;
+  box-shadow: 0 0 20px rgba(217, 28, 28, 0.5) !important;
+}
+.deck-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--accent-red);
+  cursor: pointer;
+  border: 1px solid var(--text-white);
+  box-shadow: 0 0 8px var(--accent-red);
+  transition: all 0.2s ease;
+}
+.deck-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+.av-deck-btn-live {
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.av-deck-btn-live:hover {
+  background-color: #ff3333 !important;
+  box-shadow: 0 0 20px rgba(217, 28, 28, 0.5) !important;
+}
+
 /* --------------------------------------------------------------------------
    Contact Panel Layouts
    -------------------------------------------------------------------------- */

@@ -330,9 +330,12 @@
                 
                 <div style="display: flex; flex-direction: column; gap: 1.5rem;">
                     <p class="font-mono text-accent text-sm tracking-widest uppercase">// vnon</p>
-                    <h2 class="text-4xl font-bold uppercase">Music Production.</h2>
+                    <h2 class="text-4xl font-bold uppercase">Liquid Drum &amp; Bass.</h2>
                     <p class="text-lg text-gray-400 leading-relaxed">
-                        Under the alias <span class="text-white font-bold">vnon</span>, I produce electronic music with a focus on Drum &amp; Bass. Music production is intrinsically tied to my visual practice &mdash; my understanding of frequency, rhythm, and sound design directly informs my audio-reactive visual systems.
+                        I have been making music on and off as a hobby since 2020, using it as a vital creative outlet. From the beginning, I found myself gravitating towards Liquid Drum &amp; Bass—drawn by the sheer diversity of DnB as a genre, which has kept my focus ever since.
+                    </p>
+                    <p class="text-lg text-gray-400 leading-relaxed">
+                        My workflow relies heavily on sampling from other tracks and moulding them to fit my signature sound. I see working with samples as akin to collaging &mdash; a tactile, layered art form I loved experimenting with during the early stages of my visual arts practice.
                     </p>
                     <div style="padding-top: 1rem; display: flex; flex-wrap: wrap; gap: 1rem;">
                         <a href="music.html" class="btn-primary">explore_music</a>
@@ -341,26 +344,69 @@
                 </div>
                 
                 <div>
-                    <div class="soundcloud-widget">
-                        <div class="soundcloud-widget-icon">
-                            <i class="ph-fill ph-soundcloud-logo"></i>
+                    <div class="soundcloud-widget av-interactive-deck">
+                        <div class="hud-panel-header" style="margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--bg-700); padding-bottom: 0.75rem;">
+                            <span class="hud-panel-title" style="font-size: 1.15rem; font-weight: 700; text-transform: uppercase;">AV-Telemetry Synth</span>
+                            <span class="hud-panel-num" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-red); letter-spacing: 0.1em;">[ VNON // LQD_DNB ]</span>
                         </div>
-                        <h3 class="text-3xl font-bold mb-2">vnon</h3>
-                        <p class="font-mono text-accent text-sm" style="margin-bottom: 2rem;">Drum &amp; Bass / Electronic</p>
                         
-                        <!-- Audio Visualiser Mockup -->
-                        <div class="music-visualizer-mock">
-                            <div class="visualizer-bar visualizer-bar-animated"></div>
-                            <div class="visualizer-bar visualizer-bar-animated"></div>
-                            <div class="visualizer-bar visualizer-bar-animated"></div>
-                            <div class="visualizer-bar visualizer-bar-animated"></div>
-                            <div class="visualizer-bar visualizer-bar-animated"></div>
-                            <div class="visualizer-bar visualizer-bar-animated"></div>
-                            <div class="visualizer-bar visualizer-bar-animated"></div>
+                        <!-- Visualizer Screen Area -->
+                        <div class="av-screen-area" style="background: #030303; border: 1px solid var(--bg-700); border-radius: 4px; padding: 1.25rem; margin-bottom: 1.5rem; position: relative; overflow: hidden;">
+                            <div style="position: absolute; inset: 0; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); background-size: 100% 4px, 6px 100%; pointer-events: none; opacity: 0.4; z-index: 10;"></div>
+                            
+                            <div class="music-visualizer-mock" style="height: 5rem; margin-bottom: 0; display: flex; align-items: flex-end; gap: 0.35rem; justify-content: space-around; position: relative; z-index: 5;">
+                                <div class="visualizer-bar" style="height: 15%; transition: height 0.1s ease, background-color 0.15s ease, box-shadow 0.15s ease;"></div>
+                                <div class="visualizer-bar" style="height: 12%; transition: height 0.1s ease, background-color 0.15s ease, box-shadow 0.15s ease;"></div>
+                                <div class="visualizer-bar" style="height: 18%; transition: height 0.1s ease, background-color 0.15s ease, box-shadow 0.15s ease;"></div>
+                                <div class="visualizer-bar" style="height: 14%; transition: height 0.1s ease, background-color 0.15s ease, box-shadow 0.15s ease;"></div>
+                                <div class="visualizer-bar" style="height: 20%; transition: height 0.1s ease, background-color 0.15s ease, box-shadow 0.15s ease;"></div>
+                                <div class="visualizer-bar" style="height: 10%; transition: height 0.1s ease, background-color 0.15s ease, box-shadow 0.15s ease;"></div>
+                                <div class="visualizer-bar" style="height: 15%; transition: height 0.1s ease, background-color 0.15s ease, box-shadow 0.15s ease;"></div>
+                            </div>
                         </div>
 
-                        <a href="music.html" class="soundcloud-widget-btn">
-                            Listen on Music Page
+                        <!-- Synthesizer Play Controls -->
+                        <div style="display: flex; gap: 1.25rem; align-items: center; margin-bottom: 1.5rem;">
+                            <button id="av-play-btn" class="av-deck-btn" aria-label="Play Chord Sequence" style="width: 3.5rem; height: 3.5rem; border-radius: 50%; background: var(--bg-800); border: 1px solid var(--bg-700); color: var(--accent-red); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; cursor: pointer; outline: none;">
+                                <i id="av-play-icon" class="ph-fill ph-play"></i>
+                            </button>
+                            <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-white); font-weight: 700; text-transform: uppercase;" id="av-status-txt">Interactive Synth Loop</span>
+                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase;">Liquid minor 7th chord &amp; sub-bass</span>
+                            </div>
+                        </div>
+
+                        <!-- Telemetry Sliders -->
+                        <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
+                            <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+                                <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted);">
+                                    <span>FREQUENCY // LPF_CUTOFF</span>
+                                    <span style="color: var(--accent-red);">Hz</span>
+                                </div>
+                                <input type="range" id="deck-freq" min="200" max="1500" value="700" style="width: 100%; -webkit-appearance: none; background: var(--bg-800); height: 4px; border-radius: 2px; outline: none; border: 1px solid var(--bg-700);" class="deck-slider">
+                            </div>
+                            
+                            <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+                                <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted);">
+                                    <span>TEMPO // SEQ_RATE</span>
+                                    <span style="color: var(--accent-red);">BPM</span>
+                                </div>
+                                <input type="range" id="deck-tempo" min="160" max="185" value="174" style="width: 100%; -webkit-appearance: none; background: var(--bg-800); height: 4px; border-radius: 2px; outline: none; border: 1px solid var(--bg-700);" class="deck-slider">
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+                                <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted);">
+                                    <span>VOLUME // GAIN</span>
+                                    <span style="color: var(--accent-red);">AMP</span>
+                                </div>
+                                <input type="range" id="deck-vol" min="0" max="0.6" step="0.05" value="0.3" style="width: 100%; -webkit-appearance: none; background: var(--bg-800); height: 4px; border-radius: 2px; outline: none; border: 1px solid var(--bg-700);" class="deck-slider">
+                            </div>
+                        </div>
+
+                        <!-- Live Visualizer Link Button -->
+                        <a href="music.html#visualizer" class="soundcloud-widget-btn av-deck-btn-live" style="margin-top: 0; background-color: var(--accent-red); box-shadow: 0 0 10px rgba(217, 28, 28, 0.2); display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                            <i class="ph ph-wave-sine" style="font-size: 1.15rem;"></i>
+                            Launch Live Audio-Visualiser
                         </a>
                     </div>
                 </div>
@@ -635,6 +681,160 @@
                 const toolKey = logo.getAttribute('data-tool');
                 updateHUD(toolKey);
             });
+        });
+
+        // --- Interactive Synthesizer & Visualizer Deck ---
+        let audioCtx = null;
+        let isPlaying = false;
+        let synthInterval = null;
+        let currentStep = 0;
+
+        // Sound parameters
+        let frequencyVal = 700;
+        let tempoVal = 174; // DnB tempo
+        let volumeVal = 0.3;
+
+        const playBtn = document.getElementById('av-play-btn');
+        const playIcon = document.getElementById('av-play-icon');
+        const sliderFreq = document.getElementById('deck-freq');
+        const sliderTempo = document.getElementById('deck-tempo');
+        const sliderVol = document.getElementById('deck-vol');
+        const vBars = document.querySelectorAll('.music-visualizer-mock .visualizer-bar');
+
+        // Liquid DnB Minor 7th chord progression steps
+        const chordProgression = [
+            [146.83, 196.00, 220.00, 293.66], // D min7
+            [146.83, 196.00, 220.00, 293.66],
+            [164.81, 196.00, 246.94, 293.66], // Em7
+            [130.81, 164.81, 196.00, 261.63]  // C maj7
+        ];
+
+        function initAudio() {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+
+        function playSynthStep() {
+            if (!audioCtx) return;
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            const now = audioCtx.currentTime;
+            const chords = chordProgression[currentStep % chordProgression.length];
+
+            const oscNodes = [];
+            const gainNode = audioCtx.createGain();
+            const filterNode = audioCtx.createBiquadFilter();
+
+            filterNode.type = 'lowpass';
+            filterNode.frequency.setValueAtTime(frequencyVal, now);
+            filterNode.Q.setValueAtTime(3, now);
+            filterNode.frequency.exponentialRampToValueAtTime(frequencyVal * 0.4, now + 0.35);
+
+            gainNode.gain.setValueAtTime(0, now);
+            gainNode.gain.linearRampToValueAtTime(volumeVal, now + 0.05);
+            gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+
+            chords.forEach(freq => {
+                const osc = audioCtx.createOscillator();
+                osc.type = 'sawtooth';
+                osc.frequency.value = freq;
+                osc.connect(filterNode);
+                osc.start(now);
+                osc.stop(now + 0.5);
+                oscNodes.push(osc);
+            });
+
+            // Add deep sub bass note
+            const subOsc = audioCtx.createOscillator();
+            subOsc.type = 'sine';
+            subOsc.frequency.value = chords[0] * 0.5; // octave below base note
+            subOsc.connect(gainNode);
+            subOsc.start(now);
+            subOsc.stop(now + 0.5);
+            oscNodes.push(subOsc);
+
+            filterNode.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            animateBars();
+            currentStep++;
+        }
+
+        function animateBars() {
+            vBars.forEach((bar, idx) => {
+                const delay = idx * 40;
+                setTimeout(() => {
+                    if (!isPlaying) return;
+                    const heightVal = Math.random() * 60 + 35; // bounce height
+                    bar.style.height = `${heightVal}%`;
+                    bar.style.backgroundColor = `rgba(217, 28, 28, ${heightVal / 100})`;
+                    bar.style.boxShadow = `0 0 10px rgba(217, 28, 28, ${heightVal / 150})`;
+                }, delay);
+            });
+        }
+
+        let animFrame = null;
+        function visualizerLoop() {
+            if (!isPlaying) return;
+            vBars.forEach((bar) => {
+                const currentHeight = parseFloat(bar.style.height) || 20;
+                const targetHeight = Math.max(12, currentHeight - 3);
+                bar.style.height = `${targetHeight}%`;
+            });
+            animFrame = requestAnimationFrame(visualizerLoop);
+        }
+
+        function startPlayback() {
+            isPlaying = true;
+            playIcon.className = 'ph-fill ph-pause';
+            playBtn.classList.add('playing');
+            
+            playSynthStep();
+            const stepDurationMs = (60 / tempoVal) * 1000 * 2;
+            synthInterval = setInterval(playSynthStep, stepDurationMs);
+
+            visualizerLoop();
+        }
+
+        function stopPlayback() {
+            isPlaying = false;
+            playIcon.className = 'ph-fill ph-play';
+            playBtn.classList.remove('playing');
+            clearInterval(synthInterval);
+            cancelAnimationFrame(animFrame);
+
+            vBars.forEach((bar) => {
+                bar.style.height = '';
+                bar.style.backgroundColor = '';
+                bar.style.boxShadow = '';
+            });
+        }
+
+        playBtn.addEventListener('click', () => {
+            if (!audioCtx) initAudio();
+            if (isPlaying) {
+                stopPlayback();
+            } else {
+                startPlayback();
+            }
+        });
+
+        sliderFreq.addEventListener('input', (e) => {
+            frequencyVal = parseFloat(e.target.value);
+        });
+
+        sliderTempo.addEventListener('input', (e) => {
+            tempoVal = parseInt(e.target.value);
+            if (isPlaying) {
+                clearInterval(synthInterval);
+                const stepDurationMs = (60 / tempoVal) * 1000 * 2;
+                synthInterval = setInterval(playSynthStep, stepDurationMs);
+            }
+        });
+
+        sliderVol.addEventListener('input', (e) => {
+            volumeVal = parseFloat(e.target.value);
         });
     </script>
 </body>
