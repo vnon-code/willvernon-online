@@ -337,9 +337,19 @@
                     <p class="text-lg text-gray-400 leading-relaxed">
                         My workflow relies heavily on sampling from other tracks and moulding them to fit my signature sound. I see working with samples as akin to collaging &mdash; a tactile, layered art form I loved experimenting with during the early stages of my visual arts practice.
                     </p>
-                    <div style="padding-top: 1rem; display: flex; flex-wrap: wrap; gap: 1rem;">
-                        <a href="music.html" class="btn-primary">explore_music</a>
-                        <a href="https://soundcloud.com/vnondnb" target="_blank" class="btn-secondary">&gt; soundcloud</a>
+                    <!-- Album Art and Bootleg Track Credit -->
+                    <div style="display: flex; align-items: center; gap: 1rem; background: rgba(10, 10, 10, 0.4); border: 1px solid var(--bg-700); border-radius: 6px; padding: 0.85rem 1rem; border-left: 2px solid var(--accent-red); margin-top: 0.5rem; max-width: 480px; backdrop-filter: blur(8px); box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+                        <img src="img/artwork/catching-flies-bootleg.jpg" alt="Catching Flies - Silver Linings (vnon Bootleg) Album Art" style="width: 56px; height: 56px; border-radius: 4px; border: 1px solid var(--bg-600); object-fit: cover; box-shadow: 0 0 12px rgba(217, 28, 28, 0.15);">
+                        <div style="display: flex; flex-direction: column; gap: 0.15rem;">
+                            <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); letter-spacing: 0.1em; text-transform: uppercase;">// active_mixer_source</span>
+                            <span style="font-size: 0.95rem; font-weight: 700; color: var(--text-white); text-transform: uppercase; letter-spacing: 0.02em;">Silver Linings (vnon Bootleg)</span>
+                            <span style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-muted);">CATCHING FLIES &mdash; REMIXED BY VNON</span>
+                        </div>
+                    </div>
+
+                    <div style="padding-top: 0.5rem; display: flex; flex-wrap: wrap; gap: 1rem;">
+                        <a href="music.html" class="btn-primary">Explore_My_Music</a>
+                        <a href="music.html#visualizer" class="btn-secondary">&gt; Listen_to_Full_Bootleg</a>
                     </div>
                 </div>
                 
@@ -347,7 +357,6 @@
                     <div class="soundcloud-widget av-interactive-deck" style="max-width: 680px; width: 100%;">
                         <div class="hud-panel-header" style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--bg-700); padding-bottom: 0.75rem;">
                             <span class="hud-panel-title" style="font-size: 1.15rem; font-weight: 700; text-transform: uppercase;">AV-Telemetry Mixer</span>
-                            <span class="hud-panel-num" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-red); letter-spacing: 0.1em;">[ VNON // 5-TRACK STEMS ]</span>
                         </div>
                         
                         <!-- Stems Level Screen -->
@@ -480,8 +489,7 @@
                                         <i id="av-play-icon" class="ph-fill ph-play"></i>
                                     </button>
                                     <div style="display: flex; flex-direction: column; gap: 0.15rem;">
-                                        <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-white); font-weight: 700; text-transform: uppercase;" id="av-status-txt">Multi-Track Player</span>
-                                        <span style="font-family: var(--font-mono); font-size: 0.6rem; color: var(--accent-red); font-weight: 700; text-transform: uppercase;" id="sidechain-indicator">// SIDECHAIN: AUTOMATIC_ACTIVE</span>
+                                        <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-white); font-weight: 700; text-transform: uppercase;" id="av-status-txt">Master track player</span>
                                     </div>
                                 </div>
                                 
@@ -493,11 +501,6 @@
 
                         </div>
 
-                        <!-- Launch Visualizer Link Button -->
-                        <a href="music.html#visualizer" class="soundcloud-widget-btn av-deck-btn-live" style="margin-top: 1.25rem; background-color: var(--accent-red); box-shadow: 0 0 10px rgba(217, 28, 28, 0.2); display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
-                            <i class="ph ph-wave-sine" style="font-size: 1.15rem;"></i>
-                            Launch Live Audio-Visualiser
-                        </a>
                     </div>
                 </div>
                 
@@ -783,10 +786,10 @@
         // --- Multi-Track Stems Mixer Telemetry Dashboard Logic ---
         const STEMS_CONFIG = {
             drums: { name: "Drums", file: "audio/Silver Linings Bootleg Drums.wav" },
-            bass: { name: "Bass", file: "audio/Silver Linings Bootleg Bass'.wav" },
+            bass: { name: "Bass", file: "audio/Silver Linings Bootleg Bass 2.wav" },
             melody: { name: "Melody", file: "audio/Silver Linings Bootleg Melody.wav" },
             atmos: { name: "Atmos", file: "audio/Silver Linings Bootleg Atmos.wav" },
-            vocals: { name: "Vocals", file: "audio/Silver Linings Bootleg Vocals.wav" }
+            vocals: { name: "Vocals", file: "audio/Silver Linings Bootleg Vocals 2.wav" }
         };
 
         const trackParams = {
@@ -1089,7 +1092,6 @@
         });
 
         // --- Real-time Loop Synchronizer, Analyser & Envelope Pumping Sidechain ---
-        let sidechainIndicator = document.getElementById('sidechain-indicator');
 
         function telemetryMixerLoop() {
             if (!isPlaying) return;
@@ -1111,14 +1113,7 @@
             // Smooth ducking transition to prevent pops/clicks (release time curve)
             sidechainDucking = sidechainDucking * 0.75 + baseDuck * 0.25;
 
-            // Update indicator glow depending on sidechain compression level
-            if (sidechainDucking < 0.8) {
-                sidechainIndicator.style.opacity = '1';
-                sidechainIndicator.style.textShadow = '0 0 10px rgba(217, 28, 28, 0.8)';
-            } else {
-                sidechainIndicator.style.opacity = '0.5';
-                sidechainIndicator.style.textShadow = '';
-            }
+            // Sidechain active telemetry calculated automatically
 
             // 2. Process all Stems for Volume Analyser bounce & volume adjustments
             Object.keys(STEMS_CONFIG).forEach(key => {
@@ -1186,7 +1181,7 @@
             isPlaying = false;
             playIcon.className = 'ph-fill ph-play';
             playBtn.classList.remove('playing');
-            statusTxt.textContent = "Multi-Track Player";
+            statusTxt.textContent = "Master track player";
             cancelAnimationFrame(animFrame);
 
             // Pause all loops and reset their levels
