@@ -344,67 +344,157 @@
                 </div>
                 
                 <div>
-                    <div class="soundcloud-widget av-interactive-deck">
-                        <div class="hud-panel-header" style="margin-bottom: 1.25rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--bg-700); padding-bottom: 0.75rem;">
-                            <span class="hud-panel-title" style="font-size: 1.15rem; font-weight: 700; text-transform: uppercase;">AV-Telemetry Synth</span>
-                            <span class="hud-panel-num" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-red); letter-spacing: 0.1em;">[ VNON // LQD_DNB ]</span>
+                    <div class="soundcloud-widget av-interactive-deck" style="max-width: 680px; width: 100%;">
+                        <div class="hud-panel-header" style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--bg-700); padding-bottom: 0.75rem;">
+                            <span class="hud-panel-title" style="font-size: 1.15rem; font-weight: 700; text-transform: uppercase;">AV-Telemetry Mixer</span>
+                            <span class="hud-panel-num" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-red); letter-spacing: 0.1em;">[ VNON // 5-TRACK STEMS ]</span>
                         </div>
                         
-                        <!-- Visualizer Screen Area -->
-                        <div class="av-screen-area" style="background: #030303; border: 1px solid var(--bg-700); border-radius: 4px; padding: 1.25rem; margin-bottom: 1.5rem; position: relative; overflow: hidden;">
+                        <!-- Stems Level Screen -->
+                        <div class="av-screen-area" style="background: #030303; border: 1px solid var(--bg-700); border-radius: 4px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; position: relative; overflow: hidden;">
                             <div style="position: absolute; inset: 0; background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06)); background-size: 100% 4px, 6px 100%; pointer-events: none; opacity: 0.4; z-index: 10;"></div>
                             
-                            <div class="music-visualizer-mock" style="height: 5rem; margin-bottom: 0; display: flex; align-items: flex-end; gap: 0.35rem; justify-content: space-around; position: relative; z-index: 5;">
-                                <div class="visualizer-bar" style="height: 15%; transition: height 0.1s ease, background-color 0.15s ease, box-shadow 0.15s ease;"></div>
-                                <div class="visualizer-bar" style="height: 12%; transition: height 0.1s ease, background-color 0.15s ease, box-shadow 0.15s ease;"></div>
-                                <div class="visualizer-bar" style="height: 18%; transition: height 0.1s ease, background-color 0.15s ease, box-shadow 0.15s ease;"></div>
-                                <div class="visualizer-bar" style="height: 14%; transition: height 0.1s ease, background-color 0.15s ease, box-shadow 0.15s ease;"></div>
-                                <div class="visualizer-bar" style="height: 20%; transition: height 0.1s ease, background-color 0.15s ease, box-shadow 0.15s ease;"></div>
-                                <div class="visualizer-bar" style="height: 10%; transition: height 0.1s ease, background-color 0.15s ease, box-shadow 0.15s ease;"></div>
-                                <div class="visualizer-bar" style="height: 15%; transition: height 0.1s ease, background-color 0.15s ease, box-shadow 0.15s ease;"></div>
-                            </div>
-                        </div>
-
-                        <!-- Synthesizer Play Controls -->
-                        <div style="display: flex; gap: 1.25rem; align-items: center; margin-bottom: 1.5rem;">
-                            <button id="av-play-btn" class="av-deck-btn" aria-label="Play Chord Sequence" style="width: 3.5rem; height: 3.5rem; border-radius: 50%; background: var(--bg-800); border: 1px solid var(--bg-700); color: var(--accent-red); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; cursor: pointer; outline: none;">
-                                <i id="av-play-icon" class="ph-fill ph-play"></i>
-                            </button>
-                            <div style="display: flex; flex-direction: column; gap: 0.25rem;">
-                                <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-white); font-weight: 700; text-transform: uppercase;" id="av-status-txt">Interactive Synth Loop</span>
-                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase;">Liquid minor 7th chord &amp; sub-bass</span>
-                            </div>
-                        </div>
-
-                        <!-- Telemetry Sliders -->
-                        <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
-                            <div style="display: flex; flex-direction: column; gap: 0.35rem;">
-                                <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted);">
-                                    <span>FREQUENCY // LPF_CUTOFF</span>
-                                    <span style="color: var(--accent-red);">Hz</span>
+                            <div class="music-visualizer-mock" style="height: 4.5rem; margin-bottom: 0; display: flex; align-items: flex-end; gap: 0.5rem; justify-content: space-around; position: relative; z-index: 5;">
+                                <!-- Five independent channels with value labels -->
+                                <div style="display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; flex: 1;">
+                                    <div class="visualizer-bar" id="v-bar-drums" style="height: 12%; width: 14px; transition: height 0.08s ease, background-color 0.1s ease;"></div>
+                                    <span style="font-family: var(--font-mono); font-size: 0.55rem; color: var(--text-muted); margin-top: 0.25rem;">DRM</span>
                                 </div>
-                                <input type="range" id="deck-freq" min="200" max="1500" value="700" style="width: 100%; -webkit-appearance: none; background: var(--bg-800); height: 4px; border-radius: 2px; outline: none; border: 1px solid var(--bg-700);" class="deck-slider">
+                                <div style="display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; flex: 1;">
+                                    <div class="visualizer-bar" id="v-bar-bass" style="height: 12%; width: 14px; transition: height 0.08s ease, background-color 0.1s ease;"></div>
+                                    <span style="font-family: var(--font-mono); font-size: 0.55rem; color: var(--text-muted); margin-top: 0.25rem;">BAS</span>
+                                </div>
+                                <div style="display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; flex: 1;">
+                                    <div class="visualizer-bar" id="v-bar-melody" style="height: 12%; width: 14px; transition: height 0.08s ease, background-color 0.1s ease;"></div>
+                                    <span style="font-family: var(--font-mono); font-size: 0.55rem; color: var(--text-muted); margin-top: 0.25rem;">MEL</span>
+                                </div>
+                                <div style="display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; flex: 1;">
+                                    <div class="visualizer-bar" id="v-bar-atmos" style="height: 12%; width: 14px; transition: height 0.08s ease, background-color 0.1s ease;"></div>
+                                    <span style="font-family: var(--font-mono); font-size: 0.55rem; color: var(--text-muted); margin-top: 0.25rem;">ATM</span>
+                                </div>
+                                <div style="display: flex; flex-direction: column; align-items: center; height: 100%; justify-content: flex-end; flex: 1;">
+                                    <div class="visualizer-bar" id="v-bar-vocals" style="height: 12%; width: 14px; transition: height 0.08s ease, background-color 0.1s ease;"></div>
+                                    <span style="font-family: var(--font-mono); font-size: 0.55rem; color: var(--text-muted); margin-top: 0.25rem;">VOC</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="mixer-stems-container">
+                            <!-- Layout Grid: 5 channels on left, FX rack on right -->
+                            <div class="stems-grid-split">
+                                
+                                <!-- Track Strips (Left) -->
+                                <div class="mixer-track-list">
+                                    <!-- Drums -->
+                                    <div class="mixer-track-strip selected" data-track="drums" id="strip-drums">
+                                        <div class="mixer-track-name-row">
+                                            <span class="mixer-track-indicator-dot"></span>
+                                            <span class="mixer-track-label">01. Drums</span>
+                                        </div>
+                                        <button class="mixer-track-mute-btn" id="mute-drums">MUTE</button>
+                                    </div>
+                                    <!-- Bass -->
+                                    <div class="mixer-track-strip" data-track="bass" id="strip-bass">
+                                        <div class="mixer-track-name-row">
+                                            <span class="mixer-track-indicator-dot"></span>
+                                            <span class="mixer-track-label">02. Bass</span>
+                                        </div>
+                                        <button class="mixer-track-mute-btn" id="mute-bass">MUTE</button>
+                                    </div>
+                                    <!-- Melody -->
+                                    <div class="mixer-track-strip" data-track="melody" id="strip-melody">
+                                        <div class="mixer-track-name-row">
+                                            <span class="mixer-track-indicator-dot"></span>
+                                            <span class="mixer-track-label">03. Melody</span>
+                                        </div>
+                                        <button class="mixer-track-mute-btn" id="mute-melody">MUTE</button>
+                                    </div>
+                                    <!-- Atmos -->
+                                    <div class="mixer-track-strip" data-track="atmos" id="strip-atmos">
+                                        <div class="mixer-track-name-row">
+                                            <span class="mixer-track-indicator-dot"></span>
+                                            <span class="mixer-track-label">04. Atmos</span>
+                                        </div>
+                                        <button class="mixer-track-mute-btn" id="mute-atmos">MUTE</button>
+                                    </div>
+                                    <!-- Vocals -->
+                                    <div class="mixer-track-strip" data-track="vocals" id="strip-vocals">
+                                        <div class="mixer-track-name-row">
+                                            <span class="mixer-track-indicator-dot"></span>
+                                            <span class="mixer-track-label">05. Vocals</span>
+                                        </div>
+                                        <button class="mixer-track-mute-btn" id="mute-vocals">MUTE</button>
+                                    </div>
+                                </div>
+
+                                <!-- Focus FX Panel Rack (Right) -->
+                                <div class="mixer-fx-panel" id="focus-fx-panel">
+                                    <div class="mixer-fx-title-row">
+                                        <span class="mixer-fx-title" id="fx-focus-title">01. Drums FX</span>
+                                        <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red);">ACTIVE_CHANNEL</span>
+                                    </div>
+                                    
+                                    <!-- Parameter 1: Volume -->
+                                    <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+                                        <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted);">
+                                            <span>VOLUME // GAIN</span>
+                                            <span id="label-vol" style="color: var(--accent-red);">100%</span>
+                                        </div>
+                                        <input type="range" id="param-vol" min="0" max="1" step="0.05" value="0.8" style="width: 100%; -webkit-appearance: none; background: var(--bg-800); height: 4px; border-radius: 2px; outline: none; border: 1px solid var(--bg-700);" class="deck-slider">
+                                    </div>
+
+                                    <!-- Parameter 2: Filter Cutoff -->
+                                    <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+                                        <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted);">
+                                            <span>LPF_FILTER // CUTOFF</span>
+                                            <span id="label-filter" style="color: var(--accent-red);">BYPASS</span>
+                                        </div>
+                                        <input type="range" id="param-filter" min="150" max="4000" value="4000" style="width: 100%; -webkit-appearance: none; background: var(--bg-800); height: 4px; border-radius: 2px; outline: none; border: 1px solid var(--bg-700);" class="deck-slider">
+                                    </div>
+
+                                    <!-- Parameter 3: Distortion Drive -->
+                                    <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+                                        <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted);">
+                                            <span>ANALOG_DRIVE // DISTORTION</span>
+                                            <span id="label-dist" style="color: var(--accent-red);">OFF</span>
+                                        </div>
+                                        <input type="range" id="param-dist" min="0" max="50" value="0" style="width: 100%; -webkit-appearance: none; background: var(--bg-800); height: 4px; border-radius: 2px; outline: none; border: 1px solid var(--bg-700);" class="deck-slider">
+                                    </div>
+
+                                    <!-- Parameter 4: Chorus Depth -->
+                                    <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+                                        <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted);">
+                                            <span>MOD_CHORUS // DEPTH</span>
+                                            <span id="label-chorus" style="color: var(--accent-red);">OFF</span>
+                                        </div>
+                                        <input type="range" id="param-chorus" min="0" max="100" value="0" style="width: 100%; -webkit-appearance: none; background: var(--bg-800); height: 4px; border-radius: 2px; outline: none; border: 1px solid var(--bg-700);" class="deck-slider">
+                                    </div>
+                                </div>
+
                             </div>
                             
-                            <div style="display: flex; flex-direction: column; gap: 0.35rem;">
-                                <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted);">
-                                    <span>TEMPO // SEQ_RATE</span>
-                                    <span style="color: var(--accent-red);">BPM</span>
+                            <!-- Master Control Bar -->
+                            <div class="mixer-master-row">
+                                <div style="display: flex; align-items: center; gap: 1rem;">
+                                    <button id="av-play-btn" class="av-deck-btn" aria-label="Play Mixer Loops" style="width: 3rem; height: 3rem; border-radius: 50%; background: var(--bg-800); border: 1px solid var(--bg-700); color: var(--accent-red); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; cursor: pointer; outline: none;">
+                                        <i id="av-play-icon" class="ph-fill ph-play"></i>
+                                    </button>
+                                    <div style="display: flex; flex-direction: column; gap: 0.15rem;">
+                                        <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-white); font-weight: 700; text-transform: uppercase;" id="av-status-txt">Multi-Track Player</span>
+                                        <span style="font-family: var(--font-mono); font-size: 0.6rem; color: var(--accent-red); font-weight: 700; text-transform: uppercase;" id="sidechain-indicator">// SIDECHAIN: AUTOMATIC_ACTIVE</span>
+                                    </div>
                                 </div>
-                                <input type="range" id="deck-tempo" min="160" max="185" value="174" style="width: 100%; -webkit-appearance: none; background: var(--bg-800); height: 4px; border-radius: 2px; outline: none; border: 1px solid var(--bg-700);" class="deck-slider">
+                                
+                                <div style="display: flex; align-items: center; gap: 1rem; flex-grow: 1; max-width: 200px; justify-content: flex-end;">
+                                    <i class="ph ph-speaker-high" style="font-size: 1rem; color: var(--text-muted);"></i>
+                                    <input type="range" id="master-vol" min="0" max="1" step="0.05" value="0.7" style="width: 100px; -webkit-appearance: none; background: var(--bg-800); height: 4px; border-radius: 2px; outline: none; border: 1px solid var(--bg-700);" class="deck-slider">
+                                </div>
                             </div>
 
-                            <div style="display: flex; flex-direction: column; gap: 0.35rem;">
-                                <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted);">
-                                    <span>VOLUME // GAIN</span>
-                                    <span style="color: var(--accent-red);">AMP</span>
-                                </div>
-                                <input type="range" id="deck-vol" min="0" max="0.6" step="0.05" value="0.3" style="width: 100%; -webkit-appearance: none; background: var(--bg-800); height: 4px; border-radius: 2px; outline: none; border: 1px solid var(--bg-700);" class="deck-slider">
-                            </div>
                         </div>
 
-                        <!-- Live Visualizer Link Button -->
-                        <a href="music.html#visualizer" class="soundcloud-widget-btn av-deck-btn-live" style="margin-top: 0; background-color: var(--accent-red); box-shadow: 0 0 10px rgba(217, 28, 28, 0.2); display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
+                        <!-- Launch Visualizer Link Button -->
+                        <a href="music.html#visualizer" class="soundcloud-widget-btn av-deck-btn-live" style="margin-top: 1.25rem; background-color: var(--accent-red); box-shadow: 0 0 10px rgba(217, 28, 28, 0.2); display: flex; align-items: center; justify-content: center; gap: 0.5rem;">
                             <i class="ph ph-wave-sine" style="font-size: 1.15rem;"></i>
                             Launch Live Audio-Visualiser
                         </a>
@@ -683,131 +773,432 @@
             });
         });
 
-        // --- Interactive Synthesizer & Visualizer Deck ---
+        marqueeLogos.forEach(logo => {
+            logo.addEventListener('mouseenter', () => {
+                const toolKey = logo.getAttribute('data-tool');
+                updateHUD(toolKey);
+            });
+        });
+
+        // --- Multi-Track Stems Mixer Telemetry Dashboard Logic ---
+        const STEMS_CONFIG = {
+            drums: { name: "Drums", file: "audio/Silver Linings Bootleg Drums.wav" },
+            bass: { name: "Bass", file: "audio/Silver Linings Bootleg Bass'.wav" },
+            melody: { name: "Melody", file: "audio/Silver Linings Bootleg Melody.wav" },
+            atmos: { name: "Atmos", file: "audio/Silver Linings Bootleg Atmos.wav" },
+            vocals: { name: "Vocals", file: "audio/Silver Linings Bootleg Vocals.wav" }
+        };
+
+        const trackParams = {
+            drums: { vol: 0.8, filter: 4000, dist: 0, chorus: 0, muted: false },
+            bass: { vol: 0.8, filter: 4000, dist: 0, chorus: 0, muted: false },
+            melody: { vol: 0.8, filter: 4000, dist: 0, chorus: 0, muted: false },
+            atmos: { vol: 0.8, filter: 4000, dist: 0, chorus: 0, muted: false },
+            vocals: { vol: 0.8, filter: 4000, dist: 0, chorus: 0, muted: false }
+        };
+
         let audioCtx = null;
         let isPlaying = false;
-        let synthInterval = null;
-        let currentStep = 0;
-
-        // Sound parameters
-        let frequencyVal = 700;
-        let tempoVal = 174; // DnB tempo
-        let volumeVal = 0.3;
+        let stems = {}; // Holds: { audio, source, filter, distortion, chorusDelay, chorusLfoGain, gain, analyser }
+        let masterGainNode = null;
+        let selectedTrack = 'drums';
+        let sidechainDucking = 1.0; // Current sidechain compression gain factor
+        let animFrame = null;
 
         const playBtn = document.getElementById('av-play-btn');
         const playIcon = document.getElementById('av-play-icon');
-        const sliderFreq = document.getElementById('deck-freq');
-        const sliderTempo = document.getElementById('deck-tempo');
-        const sliderVol = document.getElementById('deck-vol');
-        const vBars = document.querySelectorAll('.music-visualizer-mock .visualizer-bar');
+        const statusTxt = document.getElementById('av-status-txt');
+        const masterVolSlider = document.getElementById('master-vol');
+        
+        // FX Sliders & Labels
+        const fxTitle = document.getElementById('fx-focus-title');
+        const sliderVol = document.getElementById('param-vol');
+        const sliderFilter = document.getElementById('param-filter');
+        const sliderDist = document.getElementById('param-dist');
+        const sliderChorus = document.getElementById('param-chorus');
+        
+        const labelVol = document.getElementById('label-vol');
+        const labelFilter = document.getElementById('label-filter');
+        const labelDist = document.getElementById('label-dist');
+        const labelChorus = document.getElementById('label-chorus');
 
-        // Liquid DnB Minor 7th chord progression steps
-        const chordProgression = [
-            [146.83, 196.00, 220.00, 293.66], // D min7
-            [146.83, 196.00, 220.00, 293.66],
-            [164.81, 196.00, 246.94, 293.66], // Em7
-            [130.81, 164.81, 196.00, 261.63]  // C maj7
-        ];
+        // Waveshaper distortion curve generator
+        function makeDistortionCurve(amount) {
+            const k = typeof amount === 'number' ? amount : 50;
+            const n_samples = 44100;
+            const curve = new Float32Array(n_samples);
+            const deg = Math.PI / 180;
+            for (let i = 0; i < n_samples; ++i) {
+                const x = (i * 2) / n_samples - 1;
+                curve[i] = ((3 + k) * x * 20 * deg) / (Math.PI + k * Math.abs(x));
+            }
+            return curve;
+        }
 
+        // Initialize Web Audio Graph
         function initAudio() {
             audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            masterGainNode = audioCtx.createGain();
+            masterGainNode.gain.value = parseFloat(masterVolSlider.value);
+            masterGainNode.connect(audioCtx.destination);
+
+            Object.keys(STEMS_CONFIG).forEach(key => {
+                const config = STEMS_CONFIG[key];
+                
+                // Create programmatic Audio loop element
+                const audio = new Audio();
+                audio.src = config.file;
+                audio.loop = true;
+                audio.crossOrigin = "anonymous";
+                
+                const source = audioCtx.createMediaElementSource(audio);
+                
+                // 1. Filter
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'lowpass';
+                filter.frequency.value = trackParams[key].filter;
+                
+                // 2. Distortion (Waveshaper)
+                const distortion = audioCtx.createWaveShaper();
+                distortion.curve = null; // Bypass by default
+                distortion.oversample = '4x';
+                
+                // 3. Chorus delay line and modulator LFO
+                const chorusDelay = audioCtx.createDelay(0.1);
+                chorusDelay.delayTime.value = 0.03; // Base delay of 30ms
+                
+                const chorusLfo = audioCtx.createOscillator();
+                chorusLfo.frequency.value = 1.5; // slow modulation speed
+                
+                const chorusLfoGain = audioCtx.createGain();
+                chorusLfoGain.gain.value = 0; // Off by default (0 depth)
+                
+                chorusLfo.connect(chorusLfoGain);
+                chorusLfoGain.connect(chorusDelay.delayTime);
+                chorusLfo.start();
+                
+                // 4. Volume (Gain)
+                const gain = audioCtx.createGain();
+                gain.gain.value = trackParams[key].vol;
+                
+                // 5. Analyser
+                const analyser = audioCtx.createAnalyser();
+                analyser.fftSize = 64; // Small fft for fast envelope tracking
+
+                // Route: Source -> Filter -> Distortion -> Chorus -> Gain -> Analyser -> Master
+                source.connect(filter);
+                filter.connect(distortion);
+                distortion.connect(chorusDelay);
+                chorusDelay.connect(gain);
+                gain.connect(analyser);
+                analyser.connect(masterGainNode);
+
+                stems[key] = {
+                    audio,
+                    source,
+                    filter,
+                    distortion,
+                    chorusDelay,
+                    chorusLfoGain,
+                    gain,
+                    analyser
+                };
+            });
         }
 
-        function playSynthStep() {
-            if (!audioCtx) return;
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
+        // Focus Selector Triggering
+        const strips = document.querySelectorAll('.mixer-track-strip');
+        strips.forEach(strip => {
+            strip.addEventListener('click', (e) => {
+                // Ignore click if it's on the mute button directly
+                if (e.target.classList.contains('mixer-track-mute-btn')) return;
+                
+                const trackKey = strip.getAttribute('data-track');
+                focusTrack(trackKey);
+            });
+        });
+
+        function focusTrack(trackKey) {
+            selectedTrack = trackKey;
+            
+            // Sync selected styling
+            strips.forEach(s => {
+                if (s.getAttribute('data-track') === trackKey) {
+                    s.classList.add('selected');
+                } else {
+                    s.classList.remove('selected');
+                }
+            });
+
+            // Update FX Panel Title
+            const config = STEMS_CONFIG[trackKey];
+            fxTitle.textContent = `0${getTrackNum(trackKey)}. ${config.name} FX`;
+
+            // Load parameters into FX Sliders
+            const params = trackParams[trackKey];
+            sliderVol.value = params.vol;
+            sliderFilter.value = params.filter;
+            sliderDist.value = params.dist;
+            sliderChorus.value = params.chorus;
+
+            // Sync visual labels
+            updateFXLabels(trackKey);
+        }
+
+        function getTrackNum(key) {
+            const keys = Object.keys(STEMS_CONFIG);
+            return keys.indexOf(key) + 1;
+        }
+
+        function updateFXLabels(key) {
+            const params = trackParams[key];
+            
+            // Volume Label
+            labelVol.textContent = `${Math.round(params.vol * 100)}%`;
+            
+            // Filter Label
+            if (params.filter >= 3900) {
+                labelFilter.textContent = "BYPASS";
+            } else {
+                labelFilter.textContent = `${params.filter} Hz`;
+            }
+            
+            // Distortion Label
+            if (params.dist === 0) {
+                labelDist.textContent = "OFF";
+            } else {
+                labelDist.textContent = `${params.dist} DB`;
             }
 
-            const now = audioCtx.currentTime;
-            const chords = chordProgression[currentStep % chordProgression.length];
-
-            const oscNodes = [];
-            const gainNode = audioCtx.createGain();
-            const filterNode = audioCtx.createBiquadFilter();
-
-            filterNode.type = 'lowpass';
-            filterNode.frequency.setValueAtTime(frequencyVal, now);
-            filterNode.Q.setValueAtTime(3, now);
-            filterNode.frequency.exponentialRampToValueAtTime(frequencyVal * 0.4, now + 0.35);
-
-            gainNode.gain.setValueAtTime(0, now);
-            gainNode.gain.linearRampToValueAtTime(volumeVal, now + 0.05);
-            gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
-
-            chords.forEach(freq => {
-                const osc = audioCtx.createOscillator();
-                osc.type = 'sawtooth';
-                osc.frequency.value = freq;
-                osc.connect(filterNode);
-                osc.start(now);
-                osc.stop(now + 0.5);
-                oscNodes.push(osc);
-            });
-
-            // Add deep sub bass note
-            const subOsc = audioCtx.createOscillator();
-            subOsc.type = 'sine';
-            subOsc.frequency.value = chords[0] * 0.5; // octave below base note
-            subOsc.connect(gainNode);
-            subOsc.start(now);
-            subOsc.stop(now + 0.5);
-            oscNodes.push(subOsc);
-
-            filterNode.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-
-            animateBars();
-            currentStep++;
+            // Chorus Label
+            if (params.chorus === 0) {
+                labelChorus.textContent = "OFF";
+            } else {
+                labelChorus.textContent = `${params.chorus}%`;
+            }
         }
 
-        function animateBars() {
-            vBars.forEach((bar, idx) => {
-                const delay = idx * 40;
-                setTimeout(() => {
-                    if (!isPlaying) return;
-                    const heightVal = Math.random() * 60 + 35; // bounce height
-                    bar.style.height = `${heightVal}%`;
-                    bar.style.backgroundColor = `rgba(217, 28, 28, ${heightVal / 100})`;
-                    bar.style.boxShadow = `0 0 10px rgba(217, 28, 28, ${heightVal / 150})`;
-                }, delay);
-            });
+        // Toggle Stems Play / Mute
+        function toggleMute(trackKey, event) {
+            event.stopPropagation(); // Prevent focus selection click trigger
+            
+            const params = trackParams[trackKey];
+            params.muted = !params.muted;
+
+            const muteBtn = document.getElementById(`mute-${trackKey}`);
+            const strip = document.getElementById(`strip-${trackKey}`);
+
+            if (params.muted) {
+                muteBtn.textContent = "MUTED";
+                muteBtn.classList.add('is-muted');
+                strip.classList.add('muted');
+                
+                // Ramp volume down instantly to avoid clicks
+                if (stems[trackKey]) {
+                    stems[trackKey].gain.gain.setValueAtTime(0, audioCtx.currentTime);
+                }
+            } else {
+                muteBtn.textContent = "MUTE";
+                muteBtn.classList.remove('is-muted');
+                strip.classList.remove('muted');
+                
+                // Restore volume
+                if (stems[trackKey]) {
+                    stems[trackKey].gain.gain.setValueAtTime(params.vol, audioCtx.currentTime);
+                }
+            }
         }
 
-        let animFrame = null;
-        function visualizerLoop() {
+        // Attach Mute Event Listeners directly to HTML Mute buttons
+        Object.keys(STEMS_CONFIG).forEach(key => {
+            document.getElementById(`mute-${key}`).addEventListener('click', (e) => {
+                toggleMute(key, e);
+            });
+        });
+
+        // Sliders Input Listeners
+        sliderVol.addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+            trackParams[selectedTrack].vol = val;
+            labelVol.textContent = `${Math.round(val * 100)}%`;
+
+            if (stems[selectedTrack] && !trackParams[selectedTrack].muted) {
+                stems[selectedTrack].gain.gain.setValueAtTime(val, audioCtx.currentTime);
+            }
+        });
+
+        sliderFilter.addEventListener('input', (e) => {
+            const val = parseInt(e.target.value);
+            trackParams[selectedTrack].filter = val;
+            
+            if (val >= 3900) {
+                labelFilter.textContent = "BYPASS";
+                if (stems[selectedTrack]) {
+                    stems[selectedTrack].filter.frequency.setValueAtTime(20000, audioCtx.currentTime); // bypass
+                }
+            } else {
+                labelFilter.textContent = `${val} Hz`;
+                if (stems[selectedTrack]) {
+                    stems[selectedTrack].filter.frequency.setValueAtTime(val, audioCtx.currentTime);
+                }
+            }
+        });
+
+        sliderDist.addEventListener('input', (e) => {
+            const val = parseInt(e.target.value);
+            trackParams[selectedTrack].dist = val;
+            
+            if (val === 0) {
+                labelDist.textContent = "OFF";
+                if (stems[selectedTrack]) {
+                    stems[selectedTrack].distortion.curve = null; // bypass
+                }
+            } else {
+                labelDist.textContent = `${val} DB`;
+                if (stems[selectedTrack]) {
+                    stems[selectedTrack].distortion.curve = makeDistortionCurve(val * 10);
+                }
+            }
+        });
+
+        sliderChorus.addEventListener('input', (e) => {
+            const val = parseInt(e.target.value);
+            trackParams[selectedTrack].chorus = val;
+            
+            if (val === 0) {
+                labelChorus.textContent = "OFF";
+                if (stems[selectedTrack]) {
+                    stems[selectedTrack].chorusLfoGain.gain.setValueAtTime(0, audioCtx.currentTime);
+                }
+            } else {
+                labelChorus.textContent = `${val}%`;
+                if (stems[selectedTrack]) {
+                    // Maximum delay sweep amplitude of 5ms
+                    const depth = (val / 100) * 0.005;
+                    stems[selectedTrack].chorusLfoGain.gain.setValueAtTime(depth, audioCtx.currentTime);
+                }
+            }
+        });
+
+        // Master Volume
+        masterVolSlider.addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+            if (masterGainNode) {
+                masterGainNode.gain.setValueAtTime(val, audioCtx.currentTime);
+            }
+        });
+
+        // --- Real-time Loop Synchronizer, Analyser & Envelope Pumping Sidechain ---
+        let sidechainIndicator = document.getElementById('sidechain-indicator');
+
+        function telemetryMixerLoop() {
             if (!isPlaying) return;
-            vBars.forEach((bar) => {
-                const currentHeight = parseFloat(bar.style.height) || 20;
-                const targetHeight = Math.max(12, currentHeight - 3);
-                bar.style.height = `${targetHeight}%`;
+
+            let kickEnergy = 0;
+
+            // 1. Analyze Drums for Kick peak detection (Ducking Sidechain)
+            if (stems.drums && !trackParams.drums.muted) {
+                const drumsAnalyser = stems.drums.analyser;
+                const freqData = new Uint8Array(drumsAnalyser.frequencyBinCount);
+                drumsAnalyser.getByteFrequencyData(freqData);
+
+                // Average lower bins (20Hz - 90Hz) representing Kick drum energy
+                kickEnergy = (freqData[0] + freqData[1] + freqData[2] + freqData[3]) / 4;
+            }
+
+            // Calculate smooth sidechain ducking ratio based on kick peaks
+            const baseDuck = 1.0 - Math.min(0.65, (kickEnergy / 255) * 0.95);
+            // Smooth ducking transition to prevent pops/clicks (release time curve)
+            sidechainDucking = sidechainDucking * 0.75 + baseDuck * 0.25;
+
+            // Update indicator glow depending on sidechain compression level
+            if (sidechainDucking < 0.8) {
+                sidechainIndicator.style.opacity = '1';
+                sidechainIndicator.style.textShadow = '0 0 10px rgba(217, 28, 28, 0.8)';
+            } else {
+                sidechainIndicator.style.opacity = '0.5';
+                sidechainIndicator.style.textShadow = '';
+            }
+
+            // 2. Process all Stems for Volume Analyser bounce & volume adjustments
+            Object.keys(STEMS_CONFIG).forEach(key => {
+                const stem = stems[key];
+                if (!stem) return;
+
+                const params = trackParams[key];
+                
+                // Get real-time RMS / amplitude value of this specific track
+                const dataArray = new Uint8Array(stem.analyser.frequencyBinCount);
+                stem.analyser.getByteFrequencyData(dataArray);
+                
+                let sum = 0;
+                for (let i = 0; i < dataArray.length; i++) {
+                    sum += dataArray[i];
+                }
+                const averageLevel = sum / dataArray.length;
+                
+                // Scale bar height based on real-time average stem level
+                const vBar = document.getElementById(`v-bar-${key}`);
+                if (params.muted) {
+                    vBar.style.height = '12%';
+                    vBar.style.backgroundColor = '';
+                    vBar.style.boxShadow = '';
+                } else {
+                    const scaledHeight = Math.max(12, Math.min(100, (averageLevel / 120) * 100));
+                    vBar.style.height = `${scaledHeight}%`;
+                    vBar.style.backgroundColor = `rgba(217, 28, 28, ${scaledHeight / 110})`;
+                    vBar.style.boxShadow = `0 0 8px rgba(217, 28, 28, ${scaledHeight / 180})`;
+                }
+
+                // 3. Dynamic Sidechain Ducking applied in real-time to Bass, Melody, Atmos, Vocals
+                if (key !== 'drums') {
+                    const targetVol = params.muted ? 0 : params.vol * sidechainDucking;
+                    stem.gain.gain.setValueAtTime(targetVol, audioCtx.currentTime);
+                } else {
+                    const targetVol = params.muted ? 0 : params.vol;
+                    stem.gain.gain.setValueAtTime(targetVol, audioCtx.currentTime);
+                }
             });
-            animFrame = requestAnimationFrame(visualizerLoop);
+
+            animFrame = requestAnimationFrame(telemetryMixerLoop);
         }
 
+        // Master Play / Sync triggers
         function startPlayback() {
             isPlaying = true;
             playIcon.className = 'ph-fill ph-pause';
             playBtn.classList.add('playing');
-            
-            playSynthStep();
-            const stepDurationMs = (60 / tempoVal) * 1000 * 2;
-            synthInterval = setInterval(playSynthStep, stepDurationMs);
+            statusTxt.textContent = "Mixer Active // Loop Synced";
 
-            visualizerLoop();
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            // Play all tracks at EXACTLY the same scheduled time coordinate
+            Object.keys(stems).forEach(key => {
+                stems[key].audio.play();
+            });
+
+            telemetryMixerLoop();
         }
 
         function stopPlayback() {
             isPlaying = false;
             playIcon.className = 'ph-fill ph-play';
             playBtn.classList.remove('playing');
-            clearInterval(synthInterval);
+            statusTxt.textContent = "Multi-Track Player";
             cancelAnimationFrame(animFrame);
 
-            vBars.forEach((bar) => {
-                bar.style.height = '';
-                bar.style.backgroundColor = '';
-                bar.style.boxShadow = '';
+            // Pause all loops and reset their levels
+            Object.keys(stems).forEach(key => {
+                stems[key].audio.pause();
+                stems[key].audio.currentTime = 0; // Rewind back to start
+                
+                // Flatline visualizer bars
+                const vBar = document.getElementById(`v-bar-${key}`);
+                vBar.style.height = '12%';
+                vBar.style.backgroundColor = '';
+                vBar.style.boxShadow = '';
             });
         }
 
@@ -818,23 +1209,6 @@
             } else {
                 startPlayback();
             }
-        });
-
-        sliderFreq.addEventListener('input', (e) => {
-            frequencyVal = parseFloat(e.target.value);
-        });
-
-        sliderTempo.addEventListener('input', (e) => {
-            tempoVal = parseInt(e.target.value);
-            if (isPlaying) {
-                clearInterval(synthInterval);
-                const stepDurationMs = (60 / tempoVal) * 1000 * 2;
-                synthInterval = setInterval(playSynthStep, stepDurationMs);
-            }
-        });
-
-        sliderVol.addEventListener('input', (e) => {
-            volumeVal = parseFloat(e.target.value);
         });
     </script>
 </body>
