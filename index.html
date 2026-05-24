@@ -85,7 +85,8 @@
                 
                 <div class="hero-buttons">
                     <a href="projects.html" class="btn-primary">explore_projects</a>
-                    <a href="AI.html" class="btn-secondary">&gt;  AI experiments </a>
+                    <a href="AI.html" class="btn-secondary">&gt;  AI projects </a>
+                    <a href="experiments.html" class="btn-secondary">&gt;  experiments </a>
                 </div>
             </div>
         </div>
@@ -198,9 +199,8 @@
                             The purpose of this experiment was to test the fidelity and material realism of the HiDream diffusion model using ComfyUI. The core objective was to build a tailored local pipeline capable of rendering intricate, organic structures.
                         </p>
                         <div class="neon-card-tags">
-                            <span>ComfyUI</span>
-                            <span>HiDream</span>
-                            <span>Pipeline</span>
+                            <span>TouchDesigner</span>
+                            <span>AR</span>
                         </div>
                     </div>
                 </article>
@@ -306,14 +306,9 @@
                             <span class="hud-panel-num" id="hud-tool-company" style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-red); letter-spacing: 0.1em;">[ MIDJOURNEY INC. ]</span>
                         </div>
                         
-                        <div class="hud-spec-row" style="margin-bottom: 1.25rem;">
-                            <span class="hud-spec-label">// SPECIFIC_MODELS_USED</span>
-                            <p class="hud-spec-val" id="hud-tool-models" style="margin-top: 0.25rem;">Midjourney V6, V5.2</p>
-                        </div>
-                        
                         <div class="hud-spec-row">
-                            <span class="hud-spec-label">// CORE_APPLICATIONS</span>
-                            <p class="hud-spec-val" id="hud-tool-apps" style="margin-top: 0.25rem;">High-fidelity cinematic conceptual art, character-consistent storyboards, environment textures.</p>
+                            <span class="hud-spec-label">// Potential use cases</span>
+                            <p class="hud-spec-val" id="hud-tool-apps" style="margin-top: 0.25rem;">Generating high-quality concept art, storyboards for videos, and detailed textures for design projects.</p>
                         </div>
                     </div>
 
@@ -339,7 +334,7 @@
                     </p>
                     <div style="padding-top: 1rem; display: flex; flex-wrap: wrap; gap: 1rem;">
                         <a href="music.html" class="btn-primary">Explore_My_Music</a>
-                        <a href="music.html#visualizer" class="btn-secondary">&gt; Listen_to_Full_Bootleg</a>
+                        <a href="https://soundcloud.com/vnondnb" target="_blank" class="btn-secondary">&gt; Listen_on_SoundCloud</a>
                     </div>
                 </div>
                 
@@ -668,63 +663,53 @@
             midjourney: {
                 title: "Midjourney",
                 company: "Midjourney Inc.",
-                models: "Midjourney V6, V5.2",
-                apps: "High-fidelity cinematic conceptual art, character-consistent storyboards, environment textures."
+                apps: "Generating high-quality concept art, storyboards for videos, and detailed textures for design projects."
             },
             flux: {
                 title: "Flux",
                 company: "Black Forest Labs",
-                models: "Flux.1 Dev, Schnell",
-                apps: "Prompt adherence, noise bypass outpainting, hyper-realistic text generation."
+                apps: "Creating extremely realistic images and scenes with clear, readable text in the design."
             },
             sdxl: {
                 title: "SDXL",
                 company: "Stability AI",
-                models: "SDXL Base 1.0, ControlNet",
-                apps: "Edge mapping, local pipelines, LoRA training for style consistency."
+                apps: "Designing custom graphics and maintaining a consistent style across a series of images."
             },
             comfyui: {
                 title: "ComfyUI",
                 company: "ComfyUI Community",
-                models: "ComfyUI Core Node Map",
-                apps: "17-node diffusion pipelines, procedural generative workflows (Synthetic Corals)."
+                apps: "Building custom visual styles and creating intricate, organic patterns for art installations."
             },
             hidream: {
                 title: "HiDream AI",
                 company: "HiDream.ai",
-                models: "HiDream Core, outpainting",
-                apps: "High-density texture, bio-organic modelling, advanced canvas expansion."
+                apps: "Expanding existing images beyond their borders and adding rich, natural details to artwork."
             },
             gemini: {
                 title: "Gemini",
                 company: "Google",
-                models: "Gemini 1.5 Pro, Canvas",
-                apps: "Refactoring, serverless CDN scripts, responsive design optimisation."
+                apps: "Assisting with coding, optimising website layouts, and brainstorming creative design ideas."
             },
             antigravity: {
                 title: "Antigravity",
                 company: "Google DeepMind",
-                models: "Antigravity Agentic Pair",
-                apps: "Vanilla CSS grid restoration, R2 CORS integration, automated deployment pipelines."
+                apps: "Managing website styling, automating file uploads, and coordinating smooth code deployments."
             },
             firefly: {
                 title: "Adobe Firefly",
                 company: "Adobe",
-                models: "Adobe Firefly Image 3",
-                apps: "Mockup iterations, recolouring, rapid layout exploration, vector styling."
+                apps: "Quickly testing different layout ideas, recolouring artwork, and creating graphic mockups."
             },
             elevenlabs: {
                 title: "ElevenLabs",
                 company: "ElevenLabs",
-                models: "Multilingual v2 Engine",
-                apps: "Trailer voiceovers, soundscapes, audio synthesis, localised narration."
+                apps: "Generating natural-sounding voiceovers, sound effects, and custom background audio."
             }
         };
 
         const hudCard = document.getElementById('ai-hud-card');
         const hudTitle = document.getElementById('hud-tool-title');
         const hudCompany = document.getElementById('hud-tool-company');
-        const hudModels = document.getElementById('hud-tool-models');
         const hudApps = document.getElementById('hud-tool-apps');
         const marqueeLogos = document.querySelectorAll('.marquee-logo');
 
@@ -756,7 +741,6 @@
                 // Update visual content
                 hudTitle.textContent = data.title;
                 hudCompany.textContent = `[ ${data.company.toUpperCase()} ]`;
-                hudModels.textContent = data.models;
                 hudApps.textContent = data.apps;
 
                 // End transition to fade back in

@@ -3114,7 +3114,7 @@ a[href*="linkedin.com"]:hover * {
   padding: 1.35rem;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  height: 210px; /* Fixed height on desktop prevents layout wiggling/shifts */
+  height: 140px; /* Fixed height on desktop prevents layout wiggling/shifts */
   width: 100%;
   max-width: 580px;
   display: flex;
@@ -3127,7 +3127,7 @@ a[href*="linkedin.com"]:hover * {
 @media (max-width: 768px) {
   .ai-hud-card {
     height: auto; /* Dynamic height on mobile to accommodate wrapped text layout */
-    min-height: 250px;
+    min-height: 140px;
   }
 }
 
