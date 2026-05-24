@@ -1,0 +1,11 @@
+# Ignore massive audio stems to conform with Cloudflare Workers 25MB limits
+audio/*.wav
+
+# System / OS files
+.DS_Store
+Thumbs.db
+
+# Configuration files
+.wrangler/
+wrangler.jsonc
+*.log
