@@ -67,7 +67,7 @@
     <main class="work-panel-grid" style="margin-top: 88px;">
         
         <!-- Panel 1: Projects -->
-        <a href="projects.html" class="work-panel">
+        <a href="projects.html" class="work-panel" data-panel-index="0">
             <div class="work-panel-bg">
                 <video src="https://assets.willvernon.online/previews/fading_away_preview.mp4" autoplay muted loop playsinline class="panel-video"></video>
                 <div class="panel-overlay"></div>
@@ -83,7 +83,7 @@
         </a>
 
         <!-- Panel 2: AI -->
-        <a href="AI.html" class="work-panel">
+        <a href="AI.html" class="work-panel" data-panel-index="1">
             <div class="work-panel-bg">
                 <video src="https://assets.willvernon.online/previews/ai_trailer.mp4" autoplay muted loop playsinline class="panel-video"></video>
                 <div class="panel-overlay"></div>
@@ -99,7 +99,7 @@
         </a>
 
         <!-- Panel 3: Experiments -->
-        <a href="experiments.html" class="work-panel">
+        <a href="experiments.html" class="work-panel" data-panel-index="2">
             <div class="work-panel-bg">
                 <video src="https://assets.willvernon.online/previews/experiments_trailer.mp4" autoplay muted loop playsinline class="panel-video"></video>
                 <div class="panel-overlay"></div>
@@ -135,6 +135,174 @@
         mobileMenuBtn.addEventListener('click', toggleMenu);
         closeMenuBtn.addEventListener('click', toggleMenu);
         mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+        // --- Option C: Analog Character Glitch (Flickering Text on Hover) ---
+        const technicalChars = "01XY/[]_#&@$%?><*";
+        
+        function scrambleText(element) {
+            if (element.dataset.isScrambling === "true") return;
+            element.dataset.isScrambling = "true";
+
+            const originalText = element.dataset.original || element.textContent.trim();
+            if (!element.dataset.original) {
+                element.dataset.original = originalText;
+            }
+
+            // Snappy reveal speeds: descriptions decrypt under 0.75s (4.5 letters per tick), titles flicker longer (1/3 letter per tick)
+            const speedStep = originalText.length > 20 ? 4.5 : 1 / 3;
+            let iteration = 0;
+            const interval = setInterval(() => {
+                element.textContent = originalText
+                    .split("")
+                    .map((char, index) => {
+                        if (char === " ") return " ";
+                        if (index < iteration) {
+                            return originalText[index];
+                        }
+                        return technicalChars[Math.floor(Math.random() * technicalChars.length)];
+                    })
+                    .join("");
+
+                if (iteration >= originalText.length) {
+                    clearInterval(interval);
+                    element.textContent = originalText; // Ensure absolute correctness at the end
+                    element.dataset.isScrambling = "false";
+                }
+                iteration += speedStep;
+            }, 30);
+        }
+
+        // --- Option D: Interactive Ambient Hover Soundscapes ---
+        const audioMapping = {
+            0: 'audio/Silver Linings Bootleg Melody.mp3', // Projects: Melody
+            1: 'audio/Silver Linings Bootleg Bass 2.mp3',   // AI: Bass
+            2: 'audio/Silver Linings Bootleg Atmos.mp3'   // Experiments: Atmos
+        };
+
+        const hoverAudioElements = {};
+        let audioInitialized = false;
+
+        function initHoverAudio() {
+            if (audioInitialized) return;
+            audioInitialized = true;
+
+            Object.keys(audioMapping).forEach(index => {
+                const audio = new Audio(audioMapping[index]);
+                audio.loop = true;
+                audio.volume = 0;
+                audio.preload = 'auto';
+                
+                // Play in silence
+                audio.play().catch(err => {
+                    console.log("Audio waiting for explicit click activation.");
+                });
+                hoverAudioElements[index] = audio;
+            });
+        }
+
+        // Initialize audio system on first user touch/movement coordinates
+        window.addEventListener('mousemove', initHoverAudio, { once: true });
+        window.addEventListener('touchstart', initHoverAudio, { once: true });
+        window.addEventListener('click', initHoverAudio, { once: true });
+
+        function fadeAudioIn(index) {
+            if (!audioInitialized) initHoverAudio();
+            const audio = hoverAudioElements[index];
+            if (!audio) return;
+
+            if (audio.paused) {
+                audio.play().catch(() => {});
+            }
+
+            clearInterval(audio.fadeInterval);
+            audio.fadeInterval = setInterval(() => {
+                if (audio.volume < 0.35) {
+                    audio.volume = Math.min(0.35, audio.volume + 0.04);
+                } else {
+                    clearInterval(audio.fadeInterval);
+                }
+            }, 35);
+        }
+
+        function fadeAudioOut(index) {
+            const audio = hoverAudioElements[index];
+            if (!audio) return;
+
+            clearInterval(audio.fadeInterval);
+            audio.fadeInterval = setInterval(() => {
+                if (audio.volume > 0.02) {
+                    audio.volume = Math.max(0, audio.volume - 0.03);
+                } else {
+                    audio.volume = 0;
+                    clearInterval(audio.fadeInterval);
+                }
+            }, 40);
+        }
+
+        // --- Bind Listeners for Hover and Sound triggers ---
+        const panels = document.querySelectorAll('.work-panel');
+        let activePanel = null;
+
+        panels.forEach(panel => {
+            const index = panel.getAttribute('data-panel-index');
+            const title = panel.querySelector('.panel-title');
+            const desc = panel.querySelector('.panel-desc');
+
+            panel.addEventListener('mouseenter', () => {
+                activePanel = panel;
+                scrambleText(title);
+                fadeAudioIn(index);
+
+                // Scramble the description text right as it finishes expanding / fading in!
+                setTimeout(() => {
+                    if (activePanel === panel) {
+                        scrambleText(desc);
+                    }
+                }, 380);
+            });
+
+            panel.addEventListener('mouseleave', () => {
+                activePanel = null;
+                fadeAudioOut(index);
+                
+                // Immediately restore original text if user leaves early
+                if (title.dataset.original) {
+                    title.textContent = title.dataset.original;
+                    title.dataset.isScrambling = "false";
+                }
+                if (desc.dataset.original) {
+                    desc.textContent = desc.dataset.original;
+                    desc.dataset.isScrambling = "false";
+                }
+            });
+
+            // Touch support for mobile layouts
+            panel.addEventListener('touchstart', () => {
+                activePanel = panel;
+                scrambleText(title);
+                fadeAudioIn(index);
+                
+                setTimeout(() => {
+                    if (activePanel === panel) {
+                        scrambleText(desc);
+                    }
+                }, 380);
+            }, { passive: true });
+            
+            panel.addEventListener('touchend', () => {
+                activePanel = null;
+                fadeAudioOut(index);
+                
+                if (title.dataset.original) {
+                    title.textContent = title.dataset.original;
+                    title.dataset.isScrambling = "false";
+                }
+                if (desc.dataset.original) {
+                    desc.textContent = desc.dataset.original;
+                    desc.dataset.isScrambling = "false";
+                }
+            });
+        });
     </script>
 </body>
 </html>
