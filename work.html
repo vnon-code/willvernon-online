@@ -196,86 +196,17 @@
         bindScrambleHover('.nav-links a');
         bindScrambleHover('.mobile-menu a');
 
-        // --- Option D: Interactive Ambient Hover Soundscapes ---
-        const audioMapping = {
-            0: 'audio/Silver Linings Bootleg Melody.mp3', // Projects: Melody
-            1: 'audio/Silver Linings Bootleg Bass 2.mp3',   // AI: Bass
-            2: 'audio/Silver Linings Bootleg Atmos.mp3'   // Experiments: Atmos
-        };
-
-        const hoverAudioElements = {};
-        let audioInitialized = false;
-
-        function initHoverAudio() {
-            if (audioInitialized) return;
-            audioInitialized = true;
-
-            Object.keys(audioMapping).forEach(index => {
-                const audio = new Audio(audioMapping[index]);
-                audio.loop = true;
-                audio.volume = 0;
-                audio.preload = 'auto';
-                
-                // Play in silence
-                audio.play().catch(err => {
-                    console.log("Audio waiting for explicit click activation.");
-                });
-                hoverAudioElements[index] = audio;
-            });
-        }
-
-        // Initialize audio system on first user touch/movement coordinates
-        window.addEventListener('mousemove', initHoverAudio, { once: true });
-        window.addEventListener('touchstart', initHoverAudio, { once: true });
-        window.addEventListener('click', initHoverAudio, { once: true });
-
-        function fadeAudioIn(index) {
-            if (!audioInitialized) initHoverAudio();
-            const audio = hoverAudioElements[index];
-            if (!audio) return;
-
-            if (audio.paused) {
-                audio.play().catch(() => {});
-            }
-
-            clearInterval(audio.fadeInterval);
-            audio.fadeInterval = setInterval(() => {
-                if (audio.volume < 0.35) {
-                    audio.volume = Math.min(0.35, audio.volume + 0.04);
-                } else {
-                    clearInterval(audio.fadeInterval);
-                }
-            }, 35);
-        }
-
-        function fadeAudioOut(index) {
-            const audio = hoverAudioElements[index];
-            if (!audio) return;
-
-            clearInterval(audio.fadeInterval);
-            audio.fadeInterval = setInterval(() => {
-                if (audio.volume > 0.02) {
-                    audio.volume = Math.max(0, audio.volume - 0.03);
-                } else {
-                    audio.volume = 0;
-                    clearInterval(audio.fadeInterval);
-                }
-            }, 40);
-        }
-
-        // --- Bind Listeners for Hover and Sound triggers ---
+        // --- Bind Listeners for Hover triggers ---
         const panels = document.querySelectorAll('.work-panel');
         let activePanel = null;
 
         panels.forEach(panel => {
-            const index = panel.getAttribute('data-panel-index');
             const title = panel.querySelector('.panel-title');
             const desc = panel.querySelector('.panel-desc');
 
             panel.addEventListener('mouseenter', () => {
                 activePanel = panel;
                 scrambleText(title);
-                fadeAudioIn(index);
 
                 // Scramble the description text right as it finishes expanding / fading in!
                 setTimeout(() => {
@@ -287,7 +218,6 @@
 
             panel.addEventListener('mouseleave', () => {
                 activePanel = null;
-                fadeAudioOut(index);
                 
                 // Immediately restore original text if user leaves early
                 if (title.dataset.original) {
@@ -304,7 +234,6 @@
             panel.addEventListener('touchstart', () => {
                 activePanel = panel;
                 scrambleText(title);
-                fadeAudioIn(index);
                 
                 setTimeout(() => {
                     if (activePanel === panel) {
@@ -315,7 +244,6 @@
             
             panel.addEventListener('touchend', () => {
                 activePanel = null;
-                fadeAudioOut(index);
                 
                 if (title.dataset.original) {
                     title.textContent = title.dataset.original;
