@@ -482,11 +482,27 @@
                         <a href="mailto:wvernoncsi@gmail.com" class="contact-item-val">wvernoncsi@gmail.com</a>
                     </div>
                     <div>
-                        <p class="contact-item-label">SOCIAL_NETWORKS</p>
-                        <div class="contact-social-icons">
-                            <a href="https://www.linkedin.com/in/william-vernon-a37aa42b8" target="_blank" aria-label="LinkedIn"><i class="ph-fill ph-linkedin-logo"></i></a>
-                            <a href="https://soundcloud.com/vnondnb" target="_blank" class="soundcloud-btn" aria-label="SoundCloud"><i class="ph-fill ph-soundcloud-logo"></i></a>
-                            <a href="https://instagram.com/willvernon.av" target="_blank" aria-label="Instagram"><i class="ph-fill ph-instagram-logo"></i></a>
+                        <p class="contact-item-label">LINKS</p>
+                        <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-top: 0.75rem;">
+                            <div>
+                                <p class="contact-item-label" style="font-size: 0.65rem; color: var(--accent-red); margin-bottom: 0.5rem; letter-spacing: 0.05em;">// SOCIAL</p>
+                                <div class="contact-social-icons" style="flex-wrap: wrap;">
+                                    <a href="https://instagram.com/willvernon.av" target="_blank" class="instagram-btn" aria-label="Instagram"><i class="ph-fill ph-instagram-logo"></i></a>
+                                    <a href="https://www.linkedin.com/in/william-vernon-a37aa42b8" target="_blank" class="linkedin-btn" aria-label="LinkedIn"><i class="ph-fill ph-linkedin-logo"></i></a>
+                                    <a href="https://www.tiktok.com/@vnon___" target="_blank" class="tiktok-btn" aria-label="TikTok"><i class="ph-fill ph-tiktok-logo"></i></a>
+                                    <span style="position: relative; display: inline-flex; align-items: center;">
+                                        <a href="javascript:void(0)" onclick="copyDiscordHandle()" class="discord-btn" aria-label="Discord" style="cursor: pointer;"><i class="ph-fill ph-discord-logo"></i></a>
+                                        <span id="discord-tooltip" class="font-mono" style="display: none; position: absolute; bottom: 125%; left: 50%; transform: translateX(-50%); background-color: var(--bg-900); border: 1px solid var(--bg-700); padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.65rem; color: var(--accent-red); white-space: nowrap; z-index: 10;">Copied!</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="contact-item-label" style="font-size: 0.65rem; color: var(--accent-red); margin-bottom: 0.5rem; letter-spacing: 0.05em;">// MUSIC</p>
+                                <div class="contact-social-icons">
+                                    <a href="https://soundcloud.com/vnondnb" target="_blank" class="soundcloud-btn" aria-label="SoundCloud"><i class="ph-fill ph-soundcloud-logo"></i></a>
+                                    <a href="https://vnon.bandcamp.com/" target="_blank" class="bandcamp-btn" aria-label="Bandcamp" style="display: inline-flex; align-items: center; justify-content: center;"><svg viewBox="0 0 24 24" fill="currentColor" style="width: 1.25rem; height: 1.25rem; display: block;"><path d="M0 18.75l7.437-13.5H24l-7.438 13.5H0z"/></svg></a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1335,6 +1351,19 @@
 
         // Initialize UI default sliders for Drums on page load
         focusTrack('drums');
+
+        // Copy Discord Handle to Clipboard
+        function copyDiscordHandle() {
+            navigator.clipboard.writeText('vnon#2416').then(() => {
+                const tooltip = document.getElementById('discord-tooltip');
+                tooltip.style.display = 'block';
+                setTimeout(() => {
+                    tooltip.style.display = 'none';
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
     </script>
 </body>
 </html>

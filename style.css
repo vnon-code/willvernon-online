@@ -846,6 +846,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 .contact-social-icons {
   display: flex;
+  align-items: center;
   gap: 1rem;
   margin-top: 0.5rem;
 }
@@ -853,12 +854,28 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-muted);
   font-size: 1.5rem;
   transition: color 0.3s ease;
+  text-decoration: none !important;
 }
 .contact-social-icons a:hover {
   color: var(--accent-red);
 }
+.contact-social-icons a:hover.instagram-btn {
+  color: #e1306c;
+}
+.contact-social-icons a:hover.linkedin-btn {
+  color: #0077b5;
+}
+.contact-social-icons a:hover.tiktok-btn {
+  color: #ff0050;
+}
+.contact-social-icons a:hover.discord-btn {
+  color: #5865f2;
+}
 .contact-social-icons a:hover.soundcloud-btn {
   color: #ff5500;
+}
+.contact-social-icons a:hover.bandcamp-btn {
+  color: #629aa9;
 }
 .contact-edu-panel {
   border-top: 1px solid var(--bg-700);
