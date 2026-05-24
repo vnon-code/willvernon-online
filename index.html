@@ -444,7 +444,7 @@
                                             <span>VOLUME // GAIN</span>
                                             <span id="label-vol" style="color: var(--accent-red);">100%</span>
                                         </div>
-                                        <input type="range" id="param-vol" min="0" max="1" step="0.05" value="0.8" style="width: 100%; -webkit-appearance: none; background: var(--bg-800); height: 4px; border-radius: 2px; outline: none; border: 1px solid var(--bg-700);" class="deck-slider">
+                                        <input type="range" id="param-vol" min="0" max="1" step="0.05" value="1.0" style="width: 100%; -webkit-appearance: none; background: var(--bg-800); height: 4px; border-radius: 2px; outline: none; border: 1px solid var(--bg-700);" class="deck-slider">
                                     </div>
 
                                     <!-- Parameter 2: Filter Cutoff -->
@@ -788,11 +788,11 @@
         };
 
         const trackParams = {
-            drums: { vol: 0.8, filter: 4000, dist: 0, chorus: 0, muted: false },
-            bass: { vol: 0.8, filter: 4000, dist: 0, chorus: 0, muted: false },
-            melody: { vol: 0.8, filter: 4000, dist: 0, chorus: 0, muted: false },
-            atmos: { vol: 0.8, filter: 4000, dist: 0, chorus: 0, muted: false },
-            vocals: { vol: 0.8, filter: 4000, dist: 0, chorus: 0, muted: false }
+            drums: { vol: 1.0, filter: 4000, dist: 0, chorus: 0, muted: false },
+            bass: { vol: 1.0, filter: 4000, dist: 0, chorus: 0, muted: false },
+            melody: { vol: 1.0, filter: 4000, dist: 0, chorus: 0, muted: false },
+            atmos: { vol: 1.0, filter: 4000, dist: 0, chorus: 0, muted: false },
+            vocals: { vol: 1.0, filter: 4000, dist: 0, chorus: 0, muted: false }
         };
 
         let audioCtx = null;
