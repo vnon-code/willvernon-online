@@ -1423,18 +1423,42 @@
             });
         }
 
-        // Bind global scramble elements
+        // Bind global navigation scramble elements
         bindScrambleHover('.nav-links a');
         bindScrambleHover('.mobile-menu a');
-        bindScrambleHover('.hero-buttons a');
 
-        // Bind Stems Mixer Channel strips
-        strips.forEach(strip => {
-            strip.addEventListener('mouseenter', () => {
-                const label = strip.querySelector('.mixer-track-label');
-                if (label) scrambleText(label);
-            });
+        // --- Organic System Telemetry Scramble Chatter ---
+        // We compile a pool of elements (secondary CTA buttons and stems mixer labels)
+        // to organically scramble on their own in the background, simulating real-time telemetry updates.
+        const telemetryPool = [];
+
+        // Add secondary CTA buttons (excluding 'explore_projects' primary button)
+        document.querySelectorAll('.hero-buttons .btn-secondary').forEach(btn => {
+            telemetryPool.push(btn);
         });
+
+        // Add stems mixer channel track labels
+        document.querySelectorAll('.mixer-track-label').forEach(label => {
+            telemetryPool.push(label);
+        });
+
+        function triggerOrganicTelemetryScramble() {
+            if (telemetryPool.length === 0) return;
+
+            // Pick a random element from the pool
+            const randomIndex = Math.floor(Math.random() * telemetryPool.length);
+            const targetEl = telemetryPool[randomIndex];
+
+            // Trigger scramble animation
+            scrambleText(targetEl);
+
+            // Schedule the next organic flicker at random intervals (e.g. between 3 and 7.5 seconds)
+            const nextFlickerInterval = 3000 + Math.random() * 4500;
+            setTimeout(triggerOrganicTelemetryScramble, nextFlickerInterval);
+        }
+
+        // Start the background organic telemetry chatter after a short delay on load
+        setTimeout(triggerOrganicTelemetryScramble, 2500);
 
         // Run One-Shot Name Boot-up Scramble Sequence on page load
         window.addEventListener('DOMContentLoaded', () => {
