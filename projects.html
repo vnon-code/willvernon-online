@@ -515,77 +515,220 @@
             });
 
             // Slide-over logic
+            let activeConsoleInterval = null;
+
             const openSlideover = (projId) => {
                 const proj = PROJECTS_DATA.find(p => p.id === projId);
                 if (!proj) return;
                 
-                let mediaHtml = '';
-                if (proj.mediaType === 'video') {
-                    mediaHtml = `<video src="${proj.mediaSrc}" autoplay muted loop playsinline></video>`;
-                } else if (proj.mediaType === 'image') {
-                    mediaHtml = `<img src="${proj.mediaSrc}" alt="${proj.title}">`;
-                } else if (proj.mediaType === 'svg') {
-                    mediaHtml = proj.mediaSrc;
-                }
-                
-                const processHtml = proj.process.map((proc, index) => {
-                    const isEven = index % 2 === 1;
-                    const contentOrderClass = isEven ? 'order-2 order-lg-1' : '';
-                    const mediaOrderClass = isEven ? 'order-1 order-lg-2' : '';
-                    
-                    let stepMediaHtml = '';
-                    if (proc.mediaType === 'video') {
-                        stepMediaHtml = `<video src="${proc.mediaSrc}" controls muted loop playsinline class="process-media-video"></video>`;
-                    } else if (proc.mediaType === 'image') {
-                        stepMediaHtml = `<img src="${proc.mediaSrc}" class="process-media-img" alt="${proc.title}">`;
-                    } else if (proc.mediaType === 'svg') {
-                        stepMediaHtml = proc.mediaSrc;
-                    } else {
-                        // Fallback: If mediaSvg is present, use it, else default to mediaSrc/mediaSvg
-                        stepMediaHtml = proc.mediaSvg || proc.mediaSrc || '';
-                    }
-                    
-                    return `
-                        <div class="process-card">
-                            <div class="process-card-content ${contentOrderClass}">
-                                <h4 class="process-title">${proc.num}. ${proc.title}</h4>
-                                <p class="process-desc">${proc.desc}</p>
+                // Add console class to slideover container
+                slideover.classList.add('console-mode');
+
+                // Build steps data (Master file first, then process steps)
+                const files = [
+                    {
+                        type: "outcome",
+                        num: "00",
+                        title: proj.outcomeLabel || "Final Outcome Showcase",
+                        fileName: "final_presentation.mov",
+                        icon: "ph-file-video",
+                        mediaType: proj.mediaType,
+                        mediaSrc: proj.mediaSrc,
+                        desc: proj.descLong
+                    },
+                    ...proj.process.map(proc => ({
+                        type: "process",
+                        num: proc.num,
+                        title: proc.title,
+                        fileName: proc.title.toLowerCase().replace(/[^a-z0-9_]/g, '_') + (proc.mediaType === 'video' ? '.mov' : proc.mediaType === 'image' ? '.png' : '.svg'),
+                        icon: proc.mediaType === 'video' ? 'ph-file-video' : proc.mediaType === 'image' ? 'ph-file-image' : 'ph-file-code',
+                        mediaType: proc.mediaType,
+                        mediaSrc: proc.mediaSrc,
+                        desc: proc.desc
+                    }))
+                ];
+
+                // Build sidebar file list HTML
+                const fileListHtml = files.map((file, idx) => `
+                    <button class="file-item ${idx === 0 ? 'active' : ''}" data-index="${idx}">
+                        <i class="ph ${file.icon}"></i>
+                        <span class="file-num">${file.num}</span>
+                        <span class="file-name">${file.fileName}</span>
+                    </button>
+                `).join('');
+
+                // Render overall Console Template
+                slideover.innerHTML = `
+                    <div class="console-workspace">
+                        <!-- Top Header bar -->
+                        <div class="console-topbar">
+                            <div class="console-breadcrumbs">
+                                <span class="text-accent">// ARCHIVE</span>
+                                <span class="separator">/</span>
+                                <span class="project-id-label">PROJECT_${proj.id}</span>
+                                <span class="separator">/</span>
+                                <span class="project-title-label">${proj.title}</span>
                             </div>
-                            <div class="process-card-media ${mediaOrderClass}">
-                                ${stepMediaHtml}
+                            <div class="console-window-actions">
+                                <span class="telemetry-badge"><span class="pulse-dot"></span> INTERACTIVE CANVAS</span>
+                                <button class="console-close-btn" id="console-close-btn" aria-label="Close Workspace">
+                                    <i class="ph ph-x"></i>
+                                </button>
                             </div>
                         </div>
-                    `;
-                }).join('');
-                
-                slideover.innerHTML = `
-                    <button class="slideover-close-btn" id="slideover-close-btn" aria-label="Close Case Study">
-                        <i class="ph ph-arrow-left"></i> [ Back to Archive ]
-                    </button>
-                    <button class="modal-close-icon" id="modal-close-icon" aria-label="Close Case Study">
-                        <i class="ph ph-x"></i>
-                    </button>
-                    <div class="slideover-header-meta">// PROJECT_${proj.id}</div>
-                    <h2 class="slideover-title">${proj.title}</h2>
-                    <div class="slideover-tags">
-                        ${proj.tags.map(t => `<span>${t}</span>`).join('')}
-                    </div>
-                    <div class="slideover-summary">
-                        ${proj.descLong}
-                    </div>
-                    <div class="slideover-outcome-section">
-                        ${mediaHtml}
-                        <div class="slideover-outcome-label">${proj.outcomeLabel}</div>
-                    </div>
-                    <h3 class="slideover-process-title">Process &amp; Methodology</h3>
-                    <div class="slideover-process-grid">
-                        ${processHtml}
+
+                        <!-- Main Body -->
+                        <div class="console-body">
+                            <!-- Left Sidebar -->
+                            <div class="console-sidebar">
+                                <div class="sidebar-section">
+                                    <div class="meta-label">Overview</div>
+                                    <p class="sidebar-project-desc">${proj.descShort || proj.descLong.slice(0, 160) + '...'}</p>
+                                    <div class="sidebar-tags">
+                                        ${proj.tags.map(t => `<span>${t}</span>`).join('')}
+                                    </div>
+                                </div>
+
+                                <div class="sidebar-section">
+                                    <div class="meta-label">Process Index</div>
+                                    <div class="file-list">
+                                        ${fileListHtml}
+                                    </div>
+                                </div>
+
+                                <div class="sidebar-section">
+                                    <div class="meta-label">System Telemetry</div>
+                                    <div class="specs-grid">
+                                        <div class="spec-row">
+                                            <span class="spec-lbl">MODULE STACK:</span>
+                                            <span class="spec-val font-mono">${proj.process.length + 1} FILES</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-lbl">STATUS:</span>
+                                            <span class="spec-val font-mono" style="color: #22c55e;">COMPILING</span>
+                                        </div>
+                                        <div class="spec-row">
+                                            <span class="spec-lbl">COMPOSITOR:</span>
+                                            <span class="spec-val font-mono text-accent">TD_BLENDER_V4</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Right Viewport -->
+                            <div class="console-viewport">
+                                <div class="viewport-header">
+                                    <div class="viewport-title-bar">
+                                        <i class="ph ph-terminal"></i>
+                                        <span id="active-step-title">Initializing...</span>
+                                    </div>
+                                    <div class="viewport-telemetry">
+                                        <span id="active-step-num">SYS_INIT</span>
+                                    </div>
+                                </div>
+
+                                <!-- Live Interactive Canvas -->
+                                <div class="viewport-canvas">
+                                    <div class="viewport-grid-dots"></div>
+                                    
+                                    <div class="canvas-media-container" id="canvas-media-container">
+                                        <!-- Active step media (video, images, responsive video list, or SVG graph) rendered dynamically -->
+                                    </div>
+
+                                    <!-- HUD Floating Overlays -->
+                                    <div class="canvas-telemetry-hud">
+                                        <div class="hud-item">
+                                            <span class="hud-lbl">LATENCY:</span>
+                                            <span class="hud-val">0.8ms</span>
+                                        </div>
+                                        <div class="hud-item">
+                                            <span class="hud-lbl">RESOLUTION:</span>
+                                            <span class="hud-val">1920x1080</span>
+                                        </div>
+                                        <div class="hud-item">
+                                            <span class="hud-lbl">FPS:</span>
+                                            <span class="hud-val pulse-val" id="hud-fps-value">60.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Metadata Bottom Drawer -->
+                                <div class="viewport-description">
+                                    <div class="description-heading">// DECRYPTED MODULE METADATA</div>
+                                    <p id="active-step-desc">Loading metadata stream...</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 `;
-                
-                document.getElementById('slideover-close-btn').addEventListener('click', closeSlideover);
-                document.getElementById('modal-close-icon').addEventListener('click', closeSlideover);
-                
+
+                // Handle step switching logic
+                const switchActiveStep = (idx) => {
+                    const file = files[idx];
+                    if (!file) return;
+
+                    // Pause old videos in drawer if any
+                    const canvasMedia = document.getElementById('canvas-media-container');
+                    const activeVideos = canvasMedia.querySelectorAll('video');
+                    activeVideos.forEach(v => v.pause());
+
+                    // Apply glitch filter effect to the canvas to look high-tech
+                    const canvas = document.querySelector('.viewport-canvas');
+                    canvas.classList.remove('glitch-flash');
+                    void canvas.offsetWidth; // Force DOM reflow
+                    canvas.classList.add('glitch-flash');
+
+                    // Set title and details
+                    document.getElementById('active-step-title').textContent = `${file.num}. ${file.title}`;
+                    document.getElementById('active-step-num').textContent = `MODULE_${file.num}`;
+                    document.getElementById('active-step-desc').textContent = file.desc;
+
+                    // Compile and inject media content
+                    let mediaHtml = '';
+                    if (file.mediaType === 'video') {
+                        mediaHtml = `<video src="${file.mediaSrc}" autoplay muted loop playsinline controls class="glitch-flash"></video>`;
+                    } else if (file.mediaType === 'image') {
+                        mediaHtml = `<img src="${file.mediaSrc}" alt="${file.title}" class="glitch-flash">`;
+                    } else if (file.mediaType === 'svg') {
+                        mediaHtml = file.mediaSrc;
+                    }
+                    
+                    canvasMedia.innerHTML = mediaHtml;
+
+                    // Bind hover events to scramble titles on active step load if desired
+                    const titleText = document.getElementById('active-step-title');
+                    scrambleText(titleText, 0.5);
+                };
+
+                // Bind click event to file buttons
+                const fileButtons = slideover.querySelectorAll('.file-item');
+                fileButtons.forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        // Clear active states
+                        fileButtons.forEach(b => b.classList.remove('active'));
+                        // Add to current
+                        btn.classList.add('active');
+                        // Switch active content
+                        const idx = parseInt(btn.getAttribute('data-index'), 10);
+                        switchActiveStep(idx);
+                    });
+                });
+
+                // Load initial step (outcome video/master file)
+                switchActiveStep(0);
+
+                // Start active telemetries flicker loop
+                const fpsLabel = document.getElementById('hud-fps-value');
+                if (fpsLabel) {
+                    activeConsoleInterval = setInterval(() => {
+                        const randomFps = (58.5 + Math.random() * 1.5).toFixed(2);
+                        fpsLabel.textContent = randomFps;
+                    }, 500);
+                }
+
+                // Bind close button
+                document.getElementById('console-close-btn').addEventListener('click', closeSlideover);
+
                 backdrop.classList.add('active');
                 slideover.classList.add('active');
                 document.body.classList.add('overflow-hidden');
@@ -594,8 +737,15 @@
             const closeSlideover = () => {
                 backdrop.classList.remove('active');
                 slideover.classList.remove('active');
+                slideover.classList.remove('console-mode');
                 document.body.classList.remove('overflow-hidden');
                 
+                // Clear telemetry timer
+                if (activeConsoleInterval) {
+                    clearInterval(activeConsoleInterval);
+                    activeConsoleInterval = null;
+                }
+
                 const activeVideos = slideover.querySelectorAll('video');
                 activeVideos.forEach(v => v.pause());
             };
