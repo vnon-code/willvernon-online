@@ -811,12 +811,14 @@
 
                 backdrop.classList.add('active');
                 slideover.classList.add('active');
+                document.body.classList.add('overflow-hidden');
             };
             
             const closeSlideover = () => {
                 backdrop.classList.remove('active');
                 slideover.classList.remove('active');
                 slideover.classList.remove('console-mode');
+                document.body.classList.remove('overflow-hidden');
                 
                 // Clear telemetry timer
                 if (activeConsoleInterval) {
@@ -829,21 +831,13 @@
             };
             
             projects.forEach(card => {
-                card.addEventListener('click', (e) => {
+                card.addEventListener('click', () => {
                     const projId = card.getAttribute('data-id');
                     openSlideover(projId);
                 });
             });
             
-            // Click outside slideover to close (while enabling full background interactions)
-            document.addEventListener('click', (e) => {
-                if (slideover.classList.contains('active')) {
-                    if (!slideover.contains(e.target) && !e.target.closest('.project-card')) {
-                        closeSlideover();
-                    }
-                }
-            });
-
+            backdrop.addEventListener('click', closeSlideover);
             window.addEventListener('keydown', (e) => {
                 if (e.key === 'Escape') closeSlideover();
             });
