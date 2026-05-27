@@ -406,6 +406,20 @@
                             </div>
                         </div>
 
+                        <!-- Sleek Volume Control Scrubber -->
+                        <div class="vj-volume-container" style="display: flex; align-items: center; gap: 0.75rem; margin-top: 1rem; margin-bottom: 1.25rem; width: 100%;">
+                            <button id="btn-mute" class="vj-control-btn" style="width: 32px; height: 32px; font-size: 0.9rem; flex-shrink: 0; display: flex; align-items: center; justify-content: center;" aria-label="Mute/Unmute">
+                                <i class="ph ph-speaker-high" id="volume-icon"></i>
+                            </button>
+                            <div style="flex-grow: 1; display: flex; flex-direction: column; gap: 0.35rem;">
+                                <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-muted);">
+                                    <span>VOLUME</span>
+                                    <span id="val-volume">80%</span>
+                                </div>
+                                <input type="range" class="vj-slider" id="slider-volume" min="0" max="1.0" step="0.01" value="0.8">
+                            </div>
+                        </div>
+
                         <!-- Interactive Track Index list -->
                         <div class="vj-track-list-wrapper">
                             <span class="font-mono text-xs text-gray-500 uppercase tracking-widest">// SELECT_TRACK</span>
@@ -1079,6 +1093,63 @@
                 widget.seekTo(targetSecs * 1000);
             }
         });
+
+        // ==========================================================================
+        // VOLUME CONTROL ENGINE
+        // ==========================================================================
+        let preMuteVolume = 0.8;
+        let isMuted = false;
+        
+        const volumeSlider = document.getElementById('slider-volume');
+        const volumeValLabel = document.getElementById('val-volume');
+        const muteBtn = document.getElementById('btn-mute');
+        const volumeIcon = document.getElementById('volume-icon');
+
+        // Set default volume on load
+        localAudio.volume = preMuteVolume;
+
+        // Volume slider input listener
+        volumeSlider.addEventListener('input', (e) => {
+            const vol = parseFloat(e.target.value);
+            localAudio.volume = vol;
+            volumeValLabel.textContent = `${Math.round(vol * 100)}%`;
+            
+            if (vol > 0) {
+                isMuted = false;
+                preMuteVolume = vol;
+            }
+            updateVolumeIcon(vol);
+        });
+
+        // Mute button click listener
+        muteBtn.addEventListener('click', () => {
+            if (isMuted) {
+                isMuted = false;
+                localAudio.volume = preMuteVolume;
+                volumeSlider.value = preMuteVolume;
+                volumeValLabel.textContent = `${Math.round(preMuteVolume * 100)}%`;
+                updateVolumeIcon(preMuteVolume);
+            } else {
+                isMuted = true;
+                preMuteVolume = localAudio.volume > 0 ? localAudio.volume : preMuteVolume;
+                localAudio.volume = 0;
+                volumeSlider.value = 0;
+                volumeValLabel.textContent = `0%`;
+                updateVolumeIcon(0);
+            }
+        });
+
+        function updateVolumeIcon(vol) {
+            if (vol === 0) {
+                volumeIcon.className = "ph ph-speaker-slash";
+            } else if (vol < 0.4) {
+                volumeIcon.className = "ph ph-speaker-low";
+            } else if (vol < 0.7) {
+                volumeIcon.className = "ph ph-speaker-simple";
+            } else {
+                volumeIcon.className = "ph ph-speaker-high";
+            }
+        }
 
         // ==========================================================================
         // MINIMETERS-STYLE SPECTRUM ANALYZER ENGINE
