@@ -750,18 +750,14 @@
                         title: "Exhibition Identity",
                         desc: "I experimented with initial logotypes to merge the distinct voices of the four artists. The final exhibition logotype uses custom letter-masking to nest a signature repeating print inside each letter of the 'marimekko' name. Below, I replicated the exhibition identity system diagram: the bold slab-serif typewriter letters are bordered by colored pattern strips, with thin visual pathways directly connecting each pattern block to the respective artist's work.",
                         mediaType: "svg",
-                        mediaSrc: `<div class="diagram-container" style="position: relative; width: 100%; height: 100%; background: #f6f5f3; box-sizing: border-box; overflow: hidden; padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between; border-radius: 4px;">
+                    {
+                        num: "03",
+                        title: "Exhibition Identity",
+                        desc: "I experimented with initial logotypes to merge the distinct voices of the four artists. The final exhibition logotype uses custom letter-masking to nest a signature repeating print inside each letter of the 'marimekko' name. Below, I replicated the exhibition identity system diagram: the bold slab-serif typewriter letters are bordered by colored pattern strips, with thin visual pathways directly connecting each pattern block to the respective artist's work.",
+                        mediaType: "svg",
+                        mediaSrc: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225" class="diagram-container" style="display: block; width: 100%; height: 100%;">
                             <!-- Localized Styles for Unified Responsive Diagram -->
                             <style>
-                                .diag-wrapper {
-                                    position: relative;
-                                    width: 100%;
-                                    height: 100%;
-                                    flex-grow: 1;
-                                    display: flex;
-                                    justify-content: center;
-                                    align-items: center;
-                                }
                                 .connector-path {
                                     stroke: rgba(0, 0, 0, 0.12);
                                     stroke-width: 0.75;
@@ -774,7 +770,7 @@
                                     }
                                 }
                                 
-                                /* Hover Highlights for Connection Pathways on Off-White */
+                                /* Hover Highlights for Connection Pathways on Off-White Box */
                                 .diagram-container:has(.group-kekki:hover) .path-kekki {
                                     stroke: #FF5C00;
                                     stroke-width: 1.5;
@@ -790,14 +786,14 @@
                                     filter: drop-shadow(0 0 3px rgba(0, 128, 255, 0.35));
                                 }
                                 .diagram-container:has(.group-rimala:hover) .path-rimala {
-                                    stroke: #C49A45; /* Rich Ochre Mustard for high contrast on light bg */
+                                    stroke: #C49A45;
                                     stroke-width: 1.5;
                                     stroke-dasharray: 4, 2;
                                     animation: path-dash 0.8s linear infinite;
                                     filter: drop-shadow(0 0 3px rgba(196, 154, 69, 0.35));
                                 }
                                 .diagram-container:has(.group-ishimoto:hover) .path-ishimoto {
-                                    stroke: #00897B; /* Deep Teal for superb light-bg contrast */
+                                    stroke: #00897B;
                                     stroke-width: 1.5;
                                     stroke-dasharray: 4, 2;
                                     animation: path-dash 0.8s linear infinite;
@@ -838,88 +834,85 @@
                                 .group-ishimoto:hover .swatch-text { fill: #00897B; font-weight: bold; }
                             </style>
                             
-                            <!-- Top Header -->
-                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0, 0, 0, 0.08); padding-bottom: 0.5rem; margin-bottom: 0.5rem;">
-                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: rgba(0, 0, 0, 0.5); text-transform: uppercase;">[ System // Exhibition Identity Diagram ]</div>
-                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); text-transform: uppercase;">[ Pattern-to-Logotype Mapping ]</div>
-                            </div>
+                            <!-- Definitions -->
+                            <defs>
+                                <pattern id="diag-dots" width="10" height="10" patternUnits="userSpaceOnUse">
+                                    <circle cx="2" cy="2" r="0.55" fill="rgba(0, 0, 0, 0.04)" />
+                                </pattern>
+                                <clipPath id="swatch-clip">
+                                    <rect width="35" height="35" rx="4" ry="4"/>
+                                </clipPath>
+                            </defs>
                             
-                            <!-- Unified SVG Diagram Space -->
-                            <div class="diag-wrapper">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225" style="width: 100%; height: 100%; display: block;">
-                                    <!-- Subtle Grid Pattern Background -->
-                                    <defs>
-                                        <pattern id="diag-dots" width="10" height="10" patternUnits="userSpaceOnUse">
-                                            <circle cx="2" cy="2" r="0.55" fill="rgba(0, 0, 0, 0.04)" />
-                                        </pattern>
-                                        <clipPath id="swatch-clip">
-                                            <rect width="35" height="35" rx="4" ry="4"/>
-                                        </clipPath>
-                                    </defs>
-                                    <rect width="100%" height="100%" fill="url(#diag-dots)"/>
-                                    
-                                    <!-- Dormant/Active Connection Pathways -->
-                                    <g fill="none">
-                                        <!-- Antti Kekki connection M (a letter) to Swatch 1 -->
-                                        <path class="connector-path path-kekki" d="M 109 95 L 109 122 L 70 122 L 70 148" />
-                                        
-                                        <!-- Maija Isola connection r (letter) to Swatch 2 -->
-                                        <path class="connector-path path-isola" d="M 139 95 L 139 126 L 150 126 L 150 148" />
-                                        
-                                        <!-- Annika Rimala connection e (letter) to Swatch 3 -->
-                                        <path class="connector-path path-rimala" d="M 230 95 L 230 148" />
-                                        
-                                        <!-- Fujiwo Ishimoto connection k (letter) to Swatch 4 -->
-                                        <path class="connector-path path-ishimoto" d="M 291 95 L 291 122 L 310 122 L 310 148" />
-                                    </g>
-                                    
-                                    <!-- Transparent Exhibition Logotype Wordmark in center -->
-                                    <image href="img/marimekko/exhib_logo.png" x="50" y="-14" width="300" height="168.75" />
-                                    
-                                    <!-- Swatches & Monospaced Labels (using page 29 curated images) -->
-                                    
-                                    <!-- Antti Kekki Swatch -->
-                                    <g class="diagram-swatch group-kekki" transform="translate(52.5, 148)">
-                                        <g clip-path="url(#swatch-clip)">
-                                            <image href="img/marimekko/page_29_img_1_Im1.png" width="35" height="35" preserveAspectRatio="xMidYMid slice"/>
-                                        </g>
-                                        <rect width="35" height="35" rx="4" fill="none" stroke="rgba(0, 0, 0, 0.1)" stroke-width="0.5" class="swatch-border"/>
-                                        <text x="17.5" y="44" text-anchor="middle" font-family="'Space Mono', monospace" font-size="4.2" class="swatch-text">Antti Kekki</text>
-                                        <text x="17.5" y="50" text-anchor="middle" font-family="'Space Mono', monospace" font-size="3" class="swatch-subtext">Rappu / Heinikko</text>
-                                    </g>
-                                    
-                                    <!-- Maija Isola Swatch -->
-                                    <g class="diagram-swatch group-isola" transform="translate(132.5, 148)">
-                                        <g clip-path="url(#swatch-clip)">
-                                            <image href="img/marimekko/page_29_img_2_Im2.png" width="35" height="35" preserveAspectRatio="xMidYMid slice"/>
-                                        </g>
-                                        <rect width="35" height="35" rx="4" fill="none" stroke="rgba(0, 0, 0, 0.1)" stroke-width="0.5" class="swatch-border"/>
-                                        <text x="17.5" y="44" text-anchor="middle" font-family="'Space Mono', monospace" font-size="4.2" class="swatch-text">Maija Isola</text>
-                                        <text x="17.5" y="50" text-anchor="middle" font-family="'Space Mono', monospace" font-size="3" class="swatch-subtext">Kalasääski / Leylah</text>
-                                    </g>
-                                    
-                                    <!-- Annika Rimala Swatch -->
-                                    <g class="diagram-swatch group-rimala" transform="translate(212.5, 148)">
-                                        <g clip-path="url(#swatch-clip)">
-                                            <image href="img/marimekko/page_29_img_0_Im0.png" width="35" height="35" preserveAspectRatio="xMidYMid slice"/>
-                                        </g>
-                                        <rect width="35" height="35" rx="4" fill="none" stroke="rgba(0, 0, 0, 0.1)" stroke-width="0.5" class="swatch-border"/>
-                                        <text x="17.5" y="44" text-anchor="middle" font-family="'Space Mono', monospace" font-size="4.2" class="swatch-text">Annika Rimala</text>
-                                        <text x="17.5" y="50" text-anchor="middle" font-family="'Space Mono', monospace" font-size="3" class="swatch-subtext">Aitu / Laine</text>
-                                    </g>
-                                    
-                                    <!-- Fujiwo Ishimoto Swatch -->
-                                    <g class="diagram-swatch group-ishimoto" transform="translate(292.5, 148)">
-                                        <g clip-path="url(#swatch-clip)">
-                                            <image href="img/marimekko/page_29_img_3_Im3.jpg" width="35" height="35" preserveAspectRatio="xMidYMid slice"/>
-                                        </g>
-                                        <rect width="35" height="35" rx="4" fill="none" stroke="rgba(0, 0, 0, 0.1)" stroke-width="0.5" class="swatch-border"/>
-                                        <text x="17.5" y="44" text-anchor="middle" font-family="'Space Mono', monospace" font-size="4.2" class="swatch-text">Fujiwo Ishimoto</text>
-                                        <text x="17.5" y="50" text-anchor="middle" font-family="'Space Mono', monospace" font-size="3" class="swatch-subtext">Taivas / Vihma</text>
-                                    </g>
-                                </svg>
-                            </div>
-                        </div>`
+                            <!-- Saatchi Gallery Off-White Card Background Base (rx=4 ry=4 locks it inside the console card borders) -->
+                            <rect width="100%" height="100%" fill="#f6f5f3" rx="4" ry="4"/>
+                            <rect width="100%" height="100%" fill="url(#diag-dots)" rx="4" ry="4"/>
+                            
+                            <!-- Top Header HUD lines within the SVG -->
+                            <line x1="15" y1="20" x2="385" y2="20" stroke="rgba(0, 0, 0, 0.08)" stroke-width="0.75"/>
+                            <text x="15" y="14" font-family="'Space Mono', monospace" font-size="4.5" fill="rgba(0, 0, 0, 0.5)">[ SYSTEM // EXHIBITION IDENTITY DIAGRAM ]</text>
+                            <text x="385" y="14" text-anchor="end" font-family="'Space Mono', monospace" font-size="4.5" fill="#D91C1C">[ PATTERN-TO-LOGOTYPE MAPPING ]</text>
+                            
+                            <!-- Dormant/Active Connection Pathways -->
+                            <g fill="none">
+                                <!-- Antti Kekki connection M (a letter) to Swatch 1 -->
+                                <path class="connector-path path-kekki" d="M 109 95 L 109 122 L 70 122 L 70 148" />
+                                
+                                <!-- Maija Isola connection r (letter) to Swatch 2 -->
+                                <path class="connector-path path-isola" d="M 139 95 L 139 126 L 150 126 L 150 148" />
+                                
+                                <!-- Annika Rimala connection e (letter) to Swatch 3 -->
+                                <path class="connector-path path-rimala" d="M 230 95 L 230 148" />
+                                
+                                <!-- Fujiwo Ishimoto connection k (letter) to Swatch 4 -->
+                                <path class="connector-path path-ishimoto" d="M 291 95 L 291 122 L 310 122 L 310 148" />
+                            </g>
+                            
+                            <!-- Transparent Exhibition Logotype Wordmark in center -->
+                            <image href="img/marimekko/exhib_logo.png" x="50" y="-14" width="300" height="168.75" />
+                            
+                            <!-- Swatches & Monospaced Labels (using page 29 curated images) -->
+                            
+                            <!-- Antti Kekki Swatch -->
+                            <g class="diagram-swatch group-kekki" transform="translate(52.5, 148)">
+                                <g clip-path="url(#swatch-clip)">
+                                    <image href="img/marimekko/page_29_img_1_Im1.png" width="35" height="35" preserveAspectRatio="xMidYMid slice"/>
+                                </g>
+                                <rect width="35" height="35" rx="4" fill="none" stroke="rgba(0, 0, 0, 0.1)" stroke-width="0.5" class="swatch-border"/>
+                                <text x="17.5" y="44" text-anchor="middle" font-family="'Space Mono', monospace" font-size="4.2" class="swatch-text">Antti Kekki</text>
+                                <text x="17.5" y="50" text-anchor="middle" font-family="'Space Mono', monospace" font-size="3" class="swatch-subtext">Rappu / Heinikko</text>
+                            </g>
+                            
+                            <!-- Maija Isola Swatch -->
+                            <g class="diagram-swatch group-isola" transform="translate(132.5, 148)">
+                                <g clip-path="url(#swatch-clip)">
+                                    <image href="img/marimekko/page_29_img_2_Im2.png" width="35" height="35" preserveAspectRatio="xMidYMid slice"/>
+                                </g>
+                                <rect width="35" height="35" rx="4" fill="none" stroke="rgba(0, 0, 0, 0.1)" stroke-width="0.5" class="swatch-border"/>
+                                <text x="17.5" y="44" text-anchor="middle" font-family="'Space Mono', monospace" font-size="4.2" class="swatch-text">Maija Isola</text>
+                                <text x="17.5" y="50" text-anchor="middle" font-family="'Space Mono', monospace" font-size="3" class="swatch-subtext">Kalasääski / Leylah</text>
+                            </g>
+                            
+                            <!-- Annika Rimala Swatch -->
+                            <g class="diagram-swatch group-rimala" transform="translate(212.5, 148)">
+                                <g clip-path="url(#swatch-clip)">
+                                    <image href="img/marimekko/page_29_img_0_Im0.png" width="35" height="35" preserveAspectRatio="xMidYMid slice"/>
+                                </g>
+                                <rect width="35" height="35" rx="4" fill="none" stroke="rgba(0, 0, 0, 0.1)" stroke-width="0.5" class="swatch-border"/>
+                                <text x="17.5" y="44" text-anchor="middle" font-family="'Space Mono', monospace" font-size="4.2" class="swatch-text">Annika Rimala</text>
+                                <text x="17.5" y="50" text-anchor="middle" font-family="'Space Mono', monospace" font-size="3" class="swatch-subtext">Aitu / Laine</text>
+                            </g>
+                            
+                            <!-- Fujiwo Ishimoto Swatch -->
+                            <g class="diagram-swatch group-ishimoto" transform="translate(292.5, 148)">
+                                <g clip-path="url(#swatch-clip)">
+                                    <image href="img/marimekko/page_29_img_3_Im3.jpg" width="35" height="35" preserveAspectRatio="xMidYMid slice"/>
+                                </g>
+                                <rect width="35" height="35" rx="4" fill="none" stroke="rgba(0, 0, 0, 0.1)" stroke-width="0.5" class="swatch-border"/>
+                                <text x="17.5" y="44" text-anchor="middle" font-family="'Space Mono', monospace" font-size="4.2" class="swatch-text">Fujiwo Ishimoto</text>
+                                <text x="17.5" y="50" text-anchor="middle" font-family="'Space Mono', monospace" font-size="3" class="swatch-subtext">Taivas / Vihma</text>
+                            </g>
+                        </svg>`
                     },
                     {
                         num: "04",
