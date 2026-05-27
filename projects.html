@@ -309,31 +309,128 @@
                 title: "Remnants",
                 descShort: "Concepting a lost civilization through invented visual systems. Blending tactile glyph creation with AI-driven architectural generation to form an atmospheric, surreal narrative.",
                 descLong: "Initially tasked with inventing a written language, I derived structural lines from physical marks and wear found in the environment to build fictional Haa'sk and Cra'sk scripts. These vector glyphs were integrated as spatial guides inside ControlNet (Stable Diffusion) to command massive stone structures, bridging 2D layouts and 3D architectural ruins. The frames were sequenced in After Effects at 60% velocity, synchronizing to ambient audio to enforce immense scale.",
-                tags: ["Stable Diffusion", "ControlNet", "After Effects", "Generative AI", "Typography", "Motion Design"],
+                tags: ["Stable Diffusion", "After Effects", "Photoshop", "Generative AI", "Typography", "Motion Design"],
                 mediaType: "video",
                 mediaSrc: "https://assets.willvernon.online/projects/03_remnants/assets/Remnants Outcome_1.mp4",
                 outcomeLabel: "Visual Brand Animation",
                 process: [
                     {
                         num: "01",
-                        title: "Found Type & Glyph Creation",
+                        title: "From Object to Glyph",
                         desc: "Initially tasked with inventing a written language, I derived structural lines from physical marks and wear found in the environment. Finding letters within irregular damage was oddly satisfying. These markings formed the basis of a unique typographic glyph set, assigning phonetic values to create fictional scripts like 'Haa'sk' and 'Cra'sk'.",
                         mediaType: "svg",
-                        mediaSrc: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225"><rect width="100%" height="100%" fill="#030303"/><g stroke="rgba(255,255,255,0.06)" stroke-width="0.5"><circle cx="100" cy="112" r="50"/><circle cx="300" cy="112" r="50"/><line x1="50" y1="112" x2="150" y2="112"/><line x1="100" y1="62" x2="100" y2="162"/><line x1="250" y1="112" x2="350" y2="112"/><line x1="300" y1="62" x2="300" y2="162"/></g><path d="M 80 82 L 120 82 L 100 112 L 100 142 M 85 125 L 115 125" stroke="#D91C1C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M 280 82 Q 300 112 280 142 M 320 82 Q 300 112 320 142 M 280 112 L 320 112" stroke="#D91C1C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><text x="100" y="180" fill="#fff" font-family="Space Mono, monospace" font-size="5" text-anchor="middle">GLYPH: HAA_01 [VON_01]</text><text x="300" y="180" fill="#fff" font-family="Space Mono, monospace" font-size="5" text-anchor="middle">GLYPH: CRA_04 [VON_02]</text></svg>`
+                        mediaSrc: `<div class="process-media-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; width: 100%; height: 100%; box-sizing: border-box; align-content: center; padding: 1rem;">
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); text-transform: uppercase;">// FOUND OBJECT 01</span>
+                                <img src="img/remnants/object1.jpeg" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700); aspect-ratio: 1 / 1; object-fit: cover; width: 100%;" alt="Object 1">
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); text-transform: uppercase;">// FOUND OBJECT 02</span>
+                                <img src="img/remnants/object2.jpeg" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700); aspect-ratio: 1 / 1; object-fit: cover; width: 100%;" alt="Object 2">
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); text-transform: uppercase;">// FOUND OBJECT 03</span>
+                                <img src="img/remnants/object3.jpeg" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700); aspect-ratio: 1 / 1; object-fit: cover; width: 100%;" alt="Object 3">
+                            </div>
+                        </div>`
                     },
                     {
                         num: "02",
-                        title: "ControlNet Architectural Generation",
-                        desc: "I utilised ControlNet in Stable Diffusion, using the 2D vector glyphs as hard structural constraints. The AI model interpreted these shapes to generate towering, monolithic stone ruins, effectively translating 2D typography directly into 3D architecture.",
+                        title: "Glyphs + Stable Diffusion",
+                        desc: "I utilised Stable Diffusion, using the 2D vector glyphs as hard structural guides to command massive stone structures, bridging 2D layouts and 3D architectural ruins.",
                         mediaType: "image",
-                        mediaSrc: "https://assets.willvernon.online/projects/03_remnants/assets/slides/RemnantsProjectSlides.jpg"
+                        mediaSrc: "img/remnants/controlnet.jpeg"
                     },
                     {
                         num: "03",
-                        title: "Visual Brand Presentation & Identity",
-                        desc: "Stills are composited at slow velocities to create a brooding, immense atmosphere. Vector brand guides represent the fictional Haa'sk language with high-contrast, atmospheric slide structures.",
-                        mediaType: "image",
-                        mediaSrc: "https://assets.willvernon.online/projects/03_remnants/assets/slides/Remnants Project BG2.jpg"
+                        title: "Fictional Alphabets",
+                        desc: "A complete catalog of the Haa'sk and Cra'sk scripts, organizing the individual vector glyphs. Each character is structured with precise mathematical alignments and phonetic values.",
+                        mediaType: "svg",
+                        mediaSrc: `<div class="process-media-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; width: 100%; height: 100%; box-sizing: border-box; align-content: center; padding: 0.5rem; overflow-y: auto;">
+                            <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                                <img src="img/remnants/glyph1.jpeg" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700); aspect-ratio: 1 / 1; object-fit: cover; width: 100%; transition: transform 0.2s ease;" alt="Glyph 1">
+                                <span style="font-family: var(--font-mono); font-size: 0.55rem; color: var(--text-500); text-align: center;">// GLYPH_01</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                                <img src="img/remnants/glyph2.jpeg" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700); aspect-ratio: 1 / 1; object-fit: cover; width: 100%; transition: transform 0.2s ease;" alt="Glyph 2">
+                                <span style="font-family: var(--font-mono); font-size: 0.55rem; color: var(--text-500); text-align: center;">// GLYPH_02</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                                <img src="img/remnants/glyph3.jpeg" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700); aspect-ratio: 1 / 1; object-fit: cover; width: 100%; transition: transform 0.2s ease;" alt="Glyph 3">
+                                <span style="font-family: var(--font-mono); font-size: 0.55rem; color: var(--text-500); text-align: center;">// GLYPH_03</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                                <img src="img/remnants/glyph4.jpeg" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700); aspect-ratio: 1 / 1; object-fit: cover; width: 100%; transition: transform 0.2s ease;" alt="Glyph 4">
+                                <span style="font-family: var(--font-mono); font-size: 0.55rem; color: var(--text-500); text-align: center;">// GLYPH_04</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                                <img src="img/remnants/glyph5.jpeg" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700); aspect-ratio: 1 / 1; object-fit: cover; width: 100%; transition: transform 0.2s ease;" alt="Glyph 5">
+                                <span style="font-family: var(--font-mono); font-size: 0.55rem; color: var(--text-500); text-align: center;">// GLYPH_05</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                                <img src="img/remnants/glyph6.jpeg" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700); aspect-ratio: 1 / 1; object-fit: cover; width: 100%; transition: transform 0.2s ease;" alt="Glyph 6">
+                                <span style="font-family: var(--font-mono); font-size: 0.55rem; color: var(--text-500); text-align: center;">// GLYPH_06</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                                <img src="img/remnants/glyph7.jpeg" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700); aspect-ratio: 1 / 1; object-fit: cover; width: 100%; transition: transform 0.2s ease;" alt="Glyph 7">
+                                <span style="font-family: var(--font-mono); font-size: 0.55rem; color: var(--text-500); text-align: center;">// GLYPH_07</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                                <img src="img/remnants/glyph8.jpeg" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700); aspect-ratio: 1 / 1; object-fit: cover; width: 100%; transition: transform 0.2s ease;" alt="Glyph 8">
+                                <span style="font-family: var(--font-mono); font-size: 0.55rem; color: var(--text-500); text-align: center;">// GLYPH_08</span>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+                                <img src="img/remnants/glyph9.jpeg" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700); aspect-ratio: 1 / 1; object-fit: cover; width: 100%; transition: transform 0.2s ease;" alt="Glyph 9">
+                                <span style="font-family: var(--font-mono); font-size: 0.55rem; color: var(--text-500); text-align: center;">// GLYPH_09</span>
+                            </div>
+                        </div>`
+                    },
+                    {
+                        num: "04",
+                        title: "Deconstructing Glyphs",
+                        desc: "To prepare the characters for spatial animation, I migrated the vector sets into Photoshop, breaking down the compound glyphs into individual structural strokes, paths, and nodes.",
+                        mediaType: "svg",
+                        mediaSrc: `<div class="process-media-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; width: 100%; height: 100%; box-sizing: border-box; align-content: center; padding: 1rem;">
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); text-transform: uppercase;">// LAYER BREAKDOWN</span>
+                                <img src="img/remnants/preparing assets 1.jpeg" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700); aspect-ratio: 1 / 1; object-fit: cover; width: 100%;" alt="Preparing Assets 1">
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); text-transform: uppercase;">// PATH ISOLATION</span>
+                                <img src="img/remnants/preparing assets 2.jpeg" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700); aspect-ratio: 1 / 1; object-fit: cover; width: 100%;" alt="Preparing Assets 2">
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); text-transform: uppercase;">// MASKING CHANNELS</span>
+                                <img src="img/remnants/preparing assets 3.jpeg" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700); aspect-ratio: 1 / 1; object-fit: cover; width: 100%;" alt="Preparing Assets 3">
+                            </div>
+                        </div>`
+                    },
+                    {
+                        num: "05",
+                        title: "Interactive AE Breakdown",
+                        desc: "Drag and move the highlighted glyph pieces to deconstruct and reassemble the characters in real-time. This interactive module simulates the multi-layered After Effects composition environment, where each stroke and anchor point is isolated for dynamic motion sequencing. Use breakdown6.jpeg as the background and drag breakdown1-4.jpeg on top.",
+                        mediaType: "svg",
+                        mediaSrc: `<div class="interactive-breakdown-container" style="position: relative; width: 100%; height: 100%; min-height: 250px; background-image: url('img/remnants/breakdown6.jpeg'); background-size: cover; background-position: center; border-radius: 6px; border: 1px solid var(--bg-700); box-sizing: border-box; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+                            <!-- Reset Button HUD Overlay -->
+                            <button class="reset-breakdown-btn" onclick="resetRemnantsBreakdown()" style="position: absolute; top: 0.75rem; right: 0.75rem; background: rgba(3, 3, 3, 0.85); color: #fff; border: 1px solid var(--accent-red); padding: 0.35rem 0.65rem; font-family: var(--font-mono); font-size: 0.6rem; text-transform: uppercase; border-radius: 3px; cursor: pointer; z-index: 10; transition: all 0.2s ease; box-shadow: 0 0 10px rgba(217, 28, 28, 0.15);" onmouseover="this.style.background='var(--accent-red)'; this.style.color='#000';" onmouseout="this.style.background='rgba(3, 3, 3, 0.85)'; this.style.color='#fff';">
+                                [ Reset Alignment ]
+                            </button>
+                            
+                            <!-- Draggable Parts -->
+                            <div class="draggable-wrapper" style="position: absolute; inset: 0; pointer-events: none;">
+                                <img src="img/remnants/breakdown1.jpeg" class="remnants-draggable" data-index="1" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; mix-blend-mode: screen; pointer-events: auto; cursor: grab; user-select: none; transition: transform 0.05s ease-out; transform: translate3d(0, 0, 0);" alt="Breakdown 1">
+                                <img src="img/remnants/breakdown2.jpeg" class="remnants-draggable" data-index="2" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; mix-blend-mode: screen; pointer-events: auto; cursor: grab; user-select: none; transition: transform 0.05s ease-out; transform: translate3d(0, 0, 0);" alt="Breakdown 2">
+                                <img src="img/remnants/breakdown3.jpeg" class="remnants-draggable" data-index="3" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; mix-blend-mode: screen; pointer-events: auto; cursor: grab; user-select: none; transition: transform 0.05s ease-out; transform: translate3d(0, 0, 0);" alt="Breakdown 3">
+                                <img src="img/remnants/breakdown4.jpeg" class="remnants-draggable" data-index="4" style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; object-fit: cover; mix-blend-mode: screen; pointer-events: auto; cursor: grab; user-select: none; transition: transform 0.05s ease-out; transform: translate3d(0, 0, 0);" alt="Breakdown 4">
+                            </div>
+                        </div>`
+                    },
+                    {
+                        num: "06",
+                        title: "Visual Brand Animation",
+                        desc: "Stills are composited at slow velocities to create a brooding, immense atmosphere. The final visual brand trailer represents the remnants of a lost civilization through invented typographical systems.",
+                        mediaType: "video",
+                        mediaSrc: "https://assets.willvernon.online/projects/03_remnants/assets/Remnants Outcome_1.mp4"
                     }
                 ]
             },
@@ -777,6 +874,13 @@
                     
                     canvasMedia.innerHTML = mediaHtml;
 
+                    // If remnants step 05, initialize draggable parts
+                    if (proj.id === '03' && file.num === '05') {
+                        if (window.initRemnantsDraggable) {
+                            window.initRemnantsDraggable();
+                        }
+                    }
+
                     // Bind hover events to scramble titles on active step load if desired
                     scrambleText(titleText, 0.5);
                 };
@@ -944,6 +1048,84 @@
                 filterButtons.forEach(b => b.element.classList.remove('active'));
                 evaluateProjects();
             });
+
+            // Remnants Interactive Draggable Layer Logic (Section 5)
+            window.resetRemnantsBreakdown = () => {
+                const draggables = document.querySelectorAll('.remnants-draggable');
+                draggables.forEach(el => {
+                    el.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
+                    el.style.transform = 'translate3d(0, 0, 0)';
+                    el.setAttribute('data-x', '0');
+                    el.setAttribute('data-y', '0');
+                    setTimeout(() => {
+                        el.style.transition = 'transform 0.05s ease-out';
+                    }, 500);
+                });
+            };
+
+            window.initRemnantsDraggable = () => {
+                const draggables = document.querySelectorAll('.remnants-draggable');
+                draggables.forEach(el => {
+                    // Track position offsets
+                    let startX = 0, startY = 0;
+                    let currentX = parseFloat(el.getAttribute('data-x') || '0');
+                    let currentY = parseFloat(el.getAttribute('data-y') || '0');
+                    let isDragging = false;
+
+                    const dragStart = (e) => {
+                        isDragging = true;
+                        el.style.transition = 'none';
+                        el.style.cursor = 'grabbing';
+                        
+                        // Handle touch vs mouse
+                        const clientX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+                        const clientY = e.type === 'touchstart' ? e.touches[0].clientY : e.clientY;
+                        
+                        startX = clientX - currentX;
+                        startY = clientY - currentY;
+
+                        // Prevent default scrolling on mobile when dragging
+                        if (e.type === 'touchstart') {
+                            e.preventDefault();
+                        }
+                    };
+
+                    const dragMove = (e) => {
+                        if (!isDragging) return;
+                        
+                        const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+                        const clientY = e.type === 'touchmove' ? e.touches[0].clientY : e.clientY;
+                        
+                        currentX = clientX - startX;
+                        currentY = clientY - startY;
+
+                        // Set values
+                        el.setAttribute('data-x', currentX);
+                        el.setAttribute('data-y', currentY);
+                        el.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+
+                        // Prevent scroll on touchmove
+                        e.preventDefault();
+                    };
+
+                    const dragEnd = () => {
+                        if (!isDragging) return;
+                        isDragging = false;
+                        el.style.cursor = 'grab';
+                        el.style.transition = 'transform 0.05s ease-out';
+                    };
+
+                    // Bind mouse events
+                    el.addEventListener('mousedown', dragStart);
+                    window.addEventListener('mousemove', dragMove);
+                    window.addEventListener('mouseup', dragEnd);
+
+                    // Bind touch events
+                    el.addEventListener('touchstart', dragStart, { passive: false });
+                    el.addEventListener('touchmove', dragMove, { passive: false });
+                    el.addEventListener('touchend', dragEnd);
+                });
+            };
 
             // 7. Check URL Hash to Auto-Open Case Study
             const handleHashChange = () => {
