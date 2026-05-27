@@ -749,8 +749,177 @@
                         num: "03",
                         title: "Exhibition Identity",
                         desc: "I experimented with initial logotypes to merge the distinct voices of the four artists. The final exhibition logotype uses custom letter-masking to nest a signature repeating print inside each letter of the 'marimekko' name. Below, I replicated the exhibition identity system diagram: the bold slab-serif typewriter letters are bordered by colored pattern strips, with thin visual pathways directly connecting each pattern block to the respective artist's work.",
-                        mediaType: "image",
-                        mediaSrc: "img/marimekko/exhib_logo.jpeg"
+                        mediaType: "svg",
+                        mediaSrc: `<div class="diagram-container" style="position: relative; width: 100%; height: 100%; background: #030303; box-sizing: border-box; overflow: hidden; padding: 1.25rem; display: flex; flex-direction: column; justify-content: space-between;">
+                            <!-- Localized Styles for Unified Responsive Diagram -->
+                            <style>
+                                .diag-wrapper {
+                                    position: relative;
+                                    width: 100%;
+                                    height: 100%;
+                                    flex-grow: 1;
+                                    display: flex;
+                                    justify-content: center;
+                                    align-items: center;
+                                }
+                                .connector-path {
+                                    stroke: rgba(255, 255, 255, 0.12);
+                                    stroke-width: 0.75;
+                                    fill: none;
+                                    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                                }
+                                @keyframes path-dash {
+                                    to {
+                                        stroke-dashoffset: -20;
+                                    }
+                                }
+                                
+                                /* Hover Highlights for Connection Pathways */
+                                .diagram-container:has(.group-kekki:hover) .path-kekki {
+                                    stroke: #FF5C00;
+                                    stroke-width: 1.5;
+                                    stroke-dasharray: 4, 2;
+                                    animation: path-dash 0.8s linear infinite;
+                                    filter: drop-shadow(0 0 5px rgba(255, 92, 0, 0.6));
+                                }
+                                .diagram-container:has(.group-isola:hover) .path-isola {
+                                    stroke: #0080FF;
+                                    stroke-width: 1.5;
+                                    stroke-dasharray: 4, 2;
+                                    animation: path-dash 0.8s linear infinite;
+                                    filter: drop-shadow(0 0 5px rgba(0, 128, 255, 0.6));
+                                }
+                                .diagram-container:has(.group-rimala:hover) .path-rimala {
+                                    stroke: #FFD600;
+                                    stroke-width: 1.5;
+                                    stroke-dasharray: 4, 2;
+                                    animation: path-dash 0.8s linear infinite;
+                                    filter: drop-shadow(0 0 5px rgba(255, 214, 0, 0.6));
+                                }
+                                .diagram-container:has(.group-ishimoto:hover) .path-ishimoto {
+                                    stroke: #00C9A7;
+                                    stroke-width: 1.5;
+                                    stroke-dasharray: 4, 2;
+                                    animation: path-dash 0.8s linear infinite;
+                                    filter: drop-shadow(0 0 5px rgba(0, 201, 167, 0.6));
+                                }
+                                
+                                .diagram-swatch {
+                                    cursor: pointer;
+                                    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                                    transform-origin: 17.5px 17.5px;
+                                }
+                                .diagram-swatch:hover {
+                                    transform: translateY(-3px) scale(1.05);
+                                }
+                                .diagram-swatch .swatch-border {
+                                    transition: all 0.3s ease;
+                                }
+                                .diagram-swatch .swatch-text {
+                                    transition: all 0.3s ease;
+                                    fill: rgba(255, 255, 255, 0.4);
+                                }
+                                .diagram-swatch .swatch-subtext {
+                                    transition: all 0.3s ease;
+                                    fill: rgba(255, 255, 255, 0.25);
+                                }
+                                
+                                /* Swatch Specific Highlights */
+                                .group-kekki:hover .swatch-border { stroke: #FF5C00; stroke-width: 1; filter: drop-shadow(0 0 6px rgba(255, 92, 0, 0.3)); }
+                                .group-kekki:hover .swatch-text { fill: #FF5C00; font-weight: bold; }
+                                
+                                .group-isola:hover .swatch-border { stroke: #0080FF; stroke-width: 1; filter: drop-shadow(0 0 6px rgba(0, 128, 255, 0.3)); }
+                                .group-isola:hover .swatch-text { fill: #0080FF; font-weight: bold; }
+                                
+                                .group-rimala:hover .swatch-border { stroke: #FFD600; stroke-width: 1; filter: drop-shadow(0 0 6px rgba(255, 214, 0, 0.3)); }
+                                .group-rimala:hover .swatch-text { fill: #FFD600; font-weight: bold; }
+                                
+                                .group-ishimoto:hover .swatch-border { stroke: #00C9A7; stroke-width: 1; filter: drop-shadow(0 0 6px rgba(0, 201, 167, 0.3)); }
+                                .group-ishimoto:hover .swatch-text { fill: #00C9A7; font-weight: bold; }
+                            </style>
+                            
+                            <!-- Top Header -->
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--bg-800); padding-bottom: 0.5rem; margin-bottom: 0.5rem;">
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: rgba(255,255,255,0.4); text-transform: uppercase;">[ System // Exhibition Identity Diagram ]</div>
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); text-transform: uppercase;">[ Pattern-to-Logotype Mapping ]</div>
+                            </div>
+                            
+                            <!-- Unified SVG Diagram Space -->
+                            <div class="diag-wrapper">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225" style="width: 100%; height: 100%; display: block;">
+                                    <!-- Subtle Grid Pattern Background -->
+                                    <defs>
+                                        <pattern id="diag-dots" width="10" height="10" patternUnits="userSpaceOnUse">
+                                            <circle cx="2" cy="2" r="0.55" fill="rgba(255, 255, 255, 0.05)" />
+                                        </pattern>
+                                        <clipPath id="swatch-clip">
+                                            <rect width="35" height="35" rx="4" ry="4"/>
+                                        </clipPath>
+                                    </defs>
+                                    <rect width="100%" height="100%" fill="url(#diag-dots)"/>
+                                    
+                                    <!-- Dormant/Active Connection Pathways -->
+                                    <g fill="none">
+                                        <!-- Antti Kekki connection M (a letter) to Swatch 1 -->
+                                        <path class="connector-path path-kekki" d="M 109 95 L 109 122 L 70 122 L 70 148" />
+                                        
+                                        <!-- Maija Isola connection r (letter) to Swatch 2 -->
+                                        <path class="connector-path path-isola" d="M 139 95 L 139 126 L 150 126 L 150 148" />
+                                        
+                                        <!-- Annika Rimala connection e (letter) to Swatch 3 -->
+                                        <path class="connector-path path-rimala" d="M 230 95 L 230 148" />
+                                        
+                                        <!-- Fujiwo Ishimoto connection k (letter) to Swatch 4 -->
+                                        <path class="connector-path path-ishimoto" d="M 291 95 L 291 122 L 310 122 L 310 148" />
+                                    </g>
+                                    
+                                    <!-- Transparent Exhibition Logotype Wordmark in center -->
+                                    <image href="img/marimekko/exhib_logo.png" x="50" y="-14" width="300" height="168.75" />
+                                    
+                                    <!-- Swatches & Monospaced Labels (using page 29 curated images) -->
+                                    
+                                    <!-- Antti Kekki Swatch -->
+                                    <g class="diagram-swatch group-kekki" transform="translate(52.5, 148)">
+                                        <g clip-path="url(#swatch-clip)">
+                                            <image href="img/marimekko/page_29_img_1_Im1.png" width="35" height="35" preserveAspectRatio="xMidYMid slice"/>
+                                        </g>
+                                        <rect width="35" height="35" rx="4" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="0.5" class="swatch-border"/>
+                                        <text x="17.5" y="44" text-anchor="middle" font-family="'Space Mono', monospace" font-size="4.2" class="swatch-text">Antti Kekki</text>
+                                        <text x="17.5" y="50" text-anchor="middle" font-family="'Space Mono', monospace" font-size="3" class="swatch-subtext">Rappu / Heinikko</text>
+                                    </g>
+                                    
+                                    <!-- Maija Isola Swatch -->
+                                    <g class="diagram-swatch group-isola" transform="translate(132.5, 148)">
+                                        <g clip-path="url(#swatch-clip)">
+                                            <image href="img/marimekko/page_29_img_2_Im2.png" width="35" height="35" preserveAspectRatio="xMidYMid slice"/>
+                                        </g>
+                                        <rect width="35" height="35" rx="4" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="0.5" class="swatch-border"/>
+                                        <text x="17.5" y="44" text-anchor="middle" font-family="'Space Mono', monospace" font-size="4.2" class="swatch-text">Maija Isola</text>
+                                        <text x="17.5" y="50" text-anchor="middle" font-family="'Space Mono', monospace" font-size="3" class="swatch-subtext">Kalasääski / Leylah</text>
+                                    </g>
+                                    
+                                    <!-- Annika Rimala Swatch -->
+                                    <g class="diagram-swatch group-rimala" transform="translate(212.5, 148)">
+                                        <g clip-path="url(#swatch-clip)">
+                                            <image href="img/marimekko/page_29_img_0_Im0.png" width="35" height="35" preserveAspectRatio="xMidYMid slice"/>
+                                        </g>
+                                        <rect width="35" height="35" rx="4" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="0.5" class="swatch-border"/>
+                                        <text x="17.5" y="44" text-anchor="middle" font-family="'Space Mono', monospace" font-size="4.2" class="swatch-text">Annika Rimala</text>
+                                        <text x="17.5" y="50" text-anchor="middle" font-family="'Space Mono', monospace" font-size="3" class="swatch-subtext">Aitu / Laine</text>
+                                    </g>
+                                    
+                                    <!-- Fujiwo Ishimoto Swatch -->
+                                    <g class="diagram-swatch group-ishimoto" transform="translate(292.5, 148)">
+                                        <g clip-path="url(#swatch-clip)">
+                                            <image href="img/marimekko/page_29_img_3_Im3.jpg" width="35" height="35" preserveAspectRatio="xMidYMid slice"/>
+                                        </g>
+                                        <rect width="35" height="35" rx="4" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="0.5" class="swatch-border"/>
+                                        <text x="17.5" y="44" text-anchor="middle" font-family="'Space Mono', monospace" font-size="4.2" class="swatch-text">Fujiwo Ishimoto</text>
+                                        <text x="17.5" y="50" text-anchor="middle" font-family="'Space Mono', monospace" font-size="3" class="swatch-subtext">Taivas / Vihma</text>
+                                    </g>
+                                </svg>
+                            </div>
+                        </div>`
                     },
                     {
                         num: "04",
