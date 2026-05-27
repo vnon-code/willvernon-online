@@ -3950,18 +3950,19 @@ a[href*="linkedin.com"]:hover * {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.04);
+  background: #ffffff;
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: 4px;
+  opacity: 0.75;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: transform, border-color, box-shadow, background-color;
+  will-change: transform, border-color, box-shadow, opacity;
   transform: translate3d(0, 0, 0) scale(1);
   backface-visibility: hidden;
 }
 
 .discipline-item i {
   font-size: 0.75rem;
-  color: #666;
+  color: #000000;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -3978,13 +3979,14 @@ a[href*="linkedin.com"]:hover * {
 
 .discipline-item:hover .discipline-icon-box {
   border-color: var(--accent-red);
-  background: rgba(217, 28, 28, 0.1);
+  background: #ffffff;
+  opacity: 1;
   box-shadow: 0 0 8px rgba(217, 28, 28, 0.25);
   transform: scale(1.05) translate3d(0, 0, 0);
 }
 
 .discipline-item:hover i {
-  color: var(--accent-red);
+  color: #000000;
 }
 
 .discipline-item:hover span {
