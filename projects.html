@@ -1081,6 +1081,9 @@
             window.initRemnantsDraggable = () => {
                 const draggables = document.querySelectorAll('.remnants-draggable');
                 draggables.forEach(el => {
+                    // Prevent browser native image dragging ghosting and cancel cursor
+                    el.addEventListener('dragstart', (e) => e.preventDefault());
+
                     // Track position offsets
                     let startX = 0, startY = 0;
                     let currentX = parseFloat(el.getAttribute('data-x') || '0');

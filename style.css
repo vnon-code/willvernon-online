@@ -3713,6 +3713,13 @@ a[href*="linkedin.com"]:hover * {
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8);
 }
 
+.canvas-media-container img.remnants-draggable {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
 /* Specific SVG containers generated inside canvas-media-container */
 .canvas-media-container svg {
   max-width: 100%;
