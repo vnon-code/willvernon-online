@@ -3846,23 +3846,149 @@ a[href*="linkedin.com"]:hover * {
   }
 }
 
-/* Software Stack Hover Effect */
-.software-item {
-  transition: all 0.3s ease;
+/* Software Stack Styles */
+.software-stack-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
 }
+
+.software-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.75rem;
+  color: #a3a3a3;
+  cursor: default;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.software-logo {
+  width: 20px;
+  height: 20px;
+  object-fit: contain;
+  filter: grayscale(1) brightness(0.85);
+  opacity: 0.75;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, filter;
+  transform: translate3d(0, 0, 0) scale(1);
+  backface-visibility: hidden;
+  border-radius: 4px;
+}
+
+.software-badge {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  line-height: 1;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, border-color, box-shadow;
+  transform: translate3d(0, 0, 0) scale(1);
+  backface-visibility: hidden;
+}
+
+.software-badge i {
+  font-size: 0.75rem;
+}
+
+.software-name {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: #a3a3a3;
+  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Software Stack Hover Effect */
 .software-item:hover {
   color: var(--text-white) !important;
 }
-.software-item:hover img {
+
+.software-item:hover .software-logo {
   filter: grayscale(0) brightness(1.1) !important;
   opacity: 1 !important;
-  transform: scale(1.05);
+  transform: scale(1.05) translate3d(0, 0, 0);
 }
+
 .software-item:hover .software-badge {
   border-color: var(--accent-red) !important;
   box-shadow: 0 0 8px rgba(217, 28, 28, 0.25);
+  transform: scale(1.05) translate3d(0, 0, 0);
 }
+
 .software-item:hover .software-name {
   color: var(--text-white) !important;
 }
+
+/* Discipline Items Monochrome & Hover Effect */
+.disciplines-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.discipline-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.75rem;
+  color: #a3a3a3;
+  cursor: default;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.discipline-icon-box {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, border-color, box-shadow, background-color;
+  transform: translate3d(0, 0, 0) scale(1);
+  backface-visibility: hidden;
+}
+
+.discipline-item i {
+  font-size: 0.75rem;
+  color: #666;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.discipline-item span {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: #a3a3a3;
+  transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.discipline-item:hover {
+  color: var(--text-white);
+}
+
+.discipline-item:hover .discipline-icon-box {
+  border-color: var(--accent-red);
+  background: rgba(217, 28, 28, 0.1);
+  box-shadow: 0 0 8px rgba(217, 28, 28, 0.25);
+  transform: scale(1.05) translate3d(0, 0, 0);
+}
+
+.discipline-item:hover i {
+  color: var(--accent-red);
+}
+
+.discipline-item:hover span {
+  color: var(--text-white);
+}
+
 

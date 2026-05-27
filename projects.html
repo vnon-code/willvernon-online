@@ -595,8 +595,10 @@
                 const disciplinesHtml = disciplineTags.map(tag => {
                     const iconClass = DISCIPLINE_ICONS[tag] || "ph-tag";
                     return `
-                        <div class="discipline-item" style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.775rem; color: #b0b0b0; margin-bottom: 0.5rem;">
-                            <i class="ph ${iconClass}" style="color: var(--accent-red); font-size: 0.95rem;"></i>
+                        <div class="discipline-item">
+                            <div class="discipline-icon-box">
+                                <i class="ph ${iconClass}"></i>
+                            </div>
                             <span>${tag}</span>
                         </div>
                     `;
@@ -608,23 +610,27 @@
                     
                     let visualHtml = '';
                     if (logoUrl) {
-                        visualHtml = `<img src="${logoUrl}" alt="${tag}" class="software-logo" style="width: 20px; height: 20px; object-fit: contain; filter: grayscale(1) brightness(0.85); transition: all 0.3s ease; opacity: 0.75;">`;
+                        visualHtml = `<img src="${logoUrl}" alt="${tag}" class="software-logo">`;
                     } else if (badgeText) {
                         const colorClass = tag === 'After Effects' ? '#31006f' : tag === 'Illustrator' ? '#330000' : tag === 'Photoshop' ? '#001c3a' : tag === 'InDesign' ? '#490022' : '#0f0f0f';
                         const textCol = tag === 'After Effects' ? '#d1b3ff' : tag === 'Illustrator' ? '#ff9999' : tag === 'Photoshop' ? '#8bc5ff' : tag === 'InDesign' ? '#ff8bc5' : 'var(--accent-red)';
                         visualHtml = `
-                            <div class="software-badge" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; background: ${colorClass}; border: 1px solid rgba(255,255,255,0.15); border-radius: 3px; font-family: var(--font-mono); font-size: 0.55rem; font-weight: bold; color: ${textCol}; text-transform: uppercase; line-height: 1;">
+                            <div class="software-badge" style="background: ${colorClass}; color: ${textCol};">
                                 ${badgeText}
                             </div>
                         `;
                     } else {
-                        visualHtml = `<i class="ph ph-cpu" style="font-size: 1.1rem; color: #555;"></i>`;
+                        visualHtml = `
+                            <div class="software-badge" style="background: #0f0f0f; color: #555;">
+                                <i class="ph ph-cpu"></i>
+                            </div>
+                        `;
                     }
                     
                     return `
-                        <div class="software-item" style="display: flex; align-items: center; gap: 0.65rem; font-size: 0.75rem; color: #b0b0b0; cursor: default;">
+                        <div class="software-item">
                             ${visualHtml}
-                            <span class="software-name" style="font-family: var(--font-mono); font-size: 0.7rem; color: #a3a3a3;">${tag}</span>
+                            <span class="software-name">${tag}</span>
                         </div>
                     `;
                 }).join('');
@@ -668,13 +674,6 @@
                                 </div>
 
                                 <div class="sidebar-section">
-                                    <div class="meta-label">Disciplines</div>
-                                    <div class="disciplines-list" style="display: flex; flex-direction: column;">
-                                        ${disciplinesHtml}
-                                    </div>
-                                </div>
-
-                                <div class="sidebar-section">
                                     <div class="meta-label">Process Index</div>
                                     <div class="file-list">
                                         ${fileListHtml}
@@ -682,9 +681,12 @@
                                 </div>
 
                                 <div class="sidebar-section">
-                                    <div class="meta-label">Software Stack</div>
-                                    <div class="software-stack-list" style="display: flex; flex-direction: column; gap: 0.55rem;">
+                                    <div class="meta-label">Stack & Disciplines</div>
+                                    <div class="software-stack-list" style="display: flex; flex-direction: column; gap: 0.55rem; margin-bottom: 1.25rem;">
                                         ${softwareHtml}
+                                    </div>
+                                    <div class="disciplines-list" style="display: flex; flex-direction: column; gap: 0.45rem;">
+                                        ${disciplinesHtml}
                                     </div>
                                 </div>
                             </div>
