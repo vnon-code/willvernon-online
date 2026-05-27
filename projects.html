@@ -705,7 +705,6 @@
                                 .ps-thumb-btn.exp1.active { border-color: #00FF66; box-shadow: 0 0 12px rgba(0, 255, 102, 0.35); }
                                 .ps-thumb-btn.exp2.active { border-color: #FF5C00; box-shadow: 0 0 12px rgba(255, 92, 0, 0.35); }
                                 .ps-thumb-btn.exp3.active { border-color: #00F5FF; box-shadow: 0 0 12px rgba(0, 245, 255, 0.35); }
-                                .ps-thumb-btn.exp4.active { border-color: #BD93F9; box-shadow: 0 0 12px rgba(189, 147, 249, 0.35); }
 
                                 .ps-hud-label {
                                     position: absolute;
@@ -767,16 +766,6 @@
                                         this.classList.add('active');
                                     ">
                                         <img src="img/powersurge/PowerSurgeSS.png" alt="Exp 3 Thumb">
-                                    </button>
-                                    
-                                    <button class="ps-thumb-btn exp4" onclick="
-                                        document.getElementById('active-ps-img').src = 'img/powersurge/PowerSurgeSS2.png';
-                                        document.getElementById('active-ps-experiment').textContent = '[ Active: Master Frame ]';
-                                        document.getElementById('active-ps-tag').textContent = 'EXPERIMENT_04 // Master Frame';
-                                        document.querySelectorAll('.ps-thumb-btn').forEach(b => b.classList.remove('active'));
-                                        this.classList.add('active');
-                                    ">
-                                        <img src="img/powersurge/PowerSurgeSS2.png" alt="Exp 4 Thumb">
                                     </button>
                                 </div>
                             </div>
