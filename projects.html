@@ -913,15 +913,309 @@
                         num: "04",
                         title: "The Posters",
                         desc: "I designed a series of A3 posters showcasing each practitioner's works. To balance consistency and variation, each poster maintains a locked header and footer layout to establish the exhibition system, while the central layouts and vibrant background colors dynamically shift to reflect the individual artist's visual vocabulary.",
-                        mediaType: "image",
-                        mediaSrc: "img/marimekko/page_32_img_3_Im3.png"
+                        mediaType: "svg",
+                        mediaSrc: `<div style="display: flex; flex-direction: column; width: 100%; height: 100%; box-sizing: border-box; padding: 1.25rem; background: #030303; justify-content: space-between;">
+                            <style>
+                                .poster-gallery-container {
+                                    display: flex;
+                                    flex-direction: column;
+                                    width: 100%;
+                                    height: 100%;
+                                    justify-content: space-between;
+                                    box-sizing: border-box;
+                                }
+                                .poster-preview-wrapper {
+                                    flex-grow: 1;
+                                    width: 100%;
+                                    height: calc(100% - 75px);
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    background: #080808;
+                                    border: 1px solid rgba(255, 255, 255, 0.05);
+                                    border-radius: 6px;
+                                    overflow: hidden;
+                                    position: relative;
+                                }
+                                .poster-preview-wrapper img {
+                                    max-width: 100%;
+                                    max-height: 100%;
+                                    object-fit: contain;
+                                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                                }
+                                .poster-thumbs-row {
+                                    display: flex;
+                                    justify-content: center;
+                                    gap: 1rem;
+                                    height: 60px;
+                                    margin-top: 0.75rem;
+                                    flex-shrink: 0;
+                                }
+                                .poster-thumb-btn {
+                                    width: 48px;
+                                    height: 60px;
+                                    border-radius: 4px;
+                                    border: 1px solid rgba(255, 255, 255, 0.1);
+                                    background: #111;
+                                    cursor: pointer;
+                                    overflow: hidden;
+                                    padding: 0;
+                                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                                    position: relative;
+                                }
+                                .poster-thumb-btn img {
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                    opacity: 0.5;
+                                    transition: all 0.3s ease;
+                                }
+                                .poster-thumb-btn:hover {
+                                    transform: translateY(-2px);
+                                    border-color: rgba(255, 255, 255, 0.4);
+                                }
+                                .poster-thumb-btn:hover img {
+                                    opacity: 0.8;
+                                }
+                                .poster-thumb-btn.active {
+                                    border-color: #FF5C00;
+                                    box-shadow: 0 0 12px rgba(255, 92, 0, 0.3);
+                                }
+                                .poster-thumb-btn.active img {
+                                    opacity: 1;
+                                }
+                                
+                                /* Color associations for curator series */
+                                .poster-thumb-btn.isola.active { border-color: #0080FF; box-shadow: 0 0 12px rgba(0, 128, 255, 0.35); }
+                                .poster-thumb-btn.rimala.active { border-color: #FFD600; box-shadow: 0 0 12px rgba(255, 214, 0, 0.35); }
+                                .poster-thumb-btn.kekki.active { border-color: #FF5C00; box-shadow: 0 0 12px rgba(255, 92, 0, 0.35); }
+                                .poster-thumb-btn.ishimoto.active { border-color: #00C9A7; box-shadow: 0 0 12px rgba(0, 201, 167, 0.35); }
+
+                                .poster-hud-label {
+                                    position: absolute;
+                                    bottom: 8px;
+                                    left: 12px;
+                                    font-family: 'Space Mono', monospace;
+                                    font-size: 0.55rem;
+                                    color: rgba(255, 255, 255, 0.5);
+                                    background: rgba(0, 0, 0, 0.7);
+                                    padding: 2px 6px;
+                                    border-radius: 3px;
+                                    border: 1px solid rgba(255, 255, 255, 0.08);
+                                    pointer-events: none;
+                                    letter-spacing: 0.05em;
+                                    text-transform: uppercase;
+                                }
+                            </style>
+                            
+                            <!-- Top Header Info -->
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem; margin-bottom: 0.5rem; flex-shrink: 0;">
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: rgba(255,255,255,0.4); text-transform: uppercase;">[ Curation // A3 Promotional Poster Series ]</div>
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); text-transform: uppercase;" id="active-poster-artist">[ Active: Maija Isola ]</div>
+                            </div>
+                            
+                            <div class="poster-gallery-container">
+                                <!-- Preview Box -->
+                                <div class="poster-preview-wrapper">
+                                    <img id="active-poster-img" src="img/marimekko/page_32_img_0_Im0.png" alt="Maija Isola Poster">
+                                    <div id="active-poster-tag" class="poster-hud-label">SERIES_01 // Maija Isola</div>
+                                </div>
+                                
+                                <!-- Clickable Thumbnails -->
+                                <div class="poster-thumbs-row">
+                                    <button class="poster-thumb-btn isola active" onclick="
+                                        document.getElementById('active-poster-img').src = 'img/marimekko/page_32_img_0_Im0.png';
+                                        document.getElementById('active-poster-artist').textContent = '[ Active: Maija Isola ]';
+                                        document.getElementById('active-poster-tag').textContent = 'SERIES_01 // Maija Isola';
+                                        document.querySelectorAll('.poster-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="img/marimekko/page_32_img_0_Im0.png" alt="Maija Isola Poster Thumb">
+                                    </button>
+                                    
+                                    <button class="poster-thumb-btn rimala" onclick="
+                                        document.getElementById('active-poster-img').src = 'img/marimekko/page_32_img_1_Im1.png';
+                                        document.getElementById('active-poster-artist').textContent = '[ Active: Annika Rimala ]';
+                                        document.getElementById('active-poster-tag').textContent = 'SERIES_02 // Annika Rimala';
+                                        document.querySelectorAll('.poster-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="img/marimekko/page_32_img_1_Im1.png" alt="Annika Rimala Poster Thumb">
+                                    </button>
+                                    
+                                    <button class="poster-thumb-btn kekki" onclick="
+                                        document.getElementById('active-poster-img').src = 'img/marimekko/page_32_img_2_Im2.png';
+                                        document.getElementById('active-poster-artist').textContent = '[ Active: Antti Kekki ]';
+                                        document.getElementById('active-poster-tag').textContent = 'SERIES_03 // Antti Kekki';
+                                        document.querySelectorAll('.poster-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="img/marimekko/page_32_img_2_Im2.png" alt="Antti Kekki Poster Thumb">
+                                    </button>
+                                    
+                                    <button class="poster-thumb-btn ishimoto" onclick="
+                                        document.getElementById('active-poster-img').src = 'img/marimekko/page_32_img_3_Im3.png';
+                                        document.getElementById('active-poster-artist').textContent = '[ Active: Fujiwo Ishimoto ]';
+                                        document.getElementById('active-poster-tag').textContent = 'SERIES_04 // Fujiwo Ishimoto';
+                                        document.querySelectorAll('.poster-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="img/marimekko/page_32_img_3_Im3.png" alt="Fujiwo Ishimoto Poster Thumb">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>`
                     },
                     {
                         num: "05",
                         title: "Billboard Mock Ups",
                         desc: "I scaled the visual identity to Saatchi Gallery's exterior environment using physical mockups. The high-contrast outdoor billboards and banners are positioned at critical sightlines, showcasing Marimekko's bold patterns on structural facades to direct the public towards the exhibition entry.",
-                        mediaType: "image",
-                        mediaSrc: "img/marimekko/Vernon_GDES50014_billboard1.png"
+                        mediaType: "svg",
+                        mediaSrc: `<div style="display: flex; flex-direction: column; width: 100%; height: 100%; box-sizing: border-box; padding: 1.25rem; background: #030303; justify-content: space-between;">
+                            <style>
+                                .billboard-gallery-container {
+                                    display: flex;
+                                    flex-direction: column;
+                                    width: 100%;
+                                    height: 100%;
+                                    justify-content: space-between;
+                                    box-sizing: border-box;
+                                }
+                                .billboard-preview-wrapper {
+                                    flex-grow: 1;
+                                    width: 100%;
+                                    height: calc(100% - 75px);
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    background: #080808;
+                                    border: 1px solid rgba(255, 255, 255, 0.05);
+                                    border-radius: 6px;
+                                    overflow: hidden;
+                                    position: relative;
+                                }
+                                .billboard-preview-wrapper img {
+                                    max-width: 100%;
+                                    max-height: 100%;
+                                    object-fit: contain;
+                                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                                }
+                                .billboard-thumbs-row {
+                                    display: flex;
+                                    justify-content: center;
+                                    gap: 1rem;
+                                    height: 60px;
+                                    margin-top: 0.75rem;
+                                    flex-shrink: 0;
+                                }
+                                .billboard-thumb-btn {
+                                    width: 75px;
+                                    height: 45px;
+                                    border-radius: 4px;
+                                    border: 1px solid rgba(255, 255, 255, 0.1);
+                                    background: #111;
+                                    cursor: pointer;
+                                    overflow: hidden;
+                                    padding: 0;
+                                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                                    position: relative;
+                                    align-self: center;
+                                }
+                                .billboard-thumb-btn img {
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                    opacity: 0.5;
+                                    transition: all 0.3s ease;
+                                }
+                                .billboard-thumb-btn:hover {
+                                    transform: translateY(-2px);
+                                    border-color: rgba(255, 255, 255, 0.4);
+                                }
+                                .billboard-thumb-btn:hover img {
+                                    opacity: 0.8;
+                                }
+                                .billboard-thumb-btn.active {
+                                    border-color: #D91C1C;
+                                    box-shadow: 0 0 12px rgba(217, 28, 28, 0.35);
+                                }
+                                .billboard-thumb-btn.active img {
+                                    opacity: 1;
+                                }
+                                .billboard-hud-label {
+                                    position: absolute;
+                                    bottom: 8px;
+                                    left: 12px;
+                                    font-family: 'Space Mono', monospace;
+                                    font-size: 0.55rem;
+                                    color: rgba(255, 255, 255, 0.5);
+                                    background: rgba(0, 0, 0, 0.7);
+                                    padding: 2px 6px;
+                                    border-radius: 3px;
+                                    border: 1px solid rgba(255, 255, 255, 0.08);
+                                    pointer-events: none;
+                                    letter-spacing: 0.05em;
+                                    text-transform: uppercase;
+                                }
+                            </style>
+                            
+                            <!-- Top Header Info -->
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem; margin-bottom: 0.5rem; flex-shrink: 0;">
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: rgba(255,255,255,0.4); text-transform: uppercase;">[ Exhibition // Saatchi Exterior Environment Mockups ]</div>
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); text-transform: uppercase;" id="active-billboard-label">[ Active: Facade Billboard 1 ]</div>
+                            </div>
+                            
+                            <div class="billboard-gallery-container">
+                                <!-- Preview Box -->
+                                <div class="billboard-preview-wrapper">
+                                    <img id="active-billboard-img" src="img/marimekko/Vernon_GDES50014_billboard1.png" alt="Facade Billboard 1">
+                                    <div id="active-billboard-tag" class="billboard-hud-label">MOCKUP_01 // Exterior Facade</div>
+                                </div>
+                                
+                                <!-- Clickable Thumbnails -->
+                                <div class="billboard-thumbs-row">
+                                    <button class="billboard-thumb-btn active" onclick="
+                                        document.getElementById('active-billboard-img').src = 'img/marimekko/Vernon_GDES50014_billboard1.png';
+                                        document.getElementById('active-billboard-label').textContent = '[ Active: Facade Billboard 1 ]';
+                                        document.getElementById('active-billboard-tag').textContent = 'MOCKUP_01 // Exterior Facade';
+                                        document.querySelectorAll('.billboard-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="img/marimekko/Vernon_GDES50014_billboard1.png" alt="Facade Billboard 1 Thumb">
+                                    </button>
+                                    
+                                    <button class="billboard-thumb-btn" onclick="
+                                        document.getElementById('active-billboard-img').src = 'img/marimekko/Vernon_GDES50014_billboard2.png';
+                                        document.getElementById('active-billboard-label').textContent = '[ Active: Facade Billboard 2 ]';
+                                        document.getElementById('active-billboard-tag').textContent = 'MOCKUP_02 // Street View Facade';
+                                        document.querySelectorAll('.billboard-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="img/marimekko/Vernon_GDES50014_billboard2.png" alt="Facade Billboard 2 Thumb">
+                                    </button>
+                                    
+                                    <button class="billboard-thumb-btn" onclick="
+                                        document.getElementById('active-billboard-img').src = 'img/marimekko/Vernon_GDES50014_billboard3.png';
+                                        document.getElementById('active-billboard-label').textContent = '[ Active: Facade Billboard 3 ]';
+                                        document.getElementById('active-billboard-tag').textContent = 'MOCKUP_03 // Double Facade';
+                                        document.querySelectorAll('.billboard-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="img/marimekko/Vernon_GDES50014_billboard3.png" alt="Facade Billboard 3 Thumb">
+                                    </button>
+                                    
+                                    <button class="billboard-thumb-btn" onclick="
+                                        document.getElementById('active-billboard-img').src = 'img/marimekko/Vernon_GDES50014_billboard4.png';
+                                        document.getElementById('active-billboard-label').textContent = '[ Active: Facade Billboard 4 ]';
+                                        document.getElementById('active-billboard-tag').textContent = 'MOCKUP_04 // Urban Billboard';
+                                        document.querySelectorAll('.billboard-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="img/marimekko/Vernon_GDES50014_billboard4.png" alt="Facade Billboard 4 Thumb">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>`
                     },
                     {
                         num: "06",
