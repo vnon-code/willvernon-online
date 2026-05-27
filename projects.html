@@ -453,25 +453,39 @@
                 id: "04",
                 title: "Powersurge",
                 descShort: "A collaborative visual journey exploring the exponential growth of computing power, translating Moore's Law and historical FLOPS data into a dynamic, data-driven simulation.",
-                descLong: "Created in collaboration with Suyash Sunar, this project functions as a 'Data Portrait' mapping rapid computing advances. We sourced historical supercomputer FLOPS datasets spanning 30 years from Our World in Data. Integrating this exponential trendline directly into a TouchDesigner network allowed us to drive mathematical parameters inside spherical maps and feedback loops. Users can interact in real-time, tweaking parameters to control the particle painting generation.",
-                tags: ["TouchDesigner", "Data Visualisation", "Generative Design"],
+                descLong: "Created in collaboration with Suyash Sunar, this project functions as a 'Data Portrait' mapping rapid computing advances. Sourcing historical supercomputer FLOPS (Floating Point Operations Per Second) datasets spanning 30 years, we explored Moore's Law—the observation that technological capacity doubles exponentially. We integrated this raw curve directly into a TouchDesigner particle system to drive parameters like size, speed, and feedback chaotic transformations. The resulting real-time generative artwork represents the rapid digitization of the human race.",
+                tags: ["TouchDesigner", "Data Visualisation", "Generative Design", "After Effects", "Premiere Pro"],
                 mediaType: "image",
-                mediaSrc: "https://assets.willvernon.online/projects/04_powersurge/assets/powersurgegif.gif",
-                outcomeLabel: "Visualizer Animated Loop",
+                mediaSrc: "img/powersurge/PowerSurgeSS2.png",
+                outcomeLabel: "Final Data Portrait Video",
                 process: [
                     {
                         num: "01",
-                        title: "Sourcing Data & Moore's Law",
-                        desc: "We wanted to create a 'Data Portrait', observing how technology rapidly advances. We sourced datasets tracking global supercomputer FLOPs over 30 years, reflecting the exponential growth predicted by Moore's Law.",
-                        mediaType: "svg",
-                        mediaSrc: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225"><rect width="100%" height="100%" fill="#030303"/><path d="M 40 30 L 40 190 L 370 190" stroke="rgba(255,255,255,0.1)" stroke-width="1" fill="none"/><path d="M 40 190 Q 200 170 300 100 T 360 40" stroke="rgba(217, 28, 28, 0.4)" stroke-width="1.5" fill="none"/><line x1="40" y1="190" x2="360" y2="40" stroke="#fff" stroke-dasharray="3,3" stroke-width="0.75"/><line x1="300" y1="100" x2="300" y2="60" stroke="#888" stroke-width="0.5"/><rect x="250" y="45" width="100" height="15" fill="rgba(0,0,0,0.8)" stroke="#D91C1C"/><text x="255" y="55" fill="#fff" font-family="Space Mono, monospace" font-size="4">Moore's_Law_Limit: 2026</text><text x="45" y="200" fill="rgba(255,255,255,0.3)" font-family="Space Mono, monospace" font-size="5">1990</text><text x="180" y="200" fill="rgba(255,255,255,0.3)" font-family="Space Mono, monospace" font-size="5">2005</text><text x="320" y="200" fill="rgba(255,255,255,0.3)" font-family="Space Mono, monospace" font-size="5">2020</text><text x="50" y="40" fill="#D91C1C" font-family="Space Mono, monospace" font-size="5">Y: GLOBAL_SUPERCOMPUTER_FLOPS</text></svg>`
+                        title: "Concept & The Exponential Curve",
+                        desc: "Drawing inspiration from Mike Luan's 'Data Portraits', we wanted to explore using raw digital metrics to directly influence generative art, giving the artwork a hidden organic meaning. We mapped out 30 years of global supercomputer FLOPS (Floating Point Operations Per Second) datasets from Our World in Data, reflecting the rapid growth predicted by Moore's Law. This timeline spreadsheet mapped every 10 seconds of video to a year of real-world computing history.",
+                        mediaType: "image",
+                        mediaSrc: "img/powersurge/FLOPs timeline.jpeg"
                     },
                     {
                         num: "02",
-                        title: "Generative Data Painting",
-                        desc: "This exponential curve was integrated into TouchDesigner. The mathematical data drove the parameters of a spherical remap and particle simulation, capturing Moore's Law visually.",
+                        title: "TouchDesigner Generative Engine",
+                        desc: "We built a generative network in TouchDesigner using a cylinder as the base emitter, and normalized the coordinates to constrict the particles into a sphere. An Animation CHOP locked the data curve to the master timeline, feeding the FLOPS values into multiple parameters. As computing capability scales, the data progressively drives particle size, speed, and green/red color values, leading to a chaotic bloom effect driven entirely by the feedback loops.",
+                        mediaType: "image",
+                        mediaSrc: "img/powersurge/TouchDesigner Powersurge.jpeg"
+                    },
+                    {
+                        num: "03",
+                        title: "Visual Feedback Experiments",
+                        desc: "We ran multiple visual experiments to balance particle lifetime, speed, and feedback limits. The exponential nature of the curve meant that for over 75% of the timeline, the sphere remains quiet and highly structured, changing very slightly. It is only in the final seconds that the transition spikes dramatically, erupting into a beautifully chaotic firestorm of glowing, blooming particles.",
                         mediaType: "image",
                         mediaSrc: "https://assets.willvernon.online/projects/04_powersurge/assets/powersurgegif2.gif"
+                    },
+                    {
+                        num: "04",
+                        title: "Final Audio-Visual Assembly",
+                        desc: "The final data portrait was assembled in Premiere Pro. We overlayed the After Effects FLOPS timeline along the bottom, visualizing the curve as a white indicator circle keyframed along the X-axis. A digital year countdown created by Suyash was nested in the top-left corner, anchoring each visual state to its corresponding historical year, all paired with a brooding ambient soundscape.",
+                        mediaType: "video",
+                        mediaSrc: "img/powersurge/PowerSurgeFINAL_1.mp4"
                     }
                 ]
             },
