@@ -239,24 +239,175 @@
                         title: "Exhibition Gallery",
                         desc: "After generating the visuals, I integrated them into 3D spaces designed to resemble modern, concrete-built exhibition rooms — adding lighting, ambient figures, and environmental storytelling elements. Each scene creates a simulated gallery experience where sound, light, and movement converge into unified, immersive encounters.",
                         mediaType: "svg",
-                        mediaSrc: `<div class="process-media-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; width: 100%; height: 100%; box-sizing: border-box; align-content: center;">
-                            <!-- B17 Column -->
-                            <div style="display: flex; flex-direction: column; gap: 0.35rem;">
-                                <span style="font-family: var(--font-mono); font-size: 0.55rem; color: var(--accent-red); text-transform: uppercase;">// WING_A: B17</span>
-                                <img src="https://assets.willvernon.online/projects/01_amplified-spaces/renders/B17/B172.png" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700); aspect-ratio: 16 / 9; object-fit: cover; width: 100%;" alt="B17 Render 1">
-                                <img src="https://assets.willvernon.online/projects/01_amplified-spaces/renders/B17/B173.png" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700); aspect-ratio: 16 / 9; object-fit: cover; width: 100%;" alt="B17 Render 2">
+                        mediaSrc: `<div style="display: flex; flex-direction: column; width: 100%; height: 100%; box-sizing: border-box; padding: 1.25rem; background: #030303; justify-content: space-between;">
+                            <style>
+                                .as-gallery-container {
+                                    display: flex;
+                                    flex-direction: column;
+                                    width: 100%;
+                                    height: 100%;
+                                    justify-content: space-between;
+                                    box-sizing: border-box;
+                                }
+                                .as-preview-wrapper {
+                                    flex-grow: 1;
+                                    width: 100%;
+                                    height: calc(100% - 75px);
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    background: #080808;
+                                    border: 1px solid rgba(255, 255, 255, 0.05);
+                                    border-radius: 6px;
+                                    overflow: hidden;
+                                    position: relative;
+                                }
+                                .as-preview-wrapper img {
+                                    max-width: 100%;
+                                    max-height: 100%;
+                                    object-fit: contain;
+                                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                                }
+                                .as-thumbs-row {
+                                    display: flex;
+                                    justify-content: center;
+                                    gap: 0.65rem;
+                                    height: 60px;
+                                    margin-top: 0.75rem;
+                                    flex-shrink: 0;
+                                }
+                                .as-thumb-btn {
+                                    width: 56px;
+                                    height: 34px;
+                                    border-radius: 4px;
+                                    border: 1px solid rgba(255, 255, 255, 0.1);
+                                    background: #111;
+                                    cursor: pointer;
+                                    overflow: hidden;
+                                    padding: 0;
+                                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                                    position: relative;
+                                    align-self: center;
+                                }
+                                .as-thumb-btn img {
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                    opacity: 0.5;
+                                    transition: all 0.3s ease;
+                                }
+                                .as-thumb-btn:hover {
+                                    transform: translateY(-2px);
+                                    border-color: rgba(255, 255, 255, 0.4);
+                                }
+                                .as-thumb-btn:hover img {
+                                    opacity: 0.8;
+                                }
+                                .as-thumb-btn.active {
+                                    border-color: #00FF66;
+                                    box-shadow: 0 0 10px rgba(0, 255, 102, 0.3);
+                                }
+                                .as-thumb-btn.active img {
+                                    opacity: 1;
+                                }
+                                
+                                /* Wing Tones */
+                                .as-thumb-btn.wingA.active { border-color: #00FF66; box-shadow: 0 0 10px rgba(0, 255, 102, 0.3); }
+                                .as-thumb-btn.wingB.active { border-color: #FF00FF; box-shadow: 0 0 10px rgba(255, 0, 255, 0.3); }
+                                .as-thumb-btn.wingC.active { border-color: #00FFFF; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3); }
+
+                                .as-hud-label {
+                                    position: absolute;
+                                    bottom: 8px;
+                                    left: 12px;
+                                    font-family: 'Space Mono', monospace;
+                                    font-size: 0.55rem;
+                                    color: rgba(255, 255, 255, 0.5);
+                                    background: rgba(0, 0, 0, 0.7);
+                                    padding: 2px 6px;
+                                    border-radius: 3px;
+                                    border: 1px solid rgba(255, 255, 255, 0.08);
+                                    pointer-events: none;
+                                    letter-spacing: 0.05em;
+                                    text-transform: uppercase;
+                                }
+                            </style>
+                            
+                            <!-- Top Header Info -->
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem; margin-bottom: 0.5rem; flex-shrink: 0;">
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: rgba(255,255,255,0.4); text-transform: uppercase;">[ Simulated Spaces // Immersive Gallery Exhibition ]</div>
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); text-transform: uppercase;" id="active-as-label">[ Active: B17 // Render 1 ]</div>
                             </div>
-                            <!-- Fading Away Column -->
-                            <div style="display: flex; flex-direction: column; gap: 0.35rem;">
-                                <span style="font-family: var(--font-mono); font-size: 0.55rem; color: var(--accent-red); text-transform: uppercase;">// WING_B: FADING AWAY</span>
-                                <img src="https://assets.willvernon.online/projects/01_amplified-spaces/renders/FadingAway/FadingAway2.png" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700); aspect-ratio: 16 / 9; object-fit: cover; width: 100%;" alt="Fading Away Render 1">
-                                <img src="https://assets.willvernon.online/projects/01_amplified-spaces/renders/FadingAway/FadingAway4.png" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700); aspect-ratio: 16 / 9; object-fit: cover; width: 100%;" alt="Fading Away Render 2">
-                            </div>
-                            <!-- Onjuku Column -->
-                            <div style="display: flex; flex-direction: column; gap: 0.35rem;">
-                                <span style="font-family: var(--font-mono); font-size: 0.55rem; color: var(--accent-red); text-transform: uppercase;">// WING_C: ONJUKU</span>
-                                <img src="https://assets.willvernon.online/projects/01_amplified-spaces/renders/Onjuku/Onjuku1.png" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700); aspect-ratio: 16 / 9; object-fit: cover; width: 100%;" alt="Onjuku Render 1">
-                                <img src="https://assets.willvernon.online/projects/01_amplified-spaces/renders/Onjuku/Onjuku3.png" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700); aspect-ratio: 16 / 9; object-fit: cover; width: 100%;" alt="Onjuku Render 2">
+                            
+                            <div class="as-gallery-container">
+                                <!-- Preview Box -->
+                                <div class="as-preview-wrapper">
+                                    <img id="active-as-img" src="https://assets.willvernon.online/projects/01_amplified-spaces/renders/B17/B172.png" alt="B17 Render 1">
+                                    <div id="active-as-tag" class="as-hud-label">WING_A // B17 RENDER 1</div>
+                                </div>
+                                
+                                <!-- Clickable Thumbnails -->
+                                <div class="as-thumbs-row">
+                                    <!-- Wing A -->
+                                    <button class="as-thumb-btn wingA active" onclick="
+                                        document.getElementById('active-as-img').src = 'https://assets.willvernon.online/projects/01_amplified-spaces/renders/B17/B172.png';
+                                        document.getElementById('active-as-label').textContent = '[ Active: B17 // Render 1 ]';
+                                        document.getElementById('active-as-tag').textContent = 'WING_A // B17 RENDER 1';
+                                        document.querySelectorAll('.as-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/01_amplified-spaces/renders/B17/B172.png" alt="B17 1 Thumb">
+                                    </button>
+                                    <button class="as-thumb-btn wingA" onclick="
+                                        document.getElementById('active-as-img').src = 'https://assets.willvernon.online/projects/01_amplified-spaces/renders/B17/B173.png';
+                                        document.getElementById('active-as-label').textContent = '[ Active: B17 // Render 2 ]';
+                                        document.getElementById('active-as-tag').textContent = 'WING_A // B17 RENDER 2';
+                                        document.querySelectorAll('.as-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/01_amplified-spaces/renders/B17/B173.png" alt="B17 2 Thumb">
+                                    </button>
+
+                                    <!-- Wing B -->
+                                    <button class="as-thumb-btn wingB" onclick="
+                                        document.getElementById('active-as-img').src = 'https://assets.willvernon.online/projects/01_amplified-spaces/renders/FadingAway/FadingAway2.png';
+                                        document.getElementById('active-as-label').textContent = '[ Active: Fading Away // Render 1 ]';
+                                        document.getElementById('active-as-tag').textContent = 'WING_B // FADING AWAY RENDER 1';
+                                        document.querySelectorAll('.as-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/01_amplified-spaces/renders/FadingAway/FadingAway2.png" alt="Fading Away 1 Thumb">
+                                    </button>
+                                    <button class="as-thumb-btn wingB" onclick="
+                                        document.getElementById('active-as-img').src = 'https://assets.willvernon.online/projects/01_amplified-spaces/renders/FadingAway/FadingAway4.png';
+                                        document.getElementById('active-as-label').textContent = '[ Active: Fading Away // Render 2 ]';
+                                        document.getElementById('active-as-tag').textContent = 'WING_B // FADING AWAY RENDER 2';
+                                        document.querySelectorAll('.as-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/01_amplified-spaces/renders/FadingAway/FadingAway4.png" alt="Fading Away 2 Thumb">
+                                    </button>
+
+                                    <!-- Wing C -->
+                                    <button class="as-thumb-btn wingC" onclick="
+                                        document.getElementById('active-as-img').src = 'https://assets.willvernon.online/projects/01_amplified-spaces/renders/Onjuku/Onjuku1.png';
+                                        document.getElementById('active-as-label').textContent = '[ Active: Onjuku // Render 1 ]';
+                                        document.getElementById('active-as-tag').textContent = 'WING_C // ONJUKU RENDER 1';
+                                        document.querySelectorAll('.as-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/01_amplified-spaces/renders/Onjuku/Onjuku1.png" alt="Onjuku 1 Thumb">
+                                    </button>
+                                    <button class="as-thumb-btn wingC" onclick="
+                                        document.getElementById('active-as-img').src = 'https://assets.willvernon.online/projects/01_amplified-spaces/renders/Onjuku/Onjuku3.png';
+                                        document.getElementById('active-as-label').textContent = '[ Active: Onjuku // Render 2 ]';
+                                        document.getElementById('active-as-tag').textContent = 'WING_C // ONJUKU RENDER 2';
+                                        document.querySelectorAll('.as-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/01_amplified-spaces/renders/Onjuku/Onjuku3.png" alt="Onjuku 2 Thumb">
+                                    </button>
+                                </div>
                             </div>
                         </div>`
                     }
@@ -477,8 +628,159 @@
                         num: "03",
                         title: "Visual Feedback Experiments",
                         desc: "We ran multiple visual experiments to balance particle lifetime, speed, and feedback limits. The exponential nature of the curve meant that for over 75% of the timeline, the sphere remains quiet and highly structured, changing very slightly. It is only in the final seconds that the transition spikes dramatically, erupting into a beautifully chaotic firestorm of glowing, blooming particles.",
-                        mediaType: "image",
-                        mediaSrc: "https://assets.willvernon.online/projects/04_powersurge/assets/powersurgegif2.gif"
+                        mediaType: "svg",
+                        mediaSrc: `<div style="display: flex; flex-direction: column; width: 100%; height: 100%; box-sizing: border-box; padding: 1.25rem; background: #030303; justify-content: space-between;">
+                            <style>
+                                .ps-gallery-container {
+                                    display: flex;
+                                    flex-direction: column;
+                                    width: 100%;
+                                    height: 100%;
+                                    justify-content: space-between;
+                                    box-sizing: border-box;
+                                }
+                                .ps-preview-wrapper {
+                                    flex-grow: 1;
+                                    width: 100%;
+                                    height: calc(100% - 75px);
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    background: #080808;
+                                    border: 1px solid rgba(255, 255, 255, 0.05);
+                                    border-radius: 6px;
+                                    overflow: hidden;
+                                    position: relative;
+                                }
+                                .ps-preview-wrapper img {
+                                    max-width: 100%;
+                                    max-height: 100%;
+                                    object-fit: contain;
+                                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                                }
+                                .ps-thumbs-row {
+                                    display: flex;
+                                    justify-content: center;
+                                    gap: 1rem;
+                                    height: 60px;
+                                    margin-top: 0.75rem;
+                                    flex-shrink: 0;
+                                }
+                                .ps-thumb-btn {
+                                    width: 75px;
+                                    height: 45px;
+                                    border-radius: 4px;
+                                    border: 1px solid rgba(255, 255, 255, 0.1);
+                                    background: #111;
+                                    cursor: pointer;
+                                    overflow: hidden;
+                                    padding: 0;
+                                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                                    position: relative;
+                                    align-self: center;
+                                }
+                                .ps-thumb-btn img {
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                    opacity: 0.5;
+                                    transition: all 0.3s ease;
+                                }
+                                .ps-thumb-btn:hover {
+                                    transform: translateY(-2px);
+                                    border-color: rgba(255, 255, 255, 0.4);
+                                }
+                                .ps-thumb-btn:hover img {
+                                    opacity: 0.8;
+                                }
+                                .ps-thumb-btn.active {
+                                    border-color: #00FF66;
+                                    box-shadow: 0 0 12px rgba(0, 255, 102, 0.35);
+                                }
+                                .ps-thumb-btn.active img {
+                                    opacity: 1;
+                                }
+                                
+                                /* Color associations for experiments */
+                                .ps-thumb-btn.exp1.active { border-color: #00FF66; box-shadow: 0 0 12px rgba(0, 255, 102, 0.35); }
+                                .ps-thumb-btn.exp2.active { border-color: #FF5C00; box-shadow: 0 0 12px rgba(255, 92, 0, 0.35); }
+                                .ps-thumb-btn.exp3.active { border-color: #00F5FF; box-shadow: 0 0 12px rgba(0, 245, 255, 0.35); }
+                                .ps-thumb-btn.exp4.active { border-color: #BD93F9; box-shadow: 0 0 12px rgba(189, 147, 249, 0.35); }
+
+                                .ps-hud-label {
+                                    position: absolute;
+                                    bottom: 8px;
+                                    left: 12px;
+                                    font-family: 'Space Mono', monospace;
+                                    font-size: 0.55rem;
+                                    color: rgba(255, 255, 255, 0.5);
+                                    background: rgba(0, 0, 0, 0.7);
+                                    padding: 2px 6px;
+                                    border-radius: 3px;
+                                    border: 1px solid rgba(255, 255, 255, 0.08);
+                                    pointer-events: none;
+                                    letter-spacing: 0.05em;
+                                    text-transform: uppercase;
+                                }
+                            </style>
+                            
+                            <!-- Top Header Info -->
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem; margin-bottom: 0.5rem; flex-shrink: 0;">
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: rgba(255,255,255,0.4); text-transform: uppercase;">[ Generative Engine // Real-time Visual Experiments ]</div>
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); text-transform: uppercase;" id="active-ps-experiment">[ Active: Dense Flow Trails ]</div>
+                            </div>
+                            
+                            <div class="ps-gallery-container">
+                                <!-- Preview Box -->
+                                <div class="ps-preview-wrapper">
+                                    <img id="active-ps-img" src="img/powersurge/powersurgegif.gif" alt="Dense Flow Trails">
+                                    <div id="active-ps-tag" class="ps-hud-label">EXPERIMENT_01 // Dense Flow Trails</div>
+                                </div>
+                                
+                                <!-- Clickable Thumbnails -->
+                                <div class="ps-thumbs-row">
+                                    <button class="ps-thumb-btn exp1 active" onclick="
+                                        document.getElementById('active-ps-img').src = 'img/powersurge/powersurgegif.gif';
+                                        document.getElementById('active-ps-experiment').textContent = '[ Active: Dense Flow Trails ]';
+                                        document.getElementById('active-ps-tag').textContent = 'EXPERIMENT_01 // Dense Flow Trails';
+                                        document.querySelectorAll('.ps-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="img/powersurge/powersurgegif.gif" alt="Exp 1 Thumb">
+                                    </button>
+                                    
+                                    <button class="ps-thumb-btn exp2" onclick="
+                                        document.getElementById('active-ps-img').src = 'img/powersurge/powersurgegif2.gif';
+                                        document.getElementById('active-ps-experiment').textContent = '[ Active: Bloom Feedback Loop ]';
+                                        document.getElementById('active-ps-tag').textContent = 'EXPERIMENT_02 // Bloom Feedback Loop';
+                                        document.querySelectorAll('.ps-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="img/powersurge/powersurgegif2.gif" alt="Exp 2 Thumb">
+                                    </button>
+                                    
+                                    <button class="ps-thumb-btn exp3" onclick="
+                                        document.getElementById('active-ps-img').src = 'img/powersurge/PowerSurgeSS.png';
+                                        document.getElementById('active-ps-experiment').textContent = '[ Active: Sphere Form Test ]';
+                                        document.getElementById('active-ps-tag').textContent = 'EXPERIMENT_03 // Sphere Form Test';
+                                        document.querySelectorAll('.ps-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="img/powersurge/PowerSurgeSS.png" alt="Exp 3 Thumb">
+                                    </button>
+                                    
+                                    <button class="ps-thumb-btn exp4" onclick="
+                                        document.getElementById('active-ps-img').src = 'img/powersurge/PowerSurgeSS2.png';
+                                        document.getElementById('active-ps-experiment').textContent = '[ Active: Master Frame ]';
+                                        document.getElementById('active-ps-tag').textContent = 'EXPERIMENT_04 // Master Frame';
+                                        document.querySelectorAll('.ps-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="img/powersurge/PowerSurgeSS2.png" alt="Exp 4 Thumb">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>`
                     },
                     {
                         num: "04",
