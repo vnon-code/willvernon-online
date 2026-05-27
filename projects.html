@@ -77,12 +77,24 @@
     <!-- Filtering System -->
     <section class="filter-bar layout-padding">
         <div class="container-wide">
-            <div class="filter-inner">
-                <span class="filter-label">Filter by:</span>
-                <div id="filter-container" class="filter-tags">
-                    <!-- Filters will be injected here via JS -->
+            <div class="filter-categories-wrapper">
+                <!-- Software Row -->
+                <div class="filter-row">
+                    <span class="filter-label">// SOFTWARE:</span>
+                    <div id="software-filter-container" class="filter-tags">
+                        <!-- Filters will be injected here via JS -->
+                    </div>
                 </div>
-                <button id="clear-filters" class="clear-filters-btn">[ Clear Filters ]</button>
+                <!-- Discipline Row -->
+                <div class="filter-row">
+                    <span class="filter-label">// DISCIPLINE:</span>
+                    <div id="discipline-filter-container" class="filter-tags">
+                        <!-- Filters will be injected here via JS -->
+                    </div>
+                </div>
+                <div class="filter-actions">
+                    <button id="clear-filters" class="clear-filters-btn">[ Reset Filters ]</button>
+                </div>
             </div>
         </div>
     </section>
@@ -189,7 +201,7 @@
                 title: "Amplified Spaces",
                 descShort: "An exploration of the transition from auditory experience to immersive visual environments. Built bespoke, real-time node systems to translate tracks into simulated architectural installations.",
                 descLong: "We explore how sound can be given physical presence and structural form. Instead of just listening to music, we wanted to step inside it. By pairing Tom Vernon's textured audio stems with dynamic generative tools, we mapped sound frequencies directly to three-dimensional coordinate paths, letting the sound shape organic geometries. These geometries are then contextualised in bespoke CGI gallery spaces. It's a journey of translating intangible auditory textures into permanent, architectural monuments.",
-                tags: ["TouchDesigner", "Blender"],
+                tags: ["Blender", "TouchDesigner", "Generative Design", "Audio-Reactive", "3D Design"],
                 mediaType: "video",
                 mediaSrc: "https://assets.willvernon.online/projects/01_amplified-spaces/video_trailers/B17AV2_1.mp4",
                 outcomeLabel: "Final Outcome Video",
@@ -255,7 +267,7 @@
                 title: "Handheld Stories",
                 descShort: "A reimagined interactive digital exhibition for the British Museum's Netsuke collection, transforming traditional static displays into a dynamic, 3D storytelling journey.",
                 descLong: "The concept shifts the museum experience from passive observation to exploratory interaction. I leveraged high-resolution Sketchfab 3D models of the Edo-period Netsuke artifacts to construct the foundation of an immersive web interface prototype. A strict typographic hierarchy was established using 'Noto Sans' and 'Osake' to separate educational data from expressively branded stories. The final system was animated and composited in After Effects, with realistic interactions, rotations and smooth eases simulation.",
-                tags: ["UI/UX", "Motion Design", "Typography"],
+                tags: ["After Effects", "UI/UX", "Motion Design", "Typography", "3D Design"],
                 mediaType: "video",
                 mediaSrc: "https://assets.willvernon.online/projects/02_handheld-stories/assets/Vernon_HandheldStories_GDES6004.mp4",
                 outcomeLabel: "Simulation Showcase",
@@ -288,7 +300,7 @@
                 title: "Remnants",
                 descShort: "Concepting a lost civilization through invented visual systems. Blending tactile glyph creation with AI-driven architectural generation to form an atmospheric, surreal narrative.",
                 descLong: "Initially tasked with inventing a written language, I derived structural lines from physical marks and wear found in the environment to build fictional Haa'sk and Cra'sk scripts. These vector glyphs were integrated as spatial guides inside ControlNet (Stable Diffusion) to command massive stone structures, bridging 2D layouts and 3D architectural ruins. The frames were sequenced in After Effects at 60% velocity, synchronizing to ambient audio to enforce immense scale.",
-                tags: ["Generative AI", "Typography", "Motion Design"],
+                tags: ["Stable Diffusion", "ControlNet", "After Effects", "Generative AI", "Typography", "Motion Design"],
                 mediaType: "video",
                 mediaSrc: "https://assets.willvernon.online/projects/03_remnants/assets/Remnants Outcome_1.mp4",
                 outcomeLabel: "Visual Brand Animation",
@@ -321,7 +333,7 @@
                 title: "Powersurge",
                 descShort: "A collaborative visual journey exploring the exponential growth of computing power, translating Moore's Law and historical FLOPS data into a dynamic, data-driven simulation.",
                 descLong: "Created in collaboration with Suyash Sunar, this project functions as a 'Data Portrait' mapping rapid computing advances. We sourced historical supercomputer FLOPS datasets spanning 30 years from Our World in Data. Integrating this exponential trendline directly into a TouchDesigner network allowed us to drive mathematical parameters inside spherical maps and feedback loops. Users can interact in real-time, tweaking parameters to control the particle painting generation.",
-                tags: ["TouchDesigner", "Data Visualisation"],
+                tags: ["TouchDesigner", "Data Visualisation", "Generative Design"],
                 mediaType: "image",
                 mediaSrc: "https://assets.willvernon.online/projects/04_powersurge/assets/powersurgegif.gif",
                 outcomeLabel: "Visualizer Animated Loop",
@@ -347,7 +359,7 @@
                 title: "Marimekko Exhibition",
                 descShort: "Comprehensive exhibition identity system for a theoretical Marimekko retrospective at the Saatchi Gallery. Translated tactile textile patterns into a cohesive spatial experience.",
                 descLong: "A holistic approach to spatial design, wayfinding and institutional branding, translating Marimekko's bold and colourful 2D prints into 3D environments without causing visual fatigue. Clear architectural boundaries and cones of vision were generated to structure visitor flow in Saatchi Gallery. Colour-coded directional signages, responsive typography and navigation maps were deployed to guide users seamlessly.",
-                tags: ["Campaign", "Branding", "Typography"],
+                tags: ["Illustrator", "Photoshop", "Campaign", "Branding", "Typography", "Graphic Design"],
                 mediaType: "video",
                 mediaSrc: "https://assets.willvernon.online/projects/05_marimekko-exhibition/assets/Vernon_GDES50014_animation_1.mp4",
                 outcomeLabel: "Signage Motion Trailer",
@@ -380,7 +392,7 @@
                 title: "Smuggler's Outpost",
                 descShort: "Set in a Dune-inspired universe, this project explores AI as an ideation partner in environment design, shifting from algorithmic generation to manual 3D modelling.",
                 descLong: "Exploring the workflow synergy of machine learning ideation and high-fidelity CGI. We utilized SDXL and ControlNet grids to rapidly conceptualize and iterate an arid desert hideout dome, adjusting prompt weights. The optimal structural generation was utilized as a flat model blueprint. I then migrated into Blender to construct the wireframe mesh, positioning light paths, sculpting meshes and applying organic materials.",
-                tags: ["Generative AI", "Blender"],
+                tags: ["Blender", "ComfyUI", "Midjourney", "Generative AI", "3D Design", "Environment Design"],
                 mediaType: "image",
                 mediaSrc: "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/GIFViewportCompressed.gif",
                 outcomeLabel: "Viewport Animated Loop",
@@ -406,7 +418,7 @@
                 title: "The World Plays Here",
                 descShort: "A copy-led campaign for Xbox celebrating the borderless nature of modern gaming. Shifts focus onto the human experience with an inclusive aesthetic and 3D motion design.",
                 descLong: "Designing for a massive global community required an adaptable, culturally agnostic visual approach. The campaign relies heavily on powerful, copy-led storytelling designed to unite players. Kinetic typographic layouts were paired with bold 3D motion design and rendering developed in Cinema 4D and Blender, ensuring the campaign retained maximum energy.",
-                tags: ["Campaign", "Motion Design"],
+                tags: ["Cinema 4D", "Blender", "Campaign", "Motion Design", "3D Design"],
                 mediaType: "image",
                 mediaSrc: "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/LogoAnimGif.gif",
                 outcomeLabel: "Campaign Animated Loop",
@@ -542,6 +554,81 @@
                     };
                 });
 
+                // Build software & discipline sidebar sections
+                const SOFTWARE_KEYS = ["Blender", "TouchDesigner", "After Effects", "Stable Diffusion", "ControlNet", "Illustrator", "Photoshop", "InDesign", "ComfyUI", "Midjourney", "Cinema 4D"];
+                
+                const softwareTags = proj.tags.filter(t => SOFTWARE_KEYS.includes(t));
+                const disciplineTags = proj.tags.filter(t => !SOFTWARE_KEYS.includes(t));
+
+                const DISCIPLINE_ICONS = {
+                    "Generative Design": "ph-waves",
+                    "Audio-Reactive": "ph-waveform",
+                    "3D Design": "ph-cube",
+                    "UI/UX": "ph-device-mobile",
+                    "Motion Design": "ph-wind",
+                    "Typography": "ph-text-t",
+                    "Data Visualisation": "ph-chart-bar",
+                    "Generative AI": "ph-sparkles",
+                    "Campaign": "ph-megaphone",
+                    "Branding": "ph-fingerprint",
+                    "Graphic Design": "ph-palette",
+                    "Environment Design": "ph-house-line"
+                };
+
+                const SOFTWARE_LOGOS = {
+                    "Blender": "img/logos/Blender.png",
+                    "TouchDesigner": "img/logos/TouchDesigner.png",
+                    "Stable Diffusion": "img/logos/Stability AI SDXL.png",
+                    "ComfyUI": "img/logos/ComfyUI.png",
+                    "Midjourney": "img/logos/Midjourney.png"
+                };
+                
+                const SOFTWARE_BADGES = {
+                    "After Effects": "Ae",
+                    "Illustrator": "Ai",
+                    "Photoshop": "Ps",
+                    "InDesign": "Id",
+                    "ControlNet": "Cn",
+                    "Cinema 4D": "C4d"
+                };
+
+                const disciplinesHtml = disciplineTags.map(tag => {
+                    const iconClass = DISCIPLINE_ICONS[tag] || "ph-tag";
+                    return `
+                        <div class="discipline-item" style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.775rem; color: #b0b0b0; margin-bottom: 0.5rem;">
+                            <i class="ph ${iconClass}" style="color: var(--accent-red); font-size: 0.95rem;"></i>
+                            <span>${tag}</span>
+                        </div>
+                    `;
+                }).join('');
+
+                const softwareHtml = softwareTags.map(tag => {
+                    const logoUrl = SOFTWARE_LOGOS[tag];
+                    const badgeText = SOFTWARE_BADGES[tag];
+                    
+                    let visualHtml = '';
+                    if (logoUrl) {
+                        visualHtml = `<img src="${logoUrl}" alt="${tag}" class="software-logo" style="width: 20px; height: 20px; object-fit: contain; filter: grayscale(1) brightness(0.85); transition: all 0.3s ease; opacity: 0.75;">`;
+                    } else if (badgeText) {
+                        const colorClass = tag === 'After Effects' ? '#31006f' : tag === 'Illustrator' ? '#330000' : tag === 'Photoshop' ? '#001c3a' : tag === 'InDesign' ? '#490022' : '#0f0f0f';
+                        const textCol = tag === 'After Effects' ? '#d1b3ff' : tag === 'Illustrator' ? '#ff9999' : tag === 'Photoshop' ? '#8bc5ff' : tag === 'InDesign' ? '#ff8bc5' : 'var(--accent-red)';
+                        visualHtml = `
+                            <div class="software-badge" style="width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; background: ${colorClass}; border: 1px solid rgba(255,255,255,0.15); border-radius: 3px; font-family: var(--font-mono); font-size: 0.55rem; font-weight: bold; color: ${textCol}; text-transform: uppercase; line-height: 1;">
+                                ${badgeText}
+                            </div>
+                        `;
+                    } else {
+                        visualHtml = `<i class="ph ph-cpu" style="font-size: 1.1rem; color: #555;"></i>`;
+                    }
+                    
+                    return `
+                        <div class="software-item" style="display: flex; align-items: center; gap: 0.65rem; font-size: 0.75rem; color: #b0b0b0; cursor: default;">
+                            ${visualHtml}
+                            <span class="software-name" style="font-family: var(--font-mono); font-size: 0.7rem; color: #a3a3a3;">${tag}</span>
+                        </div>
+                    `;
+                }).join('');
+
                 // Build sidebar file list HTML
                 const fileListHtml = files.map((file, idx) => `
                     <button class="file-item ${idx === 0 ? 'active' : ''}" data-index="${idx}">
@@ -578,8 +665,12 @@
                                 <div class="sidebar-section">
                                     <div class="meta-label">Overview</div>
                                     <p class="sidebar-project-desc">${proj.descShort || proj.descLong.slice(0, 160) + '...'}</p>
-                                    <div class="sidebar-tags">
-                                        ${proj.tags.map(t => `<span>${t}</span>`).join('')}
+                                </div>
+
+                                <div class="sidebar-section">
+                                    <div class="meta-label">Disciplines</div>
+                                    <div class="disciplines-list" style="display: flex; flex-direction: column;">
+                                        ${disciplinesHtml}
                                     </div>
                                 </div>
 
@@ -591,20 +682,9 @@
                                 </div>
 
                                 <div class="sidebar-section">
-                                    <div class="meta-label">System Telemetry</div>
-                                    <div class="specs-grid">
-                                        <div class="spec-row">
-                                            <span class="spec-lbl">MODULE STACK:</span>
-                                            <span class="spec-val font-mono">${proj.process.length + 1} FILES</span>
-                                        </div>
-                                        <div class="spec-row">
-                                            <span class="spec-lbl">STATUS:</span>
-                                            <span class="spec-val font-mono" style="color: #22c55e;">COMPILING</span>
-                                        </div>
-                                        <div class="spec-row">
-                                            <span class="spec-lbl">COMPOSITOR:</span>
-                                            <span class="spec-val font-mono text-accent">TD_BLENDER_V4</span>
-                                        </div>
+                                    <div class="meta-label">Software Stack</div>
+                                    <div class="software-stack-list" style="display: flex; flex-direction: column; gap: 0.55rem;">
+                                        ${softwareHtml}
                                     </div>
                                 </div>
                             </div>
@@ -760,10 +840,21 @@
                 if (e.key === 'Escape') closeSlideover();
             });
 
-            // 2. Extract unique tags from database array
-            const uniqueTags = new Set();
+            // 2. Extract unique tags from database array and categorize
+            const SOFTWARE_KEYS = ["Blender", "TouchDesigner", "After Effects", "Stable Diffusion", "ControlNet", "Illustrator", "Photoshop", "InDesign", "ComfyUI", "Midjourney", "Cinema 4D"];
+            
+            const uniqueSoftware = new Set();
+            const uniqueDiscipline = new Set();
+
             PROJECTS_DATA.forEach(proj => {
-                proj.tags.forEach(tag => uniqueTags.add(tag.trim()));
+                proj.tags.forEach(tag => {
+                    const cleanTag = tag.trim();
+                    if (SOFTWARE_KEYS.includes(cleanTag)) {
+                        uniqueSoftware.add(cleanTag);
+                    } else {
+                        uniqueDiscipline.add(cleanTag);
+                    }
+                });
             });
 
             // 3. Create Filter Tag buttons
@@ -775,9 +866,18 @@
             };
 
             const filterButtons = [];
-            Array.from(uniqueTags).sort().forEach(tag => {
+            const softwareContainer = document.getElementById('software-filter-container');
+            const disciplineContainer = document.getElementById('discipline-filter-container');
+
+            Array.from(uniqueSoftware).sort().forEach(tag => {
                 const btn = createFilterBtn(tag);
-                filterContainer.appendChild(btn);
+                softwareContainer.appendChild(btn);
+                filterButtons.push({ element: btn, tag: tag });
+            });
+
+            Array.from(uniqueDiscipline).sort().forEach(tag => {
+                const btn = createFilterBtn(tag);
+                disciplineContainer.appendChild(btn);
                 filterButtons.push({ element: btn, tag: tag });
             });
 
