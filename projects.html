@@ -188,7 +188,7 @@
                 id: "01",
                 title: "Amplified Spaces",
                 descShort: "An exploration of the transition from auditory experience to immersive visual environments. Built bespoke, real-time node systems to translate tracks into simulated architectural installations.",
-                descLong: "Bridging the gap between sound and spatial volume, this project manipulates environmental parameters in real-time. Audio frequencies dictate geometry formation and scaling within TouchDesigner. The dynamic geometry data is fed directly into a 3D gallery context. The final outcome functions as a digital installation, a space where Tom Vernon's auditory textures hold physical, architectural weight.",
+                descLong: "We explore how sound can be given physical presence and structural form. Instead of just listening to music, we wanted to step inside it. By pairing Tom Vernon's textured audio stems with dynamic generative tools, we mapped sound frequencies directly to three-dimensional coordinate paths, letting the sound shape organic geometries. These geometries are then contextualised in bespoke CGI gallery spaces. It's a journey of translating intangible auditory textures into permanent, architectural monuments.",
                 tags: ["TouchDesigner", "Blender"],
                 mediaType: "video",
                 mediaSrc: "https://assets.willvernon.online/projects/01_amplified-spaces/video_trailers/B17AV2_1.mp4",
@@ -196,24 +196,62 @@
                 process: [
                     {
                         num: "01",
-                        title: "Real-time Node Systems",
-                        desc: "Bridging the gap between sound and spatial volume, this project manipulates environmental parameters in real-time. Audio frequencies dictate geometry formation and scaling within TouchDesigner.",
+                        title: "TouchDesigner Node Engine",
+                        desc: "TouchDesigner functions as the central nervous system of this project. It is a node-based visual programming language used for interactive installations and real-time generative art. We imported the multi-track audio stems, analyzed their frequency bands (dividing sound into low-end kick weights, mid-range pads, and high-frequency hats), and mapped those live mathematical values directly into geometry nodes. This allowed the sound itself to sculpt, deform, and scale digital meshes in real-time.",
                         mediaType: "svg",
                         mediaSrc: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225"><defs><filter id="glow1" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><rect width="100%" height="100%" fill="#030303"/><g fill="rgba(255, 255, 255, 0.05)"><circle cx="20" cy="20" r="1"/><circle cx="60" cy="20" r="1"/><circle cx="100" cy="20" r="1"/><circle cx="140" cy="20" r="1"/><circle cx="180" cy="20" r="1"/><circle cx="220" cy="20" r="1"/><circle cx="260" cy="20" r="1"/><circle cx="300" cy="20" r="1"/><circle cx="340" cy="20" r="1"/><circle cx="380" cy="20" r="1"/><circle cx="20" cy="60" r="1"/><circle cx="60" cy="60" r="1"/><circle cx="100" cy="60" r="1"/><circle cx="140" cy="60" r="1"/><circle cx="180" cy="60" r="1"/><circle cx="220" cy="60" r="1"/><circle cx="260" cy="60" r="1"/><circle cx="300" cy="60" r="1"/><circle cx="340" cy="60" r="1"/><circle cx="380" cy="60" r="1"/><circle cx="20" cy="100" r="1"/><circle cx="60" cy="100" r="1"/><circle cx="100" cy="100" r="1"/><circle cx="140" cy="100" r="1"/><circle cx="180" cy="100" r="1"/><circle cx="220" cy="100" r="1"/><circle cx="260" cy="100" r="1"/><circle cx="300" cy="100" r="1"/><circle cx="340" cy="100" r="1"/><circle cx="380" cy="100" r="1"/><circle cx="20" cy="140" r="1"/><circle cx="60" cy="140" r="1"/><circle cx="100" cy="140" r="1"/><circle cx="140" cy="140" r="1"/><circle cx="180" cy="140" r="1"/><circle cx="220" cy="140" r="1"/><circle cx="260" cy="140" r="1"/><circle cx="300" cy="140" r="1"/><circle cx="340" cy="140" r="1"/><circle cx="380" cy="140" r="1"/><circle cx="20" cy="180" r="1"/><circle cx="60" cy="180" r="1"/><circle cx="100" cy="180" r="1"/><circle cx="140" cy="180" r="1"/><circle cx="180" cy="180" r="1"/><circle cx="220" cy="180" r="1"/><circle cx="260" cy="180" r="1"/><circle cx="300" cy="180" r="1"/><circle cx="340" cy="180" r="1"/><circle cx="380" cy="180" r="1"/></g><path d="M90 60 L140 60 M210 60 Q240 60 250 110 L260 110 M90 140 Q130 140 140 90 M210 80 Q240 80 250 130 L260 130 M330 120 L360 120" stroke="rgba(217, 28, 28, 0.4)" stroke-width="1.5" fill="none"/><path d="M210 60 Q240 60 250 110 L260 110" stroke="#D91C1C" stroke-width="1.5" stroke-dasharray="4,4" fill="none" filter="url(#glow1)"><animate attributeName="stroke-dashoffset" values="20;0" dur="2s" repeatCount="indefinite" /></path><rect x="20" y="45" width="70" height="30" rx="3" fill="#0c0a0a" stroke="rgba(255, 255, 255, 0.15)"/><rect x="20" y="45" width="70" height="8" rx="3" fill="#1f1a1a"/><text x="25" y="52" fill="#D91C1C" font-family="Space Mono, monospace" font-size="5.5" font-weight="bold">AUDIO_IN</text><text x="25" y="68" fill="#888" font-family="Space Mono, monospace" font-size="5">track_01.wav</text><rect x="140" y="45" width="70" height="45" rx="3" fill="#0c0a0a" stroke="rgba(255, 255, 255, 0.15)"/><rect x="140" y="45" width="70" height="8" rx="3" fill="#1f1a1a"/><text x="145" y="52" fill="#D91C1C" font-family="Space Mono, monospace" font-size="5.5" font-weight="bold">MATH_REMAP</text><text x="145" y="68" fill="#888" font-family="Space Mono, monospace" font-size="5">multiply: 2.5</text><text x="145" y="78" fill="#888" font-family="Space Mono, monospace" font-size="5">range: 0-1 to 0-10</text><rect x="20" y="125" width="70" height="30" rx="3" fill="#0c0a0a" stroke="rgba(255, 255, 255, 0.15)"/><rect x="20" y="125" width="70" height="8" rx="3" fill="#1f1a1a"/><text x="25" y="132" fill="#D91C1C" font-family="Space Mono, monospace" font-size="5.5" font-weight="bold">ANALYZE_RMS</text><text x="25" y="148" fill="#888" font-family="Space Mono, monospace" font-size="5">rms_power</text><rect x="260" y="105" width="70" height="35" rx="3" fill="#0c0a0a" stroke="#D91C1C" stroke-width="1" filter="url(#glow1)"/><rect x="260" y="105" width="70" height="8" rx="3" fill="#D91C1C"/><text x="265" y="112" fill="#fff" font-family="Space Mono, monospace" font-size="5.5" font-weight="bold">GRID_DEFORM</text><text x="265" y="125" fill="#888" font-family="Space Mono, monospace" font-size="5">rows/cols: 100</text><text x="265" y="133" fill="#fff" font-family="Space Mono, monospace" font-size="5">z = math1</text></svg>`
                     },
                     {
                         num: "02",
-                        title: "3D Space Contextualisation",
-                        desc: "The dynamic geometry data is fed directly into a 3D gallery context. The final outcome functions as a digital installation, a space where auditory textures hold physical, architectural weight.",
-                        mediaType: "image",
-                        mediaSrc: "https://assets.willvernon.online/projects/01_amplified-spaces/renders/Onjuku/Onjuku_Render.png"
+                        title: "Audio-Reactive Waveforms",
+                        desc: "These three visual tracks show the real-time deformative output of our TouchDesigner system, highlighting how different musical stems create completely distinct physical languages. B17 relies on heavy, dense low-end sub-bass and crisp percussion, translating into tightly bounded, aggressive visual impulses. Fading Away is a rolling, deep track where the visual particles glide in soft, wave-like organic structures driven by cinematic atmospheric pads. Onjuku captures a brighter, sun-drenched coastal texture, resulting in highly detailed, structural oscillations. By visually isolating these frequencies, each track develops a unique visual identity that represents the direct signature of its source audio.",
+                        mediaType: "svg",
+                        mediaSrc: `<div class="process-media-grid" style="display: flex; flex-direction: column; gap: 1.25rem; width: 100%; max-height: 480px; overflow-y: auto; padding-right: 0.5rem;">
+                            <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red);">// VIDEO_01: B17</span>
+                                <video src="https://assets.willvernon.online/projects/01_amplified-spaces/video_trailers/B17AV2_1.mp4" controls muted loop playsinline class="process-media-video" style="width: 100%; border-radius: 4px; border: 1px solid var(--bg-700);"></video>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red);">// VIDEO_02: FADING AWAY</span>
+                                <video src="https://assets.willvernon.online/projects/01_amplified-spaces/video_trailers/FadingAwayAV_1.mp4" controls muted loop playsinline class="process-media-video" style="width: 100%; border-radius: 4px; border: 1px solid var(--bg-700);"></video>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 0.35rem;">
+                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red);">// VIDEO_03: ONJUKU</span>
+                                <video src="https://assets.willvernon.online/projects/01_amplified-spaces/video_trailers/Onjuku_1.mp4" controls muted loop playsinline class="process-media-video" style="width: 100%; border-radius: 4px; border: 1px solid var(--bg-700);"></video>
+                            </div>
+                        </div>`
                     },
                     {
                         num: "03",
-                        title: "Generative Outcome Showcase",
-                        desc: "Final structural outcomes are exported at low bitrates to ensure fast playback. Highly detailed, HSL-tailored colours deform organically, reflecting the frequency parameters of specific audio tracks.",
-                        mediaType: "image",
-                        mediaSrc: "https://assets.willvernon.online/projects/01_amplified-spaces/renders/FadingAway/FadingAway_Render.png"
+                        title: "Spatial Exhibition & Gallery Renders",
+                        desc: "To transition from flat visualizer lines to immersive physical spaces, the dynamic geometries were imported into Blender. We designed three distinct virtual gallery wings to house the visuals, inviting viewers to explore the sounds as three-dimensional installations. B17 (Mycelium) is displayed inside a brutalist concrete atrium with harsh structural pillars. Fading Away features soft, curving walls and open ceiling slots where ambient skylight cascades over floating visual meshes. Onjuku takes place in a minimalist coastal concrete pavilion that acts as a physical canvas for the warm, sun-drenched generative patterns. This experimental exhibition shifts the work from sound visualization to a complete spatial, architectural architecture.",
+                        mediaType: "svg",
+                        mediaSrc: `<div class="process-media-grid" style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%; max-height: 480px; overflow-y: auto; padding-right: 0.5rem;">
+                            <!-- B17 (Mycelium) -->
+                            <div>
+                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); display: block; margin-bottom: 0.5rem;">// EXHIBITION_WING_A: B17 (MYCELIUM)</span>
+                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
+                                    <img src="https://assets.willvernon.online/projects/01_amplified-spaces/renders/Mycelium_Healing/Mycelium1.png" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700);" alt="B17 Render 1">
+                                    <img src="https://assets.willvernon.online/projects/01_amplified-spaces/renders/Mycelium_Healing/Mycelium3.png" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700);" alt="B17 Render 2">
+                                </div>
+                            </div>
+                            <!-- Fading Away -->
+                            <div>
+                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); display: block; margin-bottom: 0.5rem;">// EXHIBITION_WING_B: FADING AWAY</span>
+                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
+                                    <img src="https://assets.willvernon.online/projects/01_amplified-spaces/renders/FadingAway/FadingAway2.png" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700);" alt="Fading Away Render 1">
+                                    <img src="https://assets.willvernon.online/projects/01_amplified-spaces/renders/FadingAway/FadingAway4.png" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700);" alt="Fading Away Render 2">
+                                </div>
+                            </div>
+                            <!-- Onjuku -->
+                            <div>
+                                <span style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); display: block; margin-bottom: 0.5rem;">// EXHIBITION_WING_C: ONJUKU</span>
+                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.5rem;">
+                                    <img src="https://assets.willvernon.online/projects/01_amplified-spaces/renders/Onjuku/Onjuku1.png" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700);" alt="Onjuku Render 1">
+                                    <img src="https://assets.willvernon.online/projects/01_amplified-spaces/renders/Onjuku/Onjuku3.png" class="process-media-img" style="border-radius: 4px; border: 1px solid var(--bg-700);" alt="Onjuku Render 2">
+                                </div>
+                            </div>
+                        </div>`
                     }
                 ]
             },
