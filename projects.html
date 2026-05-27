@@ -267,7 +267,7 @@
                 title: "Handheld Stories",
                 descShort: "An interactive digital exhibition for the British Museum's Netsuke collection, reimagining traditional museum displays into tactile storytelling walkthroughs.",
                 descLong: "This project reimagines the traditional museum experience for the British Museum's Edo-period Netsuke carvings. By gathering 3D Sketchfab models and rotoscoping assets, I designed a fluid digital catalog concept. To represent the user's journey, I directed and sequenced a high-fidelity motion simulation showing interactive tactile transitions.",
-                tags: ["After Effects", "UI/UX", "Motion Design", "Typography", "3D Design"],
+                tags: ["After Effects", "UI/UX", "Motion Design", "Typography", "Premiere Pro", "Photoshop"],
                 mediaType: "video",
                 mediaSrc: "https://assets.willvernon.online/projects/02_handheld-stories/assets/Vernon_HandheldStories_GDES6004.mp4",
                 outcomeLabel: "Simulation Showcase",
@@ -561,7 +561,7 @@
                 });
 
                 // Build software & discipline sidebar sections
-                const SOFTWARE_KEYS = ["Blender", "TouchDesigner", "After Effects", "Stable Diffusion", "ControlNet", "Illustrator", "Photoshop", "InDesign", "ComfyUI", "Midjourney", "Cinema 4D"];
+                const SOFTWARE_KEYS = ["Blender", "TouchDesigner", "After Effects", "Stable Diffusion", "ControlNet", "Illustrator", "Photoshop", "InDesign", "ComfyUI", "Midjourney", "Cinema 4D", "Premiere Pro"];
                 
                 const softwareTags = proj.tags.filter(t => SOFTWARE_KEYS.includes(t));
                 const disciplineTags = proj.tags.filter(t => !SOFTWARE_KEYS.includes(t));
@@ -595,7 +595,8 @@
                     "Photoshop": "Ps",
                     "InDesign": "Id",
                     "ControlNet": "Cn",
-                    "Cinema 4D": "C4d"
+                    "Cinema 4D": "C4d",
+                    "Premiere Pro": "Pr"
                 };
 
                 const disciplinesHtml = disciplineTags.map(tag => {
@@ -618,8 +619,8 @@
                     if (logoUrl) {
                         visualHtml = `<img src="${logoUrl}" alt="${tag}" class="software-logo">`;
                     } else if (badgeText) {
-                        const colorClass = tag === 'After Effects' ? '#31006f' : tag === 'Illustrator' ? '#330000' : tag === 'Photoshop' ? '#001c3a' : tag === 'InDesign' ? '#490022' : '#0f0f0f';
-                        const textCol = tag === 'After Effects' ? '#d1b3ff' : tag === 'Illustrator' ? '#ff9999' : tag === 'Photoshop' ? '#8bc5ff' : tag === 'InDesign' ? '#ff8bc5' : 'var(--accent-red)';
+                        const colorClass = tag === 'After Effects' ? '#31006f' : tag === 'Illustrator' ? '#330000' : tag === 'Photoshop' ? '#001c3a' : tag === 'InDesign' ? '#490022' : tag === 'Premiere Pro' ? '#160030' : '#0f0f0f';
+                        const textCol = tag === 'After Effects' ? '#d1b3ff' : tag === 'Illustrator' ? '#ff9999' : tag === 'Photoshop' ? '#8bc5ff' : tag === 'InDesign' ? '#ff8bc5' : tag === 'Premiere Pro' ? '#d8b3ff' : 'var(--accent-red)';
                         visualHtml = `
                             <div class="software-badge" style="background: ${colorClass}; color: ${textCol};">
                                 ${badgeText}
@@ -843,7 +844,7 @@
             });
 
             // 2. Extract unique tags from database array and categorize
-            const SOFTWARE_KEYS = ["Blender", "TouchDesigner", "After Effects", "Stable Diffusion", "ControlNet", "Illustrator", "Photoshop", "InDesign", "ComfyUI", "Midjourney", "Cinema 4D"];
+            const SOFTWARE_KEYS = ["Blender", "TouchDesigner", "After Effects", "Stable Diffusion", "ControlNet", "Illustrator", "Photoshop", "InDesign", "ComfyUI", "Midjourney", "Cinema 4D", "Premiere Pro"];
             
             const uniqueSoftware = new Set();
             const uniqueDiscipline = new Set();
