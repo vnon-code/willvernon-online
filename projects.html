@@ -226,6 +226,7 @@
                         num: "05",
                         title: "Exhibition Gallery",
                         desc: "To transition from flat visualizer lines to immersive physical spaces, the dynamic geometries were imported into Blender. We designed virtual gallery wings to house the visuals, inviting viewers to explore the sounds as three-dimensional installations. Fading Away features soft, curving walls and open ceiling slots where ambient skylight cascades over floating visual meshes. Onjuku takes place in a minimalist coastal concrete pavilion that acts as a physical canvas for the warm, sun-drenched generative patterns.",
+                        mediaType: "svg",
                         mediaSrc: `<div class="process-media-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; width: 100%; height: 100%; box-sizing: border-box; align-content: center;">
                             <!-- B17 Column -->
                             <div style="display: flex; flex-direction: column; gap: 0.35rem;">
@@ -694,7 +695,6 @@
                     canvasMedia.innerHTML = mediaHtml;
 
                     // Bind hover events to scramble titles on active step load if desired
-                    const titleText = document.getElementById('active-step-title');
                     scrambleText(titleText, 0.5);
                 };
 
