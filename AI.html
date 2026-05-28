@@ -83,109 +83,96 @@
                 </div>
             </div>
 
-            <!-- Ethos Callout based on Artificial Acceptance Essay -->
-            <div class="ai-ethos-wrapper">
-                <div class="ai-ethos-quote">
-                    "AI should be treated as a collaborator to enhance and improve elements of the design process, from concepting ideas to refining outcomes. It should not be treated as a competitor within the design industry. Whilst there are clear pitfalls in the ethics and regulations behind generative models being trained on artwork without the consent of human artists, I am optimistic that truly innovative AI applications will benefit the industry."
-                    <span style="display:block; font-family:var(--font-mono); font-size:0.75rem; color:var(--text-muted); margin-top:0.75rem; text-transform:uppercase;">
-                        — William Vernon, Ethos &amp; Creative Stance
-                    </span>
+            <!-- Ethos Summary: Simple summary intro paragraph of text -->
+            <p class="text-gray-300 leading-relaxed text-lg mb-12" style="max-width: 900px;">
+                AI should be treated as a collaborator to enhance and improve elements of the design process from concepting ideas to refining outcomes. AI should not be treated as a competitor within the design industry. There are clear pitfalls in the ethics and regulations behind generative models being trained on artwork which has not been consented to by human artists. I have been experimenting with use cases of AI in design projects since 2022. The rate at which AI technology and tools are developing is crazy. I have used many different applications of AI throughout these projects and experiments: everything from direct video and image generation, using ControlNet to create interesting outcomes, and AI-assisted web design. I am optimistic that the truly innovative AI applications will benefit the industry.
+            </p>
+
+            <!-- Deployed Platforms Section (Inside container, matching page margins) -->
+            <div class="ai-tools-directory" style="border-top: 1px solid var(--bg-800); padding-top: 3.5rem; margin-top: 3.5rem;">
+                <div style="display: flex; flex-direction: column; gap: 1rem; width: 100%; margin-bottom: 2rem;">
+                    <span class="font-mono text-accent text-xs uppercase tracking-widest">// DEPLOYED_PLATFORMS_&_MODELS</span>
+                    <h3 class="text-2xl font-bold tracking-tight uppercase" style="color: #fff; margin: 0;">Platform & Model Directory</h3>
                 </div>
-                <p class="text-gray-500 leading-relaxed text-sm">
-                    I have been experimenting with use cases of AI in design projects since 2022. The rate at which AI technology and tools are developing is crazy. Throughout these projects and experiments, I have explored a wide range of applications: everything from direct video and image generation, using ControlNet to create interesting outcomes, to AI-assisted web design. Under this collaborative approach, the designer's direction remains the central steering force, utilizing these emerging technologies as powerful augmentative creative tools.
-                </p>
-            </div>
 
-            <!-- Tools Directory with Styled Brand SVG Logos -->
-            <div class="ai-tools-directory">
-                <span class="font-mono text-accent text-xs uppercase tracking-widest">// DEPLOYED_PLATFORMS_&_MODELS</span>
-                <h3 class="text-2xl font-bold tracking-tight uppercase mt-2 mb-8">Platform & Model Directory</h3>
-                
-                <div class="ai-tools-grid">
-                    
-                    <!-- Midjourney -->
-                    <div class="ai-tool-badge">
-                        <div class="ai-tool-icon">
-                            <!-- Custom Styled Midjourney Logo (Boat/Ship sails SVG) -->
-                            <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="1.5" class="w-8 h-8">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
-                                <path d="M5.5 12h13" stroke-linecap="round" />
-                            </svg>
+                <!-- Scrolling logo carousel (inside container, doesn't go over margins) -->
+                <div class="marquee-container" id="logo-marquee" style="max-width: none; width: 100%; border-left: 1px solid var(--bg-700); border-right: 1px solid var(--bg-700); border-radius: 0.5rem; background: rgba(10, 10, 10, 0.45); margin: 0 0 1.5rem 0; padding: 1.5rem 0;">
+                    <div class="marquee-track">
+                        <!-- Group 1 -->
+                        <div class="marquee-group">
+                            <div class="marquee-logo active" data-tool="midjourney">
+                                <img src="img/logos/Midjourney.png" alt="Midjourney">
+                            </div>
+                            <div class="marquee-logo" data-tool="flux">
+                                <img src="img/logos/Black Forest Labs Flux.png" alt="Flux">
+                            </div>
+                            <div class="marquee-logo" data-tool="sdxl">
+                                <img src="img/logos/Stability AI SDXL.png" alt="SDXL">
+                            </div>
+                            <div class="marquee-logo" data-tool="comfyui">
+                                <img src="img/logos/ComfyUI.png" alt="ComfyUI">
+                            </div>
+                            <div class="marquee-logo" data-tool="hidream">
+                                <img src="img/logos/HiDream AI.png" alt="HiDream AI">
+                            </div>
+                            <div class="marquee-logo" data-tool="gemini">
+                                <img src="img/logos/Google Gemini.png" alt="Google Gemini">
+                            </div>
+                            <div class="marquee-logo" data-tool="antigravity">
+                                <img src="img/logos/Google Anti-Gravity.png" alt="Google Anti-Gravity">
+                            </div>
+                            <div class="marquee-logo" data-tool="firefly">
+                                <img src="img/logos/Adobe Firefly.png" alt="Adobe Firefly">
+                            </div>
+                            <div class="marquee-logo" data-tool="elevenlabs">
+                                <img src="img/logos/Eleven Labs.png" alt="Eleven Labs">
+                            </div>
                         </div>
-                        <span class="ai-tool-name">Midjourney</span>
-                        <span class="ai-tool-desc">Text-to-Image / V6 RAW Engine</span>
-                    </div>
-
-                    <!-- ComfyUI -->
-                    <div class="ai-tool-badge">
-                        <div class="ai-tool-icon">
-                            <!-- Custom Node Flow SVG representing ComfyUI -->
-                            <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="1.5" class="w-8 h-8">
-                                <rect x="3" y="3" width="6" height="6" rx="1" />
-                                <rect x="15" y="15" width="6" height="6" rx="1" />
-                                <circle cx="6" cy="18" r="3" />
-                                <path d="M9 6h3a3 3 0 013 3v6" stroke-dasharray="2 2" />
-                                <path d="M6 15v-6" />
-                            </svg>
+                        <!-- Group 2 -->
+                        <div class="marquee-group" aria-hidden="true">
+                            <div class="marquee-logo" data-tool="midjourney">
+                                <img src="img/logos/Midjourney.png" alt="Midjourney">
+                            </div>
+                            <div class="marquee-logo" data-tool="flux">
+                                <img src="img/logos/Black Forest Labs Flux.png" alt="Flux">
+                            </div>
+                            <div class="marquee-logo" data-tool="sdxl">
+                                <img src="img/logos/Stability AI SDXL.png" alt="SDXL">
+                            </div>
+                            <div class="marquee-logo" data-tool="comfyui">
+                                <img src="img/logos/ComfyUI.png" alt="ComfyUI">
+                            </div>
+                            <div class="marquee-logo" data-tool="hidream">
+                                <img src="img/logos/HiDream AI.png" alt="HiDream AI">
+                            </div>
+                            <div class="marquee-logo" data-tool="gemini">
+                                <img src="img/logos/Google Gemini.png" alt="Google Gemini">
+                            </div>
+                            <div class="marquee-logo" data-tool="antigravity">
+                                <img src="img/logos/Google Anti-Gravity.png" alt="Google Anti-Gravity">
+                            </div>
+                            <div class="marquee-logo" data-tool="firefly">
+                                <img src="img/logos/Adobe Firefly.png" alt="Adobe Firefly">
+                            </div>
+                            <div class="marquee-logo" data-tool="elevenlabs">
+                                <img src="img/logos/Eleven Labs.png" alt="Eleven Labs">
+                            </div>
                         </div>
-                        <span class="ai-tool-name">ComfyUI</span>
-                        <span class="ai-tool-desc">Node-Based Pipeline Design</span>
                     </div>
+                </div>
 
-                    <!-- Flux.1 Dev -->
-                    <div class="ai-tool-badge">
-                        <div class="ai-tool-icon">
-                            <!-- Clean Neural Model SVG for Flux -->
-                            <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="1.5" class="w-8 h-8">
-                                <circle cx="12" cy="5" r="2.5" />
-                                <circle cx="5" cy="12" r="2.5" />
-                                <circle cx="19" cy="12" r="2.5" />
-                                <circle cx="12" cy="19" r="2.5" />
-                                <path d="M12 7.5v9M7.5 12h9M6.7 6.7l10.6 10.6" />
-                            </svg>
-                        </div>
-                        <span class="ai-tool-name">Flux.1 Dev</span>
-                        <span class="ai-tool-desc">Open-Source Base Diffusion</span>
+                <!-- Synced HUD Info Card -->
+                <div class="ai-hud-card" id="ai-hud-card" style="max-width: none; border-left: 2px solid var(--accent-red); margin-top: 1.5rem; background: rgba(10, 10, 10, 0.45); min-height: 140px; height: auto;">
+                    <div class="hud-panel-header" style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--bg-700); padding-bottom: 0.5rem;">
+                        <span class="hud-spec-label" style="font-family: var(--font-mono); font-size: 0.625rem; color: var(--text-muted); letter-spacing: 0.1em; text-transform: uppercase;">ACTIVE_PLATFORM_SPEC</span>
+                        <span class="font-mono text-accent text-xs uppercase" id="hud-tool-company">[ MIDJOURNEY INC. ]</span>
                     </div>
-
-                    <!-- Wan 2.2 -->
-                    <div class="ai-tool-badge">
-                        <div class="ai-tool-icon">
-                            <!-- Motion/Velocity Vectors SVG for Wan -->
-                            <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="1.5" class="w-8 h-8">
-                                <path d="M3 12h18M15 5l7 7-7 7M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </div>
-                        <span class="ai-tool-name">Wan 2.2</span>
-                        <span class="ai-tool-desc">Temporal Video Inference</span>
+                    <div class="hud-spec-row">
+                        <h4 class="text-xl font-bold uppercase text-white" id="hud-tool-title" style="margin: 0 0 0.5rem 0;">Midjourney</h4>
+                        <p class="hud-spec-val" id="hud-tool-apps" style="font-family: var(--font-sans); font-size: 0.85rem; color: var(--text-gray-400); line-height: 1.6; margin: 0;">
+                            Generating high-quality concept art, storyboards for videos and detailed textures for design projects.
+                        </p>
                     </div>
-
-                    <!-- HiDream -->
-                    <div class="ai-tool-badge">
-                        <div class="ai-tool-icon">
-                            <!-- Dream/Styling Starburst SVG for HiDream -->
-                            <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="1.5" class="w-8 h-8">
-                                <path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" stroke-linecap="round" stroke-linejoin="round" />
-                            </svg>
-                        </div>
-                        <span class="ai-tool-name">HiDream</span>
-                        <span class="ai-tool-desc">Artistic Styling Weights</span>
-                    </div>
-
-                    <!-- Luma Dream -->
-                    <div class="ai-tool-badge">
-                        <div class="ai-tool-icon">
-                            <!-- Frame Camera/Cinematography SVG for Luma -->
-                            <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent-red)" stroke-width="1.5" class="w-8 h-8">
-                                <rect x="3" y="6" width="12" height="12" rx="2" />
-                                <path d="M15 10l6-4v12l-6-4" stroke-linejoin="round" />
-                            </svg>
-                        </div>
-                        <span class="ai-tool-name">Luma D.M.</span>
-                        <span class="ai-tool-desc">Frame Interpolation</span>
-                    </div>
-
                 </div>
             </div>
         </section>
@@ -805,6 +792,103 @@
         mobileMenuBtn.addEventListener('click', toggleMenu);
         closeMenuBtn.addEventListener('click', toggleMenu);
         mobileLinks.forEach(link => link.addEventListener('click', toggleMenu));
+
+        // --- Interactive AI Toolset HUD Logic ---
+        const AI_TOOLSET_DATA = {
+            midjourney: {
+                title: "Midjourney",
+                company: "Midjourney Inc.",
+                apps: "Generating high-quality concept art, storyboards for videos and detailed textures for design projects."
+            },
+            flux: {
+                title: "Flux",
+                company: "Black Forest Labs",
+                apps: "Creating extremely realistic images and scenes with clear, readable text in the design."
+            },
+            sdxl: {
+                title: "SDXL",
+                company: "Stability AI",
+                apps: "Designing custom graphics and maintaining a consistent style across a series of images."
+            },
+            comfyui: {
+                title: "ComfyUI",
+                company: "ComfyUI Community",
+                apps: "Building custom visual styles and creating intricate, organic patterns for art installations."
+            },
+            hidream: {
+                title: "HiDream AI",
+                company: "HiDream.ai",
+                apps: "Expanding existing images beyond their borders and adding rich, natural details to artwork."
+            },
+            gemini: {
+                title: "Gemini",
+                company: "Google",
+                apps: "Assisting with coding, optimising website layouts and brainstorming creative design ideas."
+            },
+            antigravity: {
+                title: "Antigravity",
+                company: "Google DeepMind",
+                apps: "Managing website styling, automating file uploads and coordinating smooth code deployments."
+            },
+            firefly: {
+                title: "Adobe Firefly",
+                company: "Adobe",
+                apps: "Quickly testing different layout ideas, recolouring artwork and creating graphic mockups."
+            },
+            elevenlabs: {
+                title: "ElevenLabs",
+                company: "ElevenLabs",
+                apps: "Generating natural-sounding voiceovers, sound effects and custom background audio."
+            }
+        };
+
+        const hudCard = document.getElementById('ai-hud-card');
+        const hudTitle = document.getElementById('hud-tool-title');
+        const hudCompany = document.getElementById('hud-tool-company');
+        const hudApps = document.getElementById('hud-tool-apps');
+        const marqueeLogos = document.querySelectorAll('.marquee-logo');
+
+        let activeTool = 'midjourney';
+        let updateTimeout = null;
+
+        function updateHUD(toolKey) {
+            if (activeTool === toolKey) return;
+            activeTool = toolKey;
+
+            const data = AI_TOOLSET_DATA[toolKey];
+            if (!data) return;
+
+            // Trigger HUD shift-fade transition class
+            hudCard.classList.add('updating');
+
+            // Sync active state styling across both original and cloned logos in marquee
+            marqueeLogos.forEach(logo => {
+                if (logo.getAttribute('data-tool') === toolKey) {
+                    logo.classList.add('active');
+                } else {
+                    logo.classList.remove('active');
+                }
+            });
+
+            if (updateTimeout) clearTimeout(updateTimeout);
+
+            updateTimeout = setTimeout(() => {
+                // Update visual content
+                hudTitle.textContent = data.title;
+                hudCompany.textContent = `[ ${data.company.toUpperCase()} ]`;
+                hudApps.textContent = data.apps;
+
+                // End transition to fade back in
+                hudCard.classList.remove('updating');
+            }, 150);
+        }
+
+        marqueeLogos.forEach(logo => {
+            logo.addEventListener('mouseenter', () => {
+                const toolKey = logo.getAttribute('data-tool');
+                updateHUD(toolKey);
+            });
+        });
 
         // --- Character Text Scrambler System (Options 1, 2, 3, 4) ---
         const technicalChars = "01XY/[]_#&@$%?><*";
