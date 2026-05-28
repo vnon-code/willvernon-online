@@ -7,7 +7,6 @@ Thumbs.db
 
 # Configuration files
 .wrangler/
-wrangler.jsonc
 *.log
 
 # Ignore large media assets to conform with Cloudflare Workers limits

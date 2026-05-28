@@ -1,0 +1,15 @@
+# Exclude Git files
+.git
+.git*
+.gitignore
+
+# Exclude Wrangler files
+.wrangler
+wrangler.jsonc
+.assetsignore
+
+# Exclude local build files
+node_modules
+
+# Exclude local helper scripts
+upload_to_r2.py
