@@ -2102,32 +2102,676 @@
                 id: "07",
                 title: "The World Plays Here",
                 descShort: "A copy-led campaign for Xbox celebrating the borderless nature of modern gaming. Shifts focus onto the human experience with an inclusive aesthetic and 3D motion design.",
-                descLong: "Designing for a massive global community required an adaptable, culturally agnostic visual approach. The campaign relies heavily on powerful, copy-led storytelling designed to unite players. Kinetic typographic layouts were paired with bold 3D motion design and rendering developed in Cinema 4D and Blender, ensuring the campaign retained maximum energy.",
-                tags: ["Cinema 4D", "Blender", "Campaign", "Motion Design", "3D Design"],
-                mediaType: "image",
-                mediaSrc: "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/LogoAnimGif.gif",
-                outcomeLabel: "Campaign Animated Loop",
+                descLong: "Designing for a massive global community required an adaptable, culturally agnostic visual approach. Grounded in research of copywriting-driven brands, this campaign relies on powerful copy-led storytelling designed to unite players under a shared manifesto: 'The World Plays Here.' Kinetic typographic systems were paired with bold 3D motion design rotating around a simulated Earth globe in Blender, composited cleanly across digital and physical mockups in After Effects.",
+                tags: ["Blender", "After Effects", "Campaign", "Motion Design", "3D Design"],
+                mediaType: "video",
+                mediaSrc: "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/TheWorldPlaysHere2_1.mp4",
+                outcomeLabel: "Kinetic Typography Animation",
                 process: [
                     {
                         num: "01",
-                        title: "Global Storytelling & Copy",
-                        desc: "Designing for a massive global community required an adaptable, culturally agnostic visual approach. The campaign relies heavily on powerful, copy-led storytelling designed to unite players.",
-                        mediaType: "svg",
-                        mediaSrc: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225"><rect width="100%" height="100%" fill="#030303"/><rect x="50" y="30" width="300" height="160" fill="none" stroke="rgba(255,255,255,0.06)"/><line x1="50" y1="80" x2="350" y2="80" stroke="rgba(255,255,255,0.06)"/><text x="60" y="60" fill="#fff" font-family="Space Grotesk, sans-serif" font-weight="bold" font-size="12">THE WORLD PLAYS HERE.</text><g fill="rgba(255,255,255,0.4)" font-family="Space Mono, monospace" font-size="5"><text x="60" y="100">■ JAPANESE: 世界は여기서 놀다</text><text x="60" y="115">■ KOREAN: 세상은 여기서 플레이한다</text><text x="60" y="130">■ SPANISH: EL MUNDO JUEGA AQUÍ</text></g><line x1="50" y1="25" x2="50" y2="195" stroke="#D91C1C" stroke-width="0.5" stroke-dasharray="2,2"/><text x="32" y="112" fill="#D91C1C" font-family="Space Mono, monospace" font-size="4">GRID_MARGIN</text></svg>`
+                        title: "About the D&AD Brief",
+                        desc: "The D&AD brief challenged creatives to design a copy-led campaign celebrating gamers wherever and however they play ('Play Anywhere'). Xbox believes that games are about people and human experiences, not hardware, software, or static boxes. The goal was to reach diverse gaming niches around the globe (RPG, cosy-core, shooters) and build an emotional connection of shared belonging. Slogan development led to 'The World Plays Here', reframing the campaign around community and global inclusion.",
+                        mediaSrc: "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/dand_logo.jpg"
                     },
                     {
                         num: "02",
-                        title: "Kinetic Typography Screen Mocks",
-                        desc: "Kinetic typographical systems are prototyped and animated inside After Effects, then contextualized across digital laptop and mobile device screens to test scale and responsive grids.",
-                        mediaType: "image",
-                        mediaSrc: "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/LaptopMock1.png"
+                        title: "Blender 3D Modeling & Setup",
+                        desc: "Translating the copy-first concept into 3D motion involved importing an Earth model and enveloping it in a spherical representation of the Xbox logo. To animate this concept, I separate the single-mesh logo into four distinct quadrants. I manually reset origin points to the Earth's geometric center for clean curves, worked in orthographic view for precise Y-axis pivot alignment, added cloud rotations, and fine-tuned spatial lighting. Below you can explore the complete matrix of 12 high-resolution workspace progress captures in our interactive grid gallery.",
+                        mediaType: "svg",
+                        mediaSrc: `<div style="display: flex; flex-direction: column; width: 100%; box-sizing: border-box; padding: 1.5rem; background: #030303; border-radius: 8px; border: 1px solid rgba(255,255,255,0.03);">
+                            <style>
+                                .xbox-grid-gallery {
+                                    display: grid;
+                                    grid-template-columns: repeat(4, 1fr);
+                                    gap: 1rem;
+                                    width: 100%;
+                                    margin-top: 1rem;
+                                    box-sizing: border-box;
+                                }
+                                @media (max-width: 1024px) {
+                                    .xbox-grid-gallery {
+                                        grid-template-columns: repeat(3, 1fr);
+                                    }
+                                }
+                                @media (max-width: 768px) {
+                                    .xbox-grid-gallery {
+                                        grid-template-columns: repeat(2, 1fr);
+                                    }
+                                }
+                                @media (max-width: 480px) {
+                                    .xbox-grid-gallery {
+                                        grid-template-columns: 1fr;
+                                    }
+                                }
+                                .xbox-grid-card {
+                                    background: #000;
+                                    border: 1px solid rgba(255, 255, 255, 0.05);
+                                    border-radius: 6px;
+                                    overflow: hidden;
+                                    display: flex;
+                                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                                    cursor: zoom-in;
+                                    aspect-ratio: 1250/660;
+                                }
+                                .xbox-grid-card:hover {
+                                    transform: translateY(-4px);
+                                    border-color: #D91C1C;
+                                    box-shadow: 0 12px 24px rgba(217, 28, 28, 0.15);
+                                }
+                                .xbox-grid-card img {
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: contain;
+                                    display: block;
+                                    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+                                }
+                                .xbox-grid-card:hover img {
+                                    transform: scale(1.03);
+                                }
+                            </style>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.75rem; margin-bottom: 1rem; flex-shrink: 0;">
+                                <div style="font-family: var(--font-mono); font-size: 0.7rem; color: rgba(255,255,255,0.4); text-transform: uppercase;">[ Blender 3D Evolution Matrix ]</div>
+                                <div style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent-red); text-transform: uppercase;">[ 12 High-Res Workspace Captures ]</div>
+                            </div>
+                            
+                            <div class="xbox-grid-gallery">
+                                <div class="xbox-grid-card" onclick="window.openXboxLightbox('https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process1.jpg')">
+                                    <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process1.jpg" alt="Blender Process 1">
+                                </div>
+                                <div class="xbox-grid-card" onclick="window.openXboxLightbox('https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process2.jpg')">
+                                    <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process2.jpg" alt="Blender Process 2">
+                                </div>
+                                <div class="xbox-grid-card" onclick="window.openXboxLightbox('https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process3.jpg')">
+                                    <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process3.jpg" alt="Blender Process 3">
+                                </div>
+                                <div class="xbox-grid-card" onclick="window.openXboxLightbox('https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process4.jpg')">
+                                    <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process4.jpg" alt="Blender Process 4">
+                                </div>
+                                <div class="xbox-grid-card" onclick="window.openXboxLightbox('https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process5.jpg')">
+                                    <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process5.jpg" alt="Blender Process 5">
+                                </div>
+                                <div class="xbox-grid-card" onclick="window.openXboxLightbox('https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process6.jpg')">
+                                    <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process6.jpg" alt="Blender Process 6">
+                                </div>
+                                <div class="xbox-grid-card" onclick="window.openXboxLightbox('https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process7.jpg')">
+                                    <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process7.jpg" alt="Blender Process 7">
+                                </div>
+                                <div class="xbox-grid-card" onclick="window.openXboxLightbox('https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process8.jpg')">
+                                    <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process8.jpg" alt="Blender Process 8">
+                                </div>
+                                <div class="xbox-grid-card" onclick="window.openXboxLightbox('https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process9.jpg')">
+                                    <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process9.jpg" alt="Blender Process 9">
+                                </div>
+                                <div class="xbox-grid-card" onclick="window.openXboxLightbox('https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process10.jpg')">
+                                    <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process10.jpg" alt="Blender Process 10">
+                                </div>
+                                <div class="xbox-grid-card" onclick="window.openXboxLightbox('https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process11.jpg')">
+                                    <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process11.jpg" alt="Blender Process 11">
+                                </div>
+                                <div class="xbox-grid-card" onclick="window.openXboxLightbox('https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process12.jpg')">
+                                    <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process12.jpg" alt="Blender Process 12">
+                                </div>
+                            </div>
+                            
+                            <script>
+                                window.openXboxLightbox = (src) => {
+                                    let lb = document.getElementById('xbox-lightbox');
+                                    if (!lb) {
+                                        lb = document.createElement('div');
+                                        lb.id = 'xbox-lightbox';
+                                        lb.style.cssText = 'position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(2,2,2,0.95); z-index: 99999; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; padding: 2rem; box-sizing: border-box;';
+                                        lb.innerHTML = '<button onclick=\"window.closeXboxLightbox()\" style=\"position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; color: #fff; font-size: 2.5rem; cursor: pointer; opacity: 0.6; transition: opacity 0.2s; font-family: sans-serif; line-height: 1;\" onmouseover=\"this.style.opacity=1\" onmouseout=\"this.style.opacity=0.6\">&times;</button><div style=\"max-width: 95%; max-height: 90%; display: flex; align-items: center; justify-content: center;\"><img id=\"xbox-lb-img\" src=\"\" style=\"max-width: 100%; max-height: 100%; object-fit: contain; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; box-shadow: 0 20px 50px rgba(0,0,0,0.5);\"></div>';
+                                        document.body.appendChild(lb);
+                                        
+                                        document.addEventListener('keydown', (e) => {
+                                            if (e.key === 'Escape') window.closeXboxLightbox();
+                                        });
+                                        
+                                        lb.addEventListener('click', (e) => {
+                                            if (e.target === lb || e.target.style.position === 'fixed') window.closeXboxLightbox();
+                                        });
+                                    }
+                                    
+                                    document.getElementById('xbox-lb-img').src = src;
+                                    lb.style.pointerEvents = 'auto';
+                                    lb.style.opacity = '1';
+                                };
+
+                                window.closeXboxLightbox = () => {
+                                    const lb = document.getElementById('xbox-lightbox');
+                                    if (lb) {
+                                        lb.style.opacity = '0';
+                                        lb.style.pointerEvents = 'none';
+                                    }
+                                };
+                            <\/script>\n                        </div>`
                     },
                     {
                         num: "03",
-                        title: "Urban OOH Subway Campaigns",
-                        desc: "Final visual outcomes are mapped onto urban environment physical mockups, including massive illuminated subway signs and outdoor bus shelters to showcase global scale.",
-                        mediaType: "image",
-                        mediaSrc: "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxSubway1.png"
+                        title: "AE Compositing & Outcomes",
+                        desc: "Post-production was completed inside After Effects and Premiere Pro. I exported Blender renders as PNG transparent sequences to preserve alpha, designed a gradient-mapped space starfield aligning with Xbox brand guidelines, and resolved grey viewport shadows via opacity-masked brightness corrections. Sound design manually mixes the classic Xbox startup sound with AI-generated voiceover, synced to dynamic rising typography keys. Below, you can browse BOTH the final cinematic video outcome and the isolated logo wrap loop.",
+                        mediaType: "svg",
+                        mediaSrc: `<div style="display: flex; flex-direction: column; width: 100%; height: 100%; box-sizing: border-box; padding: 1.25rem; background: #030303; justify-content: space-between;">
+                            <style>
+                                .xbox-out-container {
+                                    display: flex;
+                                    flex-direction: column;
+                                    width: 100%;
+                                    height: 100%;
+                                    justify-content: space-between;
+                                    box-sizing: border-box;
+                                }
+                                .xbox-out-preview-wrapper {
+                                    flex-grow: 1;
+                                    position: relative;
+                                    width: 100%;
+                                    height: 0;
+                                    padding-bottom: 50.625%;
+                                    background: #000;
+                                    border: 1px solid rgba(255,255,255,0.05);
+                                    border-radius: 4px;
+                                    overflow: hidden;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                }
+                                .xbox-out-preview-wrapper video,
+                                .xbox-out-preview-wrapper img {
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: contain;
+                                }
+                                .xbox-out-preview-wrapper video {
+                                    display: block;
+                                }
+                                .xbox-out-preview-wrapper img {
+                                    display: none;
+                                }
+                                .xbox-out-hud-label {
+                                    position: absolute;
+                                    bottom: 0.75rem;
+                                    left: 0.75rem;
+                                    background: rgba(0,0,0,0.75);
+                                    border: 1px solid rgba(255,255,255,0.1);
+                                    padding: 0.25rem 0.5rem;
+                                    font-family: var(--font-mono);
+                                    font-size: 0.55rem;
+                                    color: rgba(255,255,255,0.8);
+                                    border-radius: 3px;
+                                    pointer-events: none;
+                                    letter-spacing: 0.5px;
+                                    text-transform: uppercase;
+                                    z-index: 5;
+                                }
+                                .xbox-out-thumbs-row {
+                                    display: flex;
+                                    gap: 0.5rem;
+                                    margin-top: 0.75rem;
+                                    flex-shrink: 0;
+                                    justify-content: center;
+                                    width: 100%;
+                                }
+                                .xbox-out-thumb-btn {
+                                    width: 64px;
+                                    height: 42px;
+                                    border-radius: 4px;
+                                    border: 1px solid rgba(255, 255, 255, 0.1);
+                                    background: #111;
+                                    cursor: pointer;
+                                    overflow: hidden;
+                                    padding: 0;
+                                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                                    position: relative;
+                                }
+                                .xbox-out-thumb-btn img,
+                                .xbox-out-thumb-btn video {
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                    opacity: 0.5;
+                                    pointer-events: none;
+                                }
+                                .xbox-out-play-icon {
+                                    position: absolute;
+                                    top: 50%;
+                                    left: 50%;
+                                    transform: translate(-50%, -50%);
+                                    background: rgba(0,0,0,0.6);
+                                    border-radius: 50%;
+                                    width: 20px;
+                                    height: 20px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: #fff;
+                                    font-size: 0.75rem;
+                                    opacity: 0.8;
+                                    pointer-events: none;
+                                }
+                                .xbox-out-thumb-btn:hover {
+                                    transform: translateY(-2px);
+                                    border-color: rgba(255, 255, 255, 0.4);
+                                }
+                                .xbox-out-thumb-btn:hover img,
+                                .xbox-out-thumb-btn:hover video {
+                                    opacity: 0.8;
+                                }
+                                .xbox-out-thumb-btn.active {
+                                    border-color: #D91C1C;
+                                    box-shadow: 0 0 12px rgba(217, 28, 28, 0.35);
+                                }
+                                .xbox-out-thumb-btn.active img,
+                                .xbox-out-thumb-btn.active video {
+                                    opacity: 1;
+                                }
+                                @media (max-width: 480px) {
+                                    .xbox-out-thumb-btn {
+                                        width: 52px;
+                                        height: 35px;
+                                    }
+                                }
+                            </style>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem; margin-bottom: 0.5rem; flex-shrink: 0;">
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: rgba(255,255,255,0.4); text-transform: uppercase;">[ Campaign Dynamic Render Outcomes ]</div>
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); text-transform: uppercase;" id="active-xbox-out-label">[ Full Cinematic Video Outcome ]</div>
+                            </div>
+                            
+                            <div class="xbox-out-container">
+                                <div class="xbox-out-preview-wrapper" id="xbox-out-preview-wrapper">
+                                    <video id="active-xbox-out-video" src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/TheWorldPlaysHere2_1.mp4" autoplay muted loop playsinline controls class="glitch-flash"></video>
+                                    <img id="active-xbox-out-img" src="" alt="Campaign Outcomes" class="glitch-flash" style="display: none;">
+                                    <div id="active-xbox-out-tag" class="xbox-out-hud-label">CINEMATIC // Full Animation Outcome</div>
+                                </div>
+                                
+                                <div class="xbox-out-thumbs-row">
+                                    <button class="xbox-out-thumb-btn active" onclick="
+                                        const vid = document.getElementById('active-xbox-out-video');
+                                        const img = document.getElementById('active-xbox-out-img');
+                                        vid.src = 'https://assets.willvernon.online/projects/07_the-world-plays-here/assets/TheWorldPlaysHere2_1.mp4';
+                                        vid.style.display = 'block';
+                                        vid.play().catch(e => {});
+                                        img.style.display = 'none';
+                                        document.getElementById('active-xbox-out-label').textContent = '[ Full Cinematic Video Outcome ]';
+                                        document.getElementById('active-xbox-out-tag').textContent = 'CINEMATIC // Full Animation Outcome';
+                                        document.querySelectorAll('.xbox-out-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <video src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/TheWorldPlaysHere2_1.mp4" muted></video>
+                                        <div class="xbox-out-play-icon"><i class='ph-fill ph-play'></i></div>
+                                    </button>
+                                    
+                                    <button class="xbox-out-thumb-btn" onclick="
+                                        const vid = document.getElementById('active-xbox-out-video');
+                                        const img = document.getElementById('active-xbox-out-img');
+                                        vid.style.display = 'none';
+                                        vid.pause();
+                                        img.src = 'https://assets.willvernon.online/projects/07_the-world-plays-here/assets/LogoAnimGif.gif';
+                                        img.style.display = 'block';
+                                        document.getElementById('active-xbox-out-label').textContent = '[ Isolated Logo Animation ]';
+                                        document.getElementById('active-xbox-out-tag').textContent = 'LOOP // Logo Wrap GIF';
+                                        document.querySelectorAll('.xbox-out-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/LogoAnimGif.gif" alt="Logo Wrap GIF">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>`
+                    },
+                    {
+                        num: "04",
+                        title: "Urban Out-of-Home Campaigns",
+                        desc: "Physical applications showcase the campaign in realistic high-traffic environments. I recreated glowing topographic contour lines from scratch via cloud rendering and posterized Colour Dodge blend layers. Adaptations include digital subway billboards (featuring a subtle green underline beneath 'PLAYS' to direct focus) and vertical street bus shelter advertisements (re-scaled and rotated 90 degrees). In this section, you can toggle between 6 high-contrast mockups.",
+                        mediaType: "svg",
+                        mediaSrc: `<div style="display: flex; flex-direction: column; width: 100%; height: 100%; box-sizing: border-box; padding: 1.25rem; background: #030303; justify-content: space-between;">
+                            <style>
+                                .xbox-ooh-container {
+                                    display: flex;
+                                    flex-direction: column;
+                                    width: 100%;
+                                    height: 100%;
+                                    justify-content: space-between;
+                                    box-sizing: border-box;
+                                }
+                                .xbox-ooh-preview-wrapper {
+                                    flex-grow: 1;
+                                    position: relative;
+                                    width: 100%;
+                                    height: 0;
+                                    padding-bottom: 50.625%;
+                                    background: #000;
+                                    border: 1px solid rgba(255,255,255,0.05);
+                                    border-radius: 4px;
+                                    overflow: hidden;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                }
+                                .xbox-ooh-preview-wrapper img {
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: contain;
+                                }
+                                .xbox-ooh-hud-label {
+                                    position: absolute;
+                                    bottom: 0.75rem;
+                                    left: 0.75rem;
+                                    background: rgba(0,0,0,0.75);
+                                    border: 1px solid rgba(255,255,255,0.1);
+                                    padding: 0.25rem 0.5rem;
+                                    font-family: var(--font-mono);
+                                    font-size: 0.55rem;
+                                    color: rgba(255,255,255,0.8);
+                                    border-radius: 3px;
+                                    pointer-events: none;
+                                    letter-spacing: 0.5px;
+                                    text-transform: uppercase;
+                                }
+                                .xbox-ooh-thumbs-row {
+                                    display: flex;
+                                    gap: 0.35rem;
+                                    margin-top: 0.75rem;
+                                    flex-shrink: 0;
+                                    justify-content: center;
+                                    width: 100%;
+                                }
+                                .xbox-ooh-thumb-btn {
+                                    width: 52px;
+                                    height: 35px;
+                                    border-radius: 4px;
+                                    border: 1px solid rgba(255, 255, 255, 0.1);
+                                    background: #111;
+                                    cursor: pointer;
+                                    overflow: hidden;
+                                    padding: 0;
+                                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                                    position: relative;
+                                }
+                                .xbox-ooh-thumb-btn img {
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                    opacity: 0.5;
+                                }
+                                .xbox-ooh-thumb-btn:hover {
+                                    transform: translateY(-2px);
+                                    border-color: rgba(255, 255, 255, 0.4);
+                                }
+                                .xbox-ooh-thumb-btn:hover img {
+                                    opacity: 0.8;
+                                }
+                                .xbox-ooh-thumb-btn.active {
+                                    border-color: #D91C1C;
+                                    box-shadow: 0 0 12px rgba(217, 28, 28, 0.35);
+                                }
+                                .xbox-ooh-thumb-btn.active img {
+                                    opacity: 1;
+                                }
+                                @media (max-width: 480px) {
+                                    .xbox-ooh-thumb-btn {
+                                        width: 36px;
+                                        height: 24px;
+                                    }
+                                }
+                            </style>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem; margin-bottom: 0.5rem; flex-shrink: 0;">
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: rgba(255,255,255,0.4); text-transform: uppercase;">[ OOH MEDIA // STREET & TRANSIT CAMPAIGNS ]</div>
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); text-transform: uppercase;" id="active-xbox-ooh-label">[ Subway Mockup 1 ]</div>
+                            </div>
+                            
+                            <div class="xbox-ooh-container">
+                                <div class="xbox-ooh-preview-wrapper">
+                                    <img id="active-xbox-ooh-img" src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxSubway1.png" alt="OOH Campaign">
+                                    <div id="active-xbox-ooh-tag" class="xbox-ooh-hud-label">EXECUTION_01 // Subway Terminal</div>
+                                </div>
+                                
+                                <div class="xbox-ooh-thumbs-row">
+                                    <button class="xbox-ooh-thumb-btn active" onclick="
+                                        document.getElementById('active-xbox-ooh-img').src = 'https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxSubway1.png';
+                                        document.getElementById('active-xbox-ooh-label').textContent = '[ Subway Mockup 1 ]';
+                                        document.getElementById('active-xbox-ooh-tag').textContent = 'EXECUTION_01 // Subway Terminal';
+                                        document.querySelectorAll('.xbox-ooh-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxSubway1.png" alt="Subway 1">
+                                    </button>
+                                    <button class="xbox-ooh-thumb-btn" onclick="
+                                        document.getElementById('active-xbox-ooh-img').src = 'https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxSubway2.png';
+                                        document.getElementById('active-xbox-ooh-label').textContent = '[ Subway Mockup 2 ]';
+                                        document.getElementById('active-xbox-ooh-tag').textContent = 'EXECUTION_02 // Subway Corridor';
+                                        document.querySelectorAll('.xbox-ooh-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxSubway2.png" alt="Subway 2">
+                                    </button>
+                                    <button class="xbox-ooh-thumb-btn" onclick="
+                                        document.getElementById('active-xbox-ooh-img').src = 'https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxSubway3.png';
+                                        document.getElementById('active-xbox-ooh-label').textContent = '[ Subway Mockup 3 ]';
+                                        document.getElementById('active-xbox-ooh-tag').textContent = 'EXECUTION_03 // Platform Digital';
+                                        document.querySelectorAll('.xbox-ooh-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxSubway3.png" alt="Subway 3">
+                                    </button>
+                                    <button class="xbox-ooh-thumb-btn" onclick="
+                                        document.getElementById('active-xbox-ooh-img').src = 'https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxBusStop1.png';
+                                        document.getElementById('active-xbox-ooh-label').textContent = '[ Bus Shelter 1 ]';
+                                        document.getElementById('active-xbox-ooh-tag').textContent = 'EXECUTION_04 // Bus Shelter Night';
+                                        document.querySelectorAll('.xbox-ooh-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxBusStop1.png" alt="Bus Stop 1">
+                                    </button>
+                                    <button class="xbox-ooh-thumb-btn" onclick="
+                                        document.getElementById('active-xbox-ooh-img').src = 'https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxBusStop2.png';
+                                        document.getElementById('active-xbox-ooh-label').textContent = '[ Bus Shelter 2 ]';
+                                        document.getElementById('active-xbox-ooh-tag').textContent = 'EXECUTION_05 // Bus Shelter Day';
+                                        document.querySelectorAll('.xbox-ooh-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxBusStop2.png" alt="Bus Stop 2">
+                                    </button>
+                                    <button class="xbox-ooh-thumb-btn" onclick="
+                                        document.getElementById('active-xbox-ooh-img').src = 'https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/BusStopDesign.png';
+                                        document.getElementById('active-xbox-ooh-label').textContent = '[ Core Poster Artwork ]';
+                                        document.getElementById('active-xbox-ooh-tag').textContent = 'ARTWORK // Bus Stop Poster';
+                                        document.querySelectorAll('.xbox-ooh-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/BusStopDesign.png" alt="Bus Stop Design">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>`
+                    },
+                    {
+                        num: "05",
+                        title: "Responsive Multi-Device Adaptations",
+                        desc: "Digital extensions showcase how the campaign is adapted for social and online feeds. The YouTube mockup simulates a sidebar video ad, built by keying out active video blocks on genuine desktop screenshots to retain native browser player controls and surrounding page elements. Mobile Instagram designs integrate portrait posters into phone mockups, removing black borders via color keying and layering official Xbox profile branding for ultimate credibility. In this section, you can toggle between 7 high-resolution device mockups.",
+                        mediaType: "svg",
+                        mediaSrc: `<div style="display: flex; flex-direction: column; width: 100%; height: 100%; box-sizing: border-box; padding: 1.25rem; background: #030303; justify-content: space-between;">
+                            <style>
+                                .xbox-dev-container {
+                                    display: flex;
+                                    flex-direction: column;
+                                    width: 100%;
+                                    height: 100%;
+                                    justify-content: space-between;
+                                    box-sizing: border-box;
+                                }
+                                .xbox-dev-preview-wrapper {
+                                    flex-grow: 1;
+                                    position: relative;
+                                    width: 100%;
+                                    height: 0;
+                                    padding-bottom: 50.625%;
+                                    background: #000;
+                                    border: 1px solid rgba(255,255,255,0.05);
+                                    border-radius: 4px;
+                                    overflow: hidden;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                }
+                                .xbox-dev-preview-wrapper img {
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: contain;
+                                }
+                                .xbox-dev-hud-label {
+                                    position: absolute;
+                                    bottom: 0.75rem;
+                                    left: 0.75rem;
+                                    background: rgba(0,0,0,0.75);
+                                    border: 1px solid rgba(255,255,255,0.1);
+                                    padding: 0.25rem 0.5rem;
+                                    font-family: var(--font-mono);
+                                    font-size: 0.55rem;
+                                    color: rgba(255,255,255,0.8);
+                                    border-radius: 3px;
+                                    pointer-events: none;
+                                    letter-spacing: 0.5px;
+                                    text-transform: uppercase;
+                                }
+                                .xbox-dev-thumbs-row {
+                                    display: flex;
+                                    gap: 0.35rem;
+                                    margin-top: 0.75rem;
+                                    flex-shrink: 0;
+                                    justify-content: center;
+                                    width: 100%;
+                                }
+                                .xbox-dev-thumb-btn {
+                                    width: 52px;
+                                    height: 35px;
+                                    border-radius: 4px;
+                                    border: 1px solid rgba(255, 255, 255, 0.1);
+                                    background: #111;
+                                    cursor: pointer;
+                                    overflow: hidden;
+                                    padding: 0;
+                                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                                    position: relative;
+                                }
+                                .xbox-dev-thumb-btn img {
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                    opacity: 0.5;
+                                }
+                                .xbox-dev-thumb-btn:hover {
+                                    transform: translateY(-2px);
+                                    border-color: rgba(255, 255, 255, 0.4);
+                                }
+                                .xbox-dev-thumb-btn:hover img {
+                                    opacity: 0.8;
+                                }
+                                .xbox-dev-thumb-btn.active {
+                                    border-color: #D91C1C;
+                                    box-shadow: 0 0 12px rgba(217, 28, 28, 0.35);
+                                }
+                                .xbox-dev-thumb-btn.active img {
+                                    opacity: 1;
+                                }
+                                @media (max-width: 480px) {
+                                    .xbox-dev-thumb-btn {
+                                        width: 36px;
+                                        height: 24px;
+                                    }
+                                }
+                            </style>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem; margin-bottom: 0.5rem; flex-shrink: 0;">
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: rgba(255,255,255,0.4); text-transform: uppercase;">[ DIGITAL INTEGRATION // MULTI-DEVICE SCREEN DESIGNS ]</div>
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); text-transform: uppercase;" id="active-xbox-dev-label">[ Laptop Active Design 1 ]</div>
+                            </div>
+                            
+                            <div class="xbox-dev-container">
+                                <div class="xbox-dev-preview-wrapper">
+                                    <img id="active-xbox-dev-img" src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/LaptopMock1.png" alt="Device Campaign">
+                                    <div id="active-xbox-dev-tag" class="xbox-dev-hud-label">DIGITAL_01 // Laptop Screen Mockup</div>
+                                </div>
+                                
+                                <div class="xbox-dev-thumbs-row">
+                                    <button class="xbox-dev-thumb-btn active" onclick="
+                                        document.getElementById('active-xbox-dev-img').src = 'https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/LaptopMock1.png';
+                                        document.getElementById('active-xbox-dev-label').textContent = '[ Laptop Active Design 1 ]';
+                                        document.getElementById('active-xbox-dev-tag').textContent = 'DIGITAL_01 // Laptop Screen Mockup';
+                                        document.querySelectorAll('.xbox-dev-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/LaptopMock1.png" alt="Laptop 1">
+                                    </button>
+                                    <button class="xbox-dev-thumb-btn" onclick="
+                                        document.getElementById('active-xbox-dev-img').src = 'https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/LaptopMock2.png';
+                                        document.getElementById('active-xbox-dev-label').textContent = '[ Laptop Active Design 2 ]';
+                                        document.getElementById('active-xbox-dev-tag').textContent = 'DIGITAL_02 // Responsive Laptop Grid';
+                                        document.querySelectorAll('.xbox-dev-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/LaptopMock2.png" alt="Laptop 2">
+                                    </button>
+                                    <button class="xbox-dev-thumb-btn" onclick="
+                                        document.getElementById('active-xbox-dev-img').src = 'https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/LaptopMock3.png';
+                                        document.getElementById('active-xbox-dev-label').textContent = '[ Laptop Active Design 3 ]';
+                                        document.getElementById('active-xbox-dev-tag').textContent = 'DIGITAL_03 // Typographical Presentation';
+                                        document.querySelectorAll('.xbox-dev-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/LaptopMock3.png" alt="Laptop 3">
+                                    </button>
+                                    <button class="xbox-dev-thumb-btn" onclick="
+                                        document.getElementById('active-xbox-dev-img').src = 'https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/LaptopMock4.png';
+                                        document.getElementById('active-xbox-dev-label').textContent = '[ Laptop Active Design 4 ]';
+                                        document.getElementById('active-xbox-dev-tag').textContent = 'DIGITAL_04 // Complete Campaign Layout';
+                                        document.querySelectorAll('.xbox-dev-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/LaptopMock4.png" alt="Laptop 4">
+                                    </button>
+                                    <button class="xbox-dev-thumb-btn" onclick="
+                                        document.getElementById('active-xbox-dev-img').src = 'https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/YTMock3.png';
+                                        document.getElementById('active-xbox-dev-label').textContent = '[ YouTube Sidebar Promo ]';
+                                        document.getElementById('active-xbox-dev-tag').textContent = 'DIGITAL_05 // YouTube Sidebar Ad';
+                                        document.querySelectorAll('.xbox-dev-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/YTMock3.png" alt="YouTube Ad 3">
+                                    </button>
+                                    <button class="xbox-dev-thumb-btn" onclick="
+                                        document.getElementById('active-xbox-dev-img').src = 'https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/PhoneMock1.png';
+                                        document.getElementById('active-xbox-dev-label').textContent = '[ Mobile Instagram Feed ]';
+                                        document.getElementById('active-xbox-dev-tag').textContent = 'DIGITAL_06 // Instagram Device View';
+                                        document.querySelectorAll('.xbox-dev-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/PhoneMock1.png" alt="Instagram 1">
+                                    </button>
+                                    <button class="xbox-dev-thumb-btn" onclick="
+                                        document.getElementById('active-xbox-dev-img').src = 'https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/PhoneMockDesign.png';
+                                        document.getElementById('active-xbox-dev-label').textContent = '[ Mobile Social Layout ]';
+                                        document.getElementById('active-xbox-dev-tag').textContent = 'DIGITAL_07 // Instagram Poster Crop';
+                                        document.querySelectorAll('.xbox-dev-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/PhoneMockDesign.png" alt="Instagram Design">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>`
                     }
                 ]
             }
