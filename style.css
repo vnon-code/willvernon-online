@@ -1075,6 +1075,16 @@ h1, h2, h3, h4, h5, h6 {
   min-width: 110px;
   flex-shrink: 0;
 }
+@media (max-width: 767px) {
+  .filter-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
+  }
+  .filter-row .filter-label {
+    min-width: auto;
+  }
+}
 .filter-actions {
   display: flex;
   justify-content: flex-end;
