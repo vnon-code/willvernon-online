@@ -942,11 +942,7 @@
                                 }
                             </style>
                             
-                            <!-- Top Header -->
-                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--bg-800); padding-bottom: 0.5rem; margin-bottom: 0.5rem;">
-                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: rgba(255,255,255,0.4); text-transform: uppercase;">[ Curation // The Four Legendary Designers ]</div>
-                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); text-transform: uppercase;">[ Retrospective Showcase ]</div>
-                            </div>
+                            <!-- Top Header Removed -->
                             
                             <!-- 2x2 Grid -->
                             <div class="designer-grid">
@@ -1154,11 +1150,6 @@
                             <rect width="100%" height="100%" fill="#f6f5f3" rx="4" ry="4"/>
                             <rect width="100%" height="100%" fill="url(#diag-dots)" rx="4" ry="4"/>
                             
-                            <!-- Top Header HUD lines within the SVG -->
-                            <line x1="15" y1="20" x2="385" y2="20" stroke="rgba(0, 0, 0, 0.08)" stroke-width="0.75"/>
-                            <text x="15" y="14" font-family="'Space Mono', monospace" font-size="4.5" fill="rgba(0, 0, 0, 0.5)">[ SYSTEM // EXHIBITION IDENTITY DIAGRAM ]</text>
-                            <text x="385" y="14" text-anchor="end" font-family="'Space Mono', monospace" font-size="4.5" fill="#D91C1C">[ PATTERN-TO-LOGOTYPE MAPPING ]</text>
-                            
                             <!-- Dormant/Active Connection Pathways -->
                             <g fill="none">
                                 <!-- Antti Kekki connection M (a letter) to Swatch 1 -->
@@ -1319,10 +1310,9 @@
                                 }
                             </style>
                             
-                            <!-- Top Header Info -->
-                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem; margin-bottom: 0.5rem; flex-shrink: 0;">
-                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: rgba(255,255,255,0.4); text-transform: uppercase;">[ Curation // A3 Promotional Poster Series ]</div>
-                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); text-transform: uppercase;" id="active-poster-artist">[ Active: Maija Isola ]</div>
+                            <!-- Top Header Info (Visually Hidden but DOM preserved for JS updates) -->
+                            <div style="display: none;">
+                                <div id="active-poster-artist"></div>
                             </div>
                             
                             <div class="poster-gallery-container">
@@ -1481,10 +1471,9 @@
                                 }
                             </style>
                             
-                            <!-- Top Header Info -->
-                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem; margin-bottom: 0.5rem; flex-shrink: 0;">
-                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: rgba(255,255,255,0.4); text-transform: uppercase;">[ Exhibition // Saatchi Exterior Environment Mockups ]</div>
-                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); text-transform: uppercase;" id="active-billboard-label">[ Active: Facade Billboard 1 ]</div>
+                            <!-- Top Header Info (Visually Hidden but DOM preserved for JS updates) -->
+                            <div style="display: none;">
+                                <div id="active-billboard-label"></div>
                             </div>
                             
                             <div class="billboard-gallery-container">
