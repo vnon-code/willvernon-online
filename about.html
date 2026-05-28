@@ -32,11 +32,32 @@
         }
 
         .hud-skill-tag:hover {
-            border-color: var(--accent-red);
             color: var(--text-white);
+            transform: translateY(-2px);
+        }
+
+        .hud-skill-tag.skill-adobe:hover {
+            border-color: #D91C1C;
             background: rgba(217, 28, 28, 0.08);
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(217, 28, 28, 0.1);
+            box-shadow: 0 4px 12px rgba(217, 28, 28, 0.15);
+        }
+
+        .hud-skill-tag.skill-motion:hover {
+            border-color: #FF5E00;
+            background: rgba(255, 94, 0, 0.08);
+            box-shadow: 0 4px 12px rgba(255, 94, 0, 0.15);
+        }
+
+        .hud-skill-tag.skill-generative:hover {
+            border-color: #00F0FF;
+            background: rgba(0, 240, 255, 0.08);
+            box-shadow: 0 4px 12px rgba(0, 240, 255, 0.15);
+        }
+
+        .hud-skill-tag.skill-3d:hover {
+            border-color: #FF9900;
+            background: rgba(255, 153, 0, 0.08);
+            box-shadow: 0 4px 12px rgba(255, 153, 0, 0.15);
         }
 
         /* Telemetry Operational Rows */
@@ -219,13 +240,13 @@
                     <div style="display: flex; flex-direction: column; gap: 1.5rem;">
                         <h3 class="about-section-heading">Design Skills</h3>
                         <div class="about-skills-list-2" style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
-                            <span class="hud-skill-tag">Photoshop</span>
-                            <span class="hud-skill-tag">Illustrator</span>
-                            <span class="hud-skill-tag">InDesign</span>
-                            <span class="hud-skill-tag">After Effects</span>
-                            <span class="hud-skill-tag">Premiere Pro</span>
-                            <span class="hud-skill-tag">TouchDesigner</span>
-                            <span class="hud-skill-tag">Blender</span>
+                            <span class="hud-skill-tag skill-adobe">Photoshop</span>
+                            <span class="hud-skill-tag skill-adobe">Illustrator</span>
+                            <span class="hud-skill-tag skill-adobe">InDesign</span>
+                            <span class="hud-skill-tag skill-motion">After Effects</span>
+                            <span class="hud-skill-tag skill-motion">Premiere Pro</span>
+                            <span class="hud-skill-tag skill-generative">TouchDesigner</span>
+                            <span class="hud-skill-tag skill-3d">Blender</span>
                         </div>
                     </div>
 
@@ -240,27 +261,6 @@
                         </div>
                     </div>
 
-                    <div style="display: flex; flex-direction: column; gap: 1.5rem; margin-top: 2rem;">
-                        <h3 class="about-section-heading">Operational</h3>
-                        <div style="display: flex; flex-direction: column; gap: 0.5rem; width: 100%;">
-                            <div class="hud-telemetry-row">
-                                <span class="hud-status-indicator active"></span>
-                                <span>SYS_OK // Time &amp; Team Leadership</span>
-                            </div>
-                            <div class="hud-telemetry-row">
-                                <span class="hud-status-indicator active"></span>
-                                <span>SAFE // Risk Mitigation &amp; Safety</span>
-                            </div>
-                            <div class="hud-telemetry-row">
-                                <span class="hud-status-indicator active"></span>
-                                <span>ONLINE // Client &amp; Conflict Resolution</span>
-                            </div>
-                            <div class="hud-telemetry-row">
-                                <span class="hud-status-indicator active"></span>
-                                <span>SYNC_OK // Technical Troubleshooting</span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- Column 3: CV / Experience -->
@@ -417,6 +417,8 @@
         // Bind global scramble elements
         bindScrambleHover('.nav-links a');
         bindScrambleHover('.mobile-menu a');
+        bindScrambleHover('.hud-skill-tag');
+        bindScrambleHover('.hud-project-link span');
     </script>
 </body>
 </html>
