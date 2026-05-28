@@ -316,6 +316,16 @@
                                 .as-thumb-btn.wingB.active { border-color: #FF00FF; box-shadow: 0 0 10px rgba(255, 0, 255, 0.3); }
                                 .as-thumb-btn.wingC.active { border-color: #00FFFF; box-shadow: 0 0 10px rgba(0, 255, 255, 0.3); }
 
+                                @media (max-width: 480px) {
+                                    .as-thumbs-row {
+                                        gap: 0.35rem;
+                                    }
+                                    .as-thumb-btn {
+                                        width: 42px;
+                                        height: 25px;
+                                    }
+                                }
+
                                 .as-hud-label {
                                     position: absolute;
                                     bottom: 8px;
@@ -705,6 +715,16 @@
                                 .ps-thumb-btn.exp1.active { border-color: #00FF66; box-shadow: 0 0 12px rgba(0, 255, 102, 0.35); }
                                 .ps-thumb-btn.exp2.active { border-color: #FF5C00; box-shadow: 0 0 12px rgba(255, 92, 0, 0.35); }
                                 .ps-thumb-btn.exp3.active { border-color: #00F5FF; box-shadow: 0 0 12px rgba(0, 245, 255, 0.35); }
+
+                                @media (max-width: 480px) {
+                                    .ps-thumbs-row {
+                                        gap: 0.5rem;
+                                    }
+                                    .ps-thumb-btn {
+                                        width: 64px;
+                                        height: 38px;
+                                    }
+                                }
 
                                 .ps-hud-label {
                                     position: absolute;
@@ -1433,6 +1453,17 @@
                                 .billboard-thumb-btn.active img {
                                     opacity: 1;
                                 }
+
+                                @media (max-width: 480px) {
+                                    .billboard-thumbs-row {
+                                        gap: 0.5rem;
+                                    }
+                                    .billboard-thumb-btn {
+                                        width: 56px;
+                                        height: 34px;
+                                    }
+                                }
+
                                 .billboard-hud-label {
                                     position: absolute;
                                     bottom: 8px;
