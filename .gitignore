@@ -9,3 +9,9 @@ Thumbs.db
 .wrangler/
 wrangler.jsonc
 *.log
+
+# Ignore large media assets to conform with Cloudflare Workers limits
+*.mp4
+**/*.mp4
+*.mov
+**/*.mov
