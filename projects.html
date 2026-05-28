@@ -1541,25 +1541,560 @@
                 id: "06",
                 title: "Smuggler's Outpost",
                 descShort: "Set in a Dune-inspired universe, this project explores AI as an ideation partner in environment design, shifting from algorithmic generation to manual 3D modelling.",
-                descLong: "Exploring the workflow synergy of machine learning ideation and high-fidelity CGI. We utilized SDXL and ControlNet grids to rapidly conceptualize and iterate an arid desert hideout dome, adjusting prompt weights. The optimal structural generation was utilized as a flat model blueprint. I then migrated into Blender to construct the wireframe mesh, positioning light paths, sculpting meshes and applying organic materials.",
-                tags: ["Blender", "ComfyUI", "Midjourney", "Generative AI", "3D Design", "Environment Design"],
-                mediaType: "image",
-                mediaSrc: "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/GIFViewportCompressed.gif",
-                outcomeLabel: "Viewport Animated Loop",
+                descLong: "Exploring the workflow synergy of machine learning ideation and high-fidelity CGI. Sourcing visual elements from brutalist concrete forms and Sandworm-populated desert terrains, this project explores AI as a creative collaborator in environment design. By using Stable Diffusion prompt engineering and local inpainting to conceptualize a hidden Fremen spice-smuggling outpost carved into canyon walls, the design was successfully migrated into Blender for high-fidelity terrain sculpting, modular container modeling, realistic sand material mapping, and volumetric light path execution.",
+                tags: ["Blender", "Stable Diffusion", "Generative AI", "3D Design", "Environment Design"],
+                mediaType: "video",
+                mediaSrc: "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/VIDSmugglersOutpost_1.mp4",
+                outcomeLabel: "Final Video Outcome",
                 process: [
                     {
                         num: "01",
-                        title: "AI Prompt Ideation",
-                        desc: "Exploring the synergy between human curation and machine generation. I utilised SDXL to rapidly test and iterate a desert hideout concept, adjusting prompts to refine the lighting and scale.",
+                        title: "Project Concept & Dune Influence",
+                        desc: "This project explores AI as a creative collaborator in environment design, focusing on the early stages of concept development where ideas are most fluid. The goal was to design a hidden spice-smuggling outpost embedded within a narrow desert canyon, blending Fremen ingenuity with subtle off-world industrial elements. The project is set directly in the brutalist, sandworn cinematic universe of Frank Herbert’s Dune, emphasizing monolithic concrete structures, rusted landing pads, concealed tunnels, and half-buried cargo containers carved into sheer canyon walls. Below, you can explore the reference screenshots from the Dune films that established the core lighting direction, atmospheric tone, and architectural style of the scene.",
                         mediaType: "svg",
-                        mediaSrc: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 225"><rect width="100%" height="100%" fill="#030303"/><g stroke="rgba(255,255,255,0.05)" stroke-width="0.5"><line x1="20" y1="112" x2="380" y2="112"/><line x1="200" y1="20" x2="200" y2="205"/></g><g fill="rgba(217, 28, 28, 0.3)"><circle cx="150" cy="80" r="4"/><circle cx="130" cy="90" r="3"/><circle cx="160" cy="70" r="5"/><circle cx="280" cy="140" r="4"/><circle cx="260" cy="150" r="3"/><circle cx="290" cy="130" r="5"/></g><path d="M 150 80 Q 200 112 280 140" stroke="#D91C1C" stroke-width="1.5" stroke-dasharray="3,3" fill="none"/><circle cx="150" cy="80" r="2" fill="#fff"/><circle cx="280" cy="140" r="2" fill="#fff"/><rect x="25" y="25" width="115" height="35" fill="rgba(0,0,0,0.7)" stroke="rgba(255,255,255,0.1)"/><text x="30" y="35" fill="#fff" font-family="Space Mono, monospace" font-size="4.5">PROMPT: desert_outpost_dome</text><text x="30" y="43" fill="#D91C1C" font-family="Space Mono, monospace" font-size="4.5">CFG_SCALE: 7.5 [SDXL]</text><text x="30" y="51" fill="#D91C1C" font-family="Space Mono, monospace" font-size="4.5">STEPS: 30/30 [COMPLETE]</text></svg>`
+                        mediaSrc: `<div style="display: flex; flex-direction: column; width: 100%; height: 100%; box-sizing: border-box; padding: 1.25rem; background: #030303; justify-content: space-between;">
+                            <style>
+                                .dune-gallery-container {
+                                    display: flex;
+                                    flex-direction: column;
+                                    width: 100%;
+                                    height: 100%;
+                                    justify-content: space-between;
+                                    box-sizing: border-box;
+                                }
+                                .dune-preview-wrapper {
+                                    flex-grow: 1;
+                                    position: relative;
+                                    width: 100%;
+                                    height: 0;
+                                    padding-bottom: 50.625%;
+                                    background: #000;
+                                    border: 1px solid rgba(255,255,255,0.05);
+                                    border-radius: 4px;
+                                    overflow: hidden;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                }
+                                .dune-preview-wrapper img {
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: contain;
+                                }
+                                .dune-thumbs-row {
+                                    display: flex;
+                                    gap: 0.5rem;
+                                    margin-top: 0.75rem;
+                                    flex-shrink: 0;
+                                    justify-content: center;
+                                    width: 100%;
+                                }
+                                .dune-thumb-btn {
+                                    width: 64px;
+                                    height: 42px;
+                                    border-radius: 4px;
+                                    border: 1px solid rgba(255, 255, 255, 0.1);
+                                    background: #111;
+                                    cursor: pointer;
+                                    overflow: hidden;
+                                    padding: 0;
+                                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                                    position: relative;
+                                }
+                                .dune-thumb-btn img {
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                    opacity: 0.5;
+                                }
+                                .dune-thumb-btn:hover {
+                                    transform: translateY(-2px);
+                                    border-color: rgba(255, 255, 255, 0.4);
+                                }
+                                .dune-thumb-btn:hover img {
+                                    opacity: 0.8;
+                                }
+                                .dune-thumb-btn.active {
+                                    border-color: #D91C1C;
+                                    box-shadow: 0 0 12px rgba(217, 28, 28, 0.35);
+                                }
+                                .dune-thumb-btn.active img {
+                                    opacity: 1;
+                                }
+                                .dune-hud-label {
+                                    position: absolute;
+                                    bottom: 8px;
+                                    left: 12px;
+                                    font-family: 'Space Mono', monospace;
+                                    font-size: 0.55rem;
+                                    color: rgba(255, 255, 255, 0.5);
+                                    background: rgba(0, 0, 0, 0.7);
+                                    padding: 2px 6px;
+                                    border-radius: 3px;
+                                    border: 1px solid rgba(255, 255, 255, 0.08);
+                                    pointer-events: none;
+                                    letter-spacing: 0.05em;
+                                    text-transform: uppercase;
+                                }
+                                @media (max-width: 480px) {
+                                    .dune-thumb-btn {
+                                        width: 48px;
+                                        height: 32px;
+                                    }
+                                }
+                            </style>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem; margin-bottom: 0.5rem; flex-shrink: 0;">
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: rgba(255,255,255,0.4); text-transform: uppercase;">[ REFERENCE MEDIA // CINEMATIC DUNE SHOTS ]</div>
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); text-transform: uppercase;" id="active-dune-label">[ Arrakis Canyon Landscape ]</div>
+                            </div>
+                            
+                            <div class="dune-gallery-container">
+                                <div class="dune-preview-wrapper">
+                                    <img id="active-dune-img" src="https://assets.willvernon.online/projects/06_smugglers-outpost/assets/dune_screenshot1.jpg" alt="Monolithic Brutalism">
+                                    <div id="active-dune-tag" class="dune-hud-label">REF_01 // Canyon Scale</div>
+                                </div>
+                                
+                                <div class="dune-thumbs-row">
+                                    <button class="dune-thumb-btn active" onclick="
+                                        document.getElementById('active-dune-img').src = 'https://assets.willvernon.online/projects/06_smugglers-outpost/assets/dune_screenshot1.jpg';
+                                        document.getElementById('active-dune-label').textContent = '[ Arrakis Canyon Landscape ]';
+                                        document.getElementById('active-dune-tag').textContent = 'REF_01 // Canyon Scale';
+                                        document.querySelectorAll('.dune-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/06_smugglers-outpost/assets/dune_screenshot1.jpg" alt="Dune 1 Thumb">
+                                    </button>
+                                    <button class="dune-thumb-btn" onclick="
+                                        document.getElementById('active-dune-img').src = 'https://assets.willvernon.online/projects/06_smugglers-outpost/assets/dune_screenshot2.jpg';
+                                        document.getElementById('active-dune-label').textContent = '[ Monolithic Brutalist Gate ]';
+                                        document.getElementById('active-dune-tag').textContent = 'REF_02 // Monolith Structure';
+                                        document.querySelectorAll('.dune-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/06_smugglers-outpost/assets/dune_screenshot2.jpg" alt="Dune 2 Thumb">
+                                    </button>
+                                    <button class="dune-thumb-btn" onclick="
+                                        document.getElementById('active-dune-img').src = 'https://assets.willvernon.online/projects/06_smugglers-outpost/assets/dune_screenshot3.jpg';
+                                        document.getElementById('active-dune-label').textContent = '[ Desert Architecture Outcrop ]';
+                                        document.getElementById('active-dune-tag').textContent = 'REF_03 // Desert Outcrop';
+                                        document.querySelectorAll('.dune-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/06_smugglers-outpost/assets/dune_screenshot3.jpg" alt="Dune 3 Thumb">
+                                    </button>
+                                    <button class="dune-thumb-btn" onclick="
+                                        document.getElementById('active-dune-img').src = 'https://assets.willvernon.online/projects/06_smugglers-outpost/assets/dune_screenshot4.jpg';
+                                        document.getElementById('active-dune-label').textContent = '[ Sandworm Dune Ridge ]';
+                                        document.getElementById('active-dune-tag').textContent = 'REF_04 // Shifting Dunes';
+                                        document.querySelectorAll('.dune-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/06_smugglers-outpost/assets/dune_screenshot4.jpg" alt="Dune 4 Thumb">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>`
                     },
                     {
                         num: "02",
-                        title: "3D Mesh Blockout & Realisation",
-                        desc: "The most successful generation was used as a blueprint. I moved into Blender to manually model the structural dome wireframe meshes, positioning realistic desert light paths.",
+                        title: "Concept Prompt Engineering & AI Generation",
+                        desc: "To translate the initial concept into a high-fidelity visual blueprint, I utilized Stable Diffusion (SDXL) and custom LoRA models. The process focused heavily on meticulous prompt iteration—refining basic environmental descriptions into complete cinematic frames. I utilized local inpainting grids to isolate and refine complex structures like landing pads and hidden tunnels. Rather than treating AI as a simple automatic generator, it functioned as an active creative partner to explore lighting, scale, and visual serendipity. Below, you can view the six initial Stable Diffusion generated concept drafts that explored various sand textures, monolithic placements, and rocky architectures.",
+                        mediaType: "svg",
+                        mediaSrc: `<div style="display: flex; flex-direction: column; width: 100%; height: 100%; box-sizing: border-box; padding: 1.25rem; background: #030303; justify-content: space-between;">
+                            <style>
+                                .aidraft-gallery-container {
+                                    display: flex;
+                                    flex-direction: column;
+                                    width: 100%;
+                                    height: 100%;
+                                    justify-content: space-between;
+                                    box-sizing: border-box;
+                                }
+                                .aidraft-preview-wrapper {
+                                    flex-grow: 1;
+                                    position: relative;
+                                    width: 100%;
+                                    height: 0;
+                                    padding-bottom: 50.625%;
+                                    background: #000;
+                                    border: 1px solid rgba(255,255,255,0.05);
+                                    border-radius: 4px;
+                                    overflow: hidden;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                }
+                                .aidraft-preview-wrapper img {
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: contain;
+                                }
+                                .aidraft-thumbs-row {
+                                    display: flex;
+                                    gap: 0.35rem;
+                                    margin-top: 0.75rem;
+                                    flex-shrink: 0;
+                                    justify-content: center;
+                                    width: 100%;
+                                }
+                                .aidraft-thumb-btn {
+                                    width: 52px;
+                                    height: 35px;
+                                    border-radius: 4px;
+                                    border: 1px solid rgba(255, 255, 255, 0.1);
+                                    background: #111;
+                                    cursor: pointer;
+                                    overflow: hidden;
+                                    padding: 0;
+                                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                                    position: relative;
+                                }
+                                .aidraft-thumb-btn img {
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                    opacity: 0.5;
+                                }
+                                .aidraft-thumb-btn:hover {
+                                    transform: translateY(-2px);
+                                    border-color: rgba(255, 255, 255, 0.4);
+                                }
+                                .aidraft-thumb-btn:hover img {
+                                    opacity: 0.8;
+                                }
+                                .aidraft-thumb-btn.active {
+                                    border-color: #D91C1C;
+                                    box-shadow: 0 0 12px rgba(217, 28, 28, 0.35);
+                                }
+                                .aidraft-thumb-btn.active img {
+                                    opacity: 1;
+                                }
+                                .aidraft-hud-label {
+                                    position: absolute;
+                                    bottom: 8px;
+                                    left: 12px;
+                                    font-family: 'Space Mono', monospace;
+                                    font-size: 0.55rem;
+                                    color: rgba(255, 255, 255, 0.5);
+                                    background: rgba(0, 0, 0, 0.7);
+                                    padding: 2px 6px;
+                                    border-radius: 3px;
+                                    border: 1px solid rgba(255, 255, 255, 0.08);
+                                    pointer-events: none;
+                                    letter-spacing: 0.05em;
+                                    text-transform: uppercase;
+                                }
+                                @media (max-width: 480px) {
+                                    .aidraft-thumb-btn {
+                                        width: 36px;
+                                        height: 24px;
+                                    }
+                                }
+                            </style>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem; margin-bottom: 0.5rem; flex-shrink: 0;">
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: rgba(255,255,255,0.4); text-transform: uppercase;">[ INFERENCE GENERATIONS // STABLE DIFFUSION DRAFTS ]</div>
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); text-transform: uppercase;" id="active-aidraft-label">[ Sandworn Outcrop Concept ]</div>
+                            </div>
+                            
+                            <div class="aidraft-gallery-container">
+                                <div class="aidraft-preview-wrapper">
+                                    <img id="active-aidraft-img" src="https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft1.jpg" alt="Stable Diffusion Concept Draft">
+                                    <div id="active-aidraft-tag" class="aidraft-hud-label">DRAFT_01 // Sandworn Outcrop</div>
+                                </div>
+                                
+                                <div class="aidraft-thumbs-row">
+                                    <button class="aidraft-thumb-btn active" onclick="
+                                        document.getElementById('active-aidraft-img').src = 'https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft1.jpg';
+                                        document.getElementById('active-aidraft-label').textContent = '[ Sandworn Outcrop Concept ]';
+                                        document.getElementById('active-aidraft-tag').textContent = 'DRAFT_01 // Sandworn Outcrop';
+                                        document.querySelectorAll('.aidraft-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft1.jpg" alt="Draft 1 Thumb">
+                                    </button>
+                                    <button class="aidraft-thumb-btn" onclick="
+                                        document.getElementById('active-aidraft-img').src = 'https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft2.jpg';
+                                        document.getElementById('active-aidraft-label').textContent = '[ Canyon Wall Shelter Concept ]';
+                                        document.getElementById('active-aidraft-tag').textContent = 'DRAFT_02 // Shelter Placement';
+                                        document.querySelectorAll('.aidraft-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft2.jpg" alt="Draft 2 Thumb">
+                                    </button>
+                                    <button class="aidraft-thumb-btn" onclick="
+                                        document.getElementById('active-aidraft-img').src = 'https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft3.jpg';
+                                        document.getElementById('active-aidraft-label').textContent = '[ Brutalist Monolith Concept ]';
+                                        document.getElementById('active-aidraft-tag').textContent = 'DRAFT_03 // Brutalist Monolith';
+                                        document.querySelectorAll('.aidraft-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft3.jpg" alt="Draft 3 Thumb">
+                                    </button>
+                                    <button class="aidraft-thumb-btn" onclick="
+                                        document.getElementById('active-aidraft-img').src = 'https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft4.jpg';
+                                        document.getElementById('active-aidraft-label').textContent = '[ Outpost Landing Gate Concept ]';
+                                        document.getElementById('active-aidraft-tag').textContent = 'DRAFT_04 // Landing Gate';
+                                        document.querySelectorAll('.aidraft-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft4.jpg" alt="Draft 4 Thumb">
+                                    </button>
+                                    <button class="aidraft-thumb-btn" onclick="
+                                        document.getElementById('active-aidraft-img').src = 'https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft5.jpg';
+                                        document.getElementById('active-aidraft-label').textContent = '[ Hidden Spice Silo Concept ]';
+                                        document.getElementById('active-aidraft-tag').textContent = 'DRAFT_05 // Spice Silos';
+                                        document.querySelectorAll('.aidraft-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft5.jpg" alt="Draft 5 Thumb">
+                                    </button>
+                                    <button class="aidraft-thumb-btn" onclick="
+                                        document.getElementById('active-aidraft-img').src = 'https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft6.jpg';
+                                        document.getElementById('active-aidraft-label').textContent = '[ Canyon Ridge Outpost Concept ]';
+                                        document.getElementById('active-aidraft-tag').textContent = 'DRAFT_06 // Ridge Gate';
+                                        document.querySelectorAll('.aidraft-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft6.jpg" alt="Draft 6 Thumb">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>`
+                    },
+                    {
+                        num: "03",
+                        title: "Final AI Concept Image",
+                        desc: "The final visual concept generated through prompt engineering and SDXL inpainting. This flat 2D render serves as the primary blueprint for the 3D blockout stage, establishing the core lighting direction, brutalist canyon structure, warm atmospheric color scheme, and modular building scales.",
                         mediaType: "image",
-                        mediaSrc: "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/viewport_render.png"
+                        mediaSrc: "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/IMGAIConcept.png"
+                    },
+                    {
+                        num: "04",
+                        title: "3D Viewport Realization",
+                        desc: "With the concept locked, I migrated the environment design into Blender to construct the full 3D viewport. Having learned Blender from scratch for this project, I sculpted the high-walled canyon rocks, modeled custom structural cargo buildings, aligned realistic brutalist geometry, and mapped detailed materials. I configured realistic desert lighting paths matching the warm tones of the original concept. Key beginner hurdles including UV texture stretching, camera scale, and slow rendering times were solved through rigorous trial-and-error.",
+                        mediaType: "image",
+                        mediaSrc: "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/GIFViewportCompressed.gif"
+                    },
+                    {
+                        num: "05",
+                        title: "Final Cinematic Outpost Renders",
+                        desc: "The final output features multiple high-fidelity camera renders and a fully realized cinematic video loop. These visual assets reflect the successful transition from an AI-assisted 2D concept to a manual, highly structured 3D digital world. In this section, you can toggle between the final animated video outcome and the four high-resolution volumetric renders representing different sectors of the smuggler's dome, showcasing the rich detail, dust particles, and dramatic lighting built into the final environment.",
+                        mediaType: "svg",
+                        mediaSrc: `<div style="display: flex; flex-direction: column; width: 100%; height: 100%; box-sizing: border-box; padding: 1.25rem; background: #030303; justify-content: space-between;">
+                            <style>
+                                .so-gallery-container {
+                                    display: flex;
+                                    flex-direction: column;
+                                    width: 100%;
+                                    height: 100%;
+                                    justify-content: space-between;
+                                    box-sizing: border-box;
+                                }
+                                .so-preview-wrapper {
+                                    flex-grow: 1;
+                                    position: relative;
+                                    width: 100%;
+                                    height: 0;
+                                    padding-bottom: 50.625%;
+                                    background: #000;
+                                    border: 1px solid rgba(255,255,255,0.05);
+                                    border-radius: 4px;
+                                    overflow: hidden;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                }
+                                .so-preview-wrapper video,
+                                .so-preview-wrapper img {
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: contain;
+                                }
+                                .so-preview-wrapper video {
+                                    display: block;
+                                }
+                                .so-preview-wrapper img {
+                                    display: none;
+                                }
+                                .so-thumbs-row {
+                                    display: flex;
+                                    gap: 0.5rem;
+                                    margin-top: 0.75rem;
+                                    flex-shrink: 0;
+                                    justify-content: center;
+                                    width: 100%;
+                                }
+                                .so-thumb-btn {
+                                    width: 64px;
+                                    height: 42px;
+                                    border-radius: 4px;
+                                    border: 1px solid rgba(255, 255, 255, 0.1);
+                                    background: #111;
+                                    cursor: pointer;
+                                    overflow: hidden;
+                                    padding: 0;
+                                    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                                    position: relative;
+                                }
+                                .so-thumb-btn img,
+                                .so-thumb-btn video {
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                    opacity: 0.5;
+                                    pointer-events: none;
+                                }
+                                .so-thumb-btn:hover {
+                                    transform: translateY(-2px);
+                                    border-color: rgba(255, 255, 255, 0.4);
+                                }
+                                .so-thumb-btn:hover img,
+                                .so-thumb-btn:hover video {
+                                    opacity: 0.8;
+                                }
+                                .so-thumb-btn.active {
+                                    border-color: #D91C1C;
+                                    box-shadow: 0 0 12px rgba(217, 28, 28, 0.35);
+                                }
+                                .so-thumb-btn.active img,
+                                .so-thumb-btn.active video {
+                                    opacity: 1;
+                                }
+                                .so-hud-label {
+                                    position: absolute;
+                                    bottom: 8px;
+                                    left: 12px;
+                                    font-family: 'Space Mono', monospace;
+                                    font-size: 0.55rem;
+                                    color: rgba(255, 255, 255, 0.5);
+                                    background: rgba(0, 0, 0, 0.7);
+                                    padding: 2px 6px;
+                                    border-radius: 3px;
+                                    border: 1px solid rgba(255, 255, 255, 0.08);
+                                    pointer-events: none;
+                                    letter-spacing: 0.05em;
+                                    text-transform: uppercase;
+                                }
+                                .so-play-icon {
+                                    position: absolute;
+                                    top: 50%;
+                                    left: 50%;
+                                    transform: translate(-50%, -50%);
+                                    color: #fff;
+                                    font-size: 1rem;
+                                    opacity: 0.8;
+                                    pointer-events: none;
+                                }
+                                @media (max-width: 480px) {
+                                    .so-thumb-btn {
+                                        width: 48px;
+                                        height: 32px;
+                                    }
+                                }
+                            </style>
+                            
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.5rem; margin-bottom: 0.5rem; flex-shrink: 0;">
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: rgba(255,255,255,0.4); text-transform: uppercase;">[ Final Outputs // Cinematic Animation & Renders ]</div>
+                                <div style="font-family: var(--font-mono); font-size: 0.65rem; color: var(--accent-red); text-transform: uppercase;" id="active-so-label">[ Final Cinematic Loop ]</div>
+                            </div>
+                            
+                            <div class="so-gallery-container">
+                                <div class="so-preview-wrapper" id="so-preview-wrapper">
+                                    <video id="active-so-video" src="https://assets.willvernon.online/projects/06_smugglers-outpost/assets/VIDSmugglersOutpost_1.mp4" autoplay muted loop playsinline controls class="glitch-flash"></video>
+                                    <img id="active-so-img" src="" alt="Smuggler's Outpost Render" class="glitch-flash" style="display: none;">
+                                    <div id="active-so-tag" class="so-hud-label">OUTCOME // CINEMATIC LOOP</div>
+                                </div>
+                                
+                                <div class="so-thumbs-row">
+                                    <button class="so-thumb-btn active" onclick="
+                                        const vid = document.getElementById('active-so-video');
+                                        const img = document.getElementById('active-so-img');
+                                        vid.src = 'https://assets.willvernon.online/projects/06_smugglers-outpost/assets/VIDSmugglersOutpost_1.mp4';
+                                        vid.style.display = 'block';
+                                        vid.play().catch(e => {});
+                                        img.style.display = 'none';
+                                        document.getElementById('active-so-label').textContent = '[ Final Cinematic Loop ]';
+                                        document.getElementById('active-so-tag').textContent = 'OUTCOME // CINEMATIC LOOP';
+                                        document.querySelectorAll('.so-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <video src="https://assets.willvernon.online/projects/06_smugglers-outpost/assets/VIDSmugglersOutpost_1.mp4" muted></video>
+                                        <div class="so-play-icon"><i class='ph-fill ph-play'></i></div>
+                                    </button>
+                                    
+                                    <button class="so-thumb-btn" onclick="
+                                        const vid = document.getElementById('active-so-video');
+                                        const img = document.getElementById('active-so-img');
+                                        vid.style.display = 'none';
+                                        vid.pause();
+                                        img.src = 'https://assets.willvernon.online/projects/06_smugglers-outpost/assets/SmugglersOutpostIMG1.png';
+                                        img.style.display = 'block';
+                                        document.getElementById('active-so-label').textContent = '[ Outpost Sector 1 ]';
+                                        document.getElementById('active-so-tag').textContent = 'RENDER_01 // Cargo Bay';
+                                        document.querySelectorAll('.so-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/06_smugglers-outpost/assets/SmugglersOutpostIMG1.png" alt="Render 1 Thumb">
+                                    </button>
+                                    
+                                    <button class="so-thumb-btn" onclick="
+                                        const vid = document.getElementById('active-so-video');
+                                        const img = document.getElementById('active-so-img');
+                                        vid.style.display = 'none';
+                                        vid.pause();
+                                        img.src = 'https://assets.willvernon.online/projects/06_smugglers-outpost/assets/SmugglersOutpostIMG2.png';
+                                        img.style.display = 'block';
+                                        document.getElementById('active-so-label').textContent = '[ Outpost Sector 2 ]';
+                                        document.getElementById('active-so-tag').textContent = 'RENDER_02 // Landing Pad';
+                                        document.querySelectorAll('.so-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/06_smugglers-outpost/assets/SmugglersOutpostIMG2.png" alt="Render 2 Thumb">
+                                    </button>
+                                    
+                                    <button class="so-thumb-btn" onclick="
+                                        const vid = document.getElementById('active-so-video');
+                                        const img = document.getElementById('active-so-img');
+                                        vid.style.display = 'none';
+                                        vid.pause();
+                                        img.src = 'https://assets.willvernon.online/projects/06_smugglers-outpost/assets/SmugglersOutpostIMG3.png';
+                                        img.style.display = 'block';
+                                        document.getElementById('active-so-label').textContent = '[ Outpost Sector 3 ]';
+                                        document.getElementById('active-so-tag').textContent = 'RENDER_03 // Volumetrics';
+                                        document.querySelectorAll('.so-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/06_smugglers-outpost/assets/SmugglersOutpostIMG3.png" alt="Render 3 Thumb">
+                                    </button>
+                                    
+                                    <button class="so-thumb-btn" onclick="
+                                        const vid = document.getElementById('active-so-video');
+                                        const img = document.getElementById('active-so-img');
+                                        vid.style.display = 'none';
+                                        vid.pause();
+                                        img.src = 'https://assets.willvernon.online/projects/06_smugglers-outpost/assets/SmugglersOutpostIMG4.png';
+                                        img.style.display = 'block';
+                                        document.getElementById('active-so-label').textContent = '[ Outpost Sector 4 ]';
+                                        document.getElementById('active-so-tag').textContent = 'RENDER_04 // Spice Tunnels';
+                                        document.querySelectorAll('.so-thumb-btn').forEach(b => b.classList.remove('active'));
+                                        this.classList.add('active');
+                                    ">
+                                        <img src="https://assets.willvernon.online/projects/06_smugglers-outpost/assets/SmugglersOutpostIMG4.png" alt="Render 4 Thumb">
+                                    </button>
+                                </div>
+                            </div>
+                        </div>`
                     }
                 ]
             },
