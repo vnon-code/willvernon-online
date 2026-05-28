@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music | William Vernon Portfolio</title>
+    <title>Music | William Vernon</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,16 +18,7 @@
     
     <!-- Music Hero Redesign Styles -->
     <style>
-        .hero-section {
-            min-height: 100vh !important;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-bottom: 1px solid var(--bg-700) !important;
-            position: relative;
-            padding-top: 8rem !important;
-            padding-bottom: 6rem !important;
-        }
+
 
         .hero-grid-split {
             display: grid;
@@ -190,14 +181,37 @@
             }
         }
 
-        @media (max-width: 767px) {
-            .hero-section {
-                height: auto !important;
-                min-height: 100dvh !important;
-                padding-top: 8rem !important;
-                padding-bottom: 4rem !important;
-            }
+
+        /* VJ Frequency Filter Selector Tabs */
+        .vj-freq-btn {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid var(--bg-700);
+            color: var(--text-muted);
+            cursor: pointer;
+            border-radius: 4px;
+            padding: 0.5rem 0.25rem;
+            flex: 1;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            text-align: center;
         }
+
+        .vj-freq-btn:hover {
+            border-color: rgba(var(--vj-accent-1-rgb, 217, 28, 28), 0.5);
+            color: var(--text-white);
+            background: rgba(var(--vj-accent-1-rgb, 217, 28, 28), 0.05);
+        }
+
+        .vj-freq-btn.active {
+            background: rgba(var(--vj-accent-1-rgb, 217, 28, 28), 0.15);
+            border-color: var(--vj-accent-1, var(--accent-red));
+            color: var(--text-white);
+            box-shadow: 0 0 12px rgba(var(--vj-accent-1-rgb, 217, 28, 28), 0.15);
+        }
+
     </style>
 </head>
 <body class="font-sans">
@@ -234,73 +248,31 @@
             </div>
             
         </div>
-        
-        <!-- Mobile Menu Overlay -->
-        <div id="mobile-menu" class="mobile-menu">
-            <button id="close-menu-btn" class="close-menu-btn" aria-label="Close Menu"> 
-                 <i class="ph ph-x"></i>
-            </button>
-            <a href="index.html" class="mobile-link">Home</a>
-            <a href="work.html" class="mobile-link">Work</a>
-            <a href="music.html" class="mobile-link active">Music</a>
-            <a href="about.html" class="mobile-link">About</a>
-        </div>
     </nav>
+    
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="mobile-menu">
+        <button id="close-menu-btn" class="close-menu-btn" aria-label="Close Menu"> 
+             <i class="ph ph-x"></i>
+        </button>
+        <a href="index.html" class="mobile-link">Home</a>
+        <a href="work.html" class="mobile-link">Work</a>
+        <a href="music.html" class="mobile-link active">Music</a>
+        <a href="about.html" class="mobile-link">About</a>
+    </div>
 
     <!-- Page Header & Canvas Wrapper -->
-    <header class="hero-section layout-padding">
+    <header class="layout-padding header-padding" style="border-bottom: 1px solid var(--bg-700); position: relative; overflow: hidden;">
         <!-- Interactive Node-Audio Waveform Canvas -->
-        <canvas id="audio-canvas" class="hero-canvas" style="opacity: 0.35;"></canvas>
+        <canvas id="audio-canvas" class="hero-canvas" style="opacity: 0.35; pointer-events: none;"></canvas>
         
-        <div class="container-wide hero-content">
-            <div class="hero-grid-split">
-                
-                <!-- Left: Hero Biography Branding -->
-                <div style="display: flex; flex-direction: column; gap: 1rem;">
-                    <p class="font-mono text-accent text-sm tracking-widest uppercase cyber-breadcrumbs mb-2">[ SITE: PORTFOLIO ] // [ ALIAS: VNON ] // [ AUDIO: VISUALISER ]</p>
-                    <h1 class="text-8xl font-bold tracking-tighter uppercase leading-none mt-2 mb-4">Alias: vnon</h1>
-                    
-                    <p class="text-gray-400 font-mono text-sm leading-relaxed max-w-xl mb-3">
-                        Under the alias <span class="text-white font-bold">vnon</span>, I construct electronic music, focusing predominantly on the architectural complexities of Drum &amp; Bass. Sound design serves as the central anchor for my work.
-                    </p>
-                    
-                    <p class="text-gray-400 font-mono text-sm leading-relaxed max-w-xl mb-4">
-                        Producing isn't a secondary endeavor; it's the direct source of my visual syntax. Designing synthesized bass modulations, mapping transient shapes and establishing rhythm loops directly impacts how I program responsive matrices and vector systems.
-                    </p>
-                    
-                    <!-- Call To Actions -->
-                    <div class="hero-cta-group" style="margin-top: 1.5rem;">
-                        <button id="hero-listen-cta" class="btn-primary glitch-hover" style="display: inline-flex; align-items: center; gap: 0.75rem; border: none; font-family: var(--font-sans);">
-                            <i class="ph-fill ph-play" style="font-size: 1.1rem;"></i> LISTEN TO MUSIC
-                        </button>
-                        <a href="https://soundcloud.com/vnondnb" target="_blank" class="btn-secondary" style="display: inline-flex; align-items: center; gap: 0.75rem;">
-                            <i class="ph ph-soundcloud-logo"></i> EXPLORE SOUNDCLOUD
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Right: Sound & Geometry Panel Card -->
-                <div class="hud-panel" style="cursor: default; border-left: 2px solid var(--vj-accent-1, var(--accent-red)); padding: 2.25rem;">
-                    <div class="hud-panel-header" style="margin-bottom: 1.25rem;">
-                        <span class="hud-panel-title" style="font-size: 1.25rem;">Sound &amp; Geometry</span>
-                        <span class="hud-panel-num" style="font-size: 0.875rem;">[ DESIGN_WORKFLOW ]</span>
-                    </div>
-                    <p class="hud-panel-desc" style="font-size: 0.875rem; line-height: 1.6; color: var(--text-gray-500); margin-bottom: 1.25rem;">
-                        In TouchDesigner and Blender, I leverage real-time spectral analysis to convert raw frequencies into structural geometry. High frequencies map to intricate displacements, while heavy sub-bass hits deform spatial coordinate fields.
-                    </p>
-                    <p class="hud-panel-desc" style="font-size: 0.875rem; line-height: 1.6; color: var(--text-gray-500); margin-bottom: 0;">
-                        The Audio-Visualiser Console below demonstrates this reciprocal correlation. Adjusting the dials changes the digital physics of the system, directly mimicking the synthesis parameters used in electronic music production (modulation frequency, decay, distortion and grain).
-                    </p>
-                </div>
-
-            </div>
+        <div class="container-wide hero-content" style="position: relative; z-index: 10;">
+            <p class="font-mono text-accent text-sm tracking-widest uppercase">// MUSIC &amp; SOUND DESIGN</p>
+            <h1 class="text-7xl font-bold tracking-tighter uppercase leading-none mt-2 mb-4">ALIAS: VNON</h1>
+            <p class="text-gray-400 font-mono mt-6 max-w-2xl text-sm leading-relaxed">
+                Under the alias vnon, I construct electronic music, focusing predominantly on the architectural complexities of Drum &amp; Bass. Sound design serves as the central anchor for my work, translating spatial peak limits and transient modulations into procedural visual systems.
+            </p>
         </div>
-
-        <!-- Scroll down indicator prompt -->
-        <a href="#vj-deck" class="scroll-prompt" style="text-decoration: none;">
-            <span class="scroll-prompt-text font-mono text-gray-500" style="font-size: 0.6875rem; letter-spacing: 0.2em; text-transform: uppercase;">[ LAUNCH_AUDIO_VISUALISER ]</span>
-            <i class="ph ph-caret-double-down scroll-prompt-icon" style="font-size: 1.5rem; color: var(--accent-red); margin-top: 0.25rem;"></i>
-        </a>
     </header>
 
     <!-- Hidden SoundCloud Iframe Widget -->
@@ -313,8 +285,61 @@
     <main id="vj-deck" class="flex-grow layout-padding" style="padding-top: 4rem; padding-bottom: 4rem;">
         <div class="container-wide">
             
+            <!-- Ethos & Influence Grid (matching AI/projects flow, without wrapping container) -->
+            <section class="mb-12">
+                <div class="hero-grid-split" style="align-items: center; gap: 4rem;">
+                    
+                    <!-- Left: Sound & Style Column -->
+                    <div style="display: flex; flex-direction: column; justify-content: center; gap: 1.5rem;">
+                        
+                        <!-- Combined Block: Sound & Style -->
+                        <div style="display: flex; flex-direction: column; gap: 1rem;">
+                            <div>
+                                <span class="font-mono text-accent text-xs uppercase tracking-widest">// SOUND_&amp;_STYLE</span>
+                                <h2 class="text-3xl font-bold uppercase text-white mt-1">Sound &amp; Style</h2>
+                            </div>
+                            <p class="text-gray-400 font-mono text-sm leading-relaxed">
+                                I have been making music on and off as a hobby since 2020, using it as a vital creative outlet. From the beginning, I found myself gravitating towards Liquid Drum &amp; Bass, drawn by the sheer diversity of DnB as a genre, which has kept my focus ever since.
+                            </p>
+                            <p class="text-gray-400 font-mono text-sm leading-relaxed">
+                                My workflow relies heavily on sampling from other tracks and moulding them to fit my signature sound. I see working with samples as akin to collaging, a tactile, layered art form I loved experimenting with during the early stages of my visual arts practice.
+                            </p>
+                        </div>
+                        
+                    </div>
+                    
+                    <!-- Right: Spotify Embed Column -->
+                    <div style="display: flex; flex-direction: column; justify-content: center;">
+                        <iframe data-testid="embed-iframe" style="border-radius:12px; border: none; background: transparent; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);" src="https://open.spotify.com/embed/playlist/7e6oucLLBe5E4ohNekJMsb?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    </div>
+                    
+                </div>
+            </section>
+
+            <!-- Music Platform Streaming Links Section -->
+            <section class="mb-16">
+                <div class="hero-buttons" style="display: flex; gap: 1.25rem; flex-wrap: wrap;">
+                    
+                    <!-- Listen to My Music CTA -->
+                    <button id="hero-listen-cta" class="btn-primary glitch-hover" style="display: inline-flex; align-items: center; gap: 0.75rem; border: none; font-family: var(--font-sans); cursor: pointer; padding: 0.85rem 1.75rem;">
+                        <i class="ph-fill ph-play" style="font-size: 1.1rem;"></i> LISTEN TO MY MUSIC
+                    </button>
+                    
+                    <!-- SoundCloud link -->
+                    <a href="https://soundcloud.com/vnondnb" target="_blank" class="btn-secondary" style="display: inline-flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1.75rem;">
+                        <i class="ph-fill ph-soundcloud-logo" style="font-size: 1.25rem;"></i> SOUNDCLOUD
+                    </a>
+                    
+                    <!-- Bandcamp link -->
+                    <a href="https://vnon.bandcamp.com/" target="_blank" class="btn-secondary" style="display: inline-flex; align-items: center; gap: 0.75rem; padding: 0.85rem 1.75rem;">
+                        <svg viewBox="0 0 24 24" fill="currentColor" style="width: 1.25rem; height: 1.25rem; display: block;"><path d="M0 18.75l7.437-13.5H24l-7.438 13.5H0z"/></svg> BANDCAMP
+                    </a>
+                    
+                </div>
+            </section>
+            
             <!-- VJ Deck Console Container -->
-            <div class="vj-console">
+            <div id="vj-console-container" class="vj-console">
                 
                 <!-- Header/Status Bar of Console -->
                 <div class="vj-console-header">
@@ -360,6 +385,20 @@
                                     <span class="vj-slider-val" id="val-density">400</span>
                                 </div>
                                 <input type="range" class="vj-slider" id="slider-density" data-param="density" min="100" max="1200" step="10" value="400">
+                            </div>
+
+                            <!-- Frequency Filter Selector Block -->
+                            <div class="vj-slider-group" style="margin-top: 1rem; width: 100%;">
+                                <div class="vj-slider-label-row" style="margin-bottom: 0.5rem;">
+                                    <span class="vj-slider-label">// FREQ_TARGET:</span>
+                                    <span class="vj-slider-val" id="val-freq-target" style="font-weight: 700; color: var(--vj-accent-1, var(--accent-red));">ALL</span>
+                                </div>
+                                <div class="vj-freq-tabs" style="display: flex; gap: 0.5rem; width: 100%;">
+                                    <button class="vj-freq-btn active" data-freq="all" style="flex: 1;">All</button>
+                                    <button class="vj-freq-btn" data-freq="bass" style="flex: 1;">Bass</button>
+                                    <button class="vj-freq-btn" data-freq="mids" style="flex: 1;">Mids</button>
+                                    <button class="vj-freq-btn" data-freq="highs" style="flex: 1;">Highs</button>
+                                </div>
                             </div>
 
                         </div>
@@ -627,6 +666,7 @@
         const localAudio = document.getElementById('local-audio-element');
 
         // Setup VJ Slider Parameter Variables
+        let activeFreqTarget = 'all'; // Dynamic frequency visualizer target
         const dialValues = {
             chaos: 0.5,
             density: 400
@@ -1282,8 +1322,21 @@
 
             // Logarithmic Downsampling/Mapping to NUM_BARS
             const sampleRate = (audioCtx && audioCtx.sampleRate) ? audioCtx.sampleRate : 44100;
-            const minFreq = 30;    // Focus on audible range starting from sub-bass (30 Hz)
-            const maxFreq = 20000;   // up to high treble (20 kHz)
+            
+            // Dynamic bounds based on active frequency target (isolates Bass, Mids, Highs, or All)
+            let minFreq = 30;
+            let maxFreq = 20000;
+            
+            if (activeFreqTarget === 'bass') {
+                minFreq = 30;
+                maxFreq = 250;
+            } else if (activeFreqTarget === 'mids') {
+                minFreq = 250;
+                maxFreq = 4000;
+            } else if (activeFreqTarget === 'highs') {
+                minFreq = 4000;
+                maxFreq = 20000;
+            }
             
             for (let i = 0; i < NUM_BARS; i++) {
                 // Determine the frequency boundaries of this bar logarithmically
@@ -1548,6 +1601,29 @@
 
         // Initialize App
         initSliders();
+        
+        // Bind VJ Frequency Target Selection buttons
+        function initFreqFilters() {
+            const freqButtons = document.querySelectorAll('.vj-freq-btn');
+            const freqValLabel = document.getElementById('val-freq-target');
+            
+            freqButtons.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const target = e.currentTarget.dataset.freq;
+                    activeFreqTarget = target;
+                    
+                    // Update active state in buttons
+                    freqButtons.forEach(b => b.classList.remove('active'));
+                    e.currentTarget.classList.add('active');
+                    
+                    // Update HUD label
+                    freqValLabel.textContent = target.toUpperCase();
+                    console.log(`Audio Frequency Visualizer Target set to: ${target.toUpperCase()}`);
+                });
+            });
+        }
+        initFreqFilters();
+
         renderTracklist();
         selectTrack(0);
         loop();
@@ -1572,7 +1648,7 @@
                 }
                 
                 // Scroll smoothly to visualizer panel
-                const target = document.getElementById('vj-deck');
+                const target = document.getElementById('vj-console-container');
                 if (target) {
                     target.scrollIntoView({ behavior: 'smooth' });
                 }

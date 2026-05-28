@@ -50,50 +50,54 @@
             </div>
             
         </div>
-        
-        <!-- Mobile Menu Overlay -->
-        <div id="mobile-menu" class="mobile-menu">
-            <button id="close-menu-btn" class="close-menu-btn" aria-label="Close Menu"> 
-                 <i class="ph ph-x"></i>
-            </button>
-            <a href="index.html" class="mobile-link">Home</a>
-            <a href="work.html" class="mobile-link active">Work</a>
-            <a href="music.html" class="mobile-link">Music</a>
-            <a href="about.html" class="mobile-link">About</a>
-        </div>
     </nav>
+    
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="mobile-menu">
+        <button id="close-menu-btn" class="close-menu-btn" aria-label="Close Menu"> 
+             <i class="ph ph-x"></i>
+        </button>
+        <a href="index.html" class="mobile-link">Home</a>
+        <a href="work.html" class="mobile-link active">Work</a>
+        <a href="music.html" class="mobile-link">Music</a>
+        <a href="about.html" class="mobile-link">About</a>
+    </div>
+
+    <!-- Page Header -->
+    <header class="layout-padding header-padding" style="border-bottom: 1px solid var(--bg-700);">
+        <div class="container-wide hero-content">
+            <p class="font-mono text-accent text-sm tracking-widest uppercase">// AI EXPLORATIONS</p>
+            <h1 class="text-7xl font-bold tracking-tighter uppercase leading-none mt-2 mb-4">AI Experiments &amp; Research</h1>
+            <p class="text-gray-400 font-mono mt-6 max-w-2xl text-sm leading-relaxed">
+                An active exploration into machine learning models, ControlNet spatial rendering, and custom generative visual systems integrated into design production workflows.
+            </p>
+        </div>
+    </header>
 
     <!-- Main Container -->
-    <main class="container-wide" style="margin-top: 140px; padding-bottom: 8rem;">
-        
-        <!-- AI Title Block -->
-        <section class="ai-header">
-            <p class="font-mono text-accent text-xs uppercase tracking-widest">AI EXPLORATIONS</p>
-            <h1 class="text-6xl text-5xl-mobile font-bold tracking-tighter uppercase mt-2">
-                AI Experiments & Research
-            </h1>
-        </section>
+    <main class="container-wide layout-padding" style="padding-top: 4rem; padding-bottom: 8rem;">
 
         <!-- Section 1: Ethos & Experience -->
         <section class="mb-16">
-            <div class="flex justify-between items-baseline mb-6">
-                <div>
-                    <span class="font-mono text-accent text-xs uppercase tracking-widest">// FOUNDATION_ETHOS</span>
-                    <h2 class="comfy-section-title mt-2">Ethos: Artificial Acceptance</h2>
+            <div style="display: flex; flex-direction: column; gap: 2.5rem;">
+                
+                <!-- Ethos Block -->
+                <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                    <div>
+                        <span class="font-mono text-accent text-xs uppercase tracking-widest">// FOUNDATION_ETHOS</span>
+                        <h2 class="text-3xl font-bold uppercase text-white mt-1">Ethos: Artificial Acceptance</h2>
+                    </div>
+                    <p class="text-gray-400 font-mono text-sm leading-relaxed" style="max-width: 900px;">
+                        AI should be treated as a collaborator to enhance and improve elements of the design process from concepting ideas to refining outcomes. AI should not be treated as a competitor within the design industry. There are clear pitfalls in the ethics and regulations behind generative models being trained on artwork which has not been consented to by human artists. I have been experimenting with use cases of AI in design projects since 2022. The rate at which AI technology and tools are developing is crazy. I have used many different applications of AI throughout these projects and experiments: everything from direct video and image generation, using ControlNet to create interesting outcomes, and AI-assisted web design. I am optimistic that the truly innovative AI applications will benefit the industry.
+                    </p>
                 </div>
-            </div>
 
-            <!-- Ethos Summary: Simple summary intro paragraph of text -->
-            <p class="text-gray-300 leading-relaxed text-lg mb-12" style="max-width: 900px;">
-                AI should be treated as a collaborator to enhance and improve elements of the design process from concepting ideas to refining outcomes. AI should not be treated as a competitor within the design industry. There are clear pitfalls in the ethics and regulations behind generative models being trained on artwork which has not been consented to by human artists. I have been experimenting with use cases of AI in design projects since 2022. The rate at which AI technology and tools are developing is crazy. I have used many different applications of AI throughout these projects and experiments: everything from direct video and image generation, using ControlNet to create interesting outcomes, and AI-assisted web design. I am optimistic that the truly innovative AI applications will benefit the industry.
-            </p>
-
-            <!-- Deployed Platforms Section (Inside container, matching page margins) -->
-            <div class="ai-tools-directory" style="border-top: 1px solid var(--bg-800); padding-top: 3.5rem; margin-top: 3.5rem;">
-                <div style="display: flex; flex-direction: column; gap: 1rem; width: 100%; margin-bottom: 2rem;">
-                    <span class="font-mono text-accent text-xs uppercase tracking-widest">// DEPLOYED_PLATFORMS_&_MODELS</span>
-                    <h3 class="text-2xl font-bold tracking-tight uppercase" style="color: #fff; margin: 0;">Platform & Model Directory</h3>
-                </div>
+                <!-- Deployed Platforms Block -->
+                <div class="ai-tools-directory" style="border-top: 1px solid var(--bg-700); padding-top: 2rem; margin-top: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                    <div>
+                        <span class="font-mono text-accent text-xs uppercase tracking-widest">// DEPLOYED_PLATFORMS_&_MODELS</span>
+                        <h2 class="text-3xl font-bold uppercase text-white mt-1">Platform &amp; Model Directory</h2>
+                    </div>
 
                 <!-- Scrolling logo carousel (inside container, doesn't go over margins) -->
                 <div class="marquee-container" id="logo-marquee" style="max-width: none; width: 100%; border-left: 1px solid var(--bg-700); border-right: 1px solid var(--bg-700); border-radius: 0.5rem; background: rgba(10, 10, 10, 0.45); margin: 0 0 1.5rem 0; padding: 1.5rem 0;">
