@@ -13,3 +13,8 @@ node_modules
 
 # Exclude local helper scripts
 upload_to_r2.py
+
+# Redesign working files and agent config — never publish
+redesign
+CLAUDE.md
+.claude
