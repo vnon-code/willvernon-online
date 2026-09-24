@@ -1,130 +1,137 @@
 # Back-end / Deploy / Edge Audit — willvernon.online
 
-Read-only audit. No Cloudflare, DNS, or R2 state was changed. Evidence: local git history, GitHub API (commit `f9757ca9555b4020ce1636802e2651c088bc1503` = `origin/main` HEAD), and live `curl -sSI` probes of `https://willvernon.online` on 2026-09-24.
+Read-only audit. No Cloudflare, DNS, or R2 state was changed. Evidence: local git, GitHub REST API (commit `f9757ca9555b4020ce1636802e2651c088bc1503` = `origin/main` HEAD), and live `curl` probes of `https://willvernon.online` on 2026-09-24 (~23:35–23:45 UTC).
 
-**TL;DR**: Production is an assets-only Cloudflare Worker (`wrangler.jsonc`, no `main` script), auto-deployed on every push to `main` via the Cloudflare Workers Builds GitHub App (confirmed by a `cloudflare-workers-and-pages` check run on `origin/main` HEAD). A dormant GitHub Pages pipeline also fires on push but does not serve production traffic. The live edge has zero security headers, a bare empty 404, uniform `no-cache`-style `Cache-Control` on everything, and the default Workers-assets `html_handling`/`not_found_handling` behaviour. Four tracked image/GIF files sit at 80–88% of the 25 MiB per-file Workers-assets ceiling that a prior commit (`70cdecc`) was already written to fix once. Recommended rebuild approach: `_headers`/`_redirects`/`wrangler.jsonc` config only — no Worker script needed, no Cloudflare dashboard change needed. Verified all 7 pages (`index/about/work/music/AI/experiments/projects`) redirect `<name>.html → /<name>` (307) identically.
-
-Sections: (1) deploy mechanism, (2) live edge behaviour, (3) current Worker limits, (4) edge-layer rebuild options, (5) propose-only back-end options, (6) Phase 7 / rollback.
+**TL;DR**
+- Production is an assets-only Cloudflare Worker (`wrangler.jsonc`, no `main`), auto-deployed on every push to `main` by the Cloudflare Workers Builds GitHub App.
+- GitHub Pages is **also switched on and publicly serving a full mirror** at `https://vnon-code.github.io/willvernon-online/`. It is not the production host, but it is live, not dormant.
+- The live edge sends no security headers and returns an empty 404. `Cache-Control` is `public, max-age=0, must-revalidate` on everything. Behaviour matches the Workers-assets defaults.
+- The `70cdecc` "Git pack deploy size limit" fix was about the `.git` pack (251 MiB locally) being uploaded as an asset. It was **not** about the large images. Three tracked PNGs sit at 81–87% of the 25 MiB per-file limit, and a fourth is at 79%.
+- **Deploy-blocking gap for the rebuild:** `.assetsignore` does not exclude `redesign/`. Merging `redesign/v2` as it stands would publish 28 tracked working files (1.3 MB) at `willvernon.online/redesign/…`.
+- Recommended rebuild approach: config only (`_headers`, `_redirects` and `wrangler.jsonc` `assets.*`). No Worker script, no dashboard change.
 
 ## 1. Deploy mechanism
 
 **Config files** (repo root):
-- `wrangler.jsonc` (267 B) — `{"name":"willvernon-online","compatibility_date":"2026-05-28","observability":{"enabled":true},"assets":{"directory":"."},"compatibility_flags":["nodejs_compat"]}`. No `main` field → **assets-only Worker** (static hosting, no Worker script runs on the request path).
-- `.assetsignore` (197 B) — excludes `.git*`, `.wrangler`, `wrangler.jsonc`, `.assetsignore`, `node_modules`, `upload_to_r2.py` from the asset upload.
-- No `package.json` anywhere in the repo (`ls package.json` → not found), so there is no npm build step; the `$schema` path in `wrangler.jsonc` (`node_modules/wrangler/config-schema.json`) is editor-only and doesn't imply a dependency is installed at build time.
-- No `.github/` directory in the working tree, confirmed both locally (`find . -maxdepth 1 -iname .github` → nothing) and via the GitHub Contents API at this exact commit (`GET /contents/.github?ref=f9757ca9…` → `404 Not Found`). There is no `_headers`, `_redirects`, or `CNAME` file either (`find . -iname CNAME -o -iname _headers -o -iname _redirects` → empty).
+- `wrangler.jsonc` (267 B): `name: willvernon-online`, `compatibility_date: 2026-05-28`, `observability.enabled: true`, `assets.directory: "."`, `compatibility_flags: ["nodejs_compat"]`. There is no `main` field, so this is an **assets-only Worker**.
+- `.assetsignore` (197 B) excludes `.git`, `.git*`, `.gitignore`, `.wrangler`, `wrangler.jsonc`, `.assetsignore`, `node_modules` and `upload_to_r2.py`. It does **not** exclude `README.md`: live `/README.md` returns 200 `text/markdown`. It also does not exclude `redesign/` (see §3).
+- Missing from the working tree: `package.json`, `.github/`, `_headers`, `_redirects`, `CNAME` (`ls` returns "No such file" for each). GitHub Contents API `/contents/.github?ref=f9757ca…` returns 404.
 
-**Git history of the two config files** (`git log --oneline -- wrangler.jsonc .assetsignore`): a single commit, `70cdecc "chore: add wrangler.jsonc and .assetsignore configuration to fix Git pack deploy size limit"` (2026-05-28). `git show 70cdecc --stat`:
-```
-.assetsignore  | 15 +++++++++++++++
-.gitignore     |  1 -
-wrangler.jsonc | 14 ++++++++++++++
-3 files changed, 29 insertions(+), 1 deletion(-)
-```
-The commit message and the paired `.gitignore` edit (dropping a `.wrangler/`-adjacent line) show this was reactive: an earlier deploy hit Cloudflare's size ceiling and the fix was to keep large local-only files (git metadata, the R2 upload helper) out of the asset upload rather than to restructure the site.
+**History**: `git log -- wrangler.jsonc .assetsignore` shows a single commit, `70cdecc` (2026-05-28), "chore: add wrangler.jsonc and .assetsignore configuration to fix Git pack deploy size limit". Its `--stat` is `.assetsignore +15`, `.gitignore -1` and `wrangler.jsonc +14`.
+- The `.gitignore` hunk **removed the line `wrangler.jsonc`**, so the config file is now committed and Workers Builds can read it. The hunk did not touch `.wrangler/`.
+- Before this commit, `assets.directory "."` had nothing excluding `.git`. The local pack is `.git/objects/pack/pack-02b5….pack` = 263,637,188 B (251 MiB, from `git count-objects -vH`), about 10× the 25 MiB per-file limit. That is the "Git pack" size limit named in the commit message. The fix was the `.git*` rule in `.assetsignore`.
 
-**How a push reaches production** — confirmed via the GitHub REST API (`GET /repos/vnon-code/willvernon-online/commits/{sha}/check-runs`) on the `origin/main` HEAD commit `f9757ca…`, `total_count: 4`:
+**How a push reaches production**: `GET /repos/vnon-code/willvernon-online/commits/f9757ca…/check-runs` returns `total_count: 4`.
 
-| Check/deployment | App | Result | Detail |
+| Check | App | Result | Detail |
 |---|---|---|---|
-| `Workers Builds: willvernon-online` | `cloudflare-workers-and-pages` (GitHub App, installation id 85455) | `completed` / `success` | `details_url` → `dash.cloudflare.com/…/workers/services/view/willvernon-online/production/builds/644bbec6-…`, output names `Version ID: 6d764d4a-c2ca-4084-bad5-7d86bfe44093` |
-| `deploy`, `report-build-status`, `build` (3 jobs) | `github-actions`, workflow `pages build and deployment` (`dynamic/pages/pages-build-deployment`) | all `completed` / `success` | run `.../actions/runs/26608743633` |
+| `Workers Builds: willvernon-online` | `cloudflare-workers-and-pages` (app id 85455) | completed / success | `details_url` is `dash.cloudflare.com/…/workers/services/view/willvernon-online/production/builds/644bbec6-…`. The output summary contains `Version ID: 6d764d4a-c2ca-4084-bad5-7d86bfe44093` |
+| `build`, `report-build-status`, `deploy` | `github-actions`, run 26608743633 `pages build and deployment` (path `dynamic/pages/pages-build-deployment`, event `dynamic`) | all success | GitHub's built-in Pages workflow. There is no YAML for it in the repo |
 
-Two independent things fire on every push to `main`:
-1. **Cloudflare Workers Builds** — a GitHub App integration (not a checked-in workflow file) connected directly to the repo. It is what actually ships production: the check's `details_url` points at the Worker's own `production` build history in the Cloudflare dashboard, and `deployments` history (`GET /repos/.../deployments`) shows a `github-pages`-only `environment` entry for *every* commit on `main` going back at least 10 commits — but the Workers Builds *check run* (App-authored, separate from the deployments API) is the one tied to the live Worker version ID. Because there is no `main` script and no build tooling in the repo, the Workers Builds pipeline is doing a zero-bundle static-asset upload: effectively `wrangler deploy` (or its Builds-pipeline equivalent) with no build command, uploading everything under `assets.directory: "."` minus `.assetsignore`.
-2. **GitHub's built-in Pages pipeline** — `pages build and deployment` is GitHub's own *dynamic* workflow (no YAML in the repo; it exists only because GitHub Pages is switched on in the repository's Settings → Pages, likely a leftover from before the Cloudflare move). Its `deployments` all target the `github-pages` environment, distinct from the Cloudflare Worker. Live headers (§2) show `server: cloudflare` and Cloudflare cache/NEL headers on every response with no GitHub Pages fingerprint, so **production traffic on `willvernon.online` is served by the Cloudflare Worker, not GitHub Pages** — the Pages deployment is a dormant side effect of a repo setting, not part of the real serving path, but it does mean GitHub Pages is silently building a full (possibly public, if repo visibility allows) mirror of the site on every push.
-
-**Likely build/deploy commands**: no build command (no `package.json`, no lockfile, no bundler config anywhere in the tree) → deploy command is a bare `wrangler deploy`/Workers-Builds-equivalent upload of static assets, gated only by `.assetsignore`.
+- `GET /deployments?per_page=10` returns 10 entries. Every one is environment `github-pages`, one per commit from `f9757ca` back to `66fb22f`. The Workers deploy does not appear in the Deployments API, only as the check run.
+- **Production is Cloudflare**: every live response carries `server: cloudflare` and `cf-ray` (§2).
+- **GitHub Pages is live, not dormant.** `https://vnon-code.github.io/willvernon-online/` returns 200 with `server: GitHub.com` and the same `<title>` as production. It serves the billboard PNG (206 on a range request), and it serves `upload_to_r2.py` and `wrangler.jsonc` with 200, because Pages ignores `.assetsignore`. The repo is public (`visibility: public`, `has_pages: true`), so nothing secret leaks. `upload_to_r2.py:21-22` holds only `YOUR_…` placeholders.
+- **Pages risk:** no page has `rel="canonical"` (`grep -c` returns 0 on all 7), so the mirror is an uncanonicalised duplicate of the whole site. After a merge it would also publish `redesign/` whatever `.assetsignore` says.
+- **Pages fix:** disable Pages in repo Settings (a human, repo-admin action), and/or add canonical tags in the rebuild.
+- **Build command**: none. There is no `package.json`, lockfile or bundler. Workers Builds uploads the git checkout under `assets.directory "."`, minus `.assetsignore`. Gitignored local files (`.claude/skills/`, `skills-lock.json`, `*.mp4`) never reach the build.
 
 ## 2. Live edge behaviour
 
-Probed with `curl -sSI` against `https://willvernon.online` (2026-09-24 23:35–23:36 UTC):
+`curl -sSI` (and `curl -D -` for GET) against `https://willvernon.online`:
 
 | Request | Status | Notes |
 |---|---|---|
-| `/` | 200 | `content-type: text/html`, `cf-cache-status: HIT` |
-| `/index.html` | **307** → `location: /` | `.html` stripped |
-| `/about` | 200 | canonical clean-URL form |
-| `/about.html` | **307** → `location: /about` | |
-| `/work` | 200 | |
-| `/work.html` | **307** → `location: /work` | |
-| `/projects.html` | **307** → `location: /projects` | |
-| `/music.html` | **307** → `location: /music` | |
-| `/AI.html` | **307** → `location: /AI` | |
-| `/experiments.html` | **307** → `location: /experiments` | |
-| `/nope` (nonexistent) | **404**, `content-length: 0`, no `content-type` | bare empty body, no custom 404 page |
-| `/style.css` | 200 | `cf-cache-status: HIT` |
-| `/img/marimekko/Vernon_GDES50014_billboard4.png` | 200 | `cf-cache-status: MISS` (first hit) |
-| `https://assets.willvernon.online/ai/synthetic_corals_Preview.jpg` (R2) | 200 | `cf-cache-status: DYNAMIC`, `content-type: image/jpeg`, `accept-ranges: bytes`, `content-length: 368758` |
-| `https://assets.willvernon.online/previews/ai_trailer.mp4` (R2) | 200 | `cf-cache-status: DYNAMIC`, `content-type: video/mp4`, `accept-ranges: bytes` |
+| `/`, `/about`, `/work` | 200 | `content-type: text/html`, `cf-cache-status: HIT` |
+| `/index.html` | 307 → `/` | |
+| `/about.html`, `/work.html`, `/projects.html`, `/music.html`, `/AI.html`, `/experiments.html` | 307 → `/<name>` | all 7 pages verified |
+| `/about/` | 307 → `/about` | |
+| `/nope` (GET) | 404, `content-length: 0`, no `content-type` | body is 0 bytes (measured) |
+| `/upload_to_r2.py`, `/wrangler.jsonc` | 404 | `.assetsignore` is working |
+| `/README.md` | 200 `text/markdown` | not ignored |
+| `/style.css` | 200 `text/css`, HIT, has `etag` | |
+| `/img/marimekko/Vernon_GDES50014_billboard4.png` | 200 `image/png`, MISS | |
+| `http://willvernon.online/` (plain HTTP) | **200**, `cf-ray` present | not redirected to HTTPS. Observed through this environment's egress proxy, so a human should re-check from a normal network |
+| R2 `assets.willvernon.online/ai/synthetic_corals_Preview.jpg` | 200 `image/jpeg`, `content-length: 368758`, DYNAMIC | no `cache-control` |
+| R2 `assets.willvernon.online/previews/ai_trailer.mp4` | 200 `video/mp4`, `content-length: 2598561`, DYNAMIC | a `Range: 0-99` request returns 206 with `content-range: bytes 0-99/2598561` |
+| R2 with `Origin: https://willvernon.online` | `access-control-allow-origin: *` | also exposes `ETag,Content-Range,Accept-Ranges,Content-Length,Content-Type` |
 
-This behaviour matches the Workers *assets* defaults, unset in `wrangler.jsonc`: **`html_handling: "auto-trailing-slash"`** (extensionless URL is canonical, requesting `<name>.html` 307-redirects to the clean path) and **`not_found_handling: "none"`** (no route matches → raw empty 404, no SPA fallback, no custom page).
-
-**Cache-Control** is identical across every content type on the main domain — `public, max-age=0, must-revalidate` — for HTML, CSS, and PNG alike (verified on `/`, `/about`, `/style.css`, and the billboard PNG). Nothing is served as long-lived/immutable; every asset revalidates via `etag` on each load. Filenames are not content-hashed, so this is arguably correct default behaviour (a long `max-age` on `style.css` without a hash would risk stale CSS after deploys) but it also means there's no cheap win from Cloudflare edge cache for unchanging binary assets — the only saving is skipping origin re-fetch on a 304-eligible revalidation, and even that requires the browser to make the round trip.
-
-**R2 custom-domain assets** (`assets.willvernon.online`) send **no `cache-control` header at all** and register `cf-cache-status: DYNAMIC` on every probe — the edge is not caching these image/video pulls by any explicit rule, so every request (including repeat ones from different edge PoPs) round-trips to R2.
-
-**Security headers — all absent** on every probed response, main domain and R2 domain alike: no `content-security-policy`, no `strict-transport-security`, no `x-content-type-options`, no `referrer-policy`, no `permissions-policy`, no `x-frame-options`. The only headers present beyond the basics are Cloudflare's own `report-to`/`nel` (Network Error Logging) and `alt-svc`. `server: cloudflare` is present; there is no separate app/framework header leak.
+- The redirects and 404 match the Workers-assets defaults that `wrangler.jsonc` leaves unset: `html_handling: "auto-trailing-slash"` and `not_found_handling: "none"`.
+- **Cache-Control** on the main domain is `public, max-age=0, must-revalidate` on `/`, `/about`, `/style.css` and the PNG. Every asset revalidates by `etag`. Filenames have no content hash, so a long `max-age` today would risk serving stale CSS.
+- **R2** sends no `cache-control` and returns `cf-cache-status: DYNAMIC` on every probe, so it is not being edge-cached.
+- **Security headers**: none of CSP, HSTS, `x-content-type-options`, `referrer-policy`, `permissions-policy` or `x-frame-options` appears on any probed response, main or R2 domain. Beyond the basics, the only extra headers are Cloudflare's `report-to`, `nel` and `alt-svc`.
 
 ## 3. Current Worker config & limits
 
-- **Assets-only** (`wrangler.jsonc` has no `main`): confirmed no Worker script runs on the request path; this is pure static hosting via Workers Static Assets, which is why there are no security headers, no redirects beyond the built-in `html_handling`, and no custom 404 — none of that is programmable without a script.
-- **Per-file 25 MiB Workers-assets limit** — `git ls-files -z | xargs -0 du -m | sort -rn | head`:
+- **Assets-only.** No script runs on the request path. Headers, redirects and a 404 page are still available without a script, through `_headers`, `_redirects` and `assets.not_found_handling` (§4). The current gaps come from those files and fields not existing, not from a platform limitation.
+- **25 MiB per-file limit.** Exact sizes, from `stat -c %s` on `git ls-files`:
 
-| File | Size (MB) | % of 25 MiB limit |
+| File | MiB | % of 25 MiB |
 |---|---|---|
-| `img/marimekko/Vernon_GDES50014_billboard4.png` | 22 | 88% |
-| `img/marimekko/Vernon_GDES50014_billboard3.png` | 22 | 88% |
-| `img/marimekko/Vernon_GDES50014_billboard1.png` | 21 | 84% |
-| `img/marimekko/Vernon_GDES50014_billboard2.png` | 20 | 80% |
-| `img/powersurge/powersurgegif2.gif` | 19 | 76% |
-| `img/powersurge/powersurgegif.gif` | 15 | 60% |
+| `img/marimekko/Vernon_GDES50014_billboard3.png` | 21.85 | 87.4% |
+| `img/marimekko/Vernon_GDES50014_billboard4.png` | 21.54 | 86.1% |
+| `img/marimekko/Vernon_GDES50014_billboard1.png` | 20.24 | 81.0% |
+| `img/marimekko/Vernon_GDES50014_billboard2.png` | 19.73 | 78.9% |
+| `img/powersurge/powersurgegif2.gif` | 18.10 | 72.4% |
+| `img/powersurge/powersurgegif.gif` | 14.88 | 59.5% |
 
-  No tracked file currently exceeds the limit, but four files already sit at 80–88% of it. This is the direct cause named in the `70cdecc` commit message ("fix Git pack deploy size limit") and remains a live risk for the rebuild: any further-resolution export of these same assets (or a new hero video/GIF of similar weight) will hit the ceiling and fail the Workers Builds upload outright. `.gitignore` already excludes `*.mp4`, `*.mov`, and `audio/*.wav` for this exact reason — the heaviest media (video, lossless audio stems) is deliberately kept out of git and served from R2 instead (`upload_to_r2.py` at repo root, 3.5 KB).
-- **Total tracked footprint**: 207 files tracked by git, 171 MB total (`git ls-files -z | xargs -0 du -sh -c`). By extension: 91 `.png`, 57 `.jpg`, 27 `.jpeg`, 5 `.mp3`, 2 `.gif`, 7 `.html`, 1 `.css`, plus config/docs. `img/` alone is 156 MB, `audio/` 14 MB (the 5 tracked stem `.mp3` files — the raw `.wav` versions are gitignored).
+  No file exceeds the limit today. The rebuild should not add larger exports to git. `.gitignore` already keeps `*.mp4`, `*.mov` and `audio/*.wav` out of git "to conform with Cloudflare Workers limits" (`.gitignore` comments). Video is served from R2 instead, uploaded with `upload_to_r2.py` (3,556 B).
+- **Footprint (production, `origin/main`)**: 179 files, 176,913,412 B (`git ls-tree -r -l`). By extension: 91 `.png`, 41 `.jpg`, 27 `.jpeg`, 7 `.html`, 5 `.mp3`, 2 `.gif`, 1 `.css`, plus config. `img/` is 156 MB and `audio/` is 14 MB (`du -sh`).
+- **Branch `redesign/v2`**: 207 files, 178,170,494 B. It adds 28 tracked files under `redesign/`: 16 baseline JPGs, 9 content JSON/MD files and 3 scripts, 1.3 MB in all. `git diff --stat origin/main HEAD` shows 29 files changed, the 29th being `.gitignore`.
+- **Action before merge:** add `redesign/` and `README.md` to `.assetsignore`, or move the working files out of the asset directory, for example by setting `assets.directory` to a `site/` or `public/` folder.
 
 ## 4. Edge-layer options for the rebuild
 
-Third-party origins actually referenced by the current pages, collected from `redesign/content/*.json` and `grep -n "gstatic\|googleapis\|unpkg" *.html`:
+Third-party origins, from `grep -ohE 'https?://host' *.html style.css` and `redesign/content/assets.json`. The JSON's 97 external URLs include 82 on `assets.willvernon.online`.
 
-- `fonts.googleapis.com`, `fonts.gstatic.com` — Google Fonts (`<link>` on all 7 pages, `AI.html:9-11` etc.)
-- `unpkg.com` — Phosphor Icons web-font script, all 7 pages (`<script src="https://unpkg.com/@phosphor-icons/web">`)
-- `assets.willvernon.online` — R2 custom domain, by far the most-referenced external host (82 of 97 external URLs in `assets.json`)
-- `soundcloud.com` / `w.soundcloud.com` — embeds and links
-- `open.spotify.com` — playlist embed
-- `www.youtube.com` — video embeds
-- `vnon.bandcamp.com`, `www.linkedin.com`, `www.tiktok.com`, `instagram.com` — outbound profile links (not embedded frames, so lower CSP priority)
+| Origin | Use | Evidence | CSP directive |
+|---|---|---|---|
+| `assets.willvernon.online` | R2 images and video (17 `<video>` srcs) | 146 refs in HTML | `img-src`, `media-src` |
+| `fonts.googleapis.com` / `fonts.gstatic.com` | Google Fonts, all 7 pages | e.g. `AI.html:9-11` | `style-src` / `font-src` |
+| `unpkg.com` | Phosphor script, all 7 pages, **unversioned** (`index.html:14`) | redirects to `@2.1.2/src/index.js` | `script-src` |
+| `cdn.jsdelivr.net` | Phosphor's script injects 6 stylesheets from `cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/…` | `curl -sSL unpkg.com/@phosphor-icons/web` | `style-src`, `font-src` (without it, every icon breaks) |
+| `formspree.io` | live contact form POST | `index.html:514` | `form-action` |
+| `w.soundcloud.com` | player iframe and `player/api.js` | `music.html:480` | `script-src`, `frame-src` |
+| `open.spotify.com`, `www.youtube.com` | one iframe each | grep | `frame-src` |
+| `soundcloud.com`, `vnon.bandcamp.com`, `www.linkedin.com`, `instagram.com`, `www.tiktok.com` | outbound links only | grep | none |
 
-| | (a) Static-only: `_headers` + `_redirects` + `wrangler.jsonc` tuning | (b) Worker script + assets binding + `run_worker_first` |
+Also recommended: pin Phosphor to an exact version, or self-host it, so that an SRI hash is possible.
+
+| | (a) Static only: `_headers` + `_redirects` + `wrangler.jsonc` | (b) Worker script + `run_worker_first` |
 |---|---|---|
-| **Security headers** | Full control via `_headers` glob rules (e.g. `/*` → CSP/HSTS/etc.), applied by the assets layer itself, no code | Same headers, but set in JS on every matched request — extra moving part for no extra capability here |
-| **CSP** | One static `Content-Security-Policy` line in `_headers` allow-listing `fonts.googleapis.com`, `fonts.gstatic.com`, `unpkg.com`, `assets.willvernon.online`, `*.soundcloud.com`, `open.spotify.com`, `www.youtube.com` (`frame-src`/`connect-src`/`style-src`/`script-src`/`img-src`/`media-src` as needed) | Identical CSP string, just built/returned in a `fetch` handler |
-| **Caching** | `_headers` can set `Cache-Control: public, max-age=31536000, immutable` scoped to a fingerprinted path prefix (e.g. `/assets/*`) if the rebuild introduces content-hashed filenames; HTML stays `no-cache`/short `max-age` via a separate rule | Same rules, but as manual header-set logic per request — no benefit unless caching needs to be conditional on something a static rule can't express (cookie, geo, A/B) |
-| **Redirects (preserve old URLs)** | `_redirects` file, e.g. `/index.html /  301` (belt-and-suspenders on top of the default `html_handling`), old anchors, any renamed pages from the rebuild | `fetch` handler `if/else` on `url.pathname` — more verbose for the same static mapping |
-| **Custom 404** | `assets.not_found_handling: "404-page"` in `wrangler.jsonc` + a `404.html` in the asset dir — zero script | A Worker can serve any 404 body/status it wants, but for a single static page this is the same outcome via more code |
-| **Cost / complexity** | Lowest: two plain-text files + 3 JSON fields in `wrangler.jsonc`. No cold starts, no per-request compute, no new observability surface | Adds a Worker invocation (and thus CPU-time billing/limits, however small) to every matched route; more surface to test and keep in sync with the asset set |
-| **Cloudflare dashboard/account change needed?** | **No** — all three levers (`_headers`, `_redirects`, `assets.*` fields) are files/config already committed through the existing Workers Builds pipeline. No new bindings, no dashboard click | **No**, if scoped to `run_worker_first` for a couple of routes and everything else stays asset-served — but it does add a `main` entry point that didn't exist before, which is a bigger diff to review and the kind of change most likely to need a dashboard-side binding later (e.g. once real back-end features from §5 are added) |
+| Security headers / CSP | `/*` rule in `_headers`, no code | same headers set in JS; an extra moving part for no gain |
+| Caching | `immutable` on a hashed-path prefix, a short TTL on HTML | same, as per-request logic |
+| Redirects | `_redirects` for any renamed or removed pages | `if/else` on `pathname` |
+| Custom 404 | `assets.not_found_handling: "404-page"` + `404.html` | possible, but more code |
+| HTTP→HTTPS | not possible in assets config. Needs the zone's "Always Use HTTPS" setting (dashboard) | a Worker cannot fix it cleanly either. Same zone setting |
+| Dashboard change | none for headers, redirects or 404 | none, if routes are scoped, but adds a `main` entry point |
 
-**Recommendation**: **(a)** for the redesign itself. It gets every header/redirect/404 requirement met with no runtime component, matches the current assets-only architecture exactly (so `git show 70cdecc`'s size-limit lesson and the existing `.assetsignore`/`.gitignore` split keep working unmodified), and needs zero Cloudflare account changes to ship. Move to (b) only when a §5 feature (contact form, D1-backed content) actually requires server logic on specific routes — at that point `run_worker_first` can be scoped to just those paths (e.g. `/api/*`) while the rest of the site stays pure static assets under the same `_headers`/`_redirects` rules.
+**Recommendation: (a).** It meets the header, redirect and 404 needs with no runtime component and keeps the current assets-only architecture. Move to (b) only for routes that need server logic (`/api/*`), scoped with `run_worker_first`. Also flag "Always Use HTTPS" and HSTS as a human dashboard check.
 
 ## 5. Propose-only back-end options (not to be built now)
 
-| Option | Value | Account resources / secrets needed | Rough effort |
+| Option | Value | Resources / secrets | Effort |
 |---|---|---|---|
-| **Contact form endpoint** | Replaces the current `mailto:` link (`index.html:38-49` pattern, repeated on every page) with an actual in-page form; removes the friction of opening a mail client | A `main` Worker route (e.g. `/api/contact`), an email-sending secret (Resend/SendGrid/Mailchannels API key) via `wrangler secret put`, Turnstile site/secret key pair for spam protection (new dashboard config) | Small–medium: 1 route, 1 secret, a Turnstile widget on the front end |
-| **Analytics** | Cloudflare Web Analytics (beacon script, no cookies) is the natural fit given the site already runs on Workers — gives page-view/referrer data with zero CSP conflict (script served from Cloudflare's own domain) vs. "none" (current state — no analytics at all, confirmed: no analytics/tracking script found in any of the 7 pages' `<head>` greps) | A Web Analytics "site tag" created in the dashboard (Analytics → Web Analytics) — one-time, no secret, no Worker code | Trivial: one `<script>` tag + one dashboard toggle |
-| **D1/KV-backed content or CMS** | Would let the 1,429-item content inventory (`redesign/content/INVENTORY.md`) be edited without a redeploy — meaningful only if update frequency justifies it | A D1 database (`wrangler d1 create`) or KV namespace binding, plus a `main` Worker to read it and render/inject content, plus some admin UI or direct SQL for edits | Large: schema design, a render path for every page section currently hard-coded in the 7 HTML files, an editing workflow |
-| **Audio-stem streaming from R2** | The 5 tracked `.mp3` stems (`audio/*.mp3`, 14 MB) and gitignored `.wav` masters (`audio/*.wav`) suggest a stem-mixer feature (isolate vocals/drums/bass); streaming multi-track audio from R2 with range requests is already how `assets.willvernon.online` serves video (confirmed `accept-ranges: bytes` in §2) | No new resource — R2 bucket already exists and is already the asset host; would need a small Worker or client-side `<audio>` multi-track sync layer, and CORS/Range confirmed already working on the R2 custom domain | Medium: mostly front-end (Web Audio API sync across N `<audio>` elements), back end is "none new" since R2 already does the serving |
+| Contact form | **A Formspree form already exists** (`index.html:514`, a plain POST with no JS handler). There are also `mailto:` links (`index.html:49`, `:483`, and one or two per page). A Worker endpoint would only replace a third-party dependency | Worker route, email-provider secret, Turnstile keys | small–medium; low priority while Formspree works |
+| Analytics | none today: `grep -ci` for gtag, googletagmanager, analytics, plausible, cloudflareinsights and umami returns 0 on all 7 pages. Cloudflare Web Analytics is cookie-free | dashboard site tag. CSP must allow `static.cloudflareinsights.com` and `cloudflareinsights.com` | trivial |
+| D1/KV content | edit the 1,429-item inventory without a redeploy | D1/KV binding + `main` Worker + editing UI | large |
+| Audio stems from R2 | 5 tracked `audio/*.mp3` (14 MB), `.wav` gitignored | R2 already serves byte ranges (206) and `ACAO: *` (§2). No new resource | medium, mostly front-end |
 
-## 6. Phase 7 (ship-to-production) needs and rollback
+## 6. Phase 7 (ship) needs and rollback
 
-**What this environment likely lacks:**
-- A **Cloudflare API token** scoped to the `willvernon-online` Worker/account (needed for `wrangler deploy`, `wrangler rollback`, or any direct dashboard-equivalent API call) — nothing in this repo or environment exposes one; the only deploy path evidenced is the GitHub-App-driven Workers Builds pipeline (§1), which fires on push and needs no local token, but that also means **this session cannot trigger, inspect build logs for, or roll back a Workers Builds deployment directly** — only push-and-wait or use the Cloudflare dashboard (out of reach here).
-- **Wrangler rollback access**: `wrangler rollback` / `wrangler deployments list` need the same API token plus account ID; neither is configured locally (`npx wrangler --version` runs — 4.139.0 — but that's just the CLI binary, not authenticated: no `wrangler login` state, no `CLOUDFLARE_API_TOKEN` visible in this shell).
-- Any change to DNS, R2 bucket settings, or the GitHub↔Cloudflare Workers Builds App connection itself would need dashboard access this task was explicitly told not to touch.
+**Missing from this environment:**
+- No Cloudflare credentials. `npx wrangler --version` returns 4.139.0, but `wrangler whoami` says "You are not authenticated". `~/.config/.wrangler/` holds only `logs/`, and no env var contains "cloudflare". This session cannot run `wrangler deploy`, `wrangler deployments list` or `wrangler rollback`, and cannot read Workers Builds logs.
+- Pushing to `main` does trigger Workers Builds (§1), so shipping is push-and-wait.
+- Disabling GitHub Pages, turning on "Always Use HTTPS" and changing DNS or R2 are all human actions.
 
-**Safest rollback path**, usable with nothing more than the git access already in hand:
-1. Before the redesign ships, tag the last known-good `main` commit: `git tag v1-final <sha>` (push the tag).
-2. Ship the redesign as a normal commit/PR to `main` — Workers Builds redeploys automatically on merge (§1), no manual trigger needed.
-3. If the new deploy misbehaves, `git revert <redesign-merge-commit>` (or a range revert) on `main` and push — this creates a new commit, which Workers Builds picks up and deploys the same way, restoring the pre-redesign asset set without needing any Cloudflare-side credential.
-4. Only if Workers Builds itself is broken (not the site content) would dashboard-level `wrangler rollback` to a prior *version ID* (§1 has one concrete example: `6d764d4a-c2ca-4084-bad5-7d86bfe44093`) be needed — that step does require the API token this environment doesn't have, so it should be called out to the human operator as a manual fallback, not assumed available in Phase 7 automation.
+**Pre-merge checklist (backend scope):**
+1. Update `.assetsignore` for `redesign/` and `README.md`, or change `assets.directory` (§3).
+2. Confirm no new tracked file is ≥ 25 MiB: `git ls-files -z | xargs -0 stat -c '%s %n' | sort -rn | head`.
+3. Fix CSP origins per the §4 table, including `cdn.jsdelivr.net` and `formspree.io`.
+
+**Rollback path (git only):**
+1. Before shipping, tag and push the known-good `main`: `git tag v1-final f9757ca`, or the current `origin/main` at ship time.
+2. Merge the redesign. Workers Builds redeploys.
+3. If it misbehaves, `git revert` the merge on `main` and push. Workers Builds deploys the revert.
+4. A dashboard or `wrangler rollback` to a prior Version ID (for example `6d764d4a-…` above) needs a token this environment lacks. That is a manual fallback for a human.
+
+Verified by Opus adversarial pass: 46 claims checked, 13 corrected.

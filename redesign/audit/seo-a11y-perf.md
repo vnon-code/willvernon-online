@@ -1,161 +1,235 @@
 # SEO + Accessibility + Performance Baseline
 
-Audited: 2026-09-24. Framework: `.claude/skills/seo-audit/SKILL.md` (On-Page + Technical SEO sections). Server: local static server at `http://localhost:8765` (Python `SimpleHTTP`, no compression). Live: `https://willvernon.online` (Cloudflare). Repo branch `redesign/v2`, no git state touched.
+Audited 2026-09-24 using the seo-audit skill's on-page and technical SEO sections. Local server: `http://localhost:8765`. `curl -sI` shows `Server: SimpleHTTP/0.6 Python/3.11.15` with no `Content-Encoding`. Live site: `https://willvernon.online`. `server: cloudflare`, `content-encoding: zstd`. Branch `redesign/v2`. No git state was touched.
 
-**Methods used exactly as specified:** axe-core 4.x via Playwright (globally-installed) against the local server — succeeded first try, full run below, no fallback needed. Lighthouse 12 (`npx lighthouse@12`) with `CHROME_PATH=/opt/pw-browsers/chromium-1194/chrome-linux/chrome`, default mobile emulation, categories `performance,accessibility,seo,best-practices` — succeeded for all 7 pages in ~90s total, no fallback needed. Desktop Lighthouse runs were **not** run (mobile-only kept inside the 10-min time box, per task's "if feasible"); mobile is the higher-value baseline since Lighthouse's default throttling models the slower device.
+**The live site matches the repo exactly.** `curl -s https://willvernon.online/<page> | diff - <page>.html` returns 0 lines for all 7 pages. So static grep results apply to production.
+
+**Methods.** axe-core 4.13.0 was injected with global Playwright (Chromium 1194, 1440×900, 2.5 s settle). Lighthouse 12.8.2 ran with its default mobile emulation, categories perf/a11y/best-practices/SEO, and `CHROME_PATH=/opt/pw-browsers/chromium-1194/chrome-linux/chrome`. Desktop Lighthouse was not run. The adversarial pass re-ran both tools, and the numbers below are the reproduced values.
 
 ---
 
 ## 1. SEO must-preserve list
 
-### 1.1 Per-page title / meta / H1 / URL
+### 1.1 Title, meta description and H1 per page
 
-| Page | Title (chars) | Meta description | H1 | URL served |
+| Page | Title (chars) | Meta description | H1 (file:line) | Live URL behaviour |
 |---|---|---|---|---|
-| index.html | `William Vernon \| Generative Design & Creative Tech` (50) | **none** | "William Vernon" (split across 2 `<span>`) | `/index.html` → live 307 → `/` (200) |
-| about.html | `About \| William Vernon` (22) | **none** | "About & Credentials" | `/about.html` → live 307 → `/about` (200) |
-| work.html | `Works \| William Vernon` (22) | **none** | **missing — no `<h1>` at all** (work.html:1-135) | `/work.html` → live 307 → `/work` (200) |
-| projects.html | `Projects \| William Vernon` (25) | **none** | "Project Archive" | `/projects.html` → live 307 → `/projects` (200) |
-| music.html | `Music \| William Vernon` (22) | **none** | "ALIAS: VNON" | `/music.html` → live 307 → `/music` (200) |
-| AI.html | `AI Experiments & Research \| William Vernon` (42) | **none** | "AI Experiments & Research" | `/AI.html` → live 307 → `/AI` (200) |
-| experiments.html | `Minimal Experiments \| William Vernon` (36) | **none** | "Minimal Experiments" | `/experiments.html` → live 307 → `/experiments` (200) |
+| index | `William Vernon \| Generative Design & Creative Tech` (50) | none | "William Vernon", two `<span class="hero-scramble">` (index.html:74-77) | `/index.html` → 307 → `/` (200) |
+| about | `About \| William Vernon` (22) | none | "About & Credentials" (about.html:199) | `/about.html` → 307 → `/about` (200) |
+| work | `Works \| William Vernon` (22) | none | **none**. `grep -c '<h1' work.html` = 0. Only three `<h3>` panel titles exist (work.html:78,94,110). | 307 → `/work` |
+| projects | `Projects \| William Vernon` (25) | none | "Project Archive" (projects.html:70) | 307 → `/projects` |
+| music | `Music \| William Vernon` (22) | none | "ALIAS: VNON" (music.html:271) | 307 → `/music` |
+| AI | `AI Experiments & Research \| William Vernon` (42) | none | "AI Experiments & Research" (AI.html:70) | 307 → `/AI` |
+| experiments | `Minimal Experiments \| William Vernon` (36) | none | "Minimal Experiments" (experiments.html:260) | 307 → `/experiments` |
 
-Evidence: `grep -n -i -E '<title>|<meta|<h1' *.html` on each file; titles/H1 confirmed at the line numbers above (e.g. `about.html:6`, `about.html:199`; `work.html` has zero `<h1>` matches). All 7 titles and both meta tags (`charset`, `viewport`) are unique per page — no duplicates.
+- All 7 titles are unique (line 6 of each file).
+- The only meta tags are `charset` and `viewport` on lines 4-5 of every page. They are identical on every page.
+- Every page except work has exactly one `<h1>`.
+- `<html lang="en">` appears at line 2 of all 7 pages.
 
-**Must-preserve — URL routing (important, easy to break in a rebuild):** the live site already 307-redirects every `/<page>.html` request to an extensionless canonical (`/about.html`→`/about`, `/index.html`→`/`, confirmed via `curl -sI`), landing on 200. This is Cloudflare Pages' clean-URL behavior, not something in this repo. **The rebuild must keep `/<page>.html` resolving (redirect or direct serve) since that's what every internal link, all external backlinks, and likely all indexed Google URLs use** — verified via `curl -sI` on all 7 pages, local 200 / live 307→200 on every one.
+**Must-preserve: URL routing.**
+- The 307s to extensionless URLs come from **this repo's deploy config**, not from Cloudflare Pages.
+- `wrangler.jsonc` deploys the site as a Cloudflare **Workers static-assets** project with `"assets": {"directory": "."}`.
+- The extensionless redirects are the default `html_handling` behaviour for Workers assets.
+- `/<page>.html` returns 200 locally and 307 → 200 live for all 7 pages (`curl -w '%{http_code} %{redirect_url}'`).
+- The rebuild must keep `/<page>.html` resolving, because every internal link uses it (see §1.5).
 
-**Must-fix carried into rebuild:** `work.html` has no H1 (page-has-heading-one — Lighthouse SEO/a11y flag, `work` page, confirmed no `<h1>` string in the file). Every other page has exactly one H1.
+**Must-preserve: hash deep links.**
+- index.html:111,137,187 and about.html:285,289,293 link to `projects.html#01`, `#03`, `#05` and `#06`.
+- No element in projects.html has `id="01"` or the other ids (`grep -c` = 0 for each).
+- These links resolve only through JavaScript (`window.location.hash` handler at projects.html:3356-3369). The rebuild must keep these fragment URLs working.
 
-### 1.2 Canonical / OG / Twitter Card / structured data
+### 1.2 Canonical, Open Graph, Twitter Card and structured data
 
-Zero occurrences of `rel="canonical"`, `og:`, `twitter:`, or `application/ld+json` across all 7 HTML files (`grep -c` returns 0 for every page, `grep -rl "application/ld+json" *.html` matches nothing). Per the skill's schema-detection caveat, this was also checked live (curl on the rendered static HTML — no CMS/JS injection layer here, so static grep is reliable, unlike a Yoast/RankMath site).
+- `grep -c -E 'rel="canonical"|og:|twitter:|ld\+json'` returns 0 on all 7 files.
+- The live index also returns 0 for these plus `name="description"`.
+- There is no injection layer: the live HTML is byte-identical to the repo.
 
-### 1.3 robots.txt / sitemap.xml
+### 1.3 robots.txt, sitemap.xml and favicon
 
-| | Repo | Live (`willvernon.online`) |
-|---|---|---|
-| robots.txt | absent (`ls robots.txt` → no such file) | `curl -o /dev/null -w %{http_code}` → **404** |
-| sitemap.xml | absent | **404** |
+| | Repo | Local | Live |
+|---|---|---|---|
+| robots.txt | absent (`ls`) | 404 | 404 |
+| sitemap.xml | absent | 404 | 404 |
+| favicon.ico | absent, no `rel="icon"` in any page (`grep -c` = 0) | 404 | 404 |
 
-Neither exists anywhere. No crawl directives, no sitemap submission possible today.
+The missing favicon was not in the original audit. Every page load requests `/favicon.ico` and gets a 404 (Lighthouse network log).
 
 ### 1.4 Image alt coverage
 
-| Page | `<img>` tags | `alt=` attrs | Gap |
-|---|---|---|---|
-| index | 20 | 20 | 0 |
-| about | 1 | 1 | 0 |
-| work | 1 | 1 | 0 |
-| projects | 110 | 109 | **1 missing** |
-| music | 2 | 2 | 0 |
-| AI | 26 | 26 | 0 |
-| experiments | 1 | 1 | 0 |
+Counted with a Python regex over `<img…>` tags, cross-checked with `grep -o '<img'` and `grep -o 'alt='`.
 
-Counted via `grep -o '<img'` / `grep -o 'alt='` per file. Coverage is otherwise complete by count; alt *quality* (descriptive vs. filler) was not scored — out of scope for a grep-based pass, flag for manual review during rebuild since `projects.html` alone carries 513 inventoried content items and most images are project-card thumbnails.
+| Page | `<img>` | missing `alt` | `loading="lazy"` | `srcset` |
+|---|---|---|---|---|
+| index | 20 | 0 | 0 | 0 |
+| about | 1 | 0 | 0 | 0 |
+| work | 1 | 0 | 0 | 0 |
+| projects | 110 | **1** | 0 | 0 |
+| music | 2 | 0 | 0 | 0 |
+| AI | 26 | 0 | 0 | 0 |
+| experiments | 1 | 0 | 0 | 0 |
+
+- The one missing alt is the lightbox `<img id="xbox-lb-img" src="">` inside a JS template string (projects.html:2225). Its `src` is set at runtime, so it needs a dynamic alt.
+- Alt text quality was not scored.
+- No image on the site uses `loading="lazy"` or `srcset`.
 
 ### 1.5 Internal link graph
 
-Primary nav (`index / work / music / about`) is present identically on **all 7 pages** (`grep -o 'href="[^"]*\.html"' *.html`, confirmed 4 nav links + footer links repeated on every file). `projects.html`, `AI.html`, and `experiments.html` are **not in the primary nav anywhere** — they're reachable only via: index.html hero buttons (`explore_projects`, `AI projects`, `experiments`) and work.html's three panel links (Projects/AI/Experiments, `work.html:70,86,102`). That means those three pages have exactly 2 inbound internal links apiece, and none of the three link to each other or back to `work.html` in-body. Not orphans, but thin internal linking for pages holding the majority of content (projects.html = 513 of 1,429 inventoried items, per `redesign/content/INVENTORY.md` header). **Recommendation for rebuild:** add projects/AI/experiments to primary nav, or add contextual cross-links between them.
+Result of `grep -n -o 'href="[^"#]*\.html[^"]*"'`:
+
+- **Primary nav.** Home, Work, Music and About appear on all 7 pages. The desktop `.nav-links` block is at lines 28-31 and the logo link at line 40, and the mobile `#mobile-menu` repeats the same four links.
+  - Line numbers are offset on about (157-160, 189-192), music (226-229, 258-261) and experiments (218-221, 250-253).
+- **There is no site footer.** The second set of links is the mobile menu.
+- projects, AI and experiments are **not in the primary nav**. Their inbound links:
+
+| Target | Inbound links (source:line) | Source pages |
+|---|---|---|
+| projects.html | index.html:88,111,137,187 · about.html:285,289,293 · work.html:70 | 3 |
+| AI.html | index.html:89,162,231 · work.html:86 | 2 |
+| experiments.html | index.html:90 · work.html:102 | 2 |
+
+- None of the three pages links to the other two.
+- Together they hold 811 of 1,429 inventoried items (projects 513, AI 209, experiments 89), per the Totals line at `redesign/content/INVENTORY.md:8`.
+- **Recommendation:** add these three pages to the nav, or add cross-links between them.
+
+### 1.6 Deploy exposure (missed by the original audit)
+
+- `assets.directory` is `"."`, and `.assetsignore` excludes only `.git*`, `wrangler.jsonc`, `.assetsignore`, `node_modules` and `upload_to_r2.py`.
+- `README.md` is publicly served today: `curl https://willvernon.online/README.md` returns 200.
+- `redesign/` is tracked in git (audit 3, baseline 16, content 9, scripts 3 files; `git ls-files redesign`) and is not in `.assetsignore`.
+- **Deploying this branch would publish the redesign audit files, screenshots and content JSON as crawlable URLs.** Add `redesign/` and `README.md` to `.assetsignore` (or narrow `assets.directory`) before the redesign ships.
 
 ---
 
-## 2. Quick wins the rebuild should add
-
-All copy suggestions below are **pulled verbatim/near-verbatim from existing on-page content** (the hero-desc paragraph each page already has) — none invented. Anything needing new copy is flagged for user approval.
+## 2. Quick wins for the rebuild
 
 | Item | Priority | Source / note |
 |---|---|---|
-| **Meta description**, every page | High | Reuse each page's existing `.hero-desc` / `.text-gray-400` intro paragraph, trimmed to ~155 chars. e.g. about.html:200 *"An adaptable designer combining technical software execution with multidisciplinary creative workflows..."*; music.html *"Under the alias vnon, I construct electronic music, focusing predominantly on the architectural complexities of Drum & Bass..."* — all 7 pages have an equivalent paragraph already (index.html:84, work.html:20-21 per-panel copy, projects.html:71, AI.html:72, experiments.html:262). Trimming to length is a mechanical edit, not new copy. |
-| **Canonical tag**, every page | High | Self-referencing `<link rel="canonical">`. **Needs a decision from the user**: canonicalize to the `.html` URL (matches internal links/existing backlinks) or the extensionless URL (matches what Cloudflare currently serves as the 307 target, `/about` not `/about.html`) — recommend the extensionless form since that's the URL the browser actually lands on and Google will see. |
-| **robots.txt** | High | New file, trivial content (`User-agent: *\nAllow: /\nSitemap: https://willvernon.online/sitemap.xml`) — no copy decision needed. |
-| **sitemap.xml** | High | New file listing the 7 canonical URLs. No copy decision needed. |
-| **OG image + `og:title`/`og:description`/`og:url`/`og:type`** | Medium | Description text reuse as above. **Image needs a pick from the user** — no dedicated social-share image exists today; candidates already in repo: `img/monogram-white-trans.png` (33KB, logo-only, weak for link previews) or a project screenshot e.g. `img/TouchDesigner_screenshot.png` (720KB, would need resizing/compression). Flag: recommend a purpose-made 1200×630 OG image rather than reusing either. |
-| **Twitter Card tags** (`summary_large_image`) | Medium | Mirrors OG once image/description exist. |
-| **JSON-LD `Person`** on about.html / index.html | Medium | Name, jobTitle, sameAs (LinkedIn `about.html:231`, Instagram `about.html:232`) are all already on-page — structured-data-only edit, no new copy. |
-| **JSON-LD `CreativeWork`** per project card (projects.html) / **MusicRecording** (music.html) | Low | Would lift straight from `redesign/content/projects.json` / `music.json` fields already extracted — mechanical, no new copy, but 513-item projects.json makes this a scoped follow-up rather than a quick win. |
-| **`work.html` H1** | High | Structural fix, not copy: promote the page's own title text into a real `<h1>` (currently only `<h3>` panel titles exist, `work.html:78,94,110`). |
-| **Add projects/AI/experiments to primary nav** | Medium | See §1.5. |
+| Meta description on every page | High | Trim existing intro copy to about 155 characters. Sources: index.html:84 (`.hero-desc`), about.html:201, projects.html:72, music.html:273, AI.html:72, experiments.html:262. Only index uses the class `hero-desc`. **work.html has no page intro**, only one-line `.panel-desc` blurbs (work.html:80,96,112), so its description needs new copy or user approval. |
+| Canonical tag on every page | High | **User decision:** canonicalise to the `.html` URL or the extensionless one. The extensionless URL is the 307 target, so it is what the browser and crawlers land on. |
+| robots.txt and sitemap.xml | High | New files, no copy decision needed. |
+| favicon (`rel="icon"`) | Medium | `img/monogram-white-trans.png` already exists (33,318 B). |
+| OG and Twitter tags | Medium | **The image needs a pick from the user.** Candidates: `img/monogram-white-trans.png` (33,318 B, logo only) or `img/TouchDesigner_screenshot.png` (733,288 B, would need resizing). A purpose-made 1200×630 image is recommended. |
+| JSON-LD `Person` | Medium | The `sameAs` links already exist: LinkedIn at about.html:231 and Instagram at about.html:232 (also about.html:176-177). |
+| work.html `<h1>` | High | Structural fix. |
+| `.assetsignore` for `redesign/` and `README.md` | High | See §1.6. |
+| Add projects, AI and experiments to the nav | Medium | See §1.5. |
 
 ---
 
-## 3. Accessibility baseline (axe-core 4.x, real browser via Playwright)
+## 3. Accessibility baseline (axe-core 4.13.0, re-run reproduced every count)
 
-Ran successfully against all 7 pages on the local server — no fallback needed. Full violation set (impact + node count):
-
-| Page | Violations (id — impact — node count) |
+| Page | Violations (rule, impact, nodes) |
 |---|---|
-| index | `color-contrast` — serious — 27 nodes · `label` — **critical** — 3 nodes |
-| about | `color-contrast` — serious — 6 · `heading-order` — moderate — 1 · `link-name` — serious — 2 |
-| work | `color-contrast` — serious — 4 · `page-has-heading-one` — moderate — 1 |
-| projects | `color-contrast` — serious — 57 · `heading-order` — moderate — 1 · `region` — moderate — 2 |
-| music | `color-contrast` — serious — 11 · `frame-title` — serious — 1 · `label` — **critical** — 3 |
-| AI | `color-contrast` — serious — 14 · `heading-order` — moderate — 1 |
-| experiments | `color-contrast` — serious — 10 · `heading-order` — moderate — 1 |
+| index | color-contrast, serious, 27 · label, **critical**, 3 |
+| about | color-contrast, serious, 6 · heading-order, moderate, 1 · link-name, serious, 2 |
+| work | color-contrast, serious, 4 · page-has-heading-one, moderate, 1 |
+| projects | color-contrast, serious, 57 · heading-order, moderate, 1 · region, moderate, 2 |
+| music | color-contrast, serious, 11 · frame-title, serious, 1 · label, **critical**, 3 |
+| AI | color-contrast, serious, 14 · heading-order, moderate, 1 |
+| experiments | color-contrast, serious, 10 · heading-order, moderate, 1 |
 
-**Totals to beat: 129 color-contrast nodes, 2 critical `label` violations (6 nodes), 4 heading-order, 2 serious `link-name`, 1 serious `frame-title`, 1 `page-has-heading-one`, 1 `region`.**
+**Totals: 129 color-contrast nodes.** Other rules:
+- `label`: 2 critical violations covering 6 nodes.
+- `heading-order`: 4, on 4 of the 7 pages.
+- `link-name`: 1 violation (2 nodes).
+- `frame-title`: 1.
+- `page-has-heading-one`: 1.
+- `region`: 1 violation (2 nodes).
 
-Specific findings worth carrying into the rebuild plan:
-- **`label` (critical)** — index.html's `#param-filter`, `#param-dist`, `#master-vol` and music.html's `#slider-chaos`, `#slider-density`, `#slider-volume` are unlabeled form controls (VJ-deck sliders). Screen-reader users get no name for these controls at all.
-- **`link-name` (serious)** — about.html's LinkedIn/Instagram icon links (`about.html:231-232`) are icon-only `<a target="_blank">` with no text/`aria-label`, so they announce as blank links.
-- **`frame-title` (serious)** — music.html's hidden SoundCloud `<iframe id="soundcloud-hidden-player">` has no `title` attribute.
-- **`heading-order` (moderate, 5 of 7 pages)** — about/projects/AI/experiments each skip a level once (e.g. `.about-desc-col h3` with no preceding `h2` in that column; `AI.html`'s `#hud-tool-title`; project-card `h3`s under a section with no `h2`).
-- **`region` (moderate)** — two `filter-label` spans on projects.html sit outside any landmark region.
-- **`color-contrast` (serious, every page, by far the largest bucket)** — two repeating patterns:
-  1. **Red accent text (`#D91C1C`) on near-black (`#020000`) = 4.12:1**, just under the 4.5:1 AA text threshold. Confirmed independently by manual contrast calc: `4.13:1` (passes AA-large at 3:1, fails AA-normal at 4.5:1). Hits every `.text-accent` label across all 7 pages.
-  2. **Inactive nav-link gray (`#6b7280`) on `#020000` = 4.33:1**, also just under 4.5:1 — hits the 3 non-active links in the primary nav on every page.
-  Both are "just below the line" fails, not gross violations — cheap to fix (darken the background slightly, or lighten the red/gray a couple of steps) without abandoning the black/red aesthetic (confirmed against `redesign/baseline/sheet-desktop.jpg` / `sheet-mobile.jpg`, which show the intended look).
+What each non-contrast violation hits:
 
-### Static checks (per skill's audit framework, beyond axe)
+- **`label`:** index `#param-filter`, `#param-dist` and `#master-vol` (index.html:457, and the JS-generated sliders at index.html:1129); music `#slider-chaos`, `#slider-density` and `#slider-volume` (music.html:379 onward).
+- **`link-name`:** icon-only links at about.html:231-232 have no text or `aria-label`. The header copies at about.html:176-177 do have `aria-label`.
+- **`frame-title`:** the flagged node is the **Spotify embed** `iframe[data-testid="embed-iframe"]` at music.html:313.
+  - The hidden SoundCloud iframe (music.html:279) also has no `title`.
+  - axe skips it because it is `visibility:hidden`, placed at -9999px.
+- **`heading-order`:** about `.about-desc-col h3`; projects `div[data-id="01"] … h3`; AI `#hud-tool-title`; experiments project-card `h3`.
+- **`region`:** two `.filter-label` elements on projects sit outside any landmark.
+
+**Colour contrast.** WCAG ratio recomputed by hand, and axe data grouped by colour pair:
+- **Red accent `#D91C1C`:** 4.12:1 on `#020000`. It falls to **3.89:1 on `#0a0a0a`** and 3.98-4.10:1 on the card backgrounds (`#0b0505`, `#070505`, `#050000`), on index and AI. It passes AA-large (3:1) and fails AA text (4.5:1).
+- **Gray `#6b7280`:** 4.33:1 on `#020000` for the 3 inactive nav links on 6 pages. It falls to 4.09-4.31:1 elsewhere.
+  - It is also body/meta text, not just nav. On projects, 36 nodes are `#6b7280` on `#050000` (4.31:1).
+- Every failure is close to the 4.5:1 line. Lightening the red and gray one or two steps fixes them without changing the black/red look (see `redesign/baseline/sheet-desktop.jpg`).
+
+### Static checks
 
 | Check | Result | Evidence |
 |---|---|---|
-| `<html lang>` | `lang="en"` on all 7 pages | `grep -n "<html" *.html` |
-| Landmarks (`<header><nav><main>`) | present on all 7 pages | `grep -n -o -E '<header|<nav|<main' *.html` |
-| `<footer>` landmark | **absent on all 7 pages** — footer content exists but is wrapped in `<div>`, not `<footer>` | `grep -n "<footer" *.html` → no matches |
-| Skip-to-content link | **absent on all 7 pages** | `grep -n -o -E 'skip-link|skip to content' *.html` → no matches |
-| Focus styles (`:focus` in style.css) | **only 1 rule in the whole 86KB file** — `.form-input:focus` (style.css:1883, adds border-color + box-shadow). Two `outline: none` resets exist (style.css:1878 `.form-input`, style.css:2087 `.vj-slider`); the form-input has a `:focus` replacement, the VJ slider does **not** — keyboard focus on the slider control is very likely invisible. | `grep -n ":focus\|outline" style.css` |
-| `prefers-reduced-motion` | **zero matches anywhere** — style.css and all 7 HTML files. Site has 13 `@keyframes` blocks and JS-driven effects (hero text scramble, particle canvas per baseline screenshots) with no reduced-motion opt-out. | `grep -n "prefers-reduced-motion" style.css *.html` → no matches |
+| `<html lang>` | `en` on all 7 pages | line 2 of each file |
+| `<header>` landmark | present on 6 pages, **absent on work.html** | `grep -o '<header'`: work = 0 |
+| `<nav>` and `<main>` | present on all 7 pages | same grep |
+| `<footer>` | **there is no site footer at all**. The only "footer" strings are card classes (e.g. AI.html:208 `.ai-card-footer`, projects.html:2821). | `grep -i footer` |
+| Skip link | absent. The only "skip" matches are music player icons (music.html:427,433). | `grep -i skip` |
+| Focus styles | `style.css` (86,549 B, 4,014 lines) has **one** `:focus` rule: `.form-input:focus` at style.css:1883, used only on index. | see below |
+| `prefers-reduced-motion` | 0 matches in `style.css` and all 7 HTML files. | `grep -c` |
+
+- **`outline: none`, CSS.** It appears at style.css:1878 (`.form-input`, which has a focus replacement) and style.css:2087 (`.vj-slider`, which has none).
+- **`outline: none`, inline.** It also appears on index.html:447 (`#av-play-btn`), index.html:457 (`#master-vol`) and index.html:1129 (JS-generated sliders), none of which have a focus replacement.
+- **`@keyframes`.** style.css has 13, and music.html and projects.html have 1 inline each, so 15 in total.
+- **JS animation.**
+  - `requestAnimationFrame` is used in index.html and music.html, which also contain `<canvas>`.
+  - The `.hero-scramble` text effect is on index.html only.
+  - None of it has a reduced-motion opt-out.
 
 ---
 
-## 4. Performance baseline (Lighthouse 12, mobile, default throttling)
+## 4. Performance baseline (Lighthouse 12.8.2, mobile, simulated throttling)
 
-Method used: **Lighthouse**, as specified — no Playwright-timing fallback needed. `CHROME_PATH` pointed at `/opt/pw-browsers/chromium-1194/chrome-linux/chrome`. All 7 mobile runs completed in ~90s wall time (well inside the 10-min box); desktop runs were skipped to stay time-boxed, since mobile (Lighthouse's default, simulated mid-tier device + slow 4G) is the more conservative number to beat.
+The adversarial re-run matched the original within ±1 point and about ±75 ms. The table shows the original run, with the corrected AI FCP.
 
-| Page | Perf | A11y* | Best Practices | SEO | LCP (ms) | TBT (ms) | CLS | FCP (ms) | Total bytes | Requests |
+| Page | Perf | A11y* | BP | SEO | LCP ms | TBT ms | CLS | FCP ms | Bytes | Req |
 |---|---|---|---|---|---|---|---|---|---|---|
-| index | 81 | 90 | 96 | 82 | 4051 | 26 | 0.000 | 2352 | 525,388 | 20 |
-| about | 96 | 87 | 96 | 91 | 2101 | 0 | 0.000 | 1951 | 141,020 | 6 |
-| work | 98 | 100 | 96 | 91 | 1802 | 0 | 0.000 | 1802 | 132,182 | 9 |
-| projects | 84 | 92 | 96 | 91 | 3601 | 0 | 0.000 | 3001 | **1,813,087** | 13 |
-| music | 89 | 85 | 96 | 91 | 3002 | 3 | 0.000 | 2402 | 277,100 | 16 |
-| AI | 89 | 93 | 96 | 91 | 3526 | 0 | 0.000 | 428,109 | 428,109 | 18 |
-| experiments | 96 | 92 | 96 | 91 | 2401 | 0 | 0.000 | 1951 | 141,243 | 15 |
+| index | 81 | 90 | 96 | 82 | 4051 | 26 | 0 | 2352 | 525,388 | 20 |
+| about | 96 | 87 | 96 | 91 | 2101 | 0 | 0 | 1951 | 141,020 | 6 |
+| work | 98 | 100 | 96 | 91 | 1802 | 0 | 0 | 1802 | 132,182 | 9 |
+| projects | 84 | 92 | 96 | 91 | 3601 | 0 | 0 | 3001 | **1,813,087** | 13 |
+| music | 89 | 85 | 96 | 91 | 3002 | 3 | 0 | 2402 | 277,100 | 16 |
+| AI | 89 | 93 | 96 | 91 | 3526 | 0 | 0 | **2101** | 428,109 | 18 |
+| experiments | 96 | 92 | 96 | 91 | 2401 | 0 | 0 | 1951 | 141,243 | 15 |
 
-\* Lighthouse's own accessibility category score — a coarser, non-overlapping check from the same axe-core ruleset used differently; the §3 axe-core run above is the authoritative a11y source.
+\* Lighthouse's a11y score is a weighted subset of axe rules. It does not score `page-has-heading-one`, which is why work scores 100. §3 is the authoritative accessibility source.
 
-**SEO category failures (Lighthouse):** every page fails `meta-description` (confirms §1.2/1.3). `index.html` additionally fails `crawlable-anchors` — the Discord button is `<a href="javascript:void(0)" onclick="copyDiscordHandle()">` (index.html, `.discord-btn`), which Google can't crawl as a link (it's a copy-to-clipboard action misusing an `<a>` — cosmetic/functional issue, not a content loss, but worth a `<button>` swap in the rebuild).
+**SEO failures.** Every page fails `meta-description`. index also fails `crawlable-anchors`, because of `<a href="javascript:void(0)" onclick="copyDiscordHandle()">` at index.html:495. That should become a `<button>`. Lighthouse does **not** flag work.html's missing H1.
 
-**Performance opportunities (shared across pages), with measured savings:**
+**What drives LCP.** The LCP element is a **text paragraph**, not an image, on:
+- index: `p.hero-desc`
+- projects: the intro `<p>`
+- AI: the intro `<p>`
+
+So LCP depends on these render-blocking resources, which appear on every page:
+- the Google Fonts CSS (index.html:11)
+- a **synchronous** `<script src="https://unpkg.com/@phosphor-icons/web">` (index.html:14)
+- `style.css?v=19` (index.html:17)
+
+Render-blocking savings are 1118-1223 ms on index, projects and AI.
+
+**Opportunities** (original run; KB = 1000 bytes):
 
 | Opportunity | index | projects | AI |
 |---|---|---|---|
-| Render-blocking resources | 1226ms | 1162ms | 1164ms |
-| Unused CSS | 450ms / 70.4KB | 300ms / 77.7KB | 300ms / 76.5KB |
-| Unminified CSS | 150ms / 21.4KB | 21.4KB (0ms) | 21.4KB (0ms) |
-| Offscreen images | 800ms | — | — |
-| Responsive images | 950ms / 353KB | 150ms / **1.13MB** | 900ms / 290KB |
-| Modern image formats (WebP/AVIF) | 800ms / 254KB | 150ms / **1.31MB** | 750ms / 217KB |
-| Text compression | 750ms / 134KB | 1350ms / 282KB | 600ms / 107KB |
+| Render-blocking | 1226 ms | 1162 ms | 1164 ms |
+| Unused CSS | 450 ms / 70.4 KB | 300 ms / 77.7 KB | 300 ms / 76.5 KB |
+| Unminified CSS | 150 ms / 21.4 KB | 21.4 KB | 21.4 KB |
+| Offscreen images | 800 ms | passes | passes |
+| Responsive images | 950 ms / 353 KB | 150 ms / 1.13 MB | 900 ms / 290 KB |
+| Modern formats | 800 ms / 254 KB | 150 ms / 1.31 MB | 750 ms / 217 KB |
+| Text compression | 750 ms / 134 KB | 1350 ms / 282 KB | 600 ms / 107 KB |
 
-The single `style.css` (86KB, unminified, un-code-split) is render-blocking and largely unused per-page — every page pays its full weight. `projects.html` is the heaviest page by a wide margin (1.8MB total, driven by unoptimized/non-responsive images across its 513 inventoried items) despite a mid-range 84 perf score, because none of its images are lazy/responsive.
+**projects.html weight is one image.**
+- `img/powersurge/PowerSurgeSS2.png` is 1,450,971 B (`ls -la`), about **80% of the page's 1.81 MB**. It is referenced at projects.html:620 (`mediaSrc`).
+- It is not spread across the 513 inventoried items. Only 13 requests load, because most of the 110 `<img>` are built from JS data when needed.
+- The next largest item is projects.html itself (241,160 B transfer).
 
-**Caveat on the text-compression finding:** the local dev server is Python's bare `SimpleHTTP` (confirmed via `curl -sI` → `Server: SimpleHTTP/0.6 Python/3.11.15`), which sends **no** `Content-Encoding`. The live site (`curl -sI --compressed`) returns `content-encoding: zstd` via Cloudflare, so production is likely not actually losing this much to compression — but the render-blocking-CSS, unminified-CSS, and unoptimized-image findings are server-independent and real.
+**Text compression caveat.** The local server sends no compression, but the live site returns `content-encoding: zstd`. The text-compression savings are therefore a local-server artifact. The render-blocking, unused CSS and image findings do not depend on the server.
 
 ### Numbers the rebuild must beat
 
-- **LCP:** index 4051ms, projects 3601ms, AI 3526ms, music 3002ms, experiments 2401ms, about 2101ms, work 1802ms — target sub-2.5s (Core Web Vitals "good") on every page, i.e. cut index's LCP by ~40%.
-- **Performance score:** index 81, projects 84, music 89, AI 89 are the four below-90 pages — target 90+ across the board.
-- **Total byte weight:** projects.html at 1.81MB is the outlier to fix first (vs. 130-530KB on every other page).
-- **SEO score:** capped at 82-91 site-wide purely by the missing meta-description (+ index's crawlable-anchors); adding descriptions/canonicals per §2 should be enough to reach 100 on Lighthouse SEO.
-- **Accessibility (axe):** 0 critical violations (currently 2: `label` ×2 pages), 0 serious color-contrast nodes (currently 129 across all pages), fix `work.html`'s missing H1.
+- **LCP:** index 4051, projects 3601, AI 3526, music 3002, experiments 2401, about 2101, work 1802 ms. Target under 2.5 s everywhere.
+- **Performance score:** index 81, projects 84, music 89, AI 89. Target 90+.
+- **Bytes:** projects 1.81 MB; the other pages are 132-525 KB. Recompressing PowerSurgeSS2.png alone removes most of it.
+- **SEO score:** 82-91. Meta descriptions, plus a `<button>` for the Discord link, should reach 100.
+- **axe:** 0 critical (currently 2 `label`), 0 color-contrast nodes (currently 129), and add work.html's `<h1>` and `<header>`.
+
+Verified by Opus adversarial pass: 64 claims checked, 19 corrected.
