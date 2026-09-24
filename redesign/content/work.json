@@ -1,0 +1,306 @@
+{
+ "file": "work.html",
+ "lang": "en",
+ "meta": {
+  "title": "Works | William Vernon",
+  "meta": [
+   {
+    "charset": "UTF-8"
+   },
+   {
+    "name": "viewport",
+    "content": "width=device-width, initial-scale=1.0"
+   }
+  ],
+  "link": [
+   {
+    "rel": "preconnect",
+    "href": "https://fonts.googleapis.com"
+   },
+   {
+    "rel": "preconnect",
+    "href": "https://fonts.gstatic.com"
+   },
+   {
+    "rel": "stylesheet",
+    "href": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+   },
+   {
+    "rel": "stylesheet",
+    "href": "style.css?v=19"
+   }
+  ],
+  "external_scripts": [
+   "https://unpkg.com/@phosphor-icons/web"
+  ]
+ },
+ "nav": [
+  {
+   "href": "index.html",
+   "text": "[ HOME ]"
+  },
+  {
+   "href": "work.html",
+   "text": "[ WORK ]"
+  },
+  {
+   "href": "music.html",
+   "text": "[ MUSIC ]"
+  },
+  {
+   "href": "about.html",
+   "text": "[ ABOUT ]"
+  },
+  {
+   "href": "index.html",
+   "text": ""
+  },
+  {
+   "href": "https://instagram.com/willvernon.av",
+   "text": ""
+  },
+  {
+   "href": "https://www.linkedin.com/in/william-vernon-a37aa42b8",
+   "text": ""
+  },
+  {
+   "href": "mailto:wvernoncsi@gmail.com",
+   "text": ""
+  },
+  {
+   "href": "index.html",
+   "text": "Home"
+  },
+  {
+   "href": "work.html",
+   "text": "Work"
+  },
+  {
+   "href": "music.html",
+   "text": "Music"
+  },
+  {
+   "href": "about.html",
+   "text": "About"
+  }
+ ],
+ "footer": [],
+ "footer_text": [],
+ "headings": [
+  {
+   "level": 3,
+   "text": "Projects"
+  },
+  {
+   "level": 3,
+   "text": "AI"
+  },
+  {
+   "level": 3,
+   "text": "Experiments"
+  }
+ ],
+ "text": [
+  {
+   "tag": "a",
+   "text": "[ HOME ]"
+  },
+  {
+   "tag": "a.active",
+   "text": "[ WORK ]"
+  },
+  {
+   "tag": "a",
+   "text": "[ MUSIC ]"
+  },
+  {
+   "tag": "a",
+   "text": "[ ABOUT ]"
+  },
+  {
+   "tag": "a.mobile-link",
+   "text": "Home"
+  },
+  {
+   "tag": "a.mobile-link.active",
+   "text": "Work"
+  },
+  {
+   "tag": "a.mobile-link",
+   "text": "Music"
+  },
+  {
+   "tag": "a.mobile-link",
+   "text": "About"
+  },
+  {
+   "tag": "p.font-mono.text-accent",
+   "text": "CASE STUDIES"
+  },
+  {
+   "tag": "h3.text-5xl.text-4xl-mobile",
+   "text": "Projects"
+  },
+  {
+   "tag": "p.panel-desc",
+   "text": "Case studies of completed projects with outcomes and process."
+  },
+  {
+   "tag": "p.font-mono.text-accent",
+   "text": "AI EXPLORATIONS"
+  },
+  {
+   "tag": "h3.text-5xl.text-4xl-mobile",
+   "text": "AI"
+  },
+  {
+   "tag": "p.panel-desc",
+   "text": "Exploration of use cases across all forms of generative design and LLMs."
+  },
+  {
+   "tag": "p.font-mono.text-accent",
+   "text": "DESIGN EXPERIMENTS"
+  },
+  {
+   "tag": "h3.text-5xl.text-4xl-mobile",
+   "text": "Experiments"
+  },
+  {
+   "tag": "p.panel-desc",
+   "text": "Personal projects/ more exploratory work to build understanding that can influence later projects."
+  }
+ ],
+ "data_attrs": [],
+ "inline_bytes": {
+  "script": 5804,
+  "style": 0,
+  "style_attr_count": 1
+ },
+ "img": [
+  {
+   "src": "img/monogram-white-trans.png",
+   "alt": "WV Monogram"
+  }
+ ],
+ "video": [
+  {
+   "src": [
+    "https://assets.willvernon.online/previews/fading_away_preview.mp4"
+   ],
+   "poster": null,
+   "attrs": [
+    "autoplay",
+    "loop",
+    "muted",
+    "playsinline"
+   ]
+  },
+  {
+   "src": [
+    "https://assets.willvernon.online/previews/ai_trailer.mp4"
+   ],
+   "poster": null,
+   "attrs": [
+    "autoplay",
+    "loop",
+    "muted",
+    "playsinline"
+   ]
+  },
+  {
+   "src": [
+    "https://assets.willvernon.online/previews/experiments_trailer.mp4"
+   ],
+   "poster": null,
+   "attrs": [
+    "autoplay",
+    "loop",
+    "muted",
+    "playsinline"
+   ]
+  }
+ ],
+ "audio": [],
+ "iframe": [],
+ "links": [
+  {
+   "href": "index.html",
+   "text": "[ HOME ]",
+   "target": null
+  },
+  {
+   "href": "work.html",
+   "text": "[ WORK ]",
+   "target": null
+  },
+  {
+   "href": "music.html",
+   "text": "[ MUSIC ]",
+   "target": null
+  },
+  {
+   "href": "about.html",
+   "text": "[ ABOUT ]",
+   "target": null
+  },
+  {
+   "href": "index.html",
+   "text": "",
+   "target": null
+  },
+  {
+   "href": "https://instagram.com/willvernon.av",
+   "text": "",
+   "target": "_blank"
+  },
+  {
+   "href": "https://www.linkedin.com/in/william-vernon-a37aa42b8",
+   "text": "",
+   "target": "_blank"
+  },
+  {
+   "href": "mailto:wvernoncsi@gmail.com",
+   "text": "",
+   "target": null
+  },
+  {
+   "href": "index.html",
+   "text": "Home",
+   "target": null
+  },
+  {
+   "href": "work.html",
+   "text": "Work",
+   "target": null
+  },
+  {
+   "href": "music.html",
+   "text": "Music",
+   "target": null
+  },
+  {
+   "href": "about.html",
+   "text": "About",
+   "target": null
+  },
+  {
+   "href": "projects.html",
+   "text": "CASE STUDIES Projects Case studies of completed projects with outcomes and process.",
+   "target": null
+  },
+  {
+   "href": "AI.html",
+   "text": "AI EXPLORATIONS AI Exploration of use cases across all forms of generative design and LLMs.",
+   "target": null
+  },
+  {
+   "href": "experiments.html",
+   "text": "DESIGN EXPERIMENTS Experiments Personal projects/ more exploratory work to build understanding that can influence later projects.",
+   "target": null
+  }
+ ],
+ "js_data": {},
+ "js_errors": {},
+ "js_items": [],
+ "script_copy_review": []
+}

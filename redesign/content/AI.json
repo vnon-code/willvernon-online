@@ -1,0 +1,1179 @@
+{
+ "file": "AI.html",
+ "lang": "en",
+ "meta": {
+  "title": "AI Experiments & Research | William Vernon",
+  "meta": [
+   {
+    "charset": "UTF-8"
+   },
+   {
+    "name": "viewport",
+    "content": "width=device-width, initial-scale=1.0"
+   }
+  ],
+  "link": [
+   {
+    "rel": "preconnect",
+    "href": "https://fonts.googleapis.com"
+   },
+   {
+    "rel": "preconnect",
+    "href": "https://fonts.gstatic.com"
+   },
+   {
+    "rel": "stylesheet",
+    "href": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+   },
+   {
+    "rel": "stylesheet",
+    "href": "style.css?v=19"
+   }
+  ],
+  "external_scripts": [
+   "https://unpkg.com/@phosphor-icons/web"
+  ]
+ },
+ "nav": [
+  {
+   "href": "index.html",
+   "text": "[ HOME ]"
+  },
+  {
+   "href": "work.html",
+   "text": "[ WORK ]"
+  },
+  {
+   "href": "music.html",
+   "text": "[ MUSIC ]"
+  },
+  {
+   "href": "about.html",
+   "text": "[ ABOUT ]"
+  },
+  {
+   "href": "index.html",
+   "text": ""
+  },
+  {
+   "href": "https://instagram.com/willvernon.av",
+   "text": ""
+  },
+  {
+   "href": "https://www.linkedin.com/in/william-vernon-a37aa42b8",
+   "text": ""
+  },
+  {
+   "href": "mailto:wvernoncsi@gmail.com",
+   "text": ""
+  },
+  {
+   "href": "index.html",
+   "text": "Home"
+  },
+  {
+   "href": "work.html",
+   "text": "Work"
+  },
+  {
+   "href": "music.html",
+   "text": "Music"
+  },
+  {
+   "href": "about.html",
+   "text": "About"
+  }
+ ],
+ "footer": [],
+ "footer_text": [],
+ "headings": [
+  {
+   "level": 1,
+   "text": "AI Experiments & Research"
+  },
+  {
+   "level": 2,
+   "text": "Ethos: Artificial Acceptance"
+  },
+  {
+   "level": 2,
+   "text": "Platform & Model Directory"
+  },
+  {
+   "level": 4,
+   "text": "Midjourney"
+  },
+  {
+   "level": 2,
+   "text": "AI Projects & Case Studies"
+  },
+  {
+   "level": 3,
+   "text": "Monolith Survival"
+  },
+  {
+   "level": 3,
+   "text": "Dredge"
+  },
+  {
+   "level": 3,
+   "text": "Synthetic Corals"
+  },
+  {
+   "level": 3,
+   "text": "willvernon.online Rebuild"
+  }
+ ],
+ "text": [
+  {
+   "tag": "a",
+   "text": "[ HOME ]"
+  },
+  {
+   "tag": "a.active",
+   "text": "[ WORK ]"
+  },
+  {
+   "tag": "a",
+   "text": "[ MUSIC ]"
+  },
+  {
+   "tag": "a",
+   "text": "[ ABOUT ]"
+  },
+  {
+   "tag": "a.mobile-link",
+   "text": "Home"
+  },
+  {
+   "tag": "a.mobile-link.active",
+   "text": "Work"
+  },
+  {
+   "tag": "a.mobile-link",
+   "text": "Music"
+  },
+  {
+   "tag": "a.mobile-link",
+   "text": "About"
+  },
+  {
+   "tag": "p.font-mono.text-accent",
+   "text": "// AI EXPLORATIONS"
+  },
+  {
+   "tag": "h1.text-7xl.font-bold",
+   "text": "AI Experiments & Research"
+  },
+  {
+   "tag": "p.text-gray-400.font-mono",
+   "text": "An active exploration into machine learning models, ControlNet spatial rendering, and custom generative visual systems integrated into design production workflows."
+  },
+  {
+   "tag": "span.font-mono.text-accent",
+   "text": "// FOUNDATION_ETHOS"
+  },
+  {
+   "tag": "h2.text-3xl.font-bold",
+   "text": "Ethos: Artificial Acceptance"
+  },
+  {
+   "tag": "p.text-gray-400.font-mono",
+   "text": "AI should be treated as a collaborator to enhance and improve elements of the design process from concepting ideas to refining outcomes. AI should not be treated as a competitor within the design industry. There are clear pitfalls in the ethics and regulations behind generative models being trained on artwork which has not been consented to by human artists. I have been experimenting with use cases of AI in design projects since 2022. The rate at which AI technology and tools are developing is crazy. I have used many different applications of AI throughout these projects and experiments: everything from direct video and image generation, using ControlNet to create interesting outcomes, and AI-assisted web design. I am optimistic that the truly innovative AI applications will benefit the industry."
+  },
+  {
+   "tag": "span.font-mono.text-accent",
+   "text": "// DEPLOYED_PLATFORMS_&_MODELS"
+  },
+  {
+   "tag": "h2.text-3xl.font-bold",
+   "text": "Platform & Model Directory"
+  },
+  {
+   "tag": "span.hud-spec-label",
+   "text": "ACTIVE_PLATFORM_SPEC"
+  },
+  {
+   "tag": "span.font-mono.text-accent",
+   "text": "[ MIDJOURNEY INC. ]"
+  },
+  {
+   "tag": "h4.text-xl.font-bold",
+   "text": "Midjourney"
+  },
+  {
+   "tag": "p.hud-spec-val",
+   "text": "Generating high-quality concept art, storyboards for videos and detailed textures for design projects."
+  },
+  {
+   "tag": "span.font-mono.text-accent",
+   "text": "// WORK_&_EXPERIMENT_INDEX"
+  },
+  {
+   "tag": "h2.comfy-section-title.mt-2",
+   "text": "AI Projects & Case Studies"
+  },
+  {
+   "tag": "span.ai-tag",
+   "text": "Midjourney"
+  },
+  {
+   "tag": "h3.ai-card-title",
+   "text": "Monolith Survival"
+  },
+  {
+   "tag": "p.ai-card-desc",
+   "text": "A mock outdoor apparel campaign built entirely through AI. Exploring gorpcore aesthetics and how convincing a brand film could look using only generated footage."
+  },
+  {
+   "tag": "span",
+   "text": "View Project"
+  },
+  {
+   "tag": "span.ai-tag",
+   "text": "Midjourney"
+  },
+  {
+   "tag": "h3.ai-card-title",
+   "text": "Dredge"
+  },
+  {
+   "tag": "p.ai-card-desc",
+   "text": "The same concept as Monolith but for deep-sea fishing fashion. A mock campaign exploring heavy-duty oceanic workwear against bioluminescent underwater backdrops."
+  },
+  {
+   "tag": "span",
+   "text": "View Project"
+  },
+  {
+   "tag": "span.ai-tag",
+   "text": "HiDream"
+  },
+  {
+   "tag": "span.ai-tag",
+   "text": "ComfyUI"
+  },
+  {
+   "tag": "h3.ai-card-title",
+   "text": "Synthetic Corals"
+  },
+  {
+   "tag": "p.ai-card-desc",
+   "text": "Generating imaginary coral reef structures using a custom ComfyUI workflow. Each run produced wildly different results, from bleached calcification to glowing bioluminescent forms."
+  },
+  {
+   "tag": "span",
+   "text": "View Project"
+  },
+  {
+   "tag": "span.ai-tag",
+   "text": "AntiGravity"
+  },
+  {
+   "tag": "h3.ai-card-title",
+   "text": "willvernon.online Rebuild"
+  },
+  {
+   "tag": "p.ai-card-desc",
+   "text": "This portfolio site was rebuilt from scratch by pair-programming with Antigravity AI. A real test of how far designer-AI collaboration can go on a live project."
+  },
+  {
+   "tag": "span",
+   "text": "View Project"
+  }
+ ],
+ "data_attrs": [
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "midjourney"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "flux"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "sdxl"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "comfyui"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "hidream"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "gemini"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "antigravity"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "firefly"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "elevenlabs"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "midjourney"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "flux"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "sdxl"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "comfyui"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "hidream"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "gemini"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "antigravity"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "firefly"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "elevenlabs"
+  }
+ ],
+ "inline_bytes": {
+  "script": 27253,
+  "style": 0,
+  "style_attr_count": 14
+ },
+ "img": [
+  {
+   "src": "img/monogram-white-trans.png",
+   "alt": "WV Monogram"
+  },
+  {
+   "src": "img/logos/Midjourney.png",
+   "alt": "Midjourney"
+  },
+  {
+   "src": "img/logos/Black Forest Labs Flux.png",
+   "alt": "Flux"
+  },
+  {
+   "src": "img/logos/Stability AI SDXL.png",
+   "alt": "SDXL"
+  },
+  {
+   "src": "img/logos/ComfyUI.png",
+   "alt": "ComfyUI"
+  },
+  {
+   "src": "img/logos/HiDream AI.png",
+   "alt": "HiDream AI"
+  },
+  {
+   "src": "img/logos/Google Gemini.png",
+   "alt": "Google Gemini"
+  },
+  {
+   "src": "img/logos/Google Anti-Gravity.png",
+   "alt": "Google Anti-Gravity"
+  },
+  {
+   "src": "img/logos/Adobe Firefly.png",
+   "alt": "Adobe Firefly"
+  },
+  {
+   "src": "img/logos/Eleven Labs.png",
+   "alt": "Eleven Labs"
+  },
+  {
+   "src": "img/logos/Midjourney.png",
+   "alt": "Midjourney"
+  },
+  {
+   "src": "img/logos/Black Forest Labs Flux.png",
+   "alt": "Flux"
+  },
+  {
+   "src": "img/logos/Stability AI SDXL.png",
+   "alt": "SDXL"
+  },
+  {
+   "src": "img/logos/ComfyUI.png",
+   "alt": "ComfyUI"
+  },
+  {
+   "src": "img/logos/HiDream AI.png",
+   "alt": "HiDream AI"
+  },
+  {
+   "src": "img/logos/Google Gemini.png",
+   "alt": "Google Gemini"
+  },
+  {
+   "src": "img/logos/Google Anti-Gravity.png",
+   "alt": "Google Anti-Gravity"
+  },
+  {
+   "src": "img/logos/Adobe Firefly.png",
+   "alt": "Adobe Firefly"
+  },
+  {
+   "src": "img/logos/Eleven Labs.png",
+   "alt": "Eleven Labs"
+  },
+  {
+   "src": "https://assets.willvernon.online/ai/synthetic_corals_Preview.jpg",
+   "alt": "Synthetic Corals Generated Outcome"
+  },
+  {
+   "src": "img/monogram-white-trans.png",
+   "alt": "WV Monogram"
+  }
+ ],
+ "video": [
+  {
+   "src": [
+    "https://assets.willvernon.online/ai/monolith_preview_v2.mp4"
+   ],
+   "poster": null,
+   "attrs": [
+    "autoplay",
+    "loop",
+    "muted",
+    "playsinline"
+   ]
+  },
+  {
+   "src": [
+    "https://assets.willvernon.online/ai/Dredge_preview_1.mp4"
+   ],
+   "poster": null,
+   "attrs": [
+    "autoplay",
+    "loop",
+    "muted",
+    "playsinline"
+   ]
+  }
+ ],
+ "audio": [],
+ "iframe": [],
+ "links": [
+  {
+   "href": "index.html",
+   "text": "[ HOME ]",
+   "target": null
+  },
+  {
+   "href": "work.html",
+   "text": "[ WORK ]",
+   "target": null
+  },
+  {
+   "href": "music.html",
+   "text": "[ MUSIC ]",
+   "target": null
+  },
+  {
+   "href": "about.html",
+   "text": "[ ABOUT ]",
+   "target": null
+  },
+  {
+   "href": "index.html",
+   "text": "",
+   "target": null
+  },
+  {
+   "href": "https://instagram.com/willvernon.av",
+   "text": "",
+   "target": "_blank"
+  },
+  {
+   "href": "https://www.linkedin.com/in/william-vernon-a37aa42b8",
+   "text": "",
+   "target": "_blank"
+  },
+  {
+   "href": "mailto:wvernoncsi@gmail.com",
+   "text": "",
+   "target": null
+  },
+  {
+   "href": "index.html",
+   "text": "Home",
+   "target": null
+  },
+  {
+   "href": "work.html",
+   "text": "Work",
+   "target": null
+  },
+  {
+   "href": "music.html",
+   "text": "Music",
+   "target": null
+  },
+  {
+   "href": "about.html",
+   "text": "About",
+   "target": null
+  }
+ ],
+ "js_data": {
+  "AI_DATA": {
+   "dredge": {
+    "title": "DREDGE",
+    "meta": "[ MIDJOURNEY_V6 // FLUID_DYNAMICS ]",
+    "tags": [
+     "Midjourney V6",
+     "Oceanic Scale",
+     "Luma Dream Machine",
+     "Light Scatter"
+    ],
+    "mediaHtml": "<div class=\"carousel-container\"><div class=\"carousel-slide active\"><video src=\"https://assets.willvernon.online/ai/dredge_outcome_full.mp4\" controls autoplay muted loop playsinline></video></div></div>",
+    "desc": "The same concept as Monolith Survival but applied to deep-sea fishing. I wanted to build a mock campaign for heavy-duty oceanic workwear — waterproof jackets, thick gloves, industrial gear — set against dramatic underwater backdrops. Midjourney generated the stills of bioluminescent creatures and dark open water, then I used video interpolation to bring those scenes to life. The idea was to see if AI could produce something that felt like a real brand campaign for a world that doesn't exist yet.",
+    "prompt": "ultra-realistic cinematic photography of a massive bioluminescent white whale leaping from the abyssal ocean, glowing internal light grid, deep volumetric light rays piercing underwater, heavy particles, slow-motion bubbles, high-detail water textures, octane render, Arri Alexa style --ar 2.35:1 --style raw --v 6.0",
+    "engine": "Midjourney V6 + Frame Interpolation",
+    "ar": "--ar 2.35:1",
+    "style": "--style raw --v 6.0",
+    "upscale": "Upscaled Creative 2x"
+   },
+   "monolith": {
+    "title": "Monolith Survival",
+    "meta": "[ GORPCORE_AE // CAM_VECTORS ]",
+    "tags": [
+     "Midjourney V6",
+     "Gorpcore Aesthetic",
+     "Luma Dream Machine",
+     "Slow Motion"
+    ],
+    "mediaHtml": "<div class=\"carousel-container\"><div class=\"carousel-slide active\"><video src=\"https://assets.willvernon.online/ai/MONOLITH_SURVIVAL_outcome.mp4\" controls autoplay muted loop playsinline></video></div></div>",
+    "desc": "I wanted to see how close AI could get to producing a convincing outdoor gear campaign. The concept was a fictional brand called Monolith Survival — rugged boots, stone landscapes, slow-motion impact shots. Midjourney handled the stills and Luma Dream Machine turned them into sweeping camera movements. The results genuinely looked like something from a real campaign shoot, which was the whole point of the experiment.",
+    "prompt": "social_u7329539893_httpss.mj.runS83Gb2M2trU_the_shoe_stomps_the_ground --ar 9:16 --style raw --v 6.0 (High-motion hiking boot technical gorpcore campaign, massive stone monolith background, slow-motion splash, camera orbits technical shoe)",
+    "engine": "Midjourney V6 + Luma Dream Machine",
+    "ar": "--ar 9:16",
+    "style": "--style raw --v 6.0",
+    "upscale": "Upscaled Creative 2x"
+   },
+   "synthetic_corals": {
+    "title": "Synthetic Corals",
+    "meta": "[ COMFYUI_NODE // HIDREAM_CORE // CLOUDFLARE_R2 ]",
+    "tags": [
+     "ComfyUI",
+     "HiDream weights",
+     "Flux.1 Dev",
+     "Bioluminescent",
+     "Multi-Outcome"
+    ],
+    "mediaHtml": "\n                    <div class=\"carousel-container\">\n                        <!-- Carousel Slides -->\n                        <div class=\"carousel-slide active\" data-index=\"0\">\n                            <video src=\"https://assets.willvernon.online/ai/coral_rotate.mp4\" controls autoplay muted loop playsinline></video>\n                        </div>\n                        <div class=\"carousel-slide\" data-index=\"1\">\n                            <video src=\"https://assets.willvernon.online/ai/coral_rotate_vertical.mp4\" controls autoplay muted loop playsinline></video>\n                        </div>\n                        <div class=\"carousel-slide\" data-index=\"2\">\n                            <img src=\"https://assets.willvernon.online/ai/synthetic_corals_1.jpg\" alt=\"Synthetic Coral 1 - White Calcification\">\n                        </div>\n                        <div class=\"carousel-slide\" data-index=\"3\">\n                            <img src=\"https://assets.willvernon.online/ai/synthetic_corals_2.png\" alt=\"Synthetic Coral 2 - Bioluminescent Cyan Blue\">\n                        </div>\n                        <div class=\"carousel-slide\" data-index=\"4\">\n                            <img src=\"https://assets.willvernon.online/ai/synthetic_corals_4.jpg\" alt=\"Synthetic Coral 4 - Polyps Bouquet\">\n                        </div>\n                        <div class=\"carousel-slide\" data-index=\"5\">\n                            <img src=\"https://assets.willvernon.online/ai/synthetic_corals_5.jpg\" alt=\"Synthetic Coral 5 - Volcanic Coral Graft\">\n                        </div>\n\n                        <!-- Controls -->\n                        <button class=\"carousel-control-btn carousel-prev\" onclick=\"moveCarousel(-1)\" aria-label=\"Previous Slide\">\n                            <i class=\"ph ph-caret-left\"></i>\n                        </button>\n                        <button class=\"carousel-control-btn carousel-next\" onclick=\"moveCarousel(1)\" aria-label=\"Next Slide\">\n                            <i class=\"ph ph-caret-right\"></i>\n                        </button>\n\n                        <!-- Indicators -->\n                        <div class=\"carousel-indicator-row\">\n                            <span class=\"carousel-dot-indicator active\" onclick=\"gotoCarouselSlide(0)\"></span>\n                            <span class=\"carousel-dot-indicator\" onclick=\"gotoCarouselSlide(1)\"></span>\n                            <span class=\"carousel-dot-indicator\" onclick=\"gotoCarouselSlide(2)\"></span>\n                            <span class=\"carousel-dot-indicator\" onclick=\"gotoCarouselSlide(3)\"></span>\n                            <span class=\"carousel-dot-indicator\" onclick=\"gotoCarouselSlide(4)\"></span>\n                            <span class=\"carousel-dot-indicator\" onclick=\"gotoCarouselSlide(5)\"></span>\n                        </div>\n                    </div>\n                ",
+    "desc": "An experiment in building a custom ComfyUI workflow to generate imaginary coral reef structures. I was interested in how small changes to the node settings could produce completely different organic forms — one run would give bleached white calcified shapes, the next would produce glowing cyan tendrils. Across five separate test runs the outputs ranged from volcanic rock grafts to delicate bioluminescent polyps, all from the same base pipeline.",
+    "prompt": "intricate synthetic coral structures, glowing neon cyan and purple veins, hyper-detailed bioluminescent reef, octane render, complex mathematics organic formations, 8k --ar 16:9 // Node Loader: flux1-dev-fp8.safetensors, shifted ModelSamplingSD3 noise coordinates, KSampler cfg: 4.5, VAE ae.safetensors",
+    "engine": "ComfyUI Node + HiDream core (Flux.1 Dev base)",
+    "ar": "1:1 / 16:9 Multi-resolutions",
+    "style": "Design-Directed Flow (DDF)",
+    "upscale": "Upscaled Subtle (Ultrasharp 4x Model)"
+   },
+   "website_rebuild": {
+    "title": "willvernon.online Rebuild",
+    "meta": "[ AGENTIC_PAIR // GEMINI_CANVAS ]",
+    "tags": [
+     "Antigravity AI",
+     "Gemini Canvas",
+     "R2 Bucket Storage",
+     "Serverless CDN",
+     "Vanilla CSS"
+    ],
+    "mediaHtml": "<div class=\"carousel-container\"><div class=\"carousel-slide active\" style=\"display:flex; align-items:center; justify-content:center; background:#030303;\"><img src=\"img/monogram-white-trans.png\" style=\"width:120px; height:auto; opacity:0.8; filter:drop-shadow(0 0 20px rgba(217, 28, 28, 0.4));\" alt=\"WV Monogram Rebuild\"></div></div>",
+    "desc": "This website is the product of a genuine collaboration between myself and Antigravity AI. Rather than just using AI to generate assets, I pair-programmed the entire site rebuild with it — working through layout decisions, solving real deployment problems like audio streaming and file hosting, and iterating on the design together. It was a proper test of what AI-assisted web development actually looks like day to day.",
+    "prompt": "Pair programming interaction: William Vernon (Artistic Direction & structural sketches) + Antigravity (Advanced Agentic CSS grid restoration, CORS XML header parser, boto3 media staging automated scripting, HTML responsive drawers)",
+    "engine": "Antigravity AI + Gemini Canvas Workspace",
+    "ar": "Pure Vanilla HTML5 / CSS3 Grid",
+    "style": "Agentic Collaboration Flow",
+    "upscale": "Cloudflare Edge Global Cache (100ms load)"
+   }
+  },
+  "AI_TOOLSET_DATA": {
+   "midjourney": {
+    "title": "Midjourney",
+    "company": "Midjourney Inc.",
+    "apps": "Generating high-quality concept art, storyboards for videos and detailed textures for design projects."
+   },
+   "flux": {
+    "title": "Flux",
+    "company": "Black Forest Labs",
+    "apps": "Creating extremely realistic images and scenes with clear, readable text in the design."
+   },
+   "sdxl": {
+    "title": "SDXL",
+    "company": "Stability AI",
+    "apps": "Designing custom graphics and maintaining a consistent style across a series of images."
+   },
+   "comfyui": {
+    "title": "ComfyUI",
+    "company": "ComfyUI Community",
+    "apps": "Building custom visual styles and creating intricate, organic patterns for art installations."
+   },
+   "hidream": {
+    "title": "HiDream AI",
+    "company": "HiDream.ai",
+    "apps": "Expanding existing images beyond their borders and adding rich, natural details to artwork."
+   },
+   "gemini": {
+    "title": "Gemini",
+    "company": "Google",
+    "apps": "Assisting with coding, optimising website layouts and brainstorming creative design ideas."
+   },
+   "antigravity": {
+    "title": "Antigravity",
+    "company": "Google DeepMind",
+    "apps": "Managing website styling, automating file uploads and coordinating smooth code deployments."
+   },
+   "firefly": {
+    "title": "Adobe Firefly",
+    "company": "Adobe",
+    "apps": "Quickly testing different layout ideas, recolouring artwork and creating graphic mockups."
+   },
+   "elevenlabs": {
+    "title": "ElevenLabs",
+    "company": "ElevenLabs",
+    "apps": "Generating natural-sounding voiceovers, sound effects and custom background audio."
+   }
+  }
+ },
+ "js_errors": {},
+ "js_items": [
+  {
+   "path": ".AI_DATA.dredge.title",
+   "kind": "text",
+   "value": "DREDGE"
+  },
+  {
+   "path": ".AI_DATA.dredge.meta",
+   "kind": "text",
+   "value": "[ MIDJOURNEY_V6 // FLUID_DYNAMICS ]"
+  },
+  {
+   "path": ".AI_DATA.dredge.tags[0]",
+   "kind": "text",
+   "value": "Midjourney V6"
+  },
+  {
+   "path": ".AI_DATA.dredge.tags[1]",
+   "kind": "text",
+   "value": "Oceanic Scale"
+  },
+  {
+   "path": ".AI_DATA.dredge.tags[2]",
+   "kind": "text",
+   "value": "Luma Dream Machine"
+  },
+  {
+   "path": ".AI_DATA.dredge.tags[3]",
+   "kind": "text",
+   "value": "Light Scatter"
+  },
+  {
+   "path": ".AI_DATA.dredge.mediaHtml",
+   "kind": "video",
+   "value": {
+    "src": [
+     "https://assets.willvernon.online/ai/dredge_outcome_full.mp4"
+    ],
+    "poster": null,
+    "attrs": [
+     "autoplay",
+     "controls",
+     "loop",
+     "muted",
+     "playsinline"
+    ]
+   }
+  },
+  {
+   "path": ".AI_DATA.dredge.desc",
+   "kind": "text",
+   "value": "The same concept as Monolith Survival but applied to deep-sea fishing. I wanted to build a mock campaign for heavy-duty oceanic workwear — waterproof jackets, thick gloves, industrial gear — set against dramatic underwater backdrops. Midjourney generated the stills of bioluminescent creatures and dark open water, then I used video interpolation to bring those scenes to life. The idea was to see if AI could produce something that felt like a real brand campaign for a world that doesn't exist yet."
+  },
+  {
+   "path": ".AI_DATA.dredge.prompt",
+   "kind": "text",
+   "value": "ultra-realistic cinematic photography of a massive bioluminescent white whale leaping from the abyssal ocean, glowing internal light grid, deep volumetric light rays piercing underwater, heavy particles, slow-motion bubbles, high-detail water textures, octane render, Arri Alexa style --ar 2.35:1 --style raw --v 6.0"
+  },
+  {
+   "path": ".AI_DATA.dredge.engine",
+   "kind": "text",
+   "value": "Midjourney V6 + Frame Interpolation"
+  },
+  {
+   "path": ".AI_DATA.dredge.ar",
+   "kind": "text",
+   "value": "--ar 2.35:1"
+  },
+  {
+   "path": ".AI_DATA.dredge.style",
+   "kind": "text",
+   "value": "--style raw --v 6.0"
+  },
+  {
+   "path": ".AI_DATA.dredge.upscale",
+   "kind": "text",
+   "value": "Upscaled Creative 2x"
+  },
+  {
+   "path": ".AI_DATA.monolith.title",
+   "kind": "text",
+   "value": "Monolith Survival"
+  },
+  {
+   "path": ".AI_DATA.monolith.meta",
+   "kind": "text",
+   "value": "[ GORPCORE_AE // CAM_VECTORS ]"
+  },
+  {
+   "path": ".AI_DATA.monolith.tags[0]",
+   "kind": "text",
+   "value": "Midjourney V6"
+  },
+  {
+   "path": ".AI_DATA.monolith.tags[1]",
+   "kind": "text",
+   "value": "Gorpcore Aesthetic"
+  },
+  {
+   "path": ".AI_DATA.monolith.tags[2]",
+   "kind": "text",
+   "value": "Luma Dream Machine"
+  },
+  {
+   "path": ".AI_DATA.monolith.tags[3]",
+   "kind": "text",
+   "value": "Slow Motion"
+  },
+  {
+   "path": ".AI_DATA.monolith.mediaHtml",
+   "kind": "video",
+   "value": {
+    "src": [
+     "https://assets.willvernon.online/ai/MONOLITH_SURVIVAL_outcome.mp4"
+    ],
+    "poster": null,
+    "attrs": [
+     "autoplay",
+     "controls",
+     "loop",
+     "muted",
+     "playsinline"
+    ]
+   }
+  },
+  {
+   "path": ".AI_DATA.monolith.desc",
+   "kind": "text",
+   "value": "I wanted to see how close AI could get to producing a convincing outdoor gear campaign. The concept was a fictional brand called Monolith Survival — rugged boots, stone landscapes, slow-motion impact shots. Midjourney handled the stills and Luma Dream Machine turned them into sweeping camera movements. The results genuinely looked like something from a real campaign shoot, which was the whole point of the experiment."
+  },
+  {
+   "path": ".AI_DATA.monolith.prompt",
+   "kind": "text",
+   "value": "social_u7329539893_httpss.mj.runS83Gb2M2trU_the_shoe_stomps_the_ground --ar 9:16 --style raw --v 6.0 (High-motion hiking boot technical gorpcore campaign, massive stone monolith background, slow-motion splash, camera orbits technical shoe)"
+  },
+  {
+   "path": ".AI_DATA.monolith.engine",
+   "kind": "text",
+   "value": "Midjourney V6 + Luma Dream Machine"
+  },
+  {
+   "path": ".AI_DATA.monolith.ar",
+   "kind": "text",
+   "value": "--ar 9:16"
+  },
+  {
+   "path": ".AI_DATA.monolith.style",
+   "kind": "text",
+   "value": "--style raw --v 6.0"
+  },
+  {
+   "path": ".AI_DATA.monolith.upscale",
+   "kind": "text",
+   "value": "Upscaled Creative 2x"
+  },
+  {
+   "path": ".AI_DATA.synthetic_corals.title",
+   "kind": "text",
+   "value": "Synthetic Corals"
+  },
+  {
+   "path": ".AI_DATA.synthetic_corals.meta",
+   "kind": "text",
+   "value": "[ COMFYUI_NODE // HIDREAM_CORE // CLOUDFLARE_R2 ]"
+  },
+  {
+   "path": ".AI_DATA.synthetic_corals.tags[0]",
+   "kind": "text",
+   "value": "ComfyUI"
+  },
+  {
+   "path": ".AI_DATA.synthetic_corals.tags[1]",
+   "kind": "text",
+   "value": "HiDream weights"
+  },
+  {
+   "path": ".AI_DATA.synthetic_corals.tags[2]",
+   "kind": "text",
+   "value": "Flux.1 Dev"
+  },
+  {
+   "path": ".AI_DATA.synthetic_corals.tags[3]",
+   "kind": "text",
+   "value": "Bioluminescent"
+  },
+  {
+   "path": ".AI_DATA.synthetic_corals.tags[4]",
+   "kind": "text",
+   "value": "Multi-Outcome"
+  },
+  {
+   "path": ".AI_DATA.synthetic_corals.mediaHtml",
+   "kind": "img",
+   "value": {
+    "src": "https://assets.willvernon.online/ai/synthetic_corals_1.jpg",
+    "alt": "Synthetic Coral 1 - White Calcification"
+   }
+  },
+  {
+   "path": ".AI_DATA.synthetic_corals.mediaHtml",
+   "kind": "img",
+   "value": {
+    "src": "https://assets.willvernon.online/ai/synthetic_corals_2.png",
+    "alt": "Synthetic Coral 2 - Bioluminescent Cyan Blue"
+   }
+  },
+  {
+   "path": ".AI_DATA.synthetic_corals.mediaHtml",
+   "kind": "img",
+   "value": {
+    "src": "https://assets.willvernon.online/ai/synthetic_corals_4.jpg",
+    "alt": "Synthetic Coral 4 - Polyps Bouquet"
+   }
+  },
+  {
+   "path": ".AI_DATA.synthetic_corals.mediaHtml",
+   "kind": "img",
+   "value": {
+    "src": "https://assets.willvernon.online/ai/synthetic_corals_5.jpg",
+    "alt": "Synthetic Coral 5 - Volcanic Coral Graft"
+   }
+  },
+  {
+   "path": ".AI_DATA.synthetic_corals.mediaHtml",
+   "kind": "video",
+   "value": {
+    "src": [
+     "https://assets.willvernon.online/ai/coral_rotate.mp4"
+    ],
+    "poster": null,
+    "attrs": [
+     "autoplay",
+     "controls",
+     "loop",
+     "muted",
+     "playsinline"
+    ]
+   }
+  },
+  {
+   "path": ".AI_DATA.synthetic_corals.mediaHtml",
+   "kind": "video",
+   "value": {
+    "src": [
+     "https://assets.willvernon.online/ai/coral_rotate_vertical.mp4"
+    ],
+    "poster": null,
+    "attrs": [
+     "autoplay",
+     "controls",
+     "loop",
+     "muted",
+     "playsinline"
+    ]
+   }
+  },
+  {
+   "path": ".AI_DATA.synthetic_corals.desc",
+   "kind": "text",
+   "value": "An experiment in building a custom ComfyUI workflow to generate imaginary coral reef structures. I was interested in how small changes to the node settings could produce completely different organic forms — one run would give bleached white calcified shapes, the next would produce glowing cyan tendrils. Across five separate test runs the outputs ranged from volcanic rock grafts to delicate bioluminescent polyps, all from the same base pipeline."
+  },
+  {
+   "path": ".AI_DATA.synthetic_corals.prompt",
+   "kind": "text",
+   "value": "intricate synthetic coral structures, glowing neon cyan and purple veins, hyper-detailed bioluminescent reef, octane render, complex mathematics organic formations, 8k --ar 16:9 // Node Loader: flux1-dev-fp8.safetensors, shifted ModelSamplingSD3 noise coordinates, KSampler cfg: 4.5, VAE ae.safetensors"
+  },
+  {
+   "path": ".AI_DATA.synthetic_corals.engine",
+   "kind": "text",
+   "value": "ComfyUI Node + HiDream core (Flux.1 Dev base)"
+  },
+  {
+   "path": ".AI_DATA.synthetic_corals.ar",
+   "kind": "text",
+   "value": "1:1 / 16:9 Multi-resolutions"
+  },
+  {
+   "path": ".AI_DATA.synthetic_corals.style",
+   "kind": "text",
+   "value": "Design-Directed Flow (DDF)"
+  },
+  {
+   "path": ".AI_DATA.synthetic_corals.upscale",
+   "kind": "text",
+   "value": "Upscaled Subtle (Ultrasharp 4x Model)"
+  },
+  {
+   "path": ".AI_DATA.website_rebuild.title",
+   "kind": "text",
+   "value": "willvernon.online Rebuild"
+  },
+  {
+   "path": ".AI_DATA.website_rebuild.meta",
+   "kind": "text",
+   "value": "[ AGENTIC_PAIR // GEMINI_CANVAS ]"
+  },
+  {
+   "path": ".AI_DATA.website_rebuild.tags[0]",
+   "kind": "text",
+   "value": "Antigravity AI"
+  },
+  {
+   "path": ".AI_DATA.website_rebuild.tags[1]",
+   "kind": "text",
+   "value": "Gemini Canvas"
+  },
+  {
+   "path": ".AI_DATA.website_rebuild.tags[2]",
+   "kind": "text",
+   "value": "R2 Bucket Storage"
+  },
+  {
+   "path": ".AI_DATA.website_rebuild.tags[3]",
+   "kind": "text",
+   "value": "Serverless CDN"
+  },
+  {
+   "path": ".AI_DATA.website_rebuild.tags[4]",
+   "kind": "text",
+   "value": "Vanilla CSS"
+  },
+  {
+   "path": ".AI_DATA.website_rebuild.mediaHtml",
+   "kind": "img",
+   "value": {
+    "src": "img/monogram-white-trans.png",
+    "alt": "WV Monogram Rebuild"
+   }
+  },
+  {
+   "path": ".AI_DATA.website_rebuild.desc",
+   "kind": "text",
+   "value": "This website is the product of a genuine collaboration between myself and Antigravity AI. Rather than just using AI to generate assets, I pair-programmed the entire site rebuild with it — working through layout decisions, solving real deployment problems like audio streaming and file hosting, and iterating on the design together. It was a proper test of what AI-assisted web development actually looks like day to day."
+  },
+  {
+   "path": ".AI_DATA.website_rebuild.prompt",
+   "kind": "text",
+   "value": "Pair programming interaction: William Vernon (Artistic Direction & structural sketches) + Antigravity (Advanced Agentic CSS grid restoration, CORS XML header parser, boto3 media staging automated scripting, HTML responsive drawers)"
+  },
+  {
+   "path": ".AI_DATA.website_rebuild.engine",
+   "kind": "text",
+   "value": "Antigravity AI + Gemini Canvas Workspace"
+  },
+  {
+   "path": ".AI_DATA.website_rebuild.ar",
+   "kind": "text",
+   "value": "Pure Vanilla HTML5 / CSS3 Grid"
+  },
+  {
+   "path": ".AI_DATA.website_rebuild.style",
+   "kind": "text",
+   "value": "Agentic Collaboration Flow"
+  },
+  {
+   "path": ".AI_DATA.website_rebuild.upscale",
+   "kind": "text",
+   "value": "Cloudflare Edge Global Cache (100ms load)"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.midjourney.title",
+   "kind": "text",
+   "value": "Midjourney"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.midjourney.company",
+   "kind": "text",
+   "value": "Midjourney Inc."
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.midjourney.apps",
+   "kind": "text",
+   "value": "Generating high-quality concept art, storyboards for videos and detailed textures for design projects."
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.flux.title",
+   "kind": "text",
+   "value": "Flux"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.flux.company",
+   "kind": "text",
+   "value": "Black Forest Labs"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.flux.apps",
+   "kind": "text",
+   "value": "Creating extremely realistic images and scenes with clear, readable text in the design."
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.sdxl.title",
+   "kind": "text",
+   "value": "SDXL"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.sdxl.company",
+   "kind": "text",
+   "value": "Stability AI"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.sdxl.apps",
+   "kind": "text",
+   "value": "Designing custom graphics and maintaining a consistent style across a series of images."
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.comfyui.title",
+   "kind": "text",
+   "value": "ComfyUI"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.comfyui.company",
+   "kind": "text",
+   "value": "ComfyUI Community"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.comfyui.apps",
+   "kind": "text",
+   "value": "Building custom visual styles and creating intricate, organic patterns for art installations."
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.hidream.title",
+   "kind": "text",
+   "value": "HiDream AI"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.hidream.company",
+   "kind": "text",
+   "value": "HiDream.ai"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.hidream.apps",
+   "kind": "text",
+   "value": "Expanding existing images beyond their borders and adding rich, natural details to artwork."
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.gemini.title",
+   "kind": "text",
+   "value": "Gemini"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.gemini.company",
+   "kind": "text",
+   "value": "Google"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.gemini.apps",
+   "kind": "text",
+   "value": "Assisting with coding, optimising website layouts and brainstorming creative design ideas."
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.antigravity.title",
+   "kind": "text",
+   "value": "Antigravity"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.antigravity.company",
+   "kind": "text",
+   "value": "Google DeepMind"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.antigravity.apps",
+   "kind": "text",
+   "value": "Managing website styling, automating file uploads and coordinating smooth code deployments."
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.firefly.title",
+   "kind": "text",
+   "value": "Adobe Firefly"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.firefly.company",
+   "kind": "text",
+   "value": "Adobe"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.firefly.apps",
+   "kind": "text",
+   "value": "Quickly testing different layout ideas, recolouring artwork and creating graphic mockups."
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.elevenlabs.title",
+   "kind": "text",
+   "value": "ElevenLabs"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.elevenlabs.company",
+   "kind": "text",
+   "value": "ElevenLabs"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.elevenlabs.apps",
+   "kind": "text",
+   "value": "Generating natural-sounding voiceovers, sound effects and custom background audio."
+  }
+ ],
+ "script_copy_review": [
+  "Close Workspace",
+  "slideover-close-btn ai-slideover-close-btn"
+ ]
+}

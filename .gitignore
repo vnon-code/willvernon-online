@@ -14,3 +14,11 @@ Thumbs.db
 **/*.mp4
 *.mov
 **/*.mov
+
+# Third-party agent skills (installed per session, never committed — public repo)
+.claude/skills/
+.agents/
+skills-lock.json
+
+# Reference-site screenshots (third-party content, kept local only)
+redesign/references/shots/

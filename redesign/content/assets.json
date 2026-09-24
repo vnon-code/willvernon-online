@@ -1,0 +1,937 @@
+[
+ {
+  "url": "AI.html",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "about.html",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "audio/Silver Linings Bootleg Atmos.mp3",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "audio/Silver Linings Bootleg Bass 2.mp3",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "audio/Silver Linings Bootleg Drums.mp3",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "audio/Silver Linings Bootleg Melody.mp3",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "audio/Silver Linings Bootleg Vocals 2.mp3",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "experiments.html",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "https://assets.willvernon.online/ai/Dredge_preview_1.mp4",
+  "status": 206,
+  "info": "video/mp4"
+ },
+ {
+  "url": "https://assets.willvernon.online/ai/MONOLITH_SURVIVAL_outcome.mp4",
+  "status": 206,
+  "info": "video/mp4"
+ },
+ {
+  "url": "https://assets.willvernon.online/ai/coral_rotate.mp4",
+  "status": 206,
+  "info": "video/mp4"
+ },
+ {
+  "url": "https://assets.willvernon.online/ai/coral_rotate_vertical.mp4",
+  "status": 206,
+  "info": "video/mp4"
+ },
+ {
+  "url": "https://assets.willvernon.online/ai/dredge_outcome_full.mp4",
+  "status": 206,
+  "info": "video/mp4"
+ },
+ {
+  "url": "https://assets.willvernon.online/ai/monolith_preview_v2.mp4",
+  "status": 206,
+  "info": "video/mp4"
+ },
+ {
+  "url": "https://assets.willvernon.online/ai/synthetic_corals_1.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/ai/synthetic_corals_2.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/ai/synthetic_corals_4.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/ai/synthetic_corals_5.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/ai/synthetic_corals_Preview.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/audio/catching-flies-bootleg.wav",
+  "status": 206,
+  "info": "audio/wav"
+ },
+ {
+  "url": "https://assets.willvernon.online/audio/heartache.wav",
+  "status": 206,
+  "info": "audio/wav"
+ },
+ {
+  "url": "https://assets.willvernon.online/audio/let-me-know.wav",
+  "status": 206,
+  "info": "audio/wav"
+ },
+ {
+  "url": "https://assets.willvernon.online/audio/midnight-runaway.wav",
+  "status": 206,
+  "info": "audio/wav"
+ },
+ {
+  "url": "https://assets.willvernon.online/audio/somebody-to-love.wav",
+  "status": 206,
+  "info": "audio/wav"
+ },
+ {
+  "url": "https://assets.willvernon.online/experiments/01_topography/renders/cinematic_trailer_upscaled.mp4",
+  "status": 206,
+  "info": "video/mp4"
+ },
+ {
+  "url": "https://assets.willvernon.online/experiments/BlenderParticlesAVTest_2(2)_1.mp4",
+  "status": 206,
+  "info": "video/mp4"
+ },
+ {
+  "url": "https://assets.willvernon.online/experiments/DeadlyCloutAV.mp4",
+  "status": 206,
+  "info": "video/mp4"
+ },
+ {
+  "url": "https://assets.willvernon.online/experiments/FUCKED%20UP_1.mp4",
+  "status": 206,
+  "info": "video/mp4"
+ },
+ {
+  "url": "https://assets.willvernon.online/experiments/TopographyAV_Test2.mp4",
+  "status": 206,
+  "info": "video/mp4"
+ },
+ {
+  "url": "https://assets.willvernon.online/experiments/TopographyStaticGens.mp4",
+  "status": 206,
+  "info": "video/mp4"
+ },
+ {
+  "url": "https://assets.willvernon.online/previews/ai_trailer.mp4",
+  "status": 206,
+  "info": "video/mp4"
+ },
+ {
+  "url": "https://assets.willvernon.online/previews/experiments_trailer.mp4",
+  "status": 206,
+  "info": "video/mp4"
+ },
+ {
+  "url": "https://assets.willvernon.online/previews/fading_away_preview.mp4",
+  "status": 206,
+  "info": "video/mp4"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/01_amplified-spaces/renders/B17/B172.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/01_amplified-spaces/renders/B17/B173.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/01_amplified-spaces/renders/FadingAway/FadingAway2.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/01_amplified-spaces/renders/FadingAway/FadingAway4.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/01_amplified-spaces/renders/Onjuku/Onjuku1.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/01_amplified-spaces/renders/Onjuku/Onjuku3.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/01_amplified-spaces/video_trailers/B17AV2_1.mp4",
+  "status": 206,
+  "info": "video/mp4"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/01_amplified-spaces/video_trailers/FadingAwayAV_1.mp4",
+  "status": 206,
+  "info": "video/mp4"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/01_amplified-spaces/video_trailers/Onjuku_1.mp4",
+  "status": 206,
+  "info": "video/mp4"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/02_handheld-stories/assets/Vernon_HandheldStories_GDES6004.mp4",
+  "status": 206,
+  "info": "video/mp4"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/03_remnants/assets/Remnants Outcome_1.mp4",
+  "status": 206,
+  "info": "video/mp4"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/05_marimekko-exhibition/assets/Vernon_GDES50014_animation_1.mp4",
+  "status": 206,
+  "info": "video/mp4"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/GIFViewportCompressed.gif",
+  "status": 206,
+  "info": "image/gif"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/IMGAIConcept.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/SmugglersOutpostIMG1.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/SmugglersOutpostIMG2.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/SmugglersOutpostIMG3.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/SmugglersOutpostIMG4.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/VIDSmugglersOutpost_1.mp4",
+  "status": 206,
+  "info": "video/mp4"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft1.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft2.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft3.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft4.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft5.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft6.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/dune_screenshot1.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/dune_screenshot2.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/dune_screenshot3.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/dune_screenshot4.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/LogoAnimGif.gif",
+  "status": 206,
+  "info": "image/gif"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/TheWorldPlaysHere2_1.mp4",
+  "status": 206,
+  "info": "video/mp4"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process1.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process10.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process11.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process12.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process2.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process3.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process4.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process5.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process6.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process7.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process8.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/blender_process9.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/dand_logo.jpg",
+  "status": 206,
+  "info": "image/jpeg"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/BusStopDesign.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/LaptopMock1.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/LaptopMock2.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/LaptopMock3.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/LaptopMock4.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/PhoneMock1.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/PhoneMockDesign.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxBusStop1.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxBusStop2.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxSubway1.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxSubway2.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxSubway3.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/YTMock3.png",
+  "status": 206,
+  "info": "image/png"
+ },
+ {
+  "url": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap",
+  "status": 200,
+  "info": "text/css; charset=utf-8"
+ },
+ {
+  "url": "https://instagram.com/willvernon.av",
+  "status": 429,
+  "info": null
+ },
+ {
+  "url": "https://open.spotify.com/embed/playlist/7e6oucLLBe5E4ohNekJMsb?utm_source=generator",
+  "status": 200,
+  "info": "text/html; charset=utf-8"
+ },
+ {
+  "url": "https://soundcloud.com/vnondnb",
+  "status": 200,
+  "info": "text/html"
+ },
+ {
+  "url": "https://soundcloud.com/vnondnb/catching-flies-silver-linings-vnon-bootleg?si=049cabf9fb274270866ec174e1199f0e&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
+  "status": 200,
+  "info": "text/html"
+ },
+ {
+  "url": "https://soundcloud.com/vnondnb/heartache?si=937e2dd112dd4c3c9034d5cf2a8740bc&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
+  "status": 200,
+  "info": "text/html"
+ },
+ {
+  "url": "https://soundcloud.com/vnondnb/let-me-know2023?si=ba8ec328d2734359844e8608552f0527&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
+  "status": 200,
+  "info": "text/html"
+ },
+ {
+  "url": "https://soundcloud.com/vnondnb/vnon-midnight-runaway-feat-lofi-ely?si=be780545d6484c0daea5ab35fa8e6d8e&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
+  "status": 200,
+  "info": "text/html"
+ },
+ {
+  "url": "https://unpkg.com/@phosphor-icons/web",
+  "status": 206,
+  "info": "text/javascript; charset=utf-8"
+ },
+ {
+  "url": "https://vnon.bandcamp.com/",
+  "status": 200,
+  "info": "text/html; charset=UTF-8"
+ },
+ {
+  "url": "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/vnondnb/heartache&color=%23D91C1C&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false",
+  "status": 200,
+  "info": "text/html"
+ },
+ {
+  "url": "https://w.soundcloud.com/player/api.js",
+  "status": 200,
+  "info": "application/javascript; charset=UTF-8"
+ },
+ {
+  "url": "https://www.linkedin.com/in/william-vernon-a37aa42b8",
+  "status": 999,
+  "info": null
+ },
+ {
+  "url": "https://www.tiktok.com/@vnon___",
+  "status": 200,
+  "info": "text/html; charset=utf-8"
+ },
+ {
+  "url": "https://www.youtube.com/embed/kKlE1vCFLaQ?autoplay=1&mute=1&loop=1&playlist=kKlE1vCFLaQ",
+  "status": 200,
+  "info": "text/html; charset=utf-8"
+ },
+ {
+  "url": "img/3D_preview.jpeg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/Netsuke_Circle.jpeg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/Rotoscope_preview.jpeg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/TouchDesigner_screenshot.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/artwork/catching-flies-bootleg.jpg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/artwork/heartache.jpg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/artwork/let-me-know.jpg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/artwork/midnight-runaway.jpg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/artwork/somebody-to-love.jpg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/logos/Adobe Firefly.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/logos/Black Forest Labs Flux.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/logos/Blender.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/logos/ComfyUI.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/logos/Eleven Labs.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/logos/Google Anti-Gravity.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/logos/Google Gemini.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/logos/HiDream AI.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/logos/Midjourney.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/logos/Stability AI SDXL.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/logos/TouchDesigner.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/Vernon_GDES50014_billboard1.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/Vernon_GDES50014_billboard2.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/Vernon_GDES50014_billboard3.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/Vernon_GDES50014_billboard4.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/page_23_img_10_Im9.jpg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/page_27_img_0_Im0.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/page_27_img_10_Im4.jpg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/page_27_img_11_Im5.jpg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/page_27_img_12_Im6.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/page_27_img_13_Im7.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/page_27_img_14_Im8.jpg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/page_27_img_15_Im9.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/page_27_img_1_Im1.jpg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/page_27_img_2_Im10.jpg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/page_27_img_3_Im11.jpg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/page_27_img_4_Im12.jpg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/page_27_img_5_Im13.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/page_27_img_6_Im14.jpg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/page_27_img_7_Im15.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/page_27_img_8_Im2.jpg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/page_27_img_9_Im3.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/page_32_img_0_Im0.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/page_32_img_1_Im1.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/page_32_img_2_Im2.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/marimekko/page_32_img_3_Im3.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/monogram-white-trans.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/powersurge/FLOPs timeline.jpeg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/powersurge/PowerSurgeSS.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/powersurge/PowerSurgeSS2.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/powersurge/TouchDesigner Powersurge.jpeg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/powersurge/powersurgegif.gif",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/powersurge/powersurgegif2.gif",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/remnants/breakdown1.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/remnants/breakdown2.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/remnants/breakdown3.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/remnants/breakdown4.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/remnants/breakdown5.png",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/remnants/controlnet.jpeg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/remnants/glyph1.jpeg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/remnants/glyph2.jpeg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/remnants/glyph3.jpeg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/remnants/glyph4.jpeg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/remnants/glyph5.jpeg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/remnants/glyph6.jpeg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/remnants/glyph7.jpeg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/remnants/glyph8.jpeg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/remnants/glyph9.jpeg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/remnants/object1.jpeg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/remnants/object2.jpeg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/remnants/object3.jpeg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/remnants/preparing assets 1.jpeg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/remnants/preparing assets 2.jpeg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "img/remnants/preparing assets 3.jpeg",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "index.html",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "music.html",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "projects.html",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "projects.html#01",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "projects.html#03",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "projects.html#05",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "projects.html#06",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "style.css?v=19",
+  "status": "local-ok",
+  "info": null
+ },
+ {
+  "url": "work.html",
+  "status": "local-ok",
+  "info": null
+ }
+]

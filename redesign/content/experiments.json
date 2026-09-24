@@ -1,0 +1,496 @@
+{
+ "file": "experiments.html",
+ "lang": "en",
+ "meta": {
+  "title": "Minimal Experiments | William Vernon",
+  "meta": [
+   {
+    "charset": "UTF-8"
+   },
+   {
+    "name": "viewport",
+    "content": "width=device-width, initial-scale=1.0"
+   }
+  ],
+  "link": [
+   {
+    "rel": "preconnect",
+    "href": "https://fonts.googleapis.com"
+   },
+   {
+    "rel": "preconnect",
+    "href": "https://fonts.gstatic.com"
+   },
+   {
+    "rel": "stylesheet",
+    "href": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+   },
+   {
+    "rel": "stylesheet",
+    "href": "style.css?v=19"
+   }
+  ],
+  "external_scripts": [
+   "https://unpkg.com/@phosphor-icons/web"
+  ]
+ },
+ "nav": [
+  {
+   "href": "index.html",
+   "text": "[ HOME ]"
+  },
+  {
+   "href": "work.html",
+   "text": "[ WORK ]"
+  },
+  {
+   "href": "music.html",
+   "text": "[ MUSIC ]"
+  },
+  {
+   "href": "about.html",
+   "text": "[ ABOUT ]"
+  },
+  {
+   "href": "index.html",
+   "text": ""
+  },
+  {
+   "href": "https://instagram.com/willvernon.av",
+   "text": ""
+  },
+  {
+   "href": "https://www.linkedin.com/in/william-vernon-a37aa42b8",
+   "text": ""
+  },
+  {
+   "href": "mailto:wvernoncsi@gmail.com",
+   "text": ""
+  },
+  {
+   "href": "index.html",
+   "text": "Home"
+  },
+  {
+   "href": "work.html",
+   "text": "Work"
+  },
+  {
+   "href": "music.html",
+   "text": "Music"
+  },
+  {
+   "href": "about.html",
+   "text": "About"
+  }
+ ],
+ "footer": [],
+ "footer_text": [],
+ "headings": [
+  {
+   "level": 1,
+   "text": "Minimal Experiments"
+  },
+  {
+   "level": 2,
+   "text": "EXPERIMENT_TITLE"
+  }
+ ],
+ "text": [
+  {
+   "tag": "a",
+   "text": "[ HOME ]"
+  },
+  {
+   "tag": "a.active",
+   "text": "[ WORK ]"
+  },
+  {
+   "tag": "a",
+   "text": "[ MUSIC ]"
+  },
+  {
+   "tag": "a",
+   "text": "[ ABOUT ]"
+  },
+  {
+   "tag": "a.mobile-link",
+   "text": "Home"
+  },
+  {
+   "tag": "a.mobile-link.active",
+   "text": "Work"
+  },
+  {
+   "tag": "a.mobile-link",
+   "text": "Music"
+  },
+  {
+   "tag": "a.mobile-link",
+   "text": "About"
+  },
+  {
+   "tag": "p.font-mono.text-accent",
+   "text": "// DESIGN EXPERIMENTS"
+  },
+  {
+   "tag": "h1.text-7xl.font-bold",
+   "text": "Minimal Experiments"
+  },
+  {
+   "tag": "p.text-gray-400.font-mono",
+   "text": "A quick log of personal motion design test runs, real-time node pipelines and procedural spatial research. Focuses on technical mechanics, visual synthesis and generative geometry."
+  },
+  {
+   "tag": "h2.lightbox-title",
+   "text": "EXPERIMENT_TITLE"
+  },
+  {
+   "tag": "p.lightbox-desc",
+   "text": "Experiment description goes here..."
+  },
+  {
+   "tag": "span",
+   "text": "SOFTWARE / SYSTEM"
+  },
+  {
+   "tag": "strong",
+   "text": "Software list"
+  },
+  {
+   "tag": "span",
+   "text": "MEDIA TYPE"
+  },
+  {
+   "tag": "strong",
+   "text": "MP4 VIDEO LOOP"
+  }
+ ],
+ "data_attrs": [],
+ "inline_bytes": {
+  "script": 9458,
+  "style": 5438,
+  "style_attr_count": 6
+ },
+ "img": [
+  {
+   "src": "img/monogram-white-trans.png",
+   "alt": "WV Monogram"
+  }
+ ],
+ "video": [
+  {
+   "src": [],
+   "poster": null,
+   "attrs": [
+    "autoplay",
+    "controls",
+    "playsinline"
+   ]
+  }
+ ],
+ "audio": [],
+ "iframe": [],
+ "links": [
+  {
+   "href": "index.html",
+   "text": "[ HOME ]",
+   "target": null
+  },
+  {
+   "href": "work.html",
+   "text": "[ WORK ]",
+   "target": null
+  },
+  {
+   "href": "music.html",
+   "text": "[ MUSIC ]",
+   "target": null
+  },
+  {
+   "href": "about.html",
+   "text": "[ ABOUT ]",
+   "target": null
+  },
+  {
+   "href": "index.html",
+   "text": "",
+   "target": null
+  },
+  {
+   "href": "https://instagram.com/willvernon.av",
+   "text": "",
+   "target": "_blank"
+  },
+  {
+   "href": "https://www.linkedin.com/in/william-vernon-a37aa42b8",
+   "text": "",
+   "target": "_blank"
+  },
+  {
+   "href": "mailto:wvernoncsi@gmail.com",
+   "text": "",
+   "target": null
+  },
+  {
+   "href": "index.html",
+   "text": "Home",
+   "target": null
+  },
+  {
+   "href": "work.html",
+   "text": "Work",
+   "target": null
+  },
+  {
+   "href": "music.html",
+   "text": "Music",
+   "target": null
+  },
+  {
+   "href": "about.html",
+   "text": "About",
+   "target": null
+  }
+ ],
+ "js_data": {
+  "EXPERIMENTS_DATA": [
+   {
+    "id": "01",
+    "title": "Blender Particles AV Test",
+    "descShort": "An exploration of real-time particle simulations driven by multi-band audio inputs. Frequencies control gravity, turbulence field scales and emission rates to translate sound into visual kinetic energy.",
+    "mediaSrc": "https://assets.willvernon.online/experiments/BlenderParticlesAVTest_2(2)_1.mp4",
+    "aspectRatio": "16/9",
+    "software": [
+     "Blender",
+     "After Effects"
+    ]
+   },
+   {
+    "id": "02",
+    "title": "Deadly Clout",
+    "descShort": "An audio-reactive, dark typographic motion piece. Merges high-frequency sound transients with kinetic grid systems and heavy displacement loops to project a sense of intense digital noise.",
+    "mediaSrc": "https://assets.willvernon.online/experiments/DeadlyCloutAV.mp4",
+    "aspectRatio": "16/9",
+    "software": [
+     "TouchDesigner",
+     "After Effects"
+    ]
+   },
+   {
+    "id": "03",
+    "title": "FUCKED UP 01",
+    "descShort": "A glitch-focused motion study investigating modern visual degradation. Employs analog video synthesis, decimation filters and RGB chromatic aberrations to create a highly distressed typographic loop.",
+    "mediaSrc": "https://assets.willvernon.online/experiments/FUCKED%20UP_1.mp4",
+    "aspectRatio": "16/9",
+    "software": [
+     "After Effects",
+     "Premiere Pro"
+    ]
+   },
+   {
+    "id": "04",
+    "title": "Topography AV Test",
+    "descShort": "A real-time 3D topographic map deformed dynamically by sub-bass wave vectors. Slices spatial peak limits and grid heights based on low-frequency sound pressure levels.",
+    "mediaSrc": "https://assets.willvernon.online/experiments/TopographyAV_Test2.mp4",
+    "aspectRatio": "1/1",
+    "software": [
+     "TouchDesigner",
+     "Blender"
+    ]
+   },
+   {
+    "id": "05",
+    "title": "Topography Static Gens",
+    "descShort": "An exploration of heightmap procedurals and vector line displacements. Focuses on minimal, high-contrast contour mapping, gradient-mapped heights and architectural mesh extractions.",
+    "mediaSrc": "https://assets.willvernon.online/experiments/TopographyStaticGens.mp4",
+    "aspectRatio": "1/1",
+    "software": [
+     "Blender",
+     "Photoshop"
+    ]
+   }
+  ]
+ },
+ "js_errors": {},
+ "js_items": [
+  {
+   "path": ".EXPERIMENTS_DATA[0].id",
+   "kind": "text",
+   "value": "01"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[0].title",
+   "kind": "text",
+   "value": "Blender Particles AV Test"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[0].descShort",
+   "kind": "text",
+   "value": "An exploration of real-time particle simulations driven by multi-band audio inputs. Frequencies control gravity, turbulence field scales and emission rates to translate sound into visual kinetic energy."
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[0].mediaSrc",
+   "kind": "url",
+   "value": "https://assets.willvernon.online/experiments/BlenderParticlesAVTest_2(2)_1.mp4"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[0].aspectRatio",
+   "kind": "text",
+   "value": "16/9"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[0].software[0]",
+   "kind": "text",
+   "value": "Blender"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[0].software[1]",
+   "kind": "text",
+   "value": "After Effects"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[1].id",
+   "kind": "text",
+   "value": "02"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[1].title",
+   "kind": "text",
+   "value": "Deadly Clout"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[1].descShort",
+   "kind": "text",
+   "value": "An audio-reactive, dark typographic motion piece. Merges high-frequency sound transients with kinetic grid systems and heavy displacement loops to project a sense of intense digital noise."
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[1].mediaSrc",
+   "kind": "url",
+   "value": "https://assets.willvernon.online/experiments/DeadlyCloutAV.mp4"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[1].aspectRatio",
+   "kind": "text",
+   "value": "16/9"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[1].software[0]",
+   "kind": "text",
+   "value": "TouchDesigner"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[1].software[1]",
+   "kind": "text",
+   "value": "After Effects"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[2].id",
+   "kind": "text",
+   "value": "03"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[2].title",
+   "kind": "text",
+   "value": "FUCKED UP 01"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[2].descShort",
+   "kind": "text",
+   "value": "A glitch-focused motion study investigating modern visual degradation. Employs analog video synthesis, decimation filters and RGB chromatic aberrations to create a highly distressed typographic loop."
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[2].mediaSrc",
+   "kind": "url",
+   "value": "https://assets.willvernon.online/experiments/FUCKED%20UP_1.mp4"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[2].aspectRatio",
+   "kind": "text",
+   "value": "16/9"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[2].software[0]",
+   "kind": "text",
+   "value": "After Effects"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[2].software[1]",
+   "kind": "text",
+   "value": "Premiere Pro"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[3].id",
+   "kind": "text",
+   "value": "04"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[3].title",
+   "kind": "text",
+   "value": "Topography AV Test"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[3].descShort",
+   "kind": "text",
+   "value": "A real-time 3D topographic map deformed dynamically by sub-bass wave vectors. Slices spatial peak limits and grid heights based on low-frequency sound pressure levels."
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[3].mediaSrc",
+   "kind": "url",
+   "value": "https://assets.willvernon.online/experiments/TopographyAV_Test2.mp4"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[3].aspectRatio",
+   "kind": "text",
+   "value": "1/1"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[3].software[0]",
+   "kind": "text",
+   "value": "TouchDesigner"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[3].software[1]",
+   "kind": "text",
+   "value": "Blender"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[4].id",
+   "kind": "text",
+   "value": "05"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[4].title",
+   "kind": "text",
+   "value": "Topography Static Gens"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[4].descShort",
+   "kind": "text",
+   "value": "An exploration of heightmap procedurals and vector line displacements. Focuses on minimal, high-contrast contour mapping, gradient-mapped heights and architectural mesh extractions."
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[4].mediaSrc",
+   "kind": "url",
+   "value": "https://assets.willvernon.online/experiments/TopographyStaticGens.mp4"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[4].aspectRatio",
+   "kind": "text",
+   "value": "1/1"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[4].software[0]",
+   "kind": "text",
+   "value": "Blender"
+  },
+  {
+   "path": ".EXPERIMENTS_DATA[4].software[1]",
+   "kind": "text",
+   "value": "Photoshop"
+  }
+ ],
+ "script_copy_review": [
+  ", `openLightbox("
+ ]
+}

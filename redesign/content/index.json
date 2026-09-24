@@ -1,0 +1,1672 @@
+{
+ "file": "index.html",
+ "lang": "en",
+ "meta": {
+  "title": "William Vernon | Generative Design & Creative Tech",
+  "meta": [
+   {
+    "charset": "UTF-8"
+   },
+   {
+    "name": "viewport",
+    "content": "width=device-width, initial-scale=1.0"
+   }
+  ],
+  "link": [
+   {
+    "rel": "preconnect",
+    "href": "https://fonts.googleapis.com"
+   },
+   {
+    "rel": "preconnect",
+    "href": "https://fonts.gstatic.com"
+   },
+   {
+    "rel": "stylesheet",
+    "href": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+   },
+   {
+    "rel": "stylesheet",
+    "href": "style.css?v=19"
+   }
+  ],
+  "external_scripts": [
+   "https://unpkg.com/@phosphor-icons/web"
+  ]
+ },
+ "nav": [
+  {
+   "href": "index.html",
+   "text": "[ HOME ]"
+  },
+  {
+   "href": "work.html",
+   "text": "[ WORK ]"
+  },
+  {
+   "href": "music.html",
+   "text": "[ MUSIC ]"
+  },
+  {
+   "href": "about.html",
+   "text": "[ ABOUT ]"
+  },
+  {
+   "href": "index.html",
+   "text": ""
+  },
+  {
+   "href": "https://instagram.com/willvernon.av",
+   "text": ""
+  },
+  {
+   "href": "https://www.linkedin.com/in/william-vernon-a37aa42b8",
+   "text": ""
+  },
+  {
+   "href": "mailto:wvernoncsi@gmail.com",
+   "text": ""
+  },
+  {
+   "href": "index.html",
+   "text": "Home"
+  },
+  {
+   "href": "work.html",
+   "text": "Work"
+  },
+  {
+   "href": "music.html",
+   "text": "Music"
+  },
+  {
+   "href": "about.html",
+   "text": "About"
+  }
+ ],
+ "footer": [],
+ "footer_text": [],
+ "headings": [
+  {
+   "level": 1,
+   "text": "William Vernon"
+  },
+  {
+   "level": 2,
+   "text": "Generative Design & Creative Technology."
+  },
+  {
+   "level": 2,
+   "text": "Featured Work"
+  },
+  {
+   "level": 3,
+   "text": "Smuggler's Outpost"
+  },
+  {
+   "level": 3,
+   "text": "Amplified Spaces"
+  },
+  {
+   "level": 3,
+   "text": "Monolithic Survival"
+  },
+  {
+   "level": 3,
+   "text": "Topographic AV"
+  },
+  {
+   "level": 2,
+   "text": "AI as a Creative Partner."
+  },
+  {
+   "level": 2,
+   "text": "Liquid Drum & Bass."
+  },
+  {
+   "level": 3,
+   "text": "SILVER LININGS (VNON BOOTLEG)"
+  },
+  {
+   "level": 2,
+   "text": "Contact"
+  },
+  {
+   "level": 3,
+   "text": "Send a Message"
+  }
+ ],
+ "text": [
+  {
+   "tag": "a.active",
+   "text": "[ HOME ]"
+  },
+  {
+   "tag": "a",
+   "text": "[ WORK ]"
+  },
+  {
+   "tag": "a",
+   "text": "[ MUSIC ]"
+  },
+  {
+   "tag": "a",
+   "text": "[ ABOUT ]"
+  },
+  {
+   "tag": "a.mobile-link.active",
+   "text": "Home"
+  },
+  {
+   "tag": "a.mobile-link",
+   "text": "Work"
+  },
+  {
+   "tag": "a.mobile-link",
+   "text": "Music"
+  },
+  {
+   "tag": "a.mobile-link",
+   "text": "About"
+  },
+  {
+   "tag": "p.hero-subtitle",
+   "text": "DESIGN & MUSIC // Oxford Brookes Alum"
+  },
+  {
+   "tag": "span.hero-scramble",
+   "text": "William"
+  },
+  {
+   "tag": "span.hero-scramble",
+   "text": "Vernon"
+  },
+  {
+   "tag": "h2.text-4xl.text-4xl-mobile",
+   "text": "Generative Design Creative Technology."
+  },
+  {
+   "tag": "p.hero-desc",
+   "text": "Adaptable designer blending technical skills with operational reliability. Specialising in generative design workflows, audio-reactive visual systems and digital practice."
+  },
+  {
+   "tag": "a.btn-primary",
+   "text": "explore_projects"
+  },
+  {
+   "tag": "a.btn-secondary",
+   "text": "> AI projects"
+  },
+  {
+   "tag": "a.btn-secondary",
+   "text": "> experiments"
+  },
+  {
+   "tag": "span",
+   "text": "Scroll"
+  },
+  {
+   "tag": "h2.text-5xl.text-5xl-mobile",
+   "text": "Featured Work"
+  },
+  {
+   "tag": "span.neon-card-overlay-btn",
+   "text": "View_Case_Study"
+  },
+  {
+   "tag": "h3",
+   "text": "Smuggler's Outpost"
+  },
+  {
+   "tag": "span.neon-card-label",
+   "text": "Project"
+  },
+  {
+   "tag": "p.neon-card-desc",
+   "text": "Set in a Dune-inspired universe, this project explores AI as an ideation partner in environment design. Used SDXL to iterate a desert hideout concept, taking the final image as a foundation for 3D modelling in Blender."
+  },
+  {
+   "tag": "span",
+   "text": "3D"
+  },
+  {
+   "tag": "span",
+   "text": "AI"
+  },
+  {
+   "tag": "span",
+   "text": "Blender"
+  },
+  {
+   "tag": "span",
+   "text": "Premiere Pro"
+  },
+  {
+   "tag": "span.neon-card-overlay-btn",
+   "text": "View_Case_Study"
+  },
+  {
+   "tag": "h3",
+   "text": "Amplified Spaces"
+  },
+  {
+   "tag": "span.neon-card-label",
+   "text": "Project"
+  },
+  {
+   "tag": "p.neon-card-desc",
+   "text": "Bridging the gap between sound and spatial volume, this project manipulates environmental parameters in real-time. Audio frequencies dictate geometry formation and scaling within TouchDesigner, fed into a 3D gallery."
+  },
+  {
+   "tag": "span",
+   "text": "TouchDesigner"
+  },
+  {
+   "tag": "span",
+   "text": "Blender"
+  },
+  {
+   "tag": "span",
+   "text": "AR"
+  },
+  {
+   "tag": "span.neon-card-overlay-btn",
+   "text": "View_Case_Study"
+  },
+  {
+   "tag": "h3",
+   "text": "Monolithic Survival"
+  },
+  {
+   "tag": "span.neon-card-label",
+   "text": "AI"
+  },
+  {
+   "tag": "p.neon-card-desc",
+   "text": "This series of short video experiments explores generative design as a tool for cinematic world-building and atmosphere. Using Midjourney's video generation capabilities, the goal was to create highly textured, loopable short ruins."
+  },
+  {
+   "tag": "span",
+   "text": "Midjourney"
+  },
+  {
+   "tag": "span",
+   "text": "Video Generation"
+  },
+  {
+   "tag": "span",
+   "text": "Concept"
+  },
+  {
+   "tag": "span.neon-card-overlay-btn",
+   "text": "View_Case_Study"
+  },
+  {
+   "tag": "h3",
+   "text": "Topographic AV"
+  },
+  {
+   "tag": "span.neon-card-label",
+   "text": "Experiment"
+  },
+  {
+   "tag": "p.neon-card-desc",
+   "text": "The purpose of this experiment was to test the fidelity and material realism of the HiDream diffusion model using ComfyUI. The core objective was to build a tailored local pipeline capable of rendering intricate, organic structures."
+  },
+  {
+   "tag": "span",
+   "text": "TouchDesigner"
+  },
+  {
+   "tag": "span",
+   "text": "AR"
+  },
+  {
+   "tag": "p.font-mono.text-accent",
+   "text": "// Generative Design"
+  },
+  {
+   "tag": "h2.text-4xl.font-bold",
+   "text": "AI as a Creative Partner."
+  },
+  {
+   "tag": "p.text-lg.text-gray-400",
+   "text": "I believe AI should be treated as a collaborator to enhance and improve elements of the design process, from concepting ideas to refining outcomes, rather than as a competitor within the design industry. Since 2022, I have been experimenting with various use cases across my projects, using everything from direct video and image generation to local ControlNet pipelines and AI-assisted web design."
+  },
+  {
+   "tag": "p.text-lg.text-gray-400",
+   "text": "Whilst there are clear pitfalls in the ethics and regulations behind generative models being trained on artwork without the consent of human artists, the rate at which AI technology and tools are developing is crazy, and I am optimistic that truly innovative AI applications will benefit the industry."
+  },
+  {
+   "tag": "a.btn-primary",
+   "text": "explore_ai_work"
+  },
+  {
+   "tag": "span.hud-panel-title",
+   "text": "Midjourney"
+  },
+  {
+   "tag": "span.hud-panel-num",
+   "text": "[ MIDJOURNEY INC. ]"
+  },
+  {
+   "tag": "span.hud-spec-label",
+   "text": "// Potential use cases"
+  },
+  {
+   "tag": "p.hud-spec-val",
+   "text": "Generating high-quality concept art, storyboards for videos and detailed textures for design projects."
+  },
+  {
+   "tag": "p.font-mono.text-accent",
+   "text": "// vnon"
+  },
+  {
+   "tag": "h2.text-4xl.font-bold",
+   "text": "Liquid Drum & Bass."
+  },
+  {
+   "tag": "p.text-lg.text-gray-400",
+   "text": "I have been making music on and off as a hobby since 2020, using it as a vital creative outlet. From the beginning, I found myself gravitating towards Liquid Drum & Bass, drawn by the sheer diversity of DnB as a genre, which has kept my focus ever since."
+  },
+  {
+   "tag": "p.text-lg.text-gray-400",
+   "text": "My workflow relies heavily on sampling from other tracks and moulding them to fit my signature sound. I see working with samples as akin to collaging, a tactile, layered art form I loved experimenting with during the early stages of my visual arts practice."
+  },
+  {
+   "tag": "a.btn-primary",
+   "text": "Explore_My_Music"
+  },
+  {
+   "tag": "a.btn-secondary",
+   "text": "> Listen_on_SoundCloud"
+  },
+  {
+   "tag": "span",
+   "text": "// ACTIVE_MIXER_SOURCE"
+  },
+  {
+   "tag": "h3",
+   "text": "SILVER LININGS (VNON BOOTLEG)"
+  },
+  {
+   "tag": "span",
+   "text": "CATCHING FLIES"
+  },
+  {
+   "tag": "span",
+   "text": "DRM"
+  },
+  {
+   "tag": "span",
+   "text": "BAS"
+  },
+  {
+   "tag": "span",
+   "text": "MEL"
+  },
+  {
+   "tag": "span",
+   "text": "ATM"
+  },
+  {
+   "tag": "span",
+   "text": "VOC"
+  },
+  {
+   "tag": "span.mixer-track-label",
+   "text": "01. Drums"
+  },
+  {
+   "tag": "button.mixer-track-mute-btn",
+   "text": "MUTE"
+  },
+  {
+   "tag": "span.mixer-track-label",
+   "text": "02. Bass"
+  },
+  {
+   "tag": "button.mixer-track-mute-btn",
+   "text": "MUTE"
+  },
+  {
+   "tag": "span.mixer-track-label",
+   "text": "03. Melody"
+  },
+  {
+   "tag": "button.mixer-track-mute-btn",
+   "text": "MUTE"
+  },
+  {
+   "tag": "span.mixer-track-label",
+   "text": "04. Atmos"
+  },
+  {
+   "tag": "button.mixer-track-mute-btn",
+   "text": "MUTE"
+  },
+  {
+   "tag": "span.mixer-track-label",
+   "text": "05. Vocals"
+  },
+  {
+   "tag": "button.mixer-track-mute-btn",
+   "text": "MUTE"
+  },
+  {
+   "tag": "span.mixer-fx-title",
+   "text": "01. Drums FX"
+  },
+  {
+   "tag": "span",
+   "text": "ACTIVE_CHANNEL"
+  },
+  {
+   "tag": "span",
+   "text": "Master track player"
+  },
+  {
+   "tag": "h2.text-5xl.text-5xl-mobile",
+   "text": "Contact"
+  },
+  {
+   "tag": "p.text-gray-400.font-mono",
+   "text": "Interested in collaborating or have a project in mind? I’d love to hear about it. Get in touch and let’s make something together."
+  },
+  {
+   "tag": "p.contact-item-label",
+   "text": "EMAIL_ADDRESS"
+  },
+  {
+   "tag": "a.contact-item-val",
+   "text": "wvernoncsi@gmail.com"
+  },
+  {
+   "tag": "p.contact-item-label",
+   "text": "LINKS"
+  },
+  {
+   "tag": "p.contact-item-label",
+   "text": "// SOCIAL"
+  },
+  {
+   "tag": "span.font-mono",
+   "text": "Copied!"
+  },
+  {
+   "tag": "p.contact-item-label",
+   "text": "// MUSIC"
+  },
+  {
+   "tag": "h3.uppercase.text-xl",
+   "text": "Send a Message"
+  },
+  {
+   "tag": "label.form-label",
+   "text": "YOUR_NAME"
+  },
+  {
+   "tag": "label.form-label",
+   "text": "EMAIL_ADDRESS"
+  },
+  {
+   "tag": "label.form-label",
+   "text": "YOUR_MESSAGE"
+  },
+  {
+   "tag": "button.btn-primary",
+   "text": "Send_Message"
+  }
+ ],
+ "data_attrs": [
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "midjourney"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "flux"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "sdxl"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "comfyui"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "hidream"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "gemini"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "antigravity"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "firefly"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "elevenlabs"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "midjourney"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "flux"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "sdxl"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "comfyui"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "hidream"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "gemini"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "antigravity"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "firefly"
+  },
+  {
+   "tag": "div",
+   "attr": "data-tool",
+   "value": "elevenlabs"
+  },
+  {
+   "tag": "div",
+   "attr": "data-track",
+   "value": "drums"
+  },
+  {
+   "tag": "div",
+   "attr": "data-track",
+   "value": "bass"
+  },
+  {
+   "tag": "div",
+   "attr": "data-track",
+   "value": "melody"
+  },
+  {
+   "tag": "div",
+   "attr": "data-track",
+   "value": "atmos"
+  },
+  {
+   "tag": "div",
+   "attr": "data-track",
+   "value": "vocals"
+  }
+ ],
+ "inline_bytes": {
+  "script": 39114,
+  "style": 0,
+  "style_attr_count": 69
+ },
+ "img": [
+  {
+   "src": "img/monogram-white-trans.png",
+   "alt": "WV Monogram"
+  },
+  {
+   "src": "img/logos/Midjourney.png",
+   "alt": "Midjourney"
+  },
+  {
+   "src": "img/logos/Black Forest Labs Flux.png",
+   "alt": "Flux"
+  },
+  {
+   "src": "img/logos/Stability AI SDXL.png",
+   "alt": "SDXL"
+  },
+  {
+   "src": "img/logos/ComfyUI.png",
+   "alt": "ComfyUI"
+  },
+  {
+   "src": "img/logos/HiDream AI.png",
+   "alt": "HiDream AI"
+  },
+  {
+   "src": "img/logos/Google Gemini.png",
+   "alt": "Google Gemini"
+  },
+  {
+   "src": "img/logos/Google Anti-Gravity.png",
+   "alt": "Google Anti-Gravity"
+  },
+  {
+   "src": "img/logos/Adobe Firefly.png",
+   "alt": "Adobe Firefly"
+  },
+  {
+   "src": "img/logos/Eleven Labs.png",
+   "alt": "Eleven Labs"
+  },
+  {
+   "src": "img/logos/Midjourney.png",
+   "alt": "Midjourney"
+  },
+  {
+   "src": "img/logos/Black Forest Labs Flux.png",
+   "alt": "Flux"
+  },
+  {
+   "src": "img/logos/Stability AI SDXL.png",
+   "alt": "SDXL"
+  },
+  {
+   "src": "img/logos/ComfyUI.png",
+   "alt": "ComfyUI"
+  },
+  {
+   "src": "img/logos/HiDream AI.png",
+   "alt": "HiDream AI"
+  },
+  {
+   "src": "img/logos/Google Gemini.png",
+   "alt": "Google Gemini"
+  },
+  {
+   "src": "img/logos/Google Anti-Gravity.png",
+   "alt": "Google Anti-Gravity"
+  },
+  {
+   "src": "img/logos/Adobe Firefly.png",
+   "alt": "Adobe Firefly"
+  },
+  {
+   "src": "img/logos/Eleven Labs.png",
+   "alt": "Eleven Labs"
+  },
+  {
+   "src": "img/artwork/catching-flies-bootleg.jpg",
+   "alt": "Catching Flies - Silver Linings (vnon Bootleg) Album Art"
+  }
+ ],
+ "video": [
+  {
+   "src": [
+    "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/VIDSmugglersOutpost_1.mp4"
+   ],
+   "poster": null,
+   "attrs": [
+    "autoplay",
+    "loop",
+    "muted",
+    "playsinline"
+   ]
+  },
+  {
+   "src": [
+    "https://assets.willvernon.online/projects/01_amplified-spaces/video_trailers/B17AV2_1.mp4"
+   ],
+   "poster": null,
+   "attrs": [
+    "autoplay",
+    "loop",
+    "muted",
+    "playsinline"
+   ]
+  },
+  {
+   "src": [
+    "https://assets.willvernon.online/ai/monolith_preview_v2.mp4"
+   ],
+   "poster": null,
+   "attrs": [
+    "autoplay",
+    "loop",
+    "muted",
+    "playsinline"
+   ]
+  },
+  {
+   "src": [
+    "https://assets.willvernon.online/experiments/01_topography/renders/cinematic_trailer_upscaled.mp4"
+   ],
+   "poster": null,
+   "attrs": [
+    "autoplay",
+    "loop",
+    "muted",
+    "playsinline"
+   ]
+  }
+ ],
+ "audio": [],
+ "iframe": [],
+ "links": [
+  {
+   "href": "index.html",
+   "text": "[ HOME ]",
+   "target": null
+  },
+  {
+   "href": "work.html",
+   "text": "[ WORK ]",
+   "target": null
+  },
+  {
+   "href": "music.html",
+   "text": "[ MUSIC ]",
+   "target": null
+  },
+  {
+   "href": "about.html",
+   "text": "[ ABOUT ]",
+   "target": null
+  },
+  {
+   "href": "index.html",
+   "text": "",
+   "target": null
+  },
+  {
+   "href": "https://instagram.com/willvernon.av",
+   "text": "",
+   "target": "_blank"
+  },
+  {
+   "href": "https://www.linkedin.com/in/william-vernon-a37aa42b8",
+   "text": "",
+   "target": "_blank"
+  },
+  {
+   "href": "mailto:wvernoncsi@gmail.com",
+   "text": "",
+   "target": null
+  },
+  {
+   "href": "index.html",
+   "text": "Home",
+   "target": null
+  },
+  {
+   "href": "work.html",
+   "text": "Work",
+   "target": null
+  },
+  {
+   "href": "music.html",
+   "text": "Music",
+   "target": null
+  },
+  {
+   "href": "about.html",
+   "text": "About",
+   "target": null
+  },
+  {
+   "href": "projects.html",
+   "text": "explore_projects",
+   "target": null
+  },
+  {
+   "href": "AI.html",
+   "text": "> AI projects",
+   "target": null
+  },
+  {
+   "href": "experiments.html",
+   "text": "> experiments",
+   "target": null
+  },
+  {
+   "href": "projects.html#06",
+   "text": "View_Case_Study",
+   "target": null
+  },
+  {
+   "href": "projects.html#01",
+   "text": "View_Case_Study",
+   "target": null
+  },
+  {
+   "href": "AI.html",
+   "text": "View_Case_Study",
+   "target": null
+  },
+  {
+   "href": "projects.html#01",
+   "text": "View_Case_Study",
+   "target": null
+  },
+  {
+   "href": "AI.html",
+   "text": "explore_ai_work",
+   "target": null
+  },
+  {
+   "href": "music.html",
+   "text": "Explore_My_Music",
+   "target": null
+  },
+  {
+   "href": "https://soundcloud.com/vnondnb",
+   "text": "> Listen_on_SoundCloud",
+   "target": "_blank"
+  },
+  {
+   "href": "mailto:wvernoncsi@gmail.com",
+   "text": "wvernoncsi@gmail.com",
+   "target": null
+  },
+  {
+   "href": "https://instagram.com/willvernon.av",
+   "text": "",
+   "target": "_blank"
+  },
+  {
+   "href": "https://www.linkedin.com/in/william-vernon-a37aa42b8",
+   "text": "",
+   "target": "_blank"
+  },
+  {
+   "href": "https://www.tiktok.com/@vnon___",
+   "text": "",
+   "target": "_blank"
+  },
+  {
+   "href": "javascript:void(0)",
+   "text": "",
+   "target": null
+  },
+  {
+   "href": "https://soundcloud.com/vnondnb",
+   "text": "",
+   "target": "_blank"
+  },
+  {
+   "href": "https://vnon.bandcamp.com/",
+   "text": "",
+   "target": "_blank"
+  }
+ ],
+ "js_data": {
+  "AI_TOOLSET_DATA": {
+   "midjourney": {
+    "title": "Midjourney",
+    "company": "Midjourney Inc.",
+    "apps": "Generating high-quality concept art, storyboards for videos and detailed textures for design projects."
+   },
+   "flux": {
+    "title": "Flux",
+    "company": "Black Forest Labs",
+    "apps": "Creating extremely realistic images and scenes with clear, readable text in the design."
+   },
+   "sdxl": {
+    "title": "SDXL",
+    "company": "Stability AI",
+    "apps": "Designing custom graphics and maintaining a consistent style across a series of images."
+   },
+   "comfyui": {
+    "title": "ComfyUI",
+    "company": "ComfyUI Community",
+    "apps": "Building custom visual styles and creating intricate, organic patterns for art installations."
+   },
+   "hidream": {
+    "title": "HiDream AI",
+    "company": "HiDream.ai",
+    "apps": "Expanding existing images beyond their borders and adding rich, natural details to artwork."
+   },
+   "gemini": {
+    "title": "Gemini",
+    "company": "Google",
+    "apps": "Assisting with coding, optimising website layouts and brainstorming creative design ideas."
+   },
+   "antigravity": {
+    "title": "Antigravity",
+    "company": "Google DeepMind",
+    "apps": "Managing website styling, automating file uploads and coordinating smooth code deployments."
+   },
+   "firefly": {
+    "title": "Adobe Firefly",
+    "company": "Adobe",
+    "apps": "Quickly testing different layout ideas, recolouring artwork and creating graphic mockups."
+   },
+   "elevenlabs": {
+    "title": "ElevenLabs",
+    "company": "ElevenLabs",
+    "apps": "Generating natural-sounding voiceovers, sound effects and custom background audio."
+   }
+  },
+  "STEMS_CONFIG": {
+   "drums": {
+    "name": "Drums",
+    "file": "audio/Silver Linings Bootleg Drums.mp3"
+   },
+   "bass": {
+    "name": "Bass",
+    "file": "audio/Silver Linings Bootleg Bass 2.mp3"
+   },
+   "melody": {
+    "name": "Melody",
+    "file": "audio/Silver Linings Bootleg Melody.mp3"
+   },
+   "atmos": {
+    "name": "Atmos",
+    "file": "audio/Silver Linings Bootleg Atmos.mp3"
+   },
+   "vocals": {
+    "name": "Vocals",
+    "file": "audio/Silver Linings Bootleg Vocals 2.mp3"
+   }
+  },
+  "trackParams": {
+   "drums": {
+    "filter": 4000,
+    "dist": 0,
+    "muted": false
+   },
+   "bass": {
+    "filter": 4000,
+    "dist": 0,
+    "muted": false
+   },
+   "melody": {
+    "shine": 0,
+    "reverb": 0,
+    "wander": 0,
+    "filter": 4000,
+    "muted": false
+   },
+   "atmos": {
+    "reverb": 0,
+    "delay": 0,
+    "muted": false
+   },
+   "vocals": {
+    "flanger": 0,
+    "cyber": 0,
+    "muted": false
+   }
+  },
+  "FX_SLIDERS_CONFIG": {
+   "drums": [
+    {
+     "id": "filter",
+     "label": "LPF Filter",
+     "min": 150,
+     "max": 4000,
+     "step": 10
+    },
+    {
+     "id": "dist",
+     "label": "Distortion",
+     "min": 0,
+     "max": 50,
+     "step": 1
+    }
+   ],
+   "bass": [
+    {
+     "id": "filter",
+     "label": "LPF Filter",
+     "min": 150,
+     "max": 4000,
+     "step": 10
+    },
+    {
+     "id": "dist",
+     "label": "Distortion",
+     "min": 0,
+     "max": 50,
+     "step": 1
+    }
+   ],
+   "melody": [
+    {
+     "id": "shine",
+     "label": "Brighten",
+     "min": -10,
+     "max": 10,
+     "step": 1
+    },
+    {
+     "id": "reverb",
+     "label": "Reverb",
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "wander",
+     "label": "Panning/Tremolo",
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "filter",
+     "label": "Filter",
+     "min": 150,
+     "max": 4000,
+     "step": 10
+    }
+   ],
+   "atmos": [
+    {
+     "id": "reverb",
+     "label": "Reverb",
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "delay",
+     "label": "Delay",
+     "min": 0,
+     "max": 80,
+     "step": 1
+    }
+   ],
+   "vocals": [
+    {
+     "id": "flanger",
+     "label": "Flanger",
+     "min": 0,
+     "max": 100,
+     "step": 1
+    },
+    {
+     "id": "cyber",
+     "label": "Pitch",
+     "min": 0,
+     "max": 100,
+     "step": 1
+    }
+   ]
+  }
+ },
+ "js_errors": {},
+ "js_items": [
+  {
+   "path": ".AI_TOOLSET_DATA.midjourney.title",
+   "kind": "text",
+   "value": "Midjourney"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.midjourney.company",
+   "kind": "text",
+   "value": "Midjourney Inc."
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.midjourney.apps",
+   "kind": "text",
+   "value": "Generating high-quality concept art, storyboards for videos and detailed textures for design projects."
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.flux.title",
+   "kind": "text",
+   "value": "Flux"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.flux.company",
+   "kind": "text",
+   "value": "Black Forest Labs"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.flux.apps",
+   "kind": "text",
+   "value": "Creating extremely realistic images and scenes with clear, readable text in the design."
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.sdxl.title",
+   "kind": "text",
+   "value": "SDXL"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.sdxl.company",
+   "kind": "text",
+   "value": "Stability AI"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.sdxl.apps",
+   "kind": "text",
+   "value": "Designing custom graphics and maintaining a consistent style across a series of images."
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.comfyui.title",
+   "kind": "text",
+   "value": "ComfyUI"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.comfyui.company",
+   "kind": "text",
+   "value": "ComfyUI Community"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.comfyui.apps",
+   "kind": "text",
+   "value": "Building custom visual styles and creating intricate, organic patterns for art installations."
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.hidream.title",
+   "kind": "text",
+   "value": "HiDream AI"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.hidream.company",
+   "kind": "text",
+   "value": "HiDream.ai"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.hidream.apps",
+   "kind": "text",
+   "value": "Expanding existing images beyond their borders and adding rich, natural details to artwork."
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.gemini.title",
+   "kind": "text",
+   "value": "Gemini"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.gemini.company",
+   "kind": "text",
+   "value": "Google"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.gemini.apps",
+   "kind": "text",
+   "value": "Assisting with coding, optimising website layouts and brainstorming creative design ideas."
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.antigravity.title",
+   "kind": "text",
+   "value": "Antigravity"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.antigravity.company",
+   "kind": "text",
+   "value": "Google DeepMind"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.antigravity.apps",
+   "kind": "text",
+   "value": "Managing website styling, automating file uploads and coordinating smooth code deployments."
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.firefly.title",
+   "kind": "text",
+   "value": "Adobe Firefly"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.firefly.company",
+   "kind": "text",
+   "value": "Adobe"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.firefly.apps",
+   "kind": "text",
+   "value": "Quickly testing different layout ideas, recolouring artwork and creating graphic mockups."
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.elevenlabs.title",
+   "kind": "text",
+   "value": "ElevenLabs"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.elevenlabs.company",
+   "kind": "text",
+   "value": "ElevenLabs"
+  },
+  {
+   "path": ".AI_TOOLSET_DATA.elevenlabs.apps",
+   "kind": "text",
+   "value": "Generating natural-sounding voiceovers, sound effects and custom background audio."
+  },
+  {
+   "path": ".STEMS_CONFIG.drums.name",
+   "kind": "text",
+   "value": "Drums"
+  },
+  {
+   "path": ".STEMS_CONFIG.drums.file",
+   "kind": "url",
+   "value": "audio/Silver Linings Bootleg Drums.mp3"
+  },
+  {
+   "path": ".STEMS_CONFIG.bass.name",
+   "kind": "text",
+   "value": "Bass"
+  },
+  {
+   "path": ".STEMS_CONFIG.bass.file",
+   "kind": "url",
+   "value": "audio/Silver Linings Bootleg Bass 2.mp3"
+  },
+  {
+   "path": ".STEMS_CONFIG.melody.name",
+   "kind": "text",
+   "value": "Melody"
+  },
+  {
+   "path": ".STEMS_CONFIG.melody.file",
+   "kind": "url",
+   "value": "audio/Silver Linings Bootleg Melody.mp3"
+  },
+  {
+   "path": ".STEMS_CONFIG.atmos.name",
+   "kind": "text",
+   "value": "Atmos"
+  },
+  {
+   "path": ".STEMS_CONFIG.atmos.file",
+   "kind": "url",
+   "value": "audio/Silver Linings Bootleg Atmos.mp3"
+  },
+  {
+   "path": ".STEMS_CONFIG.vocals.name",
+   "kind": "text",
+   "value": "Vocals"
+  },
+  {
+   "path": ".STEMS_CONFIG.vocals.file",
+   "kind": "url",
+   "value": "audio/Silver Linings Bootleg Vocals 2.mp3"
+  },
+  {
+   "path": ".trackParams.drums.filter",
+   "kind": "value",
+   "value": 4000
+  },
+  {
+   "path": ".trackParams.drums.dist",
+   "kind": "value",
+   "value": 0
+  },
+  {
+   "path": ".trackParams.bass.filter",
+   "kind": "value",
+   "value": 4000
+  },
+  {
+   "path": ".trackParams.bass.dist",
+   "kind": "value",
+   "value": 0
+  },
+  {
+   "path": ".trackParams.melody.shine",
+   "kind": "value",
+   "value": 0
+  },
+  {
+   "path": ".trackParams.melody.reverb",
+   "kind": "value",
+   "value": 0
+  },
+  {
+   "path": ".trackParams.melody.wander",
+   "kind": "value",
+   "value": 0
+  },
+  {
+   "path": ".trackParams.melody.filter",
+   "kind": "value",
+   "value": 4000
+  },
+  {
+   "path": ".trackParams.atmos.reverb",
+   "kind": "value",
+   "value": 0
+  },
+  {
+   "path": ".trackParams.atmos.delay",
+   "kind": "value",
+   "value": 0
+  },
+  {
+   "path": ".trackParams.vocals.flanger",
+   "kind": "value",
+   "value": 0
+  },
+  {
+   "path": ".trackParams.vocals.cyber",
+   "kind": "value",
+   "value": 0
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.drums[0].id",
+   "kind": "text",
+   "value": "filter"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.drums[0].label",
+   "kind": "text",
+   "value": "LPF Filter"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.drums[0].min",
+   "kind": "value",
+   "value": 150
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.drums[0].max",
+   "kind": "value",
+   "value": 4000
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.drums[0].step",
+   "kind": "value",
+   "value": 10
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.drums[1].id",
+   "kind": "text",
+   "value": "dist"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.drums[1].label",
+   "kind": "text",
+   "value": "Distortion"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.drums[1].min",
+   "kind": "value",
+   "value": 0
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.drums[1].max",
+   "kind": "value",
+   "value": 50
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.drums[1].step",
+   "kind": "value",
+   "value": 1
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.bass[0].id",
+   "kind": "text",
+   "value": "filter"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.bass[0].label",
+   "kind": "text",
+   "value": "LPF Filter"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.bass[0].min",
+   "kind": "value",
+   "value": 150
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.bass[0].max",
+   "kind": "value",
+   "value": 4000
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.bass[0].step",
+   "kind": "value",
+   "value": 10
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.bass[1].id",
+   "kind": "text",
+   "value": "dist"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.bass[1].label",
+   "kind": "text",
+   "value": "Distortion"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.bass[1].min",
+   "kind": "value",
+   "value": 0
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.bass[1].max",
+   "kind": "value",
+   "value": 50
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.bass[1].step",
+   "kind": "value",
+   "value": 1
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.melody[0].id",
+   "kind": "text",
+   "value": "shine"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.melody[0].label",
+   "kind": "text",
+   "value": "Brighten"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.melody[0].min",
+   "kind": "value",
+   "value": -10
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.melody[0].max",
+   "kind": "value",
+   "value": 10
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.melody[0].step",
+   "kind": "value",
+   "value": 1
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.melody[1].id",
+   "kind": "text",
+   "value": "reverb"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.melody[1].label",
+   "kind": "text",
+   "value": "Reverb"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.melody[1].min",
+   "kind": "value",
+   "value": 0
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.melody[1].max",
+   "kind": "value",
+   "value": 100
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.melody[1].step",
+   "kind": "value",
+   "value": 1
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.melody[2].id",
+   "kind": "text",
+   "value": "wander"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.melody[2].label",
+   "kind": "text",
+   "value": "Panning/Tremolo"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.melody[2].min",
+   "kind": "value",
+   "value": 0
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.melody[2].max",
+   "kind": "value",
+   "value": 100
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.melody[2].step",
+   "kind": "value",
+   "value": 1
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.melody[3].id",
+   "kind": "text",
+   "value": "filter"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.melody[3].label",
+   "kind": "text",
+   "value": "Filter"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.melody[3].min",
+   "kind": "value",
+   "value": 150
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.melody[3].max",
+   "kind": "value",
+   "value": 4000
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.melody[3].step",
+   "kind": "value",
+   "value": 10
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.atmos[0].id",
+   "kind": "text",
+   "value": "reverb"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.atmos[0].label",
+   "kind": "text",
+   "value": "Reverb"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.atmos[0].min",
+   "kind": "value",
+   "value": 0
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.atmos[0].max",
+   "kind": "value",
+   "value": 100
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.atmos[0].step",
+   "kind": "value",
+   "value": 1
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.atmos[1].id",
+   "kind": "text",
+   "value": "delay"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.atmos[1].label",
+   "kind": "text",
+   "value": "Delay"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.atmos[1].min",
+   "kind": "value",
+   "value": 0
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.atmos[1].max",
+   "kind": "value",
+   "value": 80
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.atmos[1].step",
+   "kind": "value",
+   "value": 1
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.vocals[0].id",
+   "kind": "text",
+   "value": "flanger"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.vocals[0].label",
+   "kind": "text",
+   "value": "Flanger"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.vocals[0].min",
+   "kind": "value",
+   "value": 0
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.vocals[0].max",
+   "kind": "value",
+   "value": 100
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.vocals[0].step",
+   "kind": "value",
+   "value": 1
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.vocals[1].id",
+   "kind": "text",
+   "value": "cyber"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.vocals[1].label",
+   "kind": "text",
+   "value": "Pitch"
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.vocals[1].min",
+   "kind": "value",
+   "value": 0
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.vocals[1].max",
+   "kind": "value",
+   "value": 100
+  },
+  {
+   "path": ".FX_SLIDERS_CONFIG.vocals[1].step",
+   "kind": "value",
+   "value": 1
+  }
+ ],
+ "script_copy_review": [
+  "ph-fill ph-pause",
+  "Master track player"
+ ]
+}

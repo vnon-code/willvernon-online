@@ -1,0 +1,860 @@
+{
+ "file": "music.html",
+ "lang": "en",
+ "meta": {
+  "title": "Music | William Vernon",
+  "meta": [
+   {
+    "charset": "UTF-8"
+   },
+   {
+    "name": "viewport",
+    "content": "width=device-width, initial-scale=1.0"
+   }
+  ],
+  "link": [
+   {
+    "rel": "preconnect",
+    "href": "https://fonts.googleapis.com"
+   },
+   {
+    "rel": "preconnect",
+    "href": "https://fonts.gstatic.com"
+   },
+   {
+    "rel": "stylesheet",
+    "href": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap"
+   },
+   {
+    "rel": "stylesheet",
+    "href": "style.css?v=19"
+   }
+  ],
+  "external_scripts": [
+   "https://unpkg.com/@phosphor-icons/web",
+   "https://w.soundcloud.com/player/api.js"
+  ]
+ },
+ "nav": [
+  {
+   "href": "index.html",
+   "text": "[ HOME ]"
+  },
+  {
+   "href": "work.html",
+   "text": "[ WORK ]"
+  },
+  {
+   "href": "music.html",
+   "text": "[ MUSIC ]"
+  },
+  {
+   "href": "about.html",
+   "text": "[ ABOUT ]"
+  },
+  {
+   "href": "index.html",
+   "text": ""
+  },
+  {
+   "href": "https://instagram.com/willvernon.av",
+   "text": ""
+  },
+  {
+   "href": "https://www.linkedin.com/in/william-vernon-a37aa42b8",
+   "text": ""
+  },
+  {
+   "href": "mailto:wvernoncsi@gmail.com",
+   "text": ""
+  },
+  {
+   "href": "index.html",
+   "text": "Home"
+  },
+  {
+   "href": "work.html",
+   "text": "Work"
+  },
+  {
+   "href": "music.html",
+   "text": "Music"
+  },
+  {
+   "href": "about.html",
+   "text": "About"
+  }
+ ],
+ "footer": [],
+ "footer_text": [],
+ "headings": [
+  {
+   "level": 1,
+   "text": "ALIAS: VNON"
+  },
+  {
+   "level": 2,
+   "text": "Sound & Style"
+  }
+ ],
+ "text": [
+  {
+   "tag": "a",
+   "text": "[ HOME ]"
+  },
+  {
+   "tag": "a",
+   "text": "[ WORK ]"
+  },
+  {
+   "tag": "a.active",
+   "text": "[ MUSIC ]"
+  },
+  {
+   "tag": "a",
+   "text": "[ ABOUT ]"
+  },
+  {
+   "tag": "a.mobile-link",
+   "text": "Home"
+  },
+  {
+   "tag": "a.mobile-link",
+   "text": "Work"
+  },
+  {
+   "tag": "a.mobile-link.active",
+   "text": "Music"
+  },
+  {
+   "tag": "a.mobile-link",
+   "text": "About"
+  },
+  {
+   "tag": "p.font-mono.text-accent",
+   "text": "// MUSIC & SOUND DESIGN"
+  },
+  {
+   "tag": "h1.text-7xl.font-bold",
+   "text": "ALIAS: VNON"
+  },
+  {
+   "tag": "p.text-gray-400.font-mono",
+   "text": "Under the alias vnon, I construct electronic music, focusing predominantly on the architectural complexities of Drum & Bass. Sound design serves as the central anchor for my work, translating spatial peak limits and transient modulations into procedural visual systems."
+  },
+  {
+   "tag": "span.font-mono.text-accent",
+   "text": "// SOUND_&_STYLE"
+  },
+  {
+   "tag": "h2.text-3xl.font-bold",
+   "text": "Sound & Style"
+  },
+  {
+   "tag": "p.text-gray-400.font-mono",
+   "text": "I have been making music on and off as a hobby since 2020, using it as a vital creative outlet. From the beginning, I found myself gravitating towards Liquid Drum & Bass, drawn by the sheer diversity of DnB as a genre, which has kept my focus ever since."
+  },
+  {
+   "tag": "p.text-gray-400.font-mono",
+   "text": "My workflow relies heavily on sampling from other tracks and moulding them to fit my signature sound. I see working with samples as akin to collaging, a tactile, layered art form I loved experimenting with during the early stages of my visual arts practice."
+  },
+  {
+   "tag": "button.btn-primary.glitch-hover",
+   "text": "LISTEN TO MY MUSIC"
+  },
+  {
+   "tag": "a.btn-secondary",
+   "text": "SOUNDCLOUD"
+  },
+  {
+   "tag": "a.btn-secondary",
+   "text": "BANDCAMP"
+  },
+  {
+   "tag": "span.font-mono.text-xs",
+   "text": "// ACTIVE_MODE: PARTICLE_RENDER"
+  },
+  {
+   "tag": "div.vj-track-info-top.font-mono",
+   "text": "TRACK_SELECT:"
+  },
+  {
+   "tag": "span.text-white",
+   "text": "01 / 05"
+  },
+  {
+   "tag": "div.vj-meta-title.text-white",
+   "text": "Heartache"
+  },
+  {
+   "tag": "span.vj-slider-label",
+   "text": "CHAOS"
+  },
+  {
+   "tag": "span.vj-slider-val",
+   "text": "0.5"
+  },
+  {
+   "tag": "span.vj-slider-label",
+   "text": "DENSITY"
+  },
+  {
+   "tag": "span.vj-slider-val",
+   "text": "400"
+  },
+  {
+   "tag": "span.vj-slider-label",
+   "text": "// FREQ_TARGET:"
+  },
+  {
+   "tag": "span.vj-slider-val",
+   "text": "ALL"
+  },
+  {
+   "tag": "button.vj-freq-btn.active",
+   "text": "All"
+  },
+  {
+   "tag": "button.vj-freq-btn",
+   "text": "Bass"
+  },
+  {
+   "tag": "button.vj-freq-btn",
+   "text": "Mids"
+  },
+  {
+   "tag": "button.vj-freq-btn",
+   "text": "Highs"
+  },
+  {
+   "tag": "span",
+   "text": "0:00"
+  },
+  {
+   "tag": "span",
+   "text": "0:00"
+  },
+  {
+   "tag": "span",
+   "text": "VOLUME"
+  },
+  {
+   "tag": "span",
+   "text": "80%"
+  },
+  {
+   "tag": "span.font-mono.text-xs",
+   "text": "// SELECT_TRACK"
+  }
+ ],
+ "data_attrs": [
+  {
+   "tag": "iframe",
+   "attr": "data-testid",
+   "value": "embed-iframe"
+  },
+  {
+   "tag": "input",
+   "attr": "data-param",
+   "value": "chaos"
+  },
+  {
+   "tag": "input",
+   "attr": "data-param",
+   "value": "density"
+  },
+  {
+   "tag": "button",
+   "attr": "data-freq",
+   "value": "bass"
+  },
+  {
+   "tag": "button",
+   "attr": "data-freq",
+   "value": "mids"
+  },
+  {
+   "tag": "button",
+   "attr": "data-freq",
+   "value": "highs"
+  }
+ ],
+ "inline_bytes": {
+  "script": 60560,
+  "style": 5628,
+  "style_attr_count": 31
+ },
+ "img": [
+  {
+   "src": "img/monogram-white-trans.png",
+   "alt": "WV Monogram"
+  },
+  {
+   "src": "img/artwork/heartache.jpg",
+   "alt": "Active Cover Art"
+  }
+ ],
+ "video": [],
+ "audio": [
+  {
+   "src": []
+  }
+ ],
+ "iframe": [
+  {
+   "src": "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/vnondnb/heartache&color=%23D91C1C&auto_play=false&hide_related=true&show_comments=false&show_user=true&show_reposts=false&show_teaser=false",
+   "title": null
+  },
+  {
+   "src": "https://open.spotify.com/embed/playlist/7e6oucLLBe5E4ohNekJMsb?utm_source=generator",
+   "title": null
+  }
+ ],
+ "links": [
+  {
+   "href": "index.html",
+   "text": "[ HOME ]",
+   "target": null
+  },
+  {
+   "href": "work.html",
+   "text": "[ WORK ]",
+   "target": null
+  },
+  {
+   "href": "music.html",
+   "text": "[ MUSIC ]",
+   "target": null
+  },
+  {
+   "href": "about.html",
+   "text": "[ ABOUT ]",
+   "target": null
+  },
+  {
+   "href": "index.html",
+   "text": "",
+   "target": null
+  },
+  {
+   "href": "https://instagram.com/willvernon.av",
+   "text": "",
+   "target": "_blank"
+  },
+  {
+   "href": "https://www.linkedin.com/in/william-vernon-a37aa42b8",
+   "text": "",
+   "target": "_blank"
+  },
+  {
+   "href": "mailto:wvernoncsi@gmail.com",
+   "text": "",
+   "target": null
+  },
+  {
+   "href": "index.html",
+   "text": "Home",
+   "target": null
+  },
+  {
+   "href": "work.html",
+   "text": "Work",
+   "target": null
+  },
+  {
+   "href": "music.html",
+   "text": "Music",
+   "target": null
+  },
+  {
+   "href": "about.html",
+   "text": "About",
+   "target": null
+  },
+  {
+   "href": "https://soundcloud.com/vnondnb",
+   "text": "SOUNDCLOUD",
+   "target": "_blank"
+  },
+  {
+   "href": "https://vnon.bandcamp.com/",
+   "text": "BANDCAMP",
+   "target": "_blank"
+  }
+ ],
+ "js_data": {
+  "TRACKS_DATABASE": [
+   {
+    "title": "Heartache",
+    "scUrl": "https://soundcloud.com/vnondnb/heartache?si=937e2dd112dd4c3c9034d5cf2a8740bc&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
+    "localUrl": "https://assets.willvernon.online/audio/heartache.wav",
+    "artwork": "img/artwork/heartache.jpg",
+    "desc": "Ethereal, atmospheric liquid Drum & Bass balancing warm melodies with deep sub-bass architecture.",
+    "colors": [
+     {
+      "h": 220,
+      "s": 95,
+      "l": 15
+     },
+     {
+      "h": 222,
+      "s": 85,
+      "l": 50
+     },
+     {
+      "h": 220,
+      "s": 10,
+      "l": 96
+     }
+    ]
+   },
+   {
+    "title": "Let Me Know (2023)",
+    "scUrl": "https://soundcloud.com/vnondnb/let-me-know2023?si=ba8ec328d2734359844e8608552f0527&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
+    "localUrl": "https://assets.willvernon.online/audio/let-me-know.wav",
+    "artwork": "img/artwork/let-me-know.jpg",
+    "desc": "High-tempo techstep featuring sharp transients, modular soundscapes and mechanical bass design.",
+    "colors": [
+     {
+      "h": 360,
+      "s": 95,
+      "l": 12
+     },
+     {
+      "h": 360,
+      "s": 90,
+      "l": 30
+     },
+     {
+      "h": 360,
+      "s": 95,
+      "l": 50
+     }
+    ]
+   },
+   {
+    "title": "Catching Flies - Silver Linings (vnon Bootleg)",
+    "scUrl": "https://soundcloud.com/vnondnb/catching-flies-silver-linings-vnon-bootleg?si=049cabf9fb274270866ec174e1199f0e&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
+    "localUrl": "https://assets.willvernon.online/audio/catching-flies-bootleg.wav",
+    "artwork": "img/artwork/catching-flies-bootleg.jpg",
+    "desc": "A rich cinematic bootleg rework of Catching Flies' 'Silver Linings', blending rolling percussion with deep atmosphere.",
+    "colors": [
+     {
+      "h": 222,
+      "s": 95,
+      "l": 12
+     },
+     {
+      "h": 56,
+      "s": 100,
+      "l": 50
+     },
+     {
+      "h": 222,
+      "s": 0,
+      "l": 98
+     }
+    ]
+   },
+   {
+    "title": "Midnight Runaway (feat. LoFi Ely)",
+    "scUrl": "https://soundcloud.com/vnondnb/vnon-midnight-runaway-feat-lofi-ely?si=be780545d6484c0daea5ab35fa8e6d8e&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing",
+    "localUrl": "https://assets.willvernon.online/audio/midnight-runaway.wav",
+    "artwork": "img/artwork/midnight-runaway.jpg",
+    "desc": "Deep, driving melodic drum & bass roller featuring ethereal vocal sequences by Lofi Ely.",
+    "colors": [
+     {
+      "h": 195,
+      "s": 90,
+      "l": 30
+     },
+     {
+      "h": 200,
+      "s": 80,
+      "l": 60
+     },
+     {
+      "h": 195,
+      "s": 10,
+      "l": 96
+     }
+    ]
+   },
+   {
+    "title": "Somebody To Love",
+    "scUrl": "",
+    "localUrl": "https://assets.willvernon.online/audio/somebody-to-love.wav",
+    "artwork": "img/artwork/somebody-to-love.jpg",
+    "desc": "A breathtaking high-energy liquid roller blending warm, soulful vocal cuts with a rolling bassline.",
+    "colors": [
+     {
+      "h": 172,
+      "s": 95,
+      "l": 14
+     },
+     {
+      "h": 175,
+      "s": 85,
+      "l": 44
+     },
+     {
+      "h": 178,
+      "s": 90,
+      "l": 74
+     }
+    ]
+   }
+  ]
+ },
+ "js_errors": {},
+ "js_items": [
+  {
+   "path": ".TRACKS_DATABASE[0].title",
+   "kind": "text",
+   "value": "Heartache"
+  },
+  {
+   "path": ".TRACKS_DATABASE[0].scUrl",
+   "kind": "url",
+   "value": "https://soundcloud.com/vnondnb/heartache?si=937e2dd112dd4c3c9034d5cf2a8740bc&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+  },
+  {
+   "path": ".TRACKS_DATABASE[0].localUrl",
+   "kind": "url",
+   "value": "https://assets.willvernon.online/audio/heartache.wav"
+  },
+  {
+   "path": ".TRACKS_DATABASE[0].artwork",
+   "kind": "url",
+   "value": "img/artwork/heartache.jpg"
+  },
+  {
+   "path": ".TRACKS_DATABASE[0].desc",
+   "kind": "text",
+   "value": "Ethereal, atmospheric liquid Drum & Bass balancing warm melodies with deep sub-bass architecture."
+  },
+  {
+   "path": ".TRACKS_DATABASE[0].colors[0].h",
+   "kind": "value",
+   "value": 220
+  },
+  {
+   "path": ".TRACKS_DATABASE[0].colors[0].s",
+   "kind": "value",
+   "value": 95
+  },
+  {
+   "path": ".TRACKS_DATABASE[0].colors[0].l",
+   "kind": "value",
+   "value": 15
+  },
+  {
+   "path": ".TRACKS_DATABASE[0].colors[1].h",
+   "kind": "value",
+   "value": 222
+  },
+  {
+   "path": ".TRACKS_DATABASE[0].colors[1].s",
+   "kind": "value",
+   "value": 85
+  },
+  {
+   "path": ".TRACKS_DATABASE[0].colors[1].l",
+   "kind": "value",
+   "value": 50
+  },
+  {
+   "path": ".TRACKS_DATABASE[0].colors[2].h",
+   "kind": "value",
+   "value": 220
+  },
+  {
+   "path": ".TRACKS_DATABASE[0].colors[2].s",
+   "kind": "value",
+   "value": 10
+  },
+  {
+   "path": ".TRACKS_DATABASE[0].colors[2].l",
+   "kind": "value",
+   "value": 96
+  },
+  {
+   "path": ".TRACKS_DATABASE[1].title",
+   "kind": "text",
+   "value": "Let Me Know (2023)"
+  },
+  {
+   "path": ".TRACKS_DATABASE[1].scUrl",
+   "kind": "url",
+   "value": "https://soundcloud.com/vnondnb/let-me-know2023?si=ba8ec328d2734359844e8608552f0527&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+  },
+  {
+   "path": ".TRACKS_DATABASE[1].localUrl",
+   "kind": "url",
+   "value": "https://assets.willvernon.online/audio/let-me-know.wav"
+  },
+  {
+   "path": ".TRACKS_DATABASE[1].artwork",
+   "kind": "url",
+   "value": "img/artwork/let-me-know.jpg"
+  },
+  {
+   "path": ".TRACKS_DATABASE[1].desc",
+   "kind": "text",
+   "value": "High-tempo techstep featuring sharp transients, modular soundscapes and mechanical bass design."
+  },
+  {
+   "path": ".TRACKS_DATABASE[1].colors[0].h",
+   "kind": "value",
+   "value": 360
+  },
+  {
+   "path": ".TRACKS_DATABASE[1].colors[0].s",
+   "kind": "value",
+   "value": 95
+  },
+  {
+   "path": ".TRACKS_DATABASE[1].colors[0].l",
+   "kind": "value",
+   "value": 12
+  },
+  {
+   "path": ".TRACKS_DATABASE[1].colors[1].h",
+   "kind": "value",
+   "value": 360
+  },
+  {
+   "path": ".TRACKS_DATABASE[1].colors[1].s",
+   "kind": "value",
+   "value": 90
+  },
+  {
+   "path": ".TRACKS_DATABASE[1].colors[1].l",
+   "kind": "value",
+   "value": 30
+  },
+  {
+   "path": ".TRACKS_DATABASE[1].colors[2].h",
+   "kind": "value",
+   "value": 360
+  },
+  {
+   "path": ".TRACKS_DATABASE[1].colors[2].s",
+   "kind": "value",
+   "value": 95
+  },
+  {
+   "path": ".TRACKS_DATABASE[1].colors[2].l",
+   "kind": "value",
+   "value": 50
+  },
+  {
+   "path": ".TRACKS_DATABASE[2].title",
+   "kind": "text",
+   "value": "Catching Flies - Silver Linings (vnon Bootleg)"
+  },
+  {
+   "path": ".TRACKS_DATABASE[2].scUrl",
+   "kind": "url",
+   "value": "https://soundcloud.com/vnondnb/catching-flies-silver-linings-vnon-bootleg?si=049cabf9fb274270866ec174e1199f0e&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+  },
+  {
+   "path": ".TRACKS_DATABASE[2].localUrl",
+   "kind": "url",
+   "value": "https://assets.willvernon.online/audio/catching-flies-bootleg.wav"
+  },
+  {
+   "path": ".TRACKS_DATABASE[2].artwork",
+   "kind": "url",
+   "value": "img/artwork/catching-flies-bootleg.jpg"
+  },
+  {
+   "path": ".TRACKS_DATABASE[2].desc",
+   "kind": "text",
+   "value": "A rich cinematic bootleg rework of Catching Flies' 'Silver Linings', blending rolling percussion with deep atmosphere."
+  },
+  {
+   "path": ".TRACKS_DATABASE[2].colors[0].h",
+   "kind": "value",
+   "value": 222
+  },
+  {
+   "path": ".TRACKS_DATABASE[2].colors[0].s",
+   "kind": "value",
+   "value": 95
+  },
+  {
+   "path": ".TRACKS_DATABASE[2].colors[0].l",
+   "kind": "value",
+   "value": 12
+  },
+  {
+   "path": ".TRACKS_DATABASE[2].colors[1].h",
+   "kind": "value",
+   "value": 56
+  },
+  {
+   "path": ".TRACKS_DATABASE[2].colors[1].s",
+   "kind": "value",
+   "value": 100
+  },
+  {
+   "path": ".TRACKS_DATABASE[2].colors[1].l",
+   "kind": "value",
+   "value": 50
+  },
+  {
+   "path": ".TRACKS_DATABASE[2].colors[2].h",
+   "kind": "value",
+   "value": 222
+  },
+  {
+   "path": ".TRACKS_DATABASE[2].colors[2].s",
+   "kind": "value",
+   "value": 0
+  },
+  {
+   "path": ".TRACKS_DATABASE[2].colors[2].l",
+   "kind": "value",
+   "value": 98
+  },
+  {
+   "path": ".TRACKS_DATABASE[3].title",
+   "kind": "text",
+   "value": "Midnight Runaway (feat. LoFi Ely)"
+  },
+  {
+   "path": ".TRACKS_DATABASE[3].scUrl",
+   "kind": "url",
+   "value": "https://soundcloud.com/vnondnb/vnon-midnight-runaway-feat-lofi-ely?si=be780545d6484c0daea5ab35fa8e6d8e&utm_source=clipboard&utm_medium=text&utm_campaign=social_sharing"
+  },
+  {
+   "path": ".TRACKS_DATABASE[3].localUrl",
+   "kind": "url",
+   "value": "https://assets.willvernon.online/audio/midnight-runaway.wav"
+  },
+  {
+   "path": ".TRACKS_DATABASE[3].artwork",
+   "kind": "url",
+   "value": "img/artwork/midnight-runaway.jpg"
+  },
+  {
+   "path": ".TRACKS_DATABASE[3].desc",
+   "kind": "text",
+   "value": "Deep, driving melodic drum & bass roller featuring ethereal vocal sequences by Lofi Ely."
+  },
+  {
+   "path": ".TRACKS_DATABASE[3].colors[0].h",
+   "kind": "value",
+   "value": 195
+  },
+  {
+   "path": ".TRACKS_DATABASE[3].colors[0].s",
+   "kind": "value",
+   "value": 90
+  },
+  {
+   "path": ".TRACKS_DATABASE[3].colors[0].l",
+   "kind": "value",
+   "value": 30
+  },
+  {
+   "path": ".TRACKS_DATABASE[3].colors[1].h",
+   "kind": "value",
+   "value": 200
+  },
+  {
+   "path": ".TRACKS_DATABASE[3].colors[1].s",
+   "kind": "value",
+   "value": 80
+  },
+  {
+   "path": ".TRACKS_DATABASE[3].colors[1].l",
+   "kind": "value",
+   "value": 60
+  },
+  {
+   "path": ".TRACKS_DATABASE[3].colors[2].h",
+   "kind": "value",
+   "value": 195
+  },
+  {
+   "path": ".TRACKS_DATABASE[3].colors[2].s",
+   "kind": "value",
+   "value": 10
+  },
+  {
+   "path": ".TRACKS_DATABASE[3].colors[2].l",
+   "kind": "value",
+   "value": 96
+  },
+  {
+   "path": ".TRACKS_DATABASE[4].title",
+   "kind": "text",
+   "value": "Somebody To Love"
+  },
+  {
+   "path": ".TRACKS_DATABASE[4].localUrl",
+   "kind": "url",
+   "value": "https://assets.willvernon.online/audio/somebody-to-love.wav"
+  },
+  {
+   "path": ".TRACKS_DATABASE[4].artwork",
+   "kind": "url",
+   "value": "img/artwork/somebody-to-love.jpg"
+  },
+  {
+   "path": ".TRACKS_DATABASE[4].desc",
+   "kind": "text",
+   "value": "A breathtaking high-energy liquid roller blending warm, soulful vocal cuts with a rolling bassline."
+  },
+  {
+   "path": ".TRACKS_DATABASE[4].colors[0].h",
+   "kind": "value",
+   "value": 172
+  },
+  {
+   "path": ".TRACKS_DATABASE[4].colors[0].s",
+   "kind": "value",
+   "value": 95
+  },
+  {
+   "path": ".TRACKS_DATABASE[4].colors[0].l",
+   "kind": "value",
+   "value": 14
+  },
+  {
+   "path": ".TRACKS_DATABASE[4].colors[1].h",
+   "kind": "value",
+   "value": 175
+  },
+  {
+   "path": ".TRACKS_DATABASE[4].colors[1].s",
+   "kind": "value",
+   "value": 85
+  },
+  {
+   "path": ".TRACKS_DATABASE[4].colors[1].l",
+   "kind": "value",
+   "value": 44
+  },
+  {
+   "path": ".TRACKS_DATABASE[4].colors[2].h",
+   "kind": "value",
+   "value": 178
+  },
+  {
+   "path": ".TRACKS_DATABASE[4].colors[2].s",
+   "kind": "value",
+   "value": 90
+  },
+  {
+   "path": ".TRACKS_DATABASE[4].colors[2].l",
+   "kind": "value",
+   "value": 74
+  }
+ ],
+ "script_copy_review": [
+  "Web Audio Context and Analyser successfully initialized."
+ ]
+}
