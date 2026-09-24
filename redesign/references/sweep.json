@@ -1,0 +1,268 @@
+[
+ {
+  "sites": [
+   {
+    "name": "Mat Voyce (portfolio, by Uncommon Studio)",
+    "url": "https://matvoyce.com/",
+    "source": "GSAP Site of the Year 2025 nominee; Awwwards Site of the Day, Typography Honours of the Month, Site of the Month nominee Jan 2025 (via search, awwwards.com case study)",
+    "why": "Timeline-driven type-in-motion: letters stretch, snap, and recombine on scroll, tuned so the animation never blocks reading. Built with GSAP + Next.js/Strapi, React Three Fiber shifts rendering to WebGL to keep frame rates smooth.",
+    "relevance": "type (SplitText-style kinetic typography), transitions, restrained WebGL"
+   },
+   {
+    "name": "Minh Pham \u2014 Portfolio",
+    "url": "https://www.awwwards.com/sites/minh-pham",
+    "source": "Awwwards Site of the Day, developer score 7.77 (via search)",
+    "why": "A GSAP motion system layered over Three.js/WebGL where the 3D frames the work rather than overwhelming it \u2014 built with Animation, Fullscreen, 3D, GSAP, Three.js, Webpack.",
+    "relevance": "WebGL hero restraint, GSAP-driven scroll/transition choreography"
+   },
+   {
+    "name": "A24 (fan/creative rebuild by Ravi Klaassens)",
+    "url": "https://a24.raviklaassens.com/",
+    "source": "Listed on gsap.com/showcase (WebFetch)",
+    "why": "Cinematic scroll storytelling and transitions built as a GSAP showcase piece, representative of GSAP's own curated bar for site motion quality.",
+    "relevance": "scroll storytelling, page transitions"
+   },
+   {
+    "name": "Illoca (Unseen Studio)",
+    "url": "https://illoca.unseen.co/",
+    "source": "Listed on gsap.com/showcase (WebFetch); also referenced in GSAP Showreel 2025 write-up (via search)",
+    "why": "Part of GSAP's own 2025 showreel of projects using ScrollTrigger, SplitText, CustomEase, ScrollSmoother, Observer and ScrambleText.",
+    "relevance": "ScrollSmoother, SplitText/ScrambleText type animation"
+   },
+   {
+    "name": "Huy Phan \u2014 Portfolio",
+    "url": "https://huyml.co/",
+    "source": "Listed on gsap.com/showcase (WebFetch)",
+    "why": "Personal portfolio featured directly by GSAP as an exemplar of its animation toolkit in production use.",
+    "relevance": "project index / case-study interaction patterns, GSAP-driven personality"
+   },
+   {
+    "name": "Revelatio Studio",
+    "url": "https://revelatio.studio/",
+    "source": "Listed on gsap.com/showcase (WebFetch)",
+    "why": "Studio site curated by GSAP's own showcase as a reference for timeline-based motion craft.",
+    "relevance": "HUD-like restrained motion, transitions"
+   },
+   {
+    "name": "Graffico Office",
+    "url": "https://office.graffico.it/",
+    "source": "Listed on gsap.com/showcase (WebFetch)",
+    "why": "Agency site GSAP highlights for its scroll-driven sequencing and interaction polish.",
+    "relevance": "scroll storytelling, transitions"
+   },
+   {
+    "name": "Ravi Klaassens \u2014 Personal Site",
+    "url": "https://www.raviklaassens.com/",
+    "source": "Listed on gsap.com/showcase (WebFetch)",
+    "why": "Developer/designer portfolio showcased by GSAP itself, built by the same person behind the A24 rebuild above \u2014 good paired reference for GSAP-native personal-site patterns.",
+    "relevance": "project index, case-study transitions, GSAP personality"
+   }
+  ],
+  "notes": "Awwwards.com itself was blocked from direct fetch, so evidence for Awwwards recognitions (Mat Voyce, Minh Pham) comes from WebSearch snippets citing awwwards.com case studies/listings, not a direct fetch \u2014 URLs given are the sites themselves (or the awwwards.com listing page when no separate live-site URL was confirmed). godly.website redirected to recent.design and did not yield distinct new evidence beyond what's above, so it was not used as a primary source. The gsap.com/showcase page (fetched directly) provided the highest-confidence, directly-verified set: A24, Illoca, Huy Phan, Revelatio Studio, Graffico Office, Ravi Klaassens \u2014 these are the safest \"real, verified\" picks. Mat Voyce and Minh Pham add the audio/WebGL-adjacent, awwwards-recognized layer the task asked for, though their plugin usage is reported via search summaries (React Three Fiber / GSAP / Three.js) rather than a first-party plugin list. No invented URLs; all above are either fetched directly from gsap.com/showcase or named+linked via search results with attribution kept intact. Recommend cross-checking Mat Voyce/Minh Pham live URLs manually since only awwwards.com listing pages were confirmed reachable for those two in search snippets."
+ },
+ {
+  "sites": [
+   {
+    "name": "Samsy Ninja (SMSY) \u2014 Gen-02 Portfolio",
+    "url": "https://samsy.ninja/",
+    "source": "Awwwards Site of the Day + Developer Award, Oct 2025 (via search)",
+    "why": "Immersive multiplayer cyberpunk 3D world (Vue.js/GSAP/custom WebGL/WebGPU) where visitors' avatars walk through neon rooms of case studies together.",
+    "relevance": "WebGL signature moment, audio-reactive-capable neon HUD environment, multiplayer telemetry feel"
+   },
+   {
+    "name": "Merouane Bali (Merodev) \u2014 Portfolio",
+    "url": "https://merodev.net/",
+    "source": "Awwwards SOTD + Honorable Mention; CSSDA WOTY 2025 nominee (via search, confirmed by GSAP/GreenSock official tweet)",
+    "why": "Immersive sci-fi portfolio built with useGSAP, Three.js, WebGL and React, praised directly by the GSAP team.",
+    "relevance": "GSAP-driven motion runtime, sci-fi/technical HUD tone, solo creative-developer scope"
+   },
+   {
+    "name": "Bruno Simon \u2014 Portfolio",
+    "url": "https://bruno-simon.com/",
+    "source": "Awwwards Site of the Year 2020 + Site of the Month (via search)",
+    "why": "Drivable 3D car-game portfolio built in Three.js/Blender; the reference case study for a single signature WebGL interaction carrying an entire site.",
+    "relevance": "one signature WebGL moment, 3D/Blender pipeline parity with target site's toolset"
+   },
+   {
+    "name": "Jordan Delcros \u2014 Portfolio",
+    "url": "https://www.awwwards.com/sites/jordan-delcros-portfolio",
+    "source": "Awwwards Site of the Day + Developer Award, May 28 2025",
+    "why": "Rebuilt personal portfolio spotlighting WebGL, animation and interactive-development skill in a tight solo-developer scope.",
+    "relevance": "creative-developer portfolio structure, project index + case-study pacing"
+   },
+   {
+    "name": "ERRKA \u2014 Portfolio",
+    "url": "https://www.cssdesignawards.com/sites/errka/49799/",
+    "source": "CSS Design Awards listing (via search)",
+    "why": "Creative developer's portfolio running on a fully custom WebGL/GSAP rendering engine rather than off-the-shelf libraries.",
+    "relevance": "GSAP+WebGL engine precedent, technical/engineering-forward presentation"
+   },
+   {
+    "name": "Henry Desroches \u2014 Personal Site",
+    "url": "https://henry.codes/",
+    "source": "Awwwards Nominee / Honorable Mention listings for 'Henry Desroches Portfolio' (via search)",
+    "why": "Denver-based creative technologist's seasonally-redesigned personal site/resume, an ongoing solo experiment in interaction and CSS craft.",
+    "relevance": "multidisciplinary solo creative-technologist positioning, personality-driven personal branding"
+   },
+   {
+    "name": "Filip Felbar \u2014 Portfolio 2025",
+    "url": "https://www.cssdesignawards.com/sites/filip-felbar-portfolio-2025/46898/",
+    "source": "CSS Design Awards, 2025 (via search)",
+    "why": "2025 refresh of a solo designer/developer portfolio recognized among CSSDA's award roster that year.",
+    "relevance": "contemporary (2025) solo-portfolio benchmark for layout and interaction density"
+   },
+   {
+    "name": "Jesper Landberg \u2014 Portfolio",
+    "url": "https://www.cssdesignawards.com/sites/jesper-landberg/36403/",
+    "source": "CSS Design Awards (via search)",
+    "why": "Front-end creative developer's portfolio showcasing WebGL/interaction work in a tightly authored personal scope.",
+    "relevance": "creative front-end developer archetype directly comparable to a solo multidisciplinary designer"
+   },
+   {
+    "name": "Rauno Freiberg \u2014 Portfolio 2025",
+    "url": "https://www.awwwards.com/sites/portfolio-2025",
+    "source": "Awwwards Honorable Mention (via search)",
+    "why": "Estonian interaction designer's dark, minimal-brutalist personal site emphasizing typographic and motion precision.",
+    "relevance": "dark UI + brutalist-technical restraint, typographic HUD-adjacent detailing"
+   },
+   {
+    "name": "Cyd Stumpel \u2014 Portfolio 2025",
+    "url": "https://www.awwwards.com/sites/cyd-stumpel-portfolio-2025",
+    "source": "Awwwards Site of the Day (via search)",
+    "why": "Independent creative developer & teacher's 2025 portfolio recognized as SOTD for its interaction craft.",
+    "relevance": "solo creative-developer scope, teaching/technical-edge personal brand"
+   },
+   {
+    "name": "L\u00e9o Parpeix \u2014 Portfolio 2026",
+    "url": "https://www.awwwards.com/sites/leo-parpeix-portfolio-2026",
+    "source": "Awwwards Site of the Day, Sep 14 2026 (via search)",
+    "why": "Newest-generation (2026) solo creative-developer portfolio currently on Awwwards' SOTD roster.",
+    "relevance": "current state-of-the-art solo portfolio benchmark, most recent motion/interaction trends"
+   },
+   {
+    "name": "Gil Huybrecht \u2014 Portfolio",
+    "url": "https://www.awwwards.com/sites/gil-huybrecht",
+    "source": "Awwwards Site of the Day, Sep 21 2026 (via search)",
+    "why": "Recent SOTD-winning individual creative developer/designer portfolio.",
+    "relevance": "current solo-portfolio comparison for scope and polish"
+   },
+   {
+    "name": "Gionatan Nese '26",
+    "url": "https://www.awwwards.com/sites/gionatan-nese-26",
+    "source": "Awwwards Site of the Day, Sep 5 2026 (via search)",
+    "why": "Annually-versioned personal portfolio ('...'26' naming convention) recognized as Site of the Day.",
+    "relevance": "yearly-versioned personal-portfolio pattern (matches a 'vnon'-style personal rebrand cadence)"
+   },
+   {
+    "name": "Paul Kalkbrenner \u2014 Site",
+    "url": "https://www.awwwards.com/sites/paul-kalkbrenner",
+    "source": "Awwwards Site of the Day, Sep 2 2026 (via search)",
+    "why": "Award-recognized site for an electronic-music artist, rare direct hit on the music-producer + Awwwards intersection.",
+    "relevance": "music-producer subject matter directly analogous to the 'vnon' drum & bass alias section"
+   },
+   {
+    "name": "An AI Portfolio in the Cosmos",
+    "url": "https://www.awwwards.com/sites/an-ai-portfolio-in-the-cosmos",
+    "source": "Awwwards Nominee, June 2026 (via search)",
+    "why": "Cosmos-themed portfolio with an alive, generative background and scroll-driven timeline built around AI-generated visuals.",
+    "relevance": "AI-image/generative-visual pipeline showcased as the site's core motif"
+   },
+   {
+    "name": "Max Shkret \u2014 3D Artist Portfolio",
+    "url": "https://www.awwwards.com/inspiration/max-shkret-3d-artist-portfolio",
+    "source": "Awwwards inspiration listing (via search)",
+    "why": "3D-artist-focused personal portfolio spotlighted by Awwwards for its render/interaction presentation.",
+    "relevance": "3D/Blender-artist portfolio structure comparable to the 3D-pipeline side of the brief"
+   }
+  ]
+ },
+ {
+  "sites": [
+   {
+    "name": "Oryzo (coaster campaign site)",
+    "url": "https://mobbin.com/sites/sections/c2626367-996c-4c76-bb6c-771c6cd6d466",
+    "source": "Mobbin section: dark hero with oversized bold typography",
+    "why": "Full-bleed near-black hero with huge uppercase headline stacked in two lines, thin nav, single glowing product shot \u2014 direct match for HUD-dark oversized-type hero.",
+    "relevance": "hero"
+   },
+   {
+    "name": "Grok (xAI)",
+    "url": "https://mobbin.com/sites/sections/30ab578c-5e08-4070-905a-146bc41a8e12",
+    "source": "Mobbin section: dark hero with oversized bold typography",
+    "why": "Pitch-black canvas, faint particle/line network radiating from center, oversized thin type split left/right \u2014 great reference for a telemetry/data-viz hero mood.",
+    "relevance": "hero, HUD"
+   },
+   {
+    "name": "Sunday (via WIRED launch)",
+    "url": "https://mobbin.com/sites/sections/c12698b6-7d3b-49af-82f8-7ef6fc404529",
+    "source": "Mobbin section: dark hero with oversized bold typography",
+    "why": "Black background, giant letterform blocks with hard drop-shadow, small monospace status list bottom-left \u2014 reads like a HUD readout under a huge wordmark.",
+    "relevance": "hero, type, HUD"
+   },
+   {
+    "name": "B\u00fcro",
+    "url": "https://mobbin.com/sites/sections/96246ad7-c31d-4134-b867-1c73db9fcb78",
+    "source": "Mobbin section: full screen navigation menu overlay dark mode",
+    "why": "Gradient full-bleed background with a floating pill nav bar reading 'Open menu' \u2014 minimal, glitch-adjacent way to trigger a fullscreen overlay menu.",
+    "relevance": "full-screen menu overlay"
+   },
+   {
+    "name": "Freshman (production co.)",
+    "url": "https://mobbin.com/sites/sections/1a15a6d9-be03-4761-9a3a-30ec06495846",
+    "source": "Mobbin section: full screen navigation menu overlay dark mode",
+    "why": "Dark video-background hero with a bottom filmstrip ticker of past projects and a top-right '+ MENU' trigger \u2014 good model for a menu trigger plus horizontal project ticker.",
+    "relevance": "full-screen menu overlay, project index"
+   },
+   {
+    "name": "MOUTHWASH Studio",
+    "url": "https://mobbin.com/sites/sections/7ea4ce8e-8811-462e-b5d9-f27d7c3e4ec6",
+    "source": "Mobbin section: project list index with image hover preview",
+    "why": "Pure black canvas, INDEX/INFORMATION toggle, tag filter sidebar, thumbnail grid with monospace RC-### codes \u2014 near-exact template for a generative-design project index with HUD labeling.",
+    "relevance": "project index, HUD"
+   },
+   {
+    "name": "A24 film list",
+    "url": "https://mobbin.com/sites/sections/b645a881-adf5-43f3-a86c-758cd54f0b72",
+    "source": "Mobbin section: project list index with image hover preview",
+    "why": "Massive stacked oversized titles as the entire index, year superscript tag per row \u2014 shows how huge type alone can carry a list-based project index.",
+    "relevance": "project index, type"
+   },
+   {
+    "name": "Waka Waka (furniture studio)",
+    "url": "https://mobbin.com/sites/sections/fe089d5d-5adb-4849-a282-ae46d8fd7eac",
+    "source": "Mobbin section: project list index with image hover preview",
+    "why": "Numbered index rows (N\u00b00001...) with material/dimension columns and live location/time readout top-right \u2014 strong telemetry-readout footer/index pattern to reuse for project metadata.",
+    "relevance": "project index, HUD"
+   },
+   {
+    "name": "Runway footer",
+    "url": "https://mobbin.com/sites/sections/902d3be1-1cae-4cf3-bb62-ea51a2008af7",
+    "source": "Mobbin section: footer with contact links and social icons dark",
+    "why": "Near-black footer, faint giant outlined wordmark behind link columns, social icons row \u2014 good template for a dark, brand-forward contact footer.",
+    "relevance": "footer with contact"
+   },
+   {
+    "name": "Resend footer",
+    "url": "https://mobbin.com/sites/sections/9301c687-40d0-4d8d-bbb8-b1325bac2679",
+    "source": "Mobbin section: footer with contact links and social icons dark",
+    "why": "Clean dark footer with address block, status dot ('All systems operational'), and multi-column links \u2014 the live status indicator is a direct HUD/telemetry motif to borrow.",
+    "relevance": "footer with contact, HUD"
+   },
+   {
+    "name": "[untitled] music app track view",
+    "url": "https://mobbin.com/screens/a58d7560-8cad-490f-a3ec-acd736c41735",
+    "source": "Mobbin section: music player with tracklist and waveform dark UI",
+    "why": "Dark playlist screen with square art, numbered tracklist, and a bottom sticky waveform transport bar with shuffle/repeat/volume \u2014 near-direct template for a vnon tracklist/audio player.",
+    "relevance": "audio player"
+   },
+   {
+    "name": "Epidemic Sound track detail",
+    "url": "https://mobbin.com/screens/3db6862a-ed09-4eb0-a803-ab7c6598d02d",
+    "source": "Mobbin section: music player with tracklist and waveform dark UI",
+    "why": "Full waveform scrubber under track title, BPM/genre tags per row in a similar-tracks list \u2014 good reference for showing BPM/key metadata like telemetry next to each drum & bass track.",
+    "relevance": "audio player"
+   }
+  ],
+  "notes": "Ran 6 Mobbin searches (sections x4, screens x2) covering all requested patterns except case-study process-steps, which returned mostly generic SaaS/AI-tool screens (Gamma, Julienne recipe steps) with none matching a strong dark HUD case-study aesthetic \u2014 recommend combining Julienne's step-by-step layout logic (numbered step + right-rail detail panel) with the dark visual language from the hero/index results above rather than citing it directly. All URLs are live Mobbin links returned by the MCP tool itself, not invented."
+ }
+]

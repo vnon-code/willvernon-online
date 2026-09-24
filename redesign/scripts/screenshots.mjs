@@ -16,7 +16,7 @@ const scroll = args.includes("--scroll") && args.splice(args.indexOf("--scroll")
 const urls = args;
 fs.mkdirSync(out, { recursive: true });
 
-const browser = await chromium.launch();
+const browser = await chromium.launch({ executablePath: process.env.CHROME_PATH || undefined, args: process.env.PROXY_CA_SPKI ? [`--ignore-certificate-errors-spki-list=${process.env.PROXY_CA_SPKI}`] : [] });
 const shots = [];
 for (const url of urls) {
   for (const w of widths) {
