@@ -125,3 +125,17 @@ All 10 skills have now been used at least once.
 ## Rollback (fill in during Phase 7)
 - `v1-final` tag: not created yet.
 - Steps: see PLAN.md §5.
+
+## ⚠ Actual spend (session records, `get_session` usage.cost_usd) — 2026-09-25 07:00 UTC
+The per-session estimates above under-report real cost by ~2–2.5×. These are the platform's own figures and supersede them:
+
+| Session | Actual $ |
+|---|---|
+| Phase 0+1 planning (incl. earlier skills/reels chat) | 22.6 |
+| Phase 2 | 26.68 |
+| Phase 3 | 26.85 |
+| Phase 2b (unbudgeted direction change) | 53.35 |
+| Phase 4 (interrupted at 192% of its $35 budget; last commit 297cfb3, WF10 preview/gates not finished) | 67.43 |
+| **Total** | **≈ 197** of the $250 cap — ~$53 left |
+
+Phase 4 was interrupted by the planning session under the approved overrun rule (stop at 120% of a phase budget). **Future sessions: read your real cost with `get_session` (no id) and use it, not token estimates.** Remaining work (Phase 4 gates, Phases 5–7) needs a user decision on scope before resuming.
