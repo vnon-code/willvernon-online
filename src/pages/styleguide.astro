@@ -2,58 +2,97 @@
 // Internal reference only: noindex + excluded from the sitemap
 // (astro.config.mjs filters /styleguide) and X-Robots-Tag noindex in
 // public/_headers. Not linked from primary nav.
+//
+// Direction D (Phase 2b, Ruled Ground), full §5.6 reference: palette,
+// type scale (incl. the width axis), the grid, Rule/Frame/Cross variants,
+// buttons/links in every state, form controls, the motion token table and
+// the data-* attribute API.
 import Base from '../layouts/Base.astro';
-import ChannelLabel from '../components/ChannelLabel.astro';
-import HudReadout from '../components/HudReadout.astro';
-import SignalScope from '../components/SignalScope.astro';
+import GridFrame from '../components/grid/GridFrame.astro';
+import Rule from '../components/grid/Rule.astro';
+import Frame from '../components/grid/Frame.astro';
+import Cross from '../components/grid/Cross.astro';
 
 const title = 'Styleguide | William Vernon';
 
 const swatches = [
-  { token: '--bg', hex: '#050505', role: 'page background', textSafe: false },
-  { token: '--surface', hex: '#0c0c0d', role: 'panels, cards', textSafe: false },
-  { token: '--surface-2', hex: '#15151a', role: 'raised chrome', textSafe: false },
-  { token: '--line', hex: '#26262b', role: 'hairlines, ticks', textSafe: false },
-  { token: '--text', hex: '#ededed', role: 'primary text', textSafe: true },
-  { token: '--text-muted', hex: '#7d838a', role: 'secondary/meta text', textSafe: true },
-  { token: '--accent', hex: '#ff3b30', role: 'signal red — CTA, live/active', textSafe: true },
-  { token: '--accent-2', hex: '#ffb000', role: 'signal amber — channel 2', textSafe: true },
+  { token: '--paper', hex: '#f1f1ee', role: 'page ground', textSafe: false },
+  { token: '--paper-2', hex: '#e6e6e2', role: 'recessed field: inputs, cells', textSafe: false },
+  { token: '--ink', hex: '#0b0b0b', role: 'primary text, buttons, focus', textSafe: true },
+  { token: '--ink-2', hex: '#5c5c58', role: 'secondary text, meta', textSafe: true },
+  { token: '--state', hex: '#ffe14a', role: 'hover/active/selected fill only', textSafe: false },
+];
+
+const inkSwatches = [
+  { token: '--ink-ground', hex: '#0b0b0b', role: 'inverted "studio" ground' },
+  { token: '--on-ink', hex: '#f1f1ee', role: 'primary text on ink' },
+  { token: '--on-ink-2', hex: '#9c9c97', role: 'secondary text on ink' },
 ];
 
 const typeScale = [
-  { cls: 't-display', token: '--fs-display', label: 'Display', sample: 'SIGNAL' },
+  { cls: 't-mega', token: '--fs-mega', label: 'Mega (hero)', sample: 'William Vernon' },
   { cls: 't-h1', token: '--fs-h1', label: 'H1', sample: 'William Vernon' },
+  { cls: 't-row', token: '--fs-row', label: 'Row', sample: 'Featured Work' },
   { cls: 't-h2', token: '--fs-h2', label: 'H2', sample: 'Generative Design.' },
   { cls: 't-h3', token: '--fs-h3', label: 'H3', sample: 'Send a Message' },
   { cls: 't-body', token: '--fs-body', label: 'Body', sample: 'Adaptable designer blending technical skills with operational reliability.' },
-  { cls: 't-small', token: '--fs-small', label: 'Small', sample: 'YOUR_NAME' },
-  { cls: 't-mono', token: '--fs-mono-caption', label: 'Mono caption', sample: 'CH-01 // 174 BPM' },
+  { cls: 't-small', token: '--fs-small', label: 'Small', sample: 'Secondary/meta text' },
+  { cls: 't-label', token: '--fs-label', label: 'Label', sample: 'explore_projects' },
+];
+
+const widthAxis = [
+  { wdth: 75, label: 'wdth 75 — kinetic scrub end' },
+  { wdth: 100, label: 'wdth 100 — body, titles, subs' },
+  { wdth: 125, label: 'wdth 125 — display, hero start' },
+];
+
+const motionTokens = [
+  { token: '--ease-out / expo.out', use: 'draws, reveals, entrances', demo: 'draw' },
+  { token: '--ease-move / power4.inOut', use: 'menu sheet, Flip', demo: 'move' },
+  { token: '--ease-spring (quickTo, power3.out)', use: 'shear return, pointer-follow', demo: 'spring' },
+  { token: '--ease-cut / steps(1)', use: 'hard state swaps (crosses, current nav)', demo: 'cut' },
+  { token: '--ease-step / steps(4)', use: '"raw" stepped wipes (hover fill, page transition)', demo: 'step' },
+];
+
+const dataApi = [
+  ['data-grid-frame', 'GridFrame root', 'Fixed bay lines: intro draw, velocity shear, hover hot-lines'],
+  ['data-rule="start|end|center"', 'Rule root', 'Full-bleed rule that draws scrubbed to scroll from that origin'],
+  ['data-rule-dash', 'Rule root', 'Dashed 16/16 variant (static dash; the draw still animates)'],
+  ['data-rule-cross', 'Rule root', 'Render and animate the intersection crosses'],
+  ['data-frame', 'any box', '4-edge frame that draws clockwise when it enters'],
+  ['data-hot', 'any hover target', 'While hovered, the bay lines it spans go ink (pointer: fine only)'],
+  ['data-split="lines|chars"', 'heading', 'SplitText reveal (never on the LCP H1)'],
+  ['data-kinetic="wdth"', 'hero H1 / page H1', 'Width axis scrubbed 125→75 as the element scrolls out'],
+  ['data-reveal="rise|cut"', 'block', 'rise: y 24px→0 + opacity. cut: hard stepped appear'],
+  ['data-rail / data-rail-step', 'Phase 4 process steps', 'Vertical rule scrubbed with scaleY; the active step gets the state fill'],
+  ['data-surface="ink"', 'section', 'Inverted surface: swaps the line tokens, focus ring and selection'],
+  ['data-vt="<name>"', 'element', 'view-transition-name pairing (Phase 4 row → case study)'],
 ];
 ---
 
 <Base title={title} path="/styleguide" noindex={true}>
   <section class="sg-section container">
-    <ChannelLabel channel="CH-SG" label="STYLEGUIDE" />
     <h1 class="t-h1">Design system reference</h1>
     <p class="t-body">
-      Internal only — noindex, excluded from the sitemap. Direction A, Signal Console. Every
+      Internal only — noindex, excluded from the sitemap. Direction D, Ruled Ground. Every
       token below is read live from tokens.css, not restated by hand.
     </p>
   </section>
 
   <section class="sg-section container" id="colour">
-    <h2 class="t-h2">Colour</h2>
-    <p class="t-small">Contrast ratios computed client-side (WCAG relative luminance) against <code>--bg</code>.</p>
+    <Rule origin="start" />
+    <h2 class="t-h2">1. Colour</h2>
+    <p class="t-small">Contrast ratios computed client-side (WCAG relative luminance) against <code>--paper</code>.</p>
     <div class="swatch-grid">
       {
         swatches.map((s) => (
           <div class="swatch-card">
             <div class="swatch" style={`background:${s.hex}`} data-swatch={s.token} />
-            <p class="t-mono swatch-token">{s.token}</p>
+            <p class="t-label swatch-token">{s.token}</p>
             <p class="t-small swatch-role">{s.role}</p>
             <p class="t-small swatch-hex">{s.hex}</p>
             {s.textSafe && (
-              <p class="t-small swatch-contrast" data-contrast-for={s.token}>
+              <p class="t-small swatch-contrast" data-contrast-for={s.token} data-contrast-against="--paper">
                 computing…
               </p>
             )}
@@ -61,15 +100,34 @@ const typeScale = [
         ))
       }
     </div>
+
+    <p class="t-small sg-note">Inverted "studio" surface (footer, stems console):</p>
+    <div class="swatch-grid swatch-grid-ink">
+      {
+        inkSwatches.map((s) => (
+          <div class="swatch-card">
+            <div class="swatch" style={`background:${s.hex}`} data-swatch={s.token} />
+            <p class="t-label swatch-token">{s.token}</p>
+            <p class="t-small swatch-role">{s.role}</p>
+            <p class="t-small swatch-hex">{s.hex}</p>
+            <p class="t-small swatch-contrast" data-contrast-for={s.token} data-contrast-against="--ink-ground">
+              computing…
+            </p>
+          </div>
+        ))
+      }
+    </div>
   </section>
 
   <section class="sg-section container" id="type">
-    <h2 class="t-h2">Type scale</h2>
+    <Rule origin="start" />
+    <h2 class="t-h2">2. Type scale</h2>
+    <p class="t-small">One family, Mona Sans Variable. Weight/width read from <code>--fset-*</code>.</p>
     <div class="type-scale">
       {
         typeScale.map((t) => (
           <div class="type-row">
-            <p class="t-mono type-row-label">
+            <p class="t-label type-row-label">
               {t.label} · {t.token}
             </p>
             <p class={t.cls}>{t.sample}</p>
@@ -77,118 +135,203 @@ const typeScale = [
         ))
       }
     </div>
+
+    <p class="t-small sg-note">Width axis (the kinetic scrub instrument, §4.3):</p>
+    <div class="wdth-demo">
+      {
+        widthAxis.map((w) => (
+          <p class="wdth-sample" style={`font-variation-settings:'wdth' ${w.wdth}, 'wght' 820`}>
+            {w.label}
+          </p>
+        ))
+      }
+    </div>
   </section>
 
   <section class="sg-section container" id="grid">
-    <h2 class="t-h2">Grid</h2>
-    <label class="grid-toggle t-mono">
-      <input type="checkbox" id="grid-overlay-toggle" />
-      Show column overlay (4 / 8 / 12 columns)
-    </label>
+    <Rule origin="start" cross />
+    <h2 class="t-h2">3. Grid</h2>
+    <p class="t-body">
+      Resize the viewport — 390 is 1 bay (2 frame lines), 768 is 2 bays (3 lines), 1024+ is 4
+      bays (5 lines). The lines below are a local demo of the same <code>GridFrame</code>/
+      <code>Rule</code> primitives Base.astro renders fixed behind every page.
+    </p>
     <div class="grid-demo">
-      <div class="grid-overlay" id="grid-overlay" aria-hidden="true">
-        {Array.from({ length: 12 }).map(() => <span class="grid-overlay-col" />)}
+      <GridFrame local />
+      <div class="grid-demo-bays bays">
+        <div class="grid-demo-bay span-1">B1</div>
+        <div class="grid-demo-bay span-1">B2</div>
+        <div class="grid-demo-bay span-1">B3</div>
+        <div class="grid-demo-bay span-1">B4</div>
       </div>
-      <p class="t-body">Resize the viewport — 390 gives 4 columns, 768 gives 8, 1440 gives 12.</p>
+    </div>
+  </section>
+
+  <section class="sg-section container" id="rule">
+    <Rule origin="start" />
+    <h2 class="t-h2">4. Rule</h2>
+    <p class="t-small">data-rule="start"</p>
+    <Rule origin="start" class="sg-rule" />
+    <p class="t-small">data-rule="center"</p>
+    <Rule origin="center" class="sg-rule" />
+    <p class="t-small">data-rule="end"</p>
+    <Rule origin="end" class="sg-rule" />
+    <p class="t-small">data-rule-dash</p>
+    <Rule origin="start" dash class="sg-rule" />
+    <p class="t-small">data-rule-cross (≥768 only)</p>
+    <Rule origin="start" cross class="sg-rule" />
+  </section>
+
+  <section class="sg-section container" id="frame">
+    <Rule origin="start" />
+    <h2 class="t-h2">5. Frame</h2>
+    <p class="t-small">data-frame — 4-edge box, data-hot lights the bay lines it spans.</p>
+    <div class="frame-demo">
+      <Frame as="div" class="frame-demo-box">
+        <p class="t-body">A Frame cell</p>
+      </Frame>
+    </div>
+  </section>
+
+  <section class="sg-section container" id="cross">
+    <Rule origin="start" />
+    <h2 class="t-h2">6. Cross</h2>
+    <p class="t-small">A standalone registration mark; rotates 45° → × for open/close states.</p>
+    <div class="cross-demo">
+      <Cross />
+      <Cross class="cross-demo-rotated" />
     </div>
   </section>
 
   <section class="sg-section container" id="buttons">
-    <h2 class="t-h2">Buttons &amp; CTAs</h2>
+    <Rule origin="start" />
+    <h2 class="t-h2">7. Buttons &amp; links</h2>
     <div class="button-row">
-      <a href="#buttons" class="btn btn-primary">explore_projects</a>
-      <a href="#buttons" class="btn btn-secondary">Secondary action</a>
-      <a href="#buttons" class="btn-text">&gt; AI projects</a>
+      <a href="#buttons" class="btn">explore_projects</a>
+      <a href="#buttons" class="btn sg-force-hover">Hover (forced)</a>
+      <a href="#buttons" class="btn" aria-disabled="true">Disabled</a>
     </div>
+    <div class="button-row">
+      <a href="#buttons" class="btn-line">Secondary action</a>
+      <a href="#buttons" class="btn-line sg-force-hover">Hover (forced)</a>
+    </div>
+    <div class="button-row">
+      <a href="#buttons" class="link">A text link</a>
+      <a href="#buttons" class="link sg-force-hover">Hover (forced)</a>
+    </div>
+    <p class="t-small sg-note">Tab to any control above to see the 2px ink focus ring.</p>
   </section>
 
-  <section class="sg-section container" id="channel">
-    <h2 class="t-h2">ChannelLabel</h2>
-    <div class="channel-row">
-      <ChannelLabel channel="CH-01" label="Home" />
-      <ChannelLabel channel="CH-03" label="Projects" />
-      <ChannelLabel channel="CH-06" label="Music" />
-    </div>
-  </section>
-
-  <section class="sg-section container" id="hud">
-    <h2 class="t-h2">HudReadout</h2>
-    <div class="hud-row">
-      <HudReadout variant="clock" />
-      <HudReadout variant="scroll" />
-      <HudReadout variant="xy" />
-      <HudReadout variant="bpm" />
+  <section class="sg-section container" id="forms">
+    <Rule origin="start" />
+    <h2 class="t-h2">8. Form controls</h2>
+    <div class="form-demo">
+      <label for="sg-text">Name</label>
+      <input id="sg-text" type="text" placeholder="e.g. Adnan" />
+      <label for="sg-textarea">Message</label>
+      <textarea id="sg-textarea" rows={3} placeholder="Say hello" />
     </div>
   </section>
 
   <section class="sg-section container" id="motion">
-    <h2 class="t-h2">Motion primitives</h2>
+    <Rule origin="start" />
+    <h2 class="t-h2">9. Motion tokens</h2>
+    <table class="sg-table">
+      <thead>
+        <tr>
+          <th scope="col">Token</th>
+          <th scope="col">Use</th>
+          <th scope="col">Replay</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          motionTokens.map((m) => (
+            <tr>
+              <td class="t-small">{m.token}</td>
+              <td class="t-small">{m.use}</td>
+              <td>
+                <button type="button" class="btn-line sg-replay" data-replay={m.demo}>
+                  Replay
+                </button>
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+    <p class="t-small sg-note">
+      Intro draw, scrub, shear, hot lines, stepped wipe, split lines/chars and the kinetic width
+      scrub are wired by builder B's <code>src/motion/*</code>; this table is the fixed reference
+      surface for them, not a re-implementation.
+    </p>
 
-    <p class="t-mono">data-reveal="lines"</p>
-    <h3 class="t-h3" data-reveal="lines">This heading reveals line by line.</h3>
+    <p class="t-small">data-reveal="lines" (legacy demo, retired by data-split="lines")</p>
+    <h3 class="t-h3" data-split="lines">This heading reveals line by line.</h3>
 
-    <p class="t-mono">data-reveal="fade"</p>
-    <p class="t-body" data-reveal="fade">This block fades up as one piece.</p>
-
-    <p class="t-mono">data-reveal-stagger</p>
+    <p class="t-small">data-reveal-stagger</p>
     <div class="reveal-stagger-demo" data-reveal-stagger>
-      <p class="t-body">Block one.</p>
-      <p class="t-body">Block two.</p>
-      <p class="t-body">Block three.</p>
-    </div>
-
-    <p class="t-mono">data-scramble</p>
-    <p class="t-mono" data-scramble>SIGNAL // DECODE // 174 BPM</p>
-
-    <p class="t-mono">data-ruler + [data-ruler-step]</p>
-    <div class="ruler ruler-demo" data-ruler>
-      <div class="ruler-step" data-ruler-step>
-        <p class="t-mono">STEP 01</p>
-        <p class="t-body">Scrub the page — this fills via ScrollTrigger once wired.</p>
-      </div>
-      <div class="ruler-step" data-ruler-step>
-        <p class="t-mono">STEP 02</p>
-        <p class="t-body">Calibration ruler, second tick.</p>
-      </div>
-      <div class="ruler-step" data-ruler-step>
-        <p class="t-mono">STEP 03</p>
-        <p class="t-body">Third and final tick in this demo.</p>
-      </div>
+      <p class="t-body" data-reveal="rise">Block one.</p>
+      <p class="t-body" data-reveal="rise">Block two.</p>
+      <p class="t-body" data-reveal="rise">Block three.</p>
     </div>
   </section>
 
-  <section class="sg-section container" id="scope">
-    <h2 class="t-h2">SignalScope</h2>
-    <SignalScope mode="idle" traces={6} class="sg-scope" />
-  </section>
-
-  <section class="sg-section container" id="focus">
-    <h2 class="t-h2">Focus states</h2>
-    <p class="t-small">Tab through — every interactive element gets a 2px accent outline with offset.</p>
-    <div class="focus-row">
-      <a href="#focus" class="btn btn-primary">Link button</a>
-      <button type="button" class="btn btn-secondary">Button</button>
-      <label class="t-small" for="sg-input">
-        Text input
-        <input id="sg-input" type="text" class="sg-input" placeholder="Type here" />
-      </label>
-    </div>
+  <section class="sg-section container" id="data-api">
+    <Rule origin="start" />
+    <h2 class="t-h2">10. data-* API</h2>
+    <table class="sg-table">
+      <thead>
+        <tr>
+          <th scope="col">Attribute</th>
+          <th scope="col">On</th>
+          <th scope="col">Meaning</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          dataApi.map(([attr, on, meaning]) => (
+            <tr>
+              <td class="t-small sg-code">{attr}</td>
+              <td class="t-small">{on}</td>
+              <td class="t-small">{meaning}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
   </section>
 </Base>
 
 <style>
   .sg-section {
+    position: relative;
     padding-block: var(--sp-8);
-    border-top: 1px solid var(--line);
     display: flex;
     flex-direction: column;
     gap: var(--sp-4);
+  }
+
+  .sg-note {
+    color: var(--ink-2);
   }
 
   .swatch-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
     gap: var(--sp-5);
+  }
+
+  .swatch-grid-ink {
+    padding: var(--sp-5);
+    background: var(--ink-ground);
+  }
+
+  .swatch-grid-ink .swatch-token,
+  .swatch-grid-ink .swatch-role,
+  .swatch-grid-ink .swatch-hex,
+  .swatch-grid-ink .swatch-contrast {
+    color: var(--on-ink);
   }
 
   .swatch-card {
@@ -200,21 +343,16 @@ const typeScale = [
   .swatch {
     height: 80px;
     border: 1px solid var(--line);
-    border-radius: 2px;
   }
 
   .swatch-token {
-    color: var(--text);
+    color: var(--ink);
     margin-top: var(--sp-2);
   }
 
   .swatch-role,
   .swatch-hex {
-    color: var(--text-muted);
-  }
-
-  .swatch-contrast {
-    color: var(--accent-2);
+    color: var(--ink-2);
   }
 
   .type-scale {
@@ -224,77 +362,123 @@ const typeScale = [
   }
 
   .type-row-label {
-    color: var(--text-muted);
+    color: var(--ink-2);
     margin-bottom: var(--sp-2);
   }
 
-  .grid-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--sp-2);
-    min-height: 44px;
-    color: var(--text-muted);
+  .wdth-demo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+  }
+
+  .wdth-sample {
+    font-size: var(--fs-h2);
+    line-height: var(--lh-h2);
+    color: var(--ink);
   }
 
   .grid-demo {
     position: relative;
+    min-height: 120px;
+    border: 1px solid var(--line);
   }
 
-  .grid-overlay {
-    position: absolute;
-    inset: 0;
-    display: none;
-    grid-template-columns: repeat(var(--grid-columns), 1fr);
-    gap: var(--grid-gutter);
-    pointer-events: none;
+  .grid-demo-bays {
+    position: relative;
+    height: 120px;
+    padding-inline: var(--m);
   }
 
-  .grid-overlay[data-visible] {
-    display: grid;
+  .grid-demo-bay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink-2);
   }
 
-  .grid-overlay-col {
-    background: color-mix(in srgb, var(--accent) 10%, transparent);
-    outline: 1px dashed color-mix(in srgb, var(--accent) 40%, transparent);
+  .sg-rule {
+    position: relative;
+    margin-block: var(--sp-4);
   }
 
-  .button-row,
-  .channel-row,
-  .hud-row,
-  .focus-row {
+  .frame-demo {
+    max-width: 320px;
+  }
+
+  .frame-demo-box {
+    padding: var(--sp-6);
+  }
+
+  .cross-demo {
+    display: flex;
+    gap: var(--sp-6);
+    align-items: center;
+  }
+
+  .cross-demo-rotated {
+    transform: rotate(45deg);
+  }
+
+  .button-row {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--sp-5);
   }
 
+  .sg-force-hover.btn::before,
+  .sg-force-hover.btn-line::before {
+    transform: scaleX(1) !important;
+  }
+
+  .sg-force-hover.btn,
+  .sg-force-hover.btn-line {
+    color: var(--ink) !important;
+  }
+
+  .sg-force-hover.link {
+    background-size: 100% 100% !important;
+    color: var(--ink) !important;
+  }
+
+  .form-demo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    max-width: 360px;
+  }
+
+  .sg-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .sg-table th,
+  .sg-table td {
+    text-align: left;
+    padding: var(--sp-3);
+    border-top: 1px solid var(--line);
+    vertical-align: top;
+  }
+
+  .sg-table th {
+    color: var(--ink-2);
+    font-variation-settings: var(--fset-label);
+    font-size: var(--fs-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+  }
+
+  .sg-code {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
   .reveal-stagger-demo {
     display: flex;
     flex-direction: column;
     gap: var(--sp-2);
-  }
-
-  .ruler-demo {
-    max-width: 60ch;
-    gap: var(--sp-6);
-  }
-
-  .sg-scope {
-    aspect-ratio: 16 / 7;
-    border: 1px solid var(--line);
-  }
-
-  .sg-input {
-    display: block;
-    margin-top: var(--sp-2);
-    min-height: 44px;
-    width: 100%;
-    max-width: 320px;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 2px;
-    padding-inline: var(--sp-3);
-    color: var(--text);
   }
 </style>
 
@@ -324,20 +508,23 @@ const typeScale = [
   }
 
   const root = getComputedStyle(document.documentElement);
-  const bg = root.getPropertyValue('--bg').trim() || '#050505';
 
   document.querySelectorAll<HTMLElement>('[data-contrast-for]').forEach((el) => {
     const token = el.dataset.contrastFor!;
+    const against = el.dataset.contrastAgainst || '--paper';
     const hex = root.getPropertyValue(token).trim();
-    if (!hex) return;
-    const ratio = contrastRatio(hex, bg);
-    el.textContent = `${ratio.toFixed(2)}:1 vs --bg`;
+    const bgHex = root.getPropertyValue(against).trim();
+    if (!hex || !bgHex) return;
+    const ratio = contrastRatio(hex, bgHex);
+    el.textContent = `${ratio.toFixed(2)}:1 vs ${against}`;
   });
 
-  const gridToggle = document.getElementById('grid-overlay-toggle') as HTMLInputElement | null;
-  const gridOverlay = document.getElementById('grid-overlay');
-  gridToggle?.addEventListener('change', () => {
-    if (gridToggle.checked) gridOverlay?.setAttribute('data-visible', '');
-    else gridOverlay?.removeAttribute('data-visible');
+  document.querySelectorAll<HTMLButtonElement>('[data-replay]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      btn.classList.remove('is-replaying');
+      // Force a reflow so re-adding the class restarts any CSS animation.
+      void btn.offsetWidth;
+      btn.classList.add('is-replaying');
+    });
   });
 </script>

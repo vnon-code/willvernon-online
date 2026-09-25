@@ -1,0 +1,42 @@
+---
+/**
+ * A standalone "+" registration mark (hero H1 box corners, 404). Same visual
+ * as Rule's `.rule-x`, just not tied to a bay position — placed by its
+ * parent's own layout (e.g. `position: absolute` corners on the hero box).
+ */
+interface Props {
+  class?: string;
+}
+
+const { class: className = '' } = Astro.props;
+---
+
+<span class:list={['cross', className]} aria-hidden="true"></span>
+
+<style>
+  .cross {
+    position: relative;
+    display: inline-block;
+    width: 11px;
+    height: 11px;
+  }
+
+  .cross::before,
+  .cross::after {
+    content: '';
+    position: absolute;
+    background: var(--line-strong);
+  }
+  .cross::before {
+    top: 5px;
+    left: 0;
+    right: 0;
+    height: 1px;
+  }
+  .cross::after {
+    left: 5px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+  }
+</style>

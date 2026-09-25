@@ -1,5 +1,11 @@
 #!/usr/bin/env node
 /**
+ * RETIRED (Phase 2b, D-brutalist-grid.md §6): the SignalScope OGL hero this
+ * script fed was deleted along with `ogl` and src/data/scope-envelope.json.
+ * Kept here only as a record of how that envelope was authored; do not run
+ * it and do not resurrect scope-envelope.json without also resurrecting a
+ * consumer for it.
+ *
  * build_envelope.mjs — bakes a build-time RMS amplitude envelope for the
  * SignalScope idle-mode traces from the real "Catching Flies - Silver
  * Linings (vnon Bootleg)" stems.

@@ -1,12 +1,14 @@
 ---
-// Phase 3: hero (Phase 2) + the full home body — section channels CH-01.1
-// Featured Work index, CH-01.2 AI as a Creative Partner (+ toolset
-// directory), CH-01.3 the Silver Linings stems console, CH-01.4 contact. Every section's copy
-// comes from src/content/*.json via src/content (never hand-typed here).
+// Phase 2b (Direction D, Ruled Ground): the typographic hero plus the full
+// home body — Featured Work index, "AI as a Creative Partner." toolset,
+// the Silver Linings stems console, and Contact. Every section's copy comes
+// from src/content/*.json via src/content (never hand-typed here). Content
+// wiring, a11y structure and behaviour are unchanged from Phase 3; only the
+// markup/CSS presentation moves onto the bay grid and the new tokens.
 import Base from '../layouts/Base.astro';
 import { site, home } from '../content';
-import HudReadout from '../components/HudReadout.astro';
-import SignalScope from '../components/SignalScope.astro';
+import Rule from '../components/grid/Rule.astro';
+import Cross from '../components/grid/Cross.astro';
 import FeaturedWorkIndex from '../components/home/FeaturedWorkIndex.astro';
 import AiPartner from '../components/home/AiPartner.astro';
 import StemsConsole from '../components/home/StemsConsole.astro';
@@ -17,57 +19,53 @@ const title = site.pages.index.legacyTitle!;
 // Hero copy comes from src/content/home.json (never hand-typed).
 const block = (tag: string, nth = 0) => home.blocks.filter((b) => b.tag === tag)[nth].text;
 const heroName = home.headings.find((h) => h.level === 1)!.text;
-// headings[] holds the rendered H2 (with the '&' that sat in a text-accent span).
+const heroWords = heroName.split(' ');
+// headings[] holds the rendered H2 (with the '&'). Direction D drops the
+// data-glyph ampersand workaround: the H2 renders the full text verbatim,
+// and redesign/scripts/check_dom_parity.py's EQUIV map treats
+// index.copy.044 as equivalent to index.h.022 instead.
 const heroTagline = home.headings.filter((h) => h.level === 2)[0].text;
-const AMP = '&';
-const [taglineA, taglineB] = heroTagline.split(` ${AMP} `);
-// The ampersand is drawn as a CSS glyph (::before content from data-glyph),
-// as legacy styled it separately in a text-accent span. That keeps the DOM
-// text identical to the INVENTORY block (index.copy.044 'Generative Design
-// Creative Technology.', where extraction dropped the 1-char span) while the
-// visible heading still reads 'Generative Design & Creative Technology.';
-// aria-label carries the full heading text (index.h.022) so the announced
-// name never depends on CSS generated content.
 const heroReadout = block('p.hero-subtitle');
 const heroDesc = block('p.hero-desc');
 const ctaPrimary = block('a.btn-primary');
 const ctaAi = block('a.btn-secondary', 0);
 const ctaExperiments = block('a.btn-secondary', 1);
 // first plain <span> block is the hero 'Scroll' tick label (index.copy.049)
+const scrollLabel = block('span');
 ---
 
-<Base title={title} path="/" channel="CH-01">
-  <section class="hero">
-    <SignalScope mode="idle" class="hero-scope" />
+<Base title={title} path="/">
+  <section class="hero container" data-hero>
+    <p class="hero-label t-label">{heroReadout}</p>
 
-    <div class="hero-content container">
-      <p class="hero-readout t-mono" data-scramble>{heroReadout}</p>
-
-      <h1 class="hero-name t-display" data-reveal="lines">{heroName}</h1>
-
-      <h2 class="hero-tagline t-h2" data-reveal="fade" aria-label={heroTagline}>
-        {taglineB !== undefined ? (
-          <>{taglineA} <span class="hero-amp" data-glyph={AMP} /> {taglineB}</>
-        ) : (
-          heroTagline
-        )}
-      </h2>
-
-      <p class="hero-desc t-body" data-reveal="fade">{heroDesc}</p>
-
-      <div class="hero-ctas" data-reveal="fade">
-        <a href="/projects" class="btn btn-primary">{ctaPrimary}</a>
-        <a href="/AI" class="btn-text">{ctaAi}</a>
-        <a href="/experiments" class="btn-text">{ctaExperiments}</a>
-      </div>
+    <div class="hero-name-box" data-kinetic="wdth">
+      <Cross class="hero-name-cross hero-name-cross--tl" />
+      <h1 class="hero-name">
+        {heroWords.map((w) => <span class="hero-name-line">{w}</span>)}
+      </h1>
+      <Cross class="hero-name-cross hero-name-cross--br" />
     </div>
 
-    <div class="hero-hud">
-      <HudReadout variant="clock" />
-      <HudReadout variant="xy" />
-      <span class="hero-scroll-tick t-mono">
-        {block('span')} <HudReadout variant="scroll" />
-      </span>
+    <Rule origin="center" class="hero-rule" />
+
+    <div class="hero-split">
+      <h2 class="hero-tagline t-h2" data-split="lines">{heroTagline}</h2>
+      <p class="hero-desc t-body">{heroDesc}</p>
+    </div>
+
+    <div class="hero-actions">
+      <div class="hero-ctas">
+        <a href="/projects" class="btn is-full-mobile">{ctaPrimary}</a>
+        <div class="hero-ctas-links">
+          <a href="/AI" class="link">{ctaAi}</a>
+          <a href="/experiments" class="link">{ctaExperiments}</a>
+        </div>
+      </div>
+
+      <div class="hero-scroll" data-hero-scroll>
+        <span class="t-label">{scrollLabel}</span>
+        <span class="hero-scroll-tick" aria-hidden="true"></span>
+      </div>
     </div>
   </section>
 
@@ -80,95 +78,187 @@ const ctaExperiments = block('a.btn-secondary', 1);
 <style>
   .hero {
     position: relative;
-    min-height: 100svh;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    overflow: hidden;
+    gap: var(--sp-6);
     padding-block: var(--sp-9) var(--sp-8);
+    min-height: 100svh;
+    justify-content: center;
   }
 
-  .hero-content {
+  .hero-label {
+    color: var(--ink-2);
+  }
+
+  .hero-name-box {
     position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-4);
-    max-width: 900px;
-  }
-
-  .hero-readout {
-    color: var(--text-muted);
+    contain: layout paint;
   }
 
   .hero-name {
-    color: var(--text);
-    margin-top: var(--sp-2);
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font);
+    font-size: var(--fs-mega);
+    line-height: var(--lh-mega);
+    letter-spacing: var(--ls-mega);
+    font-weight: 820;
+    font-variation-settings: 'wdth' var(--wdth, 125), 'wght' 820;
+    color: var(--ink);
+  }
+
+  .hero-name-line {
+    display: block;
+  }
+
+  .hero-name-cross {
+    position: absolute;
+    z-index: 1;
+  }
+
+  .hero-name-cross--tl {
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%);
+  }
+
+  .hero-name-cross--br {
+    bottom: 0;
+    right: 0;
+    transform: translate(50%, 50%);
+  }
+
+  @media (max-width: 767px) {
+    .hero-name {
+      font-variation-settings: 'wdth' var(--wdth, 108), 'wght' 820;
+    }
+  }
+
+  .hero-rule {
+    margin-block: var(--sp-2);
+  }
+
+  .hero-split {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-4);
   }
 
   .hero-tagline {
-    color: var(--text-muted);
-    font-weight: 400;
-  }
-
-  .hero-amp::before {
-    content: attr(data-glyph);
-    color: var(--accent);
+    color: var(--ink);
+    max-width: 40ch;
   }
 
   .hero-desc {
-    color: var(--text-muted);
-    max-width: 42ch;
+    color: var(--ink-2);
+    max-width: 40ch;
+  }
+
+  @media (min-width: 1024px) {
+    .hero-split {
+      grid-template-columns: repeat(var(--bays), 1fr);
+      column-gap: var(--g);
+      align-items: start;
+    }
+
+    .hero-desc {
+      grid-column: 1 / span 2;
+      grid-row: 1;
+      order: -1;
+    }
+
+    .hero-tagline {
+      grid-column: 3 / span 2;
+      grid-row: 1;
+    }
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-5);
   }
 
   .hero-ctas {
     display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--sp-4);
+  }
+
+  .hero-ctas-links {
+    display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--sp-5);
-    margin-top: var(--sp-3);
   }
 
-  .hero-hud {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: var(--sp-5);
-    margin-top: var(--sp-8);
-    padding-inline: var(--grid-margin);
-    color: var(--text-muted);
+  .is-full-mobile {
+    width: 100%;
   }
 
-  .hero-scroll-tick {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--sp-2);
+  .hero-scroll {
+    display: none;
   }
 
-  @media (max-width: 767px) {
-    .hero {
-      min-height: auto;
-      padding-block: var(--sp-8) var(--sp-6);
+  @media (min-width: 768px) {
+    .hero-actions {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: var(--sp-6);
     }
 
     .hero-ctas {
-      flex-direction: column;
-      align-items: stretch;
-      gap: var(--sp-3);
+      flex-direction: row;
+      align-items: center;
     }
 
-    .hero-ctas .btn,
-    .hero-ctas .btn-text {
-      width: 100%;
-      justify-content: center;
+    .is-full-mobile {
+      width: auto;
     }
 
-    .hero-hud {
-      justify-content: flex-start;
-      flex-wrap: wrap;
-      margin-top: var(--sp-6);
+    .hero-scroll {
+      display: flex;
+      align-items: flex-end;
+      gap: var(--sp-2);
+      color: var(--ink-2);
     }
   }
+
+  .hero-scroll-tick {
+    display: block;
+    width: 1px;
+    height: 64px;
+    background: var(--ink);
+    animation: hero-scroll-tick 1.6s var(--ease-move) infinite;
+  }
+
+  @keyframes hero-scroll-tick {
+    0% {
+      transform: scaleY(0);
+      transform-origin: top;
+    }
+    45%,
+    55% {
+      transform: scaleY(1);
+      transform-origin: top;
+    }
+    50% {
+      transform-origin: bottom;
+    }
+    100% {
+      transform: scaleY(0);
+      transform-origin: bottom;
+    }
+  }
+
+  [data-hero-scroll].is-scrolled {
+    visibility: hidden;
+  }
 </style>
+
+<script>
+  import { initHeroScroll } from '../scripts/home/hero-scroll';
+  initHeroScroll();
+</script>

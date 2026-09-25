@@ -13,16 +13,11 @@
  */
 import type { HomeContent } from '../../content';
 import { fxDisplay } from './fx-format';
-import type { ScopeController } from '../../webgl/scope';
 
 // Only the stems config crosses to the client: StemsConsole.astro serialises
 // home.stems.{stemsConfig,trackParams} into [data-stems] (never the whole
 // home.json module).
 type StemsData = Pick<HomeContent['stems'], 'stemsConfig' | 'trackParams'>;
-// Same recording (Catching Flies — Silver Linings, vnon Bootleg) as
-// music.html's own `const BPM = 174`; used only to lock HUD tick/scramble
-// intervals (src/motion/bpm.ts), never rendered as copy.
-const TRACK_BPM = 174;
 
 type TrackKey = string;
 
@@ -262,15 +257,6 @@ export function initStemsConsole(): void {
     TRACK_KEYS.forEach((key) => {
       stems[key] = buildStem(ctx, masterGainNode!, key);
     });
-
-    // The home hero's SignalScope switches to audio mode while playing
-    // (attach in startPlayback, detach in stopPlayback) — see
-    // src/components/SignalScope.astro / src/webgl/scope.ts.
-  }
-
-  function scopeController(): ScopeController | undefined {
-    return document.querySelector<HTMLElement & { __scopeController?: ScopeController }>('[data-scope]')
-      ?.__scopeController;
   }
 
   function updateNodeValue(trackKey: TrackKey, paramId: string, val: number): void {
@@ -418,10 +404,8 @@ export function initStemsConsole(): void {
     playBtn.setAttribute('aria-pressed', 'true');
 
     if (audioCtx?.state === 'suspended') void audioCtx.resume();
-    if (masterAnalyser) scopeController()?.attachAnalyser(masterAnalyser);
     Object.values(stems).forEach((stem) => void stem?.audio.play().catch(() => {}));
 
-    window.dispatchEvent(new CustomEvent('vnon:bpm', { detail: { bpm: TRACK_BPM } }));
     telemetryLoop();
   }
 
@@ -431,9 +415,7 @@ export function initStemsConsole(): void {
     pauseIcon.style.display = 'none';
     playBtn.setAttribute('aria-pressed', 'false');
     cancelAnimationFrame(animFrame);
-    scopeController()?.detachAnalyser();
     if (audioCtx?.state === 'running') void audioCtx.suspend();
-    window.dispatchEvent(new CustomEvent('vnon:bpm', { detail: { bpm: null } }));
 
     Object.entries(stems).forEach(([key, stem]) => {
       stem?.audio.pause();

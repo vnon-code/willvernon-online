@@ -9,32 +9,43 @@
  * Every subsystem gates its own animated behaviour through
  * gsap.matchMedia() with an explicit (prefers-reduced-motion: reduce)
  * branch — see each module's file header for what that branch does.
+ *
+ * D-brutalist-grid.md (Phase 2b, builder B): the Signal Console modules
+ * (scramble/hud/bpm/cursor/ruler) and ScrollSmoother are retired (§3.5.9,
+ * §6) and replaced by the grid-line/kinetic/hover/rail system below.
+ * lines.ts/kinetic.ts run synchronously (they own the LCP hero/H1 and the
+ * always-present GridFrame lines); hover.ts/rail.ts only matter once the
+ * visitor moves a pointer or scrolls into unbuilt Phase 4 territory, so
+ * they're deferred to an idle callback — nothing on the critical render
+ * path waits on them.
  */
 import './gsap';
 import { initReveal } from './reveal';
-import { initScramble } from './scramble';
-import { initHud } from './hud';
-import { initRuler } from './ruler';
-import { initCursor } from './cursor';
 import { initTransitions } from './transition';
-import { initSmoother } from './smoother';
-import { initBpmListener } from './bpm';
+import { initLines } from './lines';
+import { initKinetic } from './kinetic';
+import { initHover } from './hover';
+import { initRail } from './rail';
 
 let initialized = false;
+
+function whenIdle(fn: () => void) {
+  const ric = (window as unknown as { requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => void })
+    .requestIdleCallback;
+  if (typeof ric === 'function') ric(fn, { timeout: 500 });
+  else window.setTimeout(fn, 200);
+}
 
 export function initMotion() {
   if (initialized) return;
   initialized = true;
 
-  initBpmListener();
   initReveal();
-  initScramble();
-  initHud();
-  initRuler();
-  initCursor();
   initTransitions();
-  void initSmoother(); // no-op unless a page opts in with #smooth-wrapper/#smooth-content
+  initLines();
+  initKinetic();
+  whenIdle(initHover);
+  whenIdle(initRail);
 }
 
 export { setViewTransitionName } from './transition';
-export { onBpmChange, getBpm } from './bpm';

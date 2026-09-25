@@ -4,7 +4,9 @@
  * 1. INDEX/INFORMATION toggle: two `[data-view-btn]` buttons flip the
  *    `<ol data-work-view>` attribute and each other's `aria-pressed`. Both
  *    row layouts already exist in the DOM (CSS-only display toggle), so
- *    this script only ever changes state, never markup.
+ *    this script only ever changes state, never markup. The switch itself
+ *    animates with GSAP Flip (D-brutalist-grid.md §4.4/§5.4), skipped
+ *    entirely under prefers-reduced-motion (the attribute just flips).
  * 2. The 3 R2 preview videos: `preload="none"` until a row's video first
  *    intersects the viewport, at which point `src` is set from
  *    `data-work-row-src`. Playback (muted/loop) starts only when the row is
@@ -13,7 +15,11 @@
  *    being true. Under reduced motion `play()` is never called; the src is
  *    set with a `#t=0.1` media fragment and preload="metadata" instead, so
  *    one still frame is fetched and painted as a static preview.
+ * 3. Media reveal: each row gets `.is-revealed` once ~40% visible, which
+ *    drives the row's own clip-path wipe in WorkHubIndex.astro's CSS.
  */
+import { loadFlip } from '../../motion/gsap';
+
 export function initWorkHub(): void {
   const list = document.querySelector<HTMLElement>('[data-work-view]');
   const toggleBtns = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-view-btn]'));
@@ -21,12 +27,23 @@ export function initWorkHub(): void {
 
   const reduceMq = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  function setView(view: string) {
+  async function setView(view: string) {
     if (!list) return;
+    if (list.dataset.workView === view) return;
+
+    const doFlip = !reduceMq.matches;
+    const Flip = doFlip ? await loadFlip().catch(() => null) : null;
+    const state = Flip ? Flip.getState(rows) : null;
+
     list.dataset.workView = view;
     toggleBtns.forEach((btn) => {
       btn.setAttribute('aria-pressed', btn.dataset.viewBtn === view ? 'true' : 'false');
     });
+
+    if (Flip && state) {
+      Flip.from(state, { duration: 0.5, ease: 'power4.inOut' });
+    }
+
     if (view !== 'information') {
       // Compact view hides the previews: stop anything still playing.
       rows.forEach((row) => pause(row));
@@ -40,7 +57,7 @@ export function initWorkHub(): void {
   toggleBtns.forEach((btn) => {
     btn.addEventListener('click', () => {
       const view = btn.dataset.viewBtn;
-      if (view) setView(view);
+      if (view) void setView(view);
     });
   });
 
@@ -82,11 +99,20 @@ export function initWorkHub(): void {
     (entries) => {
       entries.forEach((entry) => {
         const row = entry.target as HTMLElement;
-        if (entry.isIntersecting) play(row);
-        else pause(row);
+        if (entry.isIntersecting) {
+          play(row);
+          row.classList.add('is-revealed');
+        } else {
+          pause(row);
+        }
       });
     },
     { threshold: 0.4 },
   );
   rows.forEach((row) => io.observe(row));
+
+  if (reduceMq.matches) {
+    // Fully drawn, no wipe: every row's media is revealed immediately.
+    rows.forEach((row) => row.classList.add('is-revealed'));
+  }
 }

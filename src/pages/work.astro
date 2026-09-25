@@ -5,38 +5,44 @@
  * the page title has no natural page-level string in work.json either, so
  * the H1 is derived from the legacy <title>'s first segment
  * (site.pages.work.legacyTitle, "Works | William Vernon" → "Works"), not
- * hand-typed.
+ * hand-typed. Direction D (Phase 2b): the H1 is this page's LCP, set at
+ * --fs-mega with the kinetic width scrub (D-brutalist-grid.md §5.4) — never
+ * hidden, never split before paint.
  */
 import Base from '../layouts/Base.astro';
 import { site, work } from '../content';
-import ChannelLabel from '../components/ChannelLabel.astro';
 import WorkHubIndex from '../components/work/WorkHubIndex.astro';
-import { navItem } from '../data/site';
-
-const nav = navItem('/work');
 
 const title = site.pages.work.legacyTitle!;
 const h1 = title.split('|')[0].trim();
 ---
 
-<Base title={title} path="/work" channel={nav.channel}>
+<Base title={title} path="/work">
   <section class="work-hero container">
-    <ChannelLabel channel={nav.channel} label={nav.label} />
-    <h1 class="t-h1" data-reveal="lines">{h1}</h1>
+    <h1 class="t-mega work-h1" data-kinetic="wdth">{h1}</h1>
   </section>
 
-  <section class="work-hub container">
+  <section class="work-hub">
     <WorkHubIndex panels={work.panels} />
   </section>
 </Base>
 
 <style>
   .work-hero {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-4);
     padding-block-start: var(--sp-9);
     padding-block-end: var(--sp-6);
+    contain: layout paint;
+  }
+
+  .work-h1 {
+    color: var(--ink);
+    font-variation-settings: 'wdth' var(--wdth, 125), 'wght' 820;
+  }
+
+  @media (max-width: 767px) {
+    .work-h1 {
+      font-variation-settings: 'wdth' var(--wdth, 108), 'wght' 820;
+    }
   }
 
   .work-hub {

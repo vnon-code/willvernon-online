@@ -1,16 +1,110 @@
 /**
  * Motion primitives CSS — owned by builder B (src/motion/**).
  * Uses the design tokens defined in src/styles/tokens.css (builder A) by
- * name only; nothing here redeclares a token. var() fallbacks match the
- * spec values exactly so this file degrades sanely if loaded before
- * tokens.css during isolated testing.
+ * name only; nothing here redeclares a token. D-brutalist-grid.md is the
+ * source of truth for every rule below.
+ *
+ * Base.astro/base.css/the grid components (all builder A) render the full
+ * reduced-motion and no-JS truth: every line, rule, frame and cross fully
+ * drawn and static, every data-reveal/data-split target visible. This file
+ * is the ONLY place that sets a *pre-hidden* from-state for any of that,
+ * and every such rule is scoped to both `html.js` (added by Base.astro's
+ * inline head script, and only ever removed again by its 3s fail-open if
+ * the motion bundle never claims it) AND
+ * `(prefers-reduced-motion: no-preference)` — so a reduced-motion visitor,
+ * or one whose JS never runs, never sees a collapsed line, rule, frame,
+ * cross, reveal target or split heading. src/motion/*.ts owns animating out
+ * of every state set here, with a fail-open safety net on top (see
+ * reveal.ts's file header for the exact mechanism).
+ *
+ * Only pages not yet migrated to this attribute set (still carrying the
+ * retired data-reveal="lines|fade" or data-ruler markup) are left alone on
+ * purpose: this file only ever pre-hides the *new* attribute values, so an
+ * un-migrated element was simply never hidden and needs no special-casing.
  */
 
 /* ----------------------------------------------------------------------
- * Page transitions ("channel switch") — native cross-document View
- * Transitions. Reduced motion: the whole block is gated out, so browsers
- * fall back to a plain, instant cross-document navigation with no VT
- * lifecycle at all.
+ * Grid-line system: pre-hidden from-states (§3.2–§3.4).
+ *
+ * Selectors here are deliberately over-specific (an extra `html.js`/
+ * ancestor-attribute compound) so they reliably out-rank each grid
+ * component's own scoped `<style>` block regardless of Vite/Astro CSS
+ * chunk order — see each component's own header comment for the contract
+ * this implements.
+ * -------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  /* GridFrame verticals: combine the collapse with the static 404
+   * registration offset already present in the inline --gf-offset custom
+   * property, so neither clobbers the other before lines.ts's intro draw
+   * takes over `transform`. Excluded on a view-transition's incoming page
+   * (html.vt-reveal, set by Base.astro's inline pagereveal listener before
+   * first paint): the verticals carry view-transition-name: grid-frame and
+   * must read as continuous under the wipe, never re-collapsing (§4.4) —
+   * lines.ts also skips the intro tween itself when it sees that class. */
+  html.js:not(.vt-reveal) [data-grid-frame] .gf-v {
+    transform: scaleY(0) translateX(var(--gf-offset, 0px));
+  }
+
+  /* Rule: the full-bleed line collapses to its origin; crosses collapse and
+   * rotate, ready for the stepped pop-in as the draw passes them. */
+  html.js [data-rule] .rule-line {
+    transform: scaleX(0);
+  }
+  html.js .rule-x,
+  html.js .cross {
+    transform: scale(0) rotate(90deg);
+  }
+
+  /* Frame: four edges collapse from their own (already-set) origins, drawn
+   * back in clockwise: top -> right -> bottom -> left. */
+  html.js [data-frame] .fr-t,
+  html.js [data-frame] .fr-b {
+    transform: scaleX(0);
+  }
+  html.js [data-frame] .fr-r,
+  html.js [data-frame] .fr-l {
+    transform: scaleY(0);
+  }
+}
+
+/* ----------------------------------------------------------------------
+ * Kinetic type — data-kinetic="wdth" (§4.3). No pre-hidden state: the LCP
+ * H1 is never hidden, split, or offset. kinetic.ts pins block-size and
+ * containment once JS confirms motion is allowed; nothing here is needed
+ * for the no-JS/reduced-motion truth beyond what base.css already renders.
+ * -------------------------------------------------------------------- */
+
+/* ----------------------------------------------------------------------
+ * Reveals — data-reveal="rise|cut", data-reveal-stagger,
+ * data-split="lines|chars" (§3.3, §4.3).
+ * -------------------------------------------------------------------- */
+@media (prefers-reduced-motion: no-preference) {
+  html.js [data-reveal='rise'] {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  html.js [data-reveal='cut'] {
+    opacity: 0;
+  }
+  html.js [data-reveal-stagger] > * {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  html.js [data-split] {
+    opacity: 0;
+  }
+}
+
+.split-line {
+  overflow: hidden;
+}
+
+/* ----------------------------------------------------------------------
+ * Page transitions — native cross-document View Transitions, hard cut
+ * (§4.4). The new page is cut in one bay at a time, left to right, under
+ * stationary grid lines; the nav stays put too. Reduced motion: the whole
+ * block is gated out, so browsers fall back to a plain, instant
+ * cross-document navigation with no VT lifecycle at all.
  * -------------------------------------------------------------------- */
 @media (prefers-reduced-motion: no-preference) {
   @view-transition {
@@ -18,263 +112,35 @@
   }
 
   ::view-transition-old(root) {
-    animation: vt-old var(--dur-fast, 220ms) var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1)) both;
+    animation: none;
   }
 
   ::view-transition-new(root) {
-    animation: vt-new var(--dur-base, 400ms) var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1)) both;
+    animation: vt-bays var(--dur-page, 360ms) steps(4, end) both;
   }
 
-  @keyframes vt-old {
-    to {
-      transform: scale(0.98);
-      opacity: 0;
-    }
-  }
-
-  @keyframes vt-new {
+  @keyframes vt-bays {
     from {
-      transform: translateY(12px);
-      opacity: 0;
-    }
-  }
-}
-
-/* The scanline element always exists in Base's DOM and is inert by default.
- * Base.astro's inline head script adds html.vt-reveal on the incoming page of
- * a cross-document view transition (pagereveal); the sweep below then runs
- * top -> bottom across the viewport inside the live new-page snapshot.
- * Reduced motion: gated out, so it never plays. */
-.vt-scanline {
-  position: fixed;
-  inset: 0 0 auto 0;
-  height: 2px;
-  background: var(--accent, #ff3b30);
-  opacity: 0;
-  pointer-events: none;
-  z-index: var(--z-vt, 80);
-  transform: translateY(-100%);
-  visibility: hidden;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  html.vt-reveal .vt-scanline {
-    visibility: visible;
-    animation: vt-scan var(--dur-base, 400ms) var(--ease-inout, cubic-bezier(0.65, 0, 0.35, 1)) both;
-  }
-
-  @keyframes vt-scan {
-    from {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    85% {
-      opacity: 1;
+      clip-path: inset(0 100% 0 0);
     }
     to {
-      opacity: 0;
-      transform: translateY(100vh);
+      clip-path: inset(0 0 0 0);
     }
   }
-}
 
-/* ----------------------------------------------------------------------
- * Cursor ring — [data-cursor], rendered once by Base.astro. Hidden by
- * default (covers no-JS, reduced motion, and (pointer: coarse): src/motion
- * /cursor.ts only ever adds .is-active on (pointer: fine) and
- * (prefers-reduced-motion: no-preference), so the default here is the
- * reduced-motion / touch state and needs no separate @media rule).
- * -------------------------------------------------------------------- */
-.cursor-ring {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 8px;
-  height: 8px;
-  margin: -4px 0 0 -4px;
-  border-radius: 50%;
-  border: 1px solid var(--accent, #ff3b30);
-  pointer-events: none;
-  z-index: var(--z-cursor, 90);
-  display: none;
-  transform: translate(-100px, -100px);
-  transition: width 0.12s var(--ease-snap, cubic-bezier(0.2, 0.8, 0.2, 1)),
-    height 0.12s var(--ease-snap, cubic-bezier(0.2, 0.8, 0.2, 1)),
-    margin 0.12s var(--ease-snap, cubic-bezier(0.2, 0.8, 0.2, 1)),
-    background-color 0.12s linear, border-radius 0.12s linear;
-}
-
-.cursor-ring.is-active {
-  display: block;
-}
-
-.cursor-ring[data-cursor-ring-label] {
-  /* selector kept for specificity parity; label lives in the child span */
-}
-
-.cursor-ring [data-cursor-ring-label] {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  white-space: nowrap;
-  font-family: var(--font-mono, 'JetBrains Mono Variable', monospace);
-  font-size: var(--fs-mono-caption, 0.75rem);
-  letter-spacing: 0.09em;
-  color: var(--accent, #ff3b30);
-  font-variant-numeric: tabular-nums;
-  opacity: 0;
-  transition: opacity 0.12s linear;
-}
-
-.cursor-ring.is-crosshair {
-  width: 24px;
-  height: 24px;
-  margin: -12px 0 0 -12px;
-  border-radius: 0;
-  background: transparent;
-}
-.cursor-ring.is-crosshair::before,
-.cursor-ring.is-crosshair::after {
-  content: '';
-  position: absolute;
-  background: var(--accent, #ff3b30);
-}
-.cursor-ring.is-crosshair::before {
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 1px;
-  transform: translateY(-50%);
-}
-.cursor-ring.is-crosshair::after {
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  transform: translateX(-50%);
-}
-.cursor-ring.is-crosshair [data-cursor-ring-label] {
-  opacity: 1;
-}
-
-.cursor-ring.is-filled {
-  width: 56px;
-  height: 56px;
-  margin: -28px 0 0 -28px;
-  border-radius: 50%;
-  background: var(--accent, #ff3b30);
-}
-.cursor-ring.is-filled [data-cursor-ring-label] {
-  opacity: 1;
-  color: var(--bg, #050505);
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: var(--fs-mono-caption, 0.75rem);
-  text-transform: uppercase;
-}
-
-/* ----------------------------------------------------------------------
- * HUD readouts — data-hud="scroll|clock|xy|bpm"
- * -------------------------------------------------------------------- */
-[data-hud] {
-  font-family: var(--font-mono, 'JetBrains Mono Variable', monospace);
-  font-variant-numeric: tabular-nums;
-  font-feature-settings: 'tnum' 1;
-  letter-spacing: 0.09em;
-}
-
-/* ----------------------------------------------------------------------
- * Calibration ruler — data-ruler / [data-ruler-step]
- * Exposes --ruler-progress (0..1) on the container; consumers style a fill
- * element with e.g. `transform: scaleY(var(--ruler-progress, 0))`.
- * -------------------------------------------------------------------- */
-[data-ruler] {
-  --ruler-progress: 0;
-}
-
-/* The current step is marked by colour, not by dimming the others: muted
- * text at any opacity below ~0.93 falls under WCAG AA (4.5:1) on --bg. */
-[data-ruler-step] {
-  color: var(--text-muted, #7d838a);
-  transition: color var(--dur-fast, 220ms) var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1));
-}
-
-[data-ruler-step][aria-current='step'] {
-  color: var(--text, #ededed);
-}
-
-[data-ruler-step][aria-current='step'] .t-mono {
-  color: var(--accent, #ff3b30);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-ruler-step] {
-    transition: none;
+  @media (max-width: 1023px) {
+    ::view-transition-new(root) {
+      animation-timing-function: steps(2, end);
+    }
   }
-}
-
-/* ----------------------------------------------------------------------
- * Reveal primitives — data-reveal="lines|fade", data-reveal-stagger
- *
- * Content is visible by default (no `html.js`, no JS at all: fully
- * visible). Base.astro's inline head script is the ONLY thing that ever
- * adds `html.js`, and only then do these elements start hidden — at which
- * point src/motion/reveal.ts owns un-hiding them (animated, or forced on
- * any failure/timeout; see that file's header). This ordering is what
- * "fail open" means here: a JS error before the head script runs never
- * hides anything; a JS error after it runs is caught and reversed.
- * -------------------------------------------------------------------- */
-html.js [data-reveal] {
-  opacity: 0;
-}
-html.js [data-reveal-stagger] > * {
-  opacity: 0;
-}
-
-.split-line {
-  overflow: hidden;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html.js [data-reveal],
-  html.js [data-reveal-stagger] > * {
-    opacity: 1;
+  @media (max-width: 767px) {
+    ::view-transition-new(root) {
+      animation-timing-function: steps(1, end);
+    }
   }
-}
 
-/* ----------------------------------------------------------------------
- * SignalScope — canvas fades in over the always-present SVG poster only
- * once WebGL is actually running (class toggled from src/webgl/scope.ts
- * via the component's loader script).
- * -------------------------------------------------------------------- */
-[data-scope] {
-  position: relative;
-}
-
-[data-scope] canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  transition: opacity var(--dur-slow, 700ms) var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1));
-}
-
-[data-scope].is-running canvas {
-  opacity: 1;
-}
-
-[data-scope] .scope-poster {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  display: block;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-scope] canvas {
-    display: none;
+  ::view-transition-group(grid-frame),
+  ::view-transition-group(nav) {
+    animation: none;
   }
 }

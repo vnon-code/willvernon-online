@@ -1,16 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
 import { site } from '../content';
-import ChannelLabel from '../components/ChannelLabel.astro';
 
 const title = site.pages.music.legacyTitle!;
 ---
 
-<Base title={title} path="/music" channel="CH-06">
+<Base title={title} path="/music">
   <section class="page-stub container">
-    <ChannelLabel channel="CH-06" />
-    <h1 class="t-h1" data-reveal="lines">ALIAS: VNON</h1>
-    <p class="t-mono">CH-06 // page body lands in Phase 3–5.</p>
+    <h1 class="t-h1" data-split="lines">ALIAS: VNON</h1>
+    <p class="t-label">Page body lands in Phase 5.</p>
   </section>
 </Base>
 

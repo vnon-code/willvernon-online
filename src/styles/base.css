@@ -1,7 +1,14 @@
 /*
-  Direction A — Signal Console
-  Modern reset, typography, grid/container utilities, calibration ruler,
-  focus-visible, skip link, selection, reduced-motion defaults.
+  Direction D — Ruled Ground
+  Reset, typography, container/bay-grid utilities, buttons, links, form
+  controls, focus-visible, selection, scrollbar/caret, the [data-surface]
+  token swap, skip link, and the reduced-motion / no-JS defaults.
+
+  This file (plus src/components/grid/*.astro, also owned by builder A) IS
+  the reduced-motion and no-JS truth: every rule, frame and cross renders
+  fully drawn and static by default. Builder B's motion.css only adds the
+  *pre-hidden* from-states, scoped under `html.js` and
+  `(prefers-reduced-motion: no-preference)`, then animates from them.
 */
 
 /* ---------- Reset ---------- */
@@ -16,32 +23,27 @@
 }
 
 html {
-  color-scheme: dark;
+  color-scheme: light;
+  height: 100%;
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-}
-
-/* The window must stay the scroll container (ScrollTrigger, the HUD scroll
- * readout and sticky nav all read window scroll): body gets min-height, not
- * height, and the horizontal guard below uses overflow-x: clip, which does
- * not create a scroll container the way overflow-x: hidden does. */
-html {
-  height: 100%;
+  /* The window stays the scroll container: ScrollTrigger and the sticky nav
+   * both read window scroll. overflow-x: clip (not hidden) avoids creating a
+   * new scroll container while still guarding against a stray wide child. */
+  overflow-x: clip;
 }
 
 body {
   min-height: 100%;
-}
-
-body {
-  background: var(--bg);
-  color: var(--text);
-  font-family: var(--font-body);
+  max-width: 100%;
+  overflow-x: clip;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font);
   font-variation-settings: var(--fset-body);
   font-size: var(--fs-body);
   line-height: var(--lh-body);
   letter-spacing: var(--ls-body);
-  overflow-x: clip;
   min-width: 320px;
 }
 
@@ -83,7 +85,6 @@ table {
   border-collapse: collapse;
 }
 
-/* Prevent long words / tokens from forcing horizontal scroll at 390 */
 h1,
 h2,
 h3,
@@ -94,10 +95,39 @@ span {
   overflow-wrap: break-word;
 }
 
-/* ---------- Selection ---------- */
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+/* ---------- Browser surfaces themed to the palette ---------- */
 ::selection {
-  background: var(--accent);
-  color: var(--bg);
+  background: var(--state);
+  color: var(--ink);
+}
+
+html {
+  caret-color: var(--ink);
+  accent-color: var(--ink);
+  scrollbar-color: var(--ink) var(--paper);
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--paper);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--ink);
+  border: 2px solid var(--paper);
 }
 
 /* ---------- Focus ---------- */
@@ -106,61 +136,79 @@ span {
 }
 
 :focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-  border-radius: 2px;
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
 }
 
-/* Guarantee visibility on dark controls/inputs that clip outlines */
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible,
-button:focus-visible,
-a:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
+[data-surface='ink'] :focus-visible {
+  outline-color: var(--on-ink);
 }
 
-/* ---------- Typography ---------- */
+/* ---------- Inverted "studio" surface token swap ----------
+ * Swaps the line tokens, focus ring (above) and selection for the two dark
+ * sections (stems console, footer). Component colour (text/backgrounds)
+ * inside these sections is authored explicitly with --on-ink/--on-ink-2,
+ * not inferred, so a plain nested .btn/.link never goes invisible. */
+[data-surface='ink'] {
+  background: var(--ink-ground);
+  color: var(--on-ink);
+  --line: var(--line-inv);
+  --line-strong: var(--line-inv-strong);
+}
+
+[data-surface='ink'] ::selection {
+  background: var(--state);
+  color: var(--ink-ground);
+}
+
+/* ---------- Typography ----------
+ * Current class names (t-display/t-h1/t-h2/t-h3/t-body/t-small/t-mono) are
+ * kept so every not-yet-restyled Phase 3 page keeps compiling and reading
+ * sensibly; they resolve only to the new tokens above, never an old one.
+ * t-mega/t-row/t-label are the new names builder C reaches for going
+ * forward (see D-brutalist-grid.md §2). */
+.t-mega,
 .t-display {
-  font-family: var(--font-display);
   font-variation-settings: var(--fset-display);
-  font-size: var(--fs-display);
-  line-height: var(--lh-display);
-  letter-spacing: var(--ls-display);
-  font-weight: 900;
-  text-transform: uppercase;
+  font-size: var(--fs-mega);
+  line-height: var(--lh-mega);
+  letter-spacing: var(--ls-mega);
+  font-weight: 820;
 }
 
 .t-h1 {
-  font-family: var(--font-body);
-  font-variation-settings: var(--fset-body-bold);
+  font-variation-settings: var(--fset-display);
   font-size: var(--fs-h1);
   line-height: var(--lh-h1);
   letter-spacing: var(--ls-h1);
-  font-weight: 700;
+  font-weight: 820;
+}
+
+.t-row {
+  font-variation-settings: var(--fset-title);
+  font-size: var(--fs-row);
+  line-height: var(--lh-row);
+  letter-spacing: var(--ls-row);
+  font-weight: 780;
 }
 
 .t-h2 {
-  font-family: var(--font-body);
-  font-variation-settings: var(--fset-body-bold);
+  font-variation-settings: var(--fset-title);
   font-size: var(--fs-h2);
   line-height: var(--lh-h2);
   letter-spacing: var(--ls-h2);
-  font-weight: 700;
+  font-weight: 780;
 }
 
 .t-h3 {
-  font-family: var(--font-body);
-  font-variation-settings: var(--fset-body-medium);
+  font-variation-settings: var(--fset-sub);
   font-size: var(--fs-h3);
   line-height: var(--lh-h3);
   letter-spacing: var(--ls-h3);
-  font-weight: 500;
+  font-weight: 620;
 }
 
 .t-body {
-  font-family: var(--font-body);
   font-variation-settings: var(--fset-body);
   font-size: var(--fs-body);
   line-height: var(--lh-body);
@@ -169,42 +217,78 @@ a:focus-visible {
 }
 
 .t-small {
-  font-family: var(--font-body);
   font-variation-settings: var(--fset-body);
   font-size: var(--fs-small);
   line-height: var(--lh-small);
   letter-spacing: var(--ls-small);
-  color: var(--text-muted);
+  color: var(--ink-2);
+}
+
+.t-label {
+  font-variation-settings: var(--fset-label);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
 }
 
 .t-mono {
-  font-family: var(--font-mono);
-  font-size: var(--fs-mono-caption);
-  line-height: var(--lh-mono-caption);
-  letter-spacing: var(--ls-mono-caption);
+  font-variation-settings: var(--fset-label);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+  letter-spacing: var(--ls-label);
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: var(--ink-2);
 }
 
-/* Numeric telemetry: fixed-width digits so HUD values don't jitter */
-.t-mono,
-[data-hud],
 .tabular {
   font-variant-numeric: tabular-nums;
 }
 
-/* ---------- Layout: container / grid ---------- */
+/* ---------- Layout: container / bay grid ---------- */
 .container {
-  width: 100%;
-  max-width: var(--grid-max);
+  width: min(100% - 2 * var(--m), var(--grid-max));
   margin-inline: auto;
-  padding-inline: var(--grid-margin);
 }
 
-.grid {
+/* Shared by the grid-line primitives (GridFrame/Rule) so their vertical
+ * positions always land on the bay edges with no JS measurement: see the
+ * API note at the top of src/components/grid/GridFrame.astro. */
+.bay-track {
+  position: relative;
+  --bay-w: calc((100% - (var(--bays) - 1) * var(--g)) / var(--bays));
+}
+
+.bays {
   display: grid;
-  grid-template-columns: repeat(var(--grid-columns), 1fr);
-  gap: var(--grid-gutter);
+  grid-template-columns: repeat(var(--bays), 1fr);
+  column-gap: var(--g);
+}
+
+.span-1 {
+  grid-column: span 1;
+}
+.span-2 {
+  grid-column: span min(2, var(--bays));
+}
+.span-3 {
+  grid-column: span min(3, var(--bays));
+}
+.span-4 {
+  grid-column: span min(4, var(--bays));
+}
+
+.start-1 {
+  grid-column-start: 1;
+}
+.start-2 {
+  grid-column-start: min(2, var(--bays));
+}
+.start-3 {
+  grid-column-start: min(3, var(--bays));
+}
+.start-4 {
+  grid-column-start: min(4, var(--bays));
 }
 
 /* ---------- Hairlines ---------- */
@@ -221,51 +305,185 @@ a:focus-visible {
   border-bottom: 1px solid var(--line);
 }
 
-/* ---------- Calibration ruler ---------- */
-/* Visible tick strip used as a decorative-but-real calibration reference
-   and as the base for the scrubbed process-step ruler (data-ruler). */
-.ruler {
-  --ruler-progress: 0;
+/* ---------- Text links ---------- */
+.link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+  background-image: linear-gradient(var(--state), var(--state));
+  background-repeat: no-repeat;
+  background-size: 0% 100%;
+  background-position: left center;
+  transition:
+    background-size var(--dur-hover) var(--ease-step),
+    color var(--dur-hover) var(--ease-out);
+}
+
+.link:hover,
+.link:focus-visible {
+  background-size: 100% 100%;
+  color: var(--ink);
+}
+
+/* Compat: not-yet-restyled Phase 3 markup still uses .btn-text for a plain
+ * tertiary link (always without the .btn base class). New markup should
+ * reach for .link instead. */
+.btn-text {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+.btn-text:hover,
+.btn-text:focus-visible {
+  color: var(--ink);
+}
+
+/* ---------- Buttons ---------- */
+.btn,
+.btn-line {
   position: relative;
-  display: flex;
-  flex-direction: column;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   gap: var(--sp-2);
+  overflow: hidden;
+  isolation: isolate;
+  min-height: 48px;
+  padding-inline: 20px;
+  font-family: var(--font);
+  font-variation-settings: var(--fset-label);
+  font-size: var(--fs-label);
+  line-height: var(--lh-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  border-radius: 0;
+  border: 1px solid currentColor;
+  color: inherit;
+  transition:
+    color var(--dur-hover) var(--ease-out),
+    transform var(--dur-tap) var(--ease-out);
 }
 
-.ruler::before {
+.btn {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+.btn-line {
+  background: transparent;
+}
+
+.btn::before,
+.btn-line::before {
   content: '';
   position: absolute;
-  inset-inline-start: 0;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: var(--line);
+  inset: 0;
+  background: var(--state);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-hover) var(--ease-step);
+  z-index: -1;
 }
 
-.ruler::after {
-  content: '';
-  position: absolute;
-  inset-inline-start: 0;
-  top: 0;
-  width: 1px;
-  height: calc(var(--ruler-progress) * 100%);
-  background: var(--accent);
-  transition: height var(--dur-fast) var(--ease-snap);
+.btn:hover,
+.btn:focus-visible,
+.btn-line:hover,
+.btn-line:focus-visible {
+  color: var(--ink);
 }
 
-.ruler-step {
-  position: relative;
-  padding-inline-start: var(--sp-4);
+.btn:hover::before,
+.btn:focus-visible::before,
+.btn-line:hover::before,
+.btn-line:focus-visible::before {
+  transform: scaleX(1);
 }
 
-.ruler-step::before {
-  content: '';
-  position: absolute;
-  inset-inline-start: -3px;
-  top: 0.55em;
-  width: 7px;
-  height: 1px;
-  background: var(--line);
+.btn:active,
+.btn-line:active {
+  transform: translateY(1px);
+  transition-duration: var(--dur-tap);
+}
+
+.btn .icon-arrow,
+.btn-line .icon-arrow {
+  flex-shrink: 0;
+  transition: transform var(--dur-hover) var(--ease-out);
+}
+
+.btn:hover .icon-arrow,
+.btn:focus-visible .icon-arrow,
+.btn-line:hover .icon-arrow,
+.btn-line:focus-visible .icon-arrow {
+  transform: translateX(4px);
+}
+
+.btn[disabled],
+.btn[aria-disabled='true'] {
+  background: var(--paper-2);
+  color: var(--ink-2);
+  border-color: var(--paper-2);
+  cursor: not-allowed;
+}
+
+.btn[disabled]::before,
+.btn[aria-disabled='true']::before {
+  content: none;
+}
+
+.btn.is-full,
+.btn-line.is-full {
+  width: 100%;
+}
+
+/* ---------- Form controls ---------- */
+label {
+  display: inline-block;
+  font-variation-settings: var(--fset-label);
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+input,
+textarea,
+select {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  background: var(--paper-2);
+  border: none;
+  border-bottom: 1px solid var(--line-ink);
+  border-radius: 0;
+  padding-inline: var(--sp-3);
+  padding-block: var(--sp-2);
+  font-family: var(--font);
+  font-variation-settings: var(--fset-body);
+  font-size: var(--fs-body);
+  color: var(--ink);
+  transition: border-color var(--dur-hover) var(--ease-out);
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--ink-2);
+}
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+  border-color: var(--ink);
 }
 
 /* ---------- Accessibility utilities ---------- */
@@ -287,83 +505,25 @@ a:focus-visible {
   left: var(--sp-2);
   z-index: var(--z-vt);
   transform: translateY(-150%);
-  background: var(--accent);
-  color: var(--bg);
-  font-family: var(--font-mono);
-  font-size: var(--fs-small);
-  letter-spacing: var(--ls-small);
+  background: var(--ink);
+  color: var(--paper);
+  font-variation-settings: var(--fset-label);
+  font-size: var(--fs-label);
+  letter-spacing: var(--ls-label);
   text-transform: uppercase;
   padding: var(--sp-3) var(--sp-4);
-  border-radius: 2px;
-  transition: transform var(--dur-fast) var(--ease-out);
+  transition: transform var(--dur-hover) var(--ease-out);
 }
 
 .skip-link:focus {
   transform: translateY(0);
 }
 
-/* ---------- Buttons / CTA ---------- */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sp-2);
-  font-family: var(--font-mono);
-  font-size: var(--fs-small);
-  letter-spacing: var(--ls-small);
-  text-transform: lowercase;
-  padding: var(--sp-3) var(--sp-5);
-  min-height: 44px;
-  border: 1px solid var(--line);
-  border-radius: 2px;
-  transition:
-    background-color var(--dur-fast) var(--ease-out),
-    border-color var(--dur-fast) var(--ease-out),
-    color var(--dur-fast) var(--ease-out);
-}
-
-.btn-primary {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: var(--bg);
-}
-
-.btn-primary:hover {
-  background: color-mix(in srgb, var(--accent) 85%, white);
-}
-
-.btn-secondary {
-  background: transparent;
-  border-color: var(--line);
-  color: var(--text);
-}
-
-.btn-secondary:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.btn-text {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sp-1);
-  font-family: var(--font-mono);
-  font-size: var(--fs-small);
-  color: var(--accent);
-  border: none;
-  padding: 0;
-  min-height: auto;
-}
-
-.btn-text:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-/* ---------- Reduced motion defaults ---------- */
-/* Content must be fully visible with no JS and with reduced motion.
-   Anything with a data-reveal attribute starts visible; motion.js
-   only hides it via inline style once GSAP is ready to animate it in,
-   and only when reduced motion is NOT requested. */
+/* ---------- Reduced motion defaults ----------
+ * Content must be fully visible with no JS and with reduced motion. Anything
+ * with a data-reveal/data-kinetic/data-split attribute starts visible;
+ * motion.css only pre-hides it under html.js + no-preference, and
+ * src/motion/* owns un-hiding what that CSS rule hid. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

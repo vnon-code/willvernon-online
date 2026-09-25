@@ -7,28 +7,18 @@
 // the same structural id build_content.py stamped on each item, so nothing
 // here can silently drift from the extraction.
 //
-// Skills used — impeccable: kept the legacy per-discipline neon hover glow
-// (red/orange/cyan/amber) out; Direction A only has --accent for a "signal"
-// colour and caps --accent-2 at ~5% site-wide, so skill groups are split by
-// a neutral --line rule (no accent ramp, no hover glow on static chips), plus the
-// craft-floor's H1→H2→H3 heading order (legacy skipped to h3/h4).
-// find-animation-opportunities: the accordion disclosure and the timeline
-// ruler both pass the gate (state indication / spatial consistency,
-// occasional frequency); a per-chip hover glow is feedback-tier and kept to
-// a 1px border + soft shadow, not a bounce. animate: single ease family,
-// transform/opacity/box-shadow only — reduced motion kills all of it via
-// base.css's global transition/animation-duration override, so no separate
-// branch was needed here. gsap-scrolltrigger: reused the existing
-// data-ruler/data-ruler-step primitive (ScrollTrigger scrub, with its own
-// IntersectionObserver reduced-motion branch already built in ruler.ts)
-// for the Education/Experience timelines instead of writing new JS.
+// Direction D (Phase 2b, Ruled Ground): the body is a bleibtgleich-style
+// split — B1 a sticky label column holding each section's H2 (Design
+// Personality / Design Skills / Generative Design / Education / Experience),
+// B2-B4 the content, each section opening with a `Rule data-rule-cross`
+// (D-brutalist-grid.md §5.3). Content wiring, heading order and the
+// education/experience accordion a11y are unchanged from Phase 3.
 import Base from '../layouts/Base.astro';
-import ChannelLabel from '../components/ChannelLabel.astro';
 import Icon from '../components/Icon.astro';
+import Rule from '../components/grid/Rule.astro';
+import Cross from '../components/grid/Cross.astro';
 import { about, site, type TextBlock, type Src } from '../content';
-import { SOCIAL_LINKS, navItem } from '../data/site';
-
-const nav = navItem('/about');
+import { SOCIAL_LINKS } from '../data/site';
 
 const title = site.pages.about.legacyTitle!;
 
@@ -116,18 +106,18 @@ const waiterHeading = bySrc(about.headings, 'about.h.031');
 const waiterMeta = bySrc(about.blocks, 'about.copy.076');
 ---
 
-<Base title={title} path="/about" channel={nav.channel}>
+<Base title={title} path="/about">
   <section class="about-hero container">
-    <ChannelLabel channel={nav.channel} label={nav.label} />
-    <p class="about-kicker t-mono" data-scramble>{profileLabel.text}</p>
-    <h1 class="t-h1" data-reveal="lines">{h1.text}</h1>
-    <p class="about-intro t-body" data-reveal="fade">{introText.text}</p>
+    <p class="about-kicker t-label">{profileLabel.text}</p>
+    <h1 class="t-h1" data-split="lines">{h1.text}</h1>
+    <p class="about-intro t-body">{introText.text}</p>
   </section>
 
-  <section class="about-section container">
-    <div class="about-split">
-      <div class="about-col" data-reveal-stagger>
-        <h2 class="t-h2">{personalityHeading.text}</h2>
+  <section class="about-section">
+    <Rule origin="start" cross />
+    <div class="container about-section-inner">
+      <h2 class="t-h3 about-label">{personalityHeading.text}</h2>
+      <div class="about-content">
         <p class="t-body">{personalityP1.text}</p>
         <p class="t-body">{personalityP2.text}</p>
 
@@ -135,7 +125,7 @@ const waiterMeta = bySrc(about.blocks, 'about.copy.076');
           <h3 class="t-h3">{contactHeading.text}</h3>
           <p class="t-body about-contact-email">{contactEmail.text}</p>
           <div class="about-contact-row">
-            <a href={cvLink.href} class="btn btn-secondary">
+            <a href={cvLink.href} class="btn-line">
               {cvLink.text}
             </a>
             <ul class="about-contact-socials" aria-label="Social links">
@@ -152,54 +142,64 @@ const waiterMeta = bySrc(about.blocks, 'about.copy.076');
           </div>
         </div>
       </div>
+    </div>
+  </section>
 
-      <div class="about-col" data-reveal-stagger>
-        <h2 class="t-h2">{skillsHeading.text}</h2>
-        <div class="skill-groups">
+  <section class="about-section">
+    <Rule origin="start" cross />
+    <div class="container about-section-inner">
+      <h2 class="t-h3 about-label">{skillsHeading.text}</h2>
+      <div class="about-content">
+        <ul class="skill-groups">
           {
             skillGroups.map((group) => (
-              <div class="skill-group" style={`--group-i:${group.index}`}>
+              <li class="skill-group">
                 {group.chips.map((chip) => (
-                  <span class="skill-chip t-mono">{chip.text}</span>
+                  <span class="t-label skill-chip">{chip.text}</span>
                 ))}
-              </div>
+              </li>
             ))
           }
-        </div>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-        <div class="about-generative">
-          <h2 class="t-h2">{generativeHeading.text}</h2>
-          <div class="about-tool-cat">
-            <p class="t-small about-tool-cat-label">{commercialLabel.text}</p>
-            <p class="t-body">{commercialTools.text}</p>
-          </div>
-          <div class="about-tool-cat">
-            <p class="t-small about-tool-cat-label">{openSourceLabel.text}</p>
-            <p class="t-body">{openSourceTools.text}</p>
-            <p class="t-body">{promptSkills.text}</p>
-          </div>
+  <section class="about-section">
+    <Rule origin="start" cross />
+    <div class="container about-section-inner">
+      <h2 class="t-h3 about-label">{generativeHeading.text}</h2>
+      <div class="about-content">
+        <div class="about-tool-cat">
+          <p class="t-label about-tool-cat-label">{commercialLabel.text}</p>
+          <p class="t-body">{commercialTools.text}</p>
+        </div>
+        <div class="about-tool-cat">
+          <p class="t-label about-tool-cat-label">{openSourceLabel.text}</p>
+          <p class="t-body">{openSourceTools.text}</p>
+          <p class="t-body">{promptSkills.text}</p>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="about-section container">
-    <div class="about-split">
-      <div class="about-col">
-        <h2 class="t-h2">{educationHeading.text}</h2>
-        <div class="about-timeline ruler" data-ruler>
-          <div class="about-timeline-item ruler-step ruler-step-accordion" data-ruler-step>
+  <section class="about-section">
+    <Rule origin="start" cross />
+    <div class="container about-section-inner">
+      <h2 class="t-h3 about-label">{educationHeading.text}</h2>
+      <div class="about-content">
+        <ul class="cred-list">
+          <li class="cred-row">
             <details class="cred-accordion">
               <summary class="cred-summary">
-                <span class="about-timeline-dot" aria-hidden="true"></span>
                 <span class="cred-summary-head">
-                  <h3 class="t-h3 about-timeline-title">{baHeading.text}</h3>
-                  <p class="t-mono about-timeline-meta">{baMeta.text}</p>
+                  <h3 class="t-h3">{baHeading.text}</h3>
+                  <p class="t-small cred-meta">{baMeta.text}</p>
                 </span>
-                <Icon name="arrow" size={16} class="cred-caret" />
+                <Cross class="cred-cross" />
               </summary>
               <div class="cred-content">
-                <p class="t-mono cred-content-label" data-scramble>{linkedProjectsLabel.text}</p>
+                <p class="t-label">{linkedProjectsLabel.text}</p>
                 <ul class="cred-project-list">
                   {
                     projectLinks.map((link) => (
@@ -214,30 +214,32 @@ const waiterMeta = bySrc(about.blocks, 'about.copy.076');
                 </ul>
               </div>
             </details>
-          </div>
+          </li>
 
-          <div class="about-timeline-item ruler-step" data-ruler-step>
-            <span class="about-timeline-dot" aria-hidden="true"></span>
-            <h3 class="t-h3 about-timeline-title">{certHeHeading.text}</h3>
-            <p class="t-mono about-timeline-meta">{certHeMeta.text}</p>
-          </div>
-        </div>
+          <li class="cred-row cred-row-plain">
+            <h3 class="t-h3">{certHeHeading.text}</h3>
+            <p class="t-small cred-meta">{certHeMeta.text}</p>
+          </li>
+        </ul>
       </div>
+    </div>
+  </section>
 
-      <div class="about-col">
-        <h2 class="t-h2">{experienceHeading.text}</h2>
-        <div class="about-timeline ruler" data-ruler>
-          <div class="about-timeline-item ruler-step" data-ruler-step>
-            <span class="about-timeline-dot" aria-hidden="true"></span>
-            <h3 class="t-h3 about-timeline-title">{climbingHeading.text}</h3>
-            <p class="t-mono about-timeline-meta">{climbingMeta.text}</p>
-          </div>
-          <div class="about-timeline-item ruler-step" data-ruler-step>
-            <span class="about-timeline-dot" aria-hidden="true"></span>
-            <h3 class="t-h3 about-timeline-title">{waiterHeading.text}</h3>
-            <p class="t-mono about-timeline-meta">{waiterMeta.text}</p>
-          </div>
-        </div>
+  <section class="about-section">
+    <Rule origin="start" cross />
+    <div class="container about-section-inner">
+      <h2 class="t-h3 about-label">{experienceHeading.text}</h2>
+      <div class="about-content">
+        <ul class="cred-list">
+          <li class="cred-row cred-row-plain">
+            <h3 class="t-h3">{climbingHeading.text}</h3>
+            <p class="t-small cred-meta">{climbingMeta.text}</p>
+          </li>
+          <li class="cred-row cred-row-plain">
+            <h3 class="t-h3">{waiterHeading.text}</h3>
+            <p class="t-small cred-meta">{waiterMeta.text}</p>
+          </li>
+        </ul>
       </div>
     </div>
   </section>
@@ -252,38 +254,61 @@ const waiterMeta = bySrc(about.blocks, 'about.copy.076');
   }
 
   .about-kicker {
-    color: var(--text-muted);
-    letter-spacing: var(--ls-mono-caption);
+    color: var(--ink-2);
   }
 
   .about-intro {
     max-width: 62ch;
-    color: var(--text-muted);
-    line-height: var(--lh-body);
+    color: var(--ink-2);
   }
 
   .about-section {
+    position: relative;
     padding-block: var(--sp-8);
-    border-top: 1px solid var(--line);
   }
 
-  .about-split {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--sp-9);
+  .about-section-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
   }
 
-  .about-col {
+  .about-label {
+    color: var(--ink);
+    font-variation-settings: 'wdth' 100, 'wght' 640;
+  }
+
+  .about-content {
     display: flex;
     flex-direction: column;
     gap: var(--sp-6);
     min-width: 0;
   }
 
-  .about-col > .t-body + .t-body {
+  .about-content > .t-body + .t-body {
     margin-top: calc(var(--sp-4) * -1);
   }
 
+  @media (min-width: 1024px) {
+    .about-section-inner {
+      display: grid;
+      grid-template-columns: repeat(var(--bays), 1fr);
+      column-gap: var(--g);
+      align-items: start;
+    }
+
+    .about-label {
+      grid-column: 1 / span 1;
+      position: sticky;
+      top: 96px;
+    }
+
+    .about-content {
+      grid-column: 2 / span 3;
+    }
+  }
+
+  /* ---------- Contact (reuses the footer link language) ---------- */
   .about-contact {
     display: flex;
     flex-direction: column;
@@ -293,7 +318,7 @@ const waiterMeta = bySrc(about.blocks, 'about.copy.076');
   }
 
   .about-contact-email {
-    color: var(--text-muted);
+    color: var(--ink-2);
   }
 
   .about-contact-row {
@@ -314,51 +339,42 @@ const waiterMeta = bySrc(about.blocks, 'about.copy.076');
     justify-content: center;
     width: 44px;
     height: 44px;
-    color: var(--text-muted);
-    transition: color var(--dur-fast) var(--ease-out);
+    color: var(--ink-2);
+    transition: color var(--dur-hover) var(--ease-out);
   }
 
   .about-contact-socials a:hover,
   .about-contact-socials a:focus-visible {
-    color: var(--accent);
+    color: var(--ink);
   }
 
-  /* ---------- Design Skills: discipline glow ----------
-   * Groups are separated by a neutral --line rule only: --accent keeps its
-   * single job (CTA / live / active state), and a red intensity ramp by
-   * source order would read as a ranking the content doesn't support. */
+  /* ---------- Design Skills: a ruled list, grouped by discipline ---------- */
   .skill-groups {
     display: flex;
     flex-direction: column;
-    gap: var(--sp-4);
   }
 
   .skill-group {
     display: flex;
     flex-wrap: wrap;
     gap: var(--sp-2);
-    padding-inline-start: var(--sp-3);
-    border-inline-start: 2px solid var(--line);
+    padding-block: var(--sp-4);
+    border-top: 1px solid var(--line);
   }
 
-  /* Static, non-interactive chips: no hover lift or glow. */
+  .skill-groups li:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
   .skill-chip {
     display: inline-flex;
     align-items: center;
     border: 1px solid var(--line);
-    border-radius: 4px;
     padding: var(--sp-2) var(--sp-3);
-    color: var(--text-muted);
+    color: var(--ink-2);
   }
 
-  .about-generative {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-4);
-    padding-top: var(--sp-5);
-    border-top: 1px solid var(--line);
-  }
-
+  /* ---------- Generative Design ---------- */
   .about-tool-cat {
     display: flex;
     flex-direction: column;
@@ -366,59 +382,56 @@ const waiterMeta = bySrc(about.blocks, 'about.copy.076');
   }
 
   .about-tool-cat-label {
-    color: var(--accent-2);
-    text-transform: uppercase;
-    letter-spacing: var(--ls-small);
+    color: var(--ink-2);
   }
 
-  /* ---------- Education / Experience timeline ---------- */
-  .about-timeline {
-    padding-inline-start: var(--sp-5);
-    gap: var(--sp-6);
+  /* ---------- Education / Experience: ruled rows ---------- */
+  .cred-list {
+    display: flex;
+    flex-direction: column;
   }
 
-  .about-timeline-item {
+  .cred-row {
+    border-top: 1px solid var(--line);
+  }
+
+  .cred-list li:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cred-row-plain {
     display: flex;
     flex-direction: column;
     gap: var(--sp-1);
+    padding-block: var(--sp-5);
   }
 
-  .about-timeline-dot {
-    position: absolute;
-    inset-inline-start: calc(var(--sp-5) * -1 - 3.5px);
-    top: 0.5em;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: var(--bg);
-    border: 2px solid var(--accent);
-  }
-
-  .about-timeline-meta {
-    color: var(--text-muted);
-  }
-
-  /* ---------- Credentials accordion (BA Graphic Design) ---------- */
-  .ruler-step-accordion {
-    padding-inline-start: 0;
+  .cred-meta {
+    color: var(--ink-2);
   }
 
   .cred-accordion {
-    padding-inline-start: var(--sp-4);
+    padding-block: var(--sp-1);
   }
 
   .cred-summary {
     display: flex;
     align-items: flex-start;
-    gap: var(--sp-3);
+    justify-content: space-between;
+    gap: var(--sp-4);
     list-style: none;
     cursor: pointer;
     min-height: 44px;
-    padding-block: var(--sp-1);
+    padding-block: var(--sp-4);
   }
 
   .cred-summary::-webkit-details-marker {
     display: none;
+  }
+
+  .cred-summary:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
   }
 
   .cred-summary-head {
@@ -429,37 +442,22 @@ const waiterMeta = bySrc(about.blocks, 'about.copy.076');
     min-width: 0;
   }
 
-  .cred-summary:hover .about-timeline-title,
-  .cred-summary:focus-visible .about-timeline-title {
-    color: var(--accent);
-  }
-
-  .cred-caret {
+  .cred-cross {
     flex-shrink: 0;
     margin-top: 0.35em;
-    color: var(--text-muted);
-    transform: rotate(90deg);
-    transition: transform var(--dur-fast) var(--ease-out);
+    transition: transform var(--dur-hover) var(--ease-cut);
   }
 
-  .cred-accordion[open] .cred-caret {
-    transform: rotate(-90deg);
+  .cred-accordion[open] .cred-cross {
+    transform: rotate(45deg);
   }
 
   .cred-content {
-    padding-block-start: var(--sp-3);
-    padding-inline-start: var(--sp-5);
-    margin-inline-start: 3px;
-    border-inline-start: 1px dashed var(--line);
+    padding-block-start: var(--sp-1);
+    padding-block-end: var(--sp-4);
     display: flex;
     flex-direction: column;
     gap: var(--sp-2);
-  }
-
-  .cred-content-label {
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: var(--ls-mono-caption);
   }
 
   .cred-project-list {
@@ -474,19 +472,13 @@ const waiterMeta = bySrc(about.blocks, 'about.copy.076');
     justify-content: space-between;
     gap: var(--sp-3);
     min-height: 44px;
-    color: var(--text-muted);
+    color: var(--ink-2);
     border-bottom: 1px solid var(--line);
-    transition: color var(--dur-fast) var(--ease-out);
+    transition: color var(--dur-hover) var(--ease-out);
   }
 
   .cred-project-link:hover,
   .cred-project-link:focus-visible {
-    color: var(--accent);
-  }
-
-  @media (min-width: 900px) {
-    .about-split {
-      grid-template-columns: 1fr 1fr;
-    }
+    color: var(--ink);
   }
 </style>

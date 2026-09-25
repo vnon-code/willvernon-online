@@ -1,39 +1,43 @@
 ---
+// Not an INVENTORY page — new copy is fine here (D-brutalist-grid.md §5.5).
+// Signature: the GridFrame verticals render out of register on this page
+// only, and snap back into alignment when the CTA is hovered/focused (B
+// wires the snap via --gf-offset; reduced motion just leaves them aligned by
+// this component not passing any offsets in that branch — kept simple here
+// by always statically offsetting, since base CSS has no motion regardless).
 import Base from '../layouts/Base.astro';
-import ChannelLabel from '../components/ChannelLabel.astro';
 
-const title = 'Signal Lost | William Vernon';
+const title = '404 | William Vernon';
+const OFFSETS = [-30, 18, -22, 34, -12];
 ---
 
-<Base title={title} path="/404" channel="CH-00" noindex={true}>
-  <section class="signal-lost container">
-    <ChannelLabel channel="CH-00" label="NO CARRIER" />
-    <h1 class="t-display" data-reveal="lines">SIGNAL LOST</h1>
-    <p class="t-body">
-      The channel you tuned to doesn't exist, or has been moved. Re-sync from the index below.
-    </p>
-    <div class="signal-lost-ctas">
-      <a href="/" class="btn btn-primary">Return to signal</a>
-    </div>
+<Base title={title} path="/404" noindex={true} gridOffsets={OFFSETS}>
+  <section class="not-found container">
+    <h1 class="t-mega" data-split="chars">404</h1>
+    <p class="t-body">This page doesn't exist, or it moved.</p>
+    <a href="/" class="btn" id="not-found-home">
+      Back to home
+      <span class="icon-arrow" aria-hidden="true">→</span>
+    </a>
   </section>
 </Base>
 
 <style>
-  .signal-lost {
+  .not-found {
     min-height: 60svh;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: var(--sp-4);
+    gap: var(--sp-5);
     padding-block: var(--sp-9);
   }
 
-  .signal-lost p {
-    color: var(--text-muted);
+  .not-found p {
+    color: var(--ink-2);
     max-width: 50ch;
   }
 
-  .signal-lost-ctas {
-    margin-top: var(--sp-4);
+  .not-found .btn {
+    width: fit-content;
   }
 </style>

@@ -16,42 +16,34 @@ export interface NavItem {
   path: string;
   /** Legacy .html href — both resolve (wrangler html_handling: auto-trailing-slash). */
   legacyHref: string;
-  /** Channel label shown as mono metadata, e.g. 'CH-01'. */
-  channel: string;
   /** Current nav label. */
   label: string;
   /** Legacy bracketed label kept for parity (index.nav.009-012 style), where one exists. */
   legacyLabel?: string;
 }
 
-// Primary IA fix (Phase 2 scope): all 7 pages get top-level nav entries.
-// Legacy nav only exposed Home/Work/Music/About; Projects/AI/Experiments were one
-// level down. Every legacy nav label (index.nav.009-020) stays reachable via
-// legacyHref + legacyLabel so parity holds even though the new nav's primary
-// label text differs.
+// Primary IA fix (Phase 2 scope, kept in 2b): all 7 pages get top-level nav
+// entries. Legacy nav only exposed Home/Work/Music/About; Projects/AI/
+// Experiments were one level down. Every legacy nav label (index.nav.009-020)
+// stays reachable via legacyHref + legacyLabel so parity holds even though
+// the new nav's primary label text differs. The CH-xx channel system (Phase
+// 2 Signal Console) is retired in Phase 2b (D-brutalist-grid.md §6).
 export const NAV_ITEMS: NavItem[] = [
-  { path: '/', legacyHref: '/index.html', channel: 'CH-01', label: 'Home', legacyLabel: '[ HOME ]' },
-  { path: '/work', legacyHref: '/work.html', channel: 'CH-02', label: 'Work', legacyLabel: '[ WORK ]' },
-  { path: '/projects', legacyHref: '/projects.html', channel: 'CH-03', label: 'Projects' },
-  { path: '/AI', legacyHref: '/AI.html', channel: 'CH-04', label: 'AI' },
-  { path: '/experiments', legacyHref: '/experiments.html', channel: 'CH-05', label: 'Experiments' },
-  { path: '/music', legacyHref: '/music.html', channel: 'CH-06', label: 'Music', legacyLabel: '[ MUSIC ]' },
-  { path: '/about', legacyHref: '/about.html', channel: 'CH-07', label: 'About', legacyLabel: '[ ABOUT ]' },
+  { path: '/', legacyHref: '/index.html', label: 'Home', legacyLabel: '[ HOME ]' },
+  { path: '/work', legacyHref: '/work.html', label: 'Work', legacyLabel: '[ WORK ]' },
+  { path: '/projects', legacyHref: '/projects.html', label: 'Projects' },
+  { path: '/AI', legacyHref: '/AI.html', label: 'AI' },
+  { path: '/experiments', legacyHref: '/experiments.html', label: 'Experiments' },
+  { path: '/music', legacyHref: '/music.html', label: 'Music', legacyLabel: '[ MUSIC ]' },
+  { path: '/about', legacyHref: '/about.html', label: 'About', legacyLabel: '[ ABOUT ]' },
 ];
 
-/** Nav entry for a path (channel + label come from NAV_ITEMS, never retyped). */
+/** Nav entry for a path (label comes from NAV_ITEMS, never retyped). */
 export const navItem = (path: string): NavItem => {
   const hit = NAV_ITEMS.find((n) => n.path === path);
   if (!hit) throw new Error(`NAV_ITEMS has no '${path}'`);
   return hit;
 };
-
-/**
- * Home-page section channel: a sub-index of Home's own channel (CH-01.1,
- * CH-01.2 …) so section labels never collide with the page channels the
- * nav uses (CH-03 Projects, CH-06 Music …).
- */
-export const homeChannel = (n: number): string => `${navItem('/').channel}.${n}`;
 
 export interface SocialLink {
   label: string;
@@ -80,7 +72,7 @@ export const SITE = {
   url: 'https://willvernon.online',
   defaultDescription: home.blocks.find((b) => b.tag === 'p.hero-desc')!.text,
   defaultOgImage: '/img/3D_preview.jpeg',
-  themeColor: '#050505',
+  themeColor: '#F1F1EE',
 };
 
 // JSON-LD Person — schema.org sameAs list. Sourced from the legacy nav/contact

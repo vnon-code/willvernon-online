@@ -1,16 +1,16 @@
 ---
 /**
- * Home section 2, "AI as a Creative Partner" — the intro copy plus the AI toolset
- * directory. Legacy showed the 9 tools as a hover-only marquee driving one
- * shared HUD card (mouse/first-tool-only content); this is an accessible
- * disclosure list instead — native <details>/<summary> per tool, so every
- * title/company/apps string is in the DOM and keyboard/screen-reader
- * reachable without JS, no hover required. `data-tool` is kept on each
- * <details> for INVENTORY parity (AI_TOOLSET_DATA's div[data-tool] ids).
+ * Home section 2, "AI as a Creative Partner" — intro copy plus the AI
+ * toolset directory. Direction D (Phase 2b): the toolset directory is laid
+ * out on the bays themselves — a grid of `Frame` cells, each one bay wide
+ * (D-brutalist-grid.md §5.2). Each cell is a native <details>/<summary> (an
+ * accessible disclosure, kept from Phase 3) so every title/company/apps
+ * string is in the DOM and keyboard/screen-reader reachable without JS, no
+ * hover required. `data-tool` is kept on each <details> for INVENTORY
+ * parity (AI_TOOLSET_DATA's div[data-tool] ids).
  */
 import { home } from '../../content';
-import ChannelLabel from '../ChannelLabel.astro';
-import { homeChannel } from '../../data/site';
+import Frame from '../grid/Frame.astro';
 
 const heading = home.headings.find((h) => h.level === 2 && h.text === 'AI as a Creative Partner.')!.text;
 const eyebrow = home.blocks.filter((b) => b.tag === 'p.font-mono.text-accent')[0].text;
@@ -24,37 +24,38 @@ const tools = Object.entries(home.toolset);
 
 <section id="ai" class="ai-section" aria-labelledby="ai-heading">
   <div class="container ai-inner">
-    <div class="ai-copy" data-reveal="fade">
-      <ChannelLabel channel={homeChannel(2)} />
-      <p class="t-mono ai-eyebrow" data-scramble>{eyebrow}</p>
-      <h2 id="ai-heading" class="t-h2">{heading}</h2>
+    <div class="ai-copy">
+      <p class="t-label ai-eyebrow">{eyebrow}</p>
+      <h2 id="ai-heading" class="t-h2" data-split="lines">{heading}</h2>
       <p class="t-body">{paraOne.text}</p>
       <p class="t-body">{paraTwo.text}</p>
-      <a href="/AI" class="btn btn-primary">{cta}</a>
+      <a href="/AI" class="btn ai-cta">{cta}</a>
     </div>
 
-    <ul class="ai-tool-list" aria-label="AI tools" data-reveal-stagger>
+    <ul class="ai-tool-grid" aria-label="AI tools" data-reveal-stagger>
       {
         tools.map(([key, tool], i) => (
-          <li>
-            <details class="ai-tool" data-tool={key} open={i === 0}>
-              <summary class="ai-tool-summary">
-                <img
-                  src={tool.logo ?? ''}
-                  alt={tool.title}
-                  width="40"
-                  height="40"
-                  loading="lazy"
-                  class="ai-tool-logo"
-                />
-                <span class="ai-tool-title t-h3">{tool.title}</span>
-                <span class="ai-tool-company t-mono">[ {tool.company} ]</span>
-              </summary>
-              <div class="ai-tool-panel">
-                <p class="t-mono ai-tool-usecases">{usecasesLabel}</p>
-                <p class="t-small ai-tool-apps">{tool.apps}</p>
-              </div>
-            </details>
+          <li class="ai-tool-cell">
+            <Frame as="div" class="ai-tool-frame">
+              <details class="ai-tool" data-tool={key} open={i === 0}>
+                <summary class="ai-tool-summary">
+                  <img
+                    src={tool.logo ?? ''}
+                    alt={tool.title}
+                    width="32"
+                    height="32"
+                    loading="lazy"
+                    class="ai-tool-logo"
+                  />
+                  <span class="ai-tool-title t-h3">{tool.title}</span>
+                  <span class="ai-tool-company t-small">[ {tool.company} ]</span>
+                </summary>
+                <div class="ai-tool-panel">
+                  <p class="t-label ai-tool-usecases">{usecasesLabel}</p>
+                  <p class="t-small ai-tool-apps">{tool.apps}</p>
+                </div>
+              </details>
+            </Frame>
           </li>
         ))
       }
@@ -64,12 +65,14 @@ const tools = Object.entries(home.toolset);
 
 <style>
   .ai-section {
-    border-top: 1px solid var(--line);
+    position: relative;
     padding-block: var(--sp-9);
+    border-top: 1px solid var(--line);
   }
 
   .ai-inner {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: var(--sp-8);
   }
 
@@ -80,67 +83,78 @@ const tools = Object.entries(home.toolset);
     max-width: 60ch;
   }
 
-  .ai-copy .btn {
+  .ai-eyebrow {
+    color: var(--ink-2);
+  }
+
+  .ai-cta {
     margin-top: var(--sp-2);
     align-self: flex-start;
   }
 
-  .ai-tool-list {
-    display: flex;
-    flex-direction: column;
-    border-top: 1px solid var(--line);
+  .ai-tool-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--bays), 1fr);
+    column-gap: var(--g);
+    row-gap: var(--g);
+  }
+
+  .ai-tool-cell {
+    min-width: 0;
+  }
+
+  .ai-tool-frame {
+    height: 100%;
+    padding: var(--sp-4);
   }
 
   .ai-tool {
-    border-bottom: 1px solid var(--line);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
   }
 
   .ai-tool-summary {
     display: flex;
     align-items: center;
-    gap: var(--sp-4);
-    padding-block: var(--sp-4);
+    gap: var(--sp-3);
+    min-height: 44px;
     cursor: pointer;
     list-style: none;
   }
 
-  /* Hide the native marker, draw our own state indicator instead. */
   .ai-tool-summary::-webkit-details-marker {
     display: none;
   }
 
   .ai-tool-summary:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 4px;
-    border-radius: 2px;
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
   }
 
   .ai-tool-logo {
     flex-shrink: 0;
-    border-radius: 2px;
-    background: var(--surface);
     object-fit: contain;
   }
 
   .ai-tool-title {
-    color: var(--text);
+    color: var(--ink);
+    flex: 1;
+    min-width: 0;
   }
 
   .ai-tool-company {
-    color: var(--text-muted);
-    margin-inline-start: auto;
+    color: var(--ink-2);
     white-space: nowrap;
   }
 
   .ai-tool-summary::after {
     content: '+';
     flex-shrink: 0;
-    margin-inline-start: var(--sp-2);
-    color: var(--text-muted);
-    font-family: var(--font-mono);
+    color: var(--ink-2);
     font-size: var(--fs-h3);
     line-height: 1;
-    transition: transform var(--dur-fast) var(--ease-out);
+    transition: transform var(--dur-hover) var(--ease-out);
   }
 
   .ai-tool[open] .ai-tool-summary::after {
@@ -150,24 +164,34 @@ const tools = Object.entries(home.toolset);
   .ai-tool-panel {
     display: flex;
     flex-direction: column;
-    gap: var(--sp-1);
-    padding-block-end: var(--sp-5);
-    padding-inline-start: calc(40px + var(--sp-4));
+    gap: var(--sp-2);
+    padding-top: var(--sp-3);
+    margin-top: var(--sp-3);
+    border-top: 1px solid var(--line);
   }
 
   .ai-tool-usecases {
-    color: var(--text-muted);
+    color: var(--ink-2);
   }
 
   .ai-tool-apps {
-    color: var(--text-muted);
-    max-width: 60ch;
+    color: var(--ink-2);
   }
 
-  @media (min-width: 900px) {
+  @media (min-width: 1024px) {
     .ai-inner {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      display: grid;
+      grid-template-columns: repeat(var(--bays), 1fr);
+      column-gap: var(--g);
       align-items: start;
+    }
+
+    .ai-copy {
+      grid-column: 1 / span 2;
+    }
+
+    .ai-tool-grid {
+      grid-column: 1 / -1;
     }
   }
 </style>

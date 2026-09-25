@@ -1,0 +1,76 @@
+---
+/**
+ * A four-edge box frame (tool cells, work panels, form, media). Renders four
+ * absolutely-positioned 1px edges inside a `position: relative` host of tag
+ * `as`; `data-frame` goes on the host (also gets `data-hot` automatically —
+ * hovering the frame lights the GridFrame bay lines it spans, per §3.4.D).
+ *
+ * Static/drawn by default: every edge is already `scale(1)`. Builder B's
+ * motion.css pre-hides each `.fr` edge under html.js (scale 0 from its
+ * origin below), and src/motion/lines.ts draws them clockwise on enter:
+ * top → right → bottom → left, each at 25% of the frame's own progress
+ * window (see the transform-origins below — B must reuse them, not invent
+ * new ones, so the draw direction stays clockwise from the top-left).
+ */
+interface Props {
+  as?: string;
+  class?: string;
+}
+
+const { as: Tag = 'div', class: className = '' } = Astro.props;
+---
+
+<Tag class:list={['fr-host', className]} data-frame data-hot>
+  <span class="fr fr-t" aria-hidden="true"></span>
+  <span class="fr fr-r" aria-hidden="true"></span>
+  <span class="fr fr-b" aria-hidden="true"></span>
+  <span class="fr fr-l" aria-hidden="true"></span>
+  <slot />
+</Tag>
+
+<style>
+  .fr-host {
+    position: relative;
+  }
+
+  .fr {
+    position: absolute;
+    background: var(--line);
+    pointer-events: none;
+  }
+
+  /* Clockwise draw order + origins: top draws left→right, right draws
+   * top→bottom, bottom draws right→left, left draws bottom→top. */
+  .fr-t {
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    transform-origin: 0 0;
+    transform: scaleX(1);
+  }
+  .fr-r {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 1px;
+    transform-origin: 100% 0;
+    transform: scaleY(1);
+  }
+  .fr-b {
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    transform-origin: 100% 100%;
+    transform: scaleX(1);
+  }
+  .fr-l {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 1px;
+    transform-origin: 0 100%;
+    transform: scaleY(1);
+  }
+</style>

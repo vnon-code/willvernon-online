@@ -1,8 +1,7 @@
 ---
-import { NAV_ITEMS, SOCIAL_LINKS, LOGO } from '../data/site';
-import ChannelLabel from './ChannelLabel.astro';
-import HudReadout from './HudReadout.astro';
-import Icon from './Icon.astro';
+import { NAV_ITEMS, LOGO } from '../data/site';
+import GridFrame from './grid/GridFrame.astro';
+import Rule from './grid/Rule.astro';
 import MobileMenu from './MobileMenu.astro';
 
 interface Props {
@@ -18,53 +17,36 @@ function isCurrent(path: string, current: string) {
 ---
 
 <header class="nav" id="nav">
+  <GridFrame local />
   <div class="nav-inner container">
-    <div class="nav-left">
-      <MobileMenu current={current} />
-      <nav aria-label="Primary" class="nav-links-wrap">
-        <ul class="nav-links">
-          {
-            NAV_ITEMS.map((item) => (
-              <li>
-                <a
-                  href={item.path}
-                  aria-current={isCurrent(item.path, current) ? 'page' : undefined}
-                  class="nav-link"
-                >
-                  <ChannelLabel channel={item.channel} class="nav-link-channel" />
-                  <span class="nav-link-label">{item.label}</span>
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </nav>
+    <div class="nav-brand">
+      <a href="/" class="nav-logo" aria-label="William Vernon — home">
+        <img src={LOGO.src} alt={LOGO.alt} width="28" height="28" class="nav-logo-img" />
+        <span class="nav-logo-text t-label">William Vernon</span>
+      </a>
     </div>
 
-    <a href="/" class="nav-logo" aria-label="William Vernon — home">
-      <img src={LOGO.src} alt={LOGO.alt} width="32" height="32" />
-    </a>
-
-    <div class="nav-right">
-      <div class="nav-hud" aria-hidden="false">
-        <HudReadout variant="clock" />
-        <HudReadout variant="scroll" />
-      </div>
-      <ul class="nav-socials" aria-label="Social links">
+    <nav aria-label="Primary" class="nav-links-wrap">
+      <ul class="nav-links">
         {
-          SOCIAL_LINKS.filter((s) => s.icon === 'instagram' || s.icon === 'linkedin' || s.icon === 'envelope').map(
-            (social) => (
-              <li>
-                <a href={social.href} target={social.href.startsWith('http') ? '_blank' : undefined} rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined} aria-label={social.label}>
-                  <Icon name={social.icon} size={18} />
-                </a>
-              </li>
-            ),
-          )
+          NAV_ITEMS.map((item) => (
+            <li>
+              <a
+                href={item.path}
+                aria-current={isCurrent(item.path, current) ? 'page' : undefined}
+                class="nav-link t-label"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
         }
       </ul>
-    </div>
+    </nav>
+
+    <MobileMenu current={current} />
   </div>
+  <Rule origin="start" class="nav-rule" />
 </header>
 
 <style>
@@ -72,147 +54,113 @@ function isCurrent(path: string, current: string) {
     position: sticky;
     top: 0;
     z-index: var(--z-nav);
-    border-bottom: 1px solid var(--line);
-  }
-
-  /* The blur lives on a pseudo-element: backdrop-filter on .nav itself would
-   * make the header the containing block for position:fixed descendants,
-   * shrinking the full-screen mobile menu dialog to the header's height. */
-  .nav::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: color-mix(in srgb, var(--bg) 88%, transparent);
-    backdrop-filter: blur(8px);
-    pointer-events: none;
+    background: var(--paper);
   }
 
   .nav-inner {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: var(--sp-4);
     min-height: 64px;
-    padding-block: var(--sp-3);
   }
 
-  .nav-left {
+  /* The bay split only makes sense once there's more than one bay to split
+   * across (≥1024, 4 bays): brand in bay 1, links across bays 2-4. Below
+   * that, flex space-between (above) keeps brand/trigger at the row ends
+   * regardless of the single active bay. */
+  @media (min-width: 1024px) {
+    .nav-inner {
+      display: grid;
+      grid-template-columns: repeat(var(--bays), 1fr);
+      column-gap: var(--g);
+      justify-content: normal;
+    }
+
+    .nav-brand {
+      grid-column: span 1;
+    }
+  }
+
+  .nav-brand {
     display: flex;
     align-items: center;
-    gap: var(--sp-5);
-    flex: 1;
+    min-width: 0;
+  }
+
+  .nav-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-3);
+    min-height: 44px;
+    color: var(--ink);
+  }
+
+  .nav-logo-img {
+    display: block;
+    filter: invert(1);
+  }
+
+  .nav-logo-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .nav-links-wrap {
-    display: contents;
+    display: none;
   }
 
   .nav-links {
-    display: none;
+    display: flex;
     align-items: center;
-    gap: var(--sp-5);
+    justify-content: flex-end;
+    gap: var(--sp-6);
   }
 
   .nav-link {
     display: inline-flex;
     align-items: center;
-    gap: var(--sp-2);
-    padding-block: var(--sp-2);
     min-height: 44px;
-    color: var(--text-muted);
-    transition: color var(--dur-fast) var(--ease-out);
-  }
-
-  .nav-link-label {
-    font-family: var(--font-mono);
-    font-size: var(--fs-small);
-    letter-spacing: var(--ls-small);
+    padding-inline: var(--sp-2);
+    color: var(--ink-2);
+    transition: color var(--dur-hover) var(--ease-out);
   }
 
   .nav-link:hover,
   .nav-link:focus-visible {
-    color: var(--text);
+    color: var(--ink);
   }
 
   .nav-link[aria-current='page'] {
-    color: var(--text);
+    color: var(--ink);
+    background: var(--state);
   }
 
-  .nav-link[aria-current='page'] .nav-link-label {
-    color: var(--accent);
+  @media (min-width: 1024px) {
+    .nav-links-wrap {
+      display: block;
+      grid-column: span 3;
+    }
   }
 
-  .nav-logo img {
-    display: block;
-  }
-
-  .nav-right {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-5);
-    flex: 1;
-    justify-content: flex-end;
-  }
-
-  .nav-hud {
-    display: none;
-    align-items: center;
-    gap: var(--sp-4);
-    color: var(--text-muted);
-  }
-
-  .nav-socials {
-    display: none;
-    align-items: center;
-    gap: var(--sp-4);
-  }
-
-  .nav-socials a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    color: var(--text-muted);
-    transition: color var(--dur-fast) var(--ease-out);
-  }
-
-  .nav-socials a:hover,
-  .nav-socials a:focus-visible {
-    color: var(--accent);
-  }
-
-  /* No JS (or the head failsafe dropped html.js): the burger menu can't
-   * open, so below 900px the link list drops to its own wrapped row. */
-  @media (max-width: 899px) {
+  /* No JS (or the head failsafe dropped html.js): the disclosure menu can't
+   * open below 1024, so the link list shows inline and wraps instead. */
+  @media (max-width: 1023px) {
     :global(html:not(.js)) .nav-inner {
+      display: flex;
       flex-wrap: wrap;
     }
-
-    :global(html:not(.js)) .nav-left {
+    :global(html:not(.js)) .nav-links-wrap {
+      display: block;
       order: 3;
       flex-basis: 100%;
     }
-
     :global(html:not(.js)) .nav-links {
-      display: flex;
       flex-wrap: wrap;
-      gap: 0 var(--sp-4);
-    }
-  }
-
-  @media (min-width: 900px) {
-    .nav-links {
-      display: flex;
-    }
-
-    .nav-hud {
-      display: flex;
-    }
-
-    .nav-socials {
-      display: flex;
+      justify-content: flex-start;
+      gap: 0 var(--sp-5);
     }
   }
 </style>

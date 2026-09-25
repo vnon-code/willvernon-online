@@ -3,18 +3,24 @@
 // legacy/*.html beyond the nav-header social icons and the contact section,
 // which each page keeps in its own body — see redesign/content/*.json,
 // footer/footer_text are empty on every page). This is new shell chrome: the
-// status line + back-to-top, plus the contact email and the full social set
-// already used in the nav-header (index.nav.013-016) and the contact section
-// (Instagram/LinkedIn/SoundCloud/Bandcamp), so every social link stays
-// reachable from every page.
+// contact email + back-to-top, plus the full social set already used in the
+// nav-header (index.nav.013-016) and the contact section (Instagram/
+// LinkedIn/SoundCloud/Bandcamp), so every social link stays reachable from
+// every page. Direction D (Phase 2b) makes the footer one of the two "studio"
+// (inverted, ink-ground) surfaces — see D-brutalist-grid.md §5.1.
 import { CONTACT_EMAIL, SOCIAL_LINKS } from '../data/site';
 import Icon from './Icon.astro';
+import GridFrame from './grid/GridFrame.astro';
+import Rule from './grid/Rule.astro';
 ---
 
-<footer class="footer">
+<footer class="footer" data-surface="ink">
+  <GridFrame local />
+  <Rule origin="start" cross />
   <div class="container footer-inner">
-    <div class="footer-row">
-      <a href={`mailto:${CONTACT_EMAIL}`} class="footer-email t-mono">{CONTACT_EMAIL}</a>
+    <a href={`mailto:${CONTACT_EMAIL}`} class="footer-email t-h2">{CONTACT_EMAIL}</a>
+
+    <div class="footer-aside">
       <ul class="footer-socials" aria-label="Social links">
         {
           SOCIAL_LINKS.map((social) => (
@@ -31,16 +37,9 @@ import Icon from './Icon.astro';
           ))
         }
       </ul>
-    </div>
-
-    <div class="footer-row footer-status-row">
-      <p class="footer-status t-mono">
-        <span class="footer-status-dot" aria-hidden="true"></span>
-        vnon // online <span data-hud="bpm" aria-hidden="true">---</span>
-        <span class="sr-only">— track tempo, when a track is armed</span>
-      </p>
-      <button type="button" class="footer-top t-mono" id="back-to-top">
-        <span aria-hidden="true">↑</span> Back to top
+      <button type="button" class="btn-line footer-top" id="back-to-top">
+        Back to top
+        <Icon name="arrow" size={16} class="icon-arrow footer-top-icon" />
       </button>
     </div>
   </div>
@@ -48,40 +47,34 @@ import Icon from './Icon.astro';
 
 <style>
   .footer {
-    border-top: 1px solid var(--line);
-    padding-block: var(--sp-6);
+    position: relative;
+    padding-block: var(--sp-8);
     margin-top: var(--sp-10);
   }
 
   .footer-inner {
     display: flex;
     flex-direction: column;
-    gap: var(--sp-5);
+    gap: var(--sp-7);
+    padding-block: var(--sp-6);
   }
 
-  .footer-row {
+  .footer-email {
+    color: var(--on-ink);
+    width: fit-content;
+  }
+
+  .footer-aside {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    gap: var(--sp-4);
-  }
-
-  .footer-email {
-    color: var(--text-muted);
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
-    text-transform: none; /* real address — don't visually alter its case */
-  }
-
-  .footer-email:hover,
-  .footer-email:focus-visible {
-    color: var(--accent);
+    gap: var(--sp-5);
   }
 
   .footer-socials {
     display: flex;
+    flex-wrap: wrap;
     gap: var(--sp-4);
   }
 
@@ -91,45 +84,35 @@ import Icon from './Icon.astro';
     justify-content: center;
     width: 44px;
     height: 44px;
-    color: var(--text-muted);
-    transition: color var(--dur-fast) var(--ease-out);
+    color: var(--on-ink-2);
+    transition: color var(--dur-hover) var(--ease-out);
   }
 
   .footer-socials a:hover,
   .footer-socials a:focus-visible {
-    color: var(--accent);
-  }
-
-  .footer-status-row {
-    border-top: 1px solid var(--line);
-    padding-top: var(--sp-5);
-  }
-
-  .footer-status {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--sp-2);
-    color: var(--text-muted);
-  }
-
-  .footer-status-dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent);
+    color: var(--on-ink);
   }
 
   .footer-top {
-    color: var(--text-muted);
-    min-height: 44px;
-    display: inline-flex;
-    align-items: center;
-    gap: var(--sp-2);
+    color: var(--on-ink);
+    border-color: var(--on-ink);
   }
 
-  .footer-top:hover,
-  .footer-top:focus-visible {
-    color: var(--text);
+  .footer-top-icon {
+    transform: rotate(-90deg);
+  }
+
+  .footer-top:hover .footer-top-icon,
+  .footer-top:focus-visible .footer-top-icon {
+    transform: rotate(-90deg) translateX(4px);
+  }
+
+  @media (min-width: 1024px) {
+    .footer-inner {
+      flex-direction: row;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
   }
 </style>
 

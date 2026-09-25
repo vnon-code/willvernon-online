@@ -1,59 +1,76 @@
 /*
-  Direction A — Signal Console
+  Direction D — Ruled Ground (Phase 2b ground-up redesign)
   Design tokens: colour, type, space, motion, grid, z-index.
-  Builder B (motion/webgl) must USE these custom-property names, never redefine them.
-  Source: redesign/directions/A-signal-console.md (+ JUDGEMENT.md grafts)
+  Source: redesign/directions/D-brutalist-grid.md
+  Builder B (src/motion/*, src/styles/motion.css) and builder C (pages) must
+  USE these custom-property names, never redefine them.
 */
 
 :root {
-  /* ---------- Colour ---------- */
-  --bg: #050505;
-  --surface: #0c0c0d;
-  --surface-2: #15151a;
-  --line: #26262b;
-  --text: #ededed;
-  --text-muted: #7d838a;
-  --accent: #ff3b30; /* signal red — single job: CTA / live / active state */
-  --accent-2: #ffb000; /* signal amber — channel 2, secondary, capped ~5% of usage */
+  /* ---------- Ground + ink ---------- */
+  --paper: #f1f1ee; /* page ground: neutral light grey paper (not cream) */
+  --paper-2: #e6e6e2; /* recessed field: form inputs, code/tool cells at rest */
+  --ink: #0b0b0b; /* all primary text, buttons, focus rings */
+  --ink-2: #5c5c58; /* secondary text: captions, meta, descriptions */
+  --state: #ffe14a; /* highlighter yellow: hover / active / selected fill ONLY */
 
-  --accent-rgb: 255, 59, 48;
-  --accent-2-rgb: 255, 176, 0;
+  /* ---------- Lines (decorative structure; derived from ink, never a flat grey) ---------- */
+  --line: color-mix(in srgb, var(--ink) 14%, var(--paper)); /* ~#D1D1CE, grid + rules */
+  --line-strong: color-mix(in srgb, var(--ink) 32%, var(--paper)); /* ~#A7A7A5, "hot" bay + crosses */
+  --line-ink: var(--ink-2); /* form control borders (must meet 3:1) */
 
-  /* ---------- Type families ---------- */
-  --font-display: 'Archivo Variable', system-ui, sans-serif;
-  --font-body: 'Archivo Variable', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  /* ---------- Inverted "studio" surfaces (stems console, footer) ---------- */
+  --ink-ground: #0b0b0b;
+  --on-ink: #f1f1ee;
+  --on-ink-2: #9c9c97;
+  --line-inv: color-mix(in srgb, var(--on-ink) 16%, var(--ink-ground)); /* ~#30302F */
+  --line-inv-strong: color-mix(in srgb, var(--on-ink) 34%, var(--ink-ground)); /* ~#595958 */
 
-  /* Variable-font axis settings (paired with font-family above) */
-  --fset-display: 'wdth' 62, 'wght' 900;
-  --fset-body: 'wdth' 100, 'wght' 400;
-  --fset-body-medium: 'wdth' 100, 'wght' 500;
-  --fset-body-bold: 'wdth' 100, 'wght' 700;
+  /* ---------- Type: one family, Mona Sans (variable wdth+wght) ---------- */
+  --font: 'Mona Sans Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font);
+  --font-body: var(--font);
+  --font-mono: var(--font); /* no monospace ships; mono-as-costume is banned */
 
-  /* ---------- Fluid type scale ---------- */
-  --fs-display: clamp(3.5rem, 2rem + 11vw, 11.25rem);
-  --fs-h1: clamp(2.75rem, 1.8rem + 5vw, 5.5rem);
-  --fs-h2: clamp(2rem, 1.5rem + 2.4vw, 3.5rem);
-  --fs-h3: clamp(1.375rem, 1.2rem + 1vw, 2rem);
-  --fs-body: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
-  --fs-small: clamp(0.8125rem, 0.8rem + 0.1vw, 0.875rem);
-  --fs-mono-caption: clamp(0.6875rem, 0.68rem + 0.05vw, 0.75rem);
+  --fset-display: 'wdth' 125, 'wght' 820; /* hero name, page H1 */
+  --fset-title: 'wdth' 100, 'wght' 780; /* H2, index row titles */
+  --fset-sub: 'wdth' 100, 'wght' 620; /* H3/H4 */
+  --fset-body: 'wdth' 100, 'wght' 420;
+  --fset-strong: 'wdth' 100, 'wght' 640;
+  --fset-label: 'wdth' 112, 'wght' 600; /* small labels, buttons, nav */
 
-  --lh-display: 0.92;
-  --lh-h1: 1;
-  --lh-h2: 1.08;
-  --lh-h3: 1.2;
+  /* ---------- Fluid type scale (1rem = 16px) ---------- */
+  --fs-mega: clamp(3.5rem, 0.4rem + 15.6vw, 15.5rem); /* hero name */
+  --fs-h1: clamp(3rem, 0.9rem + 8.6vw, 9.5rem); /* page titles */
+  --fs-row: clamp(2rem, 1rem + 4.2vw, 5.25rem); /* index row titles */
+  --fs-h2: clamp(1.875rem, 1.2rem + 2.9vw, 4rem);
+  --fs-h3: clamp(1.25rem, 1.05rem + 0.9vw, 2rem);
+  --fs-body: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --fs-small: clamp(0.875rem, 0.85rem + 0.1vw, 0.9375rem);
+  --fs-label: 0.8125rem;
+
+  --lh-mega: 0.84;
+  --lh-h1: 0.9;
+  --lh-row: 0.95;
+  --lh-h2: 1;
+  --lh-h3: 1.15;
   --lh-body: 1.55;
-  --lh-small: 1.4;
-  --lh-mono-caption: 1.3;
+  --lh-small: 1.45;
+  --lh-label: 1.2;
 
-  --ls-display: -0.02em;
-  --ls-h1: -0.01em;
-  --ls-h2: -0.005em;
-  --ls-h3: 0em;
+  --ls-mega: -0.035em;
+  --ls-h1: -0.03em;
+  --ls-row: -0.025em;
+  --ls-h2: -0.02em;
+  --ls-h3: -0.01em;
   --ls-body: 0em;
-  --ls-small: 0.01em;
-  --ls-mono-caption: 0.09em;
+  --ls-small: 0em;
+  --ls-label: 0.06em;
+
+  /* Below 768 the hero/page H1 kinetic scrub starts narrower (108) so the
+     name still clears the single-bay measure; the scrub still runs to 75. */
+  --wdth-hero-max: 125;
+  --wdth-hero-min: 75;
 
   /* ---------- Space (8px base, 4px sub-tick) ---------- */
   --sp-1: 4px;
@@ -68,44 +85,53 @@
   --sp-10: 128px;
   --sp-11: 192px;
 
-  /* ---------- Grid ---------- */
-  --grid-columns: 4;
-  --grid-gutter: 16px;
-  --grid-margin: 20px;
-  --grid-max: 1600px;
+  /* ---------- Grid: bays, gutter, margin ---------- */
+  --bays: 1;
+  --g: 16px; /* gutter */
+  --m: 20px; /* margin */
+  --grid-max: 1760px;
 
-  /* ---------- Motion ---------- */
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); /* consoleOut: entrances/reveals */
-  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1); /* consoleInOut: on-screen movement, transition sweep */
-  --ease-snap: cubic-bezier(0.2, 0.8, 0.2, 1); /* HUD tick / digit roll, filter reflow */
+  /* ---------- Motion tokens (CSS side; src/motion/eases.ts mirrors these) ---------- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); /* expo.out: draws, reveals, entrances */
+  --ease-move: cubic-bezier(0.76, 0, 0.24, 1); /* power4.inOut: menu sheet, Flip */
+  --ease-cut: steps(1, end); /* hard state swaps */
+  --ease-step: steps(4, end); /* "raw" stepped wipes */
 
-  --dur-instant: 120ms;
-  --dur-fast: 220ms;
-  --dur-base: 400ms;
-  --dur-slow: 700ms;
-  --dur-scene: 1200ms;
+  --dur-tap: 100ms;
+  --dur-hover: 180ms;
+  --dur-reveal: 700ms;
+  --dur-draw: 900ms;
+  --dur-page: 360ms;
+  --stagger: 60ms;
 
   /* ---------- Z-index ---------- */
+  --z-grid: 0;
   --z-nav: 100;
   --z-menu: 200;
-  --z-cursor: 300;
   --z-vt: 400;
 }
 
-/* 768: 8-column grid, wider gutter/margin */
+/* 768: 2-bay grid (8 sub-columns), wider gutter/margin */
 @media (min-width: 768px) {
   :root {
-    --grid-columns: 8;
-    --grid-gutter: 20px;
-    --grid-margin: 32px;
+    --bays: 2;
+    --g: 20px;
+    --m: 32px;
   }
 }
 
-/* 1440: 12-column grid, widest gutter/margin, capped max-width */
+/* 1024: 4-bay grid (12 sub-columns), widest gutter/margin */
+@media (min-width: 1024px) {
+  :root {
+    --bays: 4;
+    --g: 24px;
+    --m: 48px;
+  }
+}
+
+/* 1440: same bay/column count, margin grows to the spec's widest value */
 @media (min-width: 1440px) {
   :root {
-    --grid-columns: 12;
-    --grid-gutter: 24px;
-    --grid-margin: 64px;
+    --m: 64px;
   }
 }

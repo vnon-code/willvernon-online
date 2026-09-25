@@ -17,7 +17,7 @@
 # `python3 redesign/scripts/check_csp_hashes.py --write`, then rebuild).
 
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com 'sha256-WH7erBD13ZTeMS7SHUs0YmCnI3ZfM5be9ZbSHkyUkR0='; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://assets.willvernon.online; media-src 'self' https://assets.willvernon.online; font-src 'self'; connect-src 'self' https://formspree.io https://cloudflareinsights.com https://static.cloudflareinsights.com https://assets.willvernon.online; frame-src https://w.soundcloud.com https://open.spotify.com https://www.youtube.com; form-action 'self' https://formspree.io; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests;
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://static.cloudflareinsights.com 'sha256-MtytbqQAkKrQg2kgrkC05ArfG7Kg1DtDOyWDwtARi0c='; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://assets.willvernon.online; media-src 'self' https://assets.willvernon.online; font-src 'self'; connect-src 'self' https://formspree.io https://cloudflareinsights.com https://static.cloudflareinsights.com https://assets.willvernon.online; frame-src https://w.soundcloud.com https://open.spotify.com https://www.youtube.com; form-action 'self' https://formspree.io; frame-ancestors 'none'; base-uri 'self'; object-src 'none'; upgrade-insecure-requests;
   Strict-Transport-Security: max-age=31536000
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin

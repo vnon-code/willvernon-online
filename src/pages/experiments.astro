@@ -1,16 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
 import { site } from '../content';
-import ChannelLabel from '../components/ChannelLabel.astro';
 
 const title = site.pages.experiments.legacyTitle!;
 ---
 
-<Base title={title} path="/experiments" channel="CH-05">
+<Base title={title} path="/experiments">
   <section class="page-stub container">
-    <ChannelLabel channel="CH-05" />
-    <h1 class="t-h1" data-reveal="lines">Minimal Experiments</h1>
-    <p class="t-mono">CH-05 // page body lands in Phase 3–5.</p>
+    <h1 class="t-h1" data-split="lines">Minimal Experiments</h1>
+    <p class="t-label">Page body lands in Phase 5.</p>
   </section>
 </Base>
 

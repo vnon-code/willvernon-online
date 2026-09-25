@@ -1,0 +1,143 @@
+---
+/**
+ * API note for builder B (motion) and builder C (pages) — read this first.
+ * Full spec: redesign/directions/D-brutalist-grid.md §3.
+ *
+ * <GridFrame />            one per page, rendered by Base.astro before <Nav />.
+ *                          Fixed (position: fixed; inset: 0) full-viewport bay
+ *                          lines behind everything (z-index: var(--z-grid)).
+ * <GridFrame local />      same markup, position: absolute; inset: 0, for use
+ *                          INSIDE a solid section (Nav, Footer, StemsConsole)
+ *                          so the lines keep running through opaque surfaces.
+ * <GridFrame offsets={…} /> 404 only: an array of up to 5 static x offsets in
+ *                          px (e.g. [-30, 15, -20, 35, -10]) applied via the
+ *                          --gf-offset custom property on each .gf-v. B tweens
+ *                          --gf-offset back to 0 (steps(4)) when the 404 CTA is
+ *                          hovered/focused; under reduced motion just omit the
+ *                          `offsets` prop or leave the lines statically
+ *                          aligned by not rendering it there.
+ *
+ * DOM: 5 `.gf-v` verticals total, `[data-gf-line="0"]`..`[data-gf-line="4"]`,
+ * each with a `.gf-v-hot` sibling of the same box (opacity 0 by default).
+ * CSS alone decides how many are visible per breakpoint (base: 0 & 1 only —
+ * one bay's two edges; ≥768: 0-2; ≥1024/1440: all 5), using the current
+ * --bays/--g tokens, so NOTHING here is measured in JS. Positions come from
+ * the shared `.bay-track` `--bay-w` calc in base.css: line k sits at
+ * `k * (--bay-w + --g) - --g/2` from the track's left edge, i.e. gutter
+ * centres, with the two frame lines half a gutter outside the container.
+ *
+ * This component (base.css's reduced-motion/no-JS truth) renders every line
+ * ALREADY DRAWN: `scaleY(1)`, static. Builder B's motion.css is the ONLY
+ * place that sets a pre-hidden `scaleY(0)` from-state (under `html.js` +
+ * `(prefers-reduced-motion: no-preference)`), then js/lines.ts:
+ *   - animates the intro draw (scaleY 0→1, top-anchored, staggered)
+ *   - reads/writes `.gf-v-hot` opacity for the data-hot hover response
+ *   - applies the velocity-shear `x` via gsap.quickTo (transform, so it
+ *     composes with the offset/scale set here — never overwrite `transform`
+ *     wholesale, use gsap's per-property tweening)
+ * Builder B/C: never add a 6th line or rename `data-gf-line`; add a bay by
+ * editing the token tables in tokens.css only.
+ */
+interface Props {
+  /** Render as an absolutely-positioned overlay inside a solid section
+   * (Nav, Footer, StemsConsole) instead of a fixed full-viewport layer. */
+  local?: boolean;
+  /** 404 only: static x offsets (px) for lines 0-4, "out of register". */
+  offsets?: number[];
+  class?: string;
+}
+
+const { local = false, offsets, class: className = '' } = Astro.props;
+const LINES = [0, 1, 2, 3, 4];
+---
+
+<div class:list={['gf', local && 'gf-local', className]} data-grid-frame aria-hidden="true">
+  <div class="gf-track container bay-track">
+    {
+      LINES.map((k) => (
+        <span
+          class="gf-v"
+          data-gf-line={k}
+          style={offsets?.[k] ? `--gf-offset:${offsets[k]}px` : undefined}
+        >
+          <span class="gf-v-hot" data-gf-hot />
+        </span>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .gf {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-grid);
+    pointer-events: none;
+    contain: strict;
+  }
+
+  .gf-local {
+    position: absolute;
+  }
+
+  .gf-track {
+    height: 100%;
+  }
+
+  .gf-v {
+    --gf-offset: 0px;
+    position: absolute;
+    top: -32px;
+    bottom: -32px;
+    left: calc(var(--k, 0) * (var(--bay-w) + var(--g)) - var(--g) / 2);
+    width: 1px;
+    background: var(--line);
+    transform-origin: 50% 0;
+    transform: translateX(var(--gf-offset));
+    will-change: transform;
+  }
+
+  .gf-v-hot {
+    position: absolute;
+    inset: 0;
+    background: var(--line-strong);
+    opacity: 0;
+  }
+
+  .gf-v[data-gf-line='0'] {
+    --k: 0;
+  }
+  .gf-v[data-gf-line='1'] {
+    --k: 1;
+  }
+  .gf-v[data-gf-line='2'] {
+    --k: 2;
+  }
+  .gf-v[data-gf-line='3'] {
+    --k: 3;
+  }
+  .gf-v[data-gf-line='4'] {
+    --k: 4;
+  }
+
+  /* 5 spans exist in the DOM at every breakpoint; CSS shows only the ones
+   * the current --bays needs (base: lines 0 & 1; ≥768: 0-2; ≥1024: 0-4). */
+  .gf-v[data-gf-line='2'],
+  .gf-v[data-gf-line='3'],
+  .gf-v[data-gf-line='4'] {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    .gf-v[data-gf-line='2'] {
+      display: block;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .gf-v[data-gf-line='3'],
+    .gf-v[data-gf-line='4'] {
+      display: block;
+    }
+  }
+</style>

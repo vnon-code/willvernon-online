@@ -1,0 +1,135 @@
+---
+/**
+ * A full-bleed horizontal section rule, with optional dash cadence and bay
+ * intersection crosses. See GridFrame.astro's header comment for the shared
+ * `--bay-w` positioning approach; `.rule-x` reuses it verbatim so crosses
+ * always land exactly on the GridFrame verticals.
+ *
+ * Static/drawn by default (`scaleX(1)`): the reduced-motion / no-JS truth.
+ * Builder B's motion.css sets the pre-hidden `scaleX(0)` under html.js, then
+ * src/motion/lines.ts scrubs it to the scroll-draw progress in §3.4.B and
+ * flips `.rule-x[data-on]` on hard (steps(1)) as the draw passes each cross.
+ */
+interface Props {
+  /** Draw origin / transform-origin. */
+  origin?: 'start' | 'end' | 'center';
+  /** 16/16 dashed line (static dash pattern; the draw itself still animates). */
+  dash?: boolean;
+  /** Render + animate the bay-intersection crosses (≥768 only). */
+  cross?: boolean;
+  class?: string;
+}
+
+const { origin = 'start', dash = false, cross = false, class: className = '' } = Astro.props;
+const CROSSES = [0, 1, 2, 3, 4];
+---
+
+<div
+  class:list={['rule', className]}
+  data-rule={origin}
+  data-rule-dash={dash ? '' : undefined}
+  data-rule-cross={cross ? '' : undefined}
+  aria-hidden="true"
+>
+  <span class="rule-line"></span>
+  {
+    cross && (
+      <div class="rule-x-track container bay-track">
+        {CROSSES.map((k) => (
+          <span class="rule-x" data-x={k} style={`--k:${k}`} />
+        ))}
+      </div>
+    )
+  }
+</div>
+
+<style>
+  .rule {
+    position: relative;
+    height: 1px;
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+  }
+
+  .rule-line {
+    position: absolute;
+    inset: 0;
+    height: 1px;
+    background: var(--line);
+    transform: scaleX(1);
+  }
+
+  .rule[data-rule='start'] .rule-line {
+    transform-origin: 0 0;
+  }
+  .rule[data-rule='end'] .rule-line {
+    transform-origin: 100% 0;
+  }
+  .rule[data-rule='center'] .rule-line {
+    transform-origin: 50% 0;
+  }
+
+  .rule[data-rule-dash] .rule-line {
+    background: linear-gradient(90deg, var(--line) 50%, transparent 0) 0 0 / 32px 1px;
+  }
+
+  .rule-x-track {
+    position: absolute;
+    inset: 0;
+    display: none;
+  }
+
+  .rule-x {
+    position: absolute;
+    top: 50%;
+    left: calc(var(--k, 0) * (var(--bay-w) + var(--g)) - var(--g) / 2);
+    width: 11px;
+    height: 11px;
+    margin: -5.5px 0 0 -5.5px;
+  }
+
+  .rule-x::before,
+  .rule-x::after {
+    content: '';
+    position: absolute;
+    background: var(--line-strong);
+  }
+  .rule-x::before {
+    top: 5px;
+    left: 0;
+    right: 0;
+    height: 1px;
+  }
+  .rule-x::after {
+    left: 5px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+  }
+
+  /* Same "only show up to --bays" rule as GridFrame's verticals, so a cross
+   * never renders past the last real bay boundary. */
+  .rule-x[data-x='2'],
+  .rule-x[data-x='3'],
+  .rule-x[data-x='4'] {
+    display: none;
+  }
+
+  /* Crosses only render ≥768: below that a page has at most one bay, so a
+   * gutter-centre "intersection" mark would sit on the frame line itself. */
+  @media (min-width: 768px) {
+    .rule-x-track {
+      display: block;
+    }
+    .rule-x[data-x='2'] {
+      display: block;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .rule-x[data-x='3'],
+    .rule-x[data-x='4'] {
+      display: block;
+    }
+  }
+</style>

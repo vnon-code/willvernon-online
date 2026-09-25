@@ -4,7 +4,7 @@
 // if src/motion/index.ts fails to load. Icons are inline SVG (no icon font).
 import { NAV_ITEMS, SOCIAL_LINKS } from '../data/site';
 import Icon from './Icon.astro';
-import ChannelLabel from './ChannelLabel.astro';
+import Rule from './grid/Rule.astro';
 
 interface Props {
   current: string;
@@ -20,14 +20,16 @@ function isCurrent(path: string, current: string) {
 
 <button
   type="button"
-  class="menu-trigger"
+  class="menu-trigger t-label"
   id="menu-trigger"
   aria-expanded="false"
   aria-controls="mobile-menu"
   aria-label="Open menu"
 >
-  <span class="menu-trigger-icon-open"><Icon name="menu" size={22} /></span>
-  <span class="menu-trigger-icon-close"><Icon name="close" size={22} /></span>
+  <span class="menu-trigger-label-open">Menu</span>
+  <span class="menu-trigger-label-close">Close</span>
+  <span class="menu-trigger-icon-open"><Icon name="menu" size={20} /></span>
+  <span class="menu-trigger-icon-close"><Icon name="close" size={20} /></span>
 </button>
 
 <div class="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Site navigation" hidden>
@@ -35,18 +37,18 @@ function isCurrent(path: string, current: string) {
     <button type="button" class="mobile-menu-close" data-menu-close aria-label="Close menu">
       <Icon name="close" size={22} />
     </button>
-    <nav aria-label="Primary">
+    <nav aria-label="Primary" class="mobile-menu-nav">
       <ul class="mobile-menu-links">
         {
-          NAV_ITEMS.map((item) => (
+          NAV_ITEMS.map((item, i) => (
             <li>
+              {i > 0 && <Rule origin="start" />}
               <a
                 href={item.path}
-                class="mobile-menu-link"
+                class="mobile-menu-link t-h1"
                 aria-current={isCurrent(item.path, current) ? 'page' : undefined}
               >
-                <ChannelLabel channel={item.channel} scramble={false} class="mobile-menu-link-channel" />
-                <span class="mobile-menu-link-label">{item.label}</span>
+                {item.label}
               </a>
             </li>
           ))
@@ -77,34 +79,27 @@ function isCurrent(path: string, current: string) {
     position: relative;
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    color: var(--text);
+    gap: var(--sp-2);
+    min-height: 44px;
+    padding-inline: var(--sp-2);
+    color: var(--ink);
   }
 
-  .menu-trigger-icon-open,
+  .menu-trigger-label-close,
   .menu-trigger-icon-close {
-    position: absolute;
-    inset: 0;
-    display: grid;
-    place-items: center;
-    transition: opacity var(--dur-fast) var(--ease-out);
+    display: none;
   }
 
-  .menu-trigger-icon-close {
-    opacity: 0;
-  }
-
+  .menu-trigger[aria-expanded='true'] .menu-trigger-label-open,
   .menu-trigger[aria-expanded='true'] .menu-trigger-icon-open {
-    opacity: 0;
+    display: none;
   }
-
+  .menu-trigger[aria-expanded='true'] .menu-trigger-label-close,
   .menu-trigger[aria-expanded='true'] .menu-trigger-icon-close {
-    opacity: 1;
+    display: inline-flex;
   }
 
-  @media (min-width: 900px) {
+  @media (min-width: 1024px) {
     .menu-trigger {
       display: none;
     }
@@ -116,56 +111,50 @@ function isCurrent(path: string, current: string) {
     display: none;
   }
 
-  /* Sits over the header trigger's spot, inside the dialog, so touch users
-   * can always close it and the focus trap includes it. */
   .mobile-menu-close {
     position: absolute;
     top: 10px;
-    left: var(--grid-margin);
+    left: var(--m);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 44px;
     height: 44px;
-    color: var(--text);
+    color: var(--ink);
   }
 
   .mobile-menu-close:hover,
   .mobile-menu-close:focus-visible {
-    color: var(--accent);
+    color: var(--ink-2);
   }
 
   .mobile-menu {
     position: fixed;
     inset: 0;
     z-index: var(--z-menu);
-    background: var(--bg);
+    background: var(--paper);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: var(--sp-9) var(--grid-margin) var(--sp-6);
+    padding: var(--sp-9) var(--m) var(--sp-6);
+    overflow-y: auto;
     opacity: 0;
-    transform: translateY(-8px);
-    transition:
-      opacity var(--dur-base) var(--ease-out),
-      transform var(--dur-base) var(--ease-out);
+    transition: opacity var(--dur-page) var(--ease-step);
   }
 
-  /* while fading out, don't swallow taps meant for the header trigger */
   .mobile-menu:not([data-open]) {
     pointer-events: none;
   }
 
   .mobile-menu[data-open] {
     opacity: 1;
-    transform: translateY(0);
   }
 
   .mobile-menu[hidden] {
     display: none;
   }
 
-  @media (min-width: 900px) {
+  @media (min-width: 1024px) {
     .mobile-menu {
       display: none !important;
     }
@@ -175,30 +164,23 @@ function isCurrent(path: string, current: string) {
     display: contents;
   }
 
+  .mobile-menu-nav {
+    margin-block: auto;
+  }
+
   .mobile-menu-links {
     display: flex;
     flex-direction: column;
-    gap: var(--sp-2);
   }
 
   .mobile-menu-link {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-4);
-    min-height: 56px;
-    font-family: var(--font-display);
-    font-variation-settings: var(--fset-body-bold);
-    font-size: var(--fs-h3);
-    color: var(--text-muted);
-    border-bottom: 1px solid var(--line);
+    display: block;
+    padding-block: var(--sp-3);
+    color: var(--ink);
   }
 
   .mobile-menu-link[aria-current='page'] {
-    color: var(--accent);
-  }
-
-  .mobile-menu-link-channel {
-    min-width: 4.5em;
+    background: var(--state);
   }
 
   .mobile-menu-socials {
@@ -213,18 +195,17 @@ function isCurrent(path: string, current: string) {
     justify-content: center;
     width: 44px;
     height: 44px;
-    color: var(--text-muted);
+    color: var(--ink-2);
   }
 
   .mobile-menu-socials a:hover,
   .mobile-menu-socials a:focus-visible {
-    color: var(--accent);
+    color: var(--ink);
   }
 
   @media (prefers-reduced-motion: reduce) {
     .mobile-menu {
       transition: none;
-      transform: none;
     }
   }
 </style>

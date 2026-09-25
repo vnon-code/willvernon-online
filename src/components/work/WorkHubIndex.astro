@@ -1,28 +1,31 @@
 ---
 /**
  * CH-02 work hub — the 3 legacy panels (work.json `panels`, sourced from
- * work.copy.032-040 + work.video.042-044) as a numbered index. An
- * INDEX/INFORMATION toggle switches the same rows between a compact list
- * (number + title only) and the expanded legacy view (description + the
- * R2 preview video). Both states stay in the DOM at all times — the toggle
- * only flips `data-work-view` and CSS does the rest — so the page is
- * complete with JS off (default view is INFORMATION, the expanded one, so
- * nothing needs a script to be readable) and under prefers-reduced-motion.
+ * work.copy.032-040 + work.video.042-044). Direction D (Phase 2b): full-bleed
+ * stacked rows, each `~60svh`, separated by `Rule data-rule-cross`; the
+ * whole row is `data-hot` and links to its page (D-brutalist-grid.md §5.4).
+ * An INDEX/INFORMATION toggle switches between the expanded view (title,
+ * description, media) and a compact numbered list; both states stay in the
+ * DOM at all times (CSS-only display toggle), so the page is complete with
+ * JS off (default view is INFORMATION) and under prefers-reduced-motion.
  *
  * Row titles ("Projects"/"AI"/"Experiments", work.h.021-023 — h3 in the
  * legacy DOM) render as h2 here: the DOM parity checker matches by text
  * only (never heading level), and h2 keeps a clean h1 → h2 sequence with no
  * skipped level, since there is no intervening section heading.
  *
- * Preview videos: preload="none" until src/scripts/work/hub.ts sets
- * `src` on first intersection, muted/loop/playsinline, autoplay only when
- * in view and motion is not reduced; paused the moment a row leaves the
- * viewport or the view switches to INDEX. Under reduced motion playback
- * never starts; instead the src gets a `#t=0.1` media fragment with
- * preload="metadata", so the browser fetches and paints one still frame.
+ * Preview videos: preload="none" until src/scripts/work/hub.ts sets `src`
+ * on first intersection, muted/loop/playsinline, autoplay only when in view
+ * and motion is not reduced; paused the moment a row leaves the viewport or
+ * the view switches to INDEX. Under reduced motion playback never starts;
+ * instead the src gets a `#t=0.1` media fragment with preload="metadata",
+ * so the browser fetches and paints one still frame. The media reveal
+ * (clip-path wipe as the row enters view) and the toggle's GSAP Flip
+ * transition are wired by hub.ts.
  */
 import type { WorkPanel } from '../../content';
 import Icon from '../Icon.astro';
+import Rule from '../grid/Rule.astro';
 
 interface Props {
   panels: WorkPanel[];
@@ -38,37 +41,52 @@ function fixHref(href: string | null): string {
 
 <div class="work-toggle" role="group">
   <button type="button" class="work-toggle-btn" data-view-btn="information" aria-pressed="true">
-    <span class="t-mono">INFORMATION</span>
+    <span class="t-label">INFORMATION</span>
   </button>
   <button type="button" class="work-toggle-btn" data-view-btn="index" aria-pressed="false">
-    <span class="t-mono">INDEX</span>
+    <span class="t-label">INDEX</span>
   </button>
 </div>
 
-<ol class="work-index" data-work-view="information" data-reveal-stagger>
+<ol class="work-index" data-work-view="information">
   {
     panels.map((panel, i) => (
-      <li class="work-row" data-work-row data-work-row-src={panel.media.src ?? undefined}>
-        <span class="work-row-num t-mono" aria-hidden="true">
-          {String(i + 1).padStart(2, '0')}
-        </span>
+      <li>
+        <Rule origin="start" cross />
+        <a
+          href={fixHref(panel.href)}
+          class="work-row"
+          data-hot
+          data-work-row
+          data-work-row-src={panel.media.src ?? undefined}
+        >
+          <span
+            class:list={['work-row-preview', 'work-view-expanded-only', panel.media.type === 'video' && 'has-video']}
+            aria-hidden="true"
+          >
+            {panel.media.type === 'video' && (
+              <video data-work-row-video muted loop playsinline preload="none" tabindex="-1" width="640" height="360" />
+            )}
+          </span>
 
-        <div class="work-row-body">
-          <div class="work-row-top">
-            {panel.eyebrow && <p class="t-mono work-row-eyebrow">{panel.eyebrow}</p>}
-            <h2 class="t-h2 work-row-title">
-              <a href={fixHref(panel.href)} class="work-row-link">{panel.title}</a>
-              <Icon name="arrow" size={18} class="work-row-arrow" />
-            </h2>
-          </div>
-          {panel.desc && <p class="t-body work-row-desc work-view-expanded-only">{panel.desc}</p>}
-        </div>
+          <span class="container work-row-inner">
+            <span class="work-row-num t-label" aria-hidden="true">
+              {String(i + 1).padStart(2, '0')}
+            </span>
 
-        <span class="work-row-preview work-view-expanded-only" aria-hidden="true">
-          {panel.media.type === 'video' && (
-            <video data-work-row-video muted loop playsinline preload="none" tabindex="-1" width="640" height="360" />
-          )}
-        </span>
+            <span class="work-row-body">
+              {panel.eyebrow && <span class="t-label work-row-eyebrow work-view-expanded-only">{panel.eyebrow}</span>}
+              <h2 class="t-h1 work-row-title">{panel.title}</h2>
+            </span>
+
+            <span class="work-row-meta work-view-expanded-only">
+              {panel.desc && <span class="t-body work-row-desc">{panel.desc}</span>}
+              <span class="work-row-cta t-label" aria-hidden="true">
+                <Icon name="arrow" size={16} class="work-row-arrow" />
+              </span>
+            </span>
+          </span>
+        </a>
       </li>
     ))
   }
@@ -77,9 +95,7 @@ function fixHref(href: string | null): string {
 <style>
   .work-toggle {
     display: inline-flex;
-    border: 1px solid var(--line);
-    border-radius: 2px;
-    overflow: hidden;
+    border: 1px solid var(--ink);
     margin-block-end: var(--sp-6);
   }
 
@@ -87,67 +103,23 @@ function fixHref(href: string | null): string {
     padding: var(--sp-2) var(--sp-4);
     min-height: 44px;
     min-width: 44px;
-    color: var(--text-muted);
-    transition:
-      color var(--dur-fast) var(--ease-out),
-      background-color var(--dur-fast) var(--ease-out);
+    color: var(--ink-2);
+    transition: color var(--dur-hover) var(--ease-out);
   }
 
   .work-toggle-btn + .work-toggle-btn {
-    border-inline-start: 1px solid var(--line);
+    border-inline-start: 1px solid var(--ink);
   }
 
   @media (hover: hover) and (pointer: fine) {
     .work-toggle-btn:hover {
-      color: var(--text);
-    }
-
-    .work-row:hover {
-      background: color-mix(in srgb, var(--surface) 60%, transparent);
-    }
-
-    .work-row:hover .work-row-arrow {
-      transform: translateX(4px);
+      color: var(--ink);
     }
   }
 
   .work-toggle-btn[aria-pressed='true'] {
-    color: var(--accent);
-    background: color-mix(in srgb, var(--accent) 10%, transparent);
-  }
-
-  .work-index {
-    display: flex;
-    flex-direction: column;
-    border-top: 1px solid var(--line);
-  }
-
-  /* The title link is the row's only interactive element; its ::after
-     stretches over the whole row (hit area) while the link's accessible name
-     stays just the title. */
-  .work-row {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-4);
-    padding-block: var(--sp-6);
-    border-bottom: 1px solid var(--line);
-    transition: background-color var(--dur-fast) var(--ease-out);
-  }
-
-  .work-row:focus-within {
-    background: color-mix(in srgb, var(--surface) 60%, transparent);
-  }
-
-  .work-row-link {
-    color: inherit;
-  }
-
-  .work-row-link::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 1;
+    color: var(--ink);
+    background: var(--state);
   }
 
   /* No JS: the toggle can't do anything, so it isn't shown. */
@@ -155,63 +127,129 @@ function fixHref(href: string | null): string {
     display: none;
   }
 
+  .work-index {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .work-row {
+    position: relative;
+    display: block;
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    min-height: 60svh;
+    color: var(--ink);
+    overflow: hidden;
+  }
+
+  .work-row::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--state);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur-hover) var(--ease-step);
+    z-index: -1;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .work-row:hover::before,
+    .work-row:focus-visible::before {
+      transform: scaleX(1);
+    }
+  }
+
+  .work-row:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: -3px;
+  }
+
+  .work-row-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--sp-4);
+    min-height: inherit;
+    padding-block: var(--sp-7);
+  }
+
   .work-row-num {
-    color: var(--text-muted);
+    color: var(--ink-2);
   }
 
   .work-row-body {
     display: flex;
     flex-direction: column;
-    gap: var(--sp-3);
-    min-width: 0;
-  }
-
-  .work-row-top {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-1);
+    gap: var(--sp-2);
+    max-width: 90%;
   }
 
   .work-row-eyebrow {
-    color: var(--accent);
+    color: var(--ink-2);
   }
 
   .work-row-title {
-    display: inline-flex;
-    align-items: center;
+    color: var(--ink);
+  }
+
+  .work-row-meta {
+    display: flex;
+    flex-direction: column;
     gap: var(--sp-3);
-    color: var(--text);
-  }
-
-  .work-row-arrow {
-    color: var(--accent);
-    flex-shrink: 0;
-    transition: transform var(--dur-fast) var(--ease-out);
-  }
-
-  .work-row:focus-within .work-row-arrow {
-    transform: translateX(4px);
+    max-width: 46ch;
   }
 
   .work-row-desc {
-    max-width: 62ch;
+    color: var(--ink-2);
+  }
+
+  .work-row-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-1);
+  }
+
+  .work-row-arrow {
+    transition: transform var(--dur-hover) var(--ease-out);
+  }
+
+  .work-row:hover .work-row-arrow,
+  .work-row:focus-visible .work-row-arrow {
+    transform: translateX(4px);
   }
 
   .work-row-preview {
-    display: block;
-    width: 100%;
-    max-width: 480px;
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-    border: 1px solid var(--line);
-    border-radius: 2px;
-    background: var(--surface);
+    display: none;
   }
 
-  .work-row-preview video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  @media (min-width: 900px) {
+    .work-row-preview.has-video {
+      display: block;
+      position: absolute;
+      inset-block: 0;
+      inset-inline-end: 0;
+      width: 48%;
+      overflow: hidden;
+      clip-path: inset(0 0 100% 0);
+      transition: clip-path 900ms var(--ease-out);
+    }
+
+    .work-row.is-revealed .work-row-preview.has-video {
+      clip-path: inset(0 0 0 0);
+    }
+
+    .work-row-preview video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .work-row-inner {
+      max-width: 55%;
+    }
   }
 
   /* INDEX view: numbered rows only, compact. Content stays in the DOM —
@@ -222,38 +260,24 @@ function fixHref(href: string | null): string {
   }
 
   [data-work-view='index'] .work-row {
+    min-height: auto;
+  }
+
+  [data-work-view='index'] .work-row-inner {
     flex-direction: row;
     align-items: baseline;
     gap: var(--sp-5);
     padding-block: var(--sp-4);
   }
 
-  [data-work-view='index'] .work-row-body {
-    flex-direction: row;
-    align-items: baseline;
-    gap: var(--sp-4);
+  [data-work-view='index'] .work-row-title {
+    font-size: var(--fs-row);
+    line-height: var(--lh-row);
+    letter-spacing: var(--ls-row);
   }
 
-  [data-work-view='index'] .work-row-top {
-    flex-direction: row;
-    align-items: baseline;
-    gap: var(--sp-4);
-  }
-
-  @media (min-width: 900px) {
-    .work-row {
-      flex-direction: row;
-      align-items: center;
-    }
-
-    .work-row-body {
-      flex: 1;
-    }
-
-    .work-row-preview {
-      max-width: 280px;
-      flex-shrink: 0;
-    }
+  [data-work-view='index'] .work-row-inner {
+    max-width: none;
   }
 </style>
 

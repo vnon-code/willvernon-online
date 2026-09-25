@@ -57,6 +57,9 @@ No `/cost` or `/usage` figure is visible from inside this cloud session, so **ev
 | 2 | gsap-scrolltrigger | Ruler scrub → --ruler-progress and aria-current step; once:true reveal triggers. |
 | 2 | gsap-performance | Transform/opacity-only animation, HUD text writes skipped when unchanged, Flip/ScrollSmoother lazy-loaded out of the shared bundle, and a verified 0 draws/s for the scope offscreen. |
 | 2 | review-animations | Verifier escalation checks exposed the fade/stagger 0→0 no-op, the 4 px scanline and cursor layout transitions. |
+| 2b | impeccable | Direction spec D (Ruled Ground): its world/colour calibration kept the palette off near-black+neon and cream+terracotta (it produced paper #F1F1EE / ink / yellow used only for state); its font reflex list led to Mona Sans (wdth axis) replacing Archivo+JetBrains Mono; its craft floor banned eyebrows, cards and section numbers. Context launcher ran; no user probe was possible from the subagent, so the brief was treated as pinned. |
+| 2b | emil-design-eng | D spec motion tokens: expo-out draws, no ease-in, hover <200ms, quickTo spring for the velocity shear, transform/opacity only. |
+| 2b | gsap-scrolltrigger | D spec line engine: one master ScrollTrigger with cached geometry for rule and frame scrubs plus velocity, batch() for reveals, top-to-bottom creation, refresh after fonts. |
 | 0 | workflow-authoring (built-in) | Shaped the three workflows (a pipelined audit into verify, a blind parallel sweep, a directions judge panel). |
 
 | 3 | impeccable | Builders: numbered project index instead of a card grid, AI toolset as an accessible list instead of a hover-only marquee, no invented kickers. Verifier: caught red used as decoration and an 11px mono intro paragraph. |

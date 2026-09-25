@@ -44,8 +44,26 @@ import build_content as bc  # noqa: E402
 from check_content_parity import parse_inventory  # noqa: E402
 
 REPO = HERE.parent.parent
-TEXT_ATTRS = ("alt", "aria-label", "title", "placeholder", "value", "content", "label")
+# "min"/"max"/"step" are here alongside "value": a range input's bounds are
+# functional, user/AT-visible data (screen readers announce them via the
+# auto-exposed aria-valuemin/valuemax; sighted users feel them while
+# dragging the thumb) — e.g. the stems console's FX sliders, whose JS bundle
+# intentionally ships only the mutable trackParams, never the static
+# min/max/step bounds (those are baked straight into the <input> markup for
+# no-JS operation). Without these three, a numeric `js` INVENTORY item whose
+# value happens to be a slider bound is structurally invisible to this
+# checker regardless of what the page renders.
+TEXT_ATTRS = ("alt", "aria-label", "title", "placeholder", "value", "content", "label", "min", "max", "step")
 URL_ATTRS = ("src", "srcset", "poster", "href", "action", "data")
+
+# Phase 2b (Direction D, D-brutalist-grid.md §6): the hero H2's ampersand is
+# no longer drawn via a CSS data-glyph workaround with an aria-label carrying
+# the full text — the H2 now renders the full string verbatim. The
+# extraction dropped the 1-char '&' span from index.copy.044, so that item's
+# label ("Generative Design Creative Technology.") is a strict substring
+# match away from the real, rendered heading text. EQUIV declares the two
+# items equivalent instead of special-casing the DOM.
+EQUIV = {"index.copy.044": "index.h.022"}
 
 
 def fold(t):
@@ -203,7 +221,14 @@ def main():
         counts = {"ok": 0, "warn": 0, "miss": 0, "skip": 0}
         rows = []
         for iid, _h, label in inv[page]:
-            st, note = check_item(pg, iid, label)
+            st, note = None, ""
+            if iid in EQUIV:
+                target_id = EQUIV[iid]
+                target_label = next((l for i, _, l in inv[page] if i == target_id), None)
+                if target_label is not None and has_text(pg, re.sub(r"^h\d: ", "", target_label)):
+                    st, note = "ok", f"equiv {target_id}"
+            if st is None:
+                st, note = check_item(pg, iid, label)
             counts[st] += 1
             if st in ("miss", "warn"):
                 rows.append((st, iid, label[:110], note))

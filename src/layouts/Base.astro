@@ -1,7 +1,6 @@
 ---
-import '@fontsource-variable/archivo/wdth.css';
-import '@fontsource-variable/jetbrains-mono/wght.css';
-import archivoDisplayWoff2 from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
+import '@fontsource-variable/mona-sans/wdth.css';
+import monaSansWdthWoff2 from '@fontsource-variable/mona-sans/files/mona-sans-latin-wdth-normal.woff2?url';
 
 import '../styles/tokens.css';
 import '../styles/base.css';
@@ -9,6 +8,7 @@ import '../styles/motion.css'; // owned by builder B (src/motion/)
 
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import GridFrame from '../components/grid/GridFrame.astro';
 import { PERSON_JSONLD, SITE } from '../data/site';
 
 interface Props {
@@ -16,10 +16,12 @@ interface Props {
   description?: string;
   /** Clean path, e.g. '/about'. '/' for the home page. */
   path: string;
-  channel?: string;
   noindex?: boolean;
   ogImage?: string;
   bodyClass?: string;
+  /** 404 only: static out-of-register x offsets for the GridFrame verticals
+   * (D-brutalist-grid.md §5.5). Omit everywhere else. */
+  gridOffsets?: number[];
 }
 
 const {
@@ -29,6 +31,7 @@ const {
   noindex = false,
   ogImage = SITE.defaultOgImage,
   bodyClass,
+  gridOffsets,
 } = Astro.props;
 
 const canonical = new URL(path === '/' ? '/' : path, SITE.url).toString();
@@ -68,18 +71,18 @@ const ogImageAbsolute = new URL(ogImage, SITE.url).toString();
       rel="preload"
       as="font"
       type="font/woff2"
-      href={archivoDisplayWoff2}
+      href={monaSansWdthWoff2}
       crossorigin="anonymous"
     />
 
     <script is:inline>
-      // html.js lets CSS pre-hide reveal targets. Fail open: if the motion
-      // bundle hasn't claimed them (window.__motionReady, set by
+      // html.js lets CSS pre-hide reveal/draw targets. Fail open: if the
+      // motion bundle hasn't claimed them (window.__motionReady, set by
       // src/motion/reveal.ts) within 3s (network error, CSP drift, no module
       // support), drop html.js so everything shows and the no-JS nav appears.
       // pagereveal: flag the incoming page of a cross-document view
-      // transition so motion.css can play the scanline sweep; this must be
-      // registered before first render, hence here and not in the module.
+      // transition so motion.css/lines.ts can skip the vertical intro draw
+      // on it (the frame lines are already drawn, per motion.css §4.4).
       // CSP: this script is allow-listed by hash in public/_headers.
       (function () {
         var d = document.documentElement;
@@ -101,13 +104,12 @@ const ogImageAbsolute = new URL(ogImage, SITE.url).toString();
   </head>
   <body class={bodyClass}>
     <a href="#main" class="skip-link">Skip to content</a>
+    <GridFrame offsets={gridOffsets} />
     <Nav current={path} />
     <main id="main" data-vt-root>
       <slot />
     </main>
     <Footer />
-    <div class="cursor-ring" aria-hidden="true" data-cursor></div>
-    <div class="vt-scanline" aria-hidden="true"></div>
     <script type="module">
       import { initMotion } from '../motion/index.ts';
       initMotion();
