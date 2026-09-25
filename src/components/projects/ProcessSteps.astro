@@ -1,0 +1,234 @@
+---
+/**
+ * Case-study process steps (D-brutalist-grid.md §5.7): `data-rail` /
+ * `data-rail-step` scrubbed vertical rule (src/motion/rail.ts — already
+ * built, not owned here; this component only supplies the markup its
+ * selectors expect) with a sticky right-rail detail panel (step num + title)
+ * at >=1024, and a plain stacked layout below that breakpoint. Every step's
+ * num/title/text/media renders in the DOM unconditionally — the rail is a
+ * scroll-position *indicator*, never the only way to reach the content, so
+ * the page is complete with JS off and under reduced motion.
+ *
+ * The sticky panel doesn't re-render text at scroll time (no per-frame DOM
+ * writes): it pre-renders one detail block per step, stacked absolutely,
+ * and a tiny MutationObserver in case-study.ts mirrors rail.ts's
+ * `aria-current` onto `[data-rail][data-active-step]`, which plain
+ * `:nth-child` CSS below uses to show the matching block. It's
+ * `aria-hidden`: every step's num/title is already real, reachable content
+ * in the stacked list itself.
+ */
+import type { ProcessStep } from '../../content';
+import CaseMedia from './CaseMedia.astro';
+import Rule from '../grid/Rule.astro';
+import { site } from '../../content';
+
+interface Props {
+  steps: ProcessStep[];
+  slug: string;
+}
+
+const { steps, slug } = Astro.props;
+const uiText = (t: string) => site.ui.find((u) => u.text === t)!.text;
+const processLabel = uiText('Process');
+---
+
+<section class="process" aria-labelledby="process-heading">
+  <Rule origin="start" cross />
+  <div class="container process-inner">
+    <h2 id="process-heading" class="t-h2 process-heading" data-split="lines">
+      {processLabel}
+    </h2>
+
+    <div class="process-rail" data-rail>
+      <aside class="rail-detail" aria-hidden="true">
+        {
+          steps.map((step, i) => (
+            <div class="rail-detail-item" style={`--i:${i}`}>
+              <span class="t-label rail-detail-num">{step.num}</span>
+              <span class="t-h3 rail-detail-title">{step.title}</span>
+            </div>
+          ))
+        }
+      </aside>
+
+      <ol class="rail-steps">
+        {
+          steps.map((step, i) => (
+            <li class="rail-step" data-rail-step aria-label={`Step ${step.num}: ${step.title}`}>
+              {i > 0 && <Rule origin="start" />}
+              <div class="rail-step-head">
+                <span class="t-label rail-step-num">{step.num}</span>
+                <h3 class="t-h2 rail-step-title">{step.title}</h3>
+              </div>
+              <p class="t-body rail-step-text">{step.text}</p>
+              <CaseMedia media={step.media} slug={slug} group={String(i)} class="rail-step-media" />
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .process {
+    padding-block: var(--sp-9);
+  }
+
+  .process-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-7);
+    padding-block-start: var(--sp-6);
+  }
+
+  .process-heading {
+    color: var(--ink);
+  }
+
+  .process-rail {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-9);
+    /* --rail-progress is written by src/motion/rail.ts; consumed by the
+     * fill below as a simple visual confirmation the scrub is live. */
+    --rail-progress: 0;
+    position: relative;
+  }
+
+  .process-rail::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--line);
+  }
+
+  .process-rail::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--ink);
+    /* transform only (D §3.5.1): the scrubbed fill is a scaleY of a
+     * full-height line, never an animated height. */
+    transform: scaleY(var(--rail-progress, 0));
+    transform-origin: top;
+  }
+
+  /* No JS: nothing scrubs, so the rail is simply drawn (static = final). */
+  :global(html:not(.js)) .process-rail::after {
+    transform: none;
+  }
+
+  .rail-detail {
+    display: none;
+  }
+
+  .rail-steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-9);
+    padding-inline-start: var(--sp-6);
+  }
+
+  .rail-step {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-5);
+    padding-block-start: var(--sp-6);
+  }
+
+  .rail-step-head {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-4);
+  }
+
+  .rail-step-num {
+    color: var(--ink-2);
+  }
+
+  .rail-step-title {
+    color: var(--ink);
+    max-width: 20ch;
+  }
+
+  .rail-step-text {
+    color: var(--ink-2);
+    max-width: 60ch;
+  }
+
+  /* The active step gets the state fill (D §3.3 data-rail): yellow only
+   * as a fill behind ink text, swapped with a hard cut. */
+  .rail-step-num {
+    padding-inline: 4px;
+    transition: background-color var(--dur-hover) var(--ease-cut);
+  }
+
+  .rail-step[aria-current='step'] .rail-step-num {
+    color: var(--ink);
+    background: var(--state);
+  }
+
+  @media (min-width: 1024px) {
+    .process-rail {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: var(--sp-8);
+      align-items: start;
+    }
+
+    .rail-detail {
+      display: block;
+      position: sticky;
+      top: calc(64px + var(--sp-7));
+      height: calc(100vh - 64px - 2 * var(--sp-7));
+      min-height: 160px;
+    }
+
+    .rail-detail-item {
+      display: none;
+      flex-direction: column;
+      gap: var(--sp-3);
+    }
+
+    /* Default (no JS / before case-study.ts mirrors rail.ts's aria-current
+     * onto [data-active-step] yet): show the first step's detail. Once
+     * data-active-step is set, one of the explicit rules below takes over —
+     * plain per-index CSS rather than a dynamic selector, since Astro
+     * <style> blocks don't evaluate template expressions. 8 covers every
+     * case study (max 6 process steps). */
+    .process-rail:not([data-active-step]) .rail-detail-item:first-child {
+      display: flex;
+    }
+
+    .process-rail[data-active-step='0'] .rail-detail-item:nth-child(1),
+    .process-rail[data-active-step='1'] .rail-detail-item:nth-child(2),
+    .process-rail[data-active-step='2'] .rail-detail-item:nth-child(3),
+    .process-rail[data-active-step='3'] .rail-detail-item:nth-child(4),
+    .process-rail[data-active-step='4'] .rail-detail-item:nth-child(5),
+    .process-rail[data-active-step='5'] .rail-detail-item:nth-child(6),
+    .process-rail[data-active-step='6'] .rail-detail-item:nth-child(7),
+    .process-rail[data-active-step='7'] .rail-detail-item:nth-child(8) {
+      display: flex;
+    }
+
+    .rail-detail-num {
+      color: var(--ink-2);
+    }
+
+    .rail-detail-title {
+      color: var(--ink);
+      max-width: 16ch;
+    }
+
+    .rail-steps {
+      padding-inline-start: 0;
+    }
+  }
+</style>

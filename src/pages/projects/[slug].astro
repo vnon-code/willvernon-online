@@ -1,0 +1,124 @@
+---
+/**
+ * A static page per case study (D-brutalist-grid.md §5.7): mega title hero,
+ * descShort/descLong, a tags/software/disciplines meta block, the OUTCOME
+ * media big and early, PROCESS steps on the scrubbed rail, external links
+ * (none of the current 7 carry any — rendered only when present), and
+ * prev/next case-study navigation. `build.format: 'file'` (astro.config)
+ * emits this at dist/projects/<slug>.html.
+ *
+ * View Transition names (told to F2, who owns /projects and its row
+ * previews): the H1 carries `cs-title-<slug>` (set in CaseHero.astro), the
+ * outcome media carries `cs-media-<slug>` (set here, passed into CaseMedia).
+ */
+import Base from '../../layouts/Base.astro';
+import { site, projects } from '../../content';
+import CaseHero from '../../components/projects/CaseHero.astro';
+import CaseMeta from '../../components/projects/CaseMeta.astro';
+import CaseMedia from '../../components/projects/CaseMedia.astro';
+import ProcessSteps from '../../components/projects/ProcessSteps.astro';
+import CaseNav from '../../components/projects/CaseNav.astro';
+import Lightbox from '../../components/projects/Lightbox.astro';
+import Rule from '../../components/grid/Rule.astro';
+
+export function getStaticPaths() {
+  const { caseStudies } = projects;
+  return caseStudies.map((cs, i) => ({
+    params: { slug: cs.slug },
+    props: {
+      cs,
+      prev: i > 0 ? caseStudies[i - 1] : null,
+      next: i < caseStudies.length - 1 ? caseStudies[i + 1] : null,
+    },
+  }));
+}
+
+const { cs, prev, next } = Astro.props;
+
+const title = `${cs.title} — ${site.pages.projects.legacyTitle ?? 'Projects'}`;
+const description = cs.descShort;
+const linksLabel = site.ui.find((u) => u.text === 'Links')!.text;
+---
+
+<Base title={title} description={description} path={`/projects/${cs.slug}`} bodyClass="cs-page">
+  <div data-cs-slug={cs.slug}>
+    <CaseHero cs={cs}>
+      <CaseMeta cs={cs} projects={projects} />
+    </CaseHero>
+
+    <section class="cs-outcome" aria-labelledby="cs-outcome-heading">
+      <Rule origin="start" cross />
+      <div class="container cs-outcome-inner">
+        <p id="cs-outcome-heading" class="t-label cs-outcome-label">{cs.outcome.label}</p>
+        <CaseMedia media={cs.outcome.media} slug={cs.slug} group="outcome" vtName={`cs-media-${cs.slug}`} />
+      </div>
+    </section>
+
+    <ProcessSteps steps={cs.process} slug={cs.slug} />
+
+    {
+      cs.links.length > 0 && (
+        <section class="cs-links">
+          <Rule origin="start" />
+          <div class="container cs-links-inner">
+            <h2 class="t-h3">{linksLabel}</h2>
+            <ul class="cs-links-list">
+              {cs.links.map((href) => (
+                <li>
+                  <a href={href} class="link" target="_blank" rel="noopener noreferrer">
+                    {href}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )
+    }
+
+    <CaseNav prev={prev} next={next} />
+  </div>
+
+  <Lightbox />
+</Base>
+
+<style>
+  .cs-outcome {
+    padding-block: var(--sp-8);
+  }
+
+  .cs-outcome-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-5);
+    padding-block-start: var(--sp-6);
+  }
+
+  .cs-outcome-label {
+    color: var(--ink-2);
+  }
+
+  .cs-links {
+    padding-block: var(--sp-7);
+  }
+
+  .cs-links-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+    padding-block-start: var(--sp-6);
+  }
+
+  .cs-links-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+</style>
+
+<script>
+  import { initCaseStudy } from '../../scripts/projects/case-study';
+  import { initLightbox } from '../../scripts/projects/lightbox';
+  initCaseStudy();
+  initLightbox();
+</script>

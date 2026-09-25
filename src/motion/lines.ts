@@ -439,10 +439,18 @@ function initMotionBranch(): () => void {
   const shearTick = () => {
     const velocity = master.getVelocity();
     const clampRange = isDesktop.matches ? SHEAR_CLAMP_DESKTOP : SHEAR_CLAMP_MOBILE;
+    // Clamp the base (unweighted) velocity first, then apply each line's own
+    // -1..1 weight. Clamping after weighting made every line whose
+    // |velocity * coeff * s| exceeded clampRange saturate to the SAME
+    // clampRange value regardless of s, flattening the fan at high scroll
+    // speed. Clamping first keeps s as the only thing that differs between
+    // lines, so the fan (outer lines at clampRange, inner lines
+    // proportionally less) holds even once velocity saturates it.
+    const baseShear = Math.min(clampRange, Math.max(-clampRange, velocity * SHEAR_COEFF));
     let moving = Math.abs(velocity) > 1;
     verticals.forEach((v) => {
       if (v.registerLocked || !v.visible) return;
-      const shear = Math.min(clampRange, Math.max(-clampRange, velocity * SHEAR_COEFF * v.s));
+      const shear = baseShear * v.s;
       const target = v.baseX + shear;
       if (Number.isNaN(v.last) || Math.abs(target - v.last) > 0.1) {
         v.last = target;

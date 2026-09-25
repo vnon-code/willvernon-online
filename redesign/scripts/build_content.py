@@ -371,6 +371,17 @@ def build_site_json(pages):
                 ui.append({"text": s, "page": name, "_src": [item_id]})
             TODO.append({"scriptcopy_review": s, "page": name, "id": item_id, "keep_as_ui": keep, "reason": reason})
 
+    # New Phase 4 chrome with no legacy equivalent (the case-study prev/next
+    # nav is new: legacy had a single slide-over with no cross-project
+    # navigation). No INVENTORY id, so _src is empty — these aren't parity
+    # items, they're UI strings routed through content (never hand-typed in
+    # a component) per redesign/PLAN.md Phase 4.
+    # Case-study template section/meta labels and the embed facade button
+    # (Phase 4 verifier): new UI chrome, same routing.
+    for text in ("Next project", "Previous project", "Back to index",
+                 "Process", "Links", "No.", "Software", "Disciplines", "Tags", "Play video"):
+        ui.append({"text": text, "page": "projects", "_src": []})
+
     # The WV monogram is shared nav chrome on every legacy page: one logo
     # entry, traced to each page's img id.
     logo = None

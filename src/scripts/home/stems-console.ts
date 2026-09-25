@@ -73,6 +73,21 @@ export function initStemsConsole(): void {
   const masterVol = root.querySelector<HTMLInputElement>('#master-vol')!;
   const fxTitle = root.querySelector<HTMLElement>('[data-fx-title]')!;
 
+  // ≥768: each stem's FX sliders sit in a <details> (markup, for the <768
+  // collapse below), but force-opened here so desktop reads exactly as
+  // before — the shared data-fx-title/track-select buttons stay the one
+  // way to switch stems there, and CSS hides the now-redundant <summary>.
+  // <768: left alone, a real native collapse per stem.
+  const fxDetails = Array.from(root.querySelectorAll<HTMLDetailsElement>('.stems-fx-details'));
+  const desktopFxMq = window.matchMedia('(min-width: 768px)');
+  function syncFxDetailsOpen(): void {
+    fxDetails.forEach((d) => {
+      d.open = desktopFxMq.matches;
+    });
+  }
+  syncFxDetailsOpen();
+  desktopFxMq.addEventListener('change', syncFxDetailsOpen);
+
   // trackParams holds live mutable state; seeded from home.stems.trackParams (via [data-stems])
   // (itself a straight read of the legacy STEMS_CONFIG/trackParams data).
   type TrackParams = Record<string, Record<string, number | boolean>>;

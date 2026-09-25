@@ -1,0 +1,90 @@
+---
+/**
+ * Case-study hero (D-brutalist-grid.md §5.7): the H1 at --fs-h1 (B1-B3),
+ * server-rendered at its final state and kinetic-scrubbed on scroll-out
+ * (data-kinetic="wdth", never split/hidden — it's this page's LCP). Carries
+ * the view-transition-name the /projects index row's title will pair with
+ * (told to F2 in the phase report: `cs-title-<slug>`).
+ */
+import type { CaseStudy } from '../../content';
+
+interface Props {
+  cs: CaseStudy;
+}
+
+const { cs } = Astro.props;
+---
+
+<section class="cs-hero container">
+  <div class="cs-hero-main">
+    <h1
+      class="t-h1 cs-hero-title"
+      data-kinetic="wdth"
+      style={`view-transition-name:cs-title-${cs.slug}`}
+    >
+      {cs.title}
+    </h1>
+    <p class="t-body cs-hero-lead">{cs.descShort}</p>
+    {cs.descLong && <p class="t-body cs-hero-desc">{cs.descLong}</p>}
+  </div>
+  <div class="cs-hero-aside">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .cs-hero {
+    padding-block-start: var(--sp-9);
+    padding-block-end: var(--sp-7);
+    contain: layout paint;
+  }
+
+  .cs-hero-main {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-5);
+    max-width: 100%;
+  }
+
+  .cs-hero-title {
+    color: var(--ink);
+    --wdth: 125;
+    font-variation-settings: 'wdth' var(--wdth), 'wght' 820;
+    max-width: 20ch;
+  }
+
+  @media (max-width: 767px) {
+    .cs-hero-title {
+      --wdth: 108;
+    }
+  }
+
+  .cs-hero-lead {
+    color: var(--ink);
+    max-width: 55ch;
+    font-variation-settings: var(--fset-strong);
+  }
+
+  .cs-hero-desc {
+    color: var(--ink-2);
+    max-width: 65ch;
+  }
+
+  /* D §5.7: H1 + copy across B1-B3, the ruled meta list in B4. */
+  @media (min-width: 1024px) {
+    .cs-hero {
+      display: grid;
+      grid-template-columns: repeat(var(--bays), minmax(0, 1fr));
+      column-gap: var(--g);
+      align-items: start;
+    }
+
+    .cs-hero-main {
+      grid-column: 1 / span 3;
+    }
+
+    .cs-hero-aside {
+      grid-column: 4;
+    }
+  }
+</style>

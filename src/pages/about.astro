@@ -17,6 +17,7 @@ import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import Rule from '../components/grid/Rule.astro';
 import Cross from '../components/grid/Cross.astro';
+import Frame from '../components/grid/Frame.astro';
 import { about, site, type TextBlock, type Src } from '../content';
 import { SOCIAL_LINKS } from '../data/site';
 
@@ -109,14 +110,18 @@ const waiterMeta = bySrc(about.blocks, 'about.copy.076');
 <Base title={title} path="/about">
   <section class="about-hero container">
     <p class="about-kicker t-label">{profileLabel.text}</p>
-    <h1 class="t-h1 about-h1" data-kinetic="wdth">{h1.text}</h1>
+    <div class="about-h1-box">
+      <Cross pop class="about-h1-cross about-h1-cross--tl" />
+      <h1 class="about-h1" data-kinetic="wdth">{h1.text}</h1>
+      <Cross pop class="about-h1-cross about-h1-cross--br" />
+    </div>
     <p class="about-intro t-body">{introText.text}</p>
   </section>
 
   <section class="about-section">
     <Rule origin="start" cross />
     <div class="container about-section-inner">
-      <h2 class="t-h3 about-label">{personalityHeading.text}</h2>
+      <h2 class="t-h3 about-label" data-split="lines">{personalityHeading.text}</h2>
       <div class="about-content">
         <p class="t-body">{personalityP1.text}</p>
         <p class="t-body">{personalityP2.text}</p>
@@ -148,14 +153,16 @@ const waiterMeta = bySrc(about.blocks, 'about.copy.076');
   <section class="about-section">
     <Rule origin="start" cross />
     <div class="container about-section-inner">
-      <h2 class="t-h3 about-label">{skillsHeading.text}</h2>
+      <h2 class="t-h3 about-label" data-split="lines">{skillsHeading.text}</h2>
       <div class="about-content">
-        <ul class="skill-groups">
+        <ul class="skill-groups" data-reveal-stagger>
           {
             skillGroups.map((group) => (
               <li class="skill-group">
                 {group.chips.map((chip) => (
-                  <span class="t-label skill-chip">{chip.text}</span>
+                  <Frame as="span" class="t-label skill-chip">
+                    {chip.text}
+                  </Frame>
                 ))}
               </li>
             ))
@@ -168,7 +175,7 @@ const waiterMeta = bySrc(about.blocks, 'about.copy.076');
   <section class="about-section">
     <Rule origin="start" cross />
     <div class="container about-section-inner">
-      <h2 class="t-h3 about-label">{generativeHeading.text}</h2>
+      <h2 class="t-h3 about-label" data-split="lines">{generativeHeading.text}</h2>
       <div class="about-content">
         <div class="about-tool-cat">
           <p class="t-label about-tool-cat-label">{commercialLabel.text}</p>
@@ -186,39 +193,43 @@ const waiterMeta = bySrc(about.blocks, 'about.copy.076');
   <section class="about-section">
     <Rule origin="start" cross />
     <div class="container about-section-inner">
-      <h2 class="t-h3 about-label">{educationHeading.text}</h2>
+      <h2 class="t-h3 about-label" data-split="lines">{educationHeading.text}</h2>
       <div class="about-content">
-        <ul class="cred-list">
-          <li class="cred-row">
-            <details class="cred-accordion">
-              <summary class="cred-summary">
-                <span class="cred-summary-head">
-                  <h3 class="t-h3">{baHeading.text}</h3>
-                  <p class="t-small cred-meta">{baMeta.text}</p>
-                </span>
-                <Cross class="cred-cross" />
-              </summary>
-              <div class="cred-content">
-                <p class="t-label">{linkedProjectsLabel.text}</p>
-                <ul class="cred-project-list">
-                  {
-                    projectLinks.map((link) => (
-                      <li>
-                        <a href={link.href} class="cred-project-link">
-                          <span>{link.text}</span>
-                          <Icon name="arrow" size={14} />
-                        </a>
-                      </li>
-                    ))
-                  }
-                </ul>
-              </div>
-            </details>
+        <ul class="cred-list" data-reveal-stagger>
+          <li>
+            <Frame as="div" class="cred-frame">
+              <details class="cred-accordion">
+                <summary class="cred-summary">
+                  <span class="cred-summary-head">
+                    <h3 class="t-h3">{baHeading.text}</h3>
+                    <p class="t-small cred-meta">{baMeta.text}</p>
+                  </span>
+                  <Cross class="cred-cross" />
+                </summary>
+                <div class="cred-content">
+                  <p class="t-label cred-sublabel">{linkedProjectsLabel.text}</p>
+                  <ul class="cred-project-list">
+                    {
+                      projectLinks.map((link) => (
+                        <li>
+                          <a href={link.href} class="cred-project-link">
+                            <span>{link.text}</span>
+                            <Icon name="arrow" size={14} />
+                          </a>
+                        </li>
+                      ))
+                    }
+                  </ul>
+                </div>
+              </details>
+            </Frame>
           </li>
 
-          <li class="cred-row cred-row-plain">
-            <h3 class="t-h3">{certHeHeading.text}</h3>
-            <p class="t-small cred-meta">{certHeMeta.text}</p>
+          <li>
+            <Frame as="div" class="cred-frame cred-frame-plain">
+              <h3 class="t-h3">{certHeHeading.text}</h3>
+              <p class="t-small cred-meta">{certHeMeta.text}</p>
+            </Frame>
           </li>
         </ul>
       </div>
@@ -228,18 +239,26 @@ const waiterMeta = bySrc(about.blocks, 'about.copy.076');
   <section class="about-section">
     <Rule origin="start" cross />
     <div class="container about-section-inner">
-      <h2 class="t-h3 about-label">{experienceHeading.text}</h2>
+      <h2 class="t-h3 about-label" data-split="lines">{experienceHeading.text}</h2>
       <div class="about-content">
-        <ul class="cred-list">
-          <li class="cred-row cred-row-plain">
-            <h3 class="t-h3">{climbingHeading.text}</h3>
-            <p class="t-small cred-meta">{climbingMeta.text}</p>
-          </li>
-          <li class="cred-row cred-row-plain">
-            <h3 class="t-h3">{waiterHeading.text}</h3>
-            <p class="t-small cred-meta">{waiterMeta.text}</p>
-          </li>
-        </ul>
+        <div class="exp-rail" data-rail>
+          <ol class="exp-rail-steps">
+            <li class="exp-rail-step" data-rail-step>
+              <div class="exp-rail-step-head">
+                <Cross class="exp-rail-cross" />
+                <h3 class="t-h3">{climbingHeading.text}</h3>
+              </div>
+              <p class="t-small cred-meta">{climbingMeta.text}</p>
+            </li>
+            <li class="exp-rail-step" data-rail-step>
+              <div class="exp-rail-step-head">
+                <Cross class="exp-rail-cross" />
+                <h3 class="t-h3">{waiterHeading.text}</h3>
+              </div>
+              <p class="t-small cred-meta">{waiterMeta.text}</p>
+            </li>
+          </ol>
+        </div>
       </div>
     </div>
   </section>
@@ -247,17 +266,53 @@ const waiterMeta = bySrc(about.blocks, 'about.copy.076');
 
 <style>
   .about-hero {
+    container-type: inline-size;
     display: flex;
     flex-direction: column;
-    gap: var(--sp-3);
+    gap: var(--sp-5);
     padding-block: var(--sp-9) var(--sp-7);
   }
 
+  .about-h1-box {
+    position: relative;
+  }
+
+  .about-h1-box :global(.about-h1-cross) {
+    position: absolute;
+    z-index: 1;
+  }
+
+  .about-h1-box :global(.about-h1-cross--tl) {
+    top: 0;
+    left: 0;
+    margin: -5.5px 0 0 -5.5px;
+  }
+
+  .about-h1-box :global(.about-h1-cross--br) {
+    bottom: 0;
+    right: 0;
+    margin: 0 -5.5px -5.5px 0;
+  }
+
+  @media (max-width: 767px) {
+    .about-h1-box :global(.about-h1-cross) {
+      display: none;
+    }
+  }
+
   /* LCP heading: never hidden or split (§4.3), only the kinetic wdth scrub.
-   * --wdth is explicit, never a var() fallback (kinetic.ts registers it). */
+   * --wdth is explicit, never a var() fallback (kinetic.ts registers it).
+   * A mega statement (§5.7): sized off the hero's own container width so
+   * the longest word ('Credentials') never mid-word breaks, same technique
+   * as the /work row titles. */
   .about-h1 {
     --wdth: 125;
     font-variation-settings: 'wdth' var(--wdth), 'wght' 820;
+    font-size: min(var(--fs-mega), 13cqi);
+    line-height: var(--lh-mega);
+    letter-spacing: var(--ls-mega);
+    font-weight: 820;
+    color: var(--ink);
     overflow-wrap: normal;
   }
   @media (max-width: 767px) {
@@ -382,7 +437,6 @@ const waiterMeta = bySrc(about.blocks, 'about.copy.076');
   .skill-chip {
     display: inline-flex;
     align-items: center;
-    border: 1px solid var(--line);
     padding: var(--sp-2) var(--sp-3);
     color: var(--ink-2);
   }
@@ -398,25 +452,26 @@ const waiterMeta = bySrc(about.blocks, 'about.copy.076');
     color: var(--ink-2);
   }
 
-  /* ---------- Education / Experience: ruled rows ---------- */
+  /* ---------- Education: two Frame cells (§5.7 line structure) ---------- */
   .cred-list {
     display: flex;
     flex-direction: column;
+    gap: var(--sp-4);
   }
 
-  .cred-row {
-    border-top: 1px solid var(--line);
+  .cred-frame {
+    padding-inline: var(--sp-5);
   }
 
-  .cred-list li:last-child {
-    border-bottom: 1px solid var(--line);
-  }
-
-  .cred-row-plain {
+  .cred-frame-plain {
     display: flex;
     flex-direction: column;
     gap: var(--sp-1);
     padding-block: var(--sp-5);
+  }
+
+  .cred-sublabel {
+    color: var(--ink-2);
   }
 
   .cred-meta {
@@ -493,5 +548,58 @@ const waiterMeta = bySrc(about.blocks, 'about.copy.076');
   .cred-project-link:hover,
   .cred-project-link:focus-visible {
     color: var(--ink);
+  }
+
+  /* ---------- Experience: a scroll-drawn rail (data-rail, src/motion/
+   * rail.ts — migrated off the retired legacy timeline markup, §5.7) ---------- */
+  .exp-rail {
+    --rail-progress: 0;
+    position: relative;
+    padding-inline-start: var(--sp-6);
+  }
+
+  .exp-rail::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--line);
+  }
+
+  .exp-rail::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: var(--ink);
+    /* transform only (D §3.5.1): scaleY, never an animated height. */
+    transform: scaleY(var(--rail-progress, 0));
+    transform-origin: top;
+  }
+
+  .exp-rail-steps {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-7);
+  }
+
+  .exp-rail-step {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+
+  .exp-rail-step-head {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+  }
+
+  .exp-rail-cross {
+    flex-shrink: 0;
   }
 </style>

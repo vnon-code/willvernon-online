@@ -1,0 +1,349 @@
+---
+/**
+ * /projects index — the 7 case studies as full-width numbered `[data-hot]`
+ * rows (D-brutalist-grid.md §5.7: "the same numbered-free row language as
+ * Featured Work"; the Phase 4 task brief asks specifically for a number
+ * per row — 01-07, straight off each case study's own `id`, which is
+ * itself INVENTORY content (PROJECTS_DATA[n].id) — so it is rendered too).
+ * Structurally this is FeaturedWorkIndex.astro's bay layout (B1 label,
+ * B2-B3 title+desc, B4 tags+CTA, a fine-pointer hover preview locked to
+ * B4) crossed with WorkHubIndex.astro's numbered `<li><Rule/><a></li>`
+ * rows — see both files' headers.
+ *
+ * `data-vt` pairing (D §3.3): the clicked row's title and preview element
+ * get a `cs-title-<slug>` / `cs-media-<slug>` view-transition-name set by
+ * src/scripts/projects/index.ts right before navigation, so the native
+ * cross-document View Transition morphs into the matching case-study hero
+ * on /projects/<slug> (F1's page — may not exist yet in this builder's own
+ * isolated dist).
+ *
+ * Media manifest (src/data/media.json, pre-baked): a video outcome gets its
+ * poster + intrinsic w/h from `posters[src]` (preload="none", muted,
+ * playsinline; src/scripts/projects/index.ts loads/plays it only on real
+ * hover intent or, on touch/<1024, while the row is in view, per the
+ * autoplay-in-view + reduced-motion rules); an image outcome uses the
+ * derived webp as the displayed src and keeps the original path as
+ * `data-full` (resolved through ../media.ts, shared with the case study).
+ */
+import type { CaseStudy } from '../../../content';
+import Icon from '../../Icon.astro';
+import Rule from '../../grid/Rule.astro';
+import { resolveImage, resolveVideo } from '../media';
+
+interface Props {
+  caseStudies: CaseStudy[];
+}
+
+const { caseStudies } = Astro.props;
+
+type Preview =
+  | { type: 'video'; src: string; poster?: string; w: number; h: number }
+  | { type: 'image'; src: string; full: string; w: number; h: number };
+
+function previewFor(cs: CaseStudy): Preview | null {
+  const m = cs.outcome.media;
+  if (!m.src) return null;
+  // Shared resolver (media.ts): manifest posters/derived webp + fallback dims.
+  if (m.type === 'video') {
+    const v = resolveVideo(m.src);
+    return { type: 'video', src: m.src, poster: v.poster ?? undefined, w: v.w, h: v.h };
+  }
+  if (m.type === 'image') {
+    const img = resolveImage(m.src);
+    return { type: 'image', src: img.displaySrc, full: img.full, w: img.w, h: img.h };
+  }
+  return null;
+}
+---
+
+<ol class="pi-list">
+  {
+    caseStudies.map((cs) => {
+      const preview = previewFor(cs);
+      return (
+        <li>
+          <Rule origin="start" />
+          <a
+            href={`/projects/${cs.slug}`}
+            class="pi-row"
+            data-hot
+            data-pi-row
+            data-pi-slug={cs.slug}
+            data-pi-media={preview?.type}
+            data-pi-software={JSON.stringify(cs.software)}
+            data-pi-disciplines={JSON.stringify(cs.disciplines)}
+          >
+            {preview && (
+              <span class="pi-row-preview" aria-hidden="true">
+                {preview.type === 'video' ? (
+                  <video
+                    data-pi-video
+                    data-pi-src={preview.src}
+                    muted
+                    loop
+                    playsinline
+                    preload="none"
+                    poster={preview.poster}
+                    width={preview.w}
+                    height={preview.h}
+                    tabindex="-1"
+                  />
+                ) : (
+                  <img
+                    data-pi-image
+                    src={preview.src}
+                    data-full={preview.full}
+                    width={preview.w}
+                    height={preview.h}
+                    loading="lazy"
+                    decoding="async"
+                    alt=""
+                  />
+                )}
+              </span>
+            )}
+
+            <span class="pi-row-num t-label tabular" aria-hidden="true">
+              {cs.id}
+            </span>
+
+            <span class="pi-row-body">
+              <h2 class="pi-row-title" data-pi-title>
+                {cs.title}
+              </h2>
+              <p class="pi-row-desc t-small">{cs.descShort}</p>
+            </span>
+
+            <span class="pi-row-meta">
+              <span class="t-small pi-row-tags">{cs.tags.join(' / ')}</span>
+              <Icon name="arrow" size={16} class="pi-row-arrow" />
+            </span>
+          </a>
+        </li>
+      );
+    })
+  }
+</ol>
+
+<style>
+  .pi-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .pi-row {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    padding-block: var(--sp-6);
+    color: var(--ink);
+  }
+
+  .pi-row::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--state);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur-hover) var(--ease-step);
+    z-index: -1;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .pi-row:hover::before,
+    .pi-row:focus-visible::before {
+      transform: scaleX(1);
+    }
+  }
+
+  .pi-row:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: -3px;
+  }
+
+  .pi-row-num {
+    color: var(--ink-2);
+  }
+
+  .pi-row-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+    min-width: 0;
+    container-type: inline-size;
+    transition: transform var(--dur-hover) var(--ease-out);
+  }
+
+  /* Mega title: resting at --fset-title's wdth 100, sprung wider on hover
+   * via gsap.quickTo (src/scripts/projects/index.ts, D §4.2). --wdth is
+   * explicit (never a var() fallback), same convention as kinetic.ts's
+   * targets. min(--fs-row, Xcqi) keeps the longest titles ("The World
+   * Plays Here") from overflowing their bay. */
+  .pi-row-title {
+    --wdth: 100;
+    color: var(--ink);
+    font-variation-settings: 'wdth' var(--wdth), 'wght' 780;
+    font-size: min(var(--fs-row), 8cqi);
+    line-height: var(--lh-row);
+    letter-spacing: var(--ls-row);
+    overflow-wrap: normal;
+    hyphens: none;
+  }
+
+  .pi-row-desc {
+    color: var(--ink-2);
+    max-width: 60ch;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .pi-row:hover .pi-row-desc,
+    .pi-row:focus-visible .pi-row-desc {
+      -webkit-line-clamp: unset;
+    }
+  }
+
+  .pi-row-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-4);
+  }
+
+  .pi-row-tags {
+    color: var(--ink-2);
+  }
+
+  .pi-row-arrow {
+    transition: transform var(--dur-hover) var(--ease-out);
+  }
+
+  .pi-row:focus-visible .pi-row-arrow {
+    transform: translateX(4px);
+  }
+  .pi-row:focus-visible .pi-row-body {
+    transform: translateX(12px);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .pi-row:hover .pi-row-arrow {
+      transform: translateX(4px);
+    }
+    .pi-row:hover .pi-row-body {
+      transform: translateX(12px);
+    }
+  }
+
+  /* ≥1024: bay grid (B1 number, B2-B3 title+desc, B4 tags+CTA) with a
+   * hover preview locked to B4, one bay wide, row-height x1.6 — identical
+   * geometry to FeaturedWorkIndex's .fw-row-preview. */
+  .pi-row-preview {
+    display: none;
+  }
+
+  @media (min-width: 1024px) {
+    .pi-row {
+      display: grid;
+      grid-template-columns: repeat(var(--bays), minmax(0, 1fr));
+      column-gap: var(--g);
+      align-items: start;
+    }
+
+    .pi-row-num {
+      grid-column: 1;
+    }
+
+    .pi-row-body {
+      grid-column: 2 / span 2;
+    }
+
+    .pi-row-meta {
+      grid-column: 4;
+      flex-direction: column;
+      align-items: flex-end;
+    }
+
+    .pi-row-preview {
+      display: block;
+      position: absolute;
+      z-index: 2;
+      top: -30%;
+      right: 0;
+      width: calc((100% - 3 * var(--g)) / 4);
+      height: 160%;
+      overflow: hidden;
+      border: 1px solid var(--ink);
+      background: var(--paper-2);
+      pointer-events: none;
+      clip-path: inset(0 0 100% 0);
+      transition: clip-path var(--dur-reveal) var(--ease-out);
+    }
+
+    /* Video rows: revealed only once a frame is actually playing
+     * (src/scripts/projects/index.ts). */
+    .pi-row.is-playing .pi-row-preview {
+      clip-path: inset(0 0 0 0);
+    }
+
+    .pi-row-preview img,
+    .pi-row-preview video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  /* Image rows: no JS needed to load a frame, so a plain CSS hover/focus
+   * reveal is enough. */
+  @media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+    .pi-row[data-pi-media='image']:hover .pi-row-preview,
+    .pi-row[data-pi-media='image']:focus-visible .pi-row-preview {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+
+  /* <1024 / touch: media shows inline at 16:10 above the row text.
+   * src/scripts/projects/index.ts loads a still (and plays it muted while
+   * in view, unless reduced motion) for video rows; image rows just render
+   * as-is. Without JS there is nothing to load for a video, so that box
+   * only exists under html.js — an image still renders fine either way. */
+  @media (max-width: 1023px) {
+    .pi-row[data-pi-media='image'] .pi-row-preview {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      background: var(--paper-2);
+      order: -1;
+    }
+
+    :global(html.js) .pi-row[data-pi-media='video'] .pi-row-preview {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      background: var(--paper-2);
+      order: -1;
+    }
+
+    .pi-row-preview img,
+    .pi-row-preview video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pi-row-preview {
+      transition: none;
+    }
+  }
+</style>

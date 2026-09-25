@@ -1,0 +1,114 @@
+---
+/**
+ * Prev/next case-study navigation + a link back to the index
+ * (D-brutalist-grid.md §5.7). "Next project" / "Previous project" /
+ * "Back to index" are new Phase 4 UI strings with no legacy equivalent
+ * (routed through build_content.py -> site.json `ui`, never hand-typed —
+ * see that file's Phase 4 addition and redesign/PLAN.md).
+ */
+import type { CaseStudy } from '../../content';
+import { site } from '../../content';
+import Rule from '../grid/Rule.astro';
+import Icon from '../Icon.astro';
+
+interface Props {
+  prev: CaseStudy | null;
+  next: CaseStudy | null;
+}
+
+const { prev, next } = Astro.props;
+
+const uiText = (t: string) => site.ui.find((u) => u.text === t)!.text;
+const nextLabel = uiText('Next project');
+const prevLabel = uiText('Previous project');
+const backLabel = uiText('Back to index');
+---
+
+<nav class="cs-nav" aria-label="Case study navigation">
+  <Rule origin="start" cross />
+  <div class="container cs-nav-inner">
+    <a href="/projects" class="cs-nav-back t-label" data-hot>
+      <Icon name="arrow" size={14} class="cs-nav-back-icon" />
+      {backLabel}
+    </a>
+
+    <div class="cs-nav-pair">
+      {
+        prev && (
+          <a href={`/projects/${prev.slug}`} class="cs-nav-link cs-nav-prev" data-hot>
+            <span class="t-label cs-nav-link-kicker">{prevLabel}</span>
+            <span class="t-row cs-nav-link-title">{prev.title}</span>
+          </a>
+        )
+      }
+      {
+        next && (
+          <a href={`/projects/${next.slug}`} class="cs-nav-link cs-nav-next" data-hot>
+            <span class="t-label cs-nav-link-kicker">{nextLabel}</span>
+            <span class="t-row cs-nav-link-title">{next.title}</span>
+          </a>
+        )
+      }
+    </div>
+  </div>
+</nav>
+
+<style>
+  .cs-nav {
+    padding-block: var(--sp-9);
+  }
+
+  .cs-nav-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-7);
+    padding-block-start: var(--sp-6);
+  }
+
+  .cs-nav-back {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    color: var(--ink-2);
+    align-self: flex-start;
+  }
+
+  .cs-nav-back-icon {
+    transform: rotate(180deg);
+  }
+
+  .cs-nav-pair {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-6);
+  }
+
+  .cs-nav-link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+    padding-block: var(--sp-5);
+    border-top: 1px solid var(--line);
+    color: var(--ink);
+  }
+
+  .cs-nav-link-kicker {
+    color: var(--ink-2);
+  }
+
+  .cs-nav-link-title {
+    color: var(--ink);
+    max-width: 24ch;
+  }
+
+  .cs-nav-next {
+    text-align: right;
+    align-items: flex-end;
+  }
+
+  @media (min-width: 768px) {
+    .cs-nav-pair {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

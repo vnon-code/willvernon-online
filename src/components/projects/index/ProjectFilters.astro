@@ -1,0 +1,251 @@
+---
+/**
+ * /projects filter bar — software + discipline toggle chips plus Reset,
+ * above the case-study index (D-brutalist-grid.md §5.7: "Filters are
+ * .btn-line segments, with Flip for reflow"; here a lighter stepped
+ * show/hide is used instead of Flip, per the Phase 4 task brief — see
+ * src/scripts/projects/index.ts).
+ *
+ * Every visible string (both filter-group labels and the reset button) is
+ * INVENTORY copy (projects.copy.033/034/035), rendered verbatim — the
+ * legacy '//'-prefixed and bracketed authored characters stay, only the
+ * *styling* changes to a plain small ink-2 label per the Phase 2b judge
+ * carry-over (PROGRESS.md: "'//'-prefixed ... labels still read as HUD.
+ * Keep the strings verbatim, but restyle them as plain small ink-2
+ * labels").
+ *
+ * softwareKeys/disciplineIcons/softwareLogos/softwareBadges are all
+ * INVENTORY script data (SOFTWARE_KEYS/DISCIPLINE_ICONS/SOFTWARE_LOGOS/
+ * SOFTWARE_BADGES) — every key renders as a chip; the 5 keys with a real
+ * vendor logo get an <img>, the other 7 get their short badge text (e.g.
+ * "Ae"), so every one of the 12 keys is covered exactly once. Discipline
+ * icon *names* (ph-waves etc.) are carried only as a `data-icon` attribute
+ * — no icon font ships (D §0/§2), so nothing renders from it visually.
+ *
+ * JS-off: the whole bar is hidden (filtering needs script to mean
+ * anything), matching the WorkHubIndex INDEX/INFORMATION toggle precedent
+ * — the index list underneath still shows every row.
+ *
+ * The status line's text ("N of 7 case studies shown") is written by
+ * src/scripts/projects/index.ts at runtime: it is UI plumbing, not
+ * INVENTORY copy, the same reasoning WorkHubIndex applies to its
+ * aria-label="View" (D-brutalist-grid.md carries no such string, and
+ * CLAUDE.md routes new *UI* strings through build_content.py only when
+ * they're static, authored copy — a live announcement of a runtime count
+ * is neither).
+ */
+interface Props {
+  softwareKeys: string[];
+  disciplineIcons: Record<string, string>;
+  softwareLogos: Record<string, string>;
+  softwareBadges: Record<string, string>;
+  swLabel: string;
+  discLabel: string;
+  resetLabel: string;
+  total: number;
+}
+
+const { softwareKeys, disciplineIcons, softwareLogos, softwareBadges, swLabel, discLabel, resetLabel, total } =
+  Astro.props;
+
+const disciplines = Object.entries(disciplineIcons);
+---
+
+<div class="pi-filters" data-pi-filters>
+  <div class="pi-filter-group">
+    <span id="pi-sw-label" class="t-label pi-filter-label">{swLabel}</span>
+    <div class="pi-chip-row" role="group" aria-labelledby="pi-sw-label">
+      {
+        softwareKeys.map((key) => {
+          const logo = softwareLogos[key];
+          const badge = softwareBadges[key];
+          return (
+            <button
+              type="button"
+              class="pi-chip"
+              data-pi-chip
+              data-filter-group="software"
+              data-value={key}
+              aria-pressed="false"
+            >
+              {logo ? (
+                <img class="pi-chip-logo" src={logo} data-logo={logo} width="22" height="22" alt="" loading="lazy" decoding="async" />
+              ) : (
+                <span class="pi-chip-badge" aria-hidden="true">
+                  {badge}
+                </span>
+              )}
+              <span class="pi-chip-label">{key}</span>
+            </button>
+          );
+        })
+      }
+    </div>
+  </div>
+
+  <div class="pi-filter-group">
+    <span id="pi-disc-label" class="t-label pi-filter-label">{discLabel}</span>
+    <div class="pi-chip-row" role="group" aria-labelledby="pi-disc-label">
+      {
+        disciplines.map(([name, icon]) => (
+          <button
+            type="button"
+            class="pi-chip"
+            data-pi-chip
+            data-filter-group="discipline"
+            data-value={name}
+            data-icon={icon}
+            aria-pressed="false"
+          >
+            <span class="pi-chip-label">{name}</span>
+          </button>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="pi-filter-actions">
+    <button type="button" class="btn-line pi-reset" data-pi-reset>
+      {resetLabel}
+    </button>
+    <p class="t-small pi-status" role="status" data-pi-status>
+      {total} of {total} case studies shown
+    </p>
+  </div>
+</div>
+
+<style>
+  .pi-filters {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-5);
+    padding-block: var(--sp-6) var(--sp-7);
+  }
+
+  /* No JS: filtering does nothing without script, so the bar is hidden —
+   * every row stays visible in the plain index below (WorkHubIndex
+   * precedent). */
+  :global(html:not(.js)) .pi-filters {
+    display: none;
+  }
+
+  .pi-filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+  }
+
+  .pi-filter-label {
+    color: var(--ink-2);
+  }
+
+  .pi-chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+  }
+
+  .pi-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    min-height: 44px;
+    padding-inline: var(--sp-3);
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    background: transparent;
+    font-variation-settings: var(--fset-label);
+    font-size: var(--fs-label);
+    letter-spacing: var(--ls-label);
+    text-transform: uppercase;
+    transition:
+      background var(--dur-hover) var(--ease-step),
+      color var(--dur-hover) var(--ease-step);
+  }
+
+  .pi-chip[aria-pressed='true'] {
+    background: var(--state);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .pi-chip:hover {
+      background: var(--state);
+    }
+  }
+
+  .pi-chip:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: 3px;
+  }
+
+  .pi-chip-logo {
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+
+  .pi-chip-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+    border: 1px solid var(--line-ink);
+    font-variation-settings: 'wdth' 100, 'wght' 700;
+    font-size: 11px;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .pi-filter-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-4);
+    padding-top: var(--sp-2);
+  }
+
+  .pi-status {
+    color: var(--ink-2);
+  }
+
+  /* >=1024: each group on the bay grid (label in B1, chips across B2-B4)
+   * so the bar reads as a ruled table and the rows start higher. */
+  @media (min-width: 1024px) {
+    .pi-filters {
+      gap: var(--sp-4);
+    }
+
+    .pi-filter-group,
+    .pi-filter-actions {
+      display: grid;
+      grid-template-columns: repeat(var(--bays), minmax(0, 1fr));
+      column-gap: var(--g);
+      align-items: start;
+    }
+
+    .pi-filter-label {
+      grid-column: 1;
+      padding-block-start: var(--sp-3);
+    }
+
+    .pi-chip-row {
+      grid-column: 2 / span 3;
+    }
+
+    .pi-reset {
+      grid-column: 2;
+      justify-self: start;
+    }
+
+    .pi-status {
+      grid-column: 3 / span 2;
+      align-self: center;
+    }
+
+    .pi-chip {
+      min-height: 36px;
+    }
+  }
+</style>

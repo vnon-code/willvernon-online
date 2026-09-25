@@ -1,31 +1,37 @@
 ---
 /**
  * CH-02 work hub — the 3 legacy panels (work.json `panels`, sourced from
- * work.copy.032-040 + work.video.042-044). Direction D (Phase 2b): full-bleed
- * stacked rows, each `~60svh`, separated by `Rule data-rule-cross`; the
- * whole row is `data-hot` and links to its page (D-brutalist-grid.md §5.4).
- * An INDEX/INFORMATION toggle switches between the expanded view (title,
- * description, media) and a compact numbered list; both states stay in the
- * DOM at all times (CSS-only display toggle), so the page is complete with
- * JS off (default view is INFORMATION) and under prefers-reduced-motion.
+ * work.copy.032-040 + work.video.042-044). Direction D (Phase 2b, carried
+ * into Phase 4): full-bleed stacked `data-hot` index rows, each with a
+ * B2-B4 mega title (D-brutalist-grid.md §5.7), separated by
+ * `Rule data-rule-cross`. An INDEX/INFORMATION toggle switches between the
+ * expanded view (title, description, media) and a compact numbered list;
+ * both states stay in the DOM at all times (CSS-only display toggle), so
+ * the page is complete with JS off (default view is INFORMATION) and under
+ * prefers-reduced-motion.
  *
  * Row titles ("Projects"/"AI"/"Experiments", work.h.021-023 — h3 in the
  * legacy DOM) render as h2 here: the DOM parity checker matches by text
  * only (never heading level), and h2 keeps a clean h1 → h2 sequence with no
  * skipped level, since there is no intervening section heading.
  *
- * Preview videos: preload="none" until src/scripts/work/hub.ts sets `src`
- * on first intersection, muted/loop/playsinline, autoplay only when in view
- * and motion is not reduced; paused the moment a row leaves the viewport or
- * the view switches to INDEX. Under reduced motion playback never starts;
- * instead the src gets a `#t=0.1` media fragment with preload="metadata",
- * so the browser fetches and paints one still frame. The media reveal
- * (clip-path wipe as the row enters view) and the toggle's GSAP Flip
- * transition are wired by hub.ts.
+ * Preview video (≥1024, fine pointer): hover-only, intent-delayed and
+ * locked to bay 4 — the same language as home's FeaturedWorkIndex
+ * (D-brutalist-grid.md §4.2/§5.7); src is set on pointer intent and removed
+ * again on leave so an abandoned hover stops downloading. Below 1024 (and
+ * on any coarse/no-hover pointer) the media shows inline instead, playing
+ * on scroll intersection. Every row's poster comes from the shared media
+ * manifest (src/data/media.json via projects/media.ts's resolveVideo, never
+ * duplicated here) so the box is never an empty grey rectangle before the
+ * clip decodes, and under prefers-reduced-motion the clip never loads or
+ * plays — hover/scroll only ever reveals the static poster. hub.ts owns all
+ * of this plus the toggle's GSAP Flip transition and each title's wdth
+ * hover (gsap.quickTo on --rwdth).
  */
 import type { WorkPanel } from '../../content';
 import Icon from '../Icon.astro';
 import Rule from '../grid/Rule.astro';
+import { resolveVideo } from '../projects/media';
 
 interface Props {
   panels: WorkPanel[];
@@ -37,8 +43,15 @@ function fixHref(href: string | null): string {
   if (!href) return '#';
   return href === '/ai' ? '/AI' : href;
 }
+
+function poster(panel: WorkPanel): { src: string | null; w: number; h: number } | null {
+  if (panel.media.type !== 'video' || !panel.media.src) return null;
+  const resolved = resolveVideo(panel.media.src);
+  return { src: resolved.poster, w: resolved.w, h: resolved.h };
+}
 ---
 
+<div class="container work-toggle-wrap">
 <div class="work-toggle" role="group" aria-label="View">
   <button type="button" class="work-toggle-btn" data-view-btn="information" aria-pressed="true">
     <span class="t-label">INFORMATION</span>
@@ -47,50 +60,69 @@ function fixHref(href: string | null): string {
     <span class="t-label">INDEX</span>
   </button>
 </div>
+</div>
 
 <ol class="work-index" data-work-view="information">
   {
-    panels.map((panel, i) => (
-      <li>
-        <Rule origin="start" cross />
-        <a
-          href={fixHref(panel.href)}
-          class="work-row"
-          data-hot
-          data-work-row
-          data-work-row-src={panel.media.src ?? undefined}
-        >
-          <span
-            class:list={['work-row-preview', 'work-view-expanded-only', panel.media.type === 'video' && 'has-video']}
-            aria-hidden="true"
+    panels.map((panel, i) => {
+      const media = poster(panel);
+      return (
+        <li>
+          <Rule origin="start" cross />
+          <a
+            href={fixHref(panel.href)}
+            class="work-row"
+            data-hot
+            data-work-row
+            data-work-row-src={panel.media.src ?? undefined}
           >
-            {panel.media.type === 'video' && (
-              <video data-work-row-video muted loop playsinline preload="none" tabindex="-1" width="640" height="360" />
-            )}
-          </span>
+            <span class="container work-row-inner">
+              <span
+                class:list={[
+                  'work-row-preview',
+                  'work-view-expanded-only',
+                  panel.media.type === 'video' && 'has-video',
+                ]}
+                aria-hidden="true"
+              >
+                {panel.media.type === 'video' && (
+                  <video
+                    data-work-row-video
+                    muted
+                    loop
+                    playsinline
+                    preload="none"
+                    tabindex="-1"
+                    poster={media?.src ?? undefined}
+                    width={media?.w ?? 640}
+                    height={media?.h ?? 360}
+                  />
+                )}
+              </span>
 
-          <span class="container work-row-inner">
-            <span class="work-row-num t-label" aria-hidden="true">
-              {String(i + 1).padStart(2, '0')}
-            </span>
+              <span class="work-row-num t-label" aria-hidden="true">
+                {String(i + 1).padStart(2, '0')}
+              </span>
 
-            <span class="work-row-body">
-              {panel.eyebrow && <span class="t-label work-row-eyebrow work-view-expanded-only">{panel.eyebrow}</span>}
-              <h2 class="t-h1 work-row-title">{panel.title}</h2>
-            </span>
+              <span class="work-row-body">
+                {panel.eyebrow && <span class="t-label work-row-eyebrow work-view-expanded-only">{panel.eyebrow}</span>}
+                <h2 class="t-h1 work-row-title">{panel.title}</h2>
+              </span>
 
-            <span class="work-row-meta work-view-expanded-only">
-              {panel.desc && <span class="t-body work-row-desc">{panel.desc}</span>}
-              <span class="work-row-cta t-label" aria-hidden="true">
-                <Icon name="arrow" size={16} class="work-row-arrow" />
+              <span class="work-row-meta work-view-expanded-only">
+                {panel.desc && <span class="t-body work-row-desc">{panel.desc}</span>}
+                <span class="work-row-cta t-label" aria-hidden="true">
+                  <Icon name="arrow" size={16} class="work-row-arrow" />
+                </span>
               </span>
             </span>
-          </span>
-        </a>
-      </li>
-    ))
+          </a>
+        </li>
+      );
+    })
   }
 </ol>
+<Rule origin="start" cross />
 
 <style>
   .work-toggle {
@@ -123,7 +155,7 @@ function fixHref(href: string | null): string {
   }
 
   /* No JS: the toggle can't do anything, so it isn't shown. */
-  :global(html:not(.js)) .work-toggle {
+  :global(html:not(.js)) .work-toggle-wrap {
     display: none;
   }
 
@@ -199,7 +231,9 @@ function fixHref(href: string | null): string {
 
   .work-row-title {
     color: var(--ink);
-    font-variation-settings: 'wdth' 100, 'wght' 820;
+    /* --rwdth: the hover wdth kinetic (hub.ts, gsap.quickTo). Falls back to
+     * its resting 100 with no JS. */
+    font-variation-settings: 'wdth' var(--rwdth, 100), 'wght' 820;
     font-size: min(var(--fs-h1), 13cqi);
     overflow-wrap: normal;
     hyphens: none;
@@ -240,11 +274,12 @@ function fixHref(href: string | null): string {
     display: none;
   }
 
-  /* <900: the media shows inline at 16:10 above the row text (hub.ts loads
-   * it on first intersection; without JS there's nothing to load, so the
-   * box only exists under html.js), and the row sizes to its content
-   * instead of a mostly-empty 60svh. */
-  @media (max-width: 899px) {
+  /* <1024 (no bay 4 to lock to — the grid is at most 2 bays below that):
+   * the media shows inline at 16:10 above the row text, playing on scroll
+   * intersection (hub.ts). Without JS there's nothing to load, so the box
+   * only exists under html.js, and the row sizes to its content instead of
+   * a mostly-empty 60svh. */
+  @media (max-width: 1023px) {
     .work-row {
       min-height: auto;
     }
@@ -271,19 +306,75 @@ function fixHref(href: string | null): string {
     }
   }
 
-  @media (min-width: 900px) {
+  /* ≥1024: the row sits on the bay grid (B1 index number, B2-B4 mega
+   * title), and the media is a hover-only preview locked to bay 4 — never
+   * a permanently reserved empty box — the same language as home's
+   * FeaturedWorkIndex (D-brutalist-grid.md §4.2/§5.7). */
+  @media (min-width: 1024px) {
+    /* The mega title now carries most of the row's visual weight, so the
+     * row itself needs far less reserved height than the <1024 60svh
+     * figure (that was leaving each row mostly empty — the "wireframe-
+     * sparse" complaint). */
+    [data-work-view='information'] .work-row {
+      min-height: 42svh;
+    }
+
+    [data-work-view='information'] .work-row-inner {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(var(--bays), 1fr);
+      column-gap: var(--g);
+      row-gap: var(--sp-4);
+      align-items: start;
+    }
+
+    .work-row-num {
+      grid-column: 1;
+      grid-row: 1;
+      padding-top: 0.4em;
+    }
+
+    .work-row-body {
+      grid-column: 2 / span 3;
+      grid-row: 1;
+      max-width: none;
+    }
+
+    .work-row-title {
+      font-size: min(var(--fs-mega), 14cqi);
+    }
+
+    .work-row-meta {
+      grid-column: 2 / span 3;
+      grid-row: 2;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--sp-5);
+      max-width: none;
+    }
+
+    .work-row-desc {
+      max-width: 60ch;
+    }
+
     .work-row-preview.has-video {
       display: block;
       position: absolute;
-      inset-block: 0;
-      inset-inline-end: 0;
-      width: 48%;
+      z-index: 2;
+      top: -30%;
+      right: 0;
+      width: calc((100% - 3 * var(--g)) / 4);
+      height: 160%;
       overflow: hidden;
+      border: 1px solid var(--ink);
+      background: var(--paper-2);
+      pointer-events: none;
       clip-path: inset(0 0 100% 0);
-      transition: clip-path 900ms var(--ease-out);
+      transition: clip-path var(--dur-reveal) var(--ease-out);
     }
 
-    .work-row.is-revealed .work-row-preview.has-video {
+    .work-row.is-playing .work-row-preview.has-video {
       clip-path: inset(0 0 0 0);
     }
 
@@ -292,9 +383,11 @@ function fixHref(href: string | null): string {
       height: 100%;
       object-fit: cover;
     }
+  }
 
-    .work-row-inner {
-      max-width: 55%;
+  @media (prefers-reduced-motion: reduce) {
+    .work-row-preview.has-video {
+      transition: none;
     }
   }
 

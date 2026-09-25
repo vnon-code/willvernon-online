@@ -14,6 +14,7 @@
 import { home } from '../../content';
 import Icon from '../Icon.astro';
 import Rule from '../grid/Rule.astro';
+import { resolveVideo } from '../projects/media';
 
 const heading = home.headings.find((h) => h.level === 2 && h.text === 'Featured Work')!.text;
 const viewCaseStudy = home.blocks.find((b) => b.tag === 'span.neon-card-overlay-btn')!.text;
@@ -31,40 +32,53 @@ function fixHref(href: string | null): string {
 
     <ol class="fw-index" data-reveal-stagger>
       {
-        home.featuredWork.map((fw) => (
-          <li>
-            <a
-              href={fixHref(fw.href)}
-              class="fw-row"
-              data-hot
-              data-fw-row
-              data-fw-src={fw.media.src ?? undefined}
-            >
-              <span class:list={['fw-row-preview', fw.media.type === 'video' && 'has-video']} aria-hidden="true">
-                {fw.media.type === 'video' && (
-                  <video data-fw-video muted loop playsinline preload="none" tabindex="-1" />
-                )}
-              </span>
-
-              <span class="fw-row-label t-label">{fw.label}</span>
-
-              <span class="fw-row-body">
-                <h3 class="fw-row-title t-row">{fw.title}</h3>
-                <p class="fw-row-desc t-small">{fw.desc}</p>
-              </span>
-
-              <span class="fw-row-meta">
-                {fw.tags.length > 0 && (
-                  <span class="fw-row-tags t-small">{fw.tags.join(' / ')}</span>
-                )}
-                <span class="fw-row-cta t-label">
-                  {viewCaseStudy}
-                  <Icon name="arrow" size={14} class="fw-row-cta-icon" />
+        home.featuredWork.map((fw) => {
+          const media = fw.media.type === 'video' && fw.media.src ? resolveVideo(fw.media.src) : null;
+          return (
+            <li>
+              <a
+                href={fixHref(fw.href)}
+                class="fw-row"
+                data-hot
+                data-fw-row
+                data-fw-src={fw.media.src ?? undefined}
+              >
+                <span class:list={['fw-row-preview', fw.media.type === 'video' && 'has-video']} aria-hidden="true">
+                  {fw.media.type === 'video' && (
+                    <video
+                      data-fw-video
+                      muted
+                      loop
+                      playsinline
+                      preload="none"
+                      tabindex="-1"
+                      poster={media?.poster ?? undefined}
+                      width={media?.w ?? 640}
+                      height={media?.h ?? 360}
+                    />
+                  )}
                 </span>
-              </span>
-            </a>
-          </li>
-        ))
+
+                <span class="fw-row-label t-label">{fw.label}</span>
+
+                <span class="fw-row-body">
+                  <h3 class="fw-row-title t-row">{fw.title}</h3>
+                  <p class="fw-row-desc t-small">{fw.desc}</p>
+                </span>
+
+                <span class="fw-row-meta">
+                  {fw.tags.length > 0 && (
+                    <span class="fw-row-tags t-small">{fw.tags.join(' / ')}</span>
+                  )}
+                  <span class="fw-row-cta t-label">
+                    {viewCaseStudy}
+                    <Icon name="arrow" size={14} class="fw-row-cta-icon" />
+                  </span>
+                </span>
+              </a>
+            </li>
+          );
+        })
       }
     </ol>
   </div>

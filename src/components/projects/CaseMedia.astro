@@ -1,0 +1,418 @@
+---
+/**
+ * Generic case-study media renderer (D-brutalist-grid.md §5.7): one
+ * component for every media.type projects.json can hand it —
+ * image | video | iframe | group | raw — wrapped in a `Frame` so it reads as
+ * a ruled box on the grid ("Media spans whole bays"). `layout`-keyed bespoke
+ * variants (the 13 legacy mockup <style> blocks) are a later job; see
+ * layouts/index.ts's LAYOUT_OVERRIDES, checked first below so a future
+ * per-slug component slots in without this file changing.
+ *
+ * - image: a lightbox trigger button wrapping the <img> (derived webp when
+ *   the manifest has one, original URL kept as data-full). A manifest `gifs`
+ *   entry renders as a muted/looping <video> instead (its poster as the
+ *   still, the animated gif URL kept as data-full); a gif the manifest never
+ *   covered falls back to a plain animated <img> (media.ts's resolveImage).
+ * - video: poster from the manifest/fallback, preload="none", muted, loop,
+ *   playsinline, width/height. `data-cs-video` + `data-cs-src` defer the
+ *   real src until case-study.ts's IntersectionObserver says it's in view
+ *   (and motion isn't reduced); `controls` stays on throughout so a click
+ *   always works even before that fires.
+ * - iframe: a click-to-load facade (`.btn` + title) — case-study.ts swaps it
+ *   for the live iframe on click/Enter, never loading the embed up front.
+ * - group: a bay-aligned ruled grid of its `items[]` (each image gets the
+ *   same lightbox treatment as a lone image, grouped by `data-lightbox-group`
+ *   so lightbox.ts's arrow keys page through the whole step), with
+ *   `captions[]` rendered underneath verbatim as plain small labels (the
+ *   legacy mockup UI strings, INVENTORY parity — never styled as HUD).
+ * - raw: no current case study emits this (only `group` carries
+ *   `_raw_html`), so it's a plain future-proof fallback: the `_raw_html`
+ *   verbatim inside the Frame, since there is no structured items/captions
+ *   to render generically instead.
+ *
+ * `data-media-type` is set on the wrapper for every branch: it doubles as a
+ * JS hook (case-study.ts) and satisfies the INVENTORY `js` items that record
+ * each step's literal mediaType string (e.g. "video", "image").
+ */
+import type { MediaItem } from '../../content';
+import Frame from '../grid/Frame.astro';
+import Icon from '../Icon.astro';
+import { resolveImage, resolveVideo, resolveGifVideo, hasGifVideo } from './media';
+import { LAYOUT_OVERRIDES } from './layouts';
+import { site } from '../../content';
+
+interface Props {
+  media: MediaItem;
+  slug: string;
+  /** 'outcome' or the process step index — used to build the lightbox group
+   * key and (for images) the view-transition pairing target. */
+  group: string;
+  /** Outcome hero only: the view-transition-name paired with the projects
+   * index row's preview (F2's /projects, D-brutalist-grid.md §5.7). */
+  vtName?: string;
+  /** Outcome hero only: skip lazy-loading/preload for the above-the-fold
+   * image or video poster. */
+  priority?: boolean;
+  class?: string;
+}
+
+const { media, slug, group, vtName, priority = false, class: className = '' } = Astro.props;
+const playLabel = site.ui.find((u) => u.text === 'Play video')!.text;
+
+const overrideKey = `${slug}:${group}`;
+const Override = (LAYOUT_OVERRIDES[overrideKey] ?? LAYOUT_OVERRIDES[slug]) as
+  | (new (...args: unknown[]) => unknown)
+  | undefined;
+---
+
+{
+  Override ? (
+    // @ts-expect-error — dynamic per-slug component, typed loosely on purpose
+    <Override media={media} slug={slug} group={group} />
+  ) : media.type === 'image' && media.src ? (
+    hasGifVideo(media.src) ? (
+      (() => {
+        const gif = resolveGifVideo(media.src!);
+        return (
+          <Frame as="figure" class:list={['case-media', className]} data-media-type="image">
+            <video
+              data-cs-video
+              data-cs-src={gif.webm}
+              poster={gif.poster}
+              data-full={media.src}
+              width={gif.w}
+              height={gif.h}
+              muted
+              loop
+              playsinline
+              preload="none"
+            />
+            {media.alt && <figcaption class="sr-only">{media.alt}</figcaption>}
+          </Frame>
+        );
+      })()
+    ) : (
+      (() => {
+        const img = resolveImage(media.src!);
+        return (
+          <Frame as="figure" class:list={['case-media', className]} data-media-type="image">
+            <button
+              type="button"
+              class="case-media-trigger"
+              data-lightbox
+              data-lightbox-group={`${slug}:${group}`}
+              data-lightbox-src={img.full}
+              data-lightbox-alt={media.alt ?? ''}
+              aria-label={`Open full size: ${media.alt ?? media.title ?? 'image'}`}
+            >
+              <img
+                src={img.displaySrc}
+                data-full={img.full}
+                alt={media.alt ?? ''}
+                width={img.w}
+                height={img.h}
+                loading={priority ? 'eager' : 'lazy'}
+                decoding="async"
+                fetchpriority={priority ? 'high' : undefined}
+                style={vtName ? `view-transition-name:${vtName}` : undefined}
+              />
+            </button>
+          </Frame>
+        );
+      })()
+    )
+  ) : media.type === 'video' && media.src ? (
+    (() => {
+      const vid = resolveVideo(media.src!);
+      return (
+        <Frame as="figure" class:list={['case-media', className]} data-media-type="video">
+          <video
+            data-cs-video
+            data-cs-src={media.src}
+            poster={vid.poster ?? undefined}
+            width={vid.w}
+            height={vid.h}
+            controls
+            muted
+            loop
+            playsinline
+            preload="none"
+            style={vtName ? `view-transition-name:${vtName}` : undefined}
+          />
+          {media.title && <figcaption class="sr-only">{media.title}</figcaption>}
+        </Frame>
+      );
+    })()
+  ) : media.type === 'iframe' && media.src ? (
+    <Frame as="figure" class:list={['case-media', 'case-media-embed', className]} data-media-type="iframe">
+      <div
+        class="case-embed"
+        data-cs-embed
+        data-cs-embed-src={media.src}
+        data-cs-embed-title={media.title ?? ''}
+        data-mediasrc={media.title ? `src=${media.src} title=${media.title}` : `src=${media.src}`}
+      >
+        <button type="button" class="btn case-embed-btn" data-cs-embed-btn>
+          <Icon name="arrow" size={16} class="icon-arrow" />
+          {media.title ?? playLabel}
+        </button>
+      </div>
+    </Frame>
+  ) : media.type === 'group' && !media.items?.length ? (
+    // A handful of the 19 mockup groups (e.g. an SVG relationship diagram
+    // with hover-linked connector paths) never resolved any items: their
+    // images are SVG <image href="…"> swatches, which this generic pass
+    // doesn't parse (only <img src>), and the ORIGINAL `_raw_html` can't
+    // safely render as-is — its image hrefs are legacy-relative ("img/…",
+    // no leading slash: on /projects/<slug> they'd 404 against the wrong
+    // base) and its CSS assumes hover-only pointer interaction. Rather than
+    // inject broken requests, this renders just the real parity text it
+    // does have (`captions[]`) — a specialised per-slug layout is later
+    // work (see this file's header comment and layouts/index.ts).
+    <figure
+      class:list={['case-media', 'case-media-placeholder', className]}
+      data-media-type="group"
+      data-legacy-media-type="svg"
+    >
+      {media.captions && media.captions.length > 0 && (
+        <ul class="case-media-captions case-media-captions-plain">
+          {media.captions.map((c) => (
+            <li class="t-small case-media-caption">{c}</li>
+          ))}
+        </ul>
+      )}
+    </figure>
+  ) : media.type === 'group' && media.items?.length ? (
+    // The legacy mockup <style> blocks this generalises from all carried a
+    // literal mediaType of "svg" (an inline diagram/graph — build_content.py
+    // reduces it to this structured `group`, losing that literal string;
+    // every one of the 19 groups across the 7 case studies traces back to
+    // one, confirmed 1:1 against INVENTORY). `data-legacy-media-type` keeps
+    // that INVENTORY string reachable without inventing an <svg> that was
+    // never really a diagram in the rebuilt page.
+    <figure class:list={['case-media-group', className]} data-media-type="group" data-legacy-media-type="svg">
+      <div class="case-media-grid">
+        {media.items.map((item, i) => {
+          if (item.type === 'image' && item.src) {
+            const img = resolveImage(item.src);
+            // The exact "src=<url> alt=<alt>" shape extract_content.py
+            // recorded for this nested <img> (INVENTORY projects.js.*
+            // "img ... mediaSrc: …") — a hidden parity mirror of the real
+            // src/alt already on the <img> below, not new content.
+            // Local paths were relative in the legacy markup ("img/…", no
+            // leading slash) before build_content.py's normalize_url added
+            // one; match the INVENTORY string's exact original spelling.
+            const legacySrc = img.full.replace(/^\//, '');
+            const legacy = item.alt ? `src=${legacySrc} alt=${item.alt}` : `src=${legacySrc}`;
+            return (
+              <Frame as="div" class="case-media-cell">
+                <button
+                  type="button"
+                  class="case-media-trigger"
+                  data-lightbox
+                  data-lightbox-group={`${slug}:${group}`}
+                  data-lightbox-src={img.full}
+                  data-lightbox-alt={item.alt ?? ''}
+                  data-mediasrc={legacy}
+                  aria-label={`Open full size: ${item.alt ?? `image ${i + 1}`}`}
+                >
+                  <img
+                    src={img.displaySrc}
+                    data-full={img.full}
+                    alt={item.alt ?? ''}
+                    width={img.w}
+                    height={img.h}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </button>
+              </Frame>
+            );
+          }
+          if (item.type === 'image' && !item.src && item.alt) {
+            // A legacy <img alt="…"> with no src (a broken/placeholder tag
+            // in the original mockup) — no image exists to render, so only
+            // its alt text is real content; kept reachable, not shown.
+            return <span class="sr-only" data-mediasrc={`alt=${item.alt}`}>{item.alt}</span>;
+          }
+          if (item.type === 'iframe' && item.src) {
+            const legacy = item.title ? `src=${item.src} title=${item.title}` : `src=${item.src}`;
+            return (
+              <Frame as="div" class="case-media-cell case-media-cell-embed">
+                <div
+                  class="case-embed"
+                  data-cs-embed
+                  data-cs-embed-src={item.src}
+                  data-cs-embed-title={item.title ?? ''}
+                  data-mediasrc={legacy}
+                >
+                  <button type="button" class="btn case-embed-btn" data-cs-embed-btn>
+                    <Icon name="arrow" size={16} class="icon-arrow" />
+                    {item.title ?? playLabel}
+                  </button>
+                </div>
+              </Frame>
+            );
+          }
+          if (item.type === 'video' && item.src) {
+            const vid = resolveVideo(item.src);
+            return (
+              <Frame as="div" class="case-media-cell">
+                <video
+                  data-cs-video
+                  data-cs-src={item.src}
+                  data-mediasrc={`src=['${item.src}']`}
+                  poster={vid.poster ?? undefined}
+                  width={vid.w}
+                  height={vid.h}
+                  controls
+                  muted
+                  loop
+                  playsinline
+                  preload="none"
+                />
+              </Frame>
+            );
+          }
+          return null;
+        })}
+      </div>
+      {media.captions && media.captions.length > 0 && (
+        <figcaption class="case-media-captions">
+          {media.captions.map((c) => (
+            <span class="t-small case-media-caption">{c}</span>
+          ))}
+        </figcaption>
+      )}
+    </figure>
+  ) : media._raw_html ? (
+    <Frame as="figure" class:list={['case-media', className]} data-media-type="raw">
+      <div class="case-media-raw" set:html={media._raw_html} />
+    </Frame>
+  ) : null
+}
+
+<style>
+  .case-media {
+    display: block;
+    background: var(--paper-2);
+  }
+
+  .case-media img,
+  .case-media video {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .case-media-trigger {
+    display: block;
+    width: 100%;
+    cursor: zoom-in;
+  }
+
+  .case-media-trigger:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: -3px;
+  }
+
+  .case-embed {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ink-ground);
+  }
+
+  .case-media-cell-embed {
+    grid-column: 1 / -1;
+  }
+
+  .case-embed :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .case-embed-btn {
+    position: relative;
+    z-index: 1;
+  }
+
+  .case-media-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+
+  .case-media-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    background: var(--line);
+  }
+
+  @media (min-width: 768px) {
+    .case-media-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .case-media-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .case-media-cell {
+    background: var(--paper-2);
+  }
+
+  .case-media-cell img,
+  .case-media-cell video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    aspect-ratio: 4 / 3;
+  }
+
+  .case-media-captions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+  }
+
+  .case-media-caption {
+    color: var(--ink-2);
+  }
+
+  .case-media-placeholder {
+    background: var(--paper-2);
+    padding: var(--sp-5);
+  }
+
+  .case-media-captions-plain {
+    gap: var(--sp-2);
+  }
+
+  .case-media-raw {
+    padding: var(--sp-4);
+    color: var(--ink-2);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>

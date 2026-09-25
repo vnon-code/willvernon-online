@@ -1,23 +1,113 @@
 ---
+/**
+ * /projects — the case-study index (Phase 4, builder F2). Every string
+ * rendered below is read out of src/content/projects.json via the `_src`
+ * INVENTORY id it carries (see redesign/content/INVENTORY.md, "##
+ * projects.html"), never hand-typed — same `bySrc()` convention as
+ * about.astro.
+ *
+ * Direction D (D-brutalist-grid.md §5.7): the page H1 is this page's LCP —
+ * server-rendered at rest, never hidden or split, its only motion the
+ * scroll-scrubbed `data-kinetic="wdth"` (same pattern as about.astro/
+ * work.astro's H1). The filter bar and the 7 numbered case-study rows live
+ * in src/components/projects/index/*; the row/filter/preview/view-
+ * transition behaviour is src/scripts/projects/index.ts.
+ *
+ * The 7 case studies themselves (Amplified Spaces, Handheld Stories,
+ * Remnants, Powersurge, Marimekko Exhibition, Smuggler's Outpost, The World
+ * Plays Here) render as rows linking to /projects/<slug> — those pages are
+ * a different builder's (F1's) job and may not exist yet in an isolated
+ * build of this page alone.
+ */
 import Base from '../layouts/Base.astro';
-import { site } from '../content';
+import Rule from '../components/grid/Rule.astro';
+import ProjectFilters from '../components/projects/index/ProjectFilters.astro';
+import ProjectRows from '../components/projects/index/ProjectRows.astro';
+import { site, projects, type TextBlock, type Src } from '../content';
 
 const title = site.pages.projects.legacyTitle!;
+
+function bySrc<T extends Src>(items: T[], id: string): T {
+  const hit = items.find((item) => item._src?.includes(id));
+  if (!hit) throw new Error(`projects.astro: src/content/projects.json has no item with _src "${id}"`);
+  return hit;
+}
+
+const h1 = projects.page.headings.find((h) => h.level === 1)!;
+const kicker = bySrc<TextBlock>(projects.page.blocks, 'projects.copy.030');
+const intro = bySrc<TextBlock>(projects.page.blocks, 'projects.copy.032');
+const swLabel = bySrc<TextBlock>(projects.page.blocks, 'projects.copy.033').text;
+const discLabel = bySrc<TextBlock>(projects.page.blocks, 'projects.copy.034').text;
+const resetLabel = bySrc<TextBlock>(projects.page.blocks, 'projects.copy.035').text;
 ---
 
 <Base title={title} path="/projects">
-  <section class="page-stub container">
-    <h1 class="t-h1" data-split="lines">Project Archive</h1>
-    <p class="t-label">Page body lands in Phase 4.</p>
+  <section class="pi-hero container">
+    <p class="t-label pi-kicker">{kicker.text}</p>
+    <h1 class="t-h1 pi-h1" data-kinetic="wdth">{h1.text}</h1>
+    <p class="pi-intro t-body">{intro.text}</p>
+  </section>
+
+  <div class="container">
+    <ProjectFilters
+      softwareKeys={projects.softwareKeys}
+      disciplineIcons={projects.disciplineIcons}
+      softwareLogos={projects.softwareLogos}
+      softwareBadges={projects.softwareBadges}
+      swLabel={swLabel}
+      discLabel={discLabel}
+      resetLabel={resetLabel}
+      total={projects.caseStudies.length}
+    />
+  </div>
+
+  <section class="pi-index-section">
+    <Rule origin="start" cross />
+    <div class="container">
+      <ProjectRows caseStudies={projects.caseStudies} />
+    </div>
   </section>
 </Base>
 
+<script>
+  import { initProjectsIndex } from '../scripts/projects/index';
+  initProjectsIndex();
+</script>
+
 <style>
-  .page-stub {
+  .pi-hero {
     display: flex;
     flex-direction: column;
-    gap: var(--sp-4);
-    padding-block: var(--sp-9);
-    min-height: 60svh;
+    gap: var(--sp-3);
+    padding-block: var(--sp-9) var(--sp-7);
+  }
+
+  /* LCP heading: never hidden or split (§4.3), only the kinetic wdth
+   * scrub. --wdth is explicit, never a var() fallback (kinetic.ts registers
+   * it). */
+  .pi-h1 {
+    --wdth: 125;
+    font-variation-settings: 'wdth' var(--wdth), 'wght' 820;
+    overflow-wrap: normal;
+  }
+
+  @media (max-width: 767px) {
+    .pi-h1 {
+      --wdth: 108;
+    }
+  }
+
+  .pi-kicker {
+    color: var(--ink-2);
+  }
+
+  .pi-intro {
+    max-width: 62ch;
+    color: var(--ink-2);
+  }
+
+  .pi-index-section {
+    position: relative;
+    padding-block-end: var(--sp-10);
   }
 </style>

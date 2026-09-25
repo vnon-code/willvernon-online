@@ -32,7 +32,7 @@ const manifest = { posters: prev.posters || {}, images: {}, gifs: prev.gifs || {
 const slug = (s) => decodeURIComponent(s).replace(/\.[a-z0-9]+$/i, '').replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase();
 
 // 1. posters
-const videos = [...new Set(text.match(/https:\/\/assets\.willvernon\.online\/[^"\\\s]+?\.(?:mp4|webm|mov)/g) || [])];
+const videos = [...new Set(text.match(/https:\/\/assets\.willvernon\.online\/[^"\\<>]+?\.(?:mp4|webm|mov)/g) || [])];
 fs.mkdirSync(path.join(PUB, 'img/posters'), { recursive: true });
 for (const url of videos) {
   const name = slug(url.split('/').slice(-2).join('-'));
@@ -42,7 +42,7 @@ for (const url of videos) {
     const tmp = `/tmp/poster-${name}.png`;
     const vid = `/tmp/poster-${name}.mp4`;
     // ffmpeg-static can't do HTTPS through the proxy; fetch with curl (proxy CA aware) first.
-    execFileSync('curl', ['-sSfL', '--retry', '3', '-o', vid, url], { timeout: 600000 });
+    execFileSync('curl', ['-sSfL', '--retry', '3', '-o', vid, encodeURI(url)], { timeout: 600000 });
     try {
       execFileSync(ffmpeg, ['-y', '-loglevel', 'error', '-ss', '1', '-i', vid, '-frames:v', '1', tmp], { timeout: 120000 });
     } catch {

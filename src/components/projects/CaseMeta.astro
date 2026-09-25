@@ -1,0 +1,141 @@
+---
+/**
+ * Case-study meta block (D-brutalist-grid.md §5.7): "the meta (year,
+ * discipline, software) in B4 as a ruled list" — no `year` field exists in
+ * projects.json (none is invented), so this renders the case index, tags,
+ * software and disciplines it does have. Software shows its logo
+ * (projects.json softwareLogos) when one exists, else its short badge text
+ * (softwareBadges), else the plain name. Disciplines carry their legacy
+ * Phosphor icon key as `data-discipline-icon` (D §5.7: "render them without
+ * adding an icon font" — the string itself is the INVENTORY-parity item,
+ * DISCIPLINE_ICONS.*, not a rendered glyph).
+ */
+import type { ProjectsContent, CaseStudy } from '../../content';
+import { site } from '../../content';
+
+interface Props {
+  cs: CaseStudy;
+  projects: ProjectsContent;
+}
+
+const { cs, projects } = Astro.props;
+const { softwareLogos, softwareBadges, disciplineIcons } = projects;
+const uiText = (t: string) => site.ui.find((u) => u.text === t)!.text;
+---
+
+<aside class="cs-meta" aria-label="Project details">
+  <dl class="cs-meta-list">
+    <div class="cs-meta-row">
+      <dt class="t-label">{uiText('No.')}</dt>
+      <dd class="t-body tabular">{cs.id}</dd>
+    </div>
+
+    <div class="cs-meta-row">
+      <dt class="t-label">{uiText('Software')}</dt>
+      <dd class="cs-meta-chips">
+        {
+          cs.software.map((name) => (
+            <span class="cs-chip">
+              {softwareLogos[name] ? (
+                <img src={softwareLogos[name]} alt="" width="20" height="20" loading="lazy" decoding="async" class="cs-chip-logo" />
+              ) : softwareBadges[name] ? (
+                <span class="cs-chip-badge t-label" aria-hidden="true">
+                  {softwareBadges[name]}
+                </span>
+              ) : null}
+              <span class="t-small">{name}</span>
+            </span>
+          ))
+        }
+      </dd>
+    </div>
+
+    <div class="cs-meta-row">
+      <dt class="t-label">{uiText('Disciplines')}</dt>
+      <dd class="cs-meta-chips">
+        {
+          cs.disciplines.map((name) => (
+            <span class="cs-chip" data-discipline-icon={disciplineIcons[name] ?? undefined}>
+              <span class="t-small">{name}</span>
+            </span>
+          ))
+        }
+      </dd>
+    </div>
+
+    {
+      cs.tags.length > 0 && (
+        <div class="cs-meta-row">
+          <dt class="t-label">{uiText('Tags')}</dt>
+          <dd class="t-small cs-meta-tags">{cs.tags.join(' / ')}</dd>
+        </div>
+      )
+    }
+  </dl>
+</aside>
+
+<style>
+  .cs-meta {
+    padding-block: var(--sp-6);
+  }
+
+  .cs-meta-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-5);
+  }
+
+  .cs-meta-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+    border-top: 1px solid var(--line);
+    padding-block-start: var(--sp-3);
+  }
+
+  .cs-meta-row dt {
+    color: var(--ink-2);
+  }
+
+  .cs-meta-row dd {
+    color: var(--ink);
+  }
+
+  .cs-meta-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-3);
+  }
+
+  .cs-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+  }
+
+  .cs-chip-logo {
+    display: block;
+    object-fit: contain;
+  }
+
+  .cs-chip-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding-inline: 4px;
+    border: 1px solid var(--line-ink);
+    color: var(--ink-2);
+  }
+
+  .cs-meta-tags {
+    color: var(--ink-2);
+  }
+
+  @media (min-width: 1024px) {
+    .cs-meta {
+      padding-block-start: 0;
+    }
+  }
+</style>

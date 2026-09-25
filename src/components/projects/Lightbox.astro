@@ -1,0 +1,156 @@
+---
+/**
+ * The case-study lightbox (D-brutalist-grid.md §5.7): "a full-screen --ink
+ * surface with GridFrame local, opened with a stepped wipe." One shared
+ * native <dialog> per page — lightbox.ts fills it and calls .showModal(),
+ * which gives focus trapping, Esc-to-close and ::backdrop for free; it also
+ * returns focus to the trigger on close and lets arrow keys page through
+ * the current step's `[data-lightbox-group]` (CaseMedia.astro's triggers).
+ * Reduced motion: no stepped wipe, dialog opens/closes instantly (the
+ * browser's own show/hide, no extra transition class).
+ *
+ * "Close Workspace" (projects.scriptcopy.512, site.json ui) is the INVENTORY
+ * string for this exact job (the legacy console-mode slide-over's close
+ * button) — reused verbatim here, restyled as a plain label per CLAUDE.md,
+ * rather than inventing a new "Close" string.
+ */
+import GridFrameLocal from '../grid/GridFrame.astro';
+import Icon from '../Icon.astro';
+import { site } from '../../content';
+
+const closeLabel = site.ui.find((u) => u.text === 'Close Workspace')!.text;
+---
+
+<dialog id="case-lightbox" class="lightbox" data-surface="ink" aria-label="Image viewer">
+  <GridFrameLocal local />
+  <div class="lightbox-inner">
+    <div class="lightbox-toolbar">
+      <span class="t-small lightbox-caption" data-lightbox-caption></span>
+      <button type="button" class="btn-line lightbox-close" data-lightbox-close>
+        <Icon name="close" size={16} />
+        {closeLabel}
+      </button>
+    </div>
+
+    <div class="lightbox-stage">
+      <button type="button" class="lightbox-nav lightbox-prev" data-lightbox-prev aria-label="Previous image">
+        <Icon name="arrow" size={20} class="lightbox-prev-icon" />
+      </button>
+
+      <div class="lightbox-media" data-lightbox-media></div>
+
+      <button type="button" class="lightbox-nav lightbox-next" data-lightbox-next aria-label="Next image">
+        <Icon name="arrow" size={20} />
+      </button>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-menu);
+    width: 100vw;
+    height: 100vh;
+    max-width: 100vw;
+    max-height: 100vh;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: var(--ink-ground);
+    color: var(--on-ink);
+  }
+
+  .lightbox::backdrop {
+    background: var(--ink-ground);
+  }
+
+  .lightbox-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--sp-5);
+    gap: var(--sp-4);
+  }
+
+  .lightbox-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-4);
+  }
+
+  .lightbox-caption {
+    color: var(--on-ink-2);
+  }
+
+  .lightbox-close {
+    color: var(--on-ink);
+    border-color: var(--on-ink);
+  }
+
+  .lightbox-stage {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+  }
+
+  .lightbox-media {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .lightbox-media :global(img),
+  .lightbox-media :global(video) {
+    display: block;
+    max-width: 100%;
+    max-height: calc(100vh - 160px);
+    width: auto;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .lightbox-nav {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    color: var(--on-ink);
+  }
+
+  .lightbox-nav:focus-visible {
+    outline: 2px solid var(--on-ink);
+    outline-offset: 2px;
+  }
+
+  .lightbox-prev-icon {
+    transform: rotate(180deg);
+  }
+
+  .lightbox[data-single] .lightbox-nav {
+    visibility: hidden;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .lightbox[open] {
+      animation: lightbox-in var(--dur-page) var(--ease-step) both;
+    }
+  }
+
+  @keyframes lightbox-in {
+    from {
+      clip-path: inset(0 0 100% 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+</style>
