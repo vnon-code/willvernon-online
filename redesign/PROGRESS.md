@@ -5,11 +5,11 @@
 | Phase | State | Branch head / notes |
 |---|---|---|
 | 0: audit | ✅ done | inventory (1,429 items), 3 verified audits, baseline sheets |
-| 1: plan | ✅ done, **waiting for user approval** | PLAN.md, REFERENCES.md, directions A/B/C + JUDGEMENT.md |
-| 2: design system + shell + edge | ⏳ not started | starts only after the user approves the direction and plan |
+| 1: plan | ✅ done, **approved 2026-09-25 (A, yes to all §7)** | PLAN.md, REFERENCES.md, directions A/B/C + JUDGEMENT.md |
+| 2: design system + shell + edge | ▶ starting in a fresh session | kickoff prompt from PLAN.md §4 |
 | 3–7 | ⏳ | |
 
-**Next action:** the user answers PLAN.md §7 (direction + open questions). Then paste the Phase 2 kickoff prompt from PLAN.md into a fresh session.
+**Next action:** run Phase 2 (fresh session, PLAN.md §4 kickoff). User to-dos: disable GitHub Pages (repo Settings → Pages); create a Cloudflare Web Analytics site tag when Phase 6 asks for it.
 
 ## Spend ledger (cap $250; plan ≤ $180)
 No `/cost` or `/usage` figure is visible from inside this cloud session, so **every figure below is an estimate**, built from workflow token counts and turn counts at the list prices in PLAN.md §6.

@@ -1,6 +1,6 @@
 # willvernon.online v2: rebuild plan
 
-**Status:** Phases 0 and 1 are complete. **Waiting for approval of direction + plan.** Nothing below Phase 2 has started.
+**Status:** Phases 0 and 1 are complete. **Approved by the user on 2026-09-25: direction A plus every proposal in §7.** Phase 2 is next.
 **Quality bar:** Awwwards Site of the Day. Scored on Design 40 / Usability 30 / Creativity 20 / Content 10 against the "Awwwards bar" in `REFERENCES.md`.
 **Inputs:**
 - `AUDIT.md` (verified audits in `audit/`)
@@ -358,7 +358,9 @@ Prices: Opus 5.5 at $4 in / $20 out / $0.20 cache-read per MTok, Sonnet 5 at $2/
 - **The WebGL moment could hurt mobile performance.** Mitigation: it starts only after the main content loads, pixel density is capped, it pauses offscreen, and the poster fallback always applies below the performance budget.
 - **Awwwards scores are subjective.** The Phase 6 panel is a proxy, not a guarantee.
 
-**Open questions for you:**
+**Decisions (2026-09-25, user answered "yes to all"):** A: Signal Console with its grafts; billboard/GIF derivatives on the pages, originals kept and linked as full-res; `/projects/<slug>.html` pages plus the `projects.html` index; Claude drafts meta descriptions and the OG image for approval in Phase 6; keep Formspree and add Cloudflare Web Analytics (the user creates the site tag in the dashboard, the CSP allows `static.cloudflareinsights.com`); the user disables GitHub Pages; the stems console features only *Catching Flies – Silver Linings*.
+
+**Original questions (answered):**
 1. **Direction:** approve **A: Signal Console** with the listed grafts, or choose B or C.
 2. **Billboard PNGs (20–22 MB) and GIFs (15–19 MB):** OK to show optimised derivatives with a "full-res" link to the originals, which stay in the repo? Or would you rather upload them to R2 yourself?
 3. **Case-study URLs:** OK to add `/projects/<slug>.html` pages alongside `projects.html`?
