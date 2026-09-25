@@ -6,10 +6,11 @@
 |---|---|---|
 | 0: audit | ✅ done | inventory (1,429 items), 3 verified audits, baseline sheets |
 | 1: plan | ✅ done, **approved 2026-09-25 (A, yes to all §7)** | PLAN.md, REFERENCES.md, directions A/B/C + JUDGEMENT.md |
-| 2: design system + shell + edge | ▶ starting in a fresh session | kickoff prompt from PLAN.md §4 |
-| 3–7 | ⏳ | |
+| 2: design system + shell + edge | ✅ done 2026-09-25 | Astro 7 scaffold, tokens/base, Base/Nav/MobileMenu/Footer, motion primitives, OGL SignalScope, _headers/404/robots/sitemap, build_content.py (100% content parity, 7 pages). Workers Builds green; preview alias verified. |
+| 3: home, about, work | ▶ next (fresh session) | kickoff prompt from PLAN.md §4 |
+| 4–7 | ⏳ | |
 
-**Next action:** run Phase 2 (fresh session, PLAN.md §4 kickoff). User to-dos: disable GitHub Pages (repo Settings → Pages); create a Cloudflare Web Analytics site tag when Phase 6 asks for it.
+**Next action:** run Phase 3 (fresh session, PLAN.md §4 kickoff). User to-dos: disable GitHub Pages (repo Settings → Pages); create a Cloudflare Web Analytics site tag when Phase 6 asks for it.
 
 ## Spend ledger (cap $250; plan ≤ $180)
 No `/cost` or `/usage` figure is visible from inside this cloud session, so **every figure below is an estimate**, built from workflow token counts and turn counts at the list prices in PLAN.md §6.
@@ -21,9 +22,13 @@ No `/cost` or `/usage` figure is visible from inside this cloud session, so **ev
 | P1 | WF2 reference sweep: 3 Sonnet searchers | 248k | 0.8 | 7.8 |
 | P1 | Reference screenshots (script; one contact sheet viewed) | — | 0.2 | 8.0 |
 | P1 | WF3 reference analysis (Opus) → 3 directions (Sonnet) → judge (Opus) | 588k | 3.5 | 11.5 |
-| P1 | Main loop: PLAN/AUDIT/PROGRESS/CLAUDE.md, completeness critic | — | 1.5 | **≈ 13** |
+| P1 | Main loop: PLAN/AUDIT/PROGRESS/CLAUDE.md, completeness critic | — | 1.5 | ≈ 13 |
+| P2 | WF4 build: 3 Sonnet builders (shell/tokens/edge, motion+scope, content pipeline) | ~620k (subagent) | 4.0 | 17.0 |
+| P2 | WF4 Opus adversarial verify + Opus fix-once (4 blockers, 7 majors, 11 minors → 21 fixed, 1 deferred, 1 needed the preview) | ~465k (subagent) | 6.0 | 23.0 |
+| P2 | Main loop: scaffold, Workers Builds proof, preview checks, contact sheet, burger-icon fix | ~40 turns | 2.5 | **≈ 25.5** |
 
 **Phase 0+1 budget was $22; the estimate is ≈ $13 (range $10–16).** The unspent ~$9 rolls into the reserve.
+**Phase 2 budget was $30; the estimate is ≈ $12.5 (range $9–17; 1.08M subagent tokens in total).** The unspent amount rolls into the reserve.
 
 ## Skills used
 
@@ -35,9 +40,17 @@ No `/cost` or `/usage` figure is visible from inside this cloud session, so **ev
 | 1 | emil-design-eng | Motion and polish decisions in each direction: a single easing family, a 1:1 cursor rather than a laggy quickTo, restraint on what animates. |
 | 1 | find-animation-opportunities | Picked which elements earn motion: the ruler scrub on process steps and scramble only on metadata; rejected scrambling the LCP heading. |
 | 1 | gsap-core | Grounded the motion tokens in real GSAP APIs (CustomEase, matchMedia reduced-motion branches, SplitText/ScrambleText, Flip vs View Transitions). |
+| 2 | impeccable | Builder A used the craft floor to keep CH-01…07 channels as information, ban eyebrow kickers and tie every HUD readout to real state. The verifier used it to catch hero copy that had been hand-retyped (a dropped '&'). |
+| 2 | seo-audit | Shaped Base head (canonical/OG/Twitter, JSON-LD Person from the legacy links, noindex branch). The verifier's crawlability pass removed canonical/og:url from noindex pages and dropped the robots Disallow that hid the noindex. |
+| 2 | emil-design-eng | Made reveals fail open (html.js gating + head failsafe) and caught the SplitText parent-opacity bug. |
+| 2 | animate | Restraint calls: a 1:1 cursor ring (no quickTo lag) and scramble ≤0.6s on mono metadata only. |
+| 2 | gsap-core / gsap-timeline | gsap.matchMedia reduced-motion branches in every module, CustomEase tokens, single-tween reveals instead of timelines. |
+| 2 | gsap-scrolltrigger | Ruler scrub → --ruler-progress and aria-current step; once:true reveal triggers. |
+| 2 | gsap-performance | Transform/opacity-only animation, HUD text writes skipped when unchanged, Flip/ScrollSmoother lazy-loaded out of the shared bundle, and a verified 0 draws/s for the scope offscreen. |
+| 2 | review-animations | Verifier escalation checks exposed the fade/stagger 0→0 no-op, the 4 px scanline and cursor layout transitions. |
 | 0 | workflow-authoring (built-in) | Shaped the three workflows (a pipelined audit into verify, a blind parallel sweep, a directions judge panel). |
 
-Installed but not yet used (reserved for later phases): animate, review-animations, gsap-scrolltrigger, gsap-timeline, gsap-performance.
+All 10 skills have now been used at least once.
 
 ## Setup notes
 - **Skills install:** `npx skills add <repo> -a claude-code -s <skill> -s <skill> … -y --copy`. A comma-separated `-s a,b` fails with "No matching skills"; repeat `-s` for each skill instead. All 10 skills installed into `.claude/skills/`, which is gitignored along with `skills-lock.json` and `.agents/`.
@@ -48,7 +61,20 @@ Installed but not yet used (reserved for later phases): animate, review-animatio
   - godly, siteinspire, gsap.com, willvernon.online, assets.willvernon.online and the workers.dev preview are all reachable.
   - Chromium needs the proxy CA: `screenshots.mjs` reads `PROXY_CA_SPKI`, a comma list of base64 SHA-256 SPKI hashes computed from the last certs in `/root/.ccr/ca-bundle.crt`; see the commit that added it. Certificate verification stays on, pinned to the proxy CA.
 - **Python deps** for the extractor: `pip install beautifulsoup4 lxml` (container only).
-- **Local preview of v1:** `python3 -m http.server 8765` from the repo root.
+- **Local preview of v1:** the legacy pages moved to `legacy/` in Phase 2 (media moved to `public/img`, `public/audio`): `python3 -m http.server 8765` from `legacy/` no longer finds `/img`, so serve the repo root and open `/legacy/<page>.html`, or run the extractor with `--root legacy`.
+- **v2 local:** `npm run build`, then `python3 -m http.server <port>` inside `dist/` (more reliable than `astro preview` in this container). Chromium: `PLAYWRIGHT_BROWSERS_PATH=/opt/pw-browsers`; `npm i --no-save playwright axe-core` for tests. Kill leftover test servers first: in Phase 2 a verifier's stale replay server on :4399 served an old CSP.
+- **Phase 2 tooling:**
+  - `npm run content` runs `build_content.py`, which writes `src/content/*.json` (every object has `_src` INVENTORY IDs).
+  - `python3 redesign/scripts/check_content_parity.py` is the strict, page-scoped, hash-checked parity check; it must stay at 100%.
+  - `npm run check:csp` checks that the inline-script sha256 values in `public/_headers` match dist. Run `check_csp_hashes.py --write` after editing Base.astro's head script.
+  - `node redesign/scripts/build_envelope.mjs` (devDependency mpg123-decoder) re-bakes `src/data/scope-envelope.json` from the Silver Linings stems. The build never decodes audio.
+- **Workers Builds:** it runs `wrangler.jsonc` `build.command` (`npm ci && npm run build`) with no dashboard change, as proven on 590a6c9 and d543e39. The preview alias serves dist; `/about.html` → 307 → `/about` 200; a missing path returns 404 with "SIGNAL LOST"; `/_astro/*` gets a single immutable Cache-Control (the `! Cache-Control` detach works); CSP/HSTS/nosniff/Referrer/Permissions headers are present.
+- **Phase 2 carry-overs for later phases:**
+  - The shared motion bundle is 56 KB gzip (GSAP core, ScrollTrigger, SplitText, ScrambleText) and the scope chunk is 16 KB gzip (lazy). Phase 6 perf should check whether ScrollTrigger/SplitText can load per page.
+  - The envelope JSON is 8 KB on disk, against a target of ~5 KB.
+  - The cursor ring still transitions width/height (a minor layout-property finding, deferred).
+  - CSP `script-src` has no `w.soundcloud.com`; Phase 5 adds it if the SoundCloud Widget API is used.
+  - The mediaSrc HTML blobs keep `_raw_html` on media items where structure wasn't derivable (see the `_todo` list from build_content.py); Phase 4 turns them into components.
 
 ## Rollback (fill in during Phase 7)
 - `v1-final` tag: not created yet.

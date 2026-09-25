@@ -26,8 +26,8 @@ function isCurrent(path: string, current: string) {
   aria-controls="mobile-menu"
   aria-label="Open menu"
 >
-  <Icon name="menu" size={22} class="menu-trigger-icon-open" />
-  <Icon name="close" size={22} class="menu-trigger-icon-close" />
+  <span class="menu-trigger-icon-open"><Icon name="menu" size={22} /></span>
+  <span class="menu-trigger-icon-close"><Icon name="close" size={22} /></span>
 </button>
 
 <div class="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Site navigation" hidden>
@@ -87,7 +87,8 @@ function isCurrent(path: string, current: string) {
   .menu-trigger-icon-close {
     position: absolute;
     inset: 0;
-    margin: auto;
+    display: grid;
+    place-items: center;
     transition: opacity var(--dur-fast) var(--ease-out);
   }
 
