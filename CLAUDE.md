@@ -9,7 +9,8 @@ The parity checklist is `redesign/content/INVENTORY.md`.
 - Work on `redesign/v2`. Never push to `main` or deploy until Phase 7 of PLAN.md; Phase 7 is the only phase that ships to production.
 - Never touch R2 contents, DNS, or Cloudflare account/dashboard settings. Heavy media stays on `https://assets.willvernon.online/...`; keep every such URL working exactly as written.
 - **Content parity is non-negotiable.** Every copy block, project, image, video, embed, link, credit and meta item in INVENTORY.md must exist on the new site. It is "same idea, fresh design", not a reskin.
-- Personality: multidisciplinary designer / audio / AI / 3D, with a technical HUD edge (scramble/glitch, telemetry, dark UI).
+- Personality: multidisciplinary designer / audio / AI / 3D. **Design direction (user, 2026-09-25, supersedes direction A):** minimal brutalist, built from zero (new palette, type, layout; ignore the legacy site's look and the Phase 2 "Signal Console" look). Visible grid lines are the signature (Cloudflare-style) and they move and respond to scroll. Motion is bold, raw and dynamic on a minimal design. No HUD/telemetry readouts, no scramble/glitch, no channel labels, no WebGL scope hero, no cursor ring.
+- Quality: every design phase gathers live reference sites first and ends with an A/B judge pass against Awwwards-standard sites (same breakpoints; Design/Usability/Creativity/Content; target ≥ 7.5 and not clearly behind the references).
 - The motion runtime is **GSAP** (core + ScrollTrigger/ScrollSmoother/SplitText/Flip; all free). Never add Motion/Framer Motion. Diff dependencies before accepting any component-registry code, because shadcn-style registries ship Motion.
 - Output must stay static-hostable on Cloudflare Workers static assets. Deploys go through Workers Builds on push to `main`; no GitHub Actions.
 - Never fetch or download from unDraw.

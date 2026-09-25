@@ -1,6 +1,8 @@
 # willvernon.online v2: rebuild plan
 
-**Status:** Phases 0 and 1 are complete. **Approved by the user on 2026-09-25: direction A plus every proposal in §7.** Phase 2 is next.
+**⚠ Direction change (user, 2026-09-25, after Phase 3):** direction A (Signal Console) is retired. See §4 **Phase 2b** below: a ground-up minimal brutalist redesign with moving grid lines. §1 is kept as history only; where it conflicts with Phase 2b or CLAUDE.md, those win.
+
+**Status (original):** Phases 0 and 1 are complete. **Approved by the user on 2026-09-25: direction A plus every proposal in §7.** Phase 2 is next.
 **Quality bar:** Awwwards Site of the Day. Scored on Design 40 / Usability 30 / Creativity 20 / Content 10 against the "Awwwards bar" in `REFERENCES.md`.
 **Inputs:**
 - `AUDIT.md` (verified audits in `audit/`)
@@ -209,6 +211,30 @@ Verify on the Workers preview alias (see PLAN §2). If Workers Builds cannot run
 Phase 3 of the willvernon.online rebuild. Read CLAUDE.md, redesign/PLAN.md §4 Phase 3 and redesign/PROGRESS.md. Install the skills in CLAUDE.md. Branch redesign/v2.
 Use a workflow: build (up to 3 Sonnet workers, one per page, on the Phase 2 components) → Opus adversarial verify (parity diff vs INVENTORY for index/about/work, axe, Lighthouse on the preview alias, one 3-breakpoint contact sheet) → fix once. Budget $25; log spend and Skills used in PROGRESS.md.
 Commit, push, then continue with the Phase 4 kickoff prompt.
+```
+
+### Phase 2b: ground-up redesign — minimal brutalist + moving grid ($18; runs after Phase 3, before Phase 4)
+
+**Why:** the user rejected the techy/HUD feel and the scope hero after seeing Phase 2–3. "From the ground up" includes colour scheme and everything visual; design the site as if the old one never existed. **Content parity still applies** (design only changes; every INVENTORY item stays).
+
+**Direction (user brief):** minimal brutalist; visible grid lines as the signature (like cloudflare.com), but the lines move, draw and respond to scroll; bold, raw, very dynamic motion on a minimal design. One direction, built directly (no A/B/C pick).
+
+**Scope:**
+- Reference sweep first: current brutalist / grid-line / minimal-kinetic sites (cloudflare.com grid, Awwwards SOTD/Developer winners via web search + godly/siteinspire; awwwards.com is egress-blocked). Screenshot via `screenshots.mjs`, write `redesign/directions/D-brutalist-grid.md` (palette, type, grid, motion tokens, hero, per-page composition) grounded in what the references do.
+- New tokens.css/base.css/motion.css (new palette + type; retire Archivo-wdth-62/JetBrains-HUD pairing unless the references justify it), new grid-line system (DOM/SVG/CSS lines on the layout grid, GSAP ScrollTrigger-driven draw/shift/scrub; reduced-motion = static lines).
+- Remove: SignalScope/OGL hero (and `ogl` dep if unused), HudReadout, ChannelLabel/CH-xx system, scramble, cursor ring, BPM telemetry chrome. Keep GSAP (core/ScrollTrigger/SplitText/Flip) and View Transitions.
+- New Nav/MobileMenu/Footer/Base styling and new hero; restyle Phase 3 pages (home/about/work) onto the new system, keeping their structure, content wiring, a11y and parity.
+- Styleguide page updated.
+
+**Verify:** A/B judge panel (Opus) — our pages vs 3–4 reference sites at 1440/390, same criteria as Phase 6 (Design 40 / Usability 30 / Creativity 20 / Content 10), target ≥ 7.5 each and not clearly behind the references; plus the global targets (parity 100% via `check_dom_parity.py`, axe 0 serious, reduced motion, no overflow, Lighthouse on the preview). Fix once.
+
+**From here on, every page phase (4, 5) ends with the same A/B reference judge on its pages**, not only Phase 6.
+
+**Kickoff prompt:**
+```
+Phase 2b of the willvernon.online rebuild: ground-up redesign. Read CLAUDE.md, redesign/PLAN.md §4 Phase 2b and redesign/PROGRESS.md. Install the skills in CLAUDE.md. Branch redesign/v2.
+Use a workflow: reference sweep (≤3 Sonnet, live sites + screenshots) → direction spec (Opus) → build (≤3 Sonnet: tokens/grid-line system + shell; motion; restyle home/about/work) → Opus verify incl. A/B Awwwards reference judge → fix once. Budget $18; log spend and Skills used in PROGRESS.md.
+Commit, push, check the preview, then continue with the Phase 4 kickoff prompt.
 ```
 
 ### Phase 4: projects ($35)

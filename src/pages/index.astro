@@ -1,12 +1,16 @@
 ---
-// Phase 2: proves the shell (Base/Nav/Footer/motion primitives) + the
-// SignalScope WebGL island. The rest of the homepage body (Featured Work,
-// AI panel, stems console, contact) lands in Phase 3-5.
+// Phase 3: hero (Phase 2) + the full home body — section channels CH-01.1
+// Featured Work index, CH-01.2 AI as a Creative Partner (+ toolset
+// directory), CH-01.3 the Silver Linings stems console, CH-01.4 contact. Every section's copy
+// comes from src/content/*.json via src/content (never hand-typed here).
 import Base from '../layouts/Base.astro';
 import { site, home } from '../content';
-import ChannelLabel from '../components/ChannelLabel.astro';
 import HudReadout from '../components/HudReadout.astro';
 import SignalScope from '../components/SignalScope.astro';
+import FeaturedWorkIndex from '../components/home/FeaturedWorkIndex.astro';
+import AiPartner from '../components/home/AiPartner.astro';
+import StemsConsole from '../components/home/StemsConsole.astro';
+import ContactChannel from '../components/home/ContactChannel.astro';
 
 const title = site.pages.index.legacyTitle!;
 
@@ -15,7 +19,15 @@ const block = (tag: string, nth = 0) => home.blocks.filter((b) => b.tag === tag)
 const heroName = home.headings.find((h) => h.level === 1)!.text;
 // headings[] holds the rendered H2 (with the '&' that sat in a text-accent span).
 const heroTagline = home.headings.filter((h) => h.level === 2)[0].text;
-const [taglineA, taglineB] = heroTagline.split(' & ');
+const AMP = '&';
+const [taglineA, taglineB] = heroTagline.split(` ${AMP} `);
+// The ampersand is drawn as a CSS glyph (::before content from data-glyph),
+// as legacy styled it separately in a text-accent span. That keeps the DOM
+// text identical to the INVENTORY block (index.copy.044 'Generative Design
+// Creative Technology.', where extraction dropped the 1-char span) while the
+// visible heading still reads 'Generative Design & Creative Technology.';
+// aria-label carries the full heading text (index.h.022) so the announced
+// name never depends on CSS generated content.
 const heroReadout = block('p.hero-subtitle');
 const heroDesc = block('p.hero-desc');
 const ctaPrimary = block('a.btn-primary');
@@ -33,9 +45,9 @@ const ctaExperiments = block('a.btn-secondary', 1);
 
       <h1 class="hero-name t-display" data-reveal="lines">{heroName}</h1>
 
-      <h2 class="hero-tagline t-h2" data-reveal="fade">
+      <h2 class="hero-tagline t-h2" data-reveal="fade" aria-label={heroTagline}>
         {taglineB !== undefined ? (
-          <>{taglineA} <span class="hero-amp">&amp;</span> {taglineB}</>
+          <>{taglineA} <span class="hero-amp" data-glyph={AMP} /> {taglineB}</>
         ) : (
           heroTagline
         )}
@@ -59,10 +71,10 @@ const ctaExperiments = block('a.btn-secondary', 1);
     </div>
   </section>
 
-  <section class="phase-notice container">
-    <ChannelLabel channel="CH-01" />
-    <p class="t-mono">Featured Work, AI panel, stems console and contact land in Phase 3–5.</p>
-  </section>
+  <FeaturedWorkIndex />
+  <AiPartner />
+  <StemsConsole />
+  <ContactChannel />
 </Base>
 
 <style>
@@ -99,7 +111,8 @@ const ctaExperiments = block('a.btn-secondary', 1);
     font-weight: 400;
   }
 
-  .hero-amp {
+  .hero-amp::before {
+    content: attr(data-glyph);
     color: var(--accent);
   }
 
@@ -157,17 +170,5 @@ const ctaExperiments = block('a.btn-secondary', 1);
       flex-wrap: wrap;
       margin-top: var(--sp-6);
     }
-  }
-
-  .phase-notice {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-4);
-    padding-block: var(--sp-6);
-    border-top: 1px solid var(--line);
-  }
-
-  .phase-notice p {
-    color: var(--text-muted);
   }
 </style>

@@ -7,10 +7,13 @@
 | 0: audit | ✅ done | inventory (1,429 items), 3 verified audits, baseline sheets |
 | 1: plan | ✅ done, **approved 2026-09-25 (A, yes to all §7)** | PLAN.md, REFERENCES.md, directions A/B/C + JUDGEMENT.md |
 | 2: design system + shell + edge | ✅ done 2026-09-25 | Astro 7 scaffold, tokens/base, Base/Nav/MobileMenu/Footer, motion primitives, OGL SignalScope, _headers/404/robots/sitemap, build_content.py (100% content parity, 7 pages). Workers Builds green; preview alias verified. |
-| 3: home, about, work | ▶ next (fresh session) | kickoff prompt from PLAN.md §4 |
-| 4–7 | ⏳ | |
+| 3: home, about, work | ✅ done 2026-09-25 (structure/content/a11y; **styling to be replaced in 2b**) | Home: featured-work index, AI toolset (accessible `<details>`), stems console (Web Audio on gesture, 13 labelled FX sliders), contact + Formspree. About: skills/education/experience/credentials accordion. Work: H1, INDEX/INFORMATION toggle, R2 previews. Nav IA: Projects/AI/Experiments in primary nav. DOM parity 100% (index 303, about 86, work 52); axe 0 violations at 390/768/1440. |
+| 2b: ground-up redesign (minimal brutalist + moving grid) | ▶ next | user direction change 2026-09-25; PLAN.md §4 Phase 2b |
+| 4–7 | ⏳ (after 2b) | |
 
-**Next action:** run Phase 3 (fresh session, PLAN.md §4 kickoff). User to-dos: disable GitHub Pages (repo Settings → Pages); create a Cloudflare Web Analytics site tag when Phase 6 asks for it.
+**Direction change (user, 2026-09-25):** drop the techy/HUD Signal Console look and the scope hero; rebuild the design from zero as minimal brutalist with moving, scroll-reactive grid lines (Cloudflare-style), bold raw motion; one direction, built directly; A/B against Awwwards-standard reference sites. Content parity unchanged. CLAUDE.md and PLAN.md (Phase 2b) updated.
+
+**Next action:** run Phase 2b (PLAN.md §4 Phase 2b kickoff), then Phase 4. User to-dos: disable GitHub Pages (repo Settings → Pages); create a Cloudflare Web Analytics site tag when Phase 6 asks for it.
 
 ## Spend ledger (cap $250; plan ≤ $180)
 No `/cost` or `/usage` figure is visible from inside this cloud session, so **every figure below is an estimate**, built from workflow token counts and turn counts at the list prices in PLAN.md §6.
@@ -26,6 +29,12 @@ No `/cost` or `/usage` figure is visible from inside this cloud session, so **ev
 | P2 | WF4 build: 3 Sonnet builders (shell/tokens/edge, motion+scope, content pipeline) | ~620k (subagent) | 4.0 | 17.0 |
 | P2 | WF4 Opus adversarial verify + Opus fix-once (4 blockers, 7 majors, 11 minors → 21 fixed, 1 deferred, 1 needed the preview) | ~465k (subagent) | 6.0 | 23.0 |
 | P2 | Main loop: scaffold, Workers Builds proof, preview checks, contact sheet, burger-icon fix | ~40 turns | 2.5 | **≈ 25.5** |
+
+| P3 | WF5 build: 3 Sonnet page builders (home, about, work + nav IA) | ~700k (subagent) | 4.5 | 30.0 |
+| P3 | WF5 Opus adversarial verify (2 blockers, 11 majors, 5 minors) + Opus fix-once (all blockers/majors fixed, 1 partial) | ~490k (subagent) | 6.0 | 36.0 |
+| P3 | Main loop: DOM parity checker, workflow, gates, direction-change docs | ~30 turns | 2.0 | **≈ 38** |
+
+**Phase 3 budget was $25; the estimate is ≈ $12.5 (1.19M subagent tokens).** Lighthouse on the preview and the 3-breakpoint contact sheet were deferred to Phase 2b: the user retired the visual design mid-phase, so measuring and screenshotting a look that is being replaced would be wasted spend.
 
 **Phase 0+1 budget was $22; the estimate is ≈ $13 (range $10–16).** The unspent ~$9 rolls into the reserve.
 **Phase 2 budget was $30; the estimate is ≈ $12.5 (range $9–17; 1.08M subagent tokens in total).** The unspent amount rolls into the reserve.
@@ -49,6 +58,12 @@ No `/cost` or `/usage` figure is visible from inside this cloud session, so **ev
 | 2 | gsap-performance | Transform/opacity-only animation, HUD text writes skipped when unchanged, Flip/ScrollSmoother lazy-loaded out of the shared bundle, and a verified 0 draws/s for the scope offscreen. |
 | 2 | review-animations | Verifier escalation checks exposed the fade/stagger 0→0 no-op, the 4 px scanline and cursor layout transitions. |
 | 0 | workflow-authoring (built-in) | Shaped the three workflows (a pipelined audit into verify, a blind parallel sweep, a directions judge panel). |
+
+| 3 | impeccable | Builders: numbered project index instead of a card grid, AI toolset as an accessible list instead of a hover-only marquee, no invented kickers. Verifier: caught red used as decoration and an 11px mono intro paragraph. |
+| 3 | find-animation-opportunities | Gated each motion idea: kept hover/focus preview and accordion markers; rejected decorative level-meter motion and entrance motion on FX sliders. |
+| 3 | animate | Transform/opacity only on tokens; the level meter was moved from height to scaleY in the fix pass. |
+| 3 | gsap-scrolltrigger | Confirmed the existing data-reveal primitives covered every section, so no new ScrollTrigger instances were added; the verifier flagged a nested double reveal. |
+| 3 | review-animations | Verifier pass on new motion: layout-property meter, double reveal on nested headings, reduced-motion blank video previews on /work (fixed). |
 
 All 10 skills have now been used at least once.
 
@@ -75,6 +90,12 @@ All 10 skills have now been used at least once.
   - The cursor ring still transitions width/height (a minor layout-property finding, deferred).
   - CSP `script-src` has no `w.soundcloud.com`; Phase 5 adds it if the SoundCloud Widget API is used.
   - The mediaSrc HTML blobs keep `_raw_html` on media items where structure wasn't derivable (see the `_todo` list from build_content.py); Phase 4 turns them into components.
+
+- **Phase 3 notes:**
+  - `redesign/scripts/check_dom_parity.py` is the rendered-DOM parity gate (`--dist dist --pages index,about,work`); it must exit 0.
+  - index.copy.044 (the hero H2 as a copy block, without the '&') is matched because the fix pass draws the '&' from a CSS `data-glyph`, with the full heading in the H2's `aria-label`. That's a workaround; Phase 2b should rebuild the hero and prefer teaching the checker that copy.044 == h.022.
+  - Two UI strings are still hand-typed because src/content lacks them: the contact success message and the stems "Mixer Active // Loop Synced" status (not ported). Add them via build_content.py if they survive the redesign.
+  - Legacy stems console had mute only (no solo/gain); kept faithful.
 
 ## Rollback (fill in during Phase 7)
 - `v1-final` tag: not created yet.

@@ -1,25 +1,45 @@
 ---
+/**
+ * CH-02 /work — the hub between the primary nav's Projects/AI/Experiments
+ * entries. Legacy work.html had no <h1> (INVENTORY starts at h3 "Projects");
+ * the page title has no natural page-level string in work.json either, so
+ * the H1 is derived from the legacy <title>'s first segment
+ * (site.pages.work.legacyTitle, "Works | William Vernon" → "Works"), not
+ * hand-typed.
+ */
 import Base from '../layouts/Base.astro';
-import { site } from '../content';
+import { site, work } from '../content';
 import ChannelLabel from '../components/ChannelLabel.astro';
+import WorkHubIndex from '../components/work/WorkHubIndex.astro';
+import { navItem } from '../data/site';
+
+const nav = navItem('/work');
 
 const title = site.pages.work.legacyTitle!;
+const h1 = title.split('|')[0].trim();
 ---
 
-<Base title={title} path="/work" channel="CH-02">
-  <section class="page-stub container">
-    <ChannelLabel channel="CH-02" />
-    <h1 class="t-h1" data-reveal="lines">Work</h1>
-    <p class="t-mono">CH-02 // page body lands in Phase 3–5.</p>
+<Base title={title} path="/work" channel={nav.channel}>
+  <section class="work-hero container">
+    <ChannelLabel channel={nav.channel} label={nav.label} />
+    <h1 class="t-h1" data-reveal="lines">{h1}</h1>
+  </section>
+
+  <section class="work-hub container">
+    <WorkHubIndex panels={work.panels} />
   </section>
 </Base>
 
 <style>
-  .page-stub {
+  .work-hero {
     display: flex;
     flex-direction: column;
     gap: var(--sp-4);
-    padding-block: var(--sp-9);
-    min-height: 60svh;
+    padding-block-start: var(--sp-9);
+    padding-block-end: var(--sp-6);
+  }
+
+  .work-hub {
+    padding-block-end: var(--sp-10);
   }
 </style>

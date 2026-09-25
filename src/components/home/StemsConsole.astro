@@ -1,0 +1,525 @@
+---
+/**
+ * Home section 3, "Liquid Drum & Bass" — the music intro copy plus the Silver Linings
+ * stems console: 5 stems, a master player, per-stem mute + FX sliders
+ * (min/max/step/labels straight from STEMS_CONFIG/trackParams/
+ * FX_SLIDERS_CONFIG, via home.stems), all with VISIBLE <label> elements
+ * bound to their inputs — the legacy critical axe issue (icon-only sliders,
+ * no label) this fixes.
+ *
+ * All markup is server-rendered up front (every track's FX fieldset exists
+ * in the DOM; only the selected one is visible) rather than the legacy
+ * pattern of rebuilding `#fx-controls-container`'s innerHTML on each click —
+ * simpler, and every slider stays reachable/inspectable regardless of JS.
+ * src/scripts/home/stems-console.ts owns the Web Audio graph, track
+ * select/mute, live slider values, the level meter and BPM telemetry; it
+ * never runs (no AudioContext) until the play button is pressed.
+ */
+import { home, site } from '../../content';
+import { homeChannel } from '../../data/site';
+import ChannelLabel from '../ChannelLabel.astro';
+import { fxDisplay } from '../../scripts/home/fx-format';
+
+const heading = home.headings.find((h) => h.level === 2 && h.text === 'Liquid Drum & Bass.')!.text;
+const eyebrow = home.blocks.filter((b) => b.tag === 'p.font-mono.text-accent')[1].text;
+const paras = home.blocks.filter((b) => b.tag === 'p.text-lg.text-gray-400');
+const [, , paraOne, paraTwo] = paras;
+const ctaExplore = home.blocks.filter((b) => b.tag === 'a.btn-primary')[2].text;
+const ctaSoundcloud = home.blocks.filter((b) => b.tag === 'a.btn-secondary')[2].text;
+const soundcloudHref = site.socials.find((s) => s.platform === 'soundcloud')!.href;
+
+const spans = home.blocks.filter((b) => b.tag === 'span');
+const activeMixerSourceLabel = spans[13].text; // '// ACTIVE_MIXER_SOURCE'
+const artistLabel = spans[14].text; // 'CATCHING FLIES'
+const activeChannelLabel = spans[20].text; // 'ACTIVE_CHANNEL'
+const abbrevs = [spans[15].text, spans[16].text, spans[17].text, spans[18].text, spans[19].text]; // DRM/BAS/MEL/ATM/VOC
+const trackLabels = home.blocks.filter((b) => b.tag === 'span.mixer-track-label').map((b) => b.text);
+const muteLabel = home.blocks.find((b) => b.tag === 'button.mixer-track-mute-btn')!.text; // 'MUTE'
+const fxTitleDefault = home.blocks.find((b) => b.tag === 'span.mixer-fx-title')!.text; // '01. Drums FX'
+const trackTitle = home.headings.find((h) => h.level === 3 && h.text.startsWith('SILVER LININGS'))!.text;
+const statusText = home.blocks.find((b) => b.tag === 'span' && b.text === 'Master track player')!.text;
+const art = home.stems.armedTrackArt!;
+
+const trackKeys = Object.keys(home.stems.stemsConfig);
+const stemsConfig = home.stems.stemsConfig;
+const trackParams = home.stems.trackParams;
+const fxSliders = home.stems.fxSliders;
+// Only what the client script needs — never the whole home.json module.
+const stemsData = JSON.stringify({ stemsConfig, trackParams });
+---
+
+<section id="music" class="music-section" aria-labelledby="music-heading">
+  <div class="container music-inner">
+    <div class="music-copy" data-reveal="fade">
+      <ChannelLabel channel={homeChannel(3)} />
+      <p class="t-mono music-eyebrow" data-scramble>{eyebrow}</p>
+      <h2 id="music-heading" class="t-h2">{heading}</h2>
+      <p class="t-body">{paraOne.text}</p>
+      <p class="t-body">{paraTwo.text}</p>
+      <div class="music-ctas">
+        <a href="/music" class="btn btn-primary">{ctaExplore}</a>
+        <a href={soundcloudHref} target="_blank" rel="noopener noreferrer" class="btn-text">{ctaSoundcloud}</a>
+      </div>
+    </div>
+
+    <div class="stems-console" data-reveal="fade" data-stems-console data-stems={stemsData}>
+      <header class="stems-header">
+        <img src={art.src ?? ''} alt={art.alt ?? ''} width="56" height="56" loading="lazy" class="stems-art" />
+        <div class="stems-header-text">
+          <p class="t-mono stems-eyebrow" data-scramble>{activeMixerSourceLabel}</p>
+          <h3 class="t-h3 stems-title">{trackTitle}</h3>
+          <p class="t-mono stems-artist">{artistLabel}</p>
+        </div>
+      </header>
+
+      <div class="stems-meter" aria-hidden="true">
+        {
+          trackKeys.map((key, i) => (
+            <div class="stems-meter-col">
+              <div class="stems-meter-bar" data-meter={key}><span class="stems-meter-fill" data-meter-fill /></div>
+              <span class="t-mono">{abbrevs[i]}</span>
+            </div>
+          ))
+        }
+      </div>
+
+      <div class="stems-grid">
+        <div class="stems-tracks" data-track-list>
+          {
+            trackKeys.map((key, i) => (
+              <div class="stems-track">
+                <button
+                  type="button"
+                  class="stems-track-select"
+                  data-track-select={key}
+                  aria-pressed={i === 0 ? 'true' : 'false'}
+                  aria-controls={`fx-${key}`}
+                >
+                  <span class="stems-track-dot" aria-hidden="true" />
+                  <span class="t-mono">{trackLabels[i]}</span>
+                </button>
+                <button type="button" class="stems-track-mute" id={`mute-${key}`} data-track-mute={key} aria-pressed="false">
+                  <span class="sr-only">{stemsConfig[key].name} </span>
+                  <span>{muteLabel}</span>
+                </button>
+              </div>
+            ))
+          }
+        </div>
+
+        <div class="stems-fx">
+          <div class="stems-fx-head">
+            <span class="t-mono" data-fx-title>{fxTitleDefault}</span>
+            <span class="t-mono stems-fx-active">{activeChannelLabel}</span>
+          </div>
+
+          <div id="fx-controls-container">
+            {
+              trackKeys.map((key, i) => (
+                <div class="stems-fx-panel" id={`fx-${key}`} data-fx-panel={key} hidden={i !== 0}>
+                  {fxSliders[key].map((slider) => {
+                    const val = Number(trackParams[key][slider.id]);
+                    const inputId = `param-${key}-${slider.id}`;
+                    return (
+                      <div class="fx-row">
+                        <div class="fx-row-head">
+                          <label class="t-mono" for={inputId}>
+                            {slider.label}
+                          </label>
+                          <output class="t-mono fx-row-value" for={inputId} id={`label-${key}-${slider.id}`}>
+                            {fxDisplay(slider.id, val)}
+                          </output>
+                        </div>
+                        <input
+                          type="range"
+                          id={inputId}
+                          class="fx-slider"
+                          min={slider.min}
+                          max={slider.max}
+                          step={slider.step}
+                          value={val}
+                          aria-valuetext={fxDisplay(slider.id, val)}
+                          data-track={key}
+                          data-param={slider.id}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+
+      <div class="stems-master">
+        <div class="stems-master-play">
+          <button type="button" id="av-play-btn" class="stems-play-btn" aria-pressed="false" aria-label="Play mixer loops">
+            <svg data-icon-play viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" focusable="false">
+              <path d="M8 5.5v13l11-6.5z" />
+            </svg>
+            <svg data-icon-pause style="display: none;" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" focusable="false">
+              <path d="M7 5h4v14H7zM13 5h4v14h-4z" />
+            </svg>
+          </button>
+          <span class="t-mono stems-status" id="av-status-txt" aria-live="polite">{statusText}</span>
+        </div>
+
+        <div class="stems-master-vol">
+          <label class="t-mono" for="master-vol">Master volume</label>
+          <input type="range" id="master-vol" min="0" max="1" step="0.05" value="0.7" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .music-section {
+    border-top: 1px solid var(--line);
+    padding-block: var(--sp-9);
+  }
+
+  .music-inner {
+    display: grid;
+    gap: var(--sp-8);
+    align-items: start;
+  }
+
+  .music-copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+    max-width: 56ch;
+  }
+
+  .music-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-5);
+    margin-top: var(--sp-2);
+  }
+
+  .stems-console {
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    background: var(--surface);
+    padding: var(--sp-5);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+
+  .stems-header {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-4);
+    padding-bottom: var(--sp-4);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .stems-art {
+    border-radius: 4px;
+    border: 1px solid var(--line);
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .stems-header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .stems-eyebrow {
+    color: var(--accent);
+  }
+
+  .stems-title {
+    color: var(--text);
+    overflow-wrap: anywhere;
+  }
+
+  .stems-artist {
+    color: var(--text-muted);
+  }
+
+  .stems-meter {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-around;
+    gap: var(--sp-3);
+    height: 72px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: var(--sp-3) var(--sp-4) var(--sp-2);
+  }
+
+  .stems-meter-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    height: 100%;
+    flex: 1;
+    gap: var(--sp-1);
+  }
+
+  /* Level meter: compositor-only. The bar is full height and scaled with
+     transform: scaleY() from the bottom; the accent fill's opacity carries
+     intensity. Nothing here triggers layout per frame. */
+  .stems-meter-bar {
+    position: relative;
+    flex: 1;
+    width: 12px;
+    background: var(--line);
+    transform: scaleY(0.12);
+    transform-origin: bottom;
+    transition: transform 80ms linear;
+  }
+
+  .stems-meter-fill {
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    opacity: 0;
+    transition: opacity 100ms linear;
+  }
+
+  .stems-meter-col span {
+    color: var(--text-muted);
+  }
+
+  .stems-grid {
+    display: grid;
+    gap: var(--sp-4);
+  }
+
+  .stems-tracks {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+  }
+
+  .stems-track {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding-inline: var(--sp-3);
+  }
+
+  .stems-track-select {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    flex: 1;
+    min-height: 44px;
+    color: var(--text-muted);
+    text-align: start;
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .stems-track-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--line);
+    flex-shrink: 0;
+    transition: background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .stems-track-select[aria-pressed='true'] {
+    color: var(--text);
+  }
+
+  .stems-track-select[aria-pressed='true'] .stems-track-dot {
+    background: var(--accent);
+    box-shadow: 0 0 6px color-mix(in srgb, var(--accent) 70%, transparent);
+  }
+
+  .stems-track-mute {
+    font-family: var(--font-mono);
+    font-size: var(--fs-small);
+    letter-spacing: var(--ls-small);
+    min-height: 44px;
+    min-width: 60px;
+    color: var(--text-muted);
+    border-left: 1px solid var(--line);
+    padding-inline-start: var(--sp-3);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .stems-track-mute[aria-pressed='true'] {
+    color: var(--accent);
+  }
+
+  .stems-fx {
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding: var(--sp-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+
+  .stems-fx-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .stems-fx-active {
+    color: var(--accent);
+  }
+
+  .stems-fx-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+
+  .fx-row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+
+  .fx-row-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .fx-row-head label {
+    color: var(--text-muted);
+  }
+
+  .fx-row-value {
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  .fx-slider,
+  #master-vol {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    min-height: 44px; /* generous hit area even though the visual track is thin */
+    background: transparent;
+    padding-block: 20px;
+  }
+
+  .fx-slider::-webkit-slider-runnable-track,
+  #master-vol::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 2px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+  }
+
+  .fx-slider::-webkit-slider-thumb,
+  #master-vol::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    margin-top: -7px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+  }
+
+  .fx-slider::-moz-range-track,
+  #master-vol::-moz-range-track {
+    height: 4px;
+    border-radius: 2px;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+  }
+
+  .fx-slider::-moz-range-thumb,
+  #master-vol::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+  }
+
+  .stems-master {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    padding-top: var(--sp-4);
+    border-top: 1px solid var(--line);
+  }
+
+  .stems-master-play {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+  }
+
+  .stems-play-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .stems-play-btn[aria-pressed='true'] {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+  }
+
+  .stems-status {
+    color: var(--text);
+  }
+
+  .stems-master-vol {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    flex: 1;
+    max-width: 220px;
+    min-width: 160px;
+    justify-content: flex-end;
+  }
+
+  .stems-master-vol label {
+    color: var(--text-muted);
+    white-space: nowrap;
+  }
+
+  @media (min-width: 900px) {
+    .music-inner {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    }
+
+    .stems-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+    }
+  }
+</style>
+
+<script>
+  import { initStemsConsole } from '../../scripts/home/stems-console';
+  initStemsConsole();
+</script>

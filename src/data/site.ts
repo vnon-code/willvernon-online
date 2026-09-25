@@ -39,6 +39,20 @@ export const NAV_ITEMS: NavItem[] = [
   { path: '/about', legacyHref: '/about.html', channel: 'CH-07', label: 'About', legacyLabel: '[ ABOUT ]' },
 ];
 
+/** Nav entry for a path (channel + label come from NAV_ITEMS, never retyped). */
+export const navItem = (path: string): NavItem => {
+  const hit = NAV_ITEMS.find((n) => n.path === path);
+  if (!hit) throw new Error(`NAV_ITEMS has no '${path}'`);
+  return hit;
+};
+
+/**
+ * Home-page section channel: a sub-index of Home's own channel (CH-01.1,
+ * CH-01.2 …) so section labels never collide with the page channels the
+ * nav uses (CH-03 Projects, CH-06 Music …).
+ */
+export const homeChannel = (n: number): string => `${navItem('/').channel}.${n}`;
+
 export interface SocialLink {
   label: string;
   href: string;

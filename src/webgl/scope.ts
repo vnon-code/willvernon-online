@@ -28,6 +28,8 @@ export interface ScopeOptions {
 
 export interface ScopeController {
   attachAnalyser(node: AnalyserNode): void;
+  /** Back to idle mode; stops the analyser pull loop. */
+  detachAnalyser(): void;
   destroy(): void;
 }
 
@@ -311,18 +313,22 @@ export function initScope(canvas: HTMLCanvasElement, opts: ScopeOptions = {}): S
 
   return {
     attachAnalyser(node: AnalyserNode) {
+      const wasAttached = analyser !== null;
       analyser = node;
       analyserData = new Uint8Array(analyser.frequencyBinCount);
       mode = 'audio';
-      const pull = () => {
-        if (!analyser || !analyserData) return;
-        analyser.getByteTimeDomainData(analyserData);
-      };
+      if (wasAttached) return; // pull loop already running
       const pullRaf = () => {
-        pull();
-        if (analyser) requestAnimationFrame(pullRaf);
+        if (!analyser || !analyserData) return; // detached: loop ends
+        analyser.getByteTimeDomainData(analyserData);
+        requestAnimationFrame(pullRaf);
       };
       pullRaf();
+    },
+    detachAnalyser() {
+      analyser = null;
+      analyserData = null;
+      mode = 'idle';
     },
     destroy,
   };

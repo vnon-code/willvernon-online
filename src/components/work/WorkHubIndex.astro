@@ -1,0 +1,263 @@
+---
+/**
+ * CH-02 work hub — the 3 legacy panels (work.json `panels`, sourced from
+ * work.copy.032-040 + work.video.042-044) as a numbered index. An
+ * INDEX/INFORMATION toggle switches the same rows between a compact list
+ * (number + title only) and the expanded legacy view (description + the
+ * R2 preview video). Both states stay in the DOM at all times — the toggle
+ * only flips `data-work-view` and CSS does the rest — so the page is
+ * complete with JS off (default view is INFORMATION, the expanded one, so
+ * nothing needs a script to be readable) and under prefers-reduced-motion.
+ *
+ * Row titles ("Projects"/"AI"/"Experiments", work.h.021-023 — h3 in the
+ * legacy DOM) render as h2 here: the DOM parity checker matches by text
+ * only (never heading level), and h2 keeps a clean h1 → h2 sequence with no
+ * skipped level, since there is no intervening section heading.
+ *
+ * Preview videos: preload="none" until src/scripts/work/hub.ts sets
+ * `src` on first intersection, muted/loop/playsinline, autoplay only when
+ * in view and motion is not reduced; paused the moment a row leaves the
+ * viewport or the view switches to INDEX. Under reduced motion playback
+ * never starts; instead the src gets a `#t=0.1` media fragment with
+ * preload="metadata", so the browser fetches and paints one still frame.
+ */
+import type { WorkPanel } from '../../content';
+import Icon from '../Icon.astro';
+
+interface Props {
+  panels: WorkPanel[];
+}
+
+const { panels } = Astro.props;
+
+function fixHref(href: string | null): string {
+  if (!href) return '#';
+  return href === '/ai' ? '/AI' : href;
+}
+---
+
+<div class="work-toggle" role="group">
+  <button type="button" class="work-toggle-btn" data-view-btn="information" aria-pressed="true">
+    <span class="t-mono">INFORMATION</span>
+  </button>
+  <button type="button" class="work-toggle-btn" data-view-btn="index" aria-pressed="false">
+    <span class="t-mono">INDEX</span>
+  </button>
+</div>
+
+<ol class="work-index" data-work-view="information" data-reveal-stagger>
+  {
+    panels.map((panel, i) => (
+      <li class="work-row" data-work-row data-work-row-src={panel.media.src ?? undefined}>
+        <span class="work-row-num t-mono" aria-hidden="true">
+          {String(i + 1).padStart(2, '0')}
+        </span>
+
+        <div class="work-row-body">
+          <div class="work-row-top">
+            {panel.eyebrow && <p class="t-mono work-row-eyebrow">{panel.eyebrow}</p>}
+            <h2 class="t-h2 work-row-title">
+              <a href={fixHref(panel.href)} class="work-row-link">{panel.title}</a>
+              <Icon name="arrow" size={18} class="work-row-arrow" />
+            </h2>
+          </div>
+          {panel.desc && <p class="t-body work-row-desc work-view-expanded-only">{panel.desc}</p>}
+        </div>
+
+        <span class="work-row-preview work-view-expanded-only" aria-hidden="true">
+          {panel.media.type === 'video' && (
+            <video data-work-row-video muted loop playsinline preload="none" tabindex="-1" width="640" height="360" />
+          )}
+        </span>
+      </li>
+    ))
+  }
+</ol>
+
+<style>
+  .work-toggle {
+    display: inline-flex;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-block-end: var(--sp-6);
+  }
+
+  .work-toggle-btn {
+    padding: var(--sp-2) var(--sp-4);
+    min-height: 44px;
+    min-width: 44px;
+    color: var(--text-muted);
+    transition:
+      color var(--dur-fast) var(--ease-out),
+      background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .work-toggle-btn + .work-toggle-btn {
+    border-inline-start: 1px solid var(--line);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .work-toggle-btn:hover {
+      color: var(--text);
+    }
+
+    .work-row:hover {
+      background: color-mix(in srgb, var(--surface) 60%, transparent);
+    }
+
+    .work-row:hover .work-row-arrow {
+      transform: translateX(4px);
+    }
+  }
+
+  .work-toggle-btn[aria-pressed='true'] {
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  .work-index {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--line);
+  }
+
+  /* The title link is the row's only interactive element; its ::after
+     stretches over the whole row (hit area) while the link's accessible name
+     stays just the title. */
+  .work-row {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+    padding-block: var(--sp-6);
+    border-bottom: 1px solid var(--line);
+    transition: background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .work-row:focus-within {
+    background: color-mix(in srgb, var(--surface) 60%, transparent);
+  }
+
+  .work-row-link {
+    color: inherit;
+  }
+
+  .work-row-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  /* No JS: the toggle can't do anything, so it isn't shown. */
+  :global(html:not(.js)) .work-toggle {
+    display: none;
+  }
+
+  .work-row-num {
+    color: var(--text-muted);
+  }
+
+  .work-row-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    min-width: 0;
+  }
+
+  .work-row-top {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+  }
+
+  .work-row-eyebrow {
+    color: var(--accent);
+  }
+
+  .work-row-title {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-3);
+    color: var(--text);
+  }
+
+  .work-row-arrow {
+    color: var(--accent);
+    flex-shrink: 0;
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+
+  .work-row:focus-within .work-row-arrow {
+    transform: translateX(4px);
+  }
+
+  .work-row-desc {
+    max-width: 62ch;
+  }
+
+  .work-row-preview {
+    display: block;
+    width: 100%;
+    max-width: 480px;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    background: var(--surface);
+  }
+
+  .work-row-preview video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* INDEX view: numbered rows only, compact. Content stays in the DOM —
+     only display toggles — so parity and screen-reader reachability from
+     the INFORMATION view are never affected. */
+  [data-work-view='index'] .work-view-expanded-only {
+    display: none;
+  }
+
+  [data-work-view='index'] .work-row {
+    flex-direction: row;
+    align-items: baseline;
+    gap: var(--sp-5);
+    padding-block: var(--sp-4);
+  }
+
+  [data-work-view='index'] .work-row-body {
+    flex-direction: row;
+    align-items: baseline;
+    gap: var(--sp-4);
+  }
+
+  [data-work-view='index'] .work-row-top {
+    flex-direction: row;
+    align-items: baseline;
+    gap: var(--sp-4);
+  }
+
+  @media (min-width: 900px) {
+    .work-row {
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .work-row-body {
+      flex: 1;
+    }
+
+    .work-row-preview {
+      max-width: 280px;
+      flex-shrink: 0;
+    }
+  }
+</style>
+
+<script>
+  import { initWorkHub } from '../../scripts/work/hub';
+  initWorkHub();
+</script>

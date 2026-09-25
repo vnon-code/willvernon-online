@@ -1,0 +1,241 @@
+---
+/**
+ * CH-01 "Featured Work" — a numbered project index, not a card grid: number,
+ * title (an h3 holding the row link), discipline/meta in mono, a short desc,
+ * and a hover preview of the legacy neon-card's background video. Rows link exactly where the
+ * legacy cards linked (home.featuredWork[].href, already routed).
+ *
+ * Preview video: fine-pointer hover only, after a short intent delay; never
+ * on keyboard focus or touch. src is set on intent and removed again on
+ * leave so an abandoned hover stops downloading. Under
+ * prefers-reduced-motion the script never starts playback at all.
+ */
+import { home } from '../../content';
+import ChannelLabel from '../ChannelLabel.astro';
+import { homeChannel } from '../../data/site';
+import Icon from '../Icon.astro';
+
+const heading = home.headings.find((h) => h.level === 2 && h.text === 'Featured Work')!.text;
+const viewCaseStudy = home.blocks.find((b) => b.tag === 'span.neon-card-overlay-btn')!.text;
+
+function fixHref(href: string | null): string {
+  if (!href) return '#';
+  return href === '/ai' ? '/AI' : href;
+}
+---
+
+<section id="work" class="fw-section" aria-labelledby="fw-heading">
+  <div class="container fw-inner">
+    <div class="fw-head">
+      <ChannelLabel channel={homeChannel(1)} />
+      <h2 id="fw-heading" class="t-h2" data-reveal="lines">{heading}</h2>
+    </div>
+
+    <ol class="fw-index" data-reveal-stagger>
+      {
+        home.featuredWork.map((fw, i) => (
+          <li class="fw-row" data-fw-row data-fw-src={fw.media.src ?? undefined}>
+            <span class="fw-row-num t-mono" aria-hidden="true">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+
+            <div class="fw-row-body">
+              <div class="fw-row-top">
+                <h3 class="fw-row-title t-h3">
+                  <a href={fixHref(fw.href)} class="fw-row-link">{fw.title}</a>
+                </h3>
+                <p class="fw-row-meta t-mono">
+                  {fw.label}
+                  {fw.tags.length > 0 && <> · {fw.tags.join(' / ')}</>}
+                </p>
+              </div>
+              <p class="fw-row-desc t-small">{fw.desc}</p>
+            </div>
+
+            <span class="fw-row-cta t-mono" aria-hidden="true">
+              {viewCaseStudy}
+              <Icon name="arrow" size={14} class="fw-row-cta-icon" />
+            </span>
+
+            <span class="fw-row-preview" aria-hidden="true">
+              {fw.media.type === 'video' && (
+                <video data-fw-video muted loop playsinline preload="none" tabindex="-1" />
+              )}
+            </span>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .fw-section {
+    border-top: 1px solid var(--line);
+    padding-block: var(--sp-9);
+  }
+
+  .fw-head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    margin-bottom: var(--sp-7);
+  }
+
+  .fw-index {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .fw-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    column-gap: var(--sp-5);
+    row-gap: var(--sp-2);
+    padding-block: var(--sp-5);
+    border-top: 1px solid var(--line);
+    transition: background-color var(--dur-fast) var(--ease-out);
+  }
+
+  .fw-row:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .fw-row:focus-within {
+    background: color-mix(in srgb, var(--surface) 60%, transparent);
+  }
+
+  /* The title link is the row's only interactive element; its ::after
+     stretches over the whole row so the entire row stays clickable while
+     the link's accessible name is just the project title. */
+  .fw-row-link {
+    color: inherit;
+  }
+
+  .fw-row-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .fw-row-num {
+    color: var(--text-muted);
+    font-size: var(--fs-h3);
+    font-variation-settings: var(--fset-body);
+  }
+
+  .fw-row-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+    min-width: 0;
+  }
+
+  .fw-row-top {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--sp-3);
+  }
+
+  .fw-row-title {
+    color: var(--text);
+    margin: 0;
+  }
+
+  .fw-row-meta {
+    color: var(--text-muted);
+    margin: 0;
+  }
+
+  .fw-row-desc {
+    max-width: 62ch;
+    margin: 0;
+  }
+
+  .fw-row-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-1);
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  .fw-row-cta-icon {
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+
+  .fw-row:focus-within .fw-row-cta-icon {
+    transform: translateX(3px);
+  }
+
+  /* Narrow screens: number + body only; the CTA drops under the body (the
+     whole row is already the link). */
+  @media (max-width: 699px) {
+    .fw-row {
+      grid-template-columns: auto 1fr;
+      align-items: start;
+    }
+
+    .fw-row-cta {
+      grid-column: 2;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .fw-row:hover {
+      background: color-mix(in srgb, var(--surface) 60%, transparent);
+    }
+
+    .fw-row:hover .fw-row-cta-icon {
+      transform: translateX(3px);
+    }
+  }
+
+  /* Hover preview: desktop + fine pointer only. The box stays invisible
+     until the video has actually painted a frame (.is-playing is set on the
+     'playing' event by featured-work.ts), so there is never an empty box. */
+  .fw-row-preview {
+    display: none;
+  }
+
+  @media (min-width: 900px) and (hover: hover) and (pointer: fine) {
+    .fw-row {
+      padding-inline-end: 200px;
+    }
+
+    .fw-row-preview {
+      display: block;
+      position: absolute;
+      inset-block-start: 50%;
+      inset-inline-end: var(--sp-2);
+      transform: translateY(-50%);
+      width: 176px;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      background: var(--surface);
+      opacity: 0;
+      transition: opacity var(--dur-fast) var(--ease-out);
+    }
+
+    .fw-row.is-playing .fw-row-preview {
+      opacity: 1;
+    }
+
+    .fw-row-preview video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+</style>
+
+<script>
+  import { initFeaturedWork } from '../../scripts/home/featured-work';
+  initFeaturedWork();
+</script>

@@ -1,25 +1,492 @@
 ---
+// About & Credentials — CH-07.
+//
+// Every string rendered below is read out of src/content/about.json via the
+// `_src` INVENTORY id it carries (see redesign/content/INVENTORY.md,
+// "## about.html"), never hand-typed. `bySrc()` is the lookup: it keys on
+// the same structural id build_content.py stamped on each item, so nothing
+// here can silently drift from the extraction.
+//
+// Skills used — impeccable: kept the legacy per-discipline neon hover glow
+// (red/orange/cyan/amber) out; Direction A only has --accent for a "signal"
+// colour and caps --accent-2 at ~5% site-wide, so skill groups are split by
+// a neutral --line rule (no accent ramp, no hover glow on static chips), plus the
+// craft-floor's H1→H2→H3 heading order (legacy skipped to h3/h4).
+// find-animation-opportunities: the accordion disclosure and the timeline
+// ruler both pass the gate (state indication / spatial consistency,
+// occasional frequency); a per-chip hover glow is feedback-tier and kept to
+// a 1px border + soft shadow, not a bounce. animate: single ease family,
+// transform/opacity/box-shadow only — reduced motion kills all of it via
+// base.css's global transition/animation-duration override, so no separate
+// branch was needed here. gsap-scrolltrigger: reused the existing
+// data-ruler/data-ruler-step primitive (ScrollTrigger scrub, with its own
+// IntersectionObserver reduced-motion branch already built in ruler.ts)
+// for the Education/Experience timelines instead of writing new JS.
 import Base from '../layouts/Base.astro';
-import { site } from '../content';
 import ChannelLabel from '../components/ChannelLabel.astro';
+import Icon from '../components/Icon.astro';
+import { about, site, type TextBlock, type Src } from '../content';
+import { SOCIAL_LINKS, navItem } from '../data/site';
+
+const nav = navItem('/about');
 
 const title = site.pages.about.legacyTitle!;
+
+function bySrc<T extends Src>(items: T[], id: string): T {
+  const hit = items.find((item) => item._src?.includes(id));
+  if (!hit) throw new Error(`about.astro: src/content/about.json has no item with _src "${id}"`);
+  return hit;
+}
+
+// ---------- Hero ----------
+const h1 = bySrc(about.headings, 'about.h.021');
+const profileLabel = bySrc(about.blocks, 'about.copy.040');
+const introText = bySrc(about.blocks, 'about.copy.042');
+
+// ---------- Design Personality + Contact ----------
+const personalityHeading = bySrc(about.headings, 'about.h.022');
+const personalityP1 = bySrc(about.blocks, 'about.copy.044');
+const personalityP2 = bySrc(about.blocks, 'about.copy.045');
+
+const contactHeading = bySrc(about.headings, 'about.h.023');
+const contactEmail = bySrc(about.blocks, 'about.copy.047');
+const cvLink = bySrc(about.links, 'about.link.090');
+const contactSocials = SOCIAL_LINKS.filter((s) => s.icon === 'instagram' || s.icon === 'linkedin');
+
+// ---------- Design Skills, grouped by discipline ----------
+const skillsHeading = bySrc(about.headings, 'about.h.024');
+const skillIds = [
+  'about.copy.050',
+  'about.copy.051',
+  'about.copy.052',
+  'about.copy.053',
+  'about.copy.054',
+  'about.copy.055',
+  'about.copy.056',
+];
+const skillBlocks: TextBlock[] = skillIds.map((id) => bySrc(about.blocks, id));
+
+/** The discipline slug lives in the legacy CSS class already carried on
+ * `tag` (e.g. "span.hud-skill-tag.skill-adobe") — read out, never invented. */
+function disciplineOf(tag: string): string {
+  const m = tag.match(/skill-([a-z0-9]+)/i);
+  return m ? m[1].toLowerCase() : 'other';
+}
+
+interface SkillGroup {
+  discipline: string;
+  index: number;
+  chips: TextBlock[];
+}
+
+const skillGroups: SkillGroup[] = [];
+for (const block of skillBlocks) {
+  const discipline = disciplineOf(block.tag);
+  const current = skillGroups[skillGroups.length - 1];
+  if (current && current.discipline === discipline) current.chips.push(block);
+  else skillGroups.push({ discipline, index: skillGroups.length, chips: [block] });
+}
+
+// ---------- Generative Design (AI toolset) ----------
+const generativeHeading = bySrc(about.headings, 'about.h.025');
+const commercialLabel = bySrc(about.blocks, 'about.copy.058');
+const commercialTools = bySrc(about.blocks, 'about.copy.059');
+const openSourceLabel = bySrc(about.blocks, 'about.copy.060');
+const openSourceTools = bySrc(about.blocks, 'about.copy.061');
+const promptSkills = bySrc(about.blocks, 'about.copy.062');
+
+// ---------- Education (with the credentials accordion) ----------
+const educationHeading = bySrc(about.headings, 'about.h.026');
+
+const baHeading = bySrc(about.headings, 'about.h.027');
+const baMeta = bySrc(about.blocks, 'about.copy.065');
+const linkedProjectsLabel = bySrc(about.blocks, 'about.copy.066');
+const projectLinks = ['about.link.091', 'about.link.092', 'about.link.093'].map((id) =>
+  bySrc(about.links, id),
+);
+
+const certHeHeading = bySrc(about.headings, 'about.h.028');
+const certHeMeta = bySrc(about.blocks, 'about.copy.071');
+
+// ---------- Experience ----------
+const experienceHeading = bySrc(about.headings, 'about.h.029');
+const climbingHeading = bySrc(about.headings, 'about.h.030');
+const climbingMeta = bySrc(about.blocks, 'about.copy.074');
+const waiterHeading = bySrc(about.headings, 'about.h.031');
+const waiterMeta = bySrc(about.blocks, 'about.copy.076');
 ---
 
-<Base title={title} path="/about" channel="CH-07">
-  <section class="page-stub container">
-    <ChannelLabel channel="CH-07" />
-    <h1 class="t-h1" data-reveal="lines">About &amp; Credentials</h1>
-    <p class="t-mono">CH-07 // page body lands in Phase 3–5.</p>
+<Base title={title} path="/about" channel={nav.channel}>
+  <section class="about-hero container">
+    <ChannelLabel channel={nav.channel} label={nav.label} />
+    <p class="about-kicker t-mono" data-scramble>{profileLabel.text}</p>
+    <h1 class="t-h1" data-reveal="lines">{h1.text}</h1>
+    <p class="about-intro t-body" data-reveal="fade">{introText.text}</p>
+  </section>
+
+  <section class="about-section container">
+    <div class="about-split">
+      <div class="about-col" data-reveal-stagger>
+        <h2 class="t-h2">{personalityHeading.text}</h2>
+        <p class="t-body">{personalityP1.text}</p>
+        <p class="t-body">{personalityP2.text}</p>
+
+        <div class="about-contact">
+          <h3 class="t-h3">{contactHeading.text}</h3>
+          <p class="t-body about-contact-email">{contactEmail.text}</p>
+          <div class="about-contact-row">
+            <a href={cvLink.href} class="btn btn-secondary">
+              {cvLink.text}
+            </a>
+            <ul class="about-contact-socials" aria-label="Social links">
+              {
+                contactSocials.map((s) => (
+                  <li>
+                    <a href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}>
+                      <Icon name={s.icon} size={18} />
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-col" data-reveal-stagger>
+        <h2 class="t-h2">{skillsHeading.text}</h2>
+        <div class="skill-groups">
+          {
+            skillGroups.map((group) => (
+              <div class="skill-group" style={`--group-i:${group.index}`}>
+                {group.chips.map((chip) => (
+                  <span class="skill-chip t-mono">{chip.text}</span>
+                ))}
+              </div>
+            ))
+          }
+        </div>
+
+        <div class="about-generative">
+          <h2 class="t-h2">{generativeHeading.text}</h2>
+          <div class="about-tool-cat">
+            <p class="t-small about-tool-cat-label">{commercialLabel.text}</p>
+            <p class="t-body">{commercialTools.text}</p>
+          </div>
+          <div class="about-tool-cat">
+            <p class="t-small about-tool-cat-label">{openSourceLabel.text}</p>
+            <p class="t-body">{openSourceTools.text}</p>
+            <p class="t-body">{promptSkills.text}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-section container">
+    <div class="about-split">
+      <div class="about-col">
+        <h2 class="t-h2">{educationHeading.text}</h2>
+        <div class="about-timeline ruler" data-ruler>
+          <div class="about-timeline-item ruler-step ruler-step-accordion" data-ruler-step>
+            <details class="cred-accordion">
+              <summary class="cred-summary">
+                <span class="about-timeline-dot" aria-hidden="true"></span>
+                <span class="cred-summary-head">
+                  <h3 class="t-h3 about-timeline-title">{baHeading.text}</h3>
+                  <p class="t-mono about-timeline-meta">{baMeta.text}</p>
+                </span>
+                <Icon name="arrow" size={16} class="cred-caret" />
+              </summary>
+              <div class="cred-content">
+                <p class="t-mono cred-content-label" data-scramble>{linkedProjectsLabel.text}</p>
+                <ul class="cred-project-list">
+                  {
+                    projectLinks.map((link) => (
+                      <li>
+                        <a href={link.href} class="cred-project-link">
+                          <span>{link.text}</span>
+                          <Icon name="arrow" size={14} />
+                        </a>
+                      </li>
+                    ))
+                  }
+                </ul>
+              </div>
+            </details>
+          </div>
+
+          <div class="about-timeline-item ruler-step" data-ruler-step>
+            <span class="about-timeline-dot" aria-hidden="true"></span>
+            <h3 class="t-h3 about-timeline-title">{certHeHeading.text}</h3>
+            <p class="t-mono about-timeline-meta">{certHeMeta.text}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-col">
+        <h2 class="t-h2">{experienceHeading.text}</h2>
+        <div class="about-timeline ruler" data-ruler>
+          <div class="about-timeline-item ruler-step" data-ruler-step>
+            <span class="about-timeline-dot" aria-hidden="true"></span>
+            <h3 class="t-h3 about-timeline-title">{climbingHeading.text}</h3>
+            <p class="t-mono about-timeline-meta">{climbingMeta.text}</p>
+          </div>
+          <div class="about-timeline-item ruler-step" data-ruler-step>
+            <span class="about-timeline-dot" aria-hidden="true"></span>
+            <h3 class="t-h3 about-timeline-title">{waiterHeading.text}</h3>
+            <p class="t-mono about-timeline-meta">{waiterMeta.text}</p>
+          </div>
+        </div>
+      </div>
+    </div>
   </section>
 </Base>
 
 <style>
-  .page-stub {
+  .about-hero {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    padding-block: var(--sp-9) var(--sp-7);
+  }
+
+  .about-kicker {
+    color: var(--text-muted);
+    letter-spacing: var(--ls-mono-caption);
+  }
+
+  .about-intro {
+    max-width: 62ch;
+    color: var(--text-muted);
+    line-height: var(--lh-body);
+  }
+
+  .about-section {
+    padding-block: var(--sp-8);
+    border-top: 1px solid var(--line);
+  }
+
+  .about-split {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-9);
+  }
+
+  .about-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-6);
+    min-width: 0;
+  }
+
+  .about-col > .t-body + .t-body {
+    margin-top: calc(var(--sp-4) * -1);
+  }
+
+  .about-contact {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    padding-top: var(--sp-5);
+    border-top: 1px solid var(--line);
+  }
+
+  .about-contact-email {
+    color: var(--text-muted);
+  }
+
+  .about-contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-5);
+  }
+
+  .about-contact-socials {
+    display: flex;
+    gap: var(--sp-3);
+  }
+
+  .about-contact-socials a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    color: var(--text-muted);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .about-contact-socials a:hover,
+  .about-contact-socials a:focus-visible {
+    color: var(--accent);
+  }
+
+  /* ---------- Design Skills: discipline glow ----------
+   * Groups are separated by a neutral --line rule only: --accent keeps its
+   * single job (CTA / live / active state), and a red intensity ramp by
+   * source order would read as a ranking the content doesn't support. */
+  .skill-groups {
     display: flex;
     flex-direction: column;
     gap: var(--sp-4);
-    padding-block: var(--sp-9);
-    min-height: 60svh;
+  }
+
+  .skill-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+    padding-inline-start: var(--sp-3);
+    border-inline-start: 2px solid var(--line);
+  }
+
+  /* Static, non-interactive chips: no hover lift or glow. */
+  .skill-chip {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: var(--sp-2) var(--sp-3);
+    color: var(--text-muted);
+  }
+
+  .about-generative {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+    padding-top: var(--sp-5);
+    border-top: 1px solid var(--line);
+  }
+
+  .about-tool-cat {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+  }
+
+  .about-tool-cat-label {
+    color: var(--accent-2);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-small);
+  }
+
+  /* ---------- Education / Experience timeline ---------- */
+  .about-timeline {
+    padding-inline-start: var(--sp-5);
+    gap: var(--sp-6);
+  }
+
+  .about-timeline-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+  }
+
+  .about-timeline-dot {
+    position: absolute;
+    inset-inline-start: calc(var(--sp-5) * -1 - 3.5px);
+    top: 0.5em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+  }
+
+  .about-timeline-meta {
+    color: var(--text-muted);
+  }
+
+  /* ---------- Credentials accordion (BA Graphic Design) ---------- */
+  .ruler-step-accordion {
+    padding-inline-start: 0;
+  }
+
+  .cred-accordion {
+    padding-inline-start: var(--sp-4);
+  }
+
+  .cred-summary {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-3);
+    list-style: none;
+    cursor: pointer;
+    min-height: 44px;
+    padding-block: var(--sp-1);
+  }
+
+  .cred-summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .cred-summary-head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+    flex: 1;
+    min-width: 0;
+  }
+
+  .cred-summary:hover .about-timeline-title,
+  .cred-summary:focus-visible .about-timeline-title {
+    color: var(--accent);
+  }
+
+  .cred-caret {
+    flex-shrink: 0;
+    margin-top: 0.35em;
+    color: var(--text-muted);
+    transform: rotate(90deg);
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+
+  .cred-accordion[open] .cred-caret {
+    transform: rotate(-90deg);
+  }
+
+  .cred-content {
+    padding-block-start: var(--sp-3);
+    padding-inline-start: var(--sp-5);
+    margin-inline-start: 3px;
+    border-inline-start: 1px dashed var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+
+  .cred-content-label {
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: var(--ls-mono-caption);
+  }
+
+  .cred-project-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+
+  .cred-project-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-3);
+    min-height: 44px;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--line);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .cred-project-link:hover,
+  .cred-project-link:focus-visible {
+    color: var(--accent);
+  }
+
+  @media (min-width: 900px) {
+    .about-split {
+      grid-template-columns: 1fr 1fr;
+    }
   }
 </style>
