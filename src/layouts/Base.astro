@@ -1,0 +1,116 @@
+---
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource-variable/jetbrains-mono/wght.css';
+import archivoDisplayWoff2 from '@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2?url';
+
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/motion.css'; // owned by builder B (src/motion/)
+
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { PERSON_JSONLD, SITE } from '../data/site';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Clean path, e.g. '/about'. '/' for the home page. */
+  path: string;
+  channel?: string;
+  noindex?: boolean;
+  ogImage?: string;
+  bodyClass?: string;
+}
+
+const {
+  title,
+  description = SITE.defaultDescription,
+  path,
+  noindex = false,
+  ogImage = SITE.defaultOgImage,
+  bodyClass,
+} = Astro.props;
+
+const canonical = new URL(path === '/' ? '/' : path, SITE.url).toString();
+const ogImageAbsolute = new URL(ogImage, SITE.url).toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {!noindex && <link rel="canonical" href={canonical} />}
+
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {!noindex && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={ogImageAbsolute} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageAbsolute} />
+
+    <meta name="theme-color" content={SITE.themeColor} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="generator" content={Astro.generator} />
+
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href={archivoDisplayWoff2}
+      crossorigin="anonymous"
+    />
+
+    <script is:inline>
+      // html.js lets CSS pre-hide reveal targets. Fail open: if the motion
+      // bundle hasn't claimed them (window.__motionReady, set by
+      // src/motion/reveal.ts) within 3s (network error, CSP drift, no module
+      // support), drop html.js so everything shows and the no-JS nav appears.
+      // pagereveal: flag the incoming page of a cross-document view
+      // transition so motion.css can play the scanline sweep; this must be
+      // registered before first render, hence here and not in the module.
+      // CSP: this script is allow-listed by hash in public/_headers.
+      (function () {
+        var d = document.documentElement;
+        d.classList.add('js');
+        setTimeout(function () {
+          if (!window.__motionReady) d.classList.remove('js');
+        }, 3000);
+        addEventListener('pagereveal', function (e) {
+          if (!e.viewTransition) return;
+          d.classList.add('vt-reveal');
+          setTimeout(function () {
+            d.classList.remove('vt-reveal');
+          }, 1000);
+        });
+      })();
+    </script>
+
+    <script type="application/ld+json" set:html={JSON.stringify(PERSON_JSONLD)} />
+  </head>
+  <body class={bodyClass}>
+    <a href="#main" class="skip-link">Skip to content</a>
+    <Nav current={path} />
+    <main id="main" data-vt-root>
+      <slot />
+    </main>
+    <Footer />
+    <div class="cursor-ring" aria-hidden="true" data-cursor></div>
+    <div class="vt-scanline" aria-hidden="true"></div>
+    <script type="module">
+      import { initMotion } from '../motion/index.ts';
+      initMotion();
+    </script>
+  </body>
+</html>

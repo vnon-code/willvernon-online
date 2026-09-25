@@ -1,0 +1,383 @@
+/*
+  Direction A — Signal Console
+  Modern reset, typography, grid/container utilities, calibration ruler,
+  focus-visible, skip link, selection, reduced-motion defaults.
+*/
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  color-scheme: dark;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* The window must stay the scroll container (ScrollTrigger, the HUD scroll
+ * readout and sticky nav all read window scroll): body gets min-height, not
+ * height, and the horizontal guard below uses overflow-x: clip, which does
+ * not create a scroll container the way overflow-x: hidden does. */
+html {
+  height: 100%;
+}
+
+body {
+  min-height: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-variation-settings: var(--fset-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-body);
+  overflow-x: clip;
+  min-width: 320px;
+}
+
+img,
+picture,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+  padding: 0;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+/* Prevent long words / tokens from forcing horizontal scroll at 390 */
+h1,
+h2,
+h3,
+h4,
+p,
+a,
+span {
+  overflow-wrap: break-word;
+}
+
+/* ---------- Selection ---------- */
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* ---------- Focus ---------- */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Guarantee visibility on dark controls/inputs that clip outlines */
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- Typography ---------- */
+.t-display {
+  font-family: var(--font-display);
+  font-variation-settings: var(--fset-display);
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--ls-display);
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.t-h1 {
+  font-family: var(--font-body);
+  font-variation-settings: var(--fset-body-bold);
+  font-size: var(--fs-h1);
+  line-height: var(--lh-h1);
+  letter-spacing: var(--ls-h1);
+  font-weight: 700;
+}
+
+.t-h2 {
+  font-family: var(--font-body);
+  font-variation-settings: var(--fset-body-bold);
+  font-size: var(--fs-h2);
+  line-height: var(--lh-h2);
+  letter-spacing: var(--ls-h2);
+  font-weight: 700;
+}
+
+.t-h3 {
+  font-family: var(--font-body);
+  font-variation-settings: var(--fset-body-medium);
+  font-size: var(--fs-h3);
+  line-height: var(--lh-h3);
+  letter-spacing: var(--ls-h3);
+  font-weight: 500;
+}
+
+.t-body {
+  font-family: var(--font-body);
+  font-variation-settings: var(--fset-body);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  letter-spacing: var(--ls-body);
+  max-width: 65ch;
+}
+
+.t-small {
+  font-family: var(--font-body);
+  font-variation-settings: var(--fset-body);
+  font-size: var(--fs-small);
+  line-height: var(--lh-small);
+  letter-spacing: var(--ls-small);
+  color: var(--text-muted);
+}
+
+.t-mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono-caption);
+  line-height: var(--lh-mono-caption);
+  letter-spacing: var(--ls-mono-caption);
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* Numeric telemetry: fixed-width digits so HUD values don't jitter */
+.t-mono,
+[data-hud],
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Layout: container / grid ---------- */
+.container {
+  width: 100%;
+  max-width: var(--grid-max);
+  margin-inline: auto;
+  padding-inline: var(--grid-margin);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(var(--grid-columns), 1fr);
+  gap: var(--grid-gutter);
+}
+
+/* ---------- Hairlines ---------- */
+.hr {
+  border: none;
+  border-top: 1px solid var(--line);
+}
+
+.line-top {
+  border-top: 1px solid var(--line);
+}
+
+.line-bottom {
+  border-bottom: 1px solid var(--line);
+}
+
+/* ---------- Calibration ruler ---------- */
+/* Visible tick strip used as a decorative-but-real calibration reference
+   and as the base for the scrubbed process-step ruler (data-ruler). */
+.ruler {
+  --ruler-progress: 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.ruler::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: var(--line);
+}
+
+.ruler::after {
+  content: '';
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0;
+  width: 1px;
+  height: calc(var(--ruler-progress) * 100%);
+  background: var(--accent);
+  transition: height var(--dur-fast) var(--ease-snap);
+}
+
+.ruler-step {
+  position: relative;
+  padding-inline-start: var(--sp-4);
+}
+
+.ruler-step::before {
+  content: '';
+  position: absolute;
+  inset-inline-start: -3px;
+  top: 0.55em;
+  width: 7px;
+  height: 1px;
+  background: var(--line);
+}
+
+/* ---------- Accessibility utilities ---------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: fixed;
+  top: var(--sp-2);
+  left: var(--sp-2);
+  z-index: var(--z-vt);
+  transform: translateY(-150%);
+  background: var(--accent);
+  color: var(--bg);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  letter-spacing: var(--ls-small);
+  text-transform: uppercase;
+  padding: var(--sp-3) var(--sp-4);
+  border-radius: 2px;
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* ---------- Buttons / CTA ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  letter-spacing: var(--ls-small);
+  text-transform: lowercase;
+  padding: var(--sp-3) var(--sp-5);
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  transition:
+    background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+
+.btn-primary:hover {
+  background: color-mix(in srgb, var(--accent) 85%, white);
+}
+
+.btn-secondary {
+  background: transparent;
+  border-color: var(--line);
+  color: var(--text);
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.btn-text {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  font-family: var(--font-mono);
+  font-size: var(--fs-small);
+  color: var(--accent);
+  border: none;
+  padding: 0;
+  min-height: auto;
+}
+
+.btn-text:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------- Reduced motion defaults ---------- */
+/* Content must be fully visible with no JS and with reduced motion.
+   Anything with a data-reveal attribute starts visible; motion.js
+   only hides it via inline style once GSAP is ready to animate it in,
+   and only when reduced motion is NOT requested. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------- No horizontal overflow guard ---------- */
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}

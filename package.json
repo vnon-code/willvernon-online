@@ -8,7 +8,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "content": "python3 redesign/scripts/build_content.py",
-    "check": "astro check"
+    "content:check": "python3 redesign/scripts/check_content_parity.py",
+    "check": "astro check",
+    "check:csp": "python3 redesign/scripts/check_csp_hashes.py"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.4",
@@ -20,6 +22,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "mpg123-decoder": "^1.0.3",
     "typescript": "^5.9.3"
   }
 }

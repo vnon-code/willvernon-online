@@ -15,4 +15,7 @@ export default defineConfig({
     }),
   ],
   prefetch: false,
+  // Never inline assets as data: URIs (the small cyrillic-ext woff2 was),
+  // because the CSP font-src is 'self' only. Every font goes to /_astro.
+  vite: { build: { assetsInlineLimit: 0 } },
 });

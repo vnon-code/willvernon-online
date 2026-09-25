@@ -1,0 +1,343 @@
+---
+// Internal reference only: noindex + excluded from the sitemap
+// (astro.config.mjs filters /styleguide) and X-Robots-Tag noindex in
+// public/_headers. Not linked from primary nav.
+import Base from '../layouts/Base.astro';
+import ChannelLabel from '../components/ChannelLabel.astro';
+import HudReadout from '../components/HudReadout.astro';
+import SignalScope from '../components/SignalScope.astro';
+
+const title = 'Styleguide | William Vernon';
+
+const swatches = [
+  { token: '--bg', hex: '#050505', role: 'page background', textSafe: false },
+  { token: '--surface', hex: '#0c0c0d', role: 'panels, cards', textSafe: false },
+  { token: '--surface-2', hex: '#15151a', role: 'raised chrome', textSafe: false },
+  { token: '--line', hex: '#26262b', role: 'hairlines, ticks', textSafe: false },
+  { token: '--text', hex: '#ededed', role: 'primary text', textSafe: true },
+  { token: '--text-muted', hex: '#7d838a', role: 'secondary/meta text', textSafe: true },
+  { token: '--accent', hex: '#ff3b30', role: 'signal red — CTA, live/active', textSafe: true },
+  { token: '--accent-2', hex: '#ffb000', role: 'signal amber — channel 2', textSafe: true },
+];
+
+const typeScale = [
+  { cls: 't-display', token: '--fs-display', label: 'Display', sample: 'SIGNAL' },
+  { cls: 't-h1', token: '--fs-h1', label: 'H1', sample: 'William Vernon' },
+  { cls: 't-h2', token: '--fs-h2', label: 'H2', sample: 'Generative Design.' },
+  { cls: 't-h3', token: '--fs-h3', label: 'H3', sample: 'Send a Message' },
+  { cls: 't-body', token: '--fs-body', label: 'Body', sample: 'Adaptable designer blending technical skills with operational reliability.' },
+  { cls: 't-small', token: '--fs-small', label: 'Small', sample: 'YOUR_NAME' },
+  { cls: 't-mono', token: '--fs-mono-caption', label: 'Mono caption', sample: 'CH-01 // 174 BPM' },
+];
+---
+
+<Base title={title} path="/styleguide" noindex={true}>
+  <section class="sg-section container">
+    <ChannelLabel channel="CH-SG" label="STYLEGUIDE" />
+    <h1 class="t-h1">Design system reference</h1>
+    <p class="t-body">
+      Internal only — noindex, excluded from the sitemap. Direction A, Signal Console. Every
+      token below is read live from tokens.css, not restated by hand.
+    </p>
+  </section>
+
+  <section class="sg-section container" id="colour">
+    <h2 class="t-h2">Colour</h2>
+    <p class="t-small">Contrast ratios computed client-side (WCAG relative luminance) against <code>--bg</code>.</p>
+    <div class="swatch-grid">
+      {
+        swatches.map((s) => (
+          <div class="swatch-card">
+            <div class="swatch" style={`background:${s.hex}`} data-swatch={s.token} />
+            <p class="t-mono swatch-token">{s.token}</p>
+            <p class="t-small swatch-role">{s.role}</p>
+            <p class="t-small swatch-hex">{s.hex}</p>
+            {s.textSafe && (
+              <p class="t-small swatch-contrast" data-contrast-for={s.token}>
+                computing…
+              </p>
+            )}
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="sg-section container" id="type">
+    <h2 class="t-h2">Type scale</h2>
+    <div class="type-scale">
+      {
+        typeScale.map((t) => (
+          <div class="type-row">
+            <p class="t-mono type-row-label">
+              {t.label} · {t.token}
+            </p>
+            <p class={t.cls}>{t.sample}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="sg-section container" id="grid">
+    <h2 class="t-h2">Grid</h2>
+    <label class="grid-toggle t-mono">
+      <input type="checkbox" id="grid-overlay-toggle" />
+      Show column overlay (4 / 8 / 12 columns)
+    </label>
+    <div class="grid-demo">
+      <div class="grid-overlay" id="grid-overlay" aria-hidden="true">
+        {Array.from({ length: 12 }).map(() => <span class="grid-overlay-col" />)}
+      </div>
+      <p class="t-body">Resize the viewport — 390 gives 4 columns, 768 gives 8, 1440 gives 12.</p>
+    </div>
+  </section>
+
+  <section class="sg-section container" id="buttons">
+    <h2 class="t-h2">Buttons &amp; CTAs</h2>
+    <div class="button-row">
+      <a href="#buttons" class="btn btn-primary">explore_projects</a>
+      <a href="#buttons" class="btn btn-secondary">Secondary action</a>
+      <a href="#buttons" class="btn-text">&gt; AI projects</a>
+    </div>
+  </section>
+
+  <section class="sg-section container" id="channel">
+    <h2 class="t-h2">ChannelLabel</h2>
+    <div class="channel-row">
+      <ChannelLabel channel="CH-01" label="Home" />
+      <ChannelLabel channel="CH-03" label="Projects" />
+      <ChannelLabel channel="CH-06" label="Music" />
+    </div>
+  </section>
+
+  <section class="sg-section container" id="hud">
+    <h2 class="t-h2">HudReadout</h2>
+    <div class="hud-row">
+      <HudReadout variant="clock" />
+      <HudReadout variant="scroll" />
+      <HudReadout variant="xy" />
+      <HudReadout variant="bpm" />
+    </div>
+  </section>
+
+  <section class="sg-section container" id="motion">
+    <h2 class="t-h2">Motion primitives</h2>
+
+    <p class="t-mono">data-reveal="lines"</p>
+    <h3 class="t-h3" data-reveal="lines">This heading reveals line by line.</h3>
+
+    <p class="t-mono">data-reveal="fade"</p>
+    <p class="t-body" data-reveal="fade">This block fades up as one piece.</p>
+
+    <p class="t-mono">data-reveal-stagger</p>
+    <div class="reveal-stagger-demo" data-reveal-stagger>
+      <p class="t-body">Block one.</p>
+      <p class="t-body">Block two.</p>
+      <p class="t-body">Block three.</p>
+    </div>
+
+    <p class="t-mono">data-scramble</p>
+    <p class="t-mono" data-scramble>SIGNAL // DECODE // 174 BPM</p>
+
+    <p class="t-mono">data-ruler + [data-ruler-step]</p>
+    <div class="ruler ruler-demo" data-ruler>
+      <div class="ruler-step" data-ruler-step>
+        <p class="t-mono">STEP 01</p>
+        <p class="t-body">Scrub the page — this fills via ScrollTrigger once wired.</p>
+      </div>
+      <div class="ruler-step" data-ruler-step>
+        <p class="t-mono">STEP 02</p>
+        <p class="t-body">Calibration ruler, second tick.</p>
+      </div>
+      <div class="ruler-step" data-ruler-step>
+        <p class="t-mono">STEP 03</p>
+        <p class="t-body">Third and final tick in this demo.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sg-section container" id="scope">
+    <h2 class="t-h2">SignalScope</h2>
+    <SignalScope mode="idle" traces={6} class="sg-scope" />
+  </section>
+
+  <section class="sg-section container" id="focus">
+    <h2 class="t-h2">Focus states</h2>
+    <p class="t-small">Tab through — every interactive element gets a 2px accent outline with offset.</p>
+    <div class="focus-row">
+      <a href="#focus" class="btn btn-primary">Link button</a>
+      <button type="button" class="btn btn-secondary">Button</button>
+      <label class="t-small" for="sg-input">
+        Text input
+        <input id="sg-input" type="text" class="sg-input" placeholder="Type here" />
+      </label>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .sg-section {
+    padding-block: var(--sp-8);
+    border-top: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+
+  .swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: var(--sp-5);
+  }
+
+  .swatch-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+  }
+
+  .swatch {
+    height: 80px;
+    border: 1px solid var(--line);
+    border-radius: 2px;
+  }
+
+  .swatch-token {
+    color: var(--text);
+    margin-top: var(--sp-2);
+  }
+
+  .swatch-role,
+  .swatch-hex {
+    color: var(--text-muted);
+  }
+
+  .swatch-contrast {
+    color: var(--accent-2);
+  }
+
+  .type-scale {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-6);
+  }
+
+  .type-row-label {
+    color: var(--text-muted);
+    margin-bottom: var(--sp-2);
+  }
+
+  .grid-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    min-height: 44px;
+    color: var(--text-muted);
+  }
+
+  .grid-demo {
+    position: relative;
+  }
+
+  .grid-overlay {
+    position: absolute;
+    inset: 0;
+    display: none;
+    grid-template-columns: repeat(var(--grid-columns), 1fr);
+    gap: var(--grid-gutter);
+    pointer-events: none;
+  }
+
+  .grid-overlay[data-visible] {
+    display: grid;
+  }
+
+  .grid-overlay-col {
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    outline: 1px dashed color-mix(in srgb, var(--accent) 40%, transparent);
+  }
+
+  .button-row,
+  .channel-row,
+  .hud-row,
+  .focus-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-5);
+  }
+
+  .reveal-stagger-demo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+
+  .ruler-demo {
+    max-width: 60ch;
+    gap: var(--sp-6);
+  }
+
+  .sg-scope {
+    aspect-ratio: 16 / 7;
+    border: 1px solid var(--line);
+  }
+
+  .sg-input {
+    display: block;
+    margin-top: var(--sp-2);
+    min-height: 44px;
+    width: 100%;
+    max-width: 320px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    padding-inline: var(--sp-3);
+    color: var(--text);
+  }
+</style>
+
+<script>
+  // Live WCAG contrast computation — no GSAP dependency, runs regardless of
+  // motion.js. Relative luminance formula, sRGB.
+  function hexToRgb(hex: string): [number, number, number] {
+    const clean = hex.replace('#', '');
+    const bigint = parseInt(clean, 16);
+    return [(bigint >> 16) & 255, (bigint >> 8) & 255, bigint & 255];
+  }
+
+  function relativeLuminance([r, g, b]: [number, number, number]): number {
+    const [rs, gs, bs] = [r, g, b].map((c) => {
+      const v = c / 255;
+      return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+    });
+    return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+  }
+
+  function contrastRatio(hexA: string, hexB: string): number {
+    const lA = relativeLuminance(hexToRgb(hexA));
+    const lB = relativeLuminance(hexToRgb(hexB));
+    const lighter = Math.max(lA, lB);
+    const darker = Math.min(lA, lB);
+    return (lighter + 0.05) / (darker + 0.05);
+  }
+
+  const root = getComputedStyle(document.documentElement);
+  const bg = root.getPropertyValue('--bg').trim() || '#050505';
+
+  document.querySelectorAll<HTMLElement>('[data-contrast-for]').forEach((el) => {
+    const token = el.dataset.contrastFor!;
+    const hex = root.getPropertyValue(token).trim();
+    if (!hex) return;
+    const ratio = contrastRatio(hex, bg);
+    el.textContent = `${ratio.toFixed(2)}:1 vs --bg`;
+  });
+
+  const gridToggle = document.getElementById('grid-overlay-toggle') as HTMLInputElement | null;
+  const gridOverlay = document.getElementById('grid-overlay');
+  gridToggle?.addEventListener('change', () => {
+    if (gridToggle.checked) gridOverlay?.setAttribute('data-visible', '');
+    else gridOverlay?.removeAttribute('data-visible');
+  });
+</script>

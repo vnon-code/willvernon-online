@@ -1,0 +1,339 @@
+---
+// A real disclosure button + full-screen menu dialog. Works entirely on CSS
+// transitions and vanilla JS — no GSAP dependency, so the menu is usable even
+// if src/motion/index.ts fails to load. Icons are inline SVG (no icon font).
+import { NAV_ITEMS, SOCIAL_LINKS } from '../data/site';
+import Icon from './Icon.astro';
+import ChannelLabel from './ChannelLabel.astro';
+
+interface Props {
+  current: string;
+}
+
+const { current } = Astro.props;
+
+function isCurrent(path: string, current: string) {
+  if (path === '/') return current === '/';
+  return current === path || current.startsWith(`${path}/`);
+}
+---
+
+<button
+  type="button"
+  class="menu-trigger"
+  id="menu-trigger"
+  aria-expanded="false"
+  aria-controls="mobile-menu"
+  aria-label="Open menu"
+>
+  <Icon name="menu" size={22} class="menu-trigger-icon-open" />
+  <Icon name="close" size={22} class="menu-trigger-icon-close" />
+</button>
+
+<div class="mobile-menu" id="mobile-menu" role="dialog" aria-modal="true" aria-label="Site navigation" hidden>
+  <div class="mobile-menu-inner">
+    <button type="button" class="mobile-menu-close" data-menu-close aria-label="Close menu">
+      <Icon name="close" size={22} />
+    </button>
+    <nav aria-label="Primary">
+      <ul class="mobile-menu-links">
+        {
+          NAV_ITEMS.map((item) => (
+            <li>
+              <a
+                href={item.path}
+                class="mobile-menu-link"
+                aria-current={isCurrent(item.path, current) ? 'page' : undefined}
+              >
+                <ChannelLabel channel={item.channel} scramble={false} class="mobile-menu-link-channel" />
+                <span class="mobile-menu-link-label">{item.label}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <ul class="mobile-menu-socials" aria-label="Social links">
+      {
+        SOCIAL_LINKS.map((social) => (
+          <li>
+            <a
+              href={social.href}
+              target={social.href.startsWith('http') ? '_blank' : undefined}
+              rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+              aria-label={social.label}
+            >
+              <Icon name={social.icon} size={20} />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>
+
+<style>
+  .menu-trigger {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    color: var(--text);
+  }
+
+  .menu-trigger-icon-open,
+  .menu-trigger-icon-close {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    transition: opacity var(--dur-fast) var(--ease-out);
+  }
+
+  .menu-trigger-icon-close {
+    opacity: 0;
+  }
+
+  .menu-trigger[aria-expanded='true'] .menu-trigger-icon-open {
+    opacity: 0;
+  }
+
+  .menu-trigger[aria-expanded='true'] .menu-trigger-icon-close {
+    opacity: 1;
+  }
+
+  @media (min-width: 900px) {
+    .menu-trigger {
+      display: none;
+    }
+  }
+
+  /* No JS (or the head failsafe dropped html.js): the burger can't work, so
+   * Nav.astro shows the inline link list instead. */
+  :global(html:not(.js)) .menu-trigger {
+    display: none;
+  }
+
+  /* Sits over the header trigger's spot, inside the dialog, so touch users
+   * can always close it and the focus trap includes it. */
+  .mobile-menu-close {
+    position: absolute;
+    top: 10px;
+    left: var(--grid-margin);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    color: var(--text);
+  }
+
+  .mobile-menu-close:hover,
+  .mobile-menu-close:focus-visible {
+    color: var(--accent);
+  }
+
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-menu);
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: var(--sp-9) var(--grid-margin) var(--sp-6);
+    opacity: 0;
+    transform: translateY(-8px);
+    transition:
+      opacity var(--dur-base) var(--ease-out),
+      transform var(--dur-base) var(--ease-out);
+  }
+
+  /* while fading out, don't swallow taps meant for the header trigger */
+  .mobile-menu:not([data-open]) {
+    pointer-events: none;
+  }
+
+  .mobile-menu[data-open] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .mobile-menu[hidden] {
+    display: none;
+  }
+
+  @media (min-width: 900px) {
+    .mobile-menu {
+      display: none !important;
+    }
+  }
+
+  .mobile-menu-inner {
+    display: contents;
+  }
+
+  .mobile-menu-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+
+  .mobile-menu-link {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-4);
+    min-height: 56px;
+    font-family: var(--font-display);
+    font-variation-settings: var(--fset-body-bold);
+    font-size: var(--fs-h3);
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .mobile-menu-link[aria-current='page'] {
+    color: var(--accent);
+  }
+
+  .mobile-menu-link-channel {
+    min-width: 4.5em;
+  }
+
+  .mobile-menu-socials {
+    display: flex;
+    gap: var(--sp-6);
+    padding-top: var(--sp-6);
+  }
+
+  .mobile-menu-socials a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    color: var(--text-muted);
+  }
+
+  .mobile-menu-socials a:hover,
+  .mobile-menu-socials a:focus-visible {
+    color: var(--accent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-menu {
+      transition: none;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  // Vanilla JS disclosure + focus trap. No GSAP dependency by design, so the
+  // menu keeps working even if the motion module fails to load.
+  const trigger = document.getElementById('menu-trigger') as HTMLButtonElement | null;
+  const menu = document.getElementById('mobile-menu') as HTMLElement | null;
+
+  if (trigger && menu) {
+    let lastFocused: HTMLElement | null = null;
+
+    const focusableSelector =
+      'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])';
+
+    function getFocusable(): HTMLElement[] {
+      return Array.from(menu!.querySelectorAll<HTMLElement>(focusableSelector));
+    }
+
+    let finishTimer: number | undefined;
+    let pendingFinish: (() => void) | null = null;
+
+    function cancelPendingClose() {
+      if (finishTimer !== undefined) window.clearTimeout(finishTimer);
+      finishTimer = undefined;
+      if (pendingFinish) menu!.removeEventListener('transitionend', pendingFinish);
+      pendingFinish = null;
+    }
+
+    function openMenu() {
+      cancelPendingClose();
+      lastFocused = document.activeElement as HTMLElement;
+      menu!.hidden = false;
+      // next frame so the transition runs from the hidden state
+      requestAnimationFrame(() => {
+        menu!.setAttribute('data-open', '');
+      });
+      trigger!.setAttribute('aria-expanded', 'true');
+      trigger!.setAttribute('aria-label', 'Close menu');
+      document.body.style.overflow = 'hidden';
+      const focusable = getFocusable();
+      (focusable[0] ?? menu)!.focus();
+      document.addEventListener('keydown', onKeydown);
+    }
+
+    function closeMenu() {
+      cancelPendingClose();
+      menu!.removeAttribute('data-open');
+      trigger!.setAttribute('aria-expanded', 'false');
+      trigger!.setAttribute('aria-label', 'Open menu');
+      document.body.style.overflow = '';
+      document.removeEventListener('keydown', onKeydown);
+      const finish = () => {
+        cancelPendingClose();
+        // a reopen in the meantime wins
+        if (trigger!.getAttribute('aria-expanded') === 'true') return;
+        menu!.hidden = true;
+      };
+      pendingFinish = finish;
+      // match the CSS transition duration as a fallback if transitionend
+      // doesn't fire (e.g. reduced motion collapses it to ~0ms)
+      menu!.addEventListener('transitionend', finish, { once: true });
+      finishTimer = window.setTimeout(finish, 450);
+      // the menu may have been opened from inside itself; always land on the
+      // trigger, which is visible again once the dialog closes
+      const back = lastFocused && !menu!.contains(lastFocused) ? lastFocused : trigger;
+      back!.focus();
+    }
+
+    function onKeydown(e: KeyboardEvent) {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        closeMenu();
+        return;
+      }
+      if (e.key === 'Tab') {
+        const focusable = getFocusable();
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+
+    trigger.addEventListener('click', () => {
+      const isOpen = trigger.getAttribute('aria-expanded') === 'true';
+      if (isOpen) closeMenu();
+      else openMenu();
+    });
+
+    menu.querySelector('[data-menu-close]')?.addEventListener('click', closeMenu);
+
+    // Tap on the dialog's empty area (not on a link/button) closes it too.
+    menu.addEventListener('click', (e) => {
+      const t = e.target as HTMLElement;
+      if (!t.closest('a, button')) closeMenu();
+    });
+
+    menu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        // let the navigation proceed; just reset state/scroll lock
+        document.body.style.overflow = '';
+      });
+    });
+  }
+</script>

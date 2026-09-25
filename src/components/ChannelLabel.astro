@@ -1,0 +1,37 @@
+---
+// Numbered "channel" label used as the section/page system (CH-01..CH-07).
+// The numbering carries real information here: it is the site's persistent
+// page index, referenced consistently in Nav and in each page's mono strap —
+// not a decorative 01/02/03 step counter.
+interface Props {
+  channel: string; // e.g. 'CH-03'
+  label?: string;
+  class?: string;
+  /** ScrambleText on hover/enter-viewport — mono metadata only, on by default. */
+  scramble?: boolean;
+}
+
+const { channel, label, class: className = '', scramble = true } = Astro.props;
+---
+
+<span class:list={['channel-label', 't-mono', className]}>
+  <span class="channel-label-num" data-scramble={scramble ? '' : undefined}>{channel}</span>
+  {label && <span class="channel-label-text">{label}</span>}
+</span>
+
+<style>
+  .channel-label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    color: var(--text-muted);
+  }
+
+  .channel-label-num {
+    color: var(--accent);
+  }
+
+  .channel-label-text {
+    color: var(--text-muted);
+  }
+</style>

@@ -1,0 +1,276 @@
+{
+ "headings": [
+  {
+   "level": 3,
+   "text": "Projects",
+   "_src": [
+    "work.h.021"
+   ]
+  },
+  {
+   "level": 3,
+   "text": "AI",
+   "_src": [
+    "work.h.022"
+   ]
+  },
+  {
+   "level": 3,
+   "text": "Experiments",
+   "_src": [
+    "work.h.023"
+   ]
+  }
+ ],
+ "blocks": [
+  {
+   "tag": "p.font-mono.text-accent",
+   "text": "CASE STUDIES",
+   "_src": [
+    "work.copy.032"
+   ]
+  },
+  {
+   "tag": "h3.text-5xl.text-4xl-mobile",
+   "text": "Projects",
+   "_src": [
+    "work.copy.033"
+   ]
+  },
+  {
+   "tag": "p.panel-desc",
+   "text": "Case studies of completed projects with outcomes and process.",
+   "_src": [
+    "work.copy.034"
+   ]
+  },
+  {
+   "tag": "p.font-mono.text-accent",
+   "text": "AI EXPLORATIONS",
+   "_src": [
+    "work.copy.035"
+   ]
+  },
+  {
+   "tag": "h3.text-5xl.text-4xl-mobile",
+   "text": "AI",
+   "_src": [
+    "work.copy.036"
+   ]
+  },
+  {
+   "tag": "p.panel-desc",
+   "text": "Exploration of use cases across all forms of generative design and LLMs.",
+   "_src": [
+    "work.copy.037"
+   ]
+  },
+  {
+   "tag": "p.font-mono.text-accent",
+   "text": "DESIGN EXPERIMENTS",
+   "_src": [
+    "work.copy.038"
+   ]
+  },
+  {
+   "tag": "h3.text-5xl.text-4xl-mobile",
+   "text": "Experiments",
+   "_src": [
+    "work.copy.039"
+   ]
+  },
+  {
+   "tag": "p.panel-desc",
+   "text": "Personal projects/ more exploratory work to build understanding that can influence later projects.",
+   "_src": [
+    "work.copy.040"
+   ]
+  }
+ ],
+ "images": [
+  {
+   "src": "/img/monogram-white-trans.png",
+   "alt": "WV Monogram",
+   "_src": [
+    "work.img.041"
+   ]
+  }
+ ],
+ "links": [
+  {
+   "text": "[ HOME ]",
+   "href": "/",
+   "_src": [
+    "work.link.045",
+    "work.nav.009",
+    "work.nav.013",
+    "work.nav.017",
+    "work.copy.024"
+   ]
+  },
+  {
+   "text": "[ WORK ]",
+   "href": "/work",
+   "_src": [
+    "work.link.046",
+    "work.nav.010",
+    "work.nav.018",
+    "work.copy.025"
+   ]
+  },
+  {
+   "text": "[ MUSIC ]",
+   "href": "/music",
+   "_src": [
+    "work.link.047",
+    "work.nav.011",
+    "work.nav.019",
+    "work.copy.026"
+   ]
+  },
+  {
+   "text": "[ ABOUT ]",
+   "href": "/about",
+   "_src": [
+    "work.link.048",
+    "work.nav.012",
+    "work.nav.020",
+    "work.copy.027"
+   ]
+  },
+  {
+   "text": null,
+   "href": "/",
+   "_src": [
+    "work.link.049"
+   ]
+  },
+  {
+   "text": null,
+   "href": "https://instagram.com/willvernon.av",
+   "_src": [
+    "work.link.050",
+    "work.nav.014"
+   ]
+  },
+  {
+   "text": null,
+   "href": "https://www.linkedin.com/in/william-vernon-a37aa42b8",
+   "_src": [
+    "work.link.051",
+    "work.nav.015"
+   ]
+  },
+  {
+   "text": null,
+   "href": "mailto:wvernoncsi@gmail.com",
+   "_src": [
+    "work.link.052",
+    "work.nav.016"
+   ]
+  },
+  {
+   "text": "Home",
+   "href": "/",
+   "_src": [
+    "work.link.053",
+    "work.copy.028"
+   ]
+  },
+  {
+   "text": "Work",
+   "href": "/work",
+   "_src": [
+    "work.link.054",
+    "work.copy.029"
+   ]
+  },
+  {
+   "text": "Music",
+   "href": "/music",
+   "_src": [
+    "work.link.055",
+    "work.copy.030"
+   ]
+  },
+  {
+   "text": "About",
+   "href": "/about",
+   "_src": [
+    "work.link.056",
+    "work.copy.031"
+   ]
+  },
+  {
+   "text": "CASE STUDIES Projects Case studies of completed projects with outcomes and process.",
+   "href": "/projects",
+   "_src": [
+    "work.link.057"
+   ]
+  },
+  {
+   "text": "AI EXPLORATIONS AI Exploration of use cases across all forms of generative design and LLMs.",
+   "href": "/ai",
+   "_src": [
+    "work.link.058"
+   ]
+  },
+  {
+   "text": "DESIGN EXPERIMENTS Experiments Personal projects/ more exploratory work to build understanding that can influence later projects.",
+   "href": "experime",
+   "_src": [
+    "work.link.059"
+   ]
+  }
+ ],
+ "panels": [
+  {
+   "eyebrow": "CASE STUDIES",
+   "title": "Projects",
+   "desc": "Case studies of completed projects with outcomes and process.",
+   "href": "/projects",
+   "media": {
+    "type": "video",
+    "src": "https://assets.willvernon.online/previews/fading_away_preview.mp4"
+   },
+   "_src": [
+    "work.copy.032",
+    "work.copy.033",
+    "work.copy.034",
+    "work.video.042"
+   ]
+  },
+  {
+   "eyebrow": "AI EXPLORATIONS",
+   "title": "AI",
+   "desc": "Exploration of use cases across all forms of generative design and LLMs.",
+   "href": "/ai",
+   "media": {
+    "type": "video",
+    "src": "https://assets.willvernon.online/previews/ai_trailer.mp4"
+   },
+   "_src": [
+    "work.copy.035",
+    "work.copy.036",
+    "work.copy.037",
+    "work.video.043"
+   ]
+  },
+  {
+   "eyebrow": "DESIGN EXPERIMENTS",
+   "title": "Experiments",
+   "desc": "Personal projects/ more exploratory work to build understanding that can influence later projects.",
+   "href": "/experiments",
+   "media": {
+    "type": "video",
+    "src": "https://assets.willvernon.online/previews/experiments_trailer.mp4"
+   },
+   "_src": [
+    "work.copy.038",
+    "work.copy.039",
+    "work.copy.040",
+    "work.video.044"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,142 @@
+---
+// Legacy v1 shipped no <footer> element at all (grepped: no footer content in
+// legacy/*.html beyond the nav-header social icons and the contact section,
+// which each page keeps in its own body — see redesign/content/*.json,
+// footer/footer_text are empty on every page). This is new shell chrome: the
+// status line + back-to-top, plus the contact email and the full social set
+// already used in the nav-header (index.nav.013-016) and the contact section
+// (Instagram/LinkedIn/SoundCloud/Bandcamp), so every social link stays
+// reachable from every page.
+import { CONTACT_EMAIL, SOCIAL_LINKS } from '../data/site';
+import Icon from './Icon.astro';
+---
+
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-row">
+      <a href={`mailto:${CONTACT_EMAIL}`} class="footer-email t-mono">{CONTACT_EMAIL}</a>
+      <ul class="footer-socials" aria-label="Social links">
+        {
+          SOCIAL_LINKS.map((social) => (
+            <li>
+              <a
+                href={social.href}
+                target={social.href.startsWith('http') ? '_blank' : undefined}
+                rel={social.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                aria-label={social.label}
+              >
+                <Icon name={social.icon} size={18} />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="footer-row footer-status-row">
+      <p class="footer-status t-mono">
+        <span class="footer-status-dot" aria-hidden="true"></span>
+        vnon // online <span data-hud="bpm" aria-hidden="true">---</span>
+        <span class="sr-only">— track tempo, when a track is armed</span>
+      </p>
+      <button type="button" class="footer-top t-mono" id="back-to-top">
+        <span aria-hidden="true">↑</span> Back to top
+      </button>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--line);
+    padding-block: var(--sp-6);
+    margin-top: var(--sp-10);
+  }
+
+  .footer-inner {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-5);
+  }
+
+  .footer-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-4);
+  }
+
+  .footer-email {
+    color: var(--text-muted);
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    text-transform: none; /* real address — don't visually alter its case */
+  }
+
+  .footer-email:hover,
+  .footer-email:focus-visible {
+    color: var(--accent);
+  }
+
+  .footer-socials {
+    display: flex;
+    gap: var(--sp-4);
+  }
+
+  .footer-socials a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    color: var(--text-muted);
+    transition: color var(--dur-fast) var(--ease-out);
+  }
+
+  .footer-socials a:hover,
+  .footer-socials a:focus-visible {
+    color: var(--accent);
+  }
+
+  .footer-status-row {
+    border-top: 1px solid var(--line);
+    padding-top: var(--sp-5);
+  }
+
+  .footer-status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+    color: var(--text-muted);
+  }
+
+  .footer-status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .footer-top {
+    color: var(--text-muted);
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+  }
+
+  .footer-top:hover,
+  .footer-top:focus-visible {
+    color: var(--text);
+  }
+</style>
+
+<script>
+  const backToTop = document.getElementById('back-to-top');
+  backToTop?.addEventListener('click', () => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: 0, behavior: reduceMotion ? 'auto' : 'smooth' });
+  });
+</script>

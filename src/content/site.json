@@ -1,0 +1,691 @@
+{
+ "nav": [
+  {
+   "label": "[ HOME ]",
+   "href": "/",
+   "_src": [
+    "index.nav.009",
+    "index.nav.013",
+    "index.copy.033",
+    "index.link.152",
+    "index.link.156",
+    "index.link.160",
+    "projects.nav.009",
+    "projects.nav.013",
+    "projects.nav.017",
+    "projects.copy.022",
+    "projects.link.037",
+    "projects.link.041",
+    "projects.link.045",
+    "music.copy.024",
+    "AI.nav.009",
+    "AI.nav.013",
+    "AI.nav.017",
+    "AI.copy.030",
+    "AI.link.092",
+    "AI.link.096",
+    "AI.link.100",
+    "experiments.nav.009",
+    "experiments.nav.013",
+    "experiments.nav.017",
+    "experiments.copy.023",
+    "experiments.link.042",
+    "experiments.link.046",
+    "experiments.link.050"
+   ]
+  },
+  {
+   "label": "[ WORK ]",
+   "href": "/work",
+   "_src": [
+    "index.nav.010",
+    "index.copy.034",
+    "index.link.153",
+    "index.link.161",
+    "projects.nav.010",
+    "projects.nav.018",
+    "projects.copy.023",
+    "projects.link.038",
+    "projects.link.046",
+    "music.nav.011",
+    "music.nav.019",
+    "music.copy.025",
+    "music.link.067",
+    "music.link.075",
+    "AI.nav.010",
+    "AI.nav.018",
+    "AI.copy.031",
+    "AI.link.093",
+    "AI.link.101",
+    "experiments.nav.010",
+    "experiments.nav.018",
+    "experiments.copy.024",
+    "experiments.link.043",
+    "experiments.link.051"
+   ]
+  },
+  {
+   "label": "[ MUSIC ]",
+   "href": "/music",
+   "_src": [
+    "index.nav.011",
+    "index.copy.035",
+    "index.link.154",
+    "index.link.162",
+    "index.link.171",
+    "projects.nav.011",
+    "projects.nav.019",
+    "projects.copy.024",
+    "projects.link.039",
+    "projects.link.047",
+    "music.nav.012",
+    "music.nav.020",
+    "music.copy.026",
+    "music.link.068",
+    "music.link.076",
+    "AI.nav.011",
+    "AI.nav.019",
+    "AI.copy.032",
+    "AI.link.094",
+    "AI.link.102",
+    "experiments.nav.011",
+    "experiments.nav.019",
+    "experiments.copy.025",
+    "experiments.link.044",
+    "experiments.link.052"
+   ]
+  },
+  {
+   "label": "[ ABOUT ]",
+   "href": "/about",
+   "_src": [
+    "index.nav.012",
+    "index.copy.036",
+    "index.link.155",
+    "index.link.163",
+    "projects.nav.012",
+    "projects.nav.020",
+    "projects.copy.025",
+    "projects.link.040",
+    "projects.link.048",
+    "music.nav.013",
+    "music.nav.021",
+    "music.copy.027",
+    "music.link.069",
+    "music.link.077",
+    "AI.nav.012",
+    "AI.nav.020",
+    "AI.copy.033",
+    "AI.link.095",
+    "AI.link.103",
+    "experiments.nav.012",
+    "experiments.nav.020",
+    "experiments.copy.026",
+    "experiments.link.045",
+    "experiments.link.053"
+   ]
+  },
+  {
+   "label": "Home",
+   "href": "/",
+   "_src": [
+    "index.nav.017",
+    "index.copy.037",
+    "projects.copy.026",
+    "music.copy.028",
+    "AI.copy.034",
+    "experiments.copy.027"
+   ]
+  },
+  {
+   "label": "Work",
+   "href": "/work",
+   "_src": [
+    "index.nav.018",
+    "index.copy.038",
+    "projects.copy.027",
+    "music.copy.029",
+    "AI.copy.035",
+    "experiments.copy.028"
+   ]
+  },
+  {
+   "label": "Music",
+   "href": "/music",
+   "_src": [
+    "index.nav.019",
+    "index.copy.039",
+    "projects.copy.028",
+    "music.copy.030",
+    "AI.copy.036",
+    "experiments.copy.029"
+   ]
+  },
+  {
+   "label": "About",
+   "href": "/about",
+   "_src": [
+    "index.nav.020",
+    "index.copy.040",
+    "projects.copy.029",
+    "music.copy.031",
+    "AI.copy.037",
+    "experiments.copy.030"
+   ]
+  }
+ ],
+ "socials": [
+  {
+   "platform": "instagram",
+   "href": "https://instagram.com/willvernon.av",
+   "_src": [
+    "index.nav.014",
+    "index.link.157",
+    "projects.nav.014",
+    "projects.link.042",
+    "AI.nav.014",
+    "AI.link.097",
+    "experiments.nav.014",
+    "experiments.link.047"
+   ]
+  },
+  {
+   "platform": "linkedin",
+   "href": "https://www.linkedin.com/in/william-vernon-a37aa42b8",
+   "_src": [
+    "index.nav.015",
+    "index.link.158",
+    "projects.nav.015",
+    "projects.link.043",
+    "AI.nav.015",
+    "AI.link.098",
+    "experiments.nav.015",
+    "experiments.link.048"
+   ]
+  },
+  {
+   "platform": "email",
+   "href": "mailto:wvernoncsi@gmail.com",
+   "_src": [
+    "index.nav.016",
+    "index.link.159",
+    "index.link.173",
+    "projects.nav.016",
+    "projects.link.044",
+    "music.nav.017",
+    "music.link.073",
+    "AI.nav.016",
+    "AI.link.099",
+    "experiments.nav.016",
+    "experiments.link.049"
+   ]
+  },
+  {
+   "platform": "soundcloud",
+   "href": "https://soundcloud.com/vnondnb",
+   "_src": [
+    "index.link.172",
+    "index.link.176"
+   ],
+   "label": "> Listen_on_SoundCloud"
+  },
+  {
+   "platform": "tiktok",
+   "href": "https://www.tiktok.com/@vnon___",
+   "_src": [
+    "index.link.174"
+   ]
+  },
+  {
+   "platform": "bandcamp",
+   "href": "https://vnon.bandcamp.com/",
+   "_src": [
+    "index.link.177"
+   ]
+  },
+  {
+   "platform": "discord",
+   "href": "javascript:void(0)",
+   "handle": "vnon#2416",
+   "_src": [
+    "index.link.175"
+   ]
+  }
+ ],
+ "logo": {
+  "src": "/img/monogram-white-trans.png",
+  "alt": "WV Monogram",
+  "_src": [
+   "index.img.128",
+   "about.img.077",
+   "work.img.041",
+   "projects.img.036",
+   "music.img.061",
+   "AI.img.069",
+   "AI.img.089",
+   "experiments.img.040"
+  ]
+ },
+ "pages": {
+  "index": {
+   "route": "/",
+   "legacyTitle": "William Vernon | Generative Design & Creative Tech",
+   "headings": [
+    {
+     "level": 1,
+     "text": "William Vernon",
+     "_src": [
+      "index.h.021"
+     ]
+    },
+    {
+     "level": 2,
+     "text": "Generative Design & Creative Technology.",
+     "_src": [
+      "index.h.022"
+     ]
+    },
+    {
+     "level": 2,
+     "text": "Featured Work",
+     "_src": [
+      "index.h.023"
+     ]
+    },
+    {
+     "level": 3,
+     "text": "Smuggler's Outpost",
+     "_src": [
+      "index.h.024"
+     ]
+    },
+    {
+     "level": 3,
+     "text": "Amplified Spaces",
+     "_src": [
+      "index.h.025"
+     ]
+    },
+    {
+     "level": 3,
+     "text": "Monolithic Survival",
+     "_src": [
+      "index.h.026"
+     ]
+    },
+    {
+     "level": 3,
+     "text": "Topographic AV",
+     "_src": [
+      "index.h.027"
+     ]
+    },
+    {
+     "level": 2,
+     "text": "AI as a Creative Partner.",
+     "_src": [
+      "index.h.028"
+     ]
+    },
+    {
+     "level": 2,
+     "text": "Liquid Drum & Bass.",
+     "_src": [
+      "index.h.029"
+     ]
+    },
+    {
+     "level": 3,
+     "text": "SILVER LININGS (VNON BOOTLEG)",
+     "_src": [
+      "index.h.030"
+     ]
+    },
+    {
+     "level": 2,
+     "text": "Contact",
+     "_src": [
+      "index.h.031"
+     ]
+    },
+    {
+     "level": 3,
+     "text": "Send a Message",
+     "_src": [
+      "index.h.032"
+     ]
+    }
+   ],
+   "_src": [
+    "index.meta.001",
+    "index.meta.002",
+    "index.meta.003",
+    "index.meta.004",
+    "index.meta.005",
+    "index.meta.006",
+    "index.meta.007",
+    "index.meta.008"
+   ]
+  },
+  "about": {
+   "route": "/about",
+   "legacyTitle": "About | William Vernon",
+   "headings": [
+    {
+     "level": 1,
+     "text": "About & Credentials",
+     "_src": [
+      "about.h.021"
+     ]
+    },
+    {
+     "level": 3,
+     "text": "Design Personality",
+     "_src": [
+      "about.h.022"
+     ]
+    },
+    {
+     "level": 4,
+     "text": "Contact",
+     "_src": [
+      "about.h.023"
+     ]
+    },
+    {
+     "level": 3,
+     "text": "Design Skills",
+     "_src": [
+      "about.h.024"
+     ]
+    },
+    {
+     "level": 3,
+     "text": "Generative Design",
+     "_src": [
+      "about.h.025"
+     ]
+    },
+    {
+     "level": 3,
+     "text": "Education",
+     "_src": [
+      "about.h.026"
+     ]
+    },
+    {
+     "level": 4,
+     "text": "BA Graphic Design (Hons)",
+     "_src": [
+      "about.h.027"
+     ]
+    },
+    {
+     "level": 4,
+     "text": "CertHE Architecture",
+     "_src": [
+      "about.h.028"
+     ]
+    },
+    {
+     "level": 3,
+     "text": "Experience",
+     "_src": [
+      "about.h.029"
+     ]
+    },
+    {
+     "level": 4,
+     "text": "Climbing Instructor",
+     "_src": [
+      "about.h.030"
+     ]
+    },
+    {
+     "level": 4,
+     "text": "Waiter/FOH",
+     "_src": [
+      "about.h.031"
+     ]
+    }
+   ],
+   "_src": [
+    "about.meta.001",
+    "about.meta.002",
+    "about.meta.003",
+    "about.meta.004",
+    "about.meta.005",
+    "about.meta.006",
+    "about.meta.007",
+    "about.meta.008"
+   ]
+  },
+  "work": {
+   "route": "/work",
+   "legacyTitle": "Works | William Vernon",
+   "headings": [
+    {
+     "level": 3,
+     "text": "Projects",
+     "_src": [
+      "work.h.021"
+     ]
+    },
+    {
+     "level": 3,
+     "text": "AI",
+     "_src": [
+      "work.h.022"
+     ]
+    },
+    {
+     "level": 3,
+     "text": "Experiments",
+     "_src": [
+      "work.h.023"
+     ]
+    }
+   ],
+   "_src": [
+    "work.meta.001",
+    "work.meta.002",
+    "work.meta.003",
+    "work.meta.004",
+    "work.meta.005",
+    "work.meta.006",
+    "work.meta.007",
+    "work.meta.008"
+   ]
+  },
+  "projects": {
+   "route": "/projects",
+   "legacyTitle": "Projects | William Vernon",
+   "headings": [
+    {
+     "level": 1,
+     "text": "Project Archive",
+     "_src": [
+      "projects.h.021"
+     ]
+    }
+   ],
+   "_src": [
+    "projects.meta.001",
+    "projects.meta.002",
+    "projects.meta.003",
+    "projects.meta.004",
+    "projects.meta.005",
+    "projects.meta.006",
+    "projects.meta.007",
+    "projects.meta.008",
+    "index.link.164"
+   ]
+  },
+  "music": {
+   "route": "/music",
+   "legacyTitle": "Music | William Vernon",
+   "headings": [
+    {
+     "level": 1,
+     "text": "ALIAS: VNON",
+     "_src": [
+      "music.h.022"
+     ]
+    },
+    {
+     "level": 2,
+     "text": "Sound & Style",
+     "_src": [
+      "music.h.023"
+     ]
+    }
+   ],
+   "_src": [
+    "music.meta.001",
+    "music.meta.002",
+    "music.meta.003",
+    "music.meta.004",
+    "music.meta.005",
+    "music.meta.006",
+    "music.meta.007",
+    "music.meta.008",
+    "music.meta.009",
+    "music.audio.063"
+   ]
+  },
+  "ai": {
+   "route": "/ai",
+   "legacyTitle": "AI Experiments & Research | William Vernon",
+   "headings": [
+    {
+     "level": 1,
+     "text": "AI Experiments & Research",
+     "_src": [
+      "AI.h.021"
+     ]
+    },
+    {
+     "level": 2,
+     "text": "Ethos: Artificial Acceptance",
+     "_src": [
+      "AI.h.022"
+     ]
+    },
+    {
+     "level": 2,
+     "text": "Platform & Model Directory",
+     "_src": [
+      "AI.h.023"
+     ]
+    },
+    {
+     "level": 4,
+     "text": "Midjourney",
+     "_src": [
+      "AI.h.024"
+     ]
+    },
+    {
+     "level": 2,
+     "text": "AI Projects & Case Studies",
+     "_src": [
+      "AI.h.025"
+     ]
+    },
+    {
+     "level": 3,
+     "text": "Monolith Survival",
+     "_src": [
+      "AI.h.026"
+     ]
+    },
+    {
+     "level": 3,
+     "text": "Dredge",
+     "_src": [
+      "AI.h.027"
+     ]
+    },
+    {
+     "level": 3,
+     "text": "Synthetic Corals",
+     "_src": [
+      "AI.h.028"
+     ]
+    },
+    {
+     "level": 3,
+     "text": "willvernon.online Rebuild",
+     "_src": [
+      "AI.h.029"
+     ]
+    }
+   ],
+   "_src": [
+    "AI.meta.001",
+    "AI.meta.002",
+    "AI.meta.003",
+    "AI.meta.004",
+    "AI.meta.005",
+    "AI.meta.006",
+    "AI.meta.007",
+    "AI.meta.008"
+   ]
+  },
+  "experiments": {
+   "route": "/experiments",
+   "legacyTitle": "Minimal Experiments | William Vernon",
+   "headings": [
+    {
+     "level": 1,
+     "text": "Minimal Experiments",
+     "_src": [
+      "experiments.h.021"
+     ]
+    },
+    {
+     "level": 2,
+     "text": "EXPERIMENT_TITLE",
+     "_src": [
+      "experiments.h.022"
+     ]
+    }
+   ],
+   "_src": [
+    "experiments.meta.001",
+    "experiments.meta.002",
+    "experiments.meta.003",
+    "experiments.meta.004",
+    "experiments.meta.005",
+    "experiments.meta.006",
+    "experiments.meta.007",
+    "experiments.meta.008",
+    "index.link.166",
+    "experiments.video.041"
+   ]
+  }
+ },
+ "ui": [
+  {
+   "text": "Master track player",
+   "page": "index",
+   "_src": [
+    "index.scriptcopy.311"
+   ]
+  },
+  {
+   "text": "Close Workspace",
+   "page": "projects",
+   "_src": [
+    "projects.scriptcopy.512"
+   ]
+  },
+  {
+   "text": "Close Workspace",
+   "page": "ai",
+   "_src": [
+    "AI.scriptcopy.208"
+   ]
+  }
+ ]
+}

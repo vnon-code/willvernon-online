@@ -1,4 +1,173 @@
 ---
-// Phase 2 stub: page body arrives in Phase 3–5.
+// Phase 2: proves the shell (Base/Nav/Footer/motion primitives) + the
+// SignalScope WebGL island. The rest of the homepage body (Featured Work,
+// AI panel, stems console, contact) lands in Phase 3-5.
+import Base from '../layouts/Base.astro';
+import { site, home } from '../content';
+import ChannelLabel from '../components/ChannelLabel.astro';
+import HudReadout from '../components/HudReadout.astro';
+import SignalScope from '../components/SignalScope.astro';
+
+const title = site.pages.index.legacyTitle!;
+
+// Hero copy comes from src/content/home.json (never hand-typed).
+const block = (tag: string, nth = 0) => home.blocks.filter((b) => b.tag === tag)[nth].text;
+const heroName = home.headings.find((h) => h.level === 1)!.text;
+// headings[] holds the rendered H2 (with the '&' that sat in a text-accent span).
+const heroTagline = home.headings.filter((h) => h.level === 2)[0].text;
+const [taglineA, taglineB] = heroTagline.split(' & ');
+const heroReadout = block('p.hero-subtitle');
+const heroDesc = block('p.hero-desc');
+const ctaPrimary = block('a.btn-primary');
+const ctaAi = block('a.btn-secondary', 0);
+const ctaExperiments = block('a.btn-secondary', 1);
+// first plain <span> block is the hero 'Scroll' tick label (index.copy.049)
 ---
-<!doctype html><html lang="en"><head><meta charset="utf-8"><title>index · William Vernon</title></head><body><h1>index</h1></body></html>
+
+<Base title={title} path="/" channel="CH-01">
+  <section class="hero">
+    <SignalScope mode="idle" class="hero-scope" />
+
+    <div class="hero-content container">
+      <p class="hero-readout t-mono" data-scramble>{heroReadout}</p>
+
+      <h1 class="hero-name t-display" data-reveal="lines">{heroName}</h1>
+
+      <h2 class="hero-tagline t-h2" data-reveal="fade">
+        {taglineB !== undefined ? (
+          <>{taglineA} <span class="hero-amp">&amp;</span> {taglineB}</>
+        ) : (
+          heroTagline
+        )}
+      </h2>
+
+      <p class="hero-desc t-body" data-reveal="fade">{heroDesc}</p>
+
+      <div class="hero-ctas" data-reveal="fade">
+        <a href="/projects" class="btn btn-primary">{ctaPrimary}</a>
+        <a href="/AI" class="btn-text">{ctaAi}</a>
+        <a href="/experiments" class="btn-text">{ctaExperiments}</a>
+      </div>
+    </div>
+
+    <div class="hero-hud">
+      <HudReadout variant="clock" />
+      <HudReadout variant="xy" />
+      <span class="hero-scroll-tick t-mono">
+        {block('span')} <HudReadout variant="scroll" />
+      </span>
+    </div>
+  </section>
+
+  <section class="phase-notice container">
+    <ChannelLabel channel="CH-01" />
+    <p class="t-mono">Featured Work, AI panel, stems console and contact land in Phase 3–5.</p>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: hidden;
+    padding-block: var(--sp-9) var(--sp-8);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+    max-width: 900px;
+  }
+
+  .hero-readout {
+    color: var(--text-muted);
+  }
+
+  .hero-name {
+    color: var(--text);
+    margin-top: var(--sp-2);
+  }
+
+  .hero-tagline {
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+
+  .hero-amp {
+    color: var(--accent);
+  }
+
+  .hero-desc {
+    color: var(--text-muted);
+    max-width: 42ch;
+  }
+
+  .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-5);
+    margin-top: var(--sp-3);
+  }
+
+  .hero-hud {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--sp-5);
+    margin-top: var(--sp-8);
+    padding-inline: var(--grid-margin);
+    color: var(--text-muted);
+  }
+
+  .hero-scroll-tick {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-2);
+  }
+
+  @media (max-width: 767px) {
+    .hero {
+      min-height: auto;
+      padding-block: var(--sp-8) var(--sp-6);
+    }
+
+    .hero-ctas {
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--sp-3);
+    }
+
+    .hero-ctas .btn,
+    .hero-ctas .btn-text {
+      width: 100%;
+      justify-content: center;
+    }
+
+    .hero-hud {
+      justify-content: flex-start;
+      flex-wrap: wrap;
+      margin-top: var(--sp-6);
+    }
+  }
+
+  .phase-notice {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-4);
+    padding-block: var(--sp-6);
+    border-top: 1px solid var(--line);
+  }
+
+  .phase-notice p {
+    color: var(--text-muted);
+  }
+</style>

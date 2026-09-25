@@ -27,3 +27,4 @@ redesign/references/shots/
 dist/
 .astro/
 node_modules/
+__pycache__/

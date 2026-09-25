@@ -1,4 +1,25 @@
 ---
-// Phase 2 stub: page body arrives in Phase 3–5.
+import Base from '../layouts/Base.astro';
+import { site } from '../content';
+import ChannelLabel from '../components/ChannelLabel.astro';
+
+const title = site.pages.projects.legacyTitle!;
 ---
-<!doctype html><html lang="en"><head><meta charset="utf-8"><title>projects · William Vernon</title></head><body><h1>projects</h1></body></html>
+
+<Base title={title} path="/projects" channel="CH-03">
+  <section class="page-stub container">
+    <ChannelLabel channel="CH-03" />
+    <h1 class="t-h1" data-reveal="lines">Project Archive</h1>
+    <p class="t-mono">CH-03 // page body lands in Phase 3–5.</p>
+  </section>
+</Base>
+
+<style>
+  .page-stub {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+    padding-block: var(--sp-9);
+    min-height: 60svh;
+  }
+</style>

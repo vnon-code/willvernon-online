@@ -1,0 +1,485 @@
+{
+ "headings": [
+  {
+   "level": 1,
+   "text": "About & Credentials",
+   "_src": [
+    "about.h.021"
+   ]
+  },
+  {
+   "level": 3,
+   "text": "Design Personality",
+   "_src": [
+    "about.h.022"
+   ]
+  },
+  {
+   "level": 4,
+   "text": "Contact",
+   "_src": [
+    "about.h.023"
+   ]
+  },
+  {
+   "level": 3,
+   "text": "Design Skills",
+   "_src": [
+    "about.h.024"
+   ]
+  },
+  {
+   "level": 3,
+   "text": "Generative Design",
+   "_src": [
+    "about.h.025"
+   ]
+  },
+  {
+   "level": 3,
+   "text": "Education",
+   "_src": [
+    "about.h.026"
+   ]
+  },
+  {
+   "level": 4,
+   "text": "BA Graphic Design (Hons)",
+   "_src": [
+    "about.h.027"
+   ]
+  },
+  {
+   "level": 4,
+   "text": "CertHE Architecture",
+   "_src": [
+    "about.h.028"
+   ]
+  },
+  {
+   "level": 3,
+   "text": "Experience",
+   "_src": [
+    "about.h.029"
+   ]
+  },
+  {
+   "level": 4,
+   "text": "Climbing Instructor",
+   "_src": [
+    "about.h.030"
+   ]
+  },
+  {
+   "level": 4,
+   "text": "Waiter/FOH",
+   "_src": [
+    "about.h.031"
+   ]
+  }
+ ],
+ "blocks": [
+  {
+   "tag": "p.font-mono.text-accent",
+   "text": "// PROFILE",
+   "_src": [
+    "about.copy.040"
+   ]
+  },
+  {
+   "tag": "h1.text-7xl.font-bold",
+   "text": "About & Credentials",
+   "_src": [
+    "about.copy.041"
+   ]
+  },
+  {
+   "tag": "p.text-gray-400.font-mono",
+   "text": "An adaptable designer combining technical software execution with multidisciplinary creative workflows. Driven by curiosity and experimentation across 3D pipelines, generative design, and procedural audio-visual systems.",
+   "_src": [
+    "about.copy.042"
+   ]
+  },
+  {
+   "tag": "h3.about-section-heading",
+   "text": "Design Personality",
+   "_src": [
+    "about.copy.043"
+   ]
+  },
+  {
+   "tag": "p.text-gray-400.leading-relaxed",
+   "text": "Adaptable graduate and customer experience professional with a unique blend of technical design skills and operational reliability. I view software as a toolset to translate complex data or abstract audio into tangible, immersive visual narratives.",
+   "_src": [
+    "about.copy.044"
+   ]
+  },
+  {
+   "tag": "p.text-gray-400.leading-relaxed",
+   "text": "My process integrates generative design workflows with traditional 3D pipelines, reframing emerging tech as a collaborative partner to accelerate ideation while maintaining ethical standards and creative control.",
+   "_src": [
+    "about.copy.045"
+   ]
+  },
+  {
+   "tag": "h4.font-mono.text-white",
+   "text": "Contact",
+   "_src": [
+    "about.copy.046"
+   ]
+  },
+  {
+   "tag": "p",
+   "text": "Email: wvernoncsi@gmail.com",
+   "_src": [
+    "about.copy.047"
+   ]
+  },
+  {
+   "tag": "a.btn-secondary",
+   "text": "REQUEST MY CV",
+   "_src": [
+    "about.copy.048"
+   ]
+  },
+  {
+   "tag": "h3.about-section-heading",
+   "text": "Design Skills",
+   "_src": [
+    "about.copy.049"
+   ]
+  },
+  {
+   "tag": "span.hud-skill-tag.skill-adobe",
+   "text": "Photoshop",
+   "_src": [
+    "about.copy.050"
+   ]
+  },
+  {
+   "tag": "span.hud-skill-tag.skill-adobe",
+   "text": "Illustrator",
+   "_src": [
+    "about.copy.051"
+   ]
+  },
+  {
+   "tag": "span.hud-skill-tag.skill-adobe",
+   "text": "InDesign",
+   "_src": [
+    "about.copy.052"
+   ]
+  },
+  {
+   "tag": "span.hud-skill-tag.skill-motion",
+   "text": "After Effects",
+   "_src": [
+    "about.copy.053"
+   ]
+  },
+  {
+   "tag": "span.hud-skill-tag.skill-motion",
+   "text": "Premiere Pro",
+   "_src": [
+    "about.copy.054"
+   ]
+  },
+  {
+   "tag": "span.hud-skill-tag.skill-generative",
+   "text": "TouchDesigner",
+   "_src": [
+    "about.copy.055"
+   ]
+  },
+  {
+   "tag": "span.hud-skill-tag.skill-3d",
+   "text": "Blender",
+   "_src": [
+    "about.copy.056"
+   ]
+  },
+  {
+   "tag": "h3.about-section-heading",
+   "text": "Generative Design",
+   "_src": [
+    "about.copy.057"
+   ]
+  },
+  {
+   "tag": "p.about-ai-cat-title",
+   "text": "Commercial Tools",
+   "_src": [
+    "about.copy.058"
+   ]
+  },
+  {
+   "tag": "p",
+   "text": "Midjourney, ElevenLabs, Higgsfield, Rodin",
+   "_src": [
+    "about.copy.059"
+   ]
+  },
+  {
+   "tag": "p.about-ai-cat-title",
+   "text": "Open Source & Engines",
+   "_src": [
+    "about.copy.060"
+   ]
+  },
+  {
+   "tag": "p",
+   "text": "ComfyUI, SDXL, Flux, HighDream, Qwen",
+   "_src": [
+    "about.copy.061"
+   ]
+  },
+  {
+   "tag": "p",
+   "text": "Prompt Engineering, LORA training, ControlNet",
+   "_src": [
+    "about.copy.062"
+   ]
+  },
+  {
+   "tag": "h3.about-section-heading",
+   "text": "Education",
+   "_src": [
+    "about.copy.063"
+   ]
+  },
+  {
+   "tag": "h4.about-timeline-title",
+   "text": "BA Graphic Design (Hons)",
+   "_src": [
+    "about.copy.064"
+   ]
+  },
+  {
+   "tag": "p.about-timeline-meta",
+   "text": "Oxford Brookes | 2022-2025",
+   "_src": [
+    "about.copy.065"
+   ]
+  },
+  {
+   "tag": "span.font-mono.text-xs",
+   "text": "// LINKED_PROJECTS",
+   "_src": [
+    "about.copy.066"
+   ]
+  },
+  {
+   "tag": "span",
+   "text": "[ GDES5014 ] // Amplified Spaces",
+   "_src": [
+    "about.copy.067"
+   ]
+  },
+  {
+   "tag": "span",
+   "text": "[ GDES4002 ] // Remnants",
+   "_src": [
+    "about.copy.068"
+   ]
+  },
+  {
+   "tag": "span",
+   "text": "[ GDES5001 ] // Marimekko Retrospective",
+   "_src": [
+    "about.copy.069"
+   ]
+  },
+  {
+   "tag": "h4.about-timeline-title",
+   "text": "CertHE Architecture",
+   "_src": [
+    "about.copy.070"
+   ]
+  },
+  {
+   "tag": "p.about-timeline-meta",
+   "text": "Oxford Brookes | 2020-2022",
+   "_src": [
+    "about.copy.071"
+   ]
+  },
+  {
+   "tag": "h3.about-section-heading",
+   "text": "Experience",
+   "_src": [
+    "about.copy.072"
+   ]
+  },
+  {
+   "tag": "h4.about-timeline-title",
+   "text": "Climbing Instructor",
+   "_src": [
+    "about.copy.073"
+   ]
+  },
+  {
+   "tag": "p.about-timeline-meta",
+   "text": "Jump Jersey | 2023-2025",
+   "_src": [
+    "about.copy.074"
+   ]
+  },
+  {
+   "tag": "h4.about-timeline-title",
+   "text": "Waiter/FOH",
+   "_src": [
+    "about.copy.075"
+   ]
+  },
+  {
+   "tag": "p.about-timeline-meta",
+   "text": "Air Mex | 2022-2023",
+   "_src": [
+    "about.copy.076"
+   ]
+  }
+ ],
+ "images": [
+  {
+   "src": "/img/monogram-white-trans.png",
+   "alt": "WV Monogram",
+   "_src": [
+    "about.img.077"
+   ]
+  }
+ ],
+ "links": [
+  {
+   "text": "[ HOME ]",
+   "href": "/",
+   "_src": [
+    "about.link.078",
+    "about.nav.009",
+    "about.nav.013",
+    "about.nav.017",
+    "about.copy.032"
+   ]
+  },
+  {
+   "text": "[ WORK ]",
+   "href": "/work",
+   "_src": [
+    "about.link.079",
+    "about.nav.010",
+    "about.nav.018",
+    "about.copy.033"
+   ]
+  },
+  {
+   "text": "[ MUSIC ]",
+   "href": "/music",
+   "_src": [
+    "about.link.080",
+    "about.nav.011",
+    "about.nav.019",
+    "about.copy.034"
+   ]
+  },
+  {
+   "text": "[ ABOUT ]",
+   "href": "/about",
+   "_src": [
+    "about.link.081",
+    "about.nav.012",
+    "about.nav.020",
+    "about.copy.035"
+   ]
+  },
+  {
+   "text": null,
+   "href": "/",
+   "_src": [
+    "about.link.082"
+   ]
+  },
+  {
+   "text": null,
+   "href": "https://instagram.com/willvernon.av",
+   "_src": [
+    "about.link.083",
+    "about.nav.014"
+   ]
+  },
+  {
+   "text": null,
+   "href": "https://www.linkedin.com/in/william-vernon-a37aa42b8",
+   "_src": [
+    "about.link.084",
+    "about.nav.015"
+   ]
+  },
+  {
+   "text": null,
+   "href": "mailto:wvernoncsi@gmail.com",
+   "_src": [
+    "about.link.085",
+    "about.nav.016"
+   ]
+  },
+  {
+   "text": "Home",
+   "href": "/",
+   "_src": [
+    "about.link.086",
+    "about.copy.036"
+   ]
+  },
+  {
+   "text": "Work",
+   "href": "/work",
+   "_src": [
+    "about.link.087",
+    "about.copy.037"
+   ]
+  },
+  {
+   "text": "Music",
+   "href": "/music",
+   "_src": [
+    "about.link.088",
+    "about.copy.038"
+   ]
+  },
+  {
+   "text": "About",
+   "href": "/about",
+   "_src": [
+    "about.link.089",
+    "about.copy.039"
+   ]
+  },
+  {
+   "text": "REQUEST MY CV",
+   "href": "mailto:wvernoncsi@gmail.com?subject=CV%20Request%3A%20William%20Vernon",
+   "_src": [
+    "about.link.090"
+   ]
+  },
+  {
+   "text": "[ GDES5014 ] // Amplified Spaces",
+   "href": "/projects#01",
+   "_src": [
+    "about.link.091"
+   ]
+  },
+  {
+   "text": "[ GDES4002 ] // Remnants",
+   "href": "/projects#03",
+   "_src": [
+    "about.link.092"
+   ]
+  },
+  {
+   "text": "[ GDES5001 ] // Marimekko Retrospective",
+   "href": "/projects#05",
+   "_src": [
+    "about.link.093"
+   ]
+  }
+ ]
+}

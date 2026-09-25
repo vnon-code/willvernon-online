@@ -1,0 +1,202 @@
+{
+ "page": {
+  "headings": [
+   {
+    "level": 1,
+    "text": "Minimal Experiments",
+    "_src": [
+     "experiments.h.021"
+    ]
+   },
+   {
+    "level": 2,
+    "text": "EXPERIMENT_TITLE",
+    "_src": [
+     "experiments.h.022"
+    ]
+   }
+  ],
+  "blocks": [
+   {
+    "tag": "p.font-mono.text-accent",
+    "text": "// DESIGN EXPERIMENTS",
+    "_src": [
+     "experiments.copy.031"
+    ]
+   },
+   {
+    "tag": "h1.text-7xl.font-bold",
+    "text": "Minimal Experiments",
+    "_src": [
+     "experiments.copy.032"
+    ]
+   },
+   {
+    "tag": "p.text-gray-400.font-mono",
+    "text": "A quick log of personal motion design test runs, real-time node pipelines and procedural spatial research. Focuses on technical mechanics, visual synthesis and generative geometry.",
+    "_src": [
+     "experiments.copy.033"
+    ]
+   },
+   {
+    "tag": "h2.lightbox-title",
+    "text": "EXPERIMENT_TITLE",
+    "_src": [
+     "experiments.copy.034"
+    ]
+   },
+   {
+    "tag": "p.lightbox-desc",
+    "text": "Experiment description goes here...",
+    "_src": [
+     "experiments.copy.035"
+    ]
+   },
+   {
+    "tag": "span",
+    "text": "SOFTWARE / SYSTEM",
+    "_src": [
+     "experiments.copy.036"
+    ]
+   },
+   {
+    "tag": "strong",
+    "text": "Software list",
+    "_src": [
+     "experiments.copy.037"
+    ]
+   },
+   {
+    "tag": "span",
+    "text": "MEDIA TYPE",
+    "_src": [
+     "experiments.copy.038"
+    ]
+   },
+   {
+    "tag": "strong",
+    "text": "MP4 VIDEO LOOP",
+    "_src": [
+     "experiments.copy.039"
+    ]
+   }
+  ]
+ },
+ "items": [
+  {
+   "id": "01",
+   "title": "Blender Particles AV Test",
+   "descShort": "An exploration of real-time particle simulations driven by multi-band audio inputs. Frequencies control gravity, turbulence field scales and emission rates to translate sound into visual kinetic energy.",
+   "aspectRatio": "16/9",
+   "software": [
+    "Blender",
+    "After Effects"
+   ],
+   "media": {
+    "type": "video",
+    "src": "https://assets.willvernon.online/experiments/BlenderParticlesAVTest_2(2)_1.mp4"
+   },
+   "_src": [
+    "experiments.js.054",
+    "experiments.js.055",
+    "experiments.js.056",
+    "experiments.js.057",
+    "experiments.js.058",
+    "experiments.js.059",
+    "experiments.js.060"
+   ]
+  },
+  {
+   "id": "02",
+   "title": "Deadly Clout",
+   "descShort": "An audio-reactive, dark typographic motion piece. Merges high-frequency sound transients with kinetic grid systems and heavy displacement loops to project a sense of intense digital noise.",
+   "aspectRatio": "16/9",
+   "software": [
+    "TouchDesigner",
+    "After Effects"
+   ],
+   "media": {
+    "type": "video",
+    "src": "https://assets.willvernon.online/experiments/DeadlyCloutAV.mp4"
+   },
+   "_src": [
+    "experiments.js.061",
+    "experiments.js.062",
+    "experiments.js.063",
+    "experiments.js.064",
+    "experiments.js.065",
+    "experiments.js.066",
+    "experiments.js.067"
+   ]
+  },
+  {
+   "id": "03",
+   "title": "FUCKED UP 01",
+   "descShort": "A glitch-focused motion study investigating modern visual degradation. Employs analog video synthesis, decimation filters and RGB chromatic aberrations to create a highly distressed typographic loop.",
+   "aspectRatio": "16/9",
+   "software": [
+    "After Effects",
+    "Premiere Pro"
+   ],
+   "media": {
+    "type": "video",
+    "src": "https://assets.willvernon.online/experiments/FUCKED%20UP_1.mp4"
+   },
+   "_src": [
+    "experiments.js.068",
+    "experiments.js.069",
+    "experiments.js.070",
+    "experiments.js.071",
+    "experiments.js.072",
+    "experiments.js.073",
+    "experiments.js.074"
+   ]
+  },
+  {
+   "id": "04",
+   "title": "Topography AV Test",
+   "descShort": "A real-time 3D topographic map deformed dynamically by sub-bass wave vectors. Slices spatial peak limits and grid heights based on low-frequency sound pressure levels.",
+   "aspectRatio": "1/1",
+   "software": [
+    "TouchDesigner",
+    "Blender"
+   ],
+   "media": {
+    "type": "video",
+    "src": "https://assets.willvernon.online/experiments/TopographyAV_Test2.mp4"
+   },
+   "_src": [
+    "experiments.js.075",
+    "experiments.js.076",
+    "experiments.js.077",
+    "experiments.js.078",
+    "experiments.js.079",
+    "experiments.js.080",
+    "experiments.js.081"
+   ]
+  },
+  {
+   "id": "05",
+   "title": "Topography Static Gens",
+   "descShort": "An exploration of heightmap procedurals and vector line displacements. Focuses on minimal, high-contrast contour mapping, gradient-mapped heights and architectural mesh extractions.",
+   "aspectRatio": "1/1",
+   "software": [
+    "Blender",
+    "Photoshop"
+   ],
+   "media": {
+    "type": "video",
+    "src": "https://assets.willvernon.online/experiments/TopographyStaticGens.mp4"
+   },
+   "_src": [
+    "experiments.js.082",
+    "experiments.js.083",
+    "experiments.js.084",
+    "experiments.js.085",
+    "experiments.js.086",
+    "experiments.js.087",
+    "experiments.js.088"
+   ]
+  }
+ ]
+}

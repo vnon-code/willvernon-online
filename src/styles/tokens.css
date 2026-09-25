@@ -1,0 +1,111 @@
+/*
+  Direction A — Signal Console
+  Design tokens: colour, type, space, motion, grid, z-index.
+  Builder B (motion/webgl) must USE these custom-property names, never redefine them.
+  Source: redesign/directions/A-signal-console.md (+ JUDGEMENT.md grafts)
+*/
+
+:root {
+  /* ---------- Colour ---------- */
+  --bg: #050505;
+  --surface: #0c0c0d;
+  --surface-2: #15151a;
+  --line: #26262b;
+  --text: #ededed;
+  --text-muted: #7d838a;
+  --accent: #ff3b30; /* signal red — single job: CTA / live / active state */
+  --accent-2: #ffb000; /* signal amber — channel 2, secondary, capped ~5% of usage */
+
+  --accent-rgb: 255, 59, 48;
+  --accent-2-rgb: 255, 176, 0;
+
+  /* ---------- Type families ---------- */
+  --font-display: 'Archivo Variable', system-ui, sans-serif;
+  --font-body: 'Archivo Variable', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  /* Variable-font axis settings (paired with font-family above) */
+  --fset-display: 'wdth' 62, 'wght' 900;
+  --fset-body: 'wdth' 100, 'wght' 400;
+  --fset-body-medium: 'wdth' 100, 'wght' 500;
+  --fset-body-bold: 'wdth' 100, 'wght' 700;
+
+  /* ---------- Fluid type scale ---------- */
+  --fs-display: clamp(3.5rem, 2rem + 11vw, 11.25rem);
+  --fs-h1: clamp(2.75rem, 1.8rem + 5vw, 5.5rem);
+  --fs-h2: clamp(2rem, 1.5rem + 2.4vw, 3.5rem);
+  --fs-h3: clamp(1.375rem, 1.2rem + 1vw, 2rem);
+  --fs-body: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --fs-small: clamp(0.8125rem, 0.8rem + 0.1vw, 0.875rem);
+  --fs-mono-caption: clamp(0.6875rem, 0.68rem + 0.05vw, 0.75rem);
+
+  --lh-display: 0.92;
+  --lh-h1: 1;
+  --lh-h2: 1.08;
+  --lh-h3: 1.2;
+  --lh-body: 1.55;
+  --lh-small: 1.4;
+  --lh-mono-caption: 1.3;
+
+  --ls-display: -0.02em;
+  --ls-h1: -0.01em;
+  --ls-h2: -0.005em;
+  --ls-h3: 0em;
+  --ls-body: 0em;
+  --ls-small: 0.01em;
+  --ls-mono-caption: 0.09em;
+
+  /* ---------- Space (8px base, 4px sub-tick) ---------- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+  --sp-9: 96px;
+  --sp-10: 128px;
+  --sp-11: 192px;
+
+  /* ---------- Grid ---------- */
+  --grid-columns: 4;
+  --grid-gutter: 16px;
+  --grid-margin: 20px;
+  --grid-max: 1600px;
+
+  /* ---------- Motion ---------- */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); /* consoleOut: entrances/reveals */
+  --ease-inout: cubic-bezier(0.65, 0, 0.35, 1); /* consoleInOut: on-screen movement, transition sweep */
+  --ease-snap: cubic-bezier(0.2, 0.8, 0.2, 1); /* HUD tick / digit roll, filter reflow */
+
+  --dur-instant: 120ms;
+  --dur-fast: 220ms;
+  --dur-base: 400ms;
+  --dur-slow: 700ms;
+  --dur-scene: 1200ms;
+
+  /* ---------- Z-index ---------- */
+  --z-nav: 100;
+  --z-menu: 200;
+  --z-cursor: 300;
+  --z-vt: 400;
+}
+
+/* 768: 8-column grid, wider gutter/margin */
+@media (min-width: 768px) {
+  :root {
+    --grid-columns: 8;
+    --grid-gutter: 20px;
+    --grid-margin: 32px;
+  }
+}
+
+/* 1440: 12-column grid, widest gutter/margin, capped max-width */
+@media (min-width: 1440px) {
+  :root {
+    --grid-columns: 12;
+    --grid-gutter: 24px;
+    --grid-margin: 64px;
+  }
+}

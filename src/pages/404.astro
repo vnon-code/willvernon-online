@@ -1,0 +1,39 @@
+---
+import Base from '../layouts/Base.astro';
+import ChannelLabel from '../components/ChannelLabel.astro';
+
+const title = 'Signal Lost | William Vernon';
+---
+
+<Base title={title} path="/404" channel="CH-00" noindex={true}>
+  <section class="signal-lost container">
+    <ChannelLabel channel="CH-00" label="NO CARRIER" />
+    <h1 class="t-display" data-reveal="lines">SIGNAL LOST</h1>
+    <p class="t-body">
+      The channel you tuned to doesn't exist, or has been moved. Re-sync from the index below.
+    </p>
+    <div class="signal-lost-ctas">
+      <a href="/" class="btn btn-primary">Return to signal</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .signal-lost {
+    min-height: 60svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--sp-4);
+    padding-block: var(--sp-9);
+  }
+
+  .signal-lost p {
+    color: var(--text-muted);
+    max-width: 50ch;
+  }
+
+  .signal-lost-ctas {
+    margin-top: var(--sp-4);
+  }
+</style>
