@@ -1,5 +1,7 @@
 # willvernon.online v2: rebuild plan
 
+**▶ Current state and how to resume: see `redesign/PROGRESS.md`, section "RESUME HERE" (paused 2026-09-25 after Phase 4; Phase 5 is next).**
+
 **⚠ Direction change (user, 2026-09-25, after Phase 3):** direction A (Signal Console) is retired. See §4 **Phase 2b** below: a ground-up minimal brutalist redesign with moving grid lines. §1 is kept as history only; where it conflicts with Phase 2b or CLAUDE.md, those win.
 
 **Status (original):** Phases 0 and 1 are complete. **Approved by the user on 2026-09-25: direction A plus every proposal in §7.** Phase 2 is next.

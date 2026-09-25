@@ -1,5 +1,39 @@
 # Progress: willvernon.online v2 rebuild
 
+## ▶ RESUME HERE (paused 2026-09-25, ~$236 of $250 spent, ~$14 left)
+
+**Preview (updates on every push to this branch):** https://redesign-v2-willvernon-online.wvernoncsi.workers.dev
+**Live site:** unchanged (v1 still on `main`). Nothing has been deployed.
+
+| Area | State |
+|---|---|
+| Plan, audit, content inventory (1,429 items), references | ✅ done |
+| Foundations: Astro build to `dist/`, `_headers`, 404, sitemap, content pipeline | ✅ done; Workers Builds passes |
+| Design: minimal brutalist + moving grid lines (Phase 2b; replaced direction A) | ✅ done |
+| Home, About, Work (Phase 3, restyled in 2b) | ✅ built, 100% content parity, 0 axe violations |
+| Projects index + 7 case-study pages (Phase 4) | ✅ built (commit 297cfb3). ⏳ Its final gates (preview Lighthouse, A/B judge) were interrupted over budget |
+| Music, AI, Experiments (Phase 5) | ⏳ **not built** (the routes exist on the preview but are unfinished) |
+| QA + PR (Phase 6) | ⏳ not started |
+| Ship to production (Phase 7) | ⏳ not started. Do **not** merge to `main` before Phase 5 is built, because v2 replaces every page |
+
+**Next steps, in order:** (1) Phase 5, one page per session if the budget is tight (music → AI → experiments); (2) Phase 4's leftover gates, folded into Phase 6; (3) Phase 6 QA + PR; (4) Phase 7 ship. Kickoff prompts are in `redesign/PLAN.md` §4. Estimated remaining cost: ~$60–80 at the observed real rates.
+**Budget rule for every session:** read your real cost with the Claude Code Remote `get_session` tool (no id): `usage.cost_usd`. Token estimates ran 2–2.5× low. Stop at the phase budget.
+
+### Working on another device
+```
+git clone https://github.com/vnon-code/willvernon-online.git
+cd willvernon-online && git checkout redesign/v2
+npm ci
+npm run dev        # local dev server (Astro)
+npm run build      # production build to dist/
+```
+- Content is generated: `pip install beautifulsoup4 lxml`, then `npm run content`. Check parity with `npm run content:check`.
+- For a Claude session: rules are in `CLAUDE.md`. Skills are gitignored, so reinstall them with the command in CLAUDE.md.
+- `legacy/` holds the old site for reference; it never ships.
+
+---
+
+
 ## Status
 
 | Phase | State | Branch head / notes |
