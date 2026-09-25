@@ -8,12 +8,13 @@
 | 1: plan | ✅ done, **approved 2026-09-25 (A, yes to all §7)** | PLAN.md, REFERENCES.md, directions A/B/C + JUDGEMENT.md |
 | 2: design system + shell + edge | ✅ done 2026-09-25 | Astro 7 scaffold, tokens/base, Base/Nav/MobileMenu/Footer, motion primitives, OGL SignalScope, _headers/404/robots/sitemap, build_content.py (100% content parity, 7 pages). Workers Builds green; preview alias verified. |
 | 3: home, about, work | ✅ done 2026-09-25 (structure/content/a11y; **styling to be replaced in 2b**) | Home: featured-work index, AI toolset (accessible `<details>`), stems console (Web Audio on gesture, 13 labelled FX sliders), contact + Formspree. About: skills/education/experience/credentials accordion. Work: H1, INDEX/INFORMATION toggle, R2 previews. Nav IA: Projects/AI/Experiments in primary nav. DOM parity 100% (index 303, about 86, work 52); axe 0 violations at 390/768/1440. |
-| 2b: ground-up redesign (minimal brutalist + moving grid) | ▶ next | user direction change 2026-09-25; PLAN.md §4 Phase 2b |
-| 4–7 | ⏳ (after 2b) | |
+| 2b: ground-up redesign (minimal brutalist + moving grid) | ✅ done 2026-09-25 (**A/B target met on home only**, see below) | Direction D "Ruled Ground" (redesign/directions/D-brutalist-grid.md): paper #F1F1EE / ink #0B0B0B / state-only yellow #FFE14A, Mona Sans variable (wdth axis) as the single family, GridFrame/Rule/Frame/Cross line system with ScrollTrigger scrub draws, scroll-velocity shear, hot bay lines, wdth kinetic H1s, hard-cut View Transitions. SignalScope/OGL/HUD/scramble/CH-xx/cursor/BPM/smoother removed (ogl dep gone). Commits 5c2eab7 (build) + 9e2f9a4 (fix-once). |
+| 4 | ▶ next (fresh session) | PLAN.md §4 Phase 4 + the 2b carry-overs below |
+| 5–7 | ⏳ | |
 
 **Direction change (user, 2026-09-25):** drop the techy/HUD Signal Console look and the scope hero; rebuild the design from zero as minimal brutalist with moving, scroll-reactive grid lines (Cloudflare-style), bold raw motion; one direction, built directly; A/B against Awwwards-standard reference sites. Content parity unchanged. CLAUDE.md and PLAN.md (Phase 2b) updated.
 
-**Next action:** run Phase 2b (PLAN.md §4 Phase 2b kickoff), then Phase 4. User to-dos: disable GitHub Pages (repo Settings → Pages); create a Cloudflare Web Analytics site tag when Phase 6 asks for it.
+**Next action:** Phase 4 (projects) in a fresh session, including the Phase 2b carry-overs. User to-dos: disable GitHub Pages (repo Settings → Pages); create a Cloudflare Web Analytics site tag when Phase 6 asks for it.
 
 ## Spend ledger (cap $250; plan ≤ $180)
 No `/cost` or `/usage` figure is visible from inside this cloud session, so **every figure below is an estimate**, built from workflow token counts and turn counts at the list prices in PLAN.md §6.
@@ -33,6 +34,12 @@ No `/cost` or `/usage` figure is visible from inside this cloud session, so **ev
 | P3 | WF5 build: 3 Sonnet page builders (home, about, work + nav IA) | ~700k (subagent) | 4.5 | 30.0 |
 | P3 | WF5 Opus adversarial verify (2 blockers, 11 majors, 5 minors) + Opus fix-once (all blockers/majors fixed, 1 partial) | ~490k (subagent) | 6.0 | 36.0 |
 | P3 | Main loop: DOM parity checker, workflow, gates, direction-change docs | ~30 turns | 2.0 | **≈ 38** |
+
+| P2b | WF6 build: 2 Sonnet reference sweeps, Opus direction spec, 3 Sonnet builders (foundation/shell, motion, pages) | 1.66M (subagent) | 10.0 | 48.0 |
+| P2b | WF7 verify: Opus gates + Opus A/B judge, Opus fix-once, Opus re-verify | 0.64M (subagent) | 6.0 | 54.0 |
+| P2b | Main loop: setup, gates, footer fix, commits, preview check, Phase 4 handoff | ~25 turns | 2.0 | **≈ 56** |
+
+**Phase 2b budget was $18; the estimate is ≈ $18 (on budget, range $14–22).** No second fix round was run: CLAUDE.md allows fix once, and another round would have gone past budget. The remaining judge gaps go to Phase 4 as carry-overs.
 
 **Phase 3 budget was $25; the estimate is ≈ $12.5 (1.19M subagent tokens).** Lighthouse on the preview and the 3-breakpoint contact sheet were deferred to Phase 2b: the user retired the visual design mid-phase, so measuring and screenshotting a look that is being replaced would be wasted spend.
 
@@ -66,6 +73,9 @@ No `/cost` or `/usage` figure is visible from inside this cloud session, so **ev
 | 3 | find-animation-opportunities | Gated each motion idea: kept hover/focus preview and accordion markers; rejected decorative level-meter motion and entrance motion on FX sliders. |
 | 3 | animate | Transform/opacity only on tokens; the level meter was moved from height to scaleY in the fix pass. |
 | 3 | gsap-scrolltrigger | Confirmed the existing data-reveal primitives covered every section, so no new ScrollTrigger instances were added; the verifier flagged a nested double reveal. |
+| 2b | impeccable (builders/verify) | Builders A/C read the craft floor directly: the Skill tool said "Unknown skill" inside workflow subagents. C caught its own decorative "Project 01" numbering and a hand-typed "View" CTA; the verifier and judge used it to call out empty grey media boxes, mid-word heading breaks and a wireframe-sparse /work. |
+| 2b | gsap-performance / review-animations | Verifier measured 2.4k idle style mutations/s from the shear ticker, per-cross getBoundingClientRect, a first-scroll rule retract and render-blocking CSS. The fix pass detached the idle ticker, batched reads and inlined CSS: local mobile Perf went 81 → 93–97. |
+| 2b | gsap-scrolltrigger / animate | Builder B: one master ScrollTrigger + batch() reveals, refresh after fonts, matchMedia reduced-motion = static drawn lines. The fix pass switched SplitText autoSplit to the onSplit revealed-state pattern. |
 | 3 | review-animations | Verifier pass on new motion: layout-property meter, double reveal on nested headings, reduced-motion blank video previews on /work (fixed). |
 
 All 10 skills have now been used at least once.
@@ -99,6 +109,18 @@ All 10 skills have now been used at least once.
   - index.copy.044 (the hero H2 as a copy block, without the '&') is matched because the fix pass draws the '&' from a CSS `data-glyph`, with the full heading in the H2's `aria-label`. That's a workaround; Phase 2b should rebuild the hero and prefer teaching the checker that copy.044 == h.022.
   - Two UI strings are still hand-typed because src/content lacks them: the contact success message and the stems "Mixer Active // Loop Synced" status (not ported). Add them via build_content.py if they survive the redesign.
   - Legacy stems console had mute only (no solo/gain); kept faithful.
+
+- **Phase 2b results / carry-overs (for Phase 4 and later):**
+  - Gates on 9e2f9a4 (local): DOM parity 100% (index 303, about 86, work 52), content:check 100%, CSP OK, astro check 0/0/0, axe 0 serious/critical at 390/768/1440 in both motion modes, no overflow or mid-word breaks at 360/390/768/1440, reduced motion and JS-off content fully visible. Lighthouse mobile local: index 93–97, about 95, work 96, A11y/BP/SEO 100. **Preview alias (9e2f9a4, Workers Builds success) Lighthouse mobile/desktop:** / 100/100, /about 100/100, /work 94/100 Perf. A11y 100 and BP 100 everywhere. SEO 69 only because the preview sends `x-robots-tag: noindex`; locally it scores 100. Mobile LCP: / 1.7s, /about 1.6s, /work 2.7s. The baseline was index Perf 81 with LCP 4.05s. Contact sheet: redesign/references/shots/2b/final-sheet.jpg (gitignored).
+  - A/B judge (Design 40 / Usability 30 / Creativity 20 / Content 10) after fix: home 7.50, about 6.95, work 6.90. References: bleibtgleich 8.3, uncommonstudio 8.2, madebynull 7.85, eloyb 7.65. **About and work are still below the 7.5 target.** Phase 4 must lift them before its own judge runs:
+    - /work: make hub rows full-width `[data-hot]` index rows with B2–B4 mega titles and a wdth hover via quickTo, a B4 hover preview drawn from the first media URL in projects/ai/experiments.json, and Rules between rows. It is wireframe-sparse today.
+    - /about: more scale drama and line structure (it scored lowest on Design and Creativity).
+    - '//'-prefixed and UPPER_SNAKE parity labels ('// PROFILE', '// ACTIVE_MIXER_SOURCE', 'EXPLORE_PROJECTS', 'VIEW_CASE_STUDY') still read as HUD. Keep the strings verbatim (INVENTORY), but restyle them as plain small ink-2 labels. Replace non-inventory console chrome with plain words.
+    - The stems console is ~1,900px of sliders at 390: collapse per-stem FX into `<details>` below 768.
+    - Inline mobile media `<video>` has no poster, so it is blank until decode.
+    - The shear clamp flattens the fan at high velocity. Clamp before the per-line weight.
+  - Skills: the Skill tool returns "Unknown skill" inside Workflow subagents even though `.claude/skills/*` is installed. Tell workers to read `.claude/skills/<name>/SKILL.md` directly.
+  - Judge reference set: bleibtgleich.dev, uncommonstudio.com.au, madebynull.com, eloyb.design. Shots are in redesign/references/shots/2b/judge/ (gitignored). Notes are in redesign/references/2b-*.md.
 
 ## Rollback (fill in during Phase 7)
 - `v1-final` tag: not created yet.
