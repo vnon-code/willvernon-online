@@ -38,12 +38,12 @@ const scrollLabel = block('span');
   <section class="hero container" data-hero>
     <p class="hero-label t-label">{heroReadout}</p>
 
-    <div class="hero-name-box" data-kinetic="wdth">
-      <Cross class="hero-name-cross hero-name-cross--tl" />
-      <h1 class="hero-name">
+    <div class="hero-name-box">
+      <Cross pop class="hero-name-cross hero-name-cross--tl" />
+      <h1 class="hero-name" data-kinetic="wdth">
         {heroWords.map((w) => <span class="hero-name-line">{w}</span>)}
       </h1>
-      <Cross class="hero-name-cross hero-name-cross--br" />
+      <Cross pop class="hero-name-cross hero-name-cross--br" />
     </div>
 
     <Rule origin="center" class="hero-rule" />
@@ -90,9 +90,10 @@ const scrollLabel = block('span');
     color: var(--ink-2);
   }
 
+  /* No paint containment here: the corner crosses sit half outside the
+   * box. kinetic.ts contains the H1 itself. */
   .hero-name-box {
     position: relative;
-    contain: layout paint;
   }
 
   .hero-name {
@@ -103,7 +104,10 @@ const scrollLabel = block('span');
     line-height: var(--lh-mega);
     letter-spacing: var(--ls-mega);
     font-weight: 820;
-    font-variation-settings: 'wdth' var(--wdth, 125), 'wght' 820;
+    /* --wdth is set explicitly (never via a var() fallback): kinetic.ts
+     * registers it with an initialValue, which would win over a fallback. */
+    --wdth: 125;
+    font-variation-settings: 'wdth' var(--wdth), 'wght' 820;
     color: var(--ink);
   }
 
@@ -111,26 +115,30 @@ const scrollLabel = block('span');
     display: block;
   }
 
-  .hero-name-cross {
+  /* Corner registration marks. Scoped through the box (the class lands on
+   * the Cross component's root, whose own `.cross` rule would otherwise win
+   * the cascade) and offset with margins, not a transform, so the pop-in's
+   * scale/rotate never fights the corner offset. */
+  .hero-name-box :global(.hero-name-cross) {
     position: absolute;
     z-index: 1;
   }
 
-  .hero-name-cross--tl {
+  .hero-name-box :global(.hero-name-cross--tl) {
     top: 0;
     left: 0;
-    transform: translate(-50%, -50%);
+    margin: -5.5px 0 0 -5.5px;
   }
 
-  .hero-name-cross--br {
+  .hero-name-box :global(.hero-name-cross--br) {
     bottom: 0;
     right: 0;
-    transform: translate(50%, 50%);
+    margin: 0 -5.5px -5.5px 0;
   }
 
   @media (max-width: 767px) {
     .hero-name {
-      font-variation-settings: 'wdth' var(--wdth, 108), 'wght' 820;
+      --wdth: 108;
     }
   }
 

@@ -6,12 +6,17 @@
  */
 interface Props {
   class?: string;
+  /** Opt in to the stepped pop-in (motion.css pre-hides it, lines.ts pops it
+   * in). Leave off for crosses that are UI state (e.g. accordion icons) and
+   * own their transform. Offset a popped cross with margins, never a
+   * transform/translate (GSAP owns its transform). */
+  pop?: boolean;
 }
 
-const { class: className = '' } = Astro.props;
+const { class: className = '', pop = false } = Astro.props;
 ---
 
-<span class:list={['cross', className]} aria-hidden="true"></span>
+<span class:list={['cross', className]} data-cross-pop={pop ? '' : undefined} aria-hidden="true"></span>
 
 <style>
   .cross {

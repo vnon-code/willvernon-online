@@ -8,7 +8,7 @@ export default defineConfig({
   site: 'https://willvernon.online',
   output: 'static',
   trailingSlash: 'never',
-  build: { format: 'file', inlineStylesheets: 'auto' },
+  build: { format: 'file', inlineStylesheets: 'always' },
   integrations: [
     sitemap({
       filter: (page) => !/\/(styleguide|404)(\.html)?$/.test(page),

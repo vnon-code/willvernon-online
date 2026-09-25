@@ -169,6 +169,109 @@ function revealStaggerGroups(motion: boolean) {
   });
 }
 
+/** Below-the-fold split headings are split only when they reach the same
+ * 'top 88%' line their reveal fires at: one shared IntersectionObserver, no
+ * ScrollTrigger (each of which would force a layout on creation), and no
+ * SplitText work at all during load. */
+function onApproach(els: HTMLElement[], fn: (el: HTMLElement) => void) {
+  if (!('IntersectionObserver' in window)) {
+    els.forEach(fn);
+    return;
+  }
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting && entry.boundingClientRect.top > 0) return;
+        io.unobserve(entry.target);
+        fn(entry.target as HTMLElement);
+      });
+    },
+    { rootMargin: '0px 0px -12% 0px' },
+  );
+  els.forEach((el) => io.observe(el));
+}
+
+/** Split work for headings in (or above) the first viewport runs now; the
+ * rest waits for an idle callback so SplitText's layout reads never land in
+ * the load-time long task. One batched read pass, before any split writes. */
+function partitionByFold(els: HTMLElement[]): { now: HTMLElement[]; later: HTMLElement[] } {
+  const vh = window.innerHeight;
+  const tops = els.map((el) => el.getBoundingClientRect().top);
+  const now: HTMLElement[] = [];
+  const later: HTMLElement[] = [];
+  els.forEach((el, i) => (tops[i] < vh ? now : later).push(el));
+  return { now, later };
+}
+
+/**
+ * SplitText autoSplit re-splits on resize and late font loads, replacing the
+ * line elements. The reveal trigger is once-only, so onSplit must know
+ * whether this heading has already been revealed: if so the fresh lines are
+ * shown at rest; if not they are hidden and wait for the trigger. `revealed`
+ * is filled the moment the trigger fires, so a re-split mid-tween also lands
+ * visible.
+ */
+const revealedSplits = new WeakSet<HTMLElement>();
+
+function tweenLines(el: HTMLElement, lines: Element[]) {
+  revealedSplits.add(el);
+  gsap.to(lines, {
+    yPercent: 0,
+    opacity: 1,
+    duration: DUR.reveal,
+    ease: EASE_OUT,
+    stagger: STAGGER.splitLine,
+    onComplete: () => clearSafety(el),
+  });
+}
+
+/** `now`: the heading is already at its reveal line (onApproach), so tween
+ * straight away instead of creating a ScrollTrigger. */
+function setupSplitLine(el: HTMLElement, now = false) {
+  let lines: Element[] = [];
+  try {
+    SplitText.create(el, {
+      type: 'lines',
+      mask: 'lines',
+      linesClass: 'split-line',
+      autoSplit: true,
+      aria: 'auto',
+      onSplit(self: { lines: Element[] }) {
+        lines = self.lines;
+        // motion.css hides the WHOLE heading (html.js [data-split]) so
+        // there's no FOUC before SplitText runs; now that visibility is
+        // delegated to the per-line masks, un-hide the heading itself.
+        el.style.setProperty('opacity', '1');
+        if (revealedSplits.has(el)) {
+          gsap.set(self.lines, { yPercent: 0, opacity: 1 });
+          return;
+        }
+        gsap.set(self.lines, { yPercent: 105, opacity: 0 });
+      },
+    });
+  } catch {
+    clearSafety(el);
+    forceReveal(el);
+    return;
+  }
+  if (!lines.length) {
+    clearSafety(el);
+    forceReveal(el);
+    return;
+  }
+
+  if (now) {
+    tweenLines(el, lines);
+    return;
+  }
+  ScrollTrigger.create({
+    trigger: el,
+    start: 'top 88%',
+    once: true,
+    onEnter: () => tweenLines(el, lines),
+  });
+}
+
 function revealSplitLines(motion: boolean) {
   const heads = Array.from(document.querySelectorAll<HTMLElement>('[data-split="lines"]'));
   if (!heads.length) return;
@@ -176,53 +279,48 @@ function revealSplitLines(motion: boolean) {
     heads.forEach(forceReveal);
     return;
   }
+  heads.forEach(armSafety);
+  const { now, later } = partitionByFold(heads);
+  now.forEach((el) => setupSplitLine(el));
+  onApproach(later, (el) => setupSplitLine(el, true));
+}
 
-  const linesByEl = new Map<HTMLElement, Element[]>();
-  heads.forEach((el) => {
-    armSafety(el);
-    try {
-      SplitText.create(el, {
-        type: 'lines',
-        mask: 'lines',
-        linesClass: 'split-line',
-        autoSplit: true,
-        aria: 'auto',
-        onSplit(self: { lines: Element[] }) {
-          linesByEl.set(el, self.lines);
-          // motion.css hides the WHOLE heading (html.js [data-split]) so
-          // there's no FOUC before SplitText runs; now that visibility is
-          // delegated to the per-line masks, un-hide the heading itself and
-          // hide only the lines.
-          el.style.setProperty('opacity', '1');
-          gsap.set(self.lines, { yPercent: 105, opacity: 0 });
-        },
-      });
-    } catch {
-      clearSafety(el);
-      forceReveal(el);
-    }
-  });
-
-  const ready = heads.filter((el) => linesByEl.has(el));
-  if (!ready.length) return;
-
-  ScrollTrigger.batch(ready, {
-    start: 'top 88%',
-    once: true,
-    onEnter: (batch) =>
-      (batch as HTMLElement[]).forEach((el) => {
-        const lines = linesByEl.get(el);
-        if (!lines) return;
-        gsap.to(lines, {
-          yPercent: 0,
-          opacity: 1,
-          duration: DUR.reveal,
-          ease: EASE_OUT,
-          stagger: STAGGER.splitLine,
-          onComplete: () => clearSafety(el),
+function setupSplitChars(el: HTMLElement, now = false) {
+  try {
+    SplitText.create(el, {
+      type: 'chars',
+      charsClass: 'split-char',
+      aria: 'auto',
+      onSplit(self: { chars: Element[] }) {
+        // Same as setupSplitLine: un-hide the heading itself now that
+        // visibility is delegated to the per-char opacity below.
+        el.style.setProperty('opacity', '1');
+        const chars = self.chars as HTMLElement[];
+        chars.forEach((c) => {
+          const rand = 75 + Math.random() * 50;
+          c.style.setProperty('font-variation-settings', `'wdth' ${rand.toFixed(1)}`);
+          c.style.opacity = '0';
         });
-      }),
-  });
+        const settle = () =>
+          gsap.to(chars, {
+            opacity: 1,
+            fontVariationSettings: "'wdth' 100",
+            duration: 0.4,
+            ease: EASE_STEP3,
+            stagger: STAGGER.splitChar,
+            onComplete: () => clearSafety(el),
+          });
+        if (now) {
+          settle();
+          return;
+        }
+        ScrollTrigger.create({ trigger: el, start: 'top 88%', once: true, onEnter: settle });
+      },
+    });
+  } catch {
+    clearSafety(el);
+    forceReveal(el);
+  }
 }
 
 function revealSplitChars(motion: boolean) {
@@ -232,45 +330,10 @@ function revealSplitChars(motion: boolean) {
     heads.forEach(forceReveal);
     return;
   }
-
-  heads.forEach((el) => {
-    armSafety(el);
-    try {
-      SplitText.create(el, {
-        type: 'chars',
-        charsClass: 'split-char',
-        aria: 'auto',
-        onSplit(self: { chars: Element[] }) {
-          // Same as revealSplitLines: un-hide the heading itself now that
-          // visibility is delegated to the per-char opacity below.
-          el.style.setProperty('opacity', '1');
-          const chars = self.chars as HTMLElement[];
-          chars.forEach((c) => {
-            const rand = 75 + Math.random() * 50;
-            c.style.setProperty('font-variation-settings', `'wdth' ${rand.toFixed(1)}`);
-            c.style.opacity = '0';
-          });
-          ScrollTrigger.create({
-            trigger: el,
-            start: 'top 88%',
-            once: true,
-            onEnter: () =>
-              gsap.to(chars, {
-                opacity: 1,
-                fontVariationSettings: "'wdth' 100",
-                duration: 0.4,
-                ease: EASE_STEP3,
-                stagger: STAGGER.splitChar,
-                onComplete: () => clearSafety(el),
-              }),
-          });
-        },
-      });
-    } catch {
-      clearSafety(el);
-      forceReveal(el);
-    }
-  });
+  heads.forEach(armSafety);
+  const { now, later } = partitionByFold(heads);
+  now.forEach((el) => setupSplitChars(el));
+  onApproach(later, (el) => setupSplitChars(el, true));
 }
 
 export function initReveal() {

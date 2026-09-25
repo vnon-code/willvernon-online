@@ -51,7 +51,7 @@
     transform: scaleX(0);
   }
   html.js .rule-x,
-  html.js .cross {
+  html.js [data-cross-pop] {
     transform: scale(0) rotate(90deg);
   }
 

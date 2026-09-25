@@ -39,7 +39,7 @@ function fixHref(href: string | null): string {
 }
 ---
 
-<div class="work-toggle" role="group">
+<div class="work-toggle" role="group" aria-label="View">
   <button type="button" class="work-toggle-btn" data-view-btn="information" aria-pressed="true">
     <span class="t-label">INFORMATION</span>
   </button>
@@ -191,8 +191,18 @@ function fixHref(href: string | null): string {
     color: var(--ink-2);
   }
 
+  /* Sized to fit the longest title ('Experiments') on one line in its
+   * column: never a mid-word break. */
+  .work-row-body {
+    container-type: inline-size;
+  }
+
   .work-row-title {
     color: var(--ink);
+    font-variation-settings: 'wdth' 100, 'wght' 820;
+    font-size: min(var(--fs-h1), 13cqi);
+    overflow-wrap: normal;
+    hyphens: none;
   }
 
   .work-row-meta {
@@ -216,13 +226,49 @@ function fixHref(href: string | null): string {
     transition: transform var(--dur-hover) var(--ease-out);
   }
 
-  .work-row:hover .work-row-arrow,
   .work-row:focus-visible .work-row-arrow {
     transform: translateX(4px);
   }
 
+  @media (hover: hover) and (pointer: fine) {
+    .work-row:hover .work-row-arrow {
+      transform: translateX(4px);
+    }
+  }
+
   .work-row-preview {
     display: none;
+  }
+
+  /* <900: the media shows inline at 16:10 above the row text (hub.ts loads
+   * it on first intersection; without JS there's nothing to load, so the
+   * box only exists under html.js), and the row sizes to its content
+   * instead of a mostly-empty 60svh. */
+  @media (max-width: 899px) {
+    .work-row {
+      min-height: auto;
+    }
+
+    :global(html.js) .work-row-preview.has-video {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      overflow: hidden;
+      background: var(--paper-2);
+      clip-path: inset(0 0 100% 0);
+      transition: clip-path 900ms var(--ease-out);
+    }
+
+    .work-row.is-revealed .work-row-preview.has-video {
+      clip-path: inset(0 0 0 0);
+    }
+
+    .work-row-preview video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
 
   @media (min-width: 900px) {
@@ -278,6 +324,11 @@ function fixHref(href: string | null): string {
 
   [data-work-view='index'] .work-row-inner {
     max-width: none;
+  }
+
+  [data-work-view='index'] .work-row-body {
+    container-type: normal;
+    flex: 1;
   }
 </style>
 

@@ -18,7 +18,7 @@ import Rule from './grid/Rule.astro';
   <GridFrame local />
   <Rule origin="start" cross />
   <div class="container footer-inner">
-    <a href={`mailto:${CONTACT_EMAIL}`} class="footer-email t-h2">{CONTACT_EMAIL}</a>
+    <a href={`mailto:${CONTACT_EMAIL}`} class="footer-email t-h2">{CONTACT_EMAIL.split('@')[0]}@<wbr />{CONTACT_EMAIL.split('@')[1]}</a>
 
     <div class="footer-aside">
       <ul class="footer-socials" aria-label="Social links">
@@ -62,6 +62,8 @@ import Rule from './grid/Rule.astro';
   .footer-email {
     color: var(--on-ink);
     width: fit-content;
+    max-width: 100%;
+    overflow-wrap: anywhere;
   }
 
   .footer-aside {

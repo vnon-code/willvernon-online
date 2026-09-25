@@ -36,12 +36,14 @@ const h1 = title.split('|')[0].trim();
 
   .work-h1 {
     color: var(--ink);
-    font-variation-settings: 'wdth' var(--wdth, 125), 'wght' 820;
+    /* explicit --wdth, never a var() fallback (kinetic.ts registers it) */
+    --wdth: 125;
+    font-variation-settings: 'wdth' var(--wdth), 'wght' 820;
   }
 
   @media (max-width: 767px) {
     .work-h1 {
-      font-variation-settings: 'wdth' var(--wdth, 108), 'wght' 820;
+      --wdth: 108;
     }
   }
 

@@ -23,6 +23,10 @@ import { gsap, ScrollTrigger } from './gsap';
 import { DUR, STAGGER } from './eases';
 
 const VIEWPORT_FRACTION = 0.45; // draw completes by the time top is 55% up the viewport
+// Velocity shear (§3.4.C): px of x per px/s of scroll velocity, clamped.
+const SHEAR_COEFF = 0.018;
+const SHEAR_CLAMP_DESKTOP = 40;
+const SHEAR_CLAMP_MOBILE = 10;
 
 function clamp01(v: number): number {
   return Math.min(1, Math.max(0, v));
@@ -34,6 +38,15 @@ function clamp01(v: number): number {
 interface VerticalEntry {
   el: HTMLElement;
   k: number;
+  /** The GridFrame this line belongs to (fixed or local). */
+  frame: Element | null;
+  /** Shear sign/weight, -1 (leftmost visible) .. +1 (rightmost visible) in
+   * its own frame; 0 when the line is hidden at this breakpoint. Recomputed
+   * on every ScrollTrigger refresh. */
+  s: number;
+  visible: boolean;
+  /** Last x target sent to quickX, so an unchanged target costs nothing. */
+  last: number;
   /** Resting x before any shear: 0 on every page except the 404 signature,
    * where GridFrame.astro bakes a static --gf-offset into the initial
    * transform (§5.5). The shear target must add to this, never replace it —
@@ -55,7 +68,13 @@ function setupVerticals(skipIntro: boolean): VerticalEntry[] {
   const entries: VerticalEntry[] = verticals.map((el) => ({
     el,
     k: Number(el.dataset.gfLine) || 0,
-    baseX: (gsap.getProperty(el, 'x') as number) || 0,
+    frame: el.closest('[data-grid-frame]'),
+    s: 0,
+    visible: true,
+    last: NaN,
+    // The only resting x is the 404's inline --gf-offset: read it from the
+    // inline style instead of parsing every line's computed transform.
+    baseX: parseFloat(el.style.getPropertyValue('--gf-offset')) || 0,
     quickX: makeQuickX(el),
     registerLocked: false,
   }));
@@ -74,13 +93,38 @@ function setupVerticals(skipIntro: boolean): VerticalEntry[] {
   return entries;
 }
 
+/** §3.4.C: s runs -1 (leftmost) .. +1 (rightmost) over the lines actually
+ * visible at this breakpoint, per frame, so a 2-line phone frame breathes
+ * outwards instead of sliding as one. One computed-style read per line, only
+ * on refresh. */
+function computeShearWeights(entries: VerticalEntry[]) {
+  const vis = entries.map((e) => getComputedStyle(e.el).display !== 'none');
+  const byFrame = new Map<Element | null, VerticalEntry[]>();
+  entries.forEach((e, i) => {
+    e.visible = vis[i];
+    e.s = 0;
+    e.last = NaN;
+    if (!e.visible) return;
+    const list = byFrame.get(e.frame) || [];
+    list.push(e);
+    byFrame.set(e.frame, list);
+  });
+  byFrame.forEach((list) => {
+    list.sort((a, b) => a.k - b.k);
+    const n = list.length - 1;
+    list.forEach((e, i) => {
+      e.s = n ? (i / n) * 2 - 1 : 0;
+    });
+  });
+}
+
 /** 404 only: snap the out-of-register verticals back to x:0 on CTA
  * hover/focus. There's no dedicated data-attribute for "the 404 CTA" in the
  * §3.3 API and this file never edits markup, so this is detected purely from
  * data already on the page: GridFrame.astro only ever writes a non-zero
  * --gf-offset inline style when Base.astro is given `gridOffsets` (404
  * only), so any other page is a guaranteed no-op here. */
-function wireGridFrameRegister(entries: VerticalEntry[]) {
+function wireGridFrameRegister(entries: VerticalEntry[], onUnlock: () => void) {
   const isOutOfRegister = entries.some((e) => {
     const v = parseFloat(e.el.style.getPropertyValue('--gf-offset'));
     return Number.isFinite(v) && v !== 0;
@@ -111,8 +155,10 @@ function wireGridFrameRegister(entries: VerticalEntry[]) {
       // again. A fresh quickTo gives the shear ticker a live tween to drive
       // once it resumes on the next frame.
       e.quickX = makeQuickX(e.el);
+      e.last = NaN;
       e.registerLocked = false;
     });
+    onUnlock();
   };
 
   cta.addEventListener('pointerenter', lock);
@@ -146,26 +192,70 @@ function ruleProgressToScale(origin: RuleEntry['origin'], p: number, fraction: n
   return p >= fraction; // start
 }
 
-function buildRules(fullWidth: number): RuleEntry[] {
+/** True for elements inside a position: sticky/fixed ancestor (nav, mobile
+ * menu): their document offset is meaningless for the scroll formula, so the
+ * intro draws them once and the scroll loop leaves them alone. Structure
+ * never changes, so this is read once per element and cached. */
+const pinnedCache = new WeakMap<HTMLElement, boolean>();
+function isPinned(el: HTMLElement): boolean {
+  const cached = pinnedCache.get(el);
+  if (cached !== undefined) return cached;
+  let pinned = false;
+  for (let n = el.parentElement; n && n !== document.body; n = n.parentElement) {
+    const pos = getComputedStyle(n).position;
+    if (pos === 'sticky' || pos === 'fixed') {
+      pinned = true;
+      break;
+    }
+  }
+  pinnedCache.set(el, pinned);
+  return pinned;
+}
+
+/** Cross x-fractions from the bay math (same calc as .rule-x's `left`),
+ * from ONE container measurement instead of a rect read per cross:
+ * x_k = trackLeft + k * (bayW + g) - g / 2. */
+function crossFractions(fullWidth: number): number[] {
+  const track =
+    document.querySelector<HTMLElement>('[data-grid-frame]:not(.gf-local) .bay-track') ||
+    document.querySelector<HTMLElement>('.rule-x-track');
+  if (!track || !fullWidth) return [0, 0, 0, 0, 0];
+  const rect = track.getBoundingClientRect();
+  const cs = getComputedStyle(track);
+  const g = parseFloat(cs.getPropertyValue('--g')) || 0;
+  const bays = parseFloat(cs.getPropertyValue('--bays')) || 1;
+  const bayW = (rect.width - (bays - 1) * g) / bays;
+  return [0, 1, 2, 3, 4].map((k) => (rect.left + k * (bayW + g) - g / 2) / fullWidth);
+}
+
+const crossState = new WeakMap<HTMLElement, CrossEntry>();
+
+interface RuleRow extends RuleEntry {
+  pinned: boolean;
+}
+
+function buildRules(fullWidth: number): RuleRow[] {
   const rules = Array.from(document.querySelectorAll<HTMLElement>('[data-rule]'));
-  return rules.map((el) => {
+  const fractions = crossFractions(fullWidth);
+  // One read pass (no writes interleaved), then build.
+  const scrollY = window.scrollY;
+  const tops = rules.map((el) => el.getBoundingClientRect().top + scrollY);
+  return rules.map((el, i) => {
     const line = el.querySelector<HTMLElement>('.rule-line') || el;
-    const rect = el.getBoundingClientRect();
-    const docTop = rect.top + window.scrollY;
     const origin = (el.dataset.rule as RuleEntry['origin']) || 'start';
-
-    const crossEls = Array.from(el.querySelectorAll<HTMLElement>('.rule-x'));
-    const crosses: CrossEntry[] = crossEls.map((c) => {
-      const cRect = c.getBoundingClientRect();
-      const x = cRect.left + cRect.width / 2;
-      return { el: c, fraction: fullWidth ? x / fullWidth : 0, on: false, everShown: false };
+    const crosses: CrossEntry[] = Array.from(el.querySelectorAll<HTMLElement>('.rule-x')).map((c) => {
+      // Keep on/everShown across re-measures so a resize never re-pops.
+      const entry = crossState.get(c) || { el: c, fraction: 0, on: false, everShown: false };
+      entry.fraction = fractions[Number(c.dataset.x) || 0] ?? 0;
+      crossState.set(c, entry);
+      return entry;
     });
-
     return {
       el,
       line,
       origin,
-      docTop,
+      docTop: tops[i],
+      pinned: isPinned(el),
       setScaleX: gsap.quickSetter(line, 'scaleX') as (v: number) => void,
       crosses,
     };
@@ -186,8 +276,9 @@ interface FrameEntry {
 
 function buildFrames(): FrameEntry[] {
   const frames = Array.from(document.querySelectorAll<HTMLElement>('[data-frame]'));
-  return frames.map((el) => {
-    const rect = el.getBoundingClientRect();
+  const scrollY = window.scrollY;
+  const tops = frames.map((el) => el.getBoundingClientRect().top + scrollY);
+  return frames.map((el, i) => {
     const top = el.querySelector<HTMLElement>('.fr-t');
     const right = el.querySelector<HTMLElement>('.fr-r');
     const bottom = el.querySelector<HTMLElement>('.fr-b');
@@ -195,7 +286,7 @@ function buildFrames(): FrameEntry[] {
     const noop = () => {};
     return {
       el,
-      docTop: rect.top + window.scrollY,
+      docTop: tops[i],
       setTop: top ? (gsap.quickSetter(top, 'scaleX') as (v: number) => void) : noop,
       setRight: right ? (gsap.quickSetter(right, 'scaleY') as (v: number) => void) : noop,
       setBottom: bottom ? (gsap.quickSetter(bottom, 'scaleX') as (v: number) => void) : noop,
@@ -226,92 +317,167 @@ function updateCross(entry: CrossEntry, shouldBeOn: boolean) {
   }
 }
 
+function popCross(el: HTMLElement) {
+  gsap.fromTo(
+    el,
+    { scale: 0, rotate: 90 },
+    { scale: 1, rotate: 0, duration: DUR.crossPop, ease: 'steps(3)', overwrite: true },
+  );
+}
+
+/** Standalone registration crosses (<Cross pop />): in the first viewport
+ * they pop in with the intro rules; below it, when scrolled to. */
+function setupStandaloneCrosses(skipIntro: boolean): ScrollTrigger[] {
+  const crosses = Array.from(document.querySelectorAll<HTMLElement>('[data-cross-pop]'));
+  if (!crosses.length) return [];
+  if (skipIntro) {
+    gsap.set(crosses, { scale: 1, rotate: 0 });
+    return [];
+  }
+  const vh = window.innerHeight;
+  const tops = crosses.map((c) => c.getBoundingClientRect().top);
+  const triggers: ScrollTrigger[] = [];
+  crosses.forEach((c, i) => {
+    if (tops[i] < vh) {
+      gsap.delayedCall(DUR.ruleDrawDelay + DUR.ruleDraw * 0.5, () => popCross(c));
+      return;
+    }
+    triggers.push(
+      ScrollTrigger.create({ trigger: c, start: 'top 88%', once: true, onEnter: () => popCross(c) }),
+    );
+  });
+  return triggers;
+}
+
 function initMotionBranch(): () => void {
   const skipIntro = document.documentElement.classList.contains('vt-reveal');
   const verticals = setupVerticals(skipIntro);
+  const crossTriggers = setupStandaloneCrosses(skipIntro);
 
-  let rules: RuleEntry[] = [];
+  let rules: RuleRow[] = [];
   let frames: FrameEntry[] = [];
-  let activeWindow = { min: -Infinity, max: Infinity };
+  // Rules the intro drew (first viewport at load, plus any inside the
+  // sticky nav/menu): they stay drawn and the scroll formula never touches
+  // them, so the signature line can't retract on the first scroll tick.
+  const introDrawn = new WeakSet<HTMLElement>();
 
   const measure = () => {
-    const fullWidth = window.innerWidth;
-    rules = buildRules(fullWidth);
+    rules = buildRules(window.innerWidth);
     frames = buildFrames();
+    computeShearWeights(verticals);
   };
-  measure();
-  ScrollTrigger.addEventListener('refreshInit', measure);
-  document.fonts?.ready.then(() => ScrollTrigger.refresh()).catch(() => {});
 
-  // Rules already in the first viewport draw once on load, 250ms after the
-  // verticals begin (§3.4.A); everything below the fold starts collapsed and
-  // is driven purely by scroll position from here on.
-  window.setTimeout(() => {
+  const update = (scrollY: number) => {
     const vh = window.innerHeight;
-    rules
-      .filter((r) => r.docTop < vh)
-      .forEach((r) => {
-        gsap.to(r.line, { scaleX: 1, duration: DUR.ruleDraw, ease: 'expo.out' });
+    const min = scrollY - vh;
+    const max = scrollY + vh * 2;
+
+    // Rules: scrubbed draw, reversible.
+    rules.forEach((r) => {
+      if (r.pinned || introDrawn.has(r.el)) return;
+      if (r.docTop < min || r.docTop > max) return;
+      const p = clamp01((vh - (r.docTop - scrollY)) / (vh * VIEWPORT_FRACTION));
+      r.setScaleX(p);
+      r.crosses.forEach((c) => updateCross(c, ruleProgressToScale(r.origin, p, c.fraction)));
+    });
+
+    // Frames: clockwise draw in 4 quarter-progress windows.
+    frames.forEach((f) => {
+      if (f.docTop < min || f.docTop > max) return;
+      const fp = clamp01((vh - (f.docTop - scrollY)) / (vh * VIEWPORT_FRACTION));
+      f.setTop(clamp01(fp / 0.25));
+      f.setRight(clamp01((fp - 0.25) / 0.25));
+      f.setBottom(clamp01((fp - 0.5) / 0.25));
+      f.setLeft(clamp01((fp - 0.75) / 0.25));
+    });
+  };
+
+  measure();
+
+  // Intro (§3.4.A): rules in the viewport the page actually opened at (not
+  // necessarily the top: a hash link or restored scroll lands mid-page) and
+  // rules in pinned chrome draw once, 250ms after the verticals begin.
+  {
+    const vh = window.innerHeight;
+    const y = window.scrollY;
+    const intro = rules.filter((r) => r.pinned || (r.docTop - y >= -1 && r.docTop - y < vh));
+    intro.forEach((r) => introDrawn.add(r.el));
+    const draw = () =>
+      intro.forEach((r) => {
+        if (skipIntro) gsap.set(r.line, { scaleX: 1 });
+        else gsap.to(r.line, { scaleX: 1, duration: DUR.ruleDraw, ease: 'expo.out' });
         r.crosses.forEach((c) => updateCross(c, true));
       });
-  }, DUR.ruleDrawDelay * 1000);
+    if (skipIntro) draw();
+    else gsap.delayedCall(DUR.ruleDrawDelay, draw);
+  }
 
-  const isDesktop = () => window.matchMedia('(min-width: 768px)').matches;
+  // Everything else takes its scroll-position state immediately, so a page
+  // opened mid-scroll never shows collapsed lines in view.
+  update(window.scrollY);
 
-  const master = ScrollTrigger.create({
+  // Re-measure after (not before) each refresh: by then every module's
+  // refreshInit cleanup (e.g. kinetic.ts's block-size unpin) has run and
+  // layout reflects the new viewport/fonts.
+  const onRefresh = () => {
+    measure();
+    update(window.scrollY);
+  };
+  ScrollTrigger.addEventListener('refresh', onRefresh);
+  document.fonts?.ready.then(() => ScrollTrigger.refresh()).catch(() => {});
+
+  const isDesktop = window.matchMedia('(min-width: 768px)');
+
+  // Velocity shear runs on GSAP's ticker (ScrollTrigger's onUpdate stops the
+  // instant scrolling stops, so a shear driven from there would freeze at
+  // its last value instead of springing back). It is only attached while
+  // there is something to do: the master onUpdate re-attaches it, and it
+  // detaches itself once velocity has decayed and every line has been sent
+  // back to rest. quickX is only called when a line's target actually moves.
+  let shearActive = false;
+  let master: ScrollTrigger;
+  const shearTick = () => {
+    const velocity = master.getVelocity();
+    const clampRange = isDesktop.matches ? SHEAR_CLAMP_DESKTOP : SHEAR_CLAMP_MOBILE;
+    let moving = Math.abs(velocity) > 1;
+    verticals.forEach((v) => {
+      if (v.registerLocked || !v.visible) return;
+      const shear = Math.min(clampRange, Math.max(-clampRange, velocity * SHEAR_COEFF * v.s));
+      const target = v.baseX + shear;
+      if (Number.isNaN(v.last) || Math.abs(target - v.last) > 0.1) {
+        v.last = target;
+        v.quickX(target);
+        moving = true;
+      }
+    });
+    if (!moving) {
+      gsap.ticker.remove(shearTick);
+      shearActive = false;
+    }
+  };
+  const wakeShear = () => {
+    if (shearActive) return;
+    shearActive = true;
+    gsap.ticker.add(shearTick);
+  };
+
+  master = ScrollTrigger.create({
     start: 0,
     end: 'max',
     onUpdate: (self) => {
-      const scrollY = self.scroll();
-      const vh = window.innerHeight;
-      activeWindow = { min: scrollY - vh, max: scrollY + vh * 2 };
-
-      // Rules: scrubbed draw, reversible.
-      rules.forEach((r) => {
-        if (r.docTop < activeWindow.min || r.docTop > activeWindow.max) return;
-        const p = clamp01((vh - (r.docTop - scrollY)) / (vh * VIEWPORT_FRACTION));
-        r.setScaleX(p);
-        r.crosses.forEach((c) => updateCross(c, ruleProgressToScale(r.origin, p, c.fraction)));
-      });
-
-      // Frames: clockwise draw in 4 quarter-progress windows.
-      frames.forEach((f) => {
-        if (f.docTop < activeWindow.min || f.docTop > activeWindow.max) return;
-        const fp = clamp01((vh - (f.docTop - scrollY)) / (vh * VIEWPORT_FRACTION));
-        f.setTop(clamp01(fp / 0.25));
-        f.setRight(clamp01((fp - 0.25) / 0.25));
-        f.setBottom(clamp01((fp - 0.5) / 0.25));
-        f.setLeft(clamp01((fp - 0.75) / 0.25));
-      });
+      update(self.scroll());
+      wakeShear();
     },
   });
 
-  // Velocity shear runs on GSAP's own ticker rather than inside the master
-  // ScrollTrigger's onUpdate: ScrollTrigger only calls onUpdate while an
-  // actual scroll is in flight, so a shear driven from there would freeze at
-  // its last value the instant the user lifts their finger/wheel — never
-  // springing back to 0. Sampling self.getVelocity() every frame instead
-  // (still the SAME single master trigger's velocity, just polled
-  // continuously) is what lets GSAP's decaying velocity estimate actually
-  // reach quickTo and ease the lines back to their gutter positions.
-  const shearTick = () => {
-    const velocity = master.getVelocity();
-    const clampRange = isDesktop() ? 28 : 10;
-    verticals.forEach((v) => {
-      if (v.registerLocked) return;
-      const s = (v.k / 4) * 2 - 1;
-      const shear = Math.min(clampRange, Math.max(-clampRange, velocity * 0.012 * s));
-      v.quickX(v.baseX + shear);
-    });
-  };
-  gsap.ticker.add(shearTick);
-
-  wireGridFrameRegister(verticals);
+  wireGridFrameRegister(verticals, wakeShear);
 
   return () => {
     gsap.ticker.remove(shearTick);
+    shearActive = false;
     master.kill();
-    ScrollTrigger.removeEventListener('refreshInit', measure);
+    crossTriggers.forEach((t) => t.kill());
+    ScrollTrigger.removeEventListener('refresh', onRefresh);
   };
 }
 

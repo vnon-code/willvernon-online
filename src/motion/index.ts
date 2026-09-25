@@ -40,10 +40,12 @@ export function initMotion() {
   if (initialized) return;
   initialized = true;
 
+  // Layout readers first (kinetic, lines measure on a clean layout), then
+  // the SplitText writers, so load does as few forced layouts as possible.
+  initKinetic();
+  initLines();
   initReveal();
   initTransitions();
-  initLines();
-  initKinetic();
   whenIdle(initHover);
   whenIdle(initRail);
 }

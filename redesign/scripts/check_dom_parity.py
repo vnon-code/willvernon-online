@@ -65,6 +65,11 @@ URL_ATTRS = ("src", "srcset", "poster", "href", "action", "data")
 # items equivalent instead of special-casing the DOM.
 EQUIV = {"index.copy.044": "index.h.022"}
 
+# Legacy "links" whose href was a JS no-op (javascript:void(0)) are actions,
+# not destinations, and now render as a real <button> (crawlable-anchors):
+# the item is present when a <button> carrying the named data attribute is.
+BUTTON_LINKS = {"index.link.175": "data-discord-copy"}
+
 
 def fold(t):
     t = re.sub(r"\s+", " ", t or "").strip().casefold()
@@ -128,7 +133,9 @@ def load_page(dist, page):
                     urls.add(norm_path(part.split(" ")[0] if k == "srcset" else part))
             if el.name == "a" and k == "href":
                 hrefs.add(norm_path(v))
+    button_attrs = {k for b in soup.find_all("button") for k in b.attrs}
     return {
+        "button_attrs": button_attrs,
         "title": title,
         "text": fold(" ␟ ".join(texts)),
         "text_raw": " ␟ ".join(texts),
@@ -227,6 +234,8 @@ def main():
                 target_label = next((l for i, _, l in inv[page] if i == target_id), None)
                 if target_label is not None and has_text(pg, re.sub(r"^h\d: ", "", target_label)):
                     st, note = "ok", f"equiv {target_id}"
+            if st is None and iid in BUTTON_LINKS and BUTTON_LINKS[iid] in pg["button_attrs"]:
+                st, note = "ok", f"button [{BUTTON_LINKS[iid]}]"
             if st is None:
                 st, note = check_item(pg, iid, label)
             counts[st] += 1

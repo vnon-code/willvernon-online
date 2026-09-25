@@ -76,6 +76,12 @@ const LINES = [0, 1, 2, 3, 4];
     contain: strict;
   }
 
+  /* §3.2/§5.1: the fixed frame stays put under the bay-by-bay page cut.
+   * Unique name: never on a local frame. */
+  .gf:not(.gf-local) {
+    view-transition-name: grid-frame;
+  }
+
   .gf-local {
     position: absolute;
   }
@@ -97,11 +103,16 @@ const LINES = [0, 1, 2, 3, 4];
     will-change: transform;
   }
 
+  /* §3.4.D: a hot bay's lines go ink. */
   .gf-v-hot {
     position: absolute;
     inset: 0;
-    background: var(--line-strong);
+    background: var(--ink);
     opacity: 0;
+  }
+
+  :global([data-surface='ink']) .gf-v-hot {
+    background: var(--on-ink);
   }
 
   .gf-v[data-gf-line='0'] {

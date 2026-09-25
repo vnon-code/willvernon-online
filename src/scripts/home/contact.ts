@@ -6,13 +6,12 @@
  * falls back to a native form submit (Formspree's own response page).
  */
 export function initContactForm(): void {
-  const discordBtn = document.querySelector<HTMLAnchorElement>('[data-discord-copy]');
+  const discordBtn = document.querySelector<HTMLButtonElement>('[data-discord-copy]');
   const tooltip = document.querySelector<HTMLElement>('[data-discord-tooltip]');
 
   if (discordBtn && tooltip) {
     discordBtn.addEventListener('click', (e) => {
-      // Always cancel: the href is a javascript: URL, which the production
-      // CSP blocks.
+      // A <button type="button">: nothing to cancel, kept defensive.
       e.preventDefault();
       const handle = discordBtn.dataset.discordHandle;
       if (!handle || !navigator.clipboard) return;

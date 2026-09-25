@@ -15,8 +15,8 @@
   --state: #ffe14a; /* highlighter yellow: hover / active / selected fill ONLY */
 
   /* ---------- Lines (decorative structure; derived from ink, never a flat grey) ---------- */
-  --line: color-mix(in srgb, var(--ink) 14%, var(--paper)); /* ~#D1D1CE, grid + rules */
-  --line-strong: color-mix(in srgb, var(--ink) 32%, var(--paper)); /* ~#A7A7A5, "hot" bay + crosses */
+  --line: color-mix(in srgb, var(--ink) 22%, var(--paper)); /* grid + rules (decorative) */
+  --line-strong: color-mix(in srgb, var(--ink) 40%, var(--paper)); /* crosses (decorative) */
   --line-ink: var(--ink-2); /* form control borders (must meet 3:1) */
 
   /* ---------- Inverted "studio" surfaces (stems console, footer) ---------- */

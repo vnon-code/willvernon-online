@@ -1,4 +1,5 @@
 ---
+import Rule from '../grid/Rule.astro';
 /**
  * Home section 2, "AI as a Creative Partner" — intro copy plus the AI
  * toolset directory. Direction D (Phase 2b): the toolset directory is laid
@@ -31,6 +32,8 @@ const tools = Object.entries(home.toolset);
       <p class="t-body">{paraTwo.text}</p>
       <a href="/AI" class="btn ai-cta">{cta}</a>
     </div>
+
+    <Rule origin="start" cross class="ai-tools-rule" />
 
     <ul class="ai-tool-grid" aria-label="AI tools" data-reveal-stagger>
       {
@@ -114,10 +117,14 @@ const tools = Object.entries(home.toolset);
     flex-direction: column;
   }
 
+  /* logo | title | + on the first row, company under the title: the name
+   * gets the whole middle column, so it never breaks mid-word. */
   .ai-tool-summary {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     align-items: center;
-    gap: var(--sp-3);
+    column-gap: var(--sp-3);
+    row-gap: var(--sp-1);
     min-height: 44px;
     cursor: pointer;
     list-style: none;
@@ -133,24 +140,29 @@ const tools = Object.entries(home.toolset);
   }
 
   .ai-tool-logo {
-    flex-shrink: 0;
+    grid-column: 1;
+    grid-row: 1 / span 2;
     object-fit: contain;
   }
 
   .ai-tool-title {
+    grid-column: 2;
+    grid-row: 1;
     color: var(--ink);
-    flex: 1;
     min-width: 0;
+    overflow-wrap: normal;
   }
 
   .ai-tool-company {
+    grid-column: 2;
+    grid-row: 2;
     color: var(--ink-2);
-    white-space: nowrap;
   }
 
   .ai-tool-summary::after {
     content: '+';
-    flex-shrink: 0;
+    grid-column: 3;
+    grid-row: 1;
     color: var(--ink-2);
     font-size: var(--fs-h3);
     line-height: 1;
@@ -190,7 +202,8 @@ const tools = Object.entries(home.toolset);
       grid-column: 1 / span 2;
     }
 
-    .ai-tool-grid {
+    .ai-tool-grid,
+    .ai-tools-rule {
       grid-column: 1 / -1;
     }
   }

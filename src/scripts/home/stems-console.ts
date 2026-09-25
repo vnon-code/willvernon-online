@@ -351,7 +351,7 @@ export function initStemsConsole(): void {
     return buf;
   }
 
-  function telemetryLoop(): void {
+  function meterLoop(): void {
     if (!isPlaying || !audioCtx) return;
 
     let kickEnergy = 0;
@@ -394,7 +394,7 @@ export function initStemsConsole(): void {
       }
     });
 
-    animFrame = requestAnimationFrame(telemetryLoop);
+    animFrame = requestAnimationFrame(meterLoop);
   }
 
   function startPlayback(): void {
@@ -406,7 +406,7 @@ export function initStemsConsole(): void {
     if (audioCtx?.state === 'suspended') void audioCtx.resume();
     Object.values(stems).forEach((stem) => void stem?.audio.play().catch(() => {}));
 
-    telemetryLoop();
+    meterLoop();
   }
 
   function stopPlayback(): void {

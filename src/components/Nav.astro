@@ -53,6 +53,8 @@ function isCurrent(path: string, current: string) {
   .nav {
     position: sticky;
     top: 0;
+    /* §5.1: the nav stays put under the page cut (unique name). */
+    view-transition-name: nav;
     z-index: var(--z-nav);
     background: var(--paper);
   }

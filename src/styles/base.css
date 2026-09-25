@@ -85,14 +85,21 @@ table {
   border-collapse: collapse;
 }
 
-h1,
-h2,
-h3,
 h4,
 p,
 a,
 span {
   overflow-wrap: break-word;
+}
+
+/* Display headings break only at word boundaries: a mid-word break in
+ * type-as-image reads as a bug. Each heading is sized to fit its longest
+ * word instead. */
+h1,
+h2,
+h3 {
+  overflow-wrap: normal;
+  hyphens: none;
 }
 
 h1,
@@ -317,13 +324,21 @@ html {
   background-position: left center;
   transition:
     background-size var(--dur-hover) var(--ease-step),
-    color var(--dur-hover) var(--ease-out);
+    color var(--dur-hover) var(--ease-step);
 }
 
-.link:hover,
 .link:focus-visible {
   background-size: 100% 100%;
   color: var(--ink);
+}
+
+/* Hover fills only for a real hovering pointer: touch never gets a sticky
+ * yellow fill. :focus-visible stays unconditional. */
+@media (hover: hover) and (pointer: fine) {
+  .link:hover {
+    background-size: 100% 100%;
+    color: var(--ink);
+  }
 }
 
 /* Compat: not-yet-restyled Phase 3 markup still uses .btn-text for a plain
@@ -335,9 +350,13 @@ html {
   text-decoration-thickness: 1px;
   text-underline-offset: 0.18em;
 }
-.btn-text:hover,
 .btn-text:focus-visible {
   color: var(--ink);
+}
+@media (hover: hover) and (pointer: fine) {
+  .btn-text:hover {
+    color: var(--ink);
+  }
 }
 
 /* ---------- Buttons ---------- */
@@ -361,8 +380,10 @@ html {
   border-radius: 0;
   border: 1px solid currentColor;
   color: inherit;
+  /* colour steps with the steps(4) fill so text never goes dark over the
+   * still-unfilled ink part */
   transition:
-    color var(--dur-hover) var(--ease-out),
+    color var(--dur-hover) var(--ease-step),
     transform var(--dur-tap) var(--ease-out);
 }
 
@@ -388,18 +409,31 @@ html {
   z-index: -1;
 }
 
-.btn:hover,
 .btn:focus-visible,
-.btn-line:hover,
 .btn-line:focus-visible {
   color: var(--ink);
 }
 
-.btn:hover::before,
 .btn:focus-visible::before,
-.btn-line:hover::before,
 .btn-line:focus-visible::before {
   transform: scaleX(1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover,
+  .btn-line:hover {
+    color: var(--ink);
+  }
+
+  .btn:hover::before,
+  .btn-line:hover::before {
+    transform: scaleX(1);
+  }
+
+  .btn:hover .icon-arrow,
+  .btn-line:hover .icon-arrow {
+    transform: translateX(4px);
+  }
 }
 
 .btn:active,
@@ -414,9 +448,7 @@ html {
   transition: transform var(--dur-hover) var(--ease-out);
 }
 
-.btn:hover .icon-arrow,
 .btn:focus-visible .icon-arrow,
-.btn-line:hover .icon-arrow,
 .btn-line:focus-visible .icon-arrow {
   transform: translateX(4px);
 }

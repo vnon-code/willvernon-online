@@ -476,10 +476,21 @@ const stemsData = JSON.stringify({ stemsConfig, trackParams });
     white-space: nowrap;
   }
 
+  /* Phones: five strips can't hold '05. Vocals' at 360-390, so the strips
+   * wrap onto a second row instead of clipping their labels. */
   @media (max-width: 599px) {
     .stems-mixer {
-      grid-template-columns: repeat(5, minmax(44px, 1fr));
-      overflow-x: auto;
+      grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+      row-gap: var(--sp-5);
+    }
+
+    .stems-channel {
+      min-width: 0;
+    }
+
+    .stems-track-select .t-label {
+      white-space: normal;
+      overflow-wrap: normal;
     }
   }
 

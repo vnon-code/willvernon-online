@@ -159,14 +159,22 @@ function fixHref(href: string | null): string {
     transition: transform var(--dur-hover) var(--ease-out);
   }
 
-  .fw-row:hover .fw-row-cta-icon,
   .fw-row:focus-visible .fw-row-cta-icon {
     transform: translateX(4px);
   }
 
-  .fw-row:hover .fw-row-body,
   .fw-row:focus-visible .fw-row-body {
     transform: translateX(12px);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .fw-row:hover .fw-row-cta-icon {
+      transform: translateX(4px);
+    }
+
+    .fw-row:hover .fw-row-body {
+      transform: translateX(12px);
+    }
   }
 
   .fw-row:focus-visible {
@@ -201,46 +209,69 @@ function fixHref(href: string | null): string {
     }
   }
 
-  /* Hover preview: desktop + fine pointer only. Locked to B4 (never
-   * following the cursor), row height x1.6, revealed as a clip-path wipe. */
+  /* ≥1024: the row sits on the bay grid (B1 label, B2-B3 title+desc, B4
+   * tags+CTA), and the hover preview is locked to B4: one bay wide, row
+   * height x1.6, revealed as a clip-path wipe (§4.2), never following the
+   * cursor. Real width/height, so the 1px border is never stretched. */
   .fw-row-preview {
     display: none;
   }
 
-  @media (min-width: 900px) {
+  @media (min-width: 1024px) {
     .fw-row {
-      padding-inline-end: 200px;
+      display: grid;
+      grid-template-columns: repeat(var(--bays), minmax(0, 1fr));
+      column-gap: var(--g);
+      align-items: start;
+    }
+
+    .fw-row-label {
+      grid-column: 1;
+    }
+
+    .fw-row-body {
+      grid-column: 2 / span 2;
+    }
+
+    .fw-row-meta {
+      grid-column: 4;
+      flex-direction: column;
+      align-items: flex-end;
     }
 
     .fw-row-preview.has-video {
       display: block;
       position: absolute;
-      top: 50%;
+      z-index: 2;
+      top: -30%;
       right: 0;
-      transform: translateY(-50%) scaleY(1.6);
-      width: 176px;
-      aspect-ratio: 16 / 10;
+      width: calc((100% - 3 * var(--g)) / 4);
+      height: 160%;
       overflow: hidden;
-      border: 1px solid var(--line);
+      border: 1px solid var(--ink);
       background: var(--paper-2);
-      opacity: 0;
-      transition: opacity var(--dur-reveal) var(--ease-out);
+      pointer-events: none;
+      clip-path: inset(0 0 100% 0);
+      transition: clip-path var(--dur-reveal) var(--ease-out);
     }
 
     .fw-row.is-playing .fw-row-preview {
-      opacity: 1;
+      clip-path: inset(0 0 0 0);
     }
 
     .fw-row-preview video {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transform: scaleY(calc(1 / 1.6));
     }
   }
 
-  @media (max-width: 899px) {
-    .fw-row-preview.has-video {
+  /* <1024 / touch: the media shows inline at 16:10 (§5.2). featured-work.ts
+   * loads a still (and plays it muted while in view unless reduced motion);
+   * without JS there's nothing to show, so the box only exists under
+   * html.js. */
+  @media (max-width: 1023px) {
+    :global(html.js) .fw-row-preview.has-video {
       display: block;
       width: 100%;
       aspect-ratio: 16 / 10;
@@ -249,8 +280,17 @@ function fixHref(href: string | null): string {
       order: -1;
     }
 
-    .fw-row-preview.has-video video {
-      display: none;
+    .fw-row-preview video {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fw-row-preview.has-video {
+      transition: none;
     }
   }
 </style>

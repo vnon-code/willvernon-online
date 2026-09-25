@@ -109,7 +109,7 @@ const waiterMeta = bySrc(about.blocks, 'about.copy.076');
 <Base title={title} path="/about">
   <section class="about-hero container">
     <p class="about-kicker t-label">{profileLabel.text}</p>
-    <h1 class="t-h1" data-split="lines">{h1.text}</h1>
+    <h1 class="t-h1 about-h1" data-kinetic="wdth">{h1.text}</h1>
     <p class="about-intro t-body">{introText.text}</p>
   </section>
 
@@ -251,6 +251,19 @@ const waiterMeta = bySrc(about.blocks, 'about.copy.076');
     flex-direction: column;
     gap: var(--sp-3);
     padding-block: var(--sp-9) var(--sp-7);
+  }
+
+  /* LCP heading: never hidden or split (§4.3), only the kinetic wdth scrub.
+   * --wdth is explicit, never a var() fallback (kinetic.ts registers it). */
+  .about-h1 {
+    --wdth: 125;
+    font-variation-settings: 'wdth' var(--wdth), 'wght' 820;
+    overflow-wrap: normal;
+  }
+  @media (max-width: 767px) {
+    .about-h1 {
+      --wdth: 108;
+    }
   }
 
   .about-kicker {

@@ -58,13 +58,32 @@ export function initKinetic() {
   mm.add({ motion: '(prefers-reduced-motion: no-preference)' }, () => {
     const triggers: ScrollTrigger[] = [];
 
-    els.forEach((el) => {
-      const rect = el.getBoundingClientRect();
-      el.style.blockSize = `${rect.height}px`;
-      el.style.contain = 'layout paint';
+    // Block-size pin (§4.3): cleared on every refreshInit so the element
+    // lays out at its natural height for the new viewport/fonts, then
+    // re-measured on refresh. One read per element per refresh, never per
+    // frame. document.fonts.ready triggers a refresh elsewhere (lines.ts),
+    // which re-pins here too.
+    const unpin = () => els.forEach((el) => el.style.removeProperty('block-size'));
+    const write = (heights: number[]) =>
+      els.forEach((el, i) => {
+        el.style.blockSize = `${heights[i]}px`;
+      });
+    const pin = () => write(Array.from(els, (el) => el.getBoundingClientRect().height));
+    // First pin: read now (layout is still clean at init), write on the next
+    // frame so this module never dirties layout for the reads that follow
+    // it in the same task (lines.ts, SplitText).
+    const firstHeights = Array.from(els, (el) => el.getBoundingClientRect().height);
+    requestAnimationFrame(() => {
+      els.forEach((el) => {
+        el.style.contain = 'layout paint';
+      });
+      write(firstHeights);
+    });
+    ScrollTrigger.addEventListener('refreshInit', unpin);
+    ScrollTrigger.addEventListener('refresh', pin);
 
+    els.forEach((el) => {
       if (registeredProp) {
-        el.style.setProperty('font-variation-settings', "'wdth' var(--wdth, 125), 'wght' 820");
         el.style.setProperty('--wdth', String(getMaxWdth()));
         const setWdth = gsap.quickSetter(el, '--wdth') as (v: string) => void;
 
@@ -74,7 +93,10 @@ export function initKinetic() {
             start: 'top top',
             end: 'bottom top',
             scrub: 0.3,
-            onRefresh: () => setWdth(String(getMaxWdth())),
+            onRefresh: (self) => {
+              const max = getMaxWdth();
+              setWdth(String(max - self.progress * (max - MIN_WDTH)));
+            },
             onUpdate: (self) => {
               const max = getMaxWdth();
               setWdth(String(max - self.progress * (max - MIN_WDTH)));
@@ -100,6 +122,15 @@ export function initKinetic() {
       );
     });
 
-    return () => triggers.forEach((st) => st.kill());
+    return () => {
+      triggers.forEach((st) => st.kill());
+      ScrollTrigger.removeEventListener('refreshInit', unpin);
+      ScrollTrigger.removeEventListener('refresh', pin);
+      unpin();
+      els.forEach((el) => {
+        el.style.removeProperty('contain');
+        el.style.removeProperty('--wdth');
+      });
+    };
   });
 }
