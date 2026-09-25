@@ -1,0 +1,182 @@
+---
+/**
+ * the-world-plays-here step "Blender 3D Modeling & Setup" (D-brutalist-grid.md
+ * §5.7): the legacy "xbox-grid-gallery" was a dark 4-col contact-sheet card
+ * grid with a bespoke onclick lightbox; this redraws it as a bay-aligned
+ * Frame grid in the Ruled Ground language and feeds the shared Lightbox
+ * instead of inventing another one. Below 768 it becomes a horizontal
+ * scroll-snap strip with ruled dividers (no page overflow), per
+ * D-brutalist-grid.md §5.2's "390: … a horizontal scroll-snap strip with
+ * visible rules" pattern used for the mockup groups.
+ *
+ * media.items[] is the 12 blender_process*.jpg workspace captures in legacy
+ * DOM order; media.captions[] is the legacy header row (section tag + count
+ * tag) — both parsed out of _raw_html by build_content.py's parse_media_blob
+ * (see CaseMedia.astro's header comment). Nothing here is hand-typed copy;
+ * each cell's visible label is the item's own `alt`, already real content.
+ */
+import type { MediaItem } from '../../../../content';
+import Frame from '../../../grid/Frame.astro';
+import { resolveImage } from '../../media';
+
+interface Props {
+  media: MediaItem;
+  slug: string;
+  group: string;
+}
+
+const { media, slug, group } = Astro.props;
+const items = media.items ?? [];
+const captions = media.captions ?? [];
+---
+
+<figure class="wm" data-media-type="group" data-legacy-media-type="svg">
+  {
+    (captions[0] || captions[1]) && (
+      <div class="wm-head">
+        {captions[0] && <span class="t-label wm-head-a">{captions[0]}</span>}
+        {captions[1] && <span class="t-label wm-head-b">{captions[1]}</span>}
+      </div>
+    )
+  }
+
+  <ul class="wm-grid" data-reveal-stagger>
+    {
+      items.map((it, i) => {
+        if (it.type !== 'image' || !it.src) return null;
+        const img = resolveImage(it.src);
+        const legacySrc = img.full.replace(/^\//, '');
+        const legacy = it.alt ? `src=${legacySrc} alt=${it.alt}` : `src=${legacySrc}`;
+        return (
+          <li class="wm-cell" data-reveal="rise">
+            <Frame as="div" class="wm-frame">
+              <button
+                type="button"
+                class="wm-trigger"
+                data-lightbox
+                data-lightbox-group={`${slug}:${group}`}
+                data-lightbox-src={img.full}
+                data-lightbox-alt={it.alt ?? ''}
+                data-mediasrc={legacy}
+                aria-label={`Open full size: ${it.alt ?? `image ${i + 1}`}`}
+              >
+                <span class="t-label wm-num">{String(i + 1).padStart(2, '0')}</span>
+                <img
+                  src={img.displaySrc}
+                  data-full={img.full}
+                  alt={it.alt ?? ''}
+                  width={img.w}
+                  height={img.h}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </button>
+            </Frame>
+            {it.alt && <span class="t-small wm-label">{it.alt}</span>}
+          </li>
+        );
+      })
+    }
+  </ul>
+</figure>
+
+<style>
+  .wm {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+
+  .wm-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    padding-bottom: var(--sp-2);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .wm-head-a {
+    color: var(--ink-2);
+  }
+
+  .wm-head-b {
+    color: var(--ink);
+  }
+
+  .wm-grid {
+    display: flex;
+    gap: 1px;
+    background: var(--line);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--sp-2);
+    scrollbar-width: thin;
+  }
+
+  .wm-cell {
+    flex: 0 0 78%;
+    max-width: 78%;
+    scroll-snap-align: start;
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+    padding-inline: var(--sp-2);
+  }
+
+  .wm-cell > :global(.wm-frame) {
+    background: var(--paper-2);
+  }
+
+  .wm-trigger {
+    position: relative;
+    display: block;
+    width: 100%;
+    cursor: zoom-in;
+  }
+
+  .wm-trigger:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: -3px;
+  }
+
+  .wm-trigger img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .wm-num {
+    position: absolute;
+    top: var(--sp-2);
+    left: var(--sp-2);
+    z-index: 1;
+    background: var(--paper);
+    padding-inline: 4px;
+    color: var(--ink-2);
+  }
+
+  .wm-label {
+    color: var(--ink-2);
+  }
+
+  @media (min-width: 768px) {
+    .wm-grid {
+      display: grid;
+      grid-template-columns: repeat(var(--bays), 1fr);
+      gap: var(--g);
+      overflow: visible;
+      background: none;
+      padding-bottom: 0;
+    }
+
+    .wm-cell {
+      flex: initial;
+      max-width: none;
+      padding-inline: 0;
+    }
+  }
+</style>

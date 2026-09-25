@@ -1,0 +1,115 @@
+---
+/**
+ * remnants steps "Artifact Study & Found Forms" and "Photoshop Asset
+ * Preparation" (D-brutalist-grid.md §5.7): both legacy ".process-media-grid"
+ * blocks were the identical shape — a static 3-column CSS grid, each cell an
+ * image directly under its own mono caption ("// FOUND OBJECT 01",
+ * "// STEP 1", …). The generic CaseMedia.astro grid renders every item then
+ * every caption as two separate lists underneath, losing that 1:1 pairing;
+ * this keeps each caption directly with its own image, as a bay-aligned
+ * trio of Frames. Shared by both steps (LAYOUT_OVERRIDES 'remnants:0' and
+ * 'remnants:3') since the legacy markup — and this redraw — are the same
+ * shape for both; only the images and captions differ.
+ */
+import type { MediaItem } from '../../../../content';
+import Frame from '../../../grid/Frame.astro';
+import { resolveImage } from '../../media';
+
+interface Props {
+  media: MediaItem;
+  slug: string;
+  group: string;
+}
+
+const { media, slug, group } = Astro.props;
+const items = (media.items ?? []).filter((it) => it.type === 'image' && it.src);
+const captions = media.captions ?? [];
+---
+
+<figure class="cg" data-media-type="group" data-legacy-media-type="svg">
+  <div class="cg-grid" data-reveal-stagger>
+    {
+      items.map((it, i) => {
+        const img = resolveImage(it.src!);
+        const legacySrc = img.full.replace(/^\//, '');
+        const legacy = it.alt ? `src=${legacySrc} alt=${it.alt}` : `src=${legacySrc}`;
+        return (
+          <div class="cg-cell" data-reveal="rise">
+            {captions[i] && <span class="t-label cg-caption">{captions[i]}</span>}
+            <Frame as="div" class="cg-frame">
+              <button
+                type="button"
+                class="cg-trigger"
+                data-lightbox
+                data-lightbox-group={`${slug}:${group}`}
+                data-lightbox-src={img.full}
+                data-lightbox-alt={it.alt ?? ''}
+                data-mediasrc={legacy}
+                aria-label={`Open full size: ${it.alt ?? `image ${i + 1}`}`}
+              >
+                <img
+                  src={img.displaySrc}
+                  data-full={img.full}
+                  alt={it.alt ?? ''}
+                  width={img.w}
+                  height={img.h}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </button>
+            </Frame>
+          </div>
+        );
+      })
+    }
+  </div>
+</figure>
+
+<style>
+  .cg-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-5);
+  }
+
+  .cg-cell {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+
+  .cg-caption {
+    color: var(--ink-2);
+  }
+
+  .cg-cell :global(.cg-frame) {
+    background: var(--paper-2);
+  }
+
+  .cg-trigger {
+    display: block;
+    width: 100%;
+    padding: 0;
+    cursor: zoom-in;
+  }
+
+  .cg-trigger:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: -3px;
+  }
+
+  .cg-trigger img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  @media (min-width: 768px) {
+    .cg-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--g);
+    }
+  }
+</style>

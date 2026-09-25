@@ -1,0 +1,233 @@
+---
+/**
+ * smugglers-outpost step "Project Concept & Dune Influence" (D-brutalist-grid.md
+ * §5.7): the legacy "dune-gallery-container" was a dark single-stage preview
+ * with a row of four thumbnail buttons swapping one <img> via onclick (each
+ * button also rewrote the header label / HUD tag to text baked into its
+ * onclick string, never captured as structured data). This redraws it as a
+ * bay-aligned wall of ruled Frames — all four reference shots visible at
+ * once, nothing gated behind a click — landscape frames (the source
+ * screenshots are 16:10 cinematic stills), a horizontal scroll-snap strip
+ * below 768, a real bay grid at and above it.
+ *
+ * media.items[] (legacy DOM order): [0] the stage's initial image (a
+ * duplicate of [1], the legacy markup's "active" state before any thumb is
+ * clicked; its own alt, "Monolithic Brutalism", is the literal legacy
+ * string even though it doesn't match [1]'s subject — kept as a hidden
+ * parity marker, not shown, rather than corrected); [1]-[4] the four
+ * reference stills. media.captions[] is the legacy header row (section tag,
+ * initial thumb label) plus the initial stage's HUD tag, shown verbatim as
+ * a plain label on the matching first cell. All parsed out of _raw_html by
+ * build_content.py's parse_media_blob — see CaseMedia.astro's header
+ * comment.
+ */
+import type { MediaItem } from '../../../../content';
+import Frame from '../../../grid/Frame.astro';
+import { resolveImage } from '../../media';
+
+interface Props {
+  media: MediaItem;
+  slug: string;
+  group: string;
+}
+
+const { media, slug, group } = Astro.props;
+const items = media.items ?? [];
+const captions = media.captions ?? [];
+
+const dupe = items[0];
+const wall = items.slice(1).filter((it) => it.type === 'image' && it.src);
+// Each thumb's own label/tag pair (item.stateText, derived in
+// build_content.py from its legacy onclick) is shown on its cell. The
+// header's right-hand caption and the stage tag equal the first cell's
+// pair, so they're shown there rather than twice.
+const first = wall[0]?.stateText ?? [];
+const headB = captions[1] && captions[1] !== first[0] ? captions[1] : null;
+const stageTag = captions[2] && captions[2] !== first[1] ? captions[2] : null;
+---
+
+<figure class="dr" data-media-type="group" data-legacy-media-type="svg">
+  {
+    (captions[0] || headB) && (
+      <div class="dr-head">
+        {captions[0] && <span class="t-label dr-head-a">{captions[0]}</span>}
+        {headB && <span class="t-label dr-head-b">{headB}</span>}
+      </div>
+    )
+  }
+
+  <ul class="dr-wall" data-reveal-stagger>
+    {
+      wall.map((it, i) => {
+        const img = resolveImage(it.src!);
+        const legacySrc = img.full.replace(/^\//, '');
+        const legacy = it.alt ? `src=${legacySrc} alt=${it.alt}` : `src=${legacySrc}`;
+        const [label, tag] = it.stateText ?? [];
+        return (
+          <li class="dr-cell" data-reveal="rise">
+            <Frame as="div" class="dr-frame">
+              <button
+                type="button"
+                class="dr-trigger"
+                data-lightbox
+                data-lightbox-group={`${slug}:${group}`}
+                data-lightbox-src={img.full}
+                data-lightbox-alt={it.alt ?? ''}
+                data-mediasrc={legacy}
+                aria-label={`Open full size: ${it.alt ?? `reference ${i + 1}`}`}
+              >
+                <img
+                  src={img.displaySrc}
+                  data-full={img.full}
+                  alt={it.alt ?? ''}
+                  width={img.w}
+                  height={img.h}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </button>
+            </Frame>
+            <div class="dr-meta">
+              <span class="t-label dr-label">{label ?? it.alt}</span>
+              {(tag || (i === 0 && stageTag)) && (
+                <span class="t-small dr-tag">{tag ?? stageTag}</span>
+              )}
+            </div>
+          </li>
+        );
+      })
+    }
+  </ul>
+
+  {
+    dupe?.src && dupe.alt && (
+      <span
+        class="sr-only"
+        data-mediasrc={`src=${dupe.src.replace(/^\//, '')} alt=${dupe.alt}`}
+        aria-hidden="true"
+      />
+    )
+  }
+</figure>
+
+<style>
+  .dr {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+
+  .dr-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    padding-bottom: var(--sp-2);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .dr-head-a {
+    color: var(--ink-2);
+  }
+
+  .dr-head-b {
+    color: var(--ink);
+  }
+
+  .dr-wall {
+    display: flex;
+    gap: 1px;
+    background: var(--line);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--sp-2);
+    scrollbar-width: thin;
+  }
+
+  .dr-cell {
+    flex: 0 0 78%;
+    max-width: 78%;
+    scroll-snap-align: start;
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+    padding-inline: var(--sp-2);
+  }
+
+  .dr-frame {
+    background: var(--paper-2);
+  }
+
+  .dr-trigger {
+    display: block;
+    width: 100%;
+    cursor: zoom-in;
+  }
+
+  .dr-trigger:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: -3px;
+  }
+
+  .dr-trigger img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 8 / 5;
+    object-fit: cover;
+  }
+
+  .dr-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-block: var(--sp-1) var(--sp-2);
+  }
+
+  .dr-label {
+    color: var(--ink);
+  }
+
+  .dr-tag {
+    color: var(--ink-2);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (min-width: 768px) {
+    .dr-wall {
+      display: grid;
+      grid-template-columns: repeat(min(2, var(--bays)), 1fr);
+      gap: var(--g);
+      overflow: visible;
+      background: none;
+      padding-bottom: 0;
+    }
+
+    .dr-cell {
+      flex: initial;
+      max-width: none;
+      padding-inline: 0;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .dr-wall {
+      grid-template-columns: repeat(min(4, var(--bays)), 1fr);
+    }
+  }
+</style>

@@ -207,32 +207,56 @@
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/01_amplified-spaces/renders/B17/B172.png",
-        "alt": "B17 1 Thumb"
+        "alt": "B17 1 Thumb",
+        "stateText": [
+         "[ Active: B17 // Render 1 ]",
+         "WING_A // B17 RENDER 1"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/01_amplified-spaces/renders/B17/B173.png",
-        "alt": "B17 2 Thumb"
+        "alt": "B17 2 Thumb",
+        "stateText": [
+         "[ Active: B17 // Render 2 ]",
+         "WING_A // B17 RENDER 2"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/01_amplified-spaces/renders/FadingAway/FadingAway2.png",
-        "alt": "Fading Away 1 Thumb"
+        "alt": "Fading Away 1 Thumb",
+        "stateText": [
+         "[ Active: Fading Away // Render 1 ]",
+         "WING_B // FADING AWAY RENDER 1"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/01_amplified-spaces/renders/FadingAway/FadingAway4.png",
-        "alt": "Fading Away 2 Thumb"
+        "alt": "Fading Away 2 Thumb",
+        "stateText": [
+         "[ Active: Fading Away // Render 2 ]",
+         "WING_B // FADING AWAY RENDER 2"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/01_amplified-spaces/renders/Onjuku/Onjuku1.png",
-        "alt": "Onjuku 1 Thumb"
+        "alt": "Onjuku 1 Thumb",
+        "stateText": [
+         "[ Active: Onjuku // Render 1 ]",
+         "WING_C // ONJUKU RENDER 1"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/01_amplified-spaces/renders/Onjuku/Onjuku3.png",
-        "alt": "Onjuku 2 Thumb"
+        "alt": "Onjuku 2 Thumb",
+        "stateText": [
+         "[ Active: Onjuku // Render 2 ]",
+         "WING_C // ONJUKU RENDER 2"
+        ]
        }
       ],
       "captions": [
@@ -860,17 +884,29 @@
        {
         "type": "image",
         "src": "/img/powersurge/powersurgegif.gif",
-        "alt": "Exp 1 Thumb"
+        "alt": "Exp 1 Thumb",
+        "stateText": [
+         "[ Active: Dense Flow Trails ]",
+         "EXPERIMENT_01 // Dense Flow Trails"
+        ]
        },
        {
         "type": "image",
         "src": "/img/powersurge/powersurgegif2.gif",
-        "alt": "Exp 2 Thumb"
+        "alt": "Exp 2 Thumb",
+        "stateText": [
+         "[ Active: Bloom Feedback Loop ]",
+         "EXPERIMENT_02 // Bloom Feedback Loop"
+        ]
        },
        {
         "type": "image",
         "src": "/img/powersurge/PowerSurgeSS.png",
-        "alt": "Exp 3 Thumb"
+        "alt": "Exp 3 Thumb",
+        "stateText": [
+         "[ Active: Sphere Form Test ]",
+         "EXPERIMENT_03 // Sphere Form Test"
+        ]
        }
       ],
       "captions": [
@@ -1180,7 +1216,38 @@
      "media": {
       "type": "group",
       "layout": "custom",
-      "items": [],
+      "items": [
+       {
+        "type": "image",
+        "src": "/img/marimekko/exhib_logo.png",
+        "alt": null,
+        "_role": "svg-image"
+       },
+       {
+        "type": "image",
+        "src": "/img/marimekko/page_29_img_1_Im1.png",
+        "alt": null,
+        "_role": "svg-image"
+       },
+       {
+        "type": "image",
+        "src": "/img/marimekko/page_29_img_2_Im2.png",
+        "alt": null,
+        "_role": "svg-image"
+       },
+       {
+        "type": "image",
+        "src": "/img/marimekko/page_29_img_0_Im0.png",
+        "alt": null,
+        "_role": "svg-image"
+       },
+       {
+        "type": "image",
+        "src": "/img/marimekko/page_29_img_3_Im3.jpg",
+        "alt": null,
+        "_role": "svg-image"
+       }
+      ],
       "captions": [
        "Antti Kekki",
        "Rappu / Heinikko",
@@ -1221,22 +1288,38 @@
        {
         "type": "image",
         "src": "/img/marimekko/page_32_img_0_Im0.png",
-        "alt": "Maija Isola Poster Thumb"
+        "alt": "Maija Isola Poster Thumb",
+        "stateText": [
+         "[ Active: Maija Isola ]",
+         "SERIES_01 // Maija Isola"
+        ]
        },
        {
         "type": "image",
         "src": "/img/marimekko/page_32_img_1_Im1.png",
-        "alt": "Annika Rimala Poster Thumb"
+        "alt": "Annika Rimala Poster Thumb",
+        "stateText": [
+         "[ Active: Annika Rimala ]",
+         "SERIES_02 // Annika Rimala"
+        ]
        },
        {
         "type": "image",
         "src": "/img/marimekko/page_32_img_2_Im2.png",
-        "alt": "Antti Kekki Poster Thumb"
+        "alt": "Antti Kekki Poster Thumb",
+        "stateText": [
+         "[ Active: Antti Kekki ]",
+         "SERIES_03 // Antti Kekki"
+        ]
        },
        {
         "type": "image",
         "src": "/img/marimekko/page_32_img_3_Im3.png",
-        "alt": "Fujiwo Ishimoto Poster Thumb"
+        "alt": "Fujiwo Ishimoto Poster Thumb",
+        "stateText": [
+         "[ Active: Fujiwo Ishimoto ]",
+         "SERIES_04 // Fujiwo Ishimoto"
+        ]
        }
       ],
       "captions": [
@@ -1274,22 +1357,38 @@
        {
         "type": "image",
         "src": "/img/marimekko/Vernon_GDES50014_billboard1.png",
-        "alt": "Facade Billboard 1 Thumb"
+        "alt": "Facade Billboard 1 Thumb",
+        "stateText": [
+         "[ Active: Facade Billboard 1 ]",
+         "MOCKUP_01 // Exterior Facade"
+        ]
        },
        {
         "type": "image",
         "src": "/img/marimekko/Vernon_GDES50014_billboard2.png",
-        "alt": "Facade Billboard 2 Thumb"
+        "alt": "Facade Billboard 2 Thumb",
+        "stateText": [
+         "[ Active: Facade Billboard 2 ]",
+         "MOCKUP_02 // Street View Facade"
+        ]
        },
        {
         "type": "image",
         "src": "/img/marimekko/Vernon_GDES50014_billboard3.png",
-        "alt": "Facade Billboard 3 Thumb"
+        "alt": "Facade Billboard 3 Thumb",
+        "stateText": [
+         "[ Active: Facade Billboard 3 ]",
+         "MOCKUP_03 // Double Facade"
+        ]
        },
        {
         "type": "image",
         "src": "/img/marimekko/Vernon_GDES50014_billboard4.png",
-        "alt": "Facade Billboard 4 Thumb"
+        "alt": "Facade Billboard 4 Thumb",
+        "stateText": [
+         "[ Active: Facade Billboard 4 ]",
+         "MOCKUP_04 // Urban Billboard"
+        ]
        }
       ],
       "captions": [
@@ -1418,22 +1517,38 @@
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/dune_screenshot1.jpg",
-        "alt": "Dune 1 Thumb"
+        "alt": "Dune 1 Thumb",
+        "stateText": [
+         "[ Arrakis Canyon Landscape ]",
+         "REF_01 // Canyon Scale"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/dune_screenshot2.jpg",
-        "alt": "Dune 2 Thumb"
+        "alt": "Dune 2 Thumb",
+        "stateText": [
+         "[ Monolithic Brutalist Gate ]",
+         "REF_02 // Monolith Structure"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/dune_screenshot3.jpg",
-        "alt": "Dune 3 Thumb"
+        "alt": "Dune 3 Thumb",
+        "stateText": [
+         "[ Desert Architecture Outcrop ]",
+         "REF_03 // Desert Outcrop"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/dune_screenshot4.jpg",
-        "alt": "Dune 4 Thumb"
+        "alt": "Dune 4 Thumb",
+        "stateText": [
+         "[ Sandworm Dune Ridge ]",
+         "REF_04 // Shifting Dunes"
+        ]
        }
       ],
       "captions": [
@@ -1475,32 +1590,56 @@
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft1.jpg",
-        "alt": "Draft 1 Thumb"
+        "alt": "Draft 1 Thumb",
+        "stateText": [
+         "[ Sandworn Outcrop Concept ]",
+         "DRAFT_01 // Sandworn Outcrop"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft2.jpg",
-        "alt": "Draft 2 Thumb"
+        "alt": "Draft 2 Thumb",
+        "stateText": [
+         "[ Canyon Wall Shelter Concept ]",
+         "DRAFT_02 // Shelter Placement"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft3.jpg",
-        "alt": "Draft 3 Thumb"
+        "alt": "Draft 3 Thumb",
+        "stateText": [
+         "[ Brutalist Monolith Concept ]",
+         "DRAFT_03 // Brutalist Monolith"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft4.jpg",
-        "alt": "Draft 4 Thumb"
+        "alt": "Draft 4 Thumb",
+        "stateText": [
+         "[ Outpost Landing Gate Concept ]",
+         "DRAFT_04 // Landing Gate"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft5.jpg",
-        "alt": "Draft 5 Thumb"
+        "alt": "Draft 5 Thumb",
+        "stateText": [
+         "[ Hidden Spice Silo Concept ]",
+         "DRAFT_05 // Spice Silos"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft6.jpg",
-        "alt": "Draft 6 Thumb"
+        "alt": "Draft 6 Thumb",
+        "stateText": [
+         "[ Canyon Ridge Outpost Concept ]",
+         "DRAFT_06 // Ridge Gate"
+        ]
        }
       ],
       "captions": [
@@ -1576,27 +1715,47 @@
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/SmugglersOutpostIMG1.png",
-        "alt": "Render 1 Thumb"
+        "alt": "Render 1 Thumb",
+        "stateText": [
+         "[ Outpost Sector 1 ]",
+         "RENDER_01 // Cargo Bay"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/SmugglersOutpostIMG2.png",
-        "alt": "Render 2 Thumb"
+        "alt": "Render 2 Thumb",
+        "stateText": [
+         "[ Outpost Sector 2 ]",
+         "RENDER_02 // Landing Pad"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/SmugglersOutpostIMG3.png",
-        "alt": "Render 3 Thumb"
+        "alt": "Render 3 Thumb",
+        "stateText": [
+         "[ Outpost Sector 3 ]",
+         "RENDER_03 // Volumetrics"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/SmugglersOutpostIMG4.png",
-        "alt": "Render 4 Thumb"
+        "alt": "Render 4 Thumb",
+        "stateText": [
+         "[ Outpost Sector 4 ]",
+         "RENDER_04 // Spice Tunnels"
+        ]
        },
        {
         "type": "video",
         "src": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/VIDSmugglersOutpost_1.mp4",
-        "poster": null
+        "poster": null,
+        "stateText": [
+         "[ Final Cinematic Loop ]",
+         "OUTCOME // CINEMATIC LOOP"
+        ]
        },
        {
         "type": "video",
@@ -1828,12 +1987,20 @@
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/LogoAnimGif.gif",
-        "alt": "Logo Wrap GIF"
+        "alt": "Logo Wrap GIF",
+        "stateText": [
+         "[ Isolated Logo Animation ]",
+         "LOOP // Logo Wrap GIF"
+        ]
        },
        {
         "type": "video",
         "src": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/TheWorldPlaysHere2_1.mp4",
-        "poster": null
+        "poster": null,
+        "stateText": [
+         "[ Full Cinematic Video Outcome ]",
+         "CINEMATIC // Full Animation Outcome"
+        ]
        },
        {
         "type": "video",
@@ -1878,32 +2045,56 @@
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxSubway1.png",
-        "alt": "Subway 1"
+        "alt": "Subway 1",
+        "stateText": [
+         "[ Subway Mockup 1 ]",
+         "EXECUTION_01 // Subway Terminal"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxSubway2.png",
-        "alt": "Subway 2"
+        "alt": "Subway 2",
+        "stateText": [
+         "[ Subway Mockup 2 ]",
+         "EXECUTION_02 // Subway Corridor"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxSubway3.png",
-        "alt": "Subway 3"
+        "alt": "Subway 3",
+        "stateText": [
+         "[ Subway Mockup 3 ]",
+         "EXECUTION_03 // Platform Digital"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxBusStop1.png",
-        "alt": "Bus Stop 1"
+        "alt": "Bus Stop 1",
+        "stateText": [
+         "[ Bus Shelter 1 ]",
+         "EXECUTION_04 // Bus Shelter Night"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxBusStop2.png",
-        "alt": "Bus Stop 2"
+        "alt": "Bus Stop 2",
+        "stateText": [
+         "[ Bus Shelter 2 ]",
+         "EXECUTION_05 // Bus Shelter Day"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/BusStopDesign.png",
-        "alt": "Bus Stop Design"
+        "alt": "Bus Stop Design",
+        "stateText": [
+         "[ Core Poster Artwork ]",
+         "ARTWORK // Bus Stop Poster"
+        ]
        }
       ],
       "captions": [
@@ -1947,37 +2138,65 @@
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/LaptopMock1.png",
-        "alt": "Laptop 1"
+        "alt": "Laptop 1",
+        "stateText": [
+         "[ Laptop Active Design 1 ]",
+         "DIGITAL_01 // Laptop Screen Mockup"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/LaptopMock2.png",
-        "alt": "Laptop 2"
+        "alt": "Laptop 2",
+        "stateText": [
+         "[ Laptop Active Design 2 ]",
+         "DIGITAL_02 // Responsive Laptop Grid"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/LaptopMock3.png",
-        "alt": "Laptop 3"
+        "alt": "Laptop 3",
+        "stateText": [
+         "[ Laptop Active Design 3 ]",
+         "DIGITAL_03 // Typographical Presentation"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/LaptopMock4.png",
-        "alt": "Laptop 4"
+        "alt": "Laptop 4",
+        "stateText": [
+         "[ Laptop Active Design 4 ]",
+         "DIGITAL_04 // Complete Campaign Layout"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/YTMock3.png",
-        "alt": "YouTube Ad 3"
+        "alt": "YouTube Ad 3",
+        "stateText": [
+         "[ YouTube Sidebar Promo ]",
+         "DIGITAL_05 // YouTube Sidebar Ad"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/PhoneMock1.png",
-        "alt": "Instagram 1"
+        "alt": "Instagram 1",
+        "stateText": [
+         "[ Mobile Instagram Feed ]",
+         "DIGITAL_06 // Instagram Device View"
+        ]
        },
        {
         "type": "image",
         "src": "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/PhoneMockDesign.png",
-        "alt": "Instagram Design"
+        "alt": "Instagram Design",
+        "stateText": [
+         "[ Mobile Social Layout ]",
+         "DIGITAL_07 // Instagram Poster Crop"
+        ]
        }
       ],
       "captions": [

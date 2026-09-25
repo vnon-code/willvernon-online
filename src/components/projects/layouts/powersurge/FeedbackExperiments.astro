@@ -1,0 +1,236 @@
+---
+/**
+ * powersurge step "Visual Feedback Experiments" (D-brutalist-grid.md §5.7):
+ * the legacy ".ps-gallery-container" was a dark tabbed preview — one big
+ * stage image/gif swapped by three onclick thumbnail buttons. This redraws
+ * it as a bay-aligned wall of three experiment Frames, every experiment
+ * visible and looping at once (the two GIFs play back as muted looping
+ * video via their manifest webm derivatives, matching CaseMedia.astro's own
+ * gif branch) instead of two hidden behind a click.
+ *
+ * media.items[] (legacy DOM order): [0] the stage's initial image (Dense
+ * Flow Trails — a duplicate of [1], the legacy markup's "active" state
+ * before any thumb is clicked, kept only as a hidden parity marker); [1]-[3]
+ * the three experiments (Dense Flow Trails gif, Bloom Feedback Loop gif,
+ * Sphere Form Test still). media.captions[] is the legacy header row
+ * (section tag, initial active label) plus the initial stage's HUD tag,
+ * shown verbatim as plain labels. All parsed out of _raw_html by
+ * build_content.py's parse_media_blob — see CaseMedia.astro's header
+ * comment.
+ */
+import type { MediaItem } from '../../../../content';
+import Frame from '../../../grid/Frame.astro';
+import { resolveImage, resolveGifVideo, hasGifVideo } from '../../media';
+
+interface Props {
+  media: MediaItem;
+  slug: string;
+  group: string;
+}
+
+const { media, slug, group } = Astro.props;
+const items = media.items ?? [];
+const captions = media.captions ?? [];
+
+const dupe = items[0];
+const wall = items.slice(1).filter((it) => it.type === 'image' && it.src);
+---
+
+<figure class="fx" data-media-type="group" data-legacy-media-type="svg">
+  {
+    (captions[0] || captions[1]) && (
+      <div class="fx-head">
+        {captions[0] && <span class="t-label fx-head-a">{captions[0]}</span>}
+        {captions[1] && <span class="t-label fx-head-b">{captions[1]}</span>}
+      </div>
+    )
+  }
+
+  <ul class="fx-wall" data-reveal-stagger>
+    {
+      wall.map((it, i) => {
+        const isGif = hasGifVideo(it.src!);
+        // Each experiment's own authored stage tag (legacy HUD line, verbatim).
+        const tag = it.stateText?.[1] ?? (i === 0 ? captions[2] : undefined) ?? it.alt;
+        return (
+          <li class="fx-cell" data-reveal="rise">
+            <Frame as="div" class="fx-frame">
+              {isGif ? (
+                (() => {
+                  const gif = resolveGifVideo(it.src!);
+                  return (
+                    <video
+                      data-cs-video
+                      data-cs-src={gif.webm}
+                      data-full={it.src}
+                      data-mediasrc={`src=${it.src!.replace(/^\//, '')} alt=${it.alt ?? ''}`}
+                      poster={gif.poster}
+                      aria-label={tag ?? it.alt ?? undefined}
+                      width={gif.w}
+                      height={gif.h}
+                      muted
+                      loop
+                      playsinline
+                      preload="none"
+                    />
+                  );
+                })()
+              ) : (
+                (() => {
+                  const img = resolveImage(it.src!);
+                  const legacySrc = img.full.replace(/^\//, '');
+                  const legacy = it.alt ? `src=${legacySrc} alt=${it.alt}` : `src=${legacySrc}`;
+                  return (
+                    <button
+                      type="button"
+                      class="fx-trigger"
+                      data-lightbox
+                      data-lightbox-group={`${slug}:${group}`}
+                      data-lightbox-src={img.full}
+                      data-lightbox-alt={it.alt ?? ''}
+                      data-mediasrc={legacy}
+                      aria-label={`Open full size: ${tag ?? `experiment ${i + 1}`}`}
+                    >
+                      <img
+                        src={img.displaySrc}
+                        data-full={img.full}
+                        alt={it.alt ?? ''}
+                        width={img.w}
+                        height={img.h}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </button>
+                  );
+                })()
+              )}
+            </Frame>
+            {tag && <span class="t-small fx-tag">{tag}</span>}
+          </li>
+        );
+      })
+    }
+  </ul>
+
+  {
+    dupe?.src && dupe.alt && (
+      <span
+        class="sr-only"
+        data-mediasrc={`src=${dupe.src.replace(/^\//, '')} alt=${dupe.alt}`}
+        aria-hidden="true"
+      />
+    )
+  }
+</figure>
+
+<style>
+  .fx {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-5);
+  }
+
+  .fx-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    padding-bottom: var(--sp-2);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .fx-head-a {
+    color: var(--ink-2);
+  }
+
+  .fx-head-b {
+    color: var(--ink);
+  }
+
+  .fx-wall {
+    display: flex;
+    gap: 1px;
+    background: var(--line);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--sp-2);
+    scrollbar-width: thin;
+  }
+
+  .fx-cell {
+    flex: 0 0 72%;
+    max-width: 72%;
+    scroll-snap-align: start;
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+    padding-inline: var(--sp-2);
+  }
+
+  .fx-cell :global(.fx-frame) {
+    background: var(--ink-ground);
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+
+  .fx-trigger {
+    height: 100%;
+  }
+
+  .fx-cell img,
+  .fx-cell video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .fx-trigger {
+    display: block;
+    width: 100%;
+    padding: 0;
+    cursor: zoom-in;
+  }
+
+  .fx-trigger:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: -3px;
+  }
+
+  .fx-tag {
+    color: var(--ink-2);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (min-width: 768px) {
+    .fx-wall {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--g);
+      overflow: visible;
+      background: none;
+      padding-bottom: 0;
+    }
+
+    .fx-cell {
+      flex: initial;
+      max-width: none;
+      padding-inline: 0;
+    }
+  }
+</style>

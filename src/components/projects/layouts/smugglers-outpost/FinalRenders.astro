@@ -1,0 +1,276 @@
+---
+/**
+ * smugglers-outpost step "Final Cinematic Outpost Renders" (D-brutalist-grid.md
+ * §5.7): the legacy "so-gallery-container" was a dark tabbed preview
+ * (cinematic mp4 / four still renders, switched by five onclick thumb
+ * buttons over a single <video>/<img> pair, the video playing by default).
+ * This redraws it as the cinematic loop in its own full-width Frame —
+ * already playing/loopable in view, matching the Outcome section's own
+ * video above it, not gated behind a tab — with the four render stills as
+ * a 2-up wall underneath (each still two bays wide), every frame visible
+ * at once, each labelled with its legacy thumb's own label/tag pair.
+ *
+ * media.items[] (legacy DOM order): [0] the tab switcher's second <img>
+ * slot, empty (no src, alt="Smuggler's Outpost Render" only — kept as a
+ * hidden parity marker, nothing to render); [1]-[4] the four render
+ * stills; [5]/[6] the same cinematic mp4 extracted twice (the tab's own
+ * <video> plus its thumbnail <video>) — rendered once, with a hidden
+ * marker carrying the duplicate's literal legacy string, same convention
+ * as the-world-plays-here's OutcomeReel.astro. media.captions[] is the
+ * legacy header row (section tag, initial thumb label) plus the initial
+ * stage's HUD tag, shown verbatim as a plain label. All parsed out of
+ * _raw_html by build_content.py's parse_media_blob — see CaseMedia.astro's
+ * header comment.
+ */
+import type { MediaItem } from '../../../../content';
+import Frame from '../../../grid/Frame.astro';
+import { resolveImage, resolveVideo } from '../../media';
+
+interface Props {
+  media: MediaItem;
+  slug: string;
+  group: string;
+}
+
+const { media, slug, group } = Astro.props;
+const items = media.items ?? [];
+const captions = media.captions ?? [];
+
+const placeholder = items.find((it) => it.type === 'image' && !it.src);
+const stills = items.filter((it) => it.type === 'image' && it.src);
+const videoItems = items.filter((it) => it.type === 'video' && it.src);
+const videoItem = videoItems[0];
+const dupeVideo = videoItems[1];
+const vid = videoItem?.src ? resolveVideo(videoItem.src) : null;
+// The header's right-hand caption and the stage tag equal the cinematic
+// tab's own label/tag pair (videoItem.stateText, derived in
+// build_content.py), so they're shown once, under the reel; each still
+// carries its own thumb's pair.
+const reelText = videoItem?.stateText ?? [];
+const headB = captions[1] && captions[1] !== reelText[0] ? captions[1] : null;
+const reelLabel = reelText[0] ?? null;
+const reelTag = reelText[1] ?? captions[2] ?? null;
+---
+
+<figure class="fo" data-media-type="group" data-legacy-media-type="svg">
+  {
+    (captions[0] || headB) && (
+      <div class="fo-head">
+        {captions[0] && <span class="t-label fo-head-a">{captions[0]}</span>}
+        {headB && <span class="t-label fo-head-b">{headB}</span>}
+      </div>
+    )
+  }
+
+  {
+    videoItem?.src && vid && (
+      <div class="fo-reel">
+        <Frame as="div" class="fo-reel-frame">
+          <video
+            data-cs-video
+            data-cs-src={videoItem.src}
+            data-mediasrc={dupeVideo?.src ? `src=['${dupeVideo.src}']` : undefined}
+            poster={vid.poster ?? undefined}
+            width={vid.w}
+            height={vid.h}
+            style={`aspect-ratio: ${vid.w} / ${vid.h}`}
+            controls
+            muted
+            loop
+            playsinline
+            preload="none"
+          />
+        </Frame>
+        {(reelLabel || reelTag) && (
+          <div class="fo-meta">
+            {reelLabel && <span class="t-label fo-label">{reelLabel}</span>}
+            {reelTag && <span class="t-small fo-tag">{reelTag}</span>}
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  <ul class="fo-wall" data-reveal-stagger>
+    {
+      stills.map((it, i) => {
+        const img = resolveImage(it.src!);
+        const legacySrc = img.full.replace(/^\//, '');
+        const legacy = it.alt ? `src=${legacySrc} alt=${it.alt}` : `src=${legacySrc}`;
+        const [label, tag] = it.stateText ?? [];
+        return (
+          <li class="fo-cell" data-reveal="rise">
+            <Frame as="div" class="fo-frame">
+              <button
+                type="button"
+                class="fo-trigger"
+                data-lightbox
+                data-lightbox-group={`${slug}:${group}`}
+                data-lightbox-src={img.full}
+                data-lightbox-alt={it.alt ?? ''}
+                data-mediasrc={legacy}
+                aria-label={`Open full size: ${it.alt ?? `render ${i + 1}`}`}
+              >
+                <img
+                  src={img.displaySrc}
+                  data-full={img.full}
+                  alt={it.alt ?? ''}
+                  width={img.w}
+                  height={img.h}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </button>
+            </Frame>
+            <div class="fo-meta">
+              <span class="t-label fo-label">{label ?? it.alt}</span>
+              {tag && <span class="t-small fo-tag">{tag}</span>}
+            </div>
+          </li>
+        );
+      })
+    }
+  </ul>
+
+  {
+    placeholder?.alt && (
+      // The legacy tab's empty second image slot before any still was
+      // clicked — no image to show, only its alt text is real content.
+      <span class="sr-only" data-mediasrc={`alt=${placeholder.alt}`} aria-hidden="true" />
+    )
+  }
+</figure>
+
+<style>
+  .fo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-5);
+  }
+
+  .fo-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    padding-bottom: var(--sp-2);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .fo-head-a {
+    color: var(--ink-2);
+  }
+
+  .fo-head-b {
+    color: var(--ink);
+  }
+
+  .fo-reel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+
+  .fo-reel-frame {
+    background: var(--ink-ground);
+  }
+
+  .fo-reel-frame video {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  .fo-wall {
+    display: flex;
+    gap: 1px;
+    background: var(--line);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--sp-2);
+    scrollbar-width: thin;
+  }
+
+  .fo-cell {
+    flex: 0 0 62%;
+    max-width: 62%;
+    scroll-snap-align: start;
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+    padding-inline: var(--sp-2);
+  }
+
+  .fo-frame {
+    background: var(--paper-2);
+  }
+
+  .fo-trigger {
+    display: block;
+    width: 100%;
+    cursor: zoom-in;
+  }
+
+  .fo-trigger:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: -3px;
+  }
+
+  .fo-trigger img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+  }
+
+  .fo-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-block: var(--sp-1) var(--sp-2);
+  }
+
+  .fo-label {
+    color: var(--ink);
+  }
+
+  .fo-tag {
+    color: var(--ink-2);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (min-width: 768px) {
+    .fo-wall {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--g);
+      overflow: visible;
+      background: none;
+      padding-bottom: 0;
+    }
+
+    .fo-cell {
+      flex: initial;
+      max-width: none;
+      padding-inline: 0;
+    }
+  }
+
+</style>

@@ -1,0 +1,164 @@
+---
+/**
+ * marimekko-exhibition step "The Posters" — a bespoke mockup layout
+ * (D-brutalist-grid.md §5.7). The legacy markup was a single-frame preview
+ * with a JS thumbnail swap (one <img> re-pointed on click); this shows all
+ * four posters at once as a real, no-JS bay-aligned series — one Frame per
+ * bay, each opening into the shared Lightbox.
+ *
+ * media.items[] keeps every distinct <img> the legacy markup named:
+ * items[0]/[1] share one URL (the default preview and its own "Thumb" alt),
+ * items[2-4] are the other three designers' thumbnails. The visual
+ * duplicate is deduped by src below and kept reachable as a sr-only mirror
+ * carrying its own `data-mediasrc` — the exact "src=<url> alt=<alt>" shape
+ * extract_content.py recorded for it (INVENTORY projects.js.318-322), same
+ * as CaseMedia.astro's generic group renderer emits for every other case
+ * study's nested cells. media.captions[0] is the legacy
+ * "SERIES_01 // Maija Isola" tag (kept verbatim, restyled per CLAUDE.md as
+ * a plain label instead of the legacy HUD chip) — it named the series'
+ * first/default poster, so it's shown under that one poster rather than
+ * invented for the other three.
+ */
+import type { MediaItem } from '../../../../content';
+import Frame from '../../../grid/Frame.astro';
+import { resolveImage } from '../../media';
+
+interface Props {
+  media: MediaItem;
+  slug: string;
+  group: string;
+}
+
+const { media, slug, group } = Astro.props;
+const items = media.items ?? [];
+const captions = media.captions ?? [];
+const seriesTag = captions[0] ?? '';
+
+const legacyMediaSrc = (fullUrl: string, alt: string | null | undefined) => {
+  const legacySrc = fullUrl.replace(/^\//, '');
+  return alt ? `src=${legacySrc} alt=${alt}` : `src=${legacySrc}`;
+};
+
+const seen = new Set<string>();
+const posters: typeof items = [];
+const duplicates: typeof items = [];
+for (const it of items) {
+  if (!it.src) continue;
+  if (seen.has(it.src)) {
+    duplicates.push(it);
+    continue;
+  }
+  seen.add(it.src);
+  posters.push(it);
+}
+---
+
+<ul class="mk-posters bays" data-media-type="group" data-legacy-media-type="svg" data-reveal-stagger>
+  {
+    posters.map((it, i) => {
+      const img = resolveImage(it.src!);
+      const label = (it.alt ?? '').replace(/\s*Poster(\s*Thumb)?$/i, '');
+      return (
+        <li>
+          <Frame as="figure" class="mk-poster">
+            <button
+              type="button"
+              class="mk-poster-trigger"
+              data-lightbox
+              data-lightbox-group={`${slug}:${group}`}
+              data-lightbox-src={img.full}
+              data-lightbox-alt={it.alt ?? ''}
+              data-mediasrc={legacyMediaSrc(img.full, it.alt)}
+              aria-label={`Open full size: ${it.alt ?? label}`}
+            >
+              <img
+                src={img.displaySrc}
+                data-full={img.full}
+                alt={it.alt ?? ''}
+                width={img.w}
+                height={img.h}
+                loading="lazy"
+                decoding="async"
+              />
+            </button>
+            <figcaption class="mk-poster-caption">
+              <span class="t-label">{label}</span>
+              {i === 0 && seriesTag && <span class="t-small mk-poster-tag">{seriesTag}</span>}
+            </figcaption>
+          </Frame>
+        </li>
+      );
+    })
+  }
+</ul>
+
+{
+  // The legacy markup's own re-pointed thumbnail: same image, a second
+  // "Thumb" alt (INVENTORY parity only — the visible poster above already
+  // shows this image with its more descriptive alt).
+  duplicates.map((it) => {
+    const img = resolveImage(it.src!);
+    return (
+      <span class="sr-only" data-mediasrc={legacyMediaSrc(img.full, it.alt)}>
+        {it.alt}
+      </span>
+    );
+  })
+}
+
+<style>
+  .mk-posters {
+    row-gap: var(--sp-6);
+  }
+
+  /* Equal-height frames across a row (the first one carries the legacy tag). */
+  .mk-posters > li {
+    display: flex;
+  }
+
+  /* One bay (phones): the A3 series reads as a pair of pairs, not four
+   * full-width sheets stacked. */
+  @media (max-width: 767px) {
+    .mk-posters {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* Frame's host carries Frame's scope id — reach it via :global(). */
+  .mk-posters :global(.mk-poster) {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    padding: var(--sp-3);
+    background: var(--paper);
+  }
+
+  .mk-poster-trigger {
+    display: block;
+    width: 100%;
+    cursor: zoom-in;
+  }
+
+  .mk-poster-trigger:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: -3px;
+  }
+
+  .mk-poster-trigger img {
+    width: 100%;
+    display: block;
+    height: auto; /* full A3 sheet (1:√2) from width/height — never crop the locked header/footer */
+    background: var(--paper-2);
+  }
+
+  .mk-poster-caption {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+  }
+
+  .mk-poster-tag {
+    color: var(--ink-2);
+  }
+</style>

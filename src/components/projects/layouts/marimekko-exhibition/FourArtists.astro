@@ -1,0 +1,175 @@
+---
+/**
+ * marimekko-exhibition step "The Creators: Four Artists" — a bespoke
+ * mockup layout (D-brutalist-grid.md §5.7: "the 13 legacy mockup <style>
+ * blocks become structured, bay-aligned media layouts"). The legacy
+ * markup was a near-black "designer-card" 2x2 HUD grid per artist; this
+ * redraws it in the Ruled Ground language — one Frame per bay, ruled
+ * swatch grids inside, no dark chrome.
+ *
+ * media.items[] is the 16 swatch images in legacy DOM order, four per
+ * designer (Kekki, Isola, Rimala, Ishimoto). media.captions[] is six
+ * strings per designer — name, style tag, then the four swatch/pattern
+ * names in the same order as their items[] slice — both parsed straight
+ * out of _raw_html by build_content.py's parse_media_blob (no hand-typed
+ * copy: see that file and CaseMedia.astro's header comment).
+ */
+import type { MediaItem } from '../../../../content';
+import Frame from '../../../grid/Frame.astro';
+import { resolveImage } from '../../media';
+
+interface Props {
+  media: MediaItem;
+  slug: string;
+  group: string;
+}
+
+const { media, slug, group } = Astro.props;
+const items = media.items ?? [];
+const captions = media.captions ?? [];
+
+const designers = [0, 1, 2, 3].map((d) => ({
+  name: captions[d * 6] ?? '',
+  tag: captions[d * 6 + 1] ?? '',
+  swatches: items.slice(d * 4, d * 4 + 4),
+}));
+
+/** The exact "src=<url> alt=<alt>" shape extract_content.py recorded for
+ * each nested legacy <img> (INVENTORY projects.js.285-300) — a hidden
+ * parity mirror of the real src/alt already on the <img> below, not new
+ * content (see CaseMedia.astro's generic group renderer, which the same
+ * shape comes from for every other case study). */
+const legacyMediaSrc = (fullUrl: string, alt: string | null | undefined) => {
+  const legacySrc = fullUrl.replace(/^\//, '');
+  return alt ? `src=${legacySrc} alt=${alt}` : `src=${legacySrc}`;
+};
+---
+
+<figure class="mk-artists" data-media-type="group" data-legacy-media-type="svg">
+  <ul class="mk-artists-grid bays" data-reveal-stagger>
+    {
+      designers.map((d, di) => (
+        <li class="mk-artist-cell">
+          <Frame as="article" class="mk-artist">
+            <header class="mk-artist-head">
+              <span class="t-h3 mk-artist-name">{d.name}</span>
+              <span class="t-label mk-artist-tag">{d.tag}</span>
+            </header>
+            <ul class="mk-artist-swatches">
+              {d.swatches.map((it, i) => {
+                if (!it.src) return null;
+                const img = resolveImage(it.src);
+                return (
+                  <li>
+                    <button
+                      type="button"
+                      class="mk-swatch-trigger"
+                      data-lightbox
+                      data-lightbox-group={`${slug}:${group}`}
+                      data-lightbox-src={img.full}
+                      data-lightbox-alt={it.alt ?? ''}
+                      data-mediasrc={legacyMediaSrc(img.full, it.alt)}
+                      aria-label={`Open full size: ${it.alt ?? `swatch ${di * 4 + i + 1}`}`}
+                    >
+                      <img
+                        src={img.displaySrc}
+                        data-full={img.full}
+                        alt=""
+                        width={img.w}
+                        height={img.h}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </button>
+                    <span class="t-small mk-swatch-label">{it.alt}</span>
+                  </li>
+                );
+              })}
+            </ul>
+          </Frame>
+        </li>
+      ))
+    }
+  </ul>
+</figure>
+
+<style>
+  .mk-artists-grid {
+    row-gap: var(--sp-6);
+  }
+
+  .mk-artist-cell {
+    height: 100%;
+  }
+
+  /* Four bays: each artist card takes two, so the 2x2 swatch sets read as
+   * prints, not thumbnails (four-across left ~60px swatches). */
+  @media (min-width: 1024px) {
+    .mk-artist-cell {
+      grid-column: span 2;
+    }
+  }
+
+  /* Frame renders the host element, so it carries Frame's scope id, not
+   * this component's — reach it through the scoped grid with :global(). */
+  .mk-artists-grid :global(.mk-artist) {
+    height: 100%;
+    padding: var(--sp-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+    background: var(--paper);
+  }
+
+  .mk-artist-head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: var(--sp-3);
+  }
+
+  .mk-artist-name {
+    color: var(--ink);
+  }
+
+  .mk-artist-tag {
+    color: var(--ink-2);
+  }
+
+  .mk-artist-swatches {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--sp-3);
+  }
+
+  .mk-artist-swatches li {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+  }
+
+  .mk-swatch-trigger {
+    display: block;
+    width: 100%;
+    cursor: zoom-in;
+    background: var(--paper-2);
+  }
+
+  .mk-swatch-trigger:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: -3px;
+  }
+
+  .mk-swatch-trigger img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  .mk-swatch-label {
+    color: var(--ink-2);
+  }
+</style>

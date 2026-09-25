@@ -211,6 +211,14 @@ def parse_media_blob(html, label=""):
     items = []
     for im in soup.find_all("img"):
         items.append({"type": "image", "src": normalize_url(im.get("src")), "alt": im.get("alt") or None})
+    for im in soup.find_all("image"):
+        # SVG <image href="…"> (an inline relationship-diagram swatch, e.g.
+        # marimekko-exhibition's "Exhibition Identity" step): never has an
+        # `alt`, and BeautifulSoup only parses HTML <img>, so this is the
+        # only path that recovers these swatches from _raw_html at all.
+        href = im.get("href") or im.get("xlink:href")
+        if href:
+            items.append({"type": "image", "src": normalize_url(href), "alt": None, "_role": "svg-image"})
     for v in soup.find_all("video"):
         srcs = [v.get("src")] + [s.get("src") for s in v.find_all("source")]
         srcs = [normalize_url(s) for s in srcs if s]
@@ -224,6 +232,22 @@ def parse_media_blob(html, label=""):
             items.append({"type": "image", "src": normalize_url(bg.group(1)), "alt": None, "_role": "background"})
 
     captions = _blob_text_blocks(soup)
+
+    # Thumb-switcher buttons (e.g. the-world-plays-here's OOH/device/outcome
+    # stages) write per-item header/HUD copy via onclick `textContent = '…'`;
+    # that copy is only reachable after a click, so attach it to the item the
+    # button wraps as `stateText` for bespoke layouts to show statically.
+    for btn in soup.find_all(onclick=True):
+        texts = re.findall(r"textContent\s*=\s*'([^']*)'", btn.get("onclick", ""))
+        el = btn.find(["img", "video"])
+        if not texts or not el:
+            continue
+        esrc = normalize_url(el.get("src"))
+        for it in items:
+            if it.get("src") == esrc and "stateText" not in it and \
+                    (el.name == "video" or it.get("alt") == (el.get("alt") or None)):
+                it["stateText"] = texts
+                break
 
     if "grid" in root_classes or "grid-template" in root_style:
         layout = "grid"

@@ -517,6 +517,320 @@
    "w": 500,
    "h": 500,
    "bytes": 27070
+  },
+  "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxSubway1.png": {
+   "w": 4000,
+   "h": 3000,
+   "bytes": 24522110,
+   "derived": {
+    "src": "/img/derived/mockups-xboxsubway1.webp",
+    "w": 2400,
+    "h": 1800,
+    "bytes": 171178
+   }
+  },
+  "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxSubway2.png": {
+   "w": 4000,
+   "h": 3000,
+   "bytes": 17634545,
+   "derived": {
+    "src": "/img/derived/mockups-xboxsubway2.webp",
+    "w": 2400,
+    "h": 1800,
+    "bytes": 103900
+   }
+  },
+  "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxSubway3.png": {
+   "w": 4000,
+   "h": 3000,
+   "bytes": 24614617,
+   "derived": {
+    "src": "/img/derived/mockups-xboxsubway3.webp",
+    "w": 2400,
+    "h": 1800,
+    "bytes": 152136
+   }
+  },
+  "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxBusStop1.png": {
+   "w": 4000,
+   "h": 3000,
+   "bytes": 7360775,
+   "derived": {
+    "src": "/img/derived/mockups-xboxbusstop1.webp",
+    "w": 2400,
+    "h": 1800,
+    "bytes": 56324
+   }
+  },
+  "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/XboxBusStop2.png": {
+   "w": 4000,
+   "h": 3000,
+   "bytes": 13447923,
+   "derived": {
+    "src": "/img/derived/mockups-xboxbusstop2.webp",
+    "w": 2400,
+    "h": 1800,
+    "bytes": 55372
+   }
+  },
+  "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/BusStopDesign.png": {
+   "w": 1653,
+   "h": 2339,
+   "bytes": 3040897,
+   "derived": {
+    "src": "/img/derived/mockups-busstopdesign.webp",
+    "w": 1653,
+    "h": 2339,
+    "bytes": 78336
+   }
+  },
+  "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/LaptopMock1.png": {
+   "w": 3000,
+   "h": 2250,
+   "bytes": 972167,
+   "derived": {
+    "src": "/img/derived/mockups-laptopmock1.webp",
+    "w": 2400,
+    "h": 1800,
+    "bytes": 40762
+   }
+  },
+  "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/LaptopMock2.png": {
+   "w": 3000,
+   "h": 2250,
+   "bytes": 3180670,
+   "derived": {
+    "src": "/img/derived/mockups-laptopmock2.webp",
+    "w": 2400,
+    "h": 1800,
+    "bytes": 54364
+   }
+  },
+  "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/LaptopMock3.png": {
+   "w": 3000,
+   "h": 2250,
+   "bytes": 2895545,
+   "derived": {
+    "src": "/img/derived/mockups-laptopmock3.webp",
+    "w": 2400,
+    "h": 1800,
+    "bytes": 65428
+   }
+  },
+  "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/LaptopMock4.png": {
+   "w": 3000,
+   "h": 2250,
+   "bytes": 2771584,
+   "derived": {
+    "src": "/img/derived/mockups-laptopmock4.webp",
+    "w": 2400,
+    "h": 1800,
+    "bytes": 59774
+   }
+  },
+  "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/YTMock3.png": {
+   "w": 1560,
+   "h": 1035,
+   "bytes": 612471,
+   "derived": {
+    "src": "/img/derived/mockups-ytmock3.webp",
+    "w": 1560,
+    "h": 1035,
+    "bytes": 43478
+   }
+  },
+  "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/PhoneMock1.png": {
+   "w": 3000,
+   "h": 2250,
+   "bytes": 1222272,
+   "derived": {
+    "src": "/img/derived/mockups-phonemock1.webp",
+    "w": 2400,
+    "h": 1800,
+    "bytes": 45550
+   }
+  },
+  "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/mockups/PhoneMockDesign.png": {
+   "w": 645,
+   "h": 1384,
+   "bytes": 611818,
+   "derived": {
+    "src": "/img/derived/mockups-phonemockdesign.webp",
+    "w": 645,
+    "h": 1384,
+    "bytes": 37424
+   }
+  },
+  "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/dune_screenshot1.jpg": {
+   "w": 1759,
+   "h": 763,
+   "bytes": 104243
+  },
+  "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/dune_screenshot2.jpg": {
+   "w": 1750,
+   "h": 761,
+   "bytes": 73877
+  },
+  "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/dune_screenshot3.jpg": {
+   "w": 1757,
+   "h": 764,
+   "bytes": 114993
+  },
+  "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/dune_screenshot4.jpg": {
+   "w": 1774,
+   "h": 756,
+   "bytes": 179021
+  },
+  "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft1.jpg": {
+   "w": 1152,
+   "h": 896,
+   "bytes": 85825
+  },
+  "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft2.jpg": {
+   "w": 1152,
+   "h": 896,
+   "bytes": 88893
+  },
+  "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft3.jpg": {
+   "w": 1152,
+   "h": 896,
+   "bytes": 102558
+  },
+  "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft4.jpg": {
+   "w": 1152,
+   "h": 896,
+   "bytes": 106836
+  },
+  "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft5.jpg": {
+   "w": 1152,
+   "h": 896,
+   "bytes": 97711
+  },
+  "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/ai_draft6.jpg": {
+   "w": 1152,
+   "h": 896,
+   "bytes": 90206
+  },
+  "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/IMGAIConcept.png": {
+   "w": 1920,
+   "h": 1080,
+   "bytes": 3574330,
+   "derived": {
+    "src": "/img/derived/assets-imgaiconcept.webp",
+    "w": 1920,
+    "h": 1080,
+    "bytes": 133658
+   }
+  },
+  "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/SmugglersOutpostIMG1.png": {
+   "w": 1920,
+   "h": 1080,
+   "bytes": 3290017,
+   "derived": {
+    "src": "/img/derived/assets-smugglersoutpostimg1.webp",
+    "w": 1920,
+    "h": 1080,
+    "bytes": 88794
+   }
+  },
+  "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/SmugglersOutpostIMG2.png": {
+   "w": 1920,
+   "h": 1080,
+   "bytes": 3333119,
+   "derived": {
+    "src": "/img/derived/assets-smugglersoutpostimg2.webp",
+    "w": 1920,
+    "h": 1080,
+    "bytes": 94928
+   }
+  },
+  "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/SmugglersOutpostIMG3.png": {
+   "w": 1920,
+   "h": 1080,
+   "bytes": 3806733,
+   "derived": {
+    "src": "/img/derived/assets-smugglersoutpostimg3.webp",
+    "w": 1920,
+    "h": 1080,
+    "bytes": 158920
+   }
+  },
+  "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/SmugglersOutpostIMG4.png": {
+   "w": 1920,
+   "h": 1080,
+   "bytes": 3529680,
+   "derived": {
+    "src": "/img/derived/assets-smugglersoutpostimg4.webp",
+    "w": 1920,
+    "h": 1080,
+    "bytes": 118920
+   }
+  },
+  "https://assets.willvernon.online/projects/01_amplified-spaces/renders/B17/B172.png": {
+   "w": 1920,
+   "h": 1080,
+   "bytes": 2668457,
+   "derived": {
+    "src": "/img/derived/b17-b172.webp",
+    "w": 1920,
+    "h": 1080,
+    "bytes": 23506
+   }
+  },
+  "https://assets.willvernon.online/projects/01_amplified-spaces/renders/B17/B173.png": {
+   "w": 1920,
+   "h": 1080,
+   "bytes": 2615008,
+   "derived": {
+    "src": "/img/derived/b17-b173.webp",
+    "w": 1920,
+    "h": 1080,
+    "bytes": 24716
+   }
+  },
+  "https://assets.willvernon.online/projects/01_amplified-spaces/renders/FadingAway/FadingAway2.png": {
+   "w": 1920,
+   "h": 1080,
+   "bytes": 2404441,
+   "derived": {
+    "src": "/img/derived/fadingaway-fadingaway2.webp",
+    "w": 1920,
+    "h": 1080,
+    "bytes": 25840
+   }
+  },
+  "https://assets.willvernon.online/projects/01_amplified-spaces/renders/FadingAway/FadingAway4.png": {
+   "w": 1920,
+   "h": 1080,
+   "bytes": 2592455,
+   "derived": {
+    "src": "/img/derived/fadingaway-fadingaway4.webp",
+    "w": 1920,
+    "h": 1080,
+    "bytes": 34376
+   }
+  },
+  "https://assets.willvernon.online/projects/01_amplified-spaces/renders/Onjuku/Onjuku1.png": {
+   "w": 1920,
+   "h": 1080,
+   "bytes": 2700331,
+   "derived": {
+    "src": "/img/derived/onjuku-onjuku1.webp",
+    "w": 1920,
+    "h": 1080,
+    "bytes": 41060
+   }
+  },
+  "https://assets.willvernon.online/projects/01_amplified-spaces/renders/Onjuku/Onjuku3.png": {
+   "w": 1920,
+   "h": 1080,
+   "bytes": 2951940,
+   "derived": {
+    "src": "/img/derived/onjuku-onjuku3.webp",
+    "w": 1920,
+    "h": 1080,
+    "bytes": 52384
+   }
   }
  },
  "gifs": {
@@ -531,6 +845,18 @@
    "poster": "/img/derived/powersurge-powersurgegif2-poster.webp",
    "w": 800,
    "h": 450
+  },
+  "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/LogoAnimGif.gif": {
+   "webm": "/img/derived/assets-logoanimgif.webm",
+   "poster": "/img/derived/assets-logoanimgif-poster.webp",
+   "w": 800,
+   "h": 800
+  },
+  "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/GIFViewportCompressed.gif": {
+   "webm": "/img/derived/assets-gifviewportcompressed.webm",
+   "poster": "/img/derived/assets-gifviewportcompressed-poster.webp",
+   "w": 1920,
+   "h": 1080
   }
  }
 }

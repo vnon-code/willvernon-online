@@ -95,6 +95,74 @@ for (const u of locals) {
   }
   manifest.images[u] = entry;
 }
+// 3. remote (R2) images/gifs this build displays directly and that are kept
+// over 500 KB (or, for an animated gif, over 2 MB) — CLAUDE.md forbids
+// touching R2 itself, so each is fetched read-only and its derivative
+// written under public/img/derived/ exactly like the local-image path
+// above; the manifest key stays the original R2 URL so media.ts's
+// resolveImage()/hasGifVideo() pick it up with no other change. Scoped
+// per-project and additive: each Phase-4 layout worker appends its own
+// project's big remote URLs to REMOTE_ASSETS below rather than editing the
+// regex above, so concurrent runs don't collide on this file.
+const REMOTE_ASSETS = [
+  ...new Set([
+    ...(text.match(/https:\/\/assets\.willvernon\.online\/projects\/07_the-world-plays-here\/assets\/mockups\/[^"\\<>]+?\.(?:png|jpe?g|webp)/gi) || []),
+    ...(text.match(/https:\/\/assets\.willvernon\.online\/projects\/07_the-world-plays-here\/assets\/LogoAnimGif\.gif/gi) || []),
+    // Phase 4 "misc" worker: any other remote R2 gif referenced in content —
+    // generalised from the two hardcoded entries above rather than adding a
+    // third one-off line per case study. Over the 2 MB threshold in the loop
+    // below it gets a webm+poster derivative like the ones above; under it,
+    // it just gets a manifest dimension entry like any other remote image.
+    ...(text.match(/https:\/\/assets\.willvernon\.online\/[^"\\<>]+?\.gif/gi) || []),
+    // Phase 4 smugglers-outpost: 3-4 MB render/concept PNGs shown full-bay.
+    ...(text.match(/https:\/\/assets\.willvernon\.online\/projects\/06_smugglers-outpost\/assets\/[^"\\<>/]+?\.(?:png|jpe?g)/gi) || []),
+    // Phase 4 amplified-spaces: 2.3-2.9 MB exhibition render PNGs (gallery wall).
+    ...(text.match(/https:\/\/assets\.willvernon\.online\/projects\/01_amplified-spaces\/renders\/[^"\\<>]+?\.(?:png|jpe?g)/gi) || []),
+  ]),
+];
+for (const url of REMOTE_ASSETS) {
+  const name = slug(url.split('/').slice(-2).join('-'));
+  const ext = path.extname(new URL(url).pathname).toLowerCase();
+  const tmp = `/tmp/remote-${name}${ext}`;
+  try {
+    execFileSync('curl', ['-sSfL', '--retry', '3', '-o', tmp, encodeURI(url)], { timeout: 600000 });
+  } catch (e) {
+    console.warn('remote fetch failed', url, String(e).slice(0, 200));
+    continue;
+  }
+  const size = fs.statSync(tmp).size;
+  if (ext === '.gif' && size > 2_000_000) {
+    const webm = `/img/derived/${name}.webm`;
+    const poster = `/img/derived/${name}-poster.webp`;
+    if (!fs.existsSync(path.join(PUB, webm))) {
+      execFileSync(ffmpeg, ['-y', '-loglevel', 'error', '-i', tmp, '-an', '-c:v', 'libvpx-vp9', '-b:v', '0', '-crf', '38', '-pix_fmt', 'yuv420p',
+        '-vf', 'scale=trunc(min(iw\\,1600)/2)*2:-2', path.join(PUB, webm)], { timeout: 600000 });
+      await sharp(tmp, { animated: false }).resize({ width: 1280, withoutEnlargement: true }).webp({ quality: 72 }).toFile(path.join(PUB, poster));
+    }
+    const meta = await sharp(tmp, { animated: false }).metadata();
+    manifest.gifs[url] = { webm, poster, w: meta.width, h: meta.height };
+    console.log('gif (remote)', url, '->', webm, fs.statSync(path.join(PUB, webm)).size);
+  } else {
+    const meta = await sharp(tmp).metadata();
+    const entry = { w: meta.width, h: meta.height, bytes: size };
+    if (size > 500_000) {
+      const rel = `/img/derived/${name}.webp`;
+      const dest = path.join(PUB, rel);
+      if (!fs.existsSync(dest)) {
+        for (const [w, q] of [[2400, 70], [2000, 64], [1600, 60], [1280, 56], [1024, 50]]) {
+          await sharp(tmp).resize({ width: w, withoutEnlargement: true }).webp({ quality: q }).toFile(dest);
+          if (fs.statSync(dest).size < 480_000) break;
+        }
+      }
+      const dm = await sharp(dest).metadata();
+      entry.derived = { src: rel, w: dm.width, h: dm.height, bytes: fs.statSync(dest).size };
+      console.log('derived (remote)', url, '->', rel, entry.derived.bytes);
+    }
+    manifest.images[url] = entry;
+  }
+  fs.rmSync(tmp);
+}
+
 fs.mkdirSync(path.dirname(OUT_MANIFEST), { recursive: true });
 fs.writeFileSync(OUT_MANIFEST, JSON.stringify(manifest, null, 1) + '\n');
 console.log(`posters ${Object.keys(manifest.posters).length}, images ${Object.keys(manifest.images).length}, gifs ${Object.keys(manifest.gifs).length}`);

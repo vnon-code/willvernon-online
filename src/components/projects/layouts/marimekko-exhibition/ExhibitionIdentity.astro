@@ -1,0 +1,187 @@
+---
+/**
+ * marimekko-exhibition step "Exhibition Identity" — a bespoke mockup layout
+ * (D-brutalist-grid.md §5.7). The legacy markup was an inline SVG
+ * relationship diagram: the exhibition wordmark logotype with hover-linked
+ * <path> connectors running down to four designer swatches. CaseMedia.astro's
+ * generic renderer can't draw it (it only parses HTML <img>, not SVG
+ * <image href>), so this step rendered with captions only and no images —
+ * see CaseMedia.astro's header comment on `case-media-placeholder`.
+ *
+ * build_content.py's parse_media_blob now also walks SVG <image href>/
+ * <xlink:href> tags (added for this step only — confirmed no other case
+ * study's group needed it, redesign/PROGRESS.md Phase 4 notes), so
+ * media.items[] holds the real assets in legacy DOM order: [0] the
+ * wordmark logotype, then one swatch per designer (Kekki, Isola, Rimala,
+ * Ishimoto). Their name/pattern-pair labels are media.captions[] (already
+ * parsed from the SVG's <text> nodes) — nothing here is hand-typed. The
+ * relationship itself — wordmark above, four swatches ruled to it below —
+ * is redrawn with a plain hairline and short connector ticks instead of the
+ * legacy SVG's hover-glow paths.
+ */
+import type { MediaItem } from '../../../../content';
+import Frame from '../../../grid/Frame.astro';
+import { resolveImage } from '../../media';
+import { projects } from '../../../../content';
+
+interface Props {
+  media: MediaItem;
+  slug: string;
+  group: string;
+}
+
+const { media, slug, group } = Astro.props;
+const items = media.items ?? [];
+const captions = media.captions ?? [];
+const [logo, ...swatchItems] = items;
+const swatches = swatchItems.map((it, i) => ({
+  src: it.src,
+  name: captions[i * 2] ?? '',
+  patterns: captions[i * 2 + 1] ?? '',
+}));
+const logoImg = logo?.src ? resolveImage(logo.src) : null;
+// The legacy SVG <image> had no alt; the logotype spells the exhibition's
+// own name, so its alt is the case study title from projects.json.
+const logoAlt = logo?.alt ?? projects.caseStudies.find((c) => c.slug === slug)?.title ?? '';
+---
+
+<figure class="mk-identity" data-media-type="group" data-legacy-media-type="svg">
+  {
+    logoImg && (
+      <Frame as="div" class="mk-identity-logo">
+        <img
+          src={logoImg.displaySrc}
+          data-full={logoImg.full}
+          alt={logoAlt}
+          width={logoImg.w}
+          height={logoImg.h}
+          loading="lazy"
+          decoding="async"
+        />
+      </Frame>
+    )
+  }
+
+  <div class="mk-identity-rule" aria-hidden="true"></div>
+
+  <ul class="mk-identity-swatches bays" data-reveal-stagger>
+    {
+      swatches.map((s, i) => {
+        if (!s.src) return null;
+        const img = resolveImage(s.src);
+        return (
+          <li class="mk-identity-swatch">
+            <span class="mk-identity-connector" aria-hidden="true"></span>
+            <button
+              type="button"
+              class="mk-swatch-trigger"
+              data-lightbox
+              data-lightbox-group={`${slug}:${group}`}
+              data-lightbox-src={img.full}
+              data-lightbox-alt={s.name}
+              aria-label={`Open full size: ${s.name || `swatch ${i + 1}`}`}
+            >
+              <img
+                src={img.displaySrc}
+                data-full={img.full}
+                alt=""
+                width={img.w}
+                height={img.h}
+                loading="lazy"
+                decoding="async"
+              />
+            </button>
+            <span class="t-label mk-identity-name">{s.name}</span>
+            <span class="t-small mk-identity-patterns">{s.patterns}</span>
+          </li>
+        );
+      })
+    }
+  </ul>
+</figure>
+
+<style>
+  .mk-identity {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-6);
+  }
+
+  /* Frame's host carries Frame's scope id — reach it via :global(). */
+  .mk-identity :global(.mk-identity-logo) {
+    padding: var(--sp-6);
+    background: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .mk-identity :global(.mk-identity-logo) img {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+  }
+
+  /* The connector ticks hang straight off this rule (cancel the flex gap),
+   * so each swatch reads as wired to the wordmark like the legacy diagram. */
+  .mk-identity-rule {
+    margin-bottom: calc(var(--sp-6) * -1);
+    height: 1px;
+    background: var(--line);
+  }
+
+  .mk-identity-swatches {
+    row-gap: var(--sp-5);
+  }
+
+  /* One bay (phones): pair the four swatches two-up rather than a long
+   * single file — still a strict two-column split of the bay. */
+  @media (max-width: 767px) {
+    .mk-identity-swatches {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .mk-identity-swatch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--sp-2);
+    text-align: center;
+  }
+
+  .mk-identity-connector {
+    width: 1px;
+    height: var(--sp-6);
+    background: var(--line-strong);
+  }
+
+  .mk-swatch-trigger {
+    display: block;
+    width: 96px;
+    height: 96px;
+    max-width: 100%;
+    cursor: zoom-in;
+    background: var(--paper-2);
+  }
+
+  .mk-swatch-trigger:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: -3px;
+  }
+
+  .mk-swatch-trigger img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .mk-identity-name {
+    color: var(--ink);
+  }
+
+  .mk-identity-patterns {
+    color: var(--ink-2);
+  }
+</style>

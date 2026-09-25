@@ -70,6 +70,8 @@ export interface MediaItem extends Src {
   items?: MediaItem[];
   captions?: string[];
   html?: string;
+  /** Per-item copy a legacy thumb-switcher wrote on click (build_content.py). */
+  stateText?: string[];
   _raw_html?: string;
   _todo?: true;
 }

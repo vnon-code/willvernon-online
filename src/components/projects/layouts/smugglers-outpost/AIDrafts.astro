@@ -1,0 +1,230 @@
+---
+/**
+ * smugglers-outpost step "Concept Prompt Engineering & AI Generation"
+ * (D-brutalist-grid.md §5.7): the legacy "dune-gallery-container" variant
+ * for this step was the same dark single-stage/thumbnail-row pattern as
+ * step 0, swapping one Stable Diffusion draft image per click. This redraws
+ * it as a bay-aligned wall of ruled Frames — all six drafts visible at
+ * once, a horizontal scroll-snap strip below 768, a 3-up bay grid at and
+ * above it (drafts read as square inference tiles, not landscape stills).
+ *
+ * media.items[] (legacy DOM order): [0] the stage's initial image (a
+ * duplicate of [1], the legacy markup's "active" state before any thumb is
+ * clicked; its alt is the fuller "Stable Diffusion Concept Draft" string,
+ * kept as a hidden parity marker rather than shown as a second copy of the
+ * same tile); [1]-[6] the six inference drafts. media.captions[] is the
+ * legacy header row (section tag, initial thumb label) plus the initial
+ * stage's HUD tag, shown verbatim as a plain label on the matching first
+ * cell. All parsed out of _raw_html by build_content.py's parse_media_blob
+ * — see CaseMedia.astro's header comment.
+ */
+import type { MediaItem } from '../../../../content';
+import Frame from '../../../grid/Frame.astro';
+import { resolveImage } from '../../media';
+
+interface Props {
+  media: MediaItem;
+  slug: string;
+  group: string;
+}
+
+const { media, slug, group } = Astro.props;
+const items = media.items ?? [];
+const captions = media.captions ?? [];
+
+const dupe = items[0];
+const wall = items.slice(1).filter((it) => it.type === 'image' && it.src);
+// Each thumb's own label/tag pair (item.stateText, derived in
+// build_content.py from its legacy onclick) is shown on its cell. The
+// header's right-hand caption and the stage tag equal the first cell's
+// pair, so they're shown there rather than twice.
+const first = wall[0]?.stateText ?? [];
+const headB = captions[1] && captions[1] !== first[0] ? captions[1] : null;
+const stageTag = captions[2] && captions[2] !== first[1] ? captions[2] : null;
+---
+
+<figure class="ad" data-media-type="group" data-legacy-media-type="svg">
+  {
+    (captions[0] || headB) && (
+      <div class="ad-head">
+        {captions[0] && <span class="t-label ad-head-a">{captions[0]}</span>}
+        {headB && <span class="t-label ad-head-b">{headB}</span>}
+      </div>
+    )
+  }
+
+  <ul class="ad-wall" data-reveal-stagger>
+    {
+      wall.map((it, i) => {
+        const img = resolveImage(it.src!);
+        const legacySrc = img.full.replace(/^\//, '');
+        const legacy = it.alt ? `src=${legacySrc} alt=${it.alt}` : `src=${legacySrc}`;
+        const [label, tag] = it.stateText ?? [];
+        return (
+          <li class="ad-cell" data-reveal="rise">
+            <Frame as="div" class="ad-frame">
+              <button
+                type="button"
+                class="ad-trigger"
+                data-lightbox
+                data-lightbox-group={`${slug}:${group}`}
+                data-lightbox-src={img.full}
+                data-lightbox-alt={it.alt ?? ''}
+                data-mediasrc={legacy}
+                aria-label={`Open full size: ${it.alt ?? `draft ${i + 1}`}`}
+              >
+                <img
+                  src={img.displaySrc}
+                  data-full={img.full}
+                  alt={it.alt ?? ''}
+                  width={img.w}
+                  height={img.h}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </button>
+            </Frame>
+            <div class="ad-meta">
+              <span class="t-label ad-label">{label ?? it.alt}</span>
+              {(tag || (i === 0 && stageTag)) && (
+                <span class="t-small ad-tag">{tag ?? stageTag}</span>
+              )}
+            </div>
+          </li>
+        );
+      })
+    }
+  </ul>
+
+  {
+    dupe?.src && dupe.alt && (
+      <span
+        class="sr-only"
+        data-mediasrc={`src=${dupe.src.replace(/^\//, '')} alt=${dupe.alt}`}
+        aria-hidden="true"
+      />
+    )
+  }
+</figure>
+
+<style>
+  .ad {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+
+  .ad-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    padding-bottom: var(--sp-2);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .ad-head-a {
+    color: var(--ink-2);
+  }
+
+  .ad-head-b {
+    color: var(--ink);
+  }
+
+  .ad-wall {
+    display: flex;
+    gap: 1px;
+    background: var(--line);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--sp-2);
+    scrollbar-width: thin;
+  }
+
+  .ad-cell {
+    flex: 0 0 56%;
+    max-width: 56%;
+    scroll-snap-align: start;
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+    padding-inline: var(--sp-2);
+  }
+
+  .ad-frame {
+    background: var(--paper-2);
+  }
+
+  .ad-trigger {
+    display: block;
+    width: 100%;
+    cursor: zoom-in;
+  }
+
+  .ad-trigger:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: -3px;
+  }
+
+  .ad-trigger img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  .ad-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-block: var(--sp-1) var(--sp-2);
+  }
+
+  .ad-label {
+    color: var(--ink);
+  }
+
+  .ad-tag {
+    color: var(--ink-2);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (min-width: 768px) {
+    .ad-wall {
+      display: grid;
+      grid-template-columns: repeat(min(2, var(--bays)), 1fr);
+      gap: var(--g);
+      overflow: visible;
+      background: none;
+      padding-bottom: 0;
+    }
+
+    .ad-cell {
+      flex: initial;
+      max-width: none;
+      padding-inline: 0;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .ad-wall {
+      grid-template-columns: repeat(min(3, var(--bays)), 1fr);
+    }
+  }
+</style>

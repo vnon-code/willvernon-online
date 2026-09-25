@@ -1,0 +1,216 @@
+---
+/**
+ * amplified-spaces step "Exhibition Gallery" (D-brutalist-grid.md §5.7): the
+ * legacy "as-gallery-container" was a dark tabbed preview — one big stage
+ * image swapped by six onclick thumbnail buttons grouped into three coloured
+ * "wings" (B17 / Fading Away / Onjuku), each wing showing two renders. This
+ * redraws it as a bay-aligned gallery of three wings, every render visible
+ * at once instead of five hidden behind a click — the biggest of the 19
+ * legacy mockup groups (13 KB of _raw_html).
+ *
+ * media.items[] (legacy DOM order): [0] the stage's initial image (B17
+ * Render 1 — a duplicate of [1], the legacy markup's "active" state before
+ * any thumb is clicked, kept only as a hidden parity marker); [1]-[6] the
+ * six wing renders, two per wing in DOM order (B17, Fading Away, Onjuku).
+ * media.captions[] is the legacy header row (section tag, initial active
+ * label) plus the initial stage's HUD tag, shown verbatim as plain labels.
+ * All parsed out of _raw_html by build_content.py's parse_media_blob — see
+ * CaseMedia.astro's header comment.
+ */
+import type { MediaItem } from '../../../../content';
+import Frame from '../../../grid/Frame.astro';
+import { resolveImage } from '../../media';
+
+interface Props {
+  media: MediaItem;
+  slug: string;
+  group: string;
+}
+
+const { media, slug, group } = Astro.props;
+const items = media.items ?? [];
+const captions = media.captions ?? [];
+
+const dupe = items[0];
+const wall = items.slice(1).filter((it) => it.type === 'image' && it.src);
+
+// The legacy markup grouped its six thumbs into three coloured "wings"
+// (wingA/wingB/wingC classes), two renders each, in DOM order — reproduced
+// here by chunking rather than hand-typing three arrays.
+const wingName = (alt?: string | null) => (alt ?? '').replace(/\s*\d+\s*Thumb$/i, '').trim();
+const wings: { name: string; items: typeof wall }[] = [];
+for (let i = 0; i < wall.length; i += 2) {
+  const pair = wall.slice(i, i + 2);
+  wings.push({ name: wingName(pair[0]?.alt), items: pair });
+}
+---
+
+<figure class="eg" data-media-type="group" data-legacy-media-type="svg">
+  {
+    (captions[0] || captions[1]) && (
+      <div class="eg-head">
+        {captions[0] && <span class="t-label eg-head-a">{captions[0]}</span>}
+        {captions[1] && <span class="t-label eg-head-b">{captions[1]}</span>}
+      </div>
+    )
+  }
+
+  <div class="eg-wings" data-reveal-stagger>
+    {
+      wings.map((wing, wi) => (
+        <div class="eg-wing" data-reveal="rise">
+          {wing.name && <h4 class="t-h3 eg-wing-label">{wing.name}</h4>}
+          <div class="eg-wing-renders">
+            {wing.items.map((it, ii) => {
+              const img = resolveImage(it.src!);
+              const legacySrc = img.full.replace(/^\//, '');
+              const legacy = it.alt ? `src=${legacySrc} alt=${it.alt}` : `src=${legacySrc}`;
+              // Each thumb's own authored stage tag (legacy HUD line, verbatim).
+              const tag = it.stateText?.[1] ?? (wi === 0 && ii === 0 ? captions[2] : undefined) ?? it.alt;
+              return (
+                <div class="eg-cell">
+                  <Frame as="div" class="eg-frame">
+                    <button
+                      type="button"
+                      class="eg-trigger"
+                      data-lightbox
+                      data-lightbox-group={`${slug}:${group}`}
+                      data-lightbox-src={img.full}
+                      data-lightbox-alt={it.alt ?? ''}
+                      data-mediasrc={legacy}
+                      aria-label={`Open full size: ${it.alt ?? `render ${ii + 1}`}`}
+                    >
+                      <img
+                        src={img.displaySrc}
+                        data-full={img.full}
+                        alt={it.alt ?? ''}
+                        width={img.w}
+                        height={img.h}
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </button>
+                  </Frame>
+                  <span class="t-small eg-tag">{tag}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+
+  {
+    dupe?.src && dupe.alt && (
+      <span
+        class="sr-only"
+        data-mediasrc={`src=${dupe.src.replace(/^\//, '')} alt=${dupe.alt}`}
+        aria-hidden="true"
+      />
+    )
+  }
+</figure>
+
+<style>
+  .eg {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-5);
+  }
+
+  .eg-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    padding-bottom: var(--sp-2);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eg-head-a {
+    color: var(--ink-2);
+  }
+
+  .eg-head-b {
+    color: var(--ink);
+  }
+
+  .eg-wings {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--sp-6);
+  }
+
+  .eg-wing {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+  }
+
+  .eg-wing-label {
+    color: var(--ink);
+    padding-bottom: var(--sp-2);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .eg-wing-renders {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+
+  .eg-cell {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+  }
+
+  .eg-cell :global(.eg-frame) {
+    background: var(--paper-2);
+  }
+
+  .eg-trigger {
+    display: block;
+    width: 100%;
+    padding: 0;
+    cursor: zoom-in;
+  }
+
+  .eg-trigger:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: -3px;
+  }
+
+  .eg-trigger img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+  }
+
+  .eg-tag {
+    color: var(--ink-2);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  @media (min-width: 768px) {
+    .eg-wings {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--g);
+    }
+  }
+</style>

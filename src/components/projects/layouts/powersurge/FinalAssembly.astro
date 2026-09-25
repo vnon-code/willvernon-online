@@ -1,0 +1,75 @@
+---
+/**
+ * powersurge step "Final Audio-Visual Assembly" (D-brutalist-grid.md §5.7):
+ * the legacy block was a single embedded YouTube iframe, autoplaying and
+ * looped. This redraws it as a full-width cinematic Frame with a
+ * click-to-load facade (case-study.ts's initEmbedFacades — the embed never
+ * loads up front), replacing the nested one-cell grid the generic group
+ * renderer would otherwise wrap a single iframe item in.
+ */
+import type { MediaItem } from '../../../../content';
+import Frame from '../../../grid/Frame.astro';
+import Icon from '../../../Icon.astro';
+
+interface Props {
+  media: MediaItem;
+  slug: string;
+  group: string;
+}
+
+const { media } = Astro.props;
+const item = (media.items ?? []).find((it) => it.type === 'iframe' && it.src);
+---
+
+{
+  item?.src && (
+    <figure class="fa" data-media-type="group" data-legacy-media-type="svg">
+      <Frame as="div" class="fa-frame">
+        <div
+          class="fa-embed"
+          data-cs-embed
+          data-cs-embed-src={item.src}
+          data-cs-embed-title={item.title ?? ''}
+          data-mediasrc={item.title ? `src=${item.src} title=${item.title}` : `src=${item.src}`}
+        >
+          <button type="button" class="btn fa-embed-btn" data-cs-embed-btn>
+            <Icon name="arrow" size={16} class="icon-arrow" />
+            {item.title ?? 'Play video'}
+          </button>
+        </div>
+      </Frame>
+    </figure>
+  )
+}
+
+<style>
+  .fa {
+    display: block;
+  }
+
+  .fa :global(.fa-frame) {
+    background: var(--ink-ground);
+  }
+
+  .fa-embed {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ink-ground);
+  }
+
+  .fa-embed :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .fa-embed-btn {
+    position: relative;
+    z-index: 1;
+  }
+</style>

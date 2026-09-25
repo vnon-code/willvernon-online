@@ -1,0 +1,160 @@
+---
+/**
+ * marimekko-exhibition step "Billboard Mock Ups" — a bespoke mockup layout
+ * (D-brutalist-grid.md §5.7). Same legacy single-frame JS-swapper pattern as
+ * "The Posters" (see that component's header comment), now for the four
+ * Vernon_GDES50014_billboard PNGs — each 20-22 MB. media.ts's resolveImage
+ * always swaps in the pre-baked derived webp (200-380 KB,
+ * src/data/media.json) for the displayed <img src>; the 20+ MB original is
+ * kept only as `data-full` / the Lightbox's full-size target, and is never
+ * requested on first view. media.items[0]/[1] share one URL (billboard 1's
+ * default preview + its own "Thumb" alt), deduped by src below and kept
+ * reachable as a sr-only mirror carrying its own `data-mediasrc` — the
+ * exact "src=<url> alt=<alt>" shape extract_content.py recorded for it
+ * (INVENTORY projects.js.328-332), same as CaseMedia.astro's generic group
+ * renderer emits for every other case study's nested cells.
+ * media.captions[0] is the legacy "MOCKUP_01 // Exterior Facade" tag (kept
+ * verbatim, restyled per CLAUDE.md as a plain label), which named billboard
+ * 1's default state, so it's shown under that one billboard only.
+ */
+import type { MediaItem } from '../../../../content';
+import Frame from '../../../grid/Frame.astro';
+import { resolveImage } from '../../media';
+
+interface Props {
+  media: MediaItem;
+  slug: string;
+  group: string;
+}
+
+const { media, slug, group } = Astro.props;
+const items = media.items ?? [];
+const captions = media.captions ?? [];
+const mockupTag = captions[0] ?? '';
+
+const legacyMediaSrc = (fullUrl: string, alt: string | null | undefined) => {
+  const legacySrc = fullUrl.replace(/^\//, '');
+  return alt ? `src=${legacySrc} alt=${alt}` : `src=${legacySrc}`;
+};
+
+const seen = new Set<string>();
+const billboards: typeof items = [];
+const duplicates: typeof items = [];
+for (const it of items) {
+  if (!it.src) continue;
+  if (seen.has(it.src)) {
+    duplicates.push(it);
+    continue;
+  }
+  seen.add(it.src);
+  billboards.push(it);
+}
+---
+
+<ul class="mk-billboards bays" data-media-type="group" data-legacy-media-type="svg" data-reveal-stagger>
+  {
+    billboards.map((it, i) => {
+      const img = resolveImage(it.src!);
+      const label = (it.alt ?? '').replace(/\s*Thumb$/i, '');
+      return (
+        <li class="mk-billboard-cell">
+          <Frame as="figure" class="mk-billboard">
+            <button
+              type="button"
+              class="mk-billboard-trigger"
+              data-lightbox
+              data-lightbox-group={`${slug}:${group}`}
+              data-lightbox-src={img.full}
+              data-lightbox-alt={it.alt ?? ''}
+              data-mediasrc={legacyMediaSrc(img.full, it.alt)}
+              aria-label={`Open full size: ${it.alt ?? label}`}
+            >
+              <img
+                src={img.displaySrc}
+                data-full={img.full}
+                alt={it.alt ?? ''}
+                width={img.w}
+                height={img.h}
+                loading="lazy"
+                decoding="async"
+              />
+            </button>
+            <figcaption class="mk-billboard-caption">
+              <span class="t-label">{label}</span>
+              {i === 0 && mockupTag && <span class="t-small mk-billboard-tag">{mockupTag}</span>}
+            </figcaption>
+          </Frame>
+        </li>
+      );
+    })
+  }
+</ul>
+
+{
+  // The legacy markup's own re-pointed thumbnail: same image, a second
+  // "Thumb" alt (INVENTORY parity only — the visible billboard above
+  // already shows this image with its more descriptive alt).
+  duplicates.map((it) => {
+    const img = resolveImage(it.src!);
+    return (
+      <span class="sr-only" data-mediasrc={legacyMediaSrc(img.full, it.alt)}>
+        {it.alt}
+      </span>
+    );
+  })
+}
+
+<style>
+  .mk-billboards {
+    row-gap: var(--sp-6);
+  }
+
+  /* Equal-height frames across a row (the first one carries the legacy tag). */
+  .mk-billboards > li {
+    display: flex;
+  }
+
+  .mk-billboard-cell {
+    grid-column: span min(2, var(--bays));
+  }
+
+  /* Frame's host carries Frame's scope id — reach it via :global(). */
+  .mk-billboards :global(.mk-billboard) {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    padding: var(--sp-3);
+    background: var(--paper);
+  }
+
+  .mk-billboard-trigger {
+    display: block;
+    width: 100%;
+    cursor: zoom-in;
+  }
+
+  .mk-billboard-trigger:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: -3px;
+  }
+
+  .mk-billboard-trigger img {
+    width: 100%;
+    display: block;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    background: var(--paper-2);
+  }
+
+  .mk-billboard-caption {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+  }
+
+  .mk-billboard-tag {
+    color: var(--ink-2);
+  }
+</style>

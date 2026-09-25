@@ -1,0 +1,18 @@
+---
+/**
+ * the-world-plays-here — Responsive Multi-Device Adaptations (step 05). The legacy stage + thumbnail-switcher
+ * mockup, redrawn as a ruled stage-and-wall grid: see MockupWall.astro.
+ */
+import type { MediaItem } from '../../../../content';
+import MockupWall from './MockupWall.astro';
+
+interface Props {
+  media: MediaItem;
+  slug: string;
+  group: string;
+}
+
+const { media, slug, group } = Astro.props;
+---
+
+<MockupWall media={media} slug={slug} group={group} />

@@ -1,0 +1,207 @@
+---
+/**
+ * the-world-plays-here step "AE Compositing & Outcomes" (D-brutalist-grid.md
+ * §5.7): the legacy "xbox-out-container" was a dark tabbed preview (cinematic
+ * video / logo-loop gif, switched by two onclick thumb buttons over a single
+ * <video>/<img> pair). This redraws it as two Frames sitting side by side on
+ * the bays instead of a tab switcher — the cinematic outcome large, the
+ * isolated logo loop beside it — so both are always visible and reachable
+ * with JS off, rather than one being hidden behind a click.
+ *
+ * media.items[] (legacy DOM order): [0] the tab switcher's second <img> slot,
+ * empty until clicked (no src, alt="Campaign Outcomes" only — kept as a
+ * parity marker, nothing to render); [1] the gif tab (LogoAnimGif.gif,
+ * played back as a muted looping video, matching CaseMedia.astro's own
+ * single-image gif branch); [2]/[3] the same cinematic mp4 extracted twice
+ * (the big <video> plus its own thumbnail <video>) — rendered once, with a
+ * hidden marker carrying the duplicate's literal legacy string. All parsed
+ * out of _raw_html by build_content.py's parse_media_blob — see
+ * CaseMedia.astro's header comment.
+ */
+import type { MediaItem } from '../../../../content';
+import Frame from '../../../grid/Frame.astro';
+import { resolveVideo, resolveGifVideo, hasGifVideo } from '../../media';
+
+interface Props {
+  media: MediaItem;
+  slug: string;
+  group: string;
+}
+
+const { media } = Astro.props;
+const items = media.items ?? [];
+const captions = media.captions ?? [];
+
+const placeholder = items.find((it) => it.type === 'image' && !it.src);
+const gifItem = items.find((it) => it.type === 'image' && it.src && hasGifVideo(it.src));
+const videoItem = items.find((it) => it.type === 'video' && it.src);
+const dupeVideoLegacy = videoItem?.src ? `src=['${videoItem.src}']` : '';
+
+const vidText = videoItem?.stateText ?? [];
+const gifText = gifItem?.stateText ?? [];
+// captions[1]/[2] are the stage's initial header/HUD strings = the cinematic
+// thumb's own stateText; show them once, on the cinematic cell.
+const headB = captions[1] && captions[1] !== vidText[0] ? captions[1] : null;
+const vidLabel = vidText[0] ?? null;
+const vidTag = vidText[1] ?? captions[2] ?? null;
+
+const vid = videoItem?.src ? resolveVideo(videoItem.src) : null;
+const gif = gifItem?.src ? resolveGifVideo(gifItem.src) : null;
+---
+
+<figure class="or" data-media-type="group" data-legacy-media-type="svg">
+  {
+    (captions[0] || headB) && (
+      <div class="or-head">
+        {captions[0] && <span class="t-label or-head-a">{captions[0]}</span>}
+        {headB && <span class="t-label or-head-b">{headB}</span>}
+      </div>
+    )
+  }
+
+  <div class="or-grid bays">
+    {
+      videoItem?.src && vid && (
+        <div class="span-3 or-cell" data-reveal="rise">
+          <Frame as="div" class="or-frame">
+            <video
+              data-cs-video
+              data-cs-src={videoItem.src}
+              data-mediasrc={dupeVideoLegacy}
+              poster={vid.poster ?? undefined}
+              width={vid.w}
+              height={vid.h}
+              controls
+              muted
+              loop
+              playsinline
+              preload="none"
+            />
+          </Frame>
+          <div class="or-meta">
+            {vidLabel && <span class="t-label or-label">{vidLabel}</span>}
+            {vidTag && <span class="t-small or-tag">{vidTag}</span>}
+          </div>
+          {/* The duplicate <video> the legacy thumbnail also carried
+           * (projects.js.443): same URL, no separate render needed. */}
+          <span class="sr-only" data-mediasrc={dupeVideoLegacy} aria-hidden="true" />
+        </div>
+      )
+    }
+
+    {
+      gifItem?.src && gif && (
+        <div class="span-1 or-cell or-gif" data-reveal="rise">
+          <Frame as="div" class="or-frame">
+            <video
+              data-cs-video
+              data-cs-src={gif.webm}
+              data-full={gifItem.src}
+              data-mediasrc={`src=${gifItem.src.replace(/^\//, '')} alt=${gifItem.alt ?? ''}`}
+              aria-label={gifItem.alt ?? undefined}
+              poster={gif.poster}
+              width={gif.w}
+              height={gif.h}
+              muted
+              loop
+              playsinline
+              preload="none"
+            />
+          </Frame>
+          <div class="or-meta">
+            <span class="t-label or-label">{gifText[0] ?? gifItem.alt}</span>
+            {gifText[1] && <span class="t-small or-tag">{gifText[1]}</span>}
+          </div>
+        </div>
+      )
+    }
+  </div>
+
+  {
+    placeholder?.alt && (
+      // The legacy tab's empty second image slot before the visitor ever
+      // clicked it — no image to show, only its alt text is real content.
+      <span class="sr-only" data-mediasrc={`alt=${placeholder.alt}`} aria-hidden="true" />
+    )
+  }
+</figure>
+
+<style>
+  .or {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+
+  .or-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    padding-bottom: var(--sp-2);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .or-head-a {
+    color: var(--ink-2);
+  }
+
+  .or-head-b {
+    color: var(--ink);
+  }
+
+  .or-grid {
+    row-gap: var(--sp-5);
+    align-items: start;
+  }
+
+  .or-cell {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+
+  .or-cell > :global(.or-frame) {
+    background: var(--ink-ground);
+  }
+
+  .or-cell video {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  /* One bay at < 768 is the full column: keep the square loop from
+   * towering over the cinematic cut above it. */
+  @media (max-width: 767.98px) {
+    .or-gif {
+      width: 66%;
+    }
+  }
+
+  .or-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .or-label {
+    color: var(--ink);
+  }
+
+  .or-tag {
+    color: var(--ink-2);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>

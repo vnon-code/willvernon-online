@@ -1,0 +1,284 @@
+---
+/**
+ * Shared body of OOHWall + DeviceGrid (the-world-plays-here steps 04/05).
+ * The legacy "xbox-ooh/dev-container" was one large stage (image + HUD tag)
+ * over a thumbnail row whose onclick swapped the stage image and rewrote the
+ * header/HUD copy. Redrawn statically: the first execution IS the stage
+ * (2×2 cells at ≥1024, full row at 768), every other execution sits beside /
+ * below it as an equal 4:3 ruled cell, and each cell carries the header +
+ * HUD copy its legacy thumb used to write on click (item.stateText, derived
+ * in build_content.py) — so all of it is visible with JS off. Empty grid
+ * slots are drawn as blank ruled cells so the wall reads as a complete grid.
+ * Below 768: a horizontal scroll-snap strip with ruled dividers.
+ *
+ * items[0] is the legacy stage's initial <img> (a duplicate of items[1]),
+ * kept only as a hidden parity marker. captions[1]/[2] (the stage's initial
+ * header/HUD strings) equal items[1].stateText, so they are shown there
+ * rather than twice.
+ */
+import type { MediaItem } from '../../../../content';
+import Frame from '../../../grid/Frame.astro';
+import { resolveImage } from '../../media';
+
+interface Props {
+  media: MediaItem;
+  slug: string;
+  group: string;
+}
+
+const { media, slug, group } = Astro.props;
+const items = media.items ?? [];
+const captions = media.captions ?? [];
+
+const dupe = items[0];
+const wall = items.slice(1).filter((it) => it.type === 'image' && it.src);
+const n = wall.length;
+const first = wall[0]?.stateText ?? [];
+// Header right-hand caption / stage tag are the first cell's own copy.
+const headB = captions[1] && captions[1] !== first[0] ? captions[1] : null;
+const stageTag = captions[2] && captions[2] !== first[1] ? captions[2] : null;
+// Blank ruled cells that complete the last row: 3 cols (feature = 4 cells),
+// 2 cols (feature = 2 cells).
+const fill3 = (3 - ((n + 3) % 3)) % 3;
+const fill2 = (n + 1) % 2;
+const fills = Array.from({ length: Math.max(fill3, fill2) }, (_, i) => ({
+  c3: i < fill3,
+  c2: i < fill2,
+}));
+---
+
+<figure class="mw" data-media-type="group" data-legacy-media-type="svg">
+  {
+    (captions[0] || headB) && (
+      <div class="mw-head">
+        {captions[0] && <span class="t-label mw-head-a">{captions[0]}</span>}
+        {headB && <span class="t-label mw-head-b">{headB}</span>}
+      </div>
+    )
+  }
+
+  <ul class="mw-grid" data-reveal-stagger>
+    {
+      wall.map((it, i) => {
+        const img = resolveImage(it.src!);
+        const legacySrc = img.full.replace(/^\//, '');
+        const legacy = it.alt ? `src=${legacySrc} alt=${it.alt}` : `src=${legacySrc}`;
+        const [label, tag] = it.stateText ?? [];
+        return (
+          <li class:list={['mw-cell', { 'mw-feature': i === 0 }]} data-reveal="rise">
+            <Frame as="div" class="mw-frame">
+              <button
+                type="button"
+                class="mw-trigger"
+                data-lightbox
+                data-lightbox-group={`${slug}:${group}`}
+                data-lightbox-src={img.full}
+                data-lightbox-alt={it.alt ?? ''}
+                data-mediasrc={legacy}
+                aria-label={`Open full size: ${it.alt ?? `image ${i + 1}`}`}
+              >
+                <img
+                  src={img.displaySrc}
+                  data-full={img.full}
+                  alt={it.alt ?? ''}
+                  width={img.w}
+                  height={img.h}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </button>
+            </Frame>
+            <div class="mw-meta">
+              <span class="t-label mw-label">{label ?? it.alt}</span>
+              {(tag || (i === 0 && stageTag)) && (
+                <span class="t-small mw-tag">{tag ?? stageTag}</span>
+              )}
+            </div>
+          </li>
+        );
+      })
+    }
+    {
+      fills.map((f) => (
+        <li
+          class:list={['mw-fill', { 'mw-fill-3': f.c3, 'mw-fill-2': f.c2 }]}
+          aria-hidden="true"
+        />
+      ))
+    }
+  </ul>
+
+  {
+    dupe?.src && dupe.alt && (
+      <span
+        class="sr-only"
+        data-mediasrc={`src=${dupe.src.replace(/^\//, '')} alt=${dupe.alt}`}
+        aria-hidden="true"
+      />
+    )
+  }
+</figure>
+
+<style>
+  .mw {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+
+  .mw-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    padding-bottom: var(--sp-2);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .mw-head-a {
+    color: var(--ink-2);
+  }
+
+  /* < 768: ruled horizontal scroll-snap strip. */
+  .mw-grid {
+    display: flex;
+    gap: 1px;
+    background: var(--line);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    padding-bottom: var(--sp-2);
+    scrollbar-width: thin;
+  }
+
+  .mw-cell {
+    flex: 0 0 78%;
+    max-width: 78%;
+    scroll-snap-align: start;
+    background: var(--paper);
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+    padding-inline: var(--sp-2);
+  }
+
+  .mw-fill {
+    display: none;
+  }
+
+  .mw-cell > :global(.mw-frame) {
+    background: var(--paper-2);
+  }
+
+  .mw-trigger {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    padding: 0;
+    cursor: zoom-in;
+  }
+
+  .mw-trigger:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: -3px;
+  }
+
+  .mw-trigger img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .mw-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-bottom: var(--sp-2);
+  }
+
+  .mw-label {
+    align-self: flex-start;
+    color: var(--ink);
+    padding-inline: 2px;
+    margin-inline: -2px;
+  }
+
+  .mw-tag {
+    color: var(--ink-2);
+  }
+
+  /* State (yellow) only on the cell being pointed at / focused — the
+   * legacy thumb row's "active" highlight, now a hover/focus state. */
+  .mw-cell:hover .mw-label,
+  .mw-cell:focus-within .mw-label {
+    background: var(--state);
+  }
+
+  @media (min-width: 768px) {
+    .mw-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--g);
+      overflow: visible;
+      background: none;
+      padding-bottom: 0;
+    }
+
+    .mw-cell {
+      flex: initial;
+      max-width: none;
+      padding-inline: 0;
+    }
+
+    .mw-feature {
+      grid-column: span 2;
+    }
+
+    .mw-fill-2 {
+      display: block;
+      border: 1px solid var(--line);
+      margin-bottom: var(--sp-2);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .mw-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .mw-feature {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+
+    /* The stage fills its 2×2 area; the image stays contained. */
+    .mw-feature > :global(.mw-frame) {
+      flex: 1 1 auto;
+      min-height: 0;
+      display: flex;
+    }
+
+    .mw-feature .mw-trigger {
+      position: relative;
+      aspect-ratio: auto;
+      flex: 1 1 auto;
+      min-height: 0;
+    }
+
+    .mw-feature .mw-trigger img {
+      position: absolute;
+      inset: 0;
+    }
+
+    .mw-fill-2 {
+      display: none;
+    }
+
+    .mw-fill-3 {
+      display: block;
+      border: 1px solid var(--line);
+      margin-bottom: var(--sp-2);
+    }
+  }
+</style>

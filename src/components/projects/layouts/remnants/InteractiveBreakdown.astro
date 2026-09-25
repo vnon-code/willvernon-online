@@ -1,0 +1,242 @@
+---
+/**
+ * remnants step "Interactive After Effects Space" (D-brutalist-grid.md
+ * §5.7): the legacy ".interactive-breakdown-container" let a visitor drag
+ * five glyph fragments (rings, stem, wings, bar) around a full-bleed desert
+ * scene to reconstruct the character — a client-side drag interaction this
+ * rebuild does not reimplement (static-hostable, no WebGL/canvas per the
+ * brief). This redraws it as the exploded diagram itself: the same scene
+ * (breakdown6.jpeg) with the five fragments held at their authored resting
+ * positions (the legacy inline left/top/width/height percentages, carried
+ * over verbatim), each one a lightbox trigger with its own hover label — a
+ * faithful "read" of what dragging revealed, not a reimplementation of the
+ * drag.
+ *
+ * media.items[] (legacy DOM order): the five draggable fragments (Left Ring,
+ * Right Ring, Stem & Hook, Right Wings, Top Bar). media.captions[] is the
+ * legacy HUD instruction line plus the reset-drag button's label, shown
+ * verbatim as plain labels — there's no live drag/reset state to attach a
+ * real button to, so neither is rendered as one. The scene background
+ * (breakdown6.jpeg) was a CSS background-image in the legacy markup, never
+ * an <img>, and isn't tracked as its own INVENTORY item; it's rendered here
+ * for visual fidelity only, with an empty alt (the five fragments below
+ * carry the real content). All parsed out of _raw_html by
+ * build_content.py's parse_media_blob — see CaseMedia.astro's header
+ * comment.
+ */
+import type { MediaItem } from '../../../../content';
+import Frame from '../../../grid/Frame.astro';
+import { resolveImage } from '../../media';
+
+interface Props {
+  media: MediaItem;
+  slug: string;
+  group: string;
+}
+
+const { media, slug, group } = Astro.props;
+const items = (media.items ?? []).filter((it) => it.type === 'image' && it.src);
+const captions = media.captions ?? [];
+
+// Authored resting position from the legacy inline styles (percent of the
+// stage), carried over verbatim rather than re-measured.
+const POSITIONS: Record<string, { left: number; top: number; width: number; height: number }> = {
+  'Left Ring': { left: 15, top: 20, width: 6.45, height: 11.57 },
+  'Right Ring': { left: 80, top: 20, width: 6.61, height: 11.57 },
+  'Stem & Hook': { left: 30, top: 35, width: 12.24, height: 49.35 },
+  'Right Wings': { left: 65, top: 40, width: 11.87, height: 25.56 },
+  'Top Bar': { left: 48, top: 15, width: 3.07, height: 21.2 },
+};
+
+const scene = resolveImage('/img/remnants/breakdown6.jpeg');
+---
+
+<figure class="ib" data-media-type="group" data-legacy-media-type="svg">
+  {
+    (captions[0] || captions[1]) && (
+      <div class="ib-head">
+        {captions[0] && <span class="t-label ib-head-a">{captions[0]}</span>}
+        {captions[1] && <span class="t-label ib-head-b">{captions[1]}</span>}
+      </div>
+    )
+  }
+
+  {/* The aspect-ratio/sizing lives on this plain wrapper, not on Frame's
+   * own root: a class handed into a child component doesn't carry this
+   * file's scoped-style attribute (only Frame.astro's own scope does), so a
+   * rule like `.ib-stage { aspect-ratio: … }` would never match if it
+   * targeted Frame's element directly. `display: grid` here makes Frame's
+   * box (the sole grid item) stretch to fill it with no selector on Frame
+   * needed at all. */}
+  <div class="ib-stage">
+    <Frame as="div" class="ib-stage-frame">
+      <img
+        class="ib-scene"
+        src={scene.displaySrc}
+        alt=""
+        width={scene.w}
+        height={scene.h}
+        loading="lazy"
+        decoding="async"
+      />
+      {
+        items.map((it, i) => {
+          const img = resolveImage(it.src!);
+          const legacySrc = img.full.replace(/^\//, '');
+          const legacy = it.alt ? `src=${legacySrc} alt=${it.alt}` : `src=${legacySrc}`;
+          const pos = POSITIONS[it.alt ?? ''];
+          return (
+            <button
+              type="button"
+              class="ib-piece"
+              data-lightbox
+              data-lightbox-group={`${slug}:${group}`}
+              data-lightbox-src={img.full}
+              data-lightbox-alt={it.alt ?? ''}
+              data-mediasrc={legacy}
+              data-label={it.alt ?? `fragment ${i + 1}`}
+              aria-label={`Open full size: ${it.alt ?? `fragment ${i + 1}`}`}
+              style={
+                pos ? `left:${pos.left}%; top:${pos.top}%; width:${pos.width}%; height:${pos.height}%;` : undefined
+              }
+            >
+              <img src={img.displaySrc} data-full={img.full} alt="" width={img.w} height={img.h} loading="lazy" decoding="async" />
+            </button>
+          );
+        })
+      }
+    </Frame>
+  </div>
+
+  {
+    items.length > 0 && (
+      <ul class="ib-legend">
+        {items.map((it) => (
+          <li class="t-small ib-legend-item">{it.alt}</li>
+        ))}
+      </ul>
+    )
+  }
+</figure>
+
+<style>
+  .ib {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+  }
+
+  .ib-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    padding-bottom: var(--sp-2);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .ib-head-a {
+    color: var(--ink-2);
+  }
+
+  .ib-head-b {
+    color: var(--ink);
+  }
+
+  .ib-stage {
+    display: grid;
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: var(--ink-ground);
+  }
+
+  .ib-scene {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.85;
+  }
+
+  .ib-piece {
+    position: absolute;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: zoom-in;
+  }
+
+  .ib-piece img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .ib-piece:focus-visible {
+    outline: 2px solid var(--on-ink);
+    outline-offset: 3px;
+  }
+
+  /* A quiet hover label, CSS-only (transform/opacity, D §3.5.1): the
+   * fragment's own name from its own data attribute, no JS text write. */
+  .ib-piece::after {
+    content: attr(data-label);
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 6px);
+    transform: translate(-50%, 4px);
+    white-space: nowrap;
+    background: var(--on-ink);
+    color: var(--ink-ground);
+    font-size: var(--fs-label);
+    padding: 2px 6px;
+    opacity: 0;
+    pointer-events: none;
+    transition:
+      opacity var(--dur-hover) var(--ease-out),
+      transform var(--dur-hover) var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .ib-piece:hover::after,
+    .ib-piece:focus-visible::after {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    .ib-piece:hover img,
+    .ib-piece:focus-visible img {
+      transform: scale(1.08);
+    }
+  }
+
+  .ib-piece img {
+    transition: transform var(--dur-hover) var(--ease-out);
+  }
+
+  .ib-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2) var(--sp-4);
+  }
+
+  .ib-legend-item {
+    color: var(--ink-2);
+    position: relative;
+    padding-inline-start: var(--sp-3);
+  }
+
+  .ib-legend-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 6px;
+    height: 1px;
+    background: var(--ink-2);
+  }
+</style>

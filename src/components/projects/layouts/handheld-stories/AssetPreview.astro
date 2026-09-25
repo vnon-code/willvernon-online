@@ -1,0 +1,113 @@
+---
+/**
+ * handheld-stories step "Preparing Assets" (D-brutalist-grid.md §5.7): the
+ * legacy "process-media-grid" was a plain dark 2-column CSS grid, each
+ * column a small mono label over one square, rounded, cropped preview
+ * image (the rotoscoped outline and the isolated 3D wireframe scan used to
+ * build the digital-catalogue interface). This redraws it as two ruled
+ * Frames sitting directly on the bays — square, un-rounded, paper-toned —
+ * with the same plain label above each image, no other change: this is the
+ * case study's only bespoke group, so it stays exactly as simple as the
+ * source (two labelled stills side by side; two columns from the phone
+ * breakpoint up, since there are only ever two).
+ *
+ * media.items[] is the two preview images in legacy DOM order (Rotoscope,
+ * 3D scan); media.captions[] is their matching label pair, both parsed
+ * straight out of _raw_html by build_content.py's parse_media_blob — see
+ * CaseMedia.astro's header comment (no hand-typed copy).
+ */
+import type { MediaItem } from '../../../../content';
+import Frame from '../../../grid/Frame.astro';
+import { resolveImage } from '../../media';
+
+interface Props {
+  media: MediaItem;
+  slug: string;
+  group: string;
+}
+
+const { media, slug, group } = Astro.props;
+const items = media.items ?? [];
+const captions = media.captions ?? [];
+---
+
+<figure class="ap" data-media-type="group" data-legacy-media-type="svg">
+  <ul class="ap-grid" data-reveal-stagger>
+    {
+      items.map((it, i) => {
+        if (it.type !== 'image' || !it.src) return null;
+        const img = resolveImage(it.src);
+        const legacySrc = img.full.replace(/^\//, '');
+        const legacy = it.alt ? `src=${legacySrc} alt=${it.alt}` : `src=${legacySrc}`;
+        return (
+          <li class="ap-cell" data-reveal="rise">
+            {captions[i] && <span class="t-label ap-label">{captions[i]}</span>}
+            <Frame as="div" class="ap-frame">
+              <button
+                type="button"
+                class="ap-trigger"
+                data-lightbox
+                data-lightbox-group={`${slug}:${group}`}
+                data-lightbox-src={img.full}
+                data-lightbox-alt={it.alt ?? ''}
+                data-mediasrc={legacy}
+                aria-label={`Open full size: ${it.alt ?? `asset preview ${i + 1}`}`}
+              >
+                <img
+                  src={img.displaySrc}
+                  data-full={img.full}
+                  alt={it.alt ?? ''}
+                  width={img.w}
+                  height={img.h}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </button>
+            </Frame>
+          </li>
+        );
+      })
+    }
+  </ul>
+</figure>
+
+<style>
+  .ap-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--g);
+  }
+
+  .ap-cell {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+
+  .ap-label {
+    color: var(--ink-2);
+  }
+
+  .ap-frame {
+    background: var(--paper-2);
+  }
+
+  .ap-trigger {
+    display: block;
+    width: 100%;
+    cursor: zoom-in;
+  }
+
+  .ap-trigger:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: -3px;
+  }
+
+  .ap-trigger img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+</style>

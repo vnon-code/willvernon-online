@@ -1,0 +1,132 @@
+---
+/**
+ * remnants step "Fictional Alphabets in Glyphs" (D-brutalist-grid.md §5.7):
+ * the legacy ".process-media-grid" was a compact, centred 3x3 specimen sheet
+ * — each of the nine invented glyphs (Haa'sk, Cra'sk, …) directly over its
+ * own mono name. This redraws it as a bay-aligned glyph grid: the full type
+ * specimen sheet for William's invented script, one Frame per character,
+ * with a quiet CSS-only hover (the cell lifts and its name goes ink-strong)
+ * — no JS, matching the grid-line system's transform/opacity-only motion.
+ */
+import type { MediaItem } from '../../../../content';
+import Frame from '../../../grid/Frame.astro';
+import { resolveImage } from '../../media';
+
+interface Props {
+  media: MediaItem;
+  slug: string;
+  group: string;
+}
+
+const { media, slug, group } = Astro.props;
+const items = (media.items ?? []).filter((it) => it.type === 'image' && it.src);
+const captions = media.captions ?? [];
+---
+
+<figure class="gg" data-media-type="group" data-legacy-media-type="svg">
+  <ul class="gg-grid" data-reveal-stagger>
+    {
+      items.map((it, i) => {
+        const img = resolveImage(it.src!);
+        const legacySrc = img.full.replace(/^\//, '');
+        const legacy = it.alt ? `src=${legacySrc} alt=${it.alt}` : `src=${legacySrc}`;
+        return (
+          <li class="gg-cell" data-reveal="rise">
+            <Frame as="div" class="gg-frame">
+              <button
+                type="button"
+                class="gg-trigger"
+                data-lightbox
+                data-lightbox-group={`${slug}:${group}`}
+                data-lightbox-src={img.full}
+                data-lightbox-alt={it.alt ?? ''}
+                data-mediasrc={legacy}
+                aria-label={`Open full size: ${it.alt ?? `glyph ${i + 1}`}`}
+              >
+                <img
+                  src={img.displaySrc}
+                  data-full={img.full}
+                  alt={it.alt ?? ''}
+                  width={img.w}
+                  height={img.h}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </button>
+            </Frame>
+            {captions[i] && <span class="t-label gg-name">{captions[i]}</span>}
+          </li>
+        );
+      })
+    }
+  </ul>
+</figure>
+
+<style>
+  .gg-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--sp-3);
+  }
+
+  /* Legacy intent: a compact specimen sheet, not a wall — capped at ~3 x
+   * 12rem from 768 up, hung from the media column's left edge (the rule). */
+  @media (min-width: 768px) {
+    .gg-grid {
+      max-inline-size: 38rem;
+      gap: var(--sp-4);
+    }
+  }
+
+  .gg-cell {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+
+  .gg-cell :global(.gg-frame) {
+    background: var(--paper-2);
+  }
+
+  .gg-trigger {
+    display: block;
+    width: 100%;
+    padding: 0;
+    cursor: zoom-in;
+  }
+
+  .gg-trigger:focus-visible {
+    outline: 2px solid var(--ink);
+    outline-offset: -3px;
+  }
+
+  .gg-trigger img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+
+  .gg-name {
+    color: var(--ink-2);
+    text-align: center;
+    transition: color var(--dur-hover) var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .gg-cell :global(.gg-frame) {
+      transition: transform var(--dur-hover) var(--ease-out);
+    }
+
+    .gg-cell:hover :global(.gg-frame),
+    .gg-cell:focus-within :global(.gg-frame) {
+      transform: translateY(-4px);
+    }
+
+    .gg-cell:hover .gg-name,
+    .gg-cell:focus-within .gg-name {
+      color: var(--ink);
+    }
+  }
+</style>
