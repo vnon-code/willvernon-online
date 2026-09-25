@@ -99,9 +99,23 @@ def norm_path(u):
 
 
 def load_page(dist, page):
+    """A page is dist/<page>.html plus any sub-pages in dist/<page>/*.html
+    (e.g. projects.html + projects/<slug>.html case studies), merged."""
     f = dist / f"{page}.html"
     if not f.exists():
         return None
+    parts = [load_file(dist, f)] + [load_file(dist, sub) for sub in sorted((dist / page).glob("*.html"))]
+    merged = parts[0]
+    for p in parts[1:]:
+        merged["button_attrs"] |= p["button_attrs"]
+        merged["urls"] |= p["urls"]
+        merged["hrefs"] |= p["hrefs"]
+        for k in ("text", "text_raw", "js", "link_texts"):
+            merged[k] += " ␟ " + p[k]
+    return merged
+
+
+def load_file(dist, f):
     html = f.read_text(encoding="utf-8")
     soup = BeautifulSoup(html, "lxml")
     title = fold(soup.title.get_text()) if soup.title else ""
@@ -216,8 +230,26 @@ def main():
     ap.add_argument("--pages", default="index,about,work")
     ap.add_argument("--inventory", default=str(REPO / "redesign/content/INVENTORY.md"))
     ap.add_argument("-v", "--verbose", action="store_true")
+    ap.add_argument("--case", help="only the INVENTORY IDs of one case study (projects.json slug); implies --pages projects")
     a = ap.parse_args()
     inv = parse_inventory(Path(a.inventory))
+    if a.case:
+        import json
+        cs = next((c for c in json.loads((REPO / "src/content/projects.json").read_text())["caseStudies"] if c["slug"] == a.case), None)
+        if cs is None:
+            sys.exit(f"unknown case study slug: {a.case}")
+        ids = set()
+        def walk(o):
+            if isinstance(o, dict):
+                ids.update(o.get("_src", []) if isinstance(o.get("_src"), list) else [])
+                for v in o.values():
+                    walk(v)
+            elif isinstance(o, list):
+                for v in o:
+                    walk(v)
+        walk(cs)
+        a.pages = "projects"
+        inv["projects"] = [row for row in inv["projects"] if row[0] in ids]
     dist, failed = Path(a.dist), False
     for page in a.pages.split(","):
         pg = load_page(dist, page)

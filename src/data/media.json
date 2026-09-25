@@ -1,0 +1,531 @@
+{
+ "posters": {
+  "https://assets.willvernon.online/ai/Dredge_preview_1.mp4": {
+   "src": "/img/posters/ai-dredge-preview-1.webp",
+   "w": 1080,
+   "h": 1872
+  },
+  "https://assets.willvernon.online/ai/dredge_outcome_full.mp4": {
+   "src": "/img/posters/ai-dredge-outcome-full.webp",
+   "w": 1080,
+   "h": 1872
+  },
+  "https://assets.willvernon.online/ai/monolith_preview_v2.mp4": {
+   "src": "/img/posters/ai-monolith-preview-v2.webp",
+   "w": 1080,
+   "h": 1936
+  },
+  "https://assets.willvernon.online/ai/MONOLITH_SURVIVAL_outcome.mp4": {
+   "src": "/img/posters/ai-monolith-survival-outcome.webp",
+   "w": 1080,
+   "h": 1872
+  },
+  "https://assets.willvernon.online/ai/coral_rotate.mp4": {
+   "src": "/img/posters/ai-coral-rotate.webp",
+   "w": 1072,
+   "h": 1920
+  },
+  "https://assets.willvernon.online/ai/coral_rotate_vertical.mp4": {
+   "src": "/img/posters/ai-coral-rotate-vertical.webp",
+   "w": 720,
+   "h": 1280
+  },
+  "https://assets.willvernon.online/experiments/DeadlyCloutAV.mp4": {
+   "src": "/img/posters/experiments-deadlycloutav.webp",
+   "w": 1280,
+   "h": 720
+  },
+  "https://assets.willvernon.online/experiments/FUCKED%20UP_1.mp4": {
+   "src": "/img/posters/experiments-fucked-up-1.webp",
+   "w": 1280,
+   "h": 720
+  },
+  "https://assets.willvernon.online/experiments/TopographyAV_Test2.mp4": {
+   "src": "/img/posters/experiments-topographyav-test2.webp",
+   "w": 1280,
+   "h": 1280
+  },
+  "https://assets.willvernon.online/experiments/TopographyStaticGens.mp4": {
+   "src": "/img/posters/experiments-topographystaticgens.webp",
+   "w": 1280,
+   "h": 1280
+  },
+  "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/VIDSmugglersOutpost_1.mp4": {
+   "src": "/img/posters/assets-vidsmugglersoutpost-1.webp",
+   "w": 1280,
+   "h": 720
+  },
+  "https://assets.willvernon.online/projects/01_amplified-spaces/video_trailers/B17AV2_1.mp4": {
+   "src": "/img/posters/video-trailers-b17av2-1.webp",
+   "w": 1280,
+   "h": 720
+  },
+  "https://assets.willvernon.online/experiments/01_topography/renders/cinematic_trailer_upscaled.mp4": {
+   "src": "/img/posters/renders-cinematic-trailer-upscaled.webp",
+   "w": 1280,
+   "h": 720
+  },
+  "https://assets.willvernon.online/projects/01_amplified-spaces/video_trailers/FadingAwayAV_1.mp4": {
+   "src": "/img/posters/video-trailers-fadingawayav-1.webp",
+   "w": 1280,
+   "h": 720
+  },
+  "https://assets.willvernon.online/projects/01_amplified-spaces/video_trailers/Onjuku_1.mp4": {
+   "src": "/img/posters/video-trailers-onjuku-1.webp",
+   "w": 1280,
+   "h": 1280
+  },
+  "https://assets.willvernon.online/projects/02_handheld-stories/assets/Vernon_HandheldStories_GDES6004.mp4": {
+   "src": "/img/posters/assets-vernon-handheldstories-gdes6004.webp",
+   "w": 1280,
+   "h": 720
+  },
+  "https://assets.willvernon.online/projects/05_marimekko-exhibition/assets/Vernon_GDES50014_animation_1.mp4": {
+   "src": "/img/posters/assets-vernon-gdes50014-animation-1.webp",
+   "w": 1280,
+   "h": 720
+  },
+  "https://assets.willvernon.online/projects/07_the-world-plays-here/assets/TheWorldPlaysHere2_1.mp4": {
+   "src": "/img/posters/assets-theworldplayshere2-1.webp",
+   "w": 1280,
+   "h": 720
+  },
+  "https://assets.willvernon.online/previews/fading_away_preview.mp4": {
+   "src": "/img/posters/previews-fading-away-preview.webp",
+   "w": 1280,
+   "h": 720
+  },
+  "https://assets.willvernon.online/previews/ai_trailer.mp4": {
+   "src": "/img/posters/previews-ai-trailer.webp",
+   "w": 1080,
+   "h": 1872
+  },
+  "https://assets.willvernon.online/previews/experiments_trailer.mp4": {
+   "src": "/img/posters/previews-experiments-trailer.webp",
+   "w": 1080,
+   "h": 1920
+  },
+  "https://assets.willvernon.online/experiments/BlenderParticlesAVTest_2(2)_1.mp4": {
+   "src": "/img/posters/experiments-blenderparticlesavtest-2-2-1.webp",
+   "w": 1280,
+   "h": 720
+  }
+ },
+ "images": {
+  "/img/monogram-white-trans.png": {
+   "w": 1080,
+   "h": 1080,
+   "bytes": 33318
+  },
+  "/img/logos/Midjourney.png": {
+   "w": 400,
+   "h": 400,
+   "bytes": 21049
+  },
+  "/img/logos/ComfyUI.png": {
+   "w": 400,
+   "h": 400,
+   "bytes": 15819
+  },
+  "/img/artwork/catching-flies-bootleg.jpg": {
+   "w": 500,
+   "h": 500,
+   "bytes": 64854
+  },
+  "/img/logos/Blender.png": {
+   "w": 400,
+   "h": 400,
+   "bytes": 16016
+  },
+  "/img/logos/TouchDesigner.png": {
+   "w": 400,
+   "h": 400,
+   "bytes": 12727
+  },
+  "/img/TouchDesigner_screenshot.png": {
+   "w": 1902,
+   "h": 994,
+   "bytes": 733288,
+   "derived": {
+    "src": "/img/derived/touchdesigner-screenshot.webp",
+    "w": 1902,
+    "h": 994,
+    "bytes": 64406
+   }
+  },
+  "/img/Netsuke_Circle.jpeg": {
+   "w": 816,
+   "h": 816,
+   "bytes": 51635
+  },
+  "/img/Rotoscope_preview.jpeg": {
+   "w": 743,
+   "h": 362,
+   "bytes": 30054
+  },
+  "/img/3D_preview.jpeg": {
+   "w": 907,
+   "h": 510,
+   "bytes": 79050
+  },
+  "/img/remnants/object1.jpeg": {
+   "w": 618,
+   "h": 861,
+   "bytes": 172059
+  },
+  "/img/remnants/object2.jpeg": {
+   "w": 618,
+   "h": 875,
+   "bytes": 162204
+  },
+  "/img/remnants/object3.jpeg": {
+   "w": 618,
+   "h": 870,
+   "bytes": 47406
+  },
+  "/img/remnants/controlnet.jpeg": {
+   "w": 912,
+   "h": 678,
+   "bytes": 64029
+  },
+  "/img/remnants/glyph1.jpeg": {
+   "w": 1031,
+   "h": 580,
+   "bytes": 20376
+  },
+  "/img/remnants/glyph2.jpeg": {
+   "w": 1031,
+   "h": 580,
+   "bytes": 21005
+  },
+  "/img/remnants/glyph3.jpeg": {
+   "w": 1031,
+   "h": 580,
+   "bytes": 18240
+  },
+  "/img/remnants/glyph4.jpeg": {
+   "w": 1031,
+   "h": 580,
+   "bytes": 20914
+  },
+  "/img/remnants/glyph5.jpeg": {
+   "w": 1031,
+   "h": 580,
+   "bytes": 20671
+  },
+  "/img/remnants/glyph6.jpeg": {
+   "w": 1031,
+   "h": 580,
+   "bytes": 21234
+  },
+  "/img/remnants/glyph7.jpeg": {
+   "w": 1031,
+   "h": 580,
+   "bytes": 23937
+  },
+  "/img/remnants/glyph8.jpeg": {
+   "w": 1031,
+   "h": 580,
+   "bytes": 21684
+  },
+  "/img/remnants/glyph9.jpeg": {
+   "w": 1031,
+   "h": 580,
+   "bytes": 18851
+  },
+  "/img/remnants/breakdown1.png": {
+   "w": 124,
+   "h": 125,
+   "bytes": 16176
+  },
+  "/img/remnants/breakdown2.png": {
+   "w": 127,
+   "h": 125,
+   "bytes": 16492
+  },
+  "/img/remnants/breakdown3.png": {
+   "w": 235,
+   "h": 533,
+   "bytes": 60524
+  },
+  "/img/remnants/breakdown4.png": {
+   "w": 228,
+   "h": 276,
+   "bytes": 28809
+  },
+  "/img/remnants/breakdown5.png": {
+   "w": 59,
+   "h": 229,
+   "bytes": 13307
+  },
+  "/img/remnants/breakdown6.jpeg": {
+   "w": 1920,
+   "h": 1080,
+   "bytes": 140839
+  },
+  "/img/powersurge/PowerSurgeSS2.png": {
+   "w": 1280,
+   "h": 720,
+   "bytes": 1450971,
+   "derived": {
+    "src": "/img/derived/powersurge-powersurgess2.webp",
+    "w": 1280,
+    "h": 720,
+    "bytes": 137422
+   }
+  },
+  "/img/powersurge/powersurgegif.gif": {
+   "w": 800,
+   "h": 450,
+   "bytes": 15605298
+  },
+  "/img/powersurge/powersurgegif2.gif": {
+   "w": 800,
+   "h": 450,
+   "bytes": 18981690
+  },
+  "/img/powersurge/PowerSurgeSS.png": {
+   "w": 1280,
+   "h": 720,
+   "bytes": 1289065,
+   "derived": {
+    "src": "/img/derived/powersurge-powersurgess.webp",
+    "w": 1280,
+    "h": 720,
+    "bytes": 56000
+   }
+  },
+  "/img/marimekko/page_23_img_10_Im9.jpg": {
+   "w": 1400,
+   "h": 778,
+   "bytes": 267446
+  },
+  "/img/marimekko/page_27_img_13_Im7.png": {
+   "w": 480,
+   "h": 600,
+   "bytes": 96882
+  },
+  "/img/marimekko/page_27_img_12_Im6.png": {
+   "w": 168,
+   "h": 212,
+   "bytes": 35471
+  },
+  "/img/marimekko/page_27_img_11_Im5.jpg": {
+   "w": 480,
+   "h": 600,
+   "bytes": 43250
+  },
+  "/img/marimekko/page_27_img_10_Im4.jpg": {
+   "w": 480,
+   "h": 600,
+   "bytes": 145769
+  },
+  "/img/marimekko/page_27_img_0_Im0.png": {
+   "w": 480,
+   "h": 600,
+   "bytes": 204711
+  },
+  "/img/marimekko/page_27_img_1_Im1.jpg": {
+   "w": 480,
+   "h": 600,
+   "bytes": 42638
+  },
+  "/img/marimekko/page_27_img_8_Im2.jpg": {
+   "w": 480,
+   "h": 600,
+   "bytes": 149896
+  },
+  "/img/marimekko/page_27_img_9_Im3.png": {
+   "w": 456,
+   "h": 575,
+   "bytes": 100545
+  },
+  "/img/marimekko/page_27_img_14_Im8.jpg": {
+   "w": 480,
+   "h": 600,
+   "bytes": 107034
+  },
+  "/img/marimekko/page_27_img_15_Im9.png": {
+   "w": 456,
+   "h": 570,
+   "bytes": 66208
+  },
+  "/img/marimekko/page_27_img_2_Im10.jpg": {
+   "w": 480,
+   "h": 600,
+   "bytes": 169049
+  },
+  "/img/marimekko/page_27_img_3_Im11.jpg": {
+   "w": 480,
+   "h": 600,
+   "bytes": 163430
+  },
+  "/img/marimekko/page_27_img_4_Im12.jpg": {
+   "w": 480,
+   "h": 600,
+   "bytes": 100680
+  },
+  "/img/marimekko/page_27_img_5_Im13.png": {
+   "w": 456,
+   "h": 570,
+   "bytes": 245409
+  },
+  "/img/marimekko/page_27_img_6_Im14.jpg": {
+   "w": 480,
+   "h": 600,
+   "bytes": 103461
+  },
+  "/img/marimekko/page_27_img_7_Im15.png": {
+   "w": 480,
+   "h": 600,
+   "bytes": 140496
+  },
+  "/img/marimekko/exhib_logo.png": {
+   "w": 1918,
+   "h": 1079,
+   "bytes": 524257,
+   "derived": {
+    "src": "/img/derived/marimekko-exhib-logo.webp",
+    "w": 1918,
+    "h": 1079,
+    "bytes": 107250
+   }
+  },
+  "/img/marimekko/page_29_img_1_Im1.png": {
+   "w": 509,
+   "h": 641,
+   "bytes": 114816
+  },
+  "/img/marimekko/page_29_img_2_Im2.png": {
+   "w": 509,
+   "h": 636,
+   "bytes": 75385
+  },
+  "/img/marimekko/page_29_img_0_Im0.png": {
+   "w": 168,
+   "h": 212,
+   "bytes": 35471
+  },
+  "/img/marimekko/page_29_img_3_Im3.jpg": {
+   "w": 509,
+   "h": 636,
+   "bytes": 72500
+  },
+  "/img/marimekko/page_32_img_0_Im0.png": {
+   "w": 1065,
+   "h": 1506,
+   "bytes": 761799,
+   "derived": {
+    "src": "/img/derived/marimekko-page-32-img-0-im0.webp",
+    "w": 1065,
+    "h": 1506,
+    "bytes": 140294
+   }
+  },
+  "/img/marimekko/page_32_img_1_Im1.png": {
+   "w": 1065,
+   "h": 1506,
+   "bytes": 462773
+  },
+  "/img/marimekko/page_32_img_2_Im2.png": {
+   "w": 1065,
+   "h": 1506,
+   "bytes": 548067,
+   "derived": {
+    "src": "/img/derived/marimekko-page-32-img-2-im2.webp",
+    "w": 1065,
+    "h": 1506,
+    "bytes": 128426
+   }
+  },
+  "/img/marimekko/page_32_img_3_Im3.png": {
+   "w": 1065,
+   "h": 1506,
+   "bytes": 1276720,
+   "derived": {
+    "src": "/img/derived/marimekko-page-32-img-3-im3.webp",
+    "w": 1065,
+    "h": 1506,
+    "bytes": 103114
+   }
+  },
+  "/img/marimekko/Vernon_GDES50014_billboard1.png": {
+   "w": 4000,
+   "h": 3000,
+   "bytes": 21221891,
+   "derived": {
+    "src": "/img/derived/marimekko-vernon-gdes50014-billboard1.webp",
+    "w": 2400,
+    "h": 1800,
+    "bytes": 254534
+   }
+  },
+  "/img/marimekko/Vernon_GDES50014_billboard2.png": {
+   "w": 4000,
+   "h": 3000,
+   "bytes": 20684155,
+   "derived": {
+    "src": "/img/derived/marimekko-vernon-gdes50014-billboard2.webp",
+    "w": 2400,
+    "h": 1800,
+    "bytes": 202908
+   }
+  },
+  "/img/marimekko/Vernon_GDES50014_billboard3.png": {
+   "w": 4000,
+   "h": 3000,
+   "bytes": 22906916,
+   "derived": {
+    "src": "/img/derived/marimekko-vernon-gdes50014-billboard3.webp",
+    "w": 2000,
+    "h": 1500,
+    "bytes": 353754
+   }
+  },
+  "/img/marimekko/Vernon_GDES50014_billboard4.png": {
+   "w": 4000,
+   "h": 3000,
+   "bytes": 22582730,
+   "derived": {
+    "src": "/img/derived/marimekko-vernon-gdes50014-billboard4.webp",
+    "w": 2000,
+    "h": 1500,
+    "bytes": 378310
+   }
+  },
+  "/img/artwork/heartache.jpg": {
+   "w": 500,
+   "h": 500,
+   "bytes": 72634
+  },
+  "/img/artwork/let-me-know.jpg": {
+   "w": 1024,
+   "h": 1024,
+   "bytes": 401043
+  },
+  "/img/artwork/midnight-runaway.jpg": {
+   "w": 500,
+   "h": 500,
+   "bytes": 47262
+  },
+  "/img/artwork/somebody-to-love.jpg": {
+   "w": 500,
+   "h": 500,
+   "bytes": 27070
+  }
+ },
+ "gifs": {
+  "/img/powersurge/powersurgegif.gif": {
+   "webm": "/img/derived/powersurge-powersurgegif.webm",
+   "poster": "/img/derived/powersurge-powersurgegif-poster.webp",
+   "w": 800,
+   "h": 450
+  },
+  "/img/powersurge/powersurgegif2.gif": {
+   "webm": "/img/derived/powersurge-powersurgegif2.webm",
+   "poster": "/img/derived/powersurge-powersurgegif2-poster.webp",
+   "w": 800,
+   "h": 450
+  }
+ }
+}
