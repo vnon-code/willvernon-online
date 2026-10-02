@@ -31,3 +31,6 @@ __pycache__/
 
 # Reference screenshots (third-party content, kept local only)
 references/shots/
+
+# Trial / personal-use fonts (licence forbids redistribution)
+references/trial-fonts/
