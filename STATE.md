@@ -12,4 +12,6 @@
 - `node_modules/` and `.astro/` are leftovers from the old Astro build (gitignored); delete once the stack is picked.
 - `v3` isn't pushed to GitHub yet.
 
-**Next step:** landing page concept. Start with what the landing page must do and who it's for, then reference sites, then visual options for Will to pick.
+**Reference collection** (`references/REFERENCES.md`): 12 keepers over rounds 1–2. Colour decided: monochrome with a red accent. Type direction: neo-grotesk sans, face not picked.
+
+**Next step:** round 3b — neo-grotesk typeface specimens and red/neutral swatches for Will to pick; then the landing page concept.
