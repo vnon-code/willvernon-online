@@ -22,7 +22,8 @@ Entry format: `- [Name](url) — what Will likes · shot: shots/<file>.jpg`
 ### Type
 - Direction (Will, 2026-10-03): a neo-grotesk sans, like the monochrome keepers — Suisse Intl (Rejouice), Neue Montreal (Cathy Dolle), NB International (Shivam), Basis (Kenta), Indivisible (Pacôme). Board: shots/r3-keepers-type-colour.jpg
 - **Decided (Will, 2026-10-03): Host Grotesk** (Google Fonts, OFL) for UI and body. Specimens: shots/r3b-type.jpg
-- Open: a bolder, experimental display face for the hero only.
+- Hero (Will, 2026-10-03): name reads **WILL VERNON** (never William), all caps, in the base colour. Red goes on the line underneath, not the name; set it at 24px+ so Race red passes large-text contrast.
+- Open: a bolder, experimental display face for the hero only. Free sets (r3c, r3d) all rejected; now comparing Pangram trials and Velvetyne (shots/r3e-*.jpg).
 
 ### Colour
 - **Decided (Will, 2026-10-03): monochrome with red.** Near-black and off-white, colour coming from the work, one red accent — as on [Kenta Toshikura](https://kentatoshikura.com) (#060506 / #F0F2F2 / #FF0000). 
