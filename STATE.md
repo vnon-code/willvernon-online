@@ -5,7 +5,7 @@
 **Decisions (2026-10-02)**
 - Fresh start on orphan branch `v3`. Kept only `public/`, `content/`, `content/INVENTORY.md` and the deploy files.
 - Will disliked both the legacy site and redesign/v2: the look, the heavy motion, the page structure and the costly phase process.
-- Nothing about stack, direction or motion is decided yet.
+- Stack and motion approach are still open. Colour (monochrome + red) is decided; see references/REFERENCES.md.
 
 **Open items**
 - Stack choice (decide when the landing page needs code).
