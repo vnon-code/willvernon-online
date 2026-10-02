@@ -28,3 +28,6 @@ dist/
 .astro/
 node_modules/
 __pycache__/
+
+# Reference screenshots (third-party content, kept local only)
+references/shots/
