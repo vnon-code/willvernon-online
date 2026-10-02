@@ -23,7 +23,8 @@ Entry format: `- [Name](url) — what Will likes · shot: shots/<file>.jpg`
 - Direction (Will, 2026-10-03): a neo-grotesk sans, like the monochrome keepers — Suisse Intl (Rejouice), Neue Montreal (Cathy Dolle), NB International (Shivam), Basis (Kenta), Indivisible (Pacôme). Board: shots/r3-keepers-type-colour.jpg
 - **Decided (Will, 2026-10-03): Host Grotesk** (Google Fonts, OFL) for UI and body. Specimens: shots/r3b-type.jpg
 - Hero (Will, 2026-10-03): name reads **WILL VERNON** (never William), all caps, in the base colour. Red goes on the line underneath, not the name; set it at 24px+ so Race red passes large-text contrast.
-- Open: a bolder, experimental display face for the hero only. Free sets (r3c, r3d) all rejected; now comparing Pangram trials and Velvetyne (shots/r3e-*.jpg).
+- **Decided (Will, 2026-10-03): hero display face = Archivo Expanded Black** (Google Fonts, OFL; wght 900, wdth 125%). The width axis (62–125%) is available for motion.
+- ~~Open: a bolder, experimental display face for the hero only.~~ Resolved. Free sets (r3c, r3d) all rejected; now comparing Pangram trials and Velvetyne (shots/r3e-*.jpg).
 - Will's favourites (2026-10-03): PP Monument Normal Black, Wide Black, Extended Black Italic (paid, personal-use trial only). Closest free match: Archivo (Google, OFL), one variable family with width 62–125% and italics, covering all three. Comparison: shots/r3f-monument-alts.jpg
 
 ### Colour
