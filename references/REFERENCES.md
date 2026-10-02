@@ -20,10 +20,13 @@ Entry format: `- [Name](url) — what Will likes · shot: shots/<file>.jpg`
 ## Traits
 
 ### Type
-- Direction (Will, 2026-10-03): a neo-grotesk sans, like the monochrome keepers — Suisse Intl (Rejouice), Neue Montreal (Cathy Dolle), NB International (Shivam), Basis (Kenta), Indivisible (Pacôme). Typeface not yet picked. Board: shots/r3-keepers-type-colour.jpg
+- Direction (Will, 2026-10-03): a neo-grotesk sans, like the monochrome keepers — Suisse Intl (Rejouice), Neue Montreal (Cathy Dolle), NB International (Shivam), Basis (Kenta), Indivisible (Pacôme). Board: shots/r3-keepers-type-colour.jpg
+- **Decided (Will, 2026-10-03): Host Grotesk** (Google Fonts, OFL) for UI and body. Specimens: shots/r3b-type.jpg
+- Open: a bolder, experimental display face for the hero only.
 
 ### Colour
-- **Decided (Will, 2026-10-03): monochrome with red.** Near-black and off-white, colour coming from the work, one red accent — as on [Kenta Toshikura](https://kentatoshikura.com) (#060506 / #F0F2F2 / #FF0000). Exact red and neutrals not yet picked.
+- **Decided (Will, 2026-10-03): monochrome with red.** Near-black and off-white, colour coming from the work, one red accent — as on [Kenta Toshikura](https://kentatoshikura.com) (#060506 / #F0F2F2 / #FF0000). 
+- **Decided (Will, 2026-10-03): Race red #E10600, both themes** — near-black #0A0A0A and off-white #F2F2EF. Contrast: 4.0:1 on black, 4.4:1 on off-white, so red is large text and accents only, never body copy. Swatches: shots/r3b-reds.jpg
 
 ### Layout
 
