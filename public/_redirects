@@ -1,0 +1,5 @@
+# willvernon.online v2 — no path renames.
+# All 7 legacy URLs (index/about/work/projects/music/AI/experiments) are kept
+# identical. wrangler.jsonc's html_handling: "auto-trailing-slash" already
+# turns /about.html into a 307 to /about with a 200, so no rule is needed
+# here. This file exists so a future rename has somewhere to go.

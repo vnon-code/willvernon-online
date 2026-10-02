@@ -1,0 +1,131 @@
+{
+ "tools": {
+  "midjourney": {
+   "title": "Midjourney",
+   "company": "Midjourney Inc.",
+   "apps": "Generating high-quality concept art, storyboards for videos and detailed textures for design projects.",
+   "logo": "/img/logos/Midjourney.png",
+   "_src": [
+    "AI.js.181",
+    "AI.js.182",
+    "AI.js.183",
+    "AI.img.070",
+    "AI.img.079"
+   ]
+  },
+  "flux": {
+   "title": "Flux",
+   "company": "Black Forest Labs",
+   "apps": "Creating extremely realistic images and scenes with clear, readable text in the design.",
+   "logo": "/img/logos/Black Forest Labs Flux.png",
+   "_src": [
+    "AI.js.184",
+    "AI.js.185",
+    "AI.js.186",
+    "AI.img.071",
+    "AI.img.080",
+    "AI.data.105",
+    "AI.data.114"
+   ]
+  },
+  "sdxl": {
+   "title": "SDXL",
+   "company": "Stability AI",
+   "apps": "Designing custom graphics and maintaining a consistent style across a series of images.",
+   "logo": "/img/logos/Stability AI SDXL.png",
+   "_src": [
+    "AI.js.187",
+    "AI.js.188",
+    "AI.js.189",
+    "AI.img.072",
+    "AI.img.081",
+    "AI.data.106",
+    "AI.data.115"
+   ]
+  },
+  "comfyui": {
+   "title": "ComfyUI",
+   "company": "ComfyUI Community",
+   "apps": "Building custom visual styles and creating intricate, organic patterns for art installations.",
+   "logo": "/img/logos/ComfyUI.png",
+   "_src": [
+    "AI.js.190",
+    "AI.js.191",
+    "AI.js.192",
+    "AI.img.073",
+    "AI.img.082"
+   ]
+  },
+  "hidream": {
+   "title": "HiDream AI",
+   "company": "HiDream.ai",
+   "apps": "Expanding existing images beyond their borders and adding rich, natural details to artwork.",
+   "logo": "/img/logos/HiDream AI.png",
+   "_src": [
+    "AI.js.193",
+    "AI.js.194",
+    "AI.js.195",
+    "AI.img.074",
+    "AI.img.083"
+   ]
+  },
+  "gemini": {
+   "title": "Gemini",
+   "company": "Google",
+   "apps": "Assisting with coding, optimising website layouts and brainstorming creative design ideas.",
+   "logo": "/img/logos/Google Gemini.png",
+   "_src": [
+    "AI.js.196",
+    "AI.js.197",
+    "AI.js.198",
+    "AI.img.075",
+    "AI.img.084",
+    "AI.data.109",
+    "AI.data.118"
+   ]
+  },
+  "antigravity": {
+   "title": "Antigravity",
+   "company": "Google DeepMind",
+   "apps": "Managing website styling, automating file uploads and coordinating smooth code deployments.",
+   "logo": "/img/logos/Google Anti-Gravity.png",
+   "_src": [
+    "AI.js.199",
+    "AI.js.200",
+    "AI.js.201",
+    "AI.img.076",
+    "AI.img.085"
+   ]
+  },
+  "firefly": {
+   "title": "Adobe Firefly",
+   "company": "Adobe",
+   "apps": "Quickly testing different layout ideas, recolouring artwork and creating graphic mockups.",
+   "logo": "/img/logos/Adobe Firefly.png",
+   "_src": [
+    "AI.js.202",
+    "AI.js.203",
+    "AI.js.204",
+    "AI.img.077",
+    "AI.img.086",
+    "AI.data.111",
+    "AI.data.120"
+   ]
+  },
+  "elevenlabs": {
+   "title": "ElevenLabs",
+   "company": "ElevenLabs",
+   "apps": "Generating natural-sounding voiceovers, sound effects and custom background audio.",
+   "logo": "/img/logos/Eleven Labs.png",
+   "_src": [
+    "AI.js.205",
+    "AI.js.206",
+    "AI.js.207",
+    "AI.img.078",
+    "AI.img.087",
+    "AI.data.112",
+    "AI.data.121"
+   ]
+  }
+ }
+}

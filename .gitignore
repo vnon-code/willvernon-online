@@ -1,0 +1,30 @@
+# Ignore massive audio stems to conform with Cloudflare Workers 25MB limits
+audio/*.wav
+
+# System / OS files
+.DS_Store
+Thumbs.db
+
+# Configuration files
+.wrangler/
+*.log
+
+# Ignore large media assets to conform with Cloudflare Workers limits
+*.mp4
+**/*.mp4
+*.mov
+**/*.mov
+
+# Third-party agent skills (installed per session, never committed — public repo)
+.claude/skills/
+.agents/
+skills-lock.json
+
+# Reference-site screenshots (third-party content, kept local only)
+redesign/references/shots/
+
+# Astro build output and caches
+dist/
+.astro/
+node_modules/
+__pycache__/

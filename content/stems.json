@@ -1,0 +1,233 @@
+{
+ "stemsConfig": {
+  "drums": {
+   "name": "Drums",
+   "file": "audio/Silver Linings Bootleg Drums.mp3"
+  },
+  "bass": {
+   "name": "Bass",
+   "file": "audio/Silver Linings Bootleg Bass 2.mp3"
+  },
+  "melody": {
+   "name": "Melody",
+   "file": "audio/Silver Linings Bootleg Melody.mp3"
+  },
+  "atmos": {
+   "name": "Atmos",
+   "file": "audio/Silver Linings Bootleg Atmos.mp3"
+  },
+  "vocals": {
+   "name": "Vocals",
+   "file": "audio/Silver Linings Bootleg Vocals 2.mp3"
+  }
+ },
+ "trackParams": {
+  "drums": {
+   "filter": 4000,
+   "dist": 0,
+   "muted": false
+  },
+  "bass": {
+   "filter": 4000,
+   "dist": 0,
+   "muted": false
+  },
+  "melody": {
+   "shine": 0,
+   "reverb": 0,
+   "wander": 0,
+   "filter": 4000,
+   "muted": false
+  },
+  "atmos": {
+   "reverb": 0,
+   "delay": 0,
+   "muted": false
+  },
+  "vocals": {
+   "flanger": 0,
+   "cyber": 0,
+   "muted": false
+  }
+ },
+ "fxSliders": {
+  "drums": [
+   {
+    "id": "filter",
+    "label": "LPF Filter",
+    "min": 150,
+    "max": 4000,
+    "step": 10
+   },
+   {
+    "id": "dist",
+    "label": "Distortion",
+    "min": 0,
+    "max": 50,
+    "step": 1
+   }
+  ],
+  "bass": [
+   {
+    "id": "filter",
+    "label": "LPF Filter",
+    "min": 150,
+    "max": 4000,
+    "step": 10
+   },
+   {
+    "id": "dist",
+    "label": "Distortion",
+    "min": 0,
+    "max": 50,
+    "step": 1
+   }
+  ],
+  "melody": [
+   {
+    "id": "shine",
+    "label": "Brighten",
+    "min": -10,
+    "max": 10,
+    "step": 1
+   },
+   {
+    "id": "reverb",
+    "label": "Reverb",
+    "min": 0,
+    "max": 100,
+    "step": 1
+   },
+   {
+    "id": "wander",
+    "label": "Panning/Tremolo",
+    "min": 0,
+    "max": 100,
+    "step": 1
+   },
+   {
+    "id": "filter",
+    "label": "Filter",
+    "min": 150,
+    "max": 4000,
+    "step": 10
+   }
+  ],
+  "atmos": [
+   {
+    "id": "reverb",
+    "label": "Reverb",
+    "min": 0,
+    "max": 100,
+    "step": 1
+   },
+   {
+    "id": "delay",
+    "label": "Delay",
+    "min": 0,
+    "max": 80,
+    "step": 1
+   }
+  ],
+  "vocals": [
+   {
+    "id": "flanger",
+    "label": "Flanger",
+    "min": 0,
+    "max": 100,
+    "step": 1
+   },
+   {
+    "id": "cyber",
+    "label": "Pitch",
+    "min": 0,
+    "max": 100,
+    "step": 1
+   }
+  ]
+ },
+ "_src": [
+  "index.js.228",
+  "index.js.229",
+  "index.js.230",
+  "index.js.231",
+  "index.js.232",
+  "index.js.233",
+  "index.js.234",
+  "index.js.235",
+  "index.js.236",
+  "index.js.237",
+  "index.js.238",
+  "index.js.239",
+  "index.js.240",
+  "index.js.241",
+  "index.js.242",
+  "index.js.243",
+  "index.js.244",
+  "index.js.245",
+  "index.js.246",
+  "index.js.247",
+  "index.js.248",
+  "index.js.249",
+  "index.js.250",
+  "index.js.251",
+  "index.js.252",
+  "index.js.253",
+  "index.js.254",
+  "index.js.255",
+  "index.js.256",
+  "index.js.257",
+  "index.js.258",
+  "index.js.259",
+  "index.js.260",
+  "index.js.261",
+  "index.js.262",
+  "index.js.263",
+  "index.js.264",
+  "index.js.265",
+  "index.js.266",
+  "index.js.267",
+  "index.js.268",
+  "index.js.269",
+  "index.js.270",
+  "index.js.271",
+  "index.js.272",
+  "index.js.273",
+  "index.js.274",
+  "index.js.275",
+  "index.js.276",
+  "index.js.277",
+  "index.js.278",
+  "index.js.279",
+  "index.js.280",
+  "index.js.281",
+  "index.js.282",
+  "index.js.283",
+  "index.js.284",
+  "index.js.285",
+  "index.js.286",
+  "index.js.287",
+  "index.js.288",
+  "index.js.289",
+  "index.js.290",
+  "index.js.291",
+  "index.js.292",
+  "index.js.293",
+  "index.js.294",
+  "index.js.295",
+  "index.js.296",
+  "index.js.297",
+  "index.js.298",
+  "index.js.299",
+  "index.js.300",
+  "index.js.301",
+  "index.js.302",
+  "index.js.303",
+  "index.js.304",
+  "index.js.305",
+  "index.js.306",
+  "index.js.307",
+  "index.js.308",
+  "index.js.309"
+ ]
+}
