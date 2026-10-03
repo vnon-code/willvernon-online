@@ -99,4 +99,29 @@
 
 **Open items (Sound HUD):** VOL rise duration (3s placeholder); reduced motion and light theme not yet seen; the VOL readout shows "0" for a frame as the rise starts.
 
-**Next step:** pick the next Landing piece (project strip, point cloud, or chrome: monogram/menu/filter chips), in a fresh session.
+**Project strip, round 1 (Will, 2026-10-03)**
+- Music tracks are out of the strip (music lives in the Sound HUD).
+- Strip holds 11 projects, picked by Will: Amplified Spaces, Handheld Stories, Remnants, Powersurge, Marimekko Exhibition, Smuggler's Outpost, The World Plays Here, DREDGE, Monolith Survival, Synthetic Corals, Topography AV Test.
+- Clicking the centred card does nothing yet (labelled placeholder) until project pages exist.
+- Filter chips: All / Project / Experiment (Will). Open: whether DREDGE, Monolith Survival and Synthetic Corals sit under Project or Experiment (preview puts them under Project).
+- Order: "strongest first, mixed" (Will); Claude's proposed order is in the preview, awaiting Will's edits.
+- Round 1 variants (filmstrip, depth, slivers) not picked. **Will's brief:** more creative, curved paths, endless loop, subtle auto-rotation.
+- Round 2 preview `prototype/project-strip.html` (throwaway, untracked): `?v=arc|ring|wave|tunnel|slivers&auto=drift|step|off`. Auto resumes 3s after the last input and pauses while hovering the centre card. Drift speed 1 card/7s and step rest 5s are placeholders.
+
+- **Round 2 picks (Will):** Ring liked, but its back layer popped forward; Tunnel and Wave rejected (odd paths). Auto = **Drift**. DREDGE, Monolith Survival and Synthetic Corals sit under **Experiment** (Project 7, Experiment 4).
+- Round 3 preview (same file, default `?v=ring&auto=drift`): ring cards are projected by hand and stacked strictly by depth, since CSS preserve-3d's plane sorting caused the pop. Back half ghosted (16% → full through the sides). New options: `ringhigh` (steeper view), `orbit` (flat cards, merry-go-round from above), `inside` (camera inside the ring). Arc and slivers kept. Orbit crowds the chips at 800px-tall viewports.
+
+- Side-card treatment switch added (Will's ask): `&sides=depth|none|dark|mono|monodark|red|blur`, eased by distance from centre.
+- Added `insidebig` (Will's ask): the Inside wall, but the centre card grows 1.6× and pushes its neighbours out.
+
+- **Strip decided (Will, 2026-10-03):** layout **Inside, big centre** (`insidebig`: camera inside the ring, centre card 1.6×, neighbours pushed out), auto **Step with a 10s rest** (replaces Drift), side cards **mono** (black and white, full brightness, colour eases back in towards the centre). Preview defaults now match.
+
+**Spec signed off (Will, 2026-10-03):** `docs/specs/project-strip.md`, placeholders as listed.
+
+**Project strip built (2026-10-03):** `app/components/TheProjectStrip.vue`, list in `content/strip.json` (`from` + `id` point into projects/ai/experiments JSON; titles resolved at prerender via `useAsyncData`, so the 250 KB content JSON stays out of the client bundle). Mounted in `app.vue` inside the Landing, `active` once the Gate closes (wheel and auto ignored before that).
+- Frame loop runs only while moving or dragging; auto-step is a timer, not the loop. Wheel is window-wide; drag starts on the strip only (so HUD faders don't turn it); arrow keys only when the strip has focus (the HUD bands use arrows too).
+- Verified in the dev pane at 1280×800: wheel, drag, keys, side-card click, wrap 01→11, chips (All 11 / Project 7 / Experiment 4), auto-step, one video at a time, Powersurge GIF swap, no console errors; `pnpm generate` passes. Not observed: real mouse/trackpad feel, reduced motion, light theme, phones.
+- **Caption vs HUD (Will, 2026-10-03): centre above the HUD.** The stack now fills the space above `--hud-clear` (213px token = HUD 197px + 16px). The strip area squeezes from 2× card height down to (never below) the 1.6× centre card + 16px to fit.
+- Open: at 800px tall the stack fills that space edge to edge (chips at y 0, caption ends at the HUD's top). Shorter screens would need smaller cards; not decided.
+- **Committed to `v3` (2026-10-03).** `prototype/project-strip.html` stays untracked.
+- Phones: not handled (spec PLACEHOLDER); cards stay at 32% of the width.

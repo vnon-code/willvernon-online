@@ -27,6 +27,8 @@ function onEnter(withSound: boolean) {
         :src="objectUrls[FIRST_PROJECT.image]"
         alt=""
       >
+      <!-- PLACEHOLDER entrance: the strip fades up with the Landing -->
+      <TheProjectStrip :active="!gateOpen" />
     </main>
     <TheSoundHud v-if="hudVisible" :with-sound="enteredWithSound" />
     <TheGate v-if="gateOpen" @enter="onEnter" />

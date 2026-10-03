@@ -14,6 +14,9 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1); /* strong ease-out for entrances */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1); /* hover and press on the Gate's bracket button */
 
+  /* Layout: the Landing's stack centres in the space above the Sound HUD (197px tall + 16px from the bottom) */
+  --hud-clear: 213px;
+
   /* PLACEHOLDER: dark by default; light follows the OS setting */
   --c-bg: var(--c-black);
   --c-fg: var(--c-white);
