@@ -42,7 +42,7 @@ Mouse only: off for touch/pen, on screens without hover, and with reduced motion
 6. 4.2s: the primary slot rises, as the finished button or as the loader (see Loading); the button takes focus once loading is done. The word starts rotating.
 
 ## Loading
-- Real progress is tracked over: fonts, the first project's point-cloud image + depth map, and the stems for the opening track. Loading starts at once, under the entrance. Progress is never faked.
+- Real progress is tracked over: fonts, the first project's poster, and the stems for the opening track. Loading starts at once, under the entrance. Progress is never faked.
 - **The loader lives in the primary button.** At 4.2s, if loading isn't finished, the primary button's slot appears in a loading state: same box and position as the finished button, with a small muted tabular-figure percentage ("42%") centred in it.
   - The outline is a 1px line in the type colour tracing the box's full perimeter, drawn clockwise from the top-left corner in proportion to progress. The drawn amount eases towards the real value, so it never jumps or goes backwards.
   - At 100%: the outline retracts to the four corner brackets; the % rolls up and out and **Enter with sound** rolls in (the word's Roll: 490ms, 60ms stagger). Then the button becomes interactive and takes focus, and **Enter without sound** fades up at the bottom edge.

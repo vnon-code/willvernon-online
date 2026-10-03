@@ -1,12 +1,11 @@
 import stems from '~~/content/stems.json'
 
 // Real load progress for the Gate (docs/specs/gate.md, "Loading"):
-// fonts, the first project's point-cloud image + depth map, and the opening track's stems.
+// fonts, the first project's poster (the Landing placeholder until the dot background is built), and the opening track's stems.
 // A failed asset counts as done, so the site can always be entered.
 
 export const FIRST_PROJECT = {
   image: '/img/posters/assets-vidsmugglersoutpost-1.webp',
-  depth: '/img/depth/assets-vidsmugglersoutpost-1.png',
 }
 
 // The Gate sets everything in 600 (the quiet link in 500). One variable file covers 300–800, so both resolve to it.
@@ -69,7 +68,7 @@ function startLoading() {
     })
   }
 
-  for (const url of [FIRST_PROJECT.image, FIRST_PROJECT.depth]) {
+  for (const url of [FIRST_PROJECT.image]) {
     fetchFile(url).then((file) => {
       if (!file) return
       objectUrls[url] = URL.createObjectURL(file.blob)
