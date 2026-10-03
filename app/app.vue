@@ -1,34 +1,54 @@
+<script setup lang="ts">
+const gateOpen = ref(true)
+const landingVisible = ref(false)
+const { objectUrls } = useLoader()
+
+// Step 2 of the Gate transition: the Landing fades up from black; on the sound path the music fades in with it
+function onEnter(withSound: boolean) {
+  gateOpen.value = false
+  landingVisible.value = true
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches
+  if (withSound) useSound().enableSound(reduced ? 0.3 : 1)
+}
+</script>
+
 <template>
   <div>
     <NuxtRouteAnnouncer />
-    <!-- PLACEHOLDER: scaffold check only; the gate and landing replace this -->
-    <main class="scaffold">
-      <h1 class="scaffold__name">WILL VERNON</h1>
-      <p class="scaffold__line">v3 scaffold — tokens and fonts loaded</p>
+    <!-- PLACEHOLDER Landing: the first project's still stands in for the point cloud until the Landing is built -->
+    <main class="landing" :class="{ 'landing--visible': landingVisible }" :inert="gateOpen">
+      <img
+        v-if="objectUrls[FIRST_PROJECT.image]"
+        class="landing__placeholder"
+        :src="objectUrls[FIRST_PROJECT.image]"
+        alt=""
+      >
     </main>
+    <TheGate v-if="gateOpen" @enter="onEnter" />
   </div>
 </template>
 
 <style scoped>
-.scaffold {
-  min-height: 100svh;
-  display: grid;
-  place-content: center;
-  text-align: center;
-  padding: 16px;
+.landing {
+  position: fixed;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 1s ease;
 }
 
-.scaffold__name {
-  margin: 0;
-  font-family: var(--font-hero);
-  font-weight: var(--hero-weight);
-  font-stretch: var(--hero-stretch);
-  font-size: clamp(2.5rem, 10vw, 8rem);
-  line-height: 0.9;
+.landing--visible {
+  opacity: 1;
 }
 
-.scaffold__line {
-  color: var(--c-accent);
-  font-size: 1.25rem;
+.landing__placeholder {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .landing {
+    transition-duration: 0.3s;
+  }
 }
 </style>

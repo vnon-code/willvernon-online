@@ -23,7 +23,7 @@ Entry format: `- [Name](url) — what Will likes · shot: shots/<file>.jpg`
 - Direction (Will, 2026-10-03): a neo-grotesk sans, like the monochrome keepers — Suisse Intl (Rejouice), Neue Montreal (Cathy Dolle), NB International (Shivam), Basis (Kenta), Indivisible (Pacôme). Board: shots/r3-keepers-type-colour.jpg
 - **Decided (Will, 2026-10-03): Host Grotesk** (Google Fonts, OFL) for UI and body. Specimens: shots/r3b-type.jpg
 - Hero (Will, 2026-10-03): name reads **WILL VERNON** (never William), all caps, in the base colour. Red goes on the line underneath, not the name; set it at 24px+ so Race red passes large-text contrast.
-- **Decided (Will, 2026-10-03): hero display face = Archivo Expanded Black** (Google Fonts, OFL; wght 900, wdth 125%). The width axis (62–125%) is available for motion.
+- ~~Decided (Will, 2026-10-03): hero display face = Archivo Expanded Black~~ Dropped later that day: the name is set in Host Grotesk Medium, small, for a minimal gate. (Google Fonts, OFL; wght 900, wdth 125%). The width axis (62–125%) is available for motion.
 - ~~Open: a bolder, experimental display face for the hero only.~~ Resolved. Free sets (r3c, r3d) all rejected; now comparing Pangram trials and Velvetyne (shots/r3e-*.jpg).
 - Will's favourites (2026-10-03): PP Monument Normal Black, Wide Black, Extended Black Italic (paid, personal-use trial only). Closest free match: Archivo (Google, OFL), one variable family with width 62–125% and italics, covering all three. Comparison: shots/r3f-monument-alts.jpg
 
@@ -54,3 +54,9 @@ One line each, with the reason, so we don't suggest them again.
 ## Patterns so far
 Will's keepers share: smooth motion as the main event; clean, minimal layouts; assets that move with the scroll and lead the eye; projects revealed through motion (teaser reels, carousels). The raw, type-only brutalist picks were all dropped.
 Round 2 adds: the site should feel like an app, not a page, and invite interaction (mouse trails, hover reactions, a custom cursor). Sound is part of the experience: an "enter with sound" opening fits Will's music. Smoothness is a hard requirement; jank or poor performance disqualifies a site Will otherwise likes.
+
+### Gate + sound references (Will, 2026-10-03)
+- dkton.at (Dominik Kostolnik): **button** — four corner brackets, a plate that fades in and insets on hover (0.34s cubic-bezier(0.16,1,0.3,1)), glowing edge ticks, a dot, a note on hover. Will likes it for the gate buttons.
+- dkton.at, Leistungen section: each discipline row is a horizontal **fader** for one sound layer (footsteps / atmos / music drone loops). Drag sets the volume; a colour band fills to the level and the text inverts over it; grab/detent/release sounds. Reference for the Sound HUD stems.
+- byotone.com: logo-over-wordmark lockup on the gate. Prompted the monogram + wordmark lockup work.
+- Leonardo AI / Posh start screens (Mobbin): a single mark dead centre, nothing else. Will likes the minimal centred mark.

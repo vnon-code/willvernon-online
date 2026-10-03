@@ -5,7 +5,6 @@ export default defineNuxtConfig({
   // Fully prerendered: `pnpm generate` writes static files to .output/public for Cloudflare Workers assets
   css: [
     '@fontsource-variable/host-grotesk',
-    '@fontsource-variable/archivo/wdth.css',
     '~/assets/css/tokens.css',
   ],
   app: {

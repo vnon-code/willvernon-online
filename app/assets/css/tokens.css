@@ -9,9 +9,10 @@
 
   /* Type */
   --font-ui: 'Host Grotesk Variable', system-ui, sans-serif;
-  --font-hero: 'Archivo Variable', 'Arial Black', sans-serif;
-  --hero-weight: 900;
-  --hero-stretch: 125%; /* Archivo Expanded; the wdth axis (62–125%) is free for motion */
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1); /* strong ease-out for entrances */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1); /* hover and press on the Gate's bracket button */
 
   /* PLACEHOLDER: dark by default; light follows the OS setting */
   --c-bg: var(--c-black);
