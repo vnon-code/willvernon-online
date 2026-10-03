@@ -1,0 +1,48 @@
+/* Design tokens — decided values only (STATE.md, references/REFERENCES.md, 2026-10-03).
+   Anything marked PLACEHOLDER still needs Will's sign-off. */
+
+:root {
+  /* Colour */
+  --c-black: #0a0a0a;
+  --c-white: #f2f2ef;
+  --c-red: #e10600; /* Race red: accents and large text only, never body copy */
+
+  /* Type */
+  --font-ui: 'Host Grotesk Variable', system-ui, sans-serif;
+  --font-hero: 'Archivo Variable', 'Arial Black', sans-serif;
+  --hero-weight: 900;
+  --hero-stretch: 125%; /* Archivo Expanded; the wdth axis (62–125%) is free for motion */
+
+  /* PLACEHOLDER: dark by default; light follows the OS setting */
+  --c-bg: var(--c-black);
+  --c-fg: var(--c-white);
+  --c-accent: var(--c-red);
+  color-scheme: dark light;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) {
+    --c-bg: var(--c-white);
+    --c-fg: var(--c-black);
+  }
+}
+
+:root[data-theme='light'] {
+  --c-bg: var(--c-white);
+  --c-fg: var(--c-black);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--c-bg);
+  color: var(--c-fg);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+}

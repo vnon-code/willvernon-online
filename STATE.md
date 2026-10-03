@@ -5,11 +5,10 @@
 **Decisions (2026-10-02)**
 - Fresh start on orphan branch `v3`. Kept only `public/`, `content/`, `content/INVENTORY.md` and the deploy files.
 - Will disliked both the legacy site and redesign/v2: the look, the heavy motion, the page structure and the costly phase process.
-- Stack and motion approach are still open. Colour and type are decided; see below and references/REFERENCES.md.
+- Colour and type are decided; see below and references/REFERENCES.md.
+- **Stack decided (Will, 2026-10-03):** Nuxt (prerendered) + Three.js + GSAP/ScrollTrigger + Lenis + native Web Audio + plain CSS tokens. See docs/adr/0001-stack.md. It matches pacomepertant.com's stack.
 
 **Open items**
-- Stack choice (decide when the landing page needs code).
-- `node_modules/` and `.astro/` are leftovers from the old Astro build (gitignored); delete once the stack is picked.
 - `v3` isn't pushed to GitHub yet.
 
 **Reference collection** (`references/REFERENCES.md`): 12 keepers over rounds 1–2. Visual system decided (2026-10-03):
@@ -46,4 +45,9 @@
 
 **Prototype status:** saved on local branch `prototype/landing-bg` (not pushed; `git checkout prototype/landing-bg` to view). `prototype/landing-bg.html` is approved as the reference for the landing, with `prototype/pick-images.html` and `prototype/depth/`. It defaults to C with the switcher hidden; `?variant=A|B|C` brings the switcher back. Serve it with the "prototype" config in `../.claude/launch.json` (python http.server on :5173). It is throwaway code: rebuild it properly, don't promote it.
 
-**Next step:** pick the stack, since the landing now needs real code.
+**Nuxt scaffold (2026-10-03, done, not committed):** Nuxt 4.5.2 + pnpm 12.8.1 (pinned via `packageManager`). Astro leftovers deleted. Tokens in `app/assets/css/tokens.css`; fonts self-hosted via `@fontsource-variable/host-grotesk` and `@fontsource-variable/archivo` (wdth axis). `pnpm generate` → `.output/public`, and wrangler points there with a pnpm build command. Dev server: the "site" config in `../.claude/launch.json` (:3000). `app/app.vue` is a labelled placeholder.
+- PLACEHOLDER: dark by default, light follows the OS. Not yet decided with Will.
+- **Open, blocks deploy:** the CSP in `public/_headers` only allows the old Astro inline-script hash. Nuxt emits two inline scripts (importmap and `window.__NUXT__` config, whose buildId changes every build), so the deployed site would be blocked. Needs a decision: per-build hash generation, or moving the config out of inline. The `/_nuxt/*` immutable cache rule is updated.
+- Cloudflare Workers Builds with pnpm 12 is untested.
+
+**Next step:** plan the landing build piece by piece, starting with the enter-with / enter-without-sound gate.

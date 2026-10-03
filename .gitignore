@@ -23,7 +23,10 @@ skills-lock.json
 # Reference-site screenshots (third-party content, kept local only)
 redesign/references/shots/
 
-# Astro build output and caches
+# Build output and caches (Nuxt; dist/ and .astro/ from the old Astro build)
+.nuxt/
+.output/
+.data/
 dist/
 .astro/
 node_modules/
