@@ -7,7 +7,7 @@ Branch `v3` is a from-scratch rebuild: only assets and content were carried over
 - Build slowly, one piece at a time, starting with the landing page.
 - Will chooses and approves every visual decision: palette, type, layout, motion, copy placement. Propose 2–3 concrete options with a visual preview, take Will's pick, then build. Treat any unapproved visual choice as a placeholder and label it so.
 - Each piece: concept → plan → Will signs off → build → Will verifies in the browser.
-- No stack, framework, motion library or design direction is decided yet. Each gets decided with Will when the work needs it.
+- Stack (decided 2026-10-03, docs/adr/0001-stack.md): Nuxt prerendered, Three.js, GSAP + Lenis, native Web Audio, plain CSS tokens. Other design choices still get decided with Will when the work needs them.
 
 ## Content
 - `content/*.json` holds every project, copy block, credit, link and media reference, extracted from the original site. Read it; never retype copy.
