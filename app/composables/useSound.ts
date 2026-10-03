@@ -9,10 +9,11 @@ const buffers = new Map<string, AudioBuffer>()
 
 // Fader positions, 0–1. They can change before sound starts and apply once it does.
 const levels = reactive<Record<string, number>>({})
-// Starting mix (Will, 2026-10-03): drums off, bass cutoff at 100 Hz, DREAM half, the rest at 80%
+// Starting mix (Will, 2026-10-03): drums off, bass cutoff at 100 Hz, the rest at 80%. DREAM starts at 0 (Will, 2026-10-04)
+// so the Landing background opens on its dream-off look.
 const STEM_DEFAULTS: Record<string, number> = { drums: 0, bass: Math.log(100 / 30) / Math.log(8000 / 30) }
 const defaultLevel = (id: string) => STEM_DEFAULTS[id] ?? 0.8
-const dream = ref(0.5)
+const dream = ref(0)
 const volume = ref(0) // 0 = muted; the Sound HUD raises it after its entrance on the sound path
 const playing = ref(false) // stems started and VOL above 0
 

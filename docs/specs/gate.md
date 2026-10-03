@@ -51,7 +51,7 @@ Mouse only: off for touch/pen, on screens without hover, and with reduced motion
 
 ## Transition (after a choice)
 1. The gate fades out (~0.6s).
-2. The point cloud fades up from black (~1s).
+2. The dot background (`docs/specs/landing-background.md`) fades up from black (~1s).
 3. Sound path: the music fades in with step 2.
 
 ## No-sound path

@@ -24,7 +24,7 @@ A floating panel at the bottom of the Landing that mixes the opening track live:
 ## What each band does
 - **Drums, Melody, Atmos, Vocals:** volume, level² (so the middle of the travel sounds like the middle). Drums start off; Melody, Atmos and Vocals at 80%.
 - **Bass:** a low-pass filter cutoff, exponential from 30 Hz (0%) to 8 kHz (100%); the readout shows Hz ("2.6k", "87"). At 0 the stem is cut completely. Starts at 100 Hz (~22% of the travel), so only the sub comes through.
-- **DREAM** (starts at 50%): low-pass on the whole mix from 20 kHz down to 700 Hz, reverb (3.2s generated tail) up to 70% wet, a 0.42s feedback delay up to 32% wet, dry down to 65%, and every stem slowed to 92% (the same rate on all stems keeps them in sync). The point-cloud visuals slow and soften with it once they exist.
+- **DREAM** (starts at 0, so the background opens on its dream-off look; Will, 2026-10-04): low-pass on the whole mix from 20 kHz down to 700 Hz, reverb (3.2s generated tail) up to 70% wet, a 0.42s feedback delay up to 32% wet, dry down to 65%, and every stem slowed to 92% (the same rate on all stems keeps them in sync). It also drives the Landing background (`docs/specs/landing-background.md`).
 - **VOL**: master volume, level². It is also the mute: 0 = silent, and a click toggles off/on like any band.
 
 ## UI sounds
@@ -39,7 +39,7 @@ Quiet synthesised blips (no audio files), on their own output so DREAM doesn't a
 
 ## Not in this piece
 - Track switching (prev/next): waits for more tracks with stems.
-- Connecting DREAM and the meters to the point cloud: built with the point cloud.
+- Connecting DREAM to the background: built with the background (`docs/specs/landing-background.md`). The meters stay HUD-only; audio reactivity was dropped (2026-10-03).
 
 ## Entrance: "Build" (Will's pick, revised 2026-10-03)
 Reference: `prototype/hud-entrance.html?o=2`. Starts once the Landing has faded up (1s after the Gate). All on cubic-bezier(0.16, 1, 0.3, 1) unless noted.
