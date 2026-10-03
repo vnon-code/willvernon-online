@@ -33,11 +33,13 @@ const pad = (i: number) => String(i).padStart(2, '0')
 
 // Ring geometry and motion (spec values, measured at 1280×800)
 const FOCAL = 1600 // px perspective
-const RADIUS = 0.55 // × viewport width
 const SPACING = 1.04 // × card width along the ring
-const GROW = 0.6 // centre card grows to 1.6×
-const PUSH = 0.3 // neighbours move out by 30% of a card width
-const FADE: [number, number] = [1.0, 1.35] // radians from the centre
+// Desktop: card 32% wide, ring radius 55% of the width, centre grows 1.6×, neighbours pushed out 30% of a card,
+// fading out 1.0–1.35 rad from the centre. Phones (Peek): card 72% wide, flatter ring, a sliver of each neighbour.
+const RING = { width: 0.32, radius: 0.55, grow: 0.6, push: 0.3, fade: [1.0, 1.35] }
+const PHONE = { width: 0.72, radius: 1.6, grow: 0, push: 0, fade: [0.55, 0.8] }
+const PHONE_MAX = 640 // px viewport width
+const AIR = 24 // px kept clear above the chips and below the caption
 const EASE = 0.085 // per frame at 60fps
 const WHEEL_PX = 360 // wheel travel per card
 const DRAG_W = 0.28 // × viewport width per card
@@ -46,8 +48,12 @@ const STEP_REST = 10000 // Auto: Step (Will)
 const IDLE_RESUME = 3000
 const TEASER_DELAY = 250
 const STACK_REST = 160 // px: chips, caption and the two gaps around the strip
+const SWEEP_OUT = 220 // ms: filter change, old set fades while turning on
+const SWEEP_IN = 380 // ms: new set fades in while spinning in from the right
+const SWEEP_FROM = -2.2 // cards: where the new set starts turning from
 
 const stripEl = ref<HTMLElement>()
+const worldEl = ref<HTMLElement>()
 const cardEls: Record<string, HTMLElement> = {}
 const videoEls: Record<string, HTMLVideoElement> = {}
 const started = reactive<Record<string, boolean>>({}) // video element created (on first use)
@@ -60,6 +66,7 @@ let snapTimer = 0, autoTimer = 0, teaserTimer = 0
 let hovered = ''
 let drag: { x: number, y: number, t: number } | null = null
 let moved = false
+let sweeping = false // filter change in progress: the caption holds on the new first card
 
 const n = () => cards.value.length
 const mod = (v: number, m: number) => ((v % m) + m) % m
@@ -74,11 +81,13 @@ const inOut = (t: number) => t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2
 // Cards are projected to 2D by hand and stacked by depth (CSS preserve-3d re-sorted the planes and made cards pop)
 function layout() {
   const W = innerWidth, H = innerHeight
-  const cw = Math.min(W * 0.32, H * 0.4 * 16 / 9), ch = cw * 9 / 16
-  // The strip area is 2× card height, squeezed (never below the big centre card) to fit above the Sound HUD
-  const room = H - hudClear - STACK_REST
-  stripEl.value?.style.setProperty('--strip-h', `${Math.max(ch * (1 + GROW) + 16, Math.min(ch * 2, room))}px`)
-  const R = W * RADIUS, step = (cw * SPACING) / R
+  const g = W < PHONE_MAX ? PHONE : RING
+  // Fit (Claude's pick, 2026-10-03): the stack keeps AIR above the chips and below the caption, above the Sound HUD.
+  // Cards shrink with height when the grown centre card wouldn't fit; the strip area is 2× card height at most.
+  const room = H - hudClear - STACK_REST - 2 * AIR
+  const cw = Math.min(W * g.width, H * 0.4 * 16 / 9, ((room - 16) / (1 + g.grow)) * 16 / 9), ch = cw * 9 / 16
+  stripEl.value?.style.setProperty('--strip-h', `${Math.min(ch * 2, room)}px`)
+  const R = W * g.radius, step = (cw * SPACING) / R
   cards.value.forEach((c, i) => {
     const el = cardEls[c.id]
     if (!el) return
@@ -86,11 +95,11 @@ function layout() {
     const th = d * step
     const X = R * Math.sin(th), Z = R * (1 - Math.cos(th)) * 0.85
     const p = FOCAL / (FOCAL - Z)
-    const x = X * p + Math.sign(d) * Math.min(a, 1) * cw * PUSH * p
-    const op = 1 - smooth(FADE[0], FADE[1], Math.abs(th))
+    const x = X * p + Math.sign(d) * Math.min(a, 1) * cw * g.push * p
+    const op = 1 - smooth(g.fade[0]!, g.fade[1]!, Math.abs(th))
     el.style.width = `${cw}px`
     el.style.height = `${ch}px`
-    el.style.transform = `translate(-50%, -50%) translate(${x}px, 0) scale(${p * (1 + GROW * near)}) perspective(${FOCAL}px) rotateY(${-th}rad)`
+    el.style.transform = `translate(-50%, -50%) translate(${x}px, 0) scale(${p * (1 + g.grow * near)}) perspective(${FOCAL}px) rotateY(${-th}rad)`
     el.style.zIndex = String(Math.round(2000 + Z))
     el.style.opacity = String(op)
     el.style.visibility = op <= 0.01 ? 'hidden' : 'visible'
@@ -117,7 +126,8 @@ function tick(now: number) {
     target -= s
   }
   layout()
-  setCentre(mod(Math.round(pos), n()))
+  if (sweeping && Math.round(pos) === Math.round(target)) sweeping = false
+  if (!sweeping) setCentre(mod(Math.round(pos), n()))
   raf = pos !== target || drag ? requestAnimationFrame(tick) : 0
 }
 
@@ -216,15 +226,32 @@ function onHover(id: string, on: boolean) {
   if (!on) scheduleAuto(STEP_REST)
 }
 
-// Filter change: the ring rebuilds with the filtered cards and starts at the first. PLACEHOLDER: no transition yet.
+// Filter change, Sweep (Claude's pick, 2026-10-03): the old set fades as it turns on, the ring rebuilds with the
+// filtered cards, and the new set spins in from the right and settles on its first card. Reduced motion: a cut.
+let switching = false
+const fadeWorld = (from: number, to: number, ms: number, easing: string) =>
+  worldEl.value!.animate({ opacity: [from, to] }, { duration: ms, easing, fill: 'forwards' }).finished
 async function setChip(k: string) {
-  if (k === chip.value) return
+  if (k === chip.value || switching) return
+  switching = true
+  if (!reduced) {
+    go(target + 0.6)
+    await fadeWorld(1, 0, SWEEP_OUT, 'ease-in')
+  }
   chip.value = k
-  target = pos = 0
   centre.value = -1
   await nextTick()
-  layout()
+  pos = reduced ? 0 : SWEEP_FROM
+  target = 0
   setCentre(0)
+  layout()
+  if (!reduced) {
+    sweeping = true
+    wake()
+    await fadeWorld(0, 1, SWEEP_IN, 'ease-out')
+  }
+  worldEl.value!.getAnimations().forEach(a => a.cancel())
+  switching = false
   touch()
 }
 
@@ -279,31 +306,33 @@ onBeforeUnmount(() => {
       @keydown="onKey"
       @pointerdown="onPointerDown"
     >
-      <button
-        v-for="(c, i) in cards"
-        :key="c.id"
-        :ref="(el) => { if (el) cardEls[c.id] = el as HTMLElement }"
-        class="card"
-        type="button"
-        :aria-label="c.title"
-        @click="onCardClick(i)"
-        @pointerenter="onHover(c.id, true)"
-        @pointerleave="onHover(c.id, false)"
-      >
-        <img :src="playing[c.id] && c.teaser?.endsWith('.gif') ? c.teaser : c.poster" alt="" draggable="false">
-        <video
-          v-if="started[c.id]"
-          :ref="(el) => { if (el) videoEls[c.id] = el as HTMLVideoElement }"
-          :class="{ on: playing[c.id] }"
-          :src="c.teaser!"
-          muted
-          loop
-          playsinline
-          preload="auto"
-          @playing="playing[c.id] = true"
-          @pause="playing[c.id] = false"
-        />
-      </button>
+      <div ref="worldEl" class="world">
+        <button
+          v-for="(c, i) in cards"
+          :key="c.id"
+          :ref="(el) => { if (el) cardEls[c.id] = el as HTMLElement }"
+          class="card"
+          type="button"
+          :aria-label="c.title"
+          @click="onCardClick(i)"
+          @pointerenter="onHover(c.id, true)"
+          @pointerleave="onHover(c.id, false)"
+        >
+          <img :src="playing[c.id] && c.teaser?.endsWith('.gif') ? c.teaser : c.poster" alt="" draggable="false">
+          <video
+            v-if="started[c.id]"
+            :ref="(el) => { if (el) videoEls[c.id] = el as HTMLVideoElement }"
+            :class="{ on: playing[c.id] }"
+            :src="c.teaser!"
+            muted
+            loop
+            playsinline
+            preload="auto"
+            @playing="playing[c.id] = true"
+            @pause="playing[c.id] = false"
+          />
+        </button>
+      </div>
     </section>
 
     <div v-if="current" class="caption" aria-live="polite">
@@ -386,6 +415,11 @@ onBeforeUnmount(() => {
 
 .strip:focus-visible {
   outline-offset: -2px;
+}
+
+.world {
+  position: absolute;
+  inset: 0;
 }
 
 .card {

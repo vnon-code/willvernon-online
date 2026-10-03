@@ -1,5 +1,5 @@
 {
-  "_about": "The Landing's project strip (docs/specs/project-strip.md). Titles come from the source file: `from` names the content file, `id` is the entry's slug (projects), key (ai) or id (experiments). Order is PLACEHOLDER (Claude's 'strongest first, mixed') until Will reorders. A .gif teaser plays in place of a video.",
+  "_about": "The Landing's project strip (docs/specs/project-strip.md). Titles come from the source file: `from` names the content file, `id` is the entry's slug (projects), key (ai) or id (experiments). Order: 'strongest first, mixed', approved by Will 2026-10-03. A .gif teaser plays in place of a video.",
   "chips": ["All", "Project", "Experiment"],
   "cards": [
     { "from": "projects", "id": "smugglers-outpost", "chip": "Project", "discipline": "Design", "poster": "/img/posters/assets-vidsmugglersoutpost-1.webp", "teaser": "https://assets.willvernon.online/projects/06_smugglers-outpost/assets/VIDSmugglersOutpost_1.mp4" },
