@@ -1,14 +1,18 @@
 <script setup lang="ts">
 const gateOpen = ref(true)
 const landingVisible = ref(false)
+const hudVisible = ref(false)
+const enteredWithSound = ref(false)
 const { objectUrls } = useLoader()
 
-// Step 2 of the Gate transition: the Landing fades up from black; on the sound path the music fades in with it
+// Step 2 of the Gate transition: the Landing fades up from black. The music fades in later, with the Sound HUD's entrance.
 function onEnter(withSound: boolean) {
   gateOpen.value = false
   landingVisible.value = true
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches
-  if (withSound) useSound().enableSound(reduced ? 0.3 : 1)
+  enteredWithSound.value = withSound
+  // The Sound HUD enters once the Landing has faded up
+  setTimeout(() => (hudVisible.value = true), reduced ? 300 : 1000)
 }
 </script>
 
@@ -24,6 +28,7 @@ function onEnter(withSound: boolean) {
         alt=""
       >
     </main>
+    <TheSoundHud v-if="hudVisible" :with-sound="enteredWithSound" />
     <TheGate v-if="gateOpen" @enter="onEnter" />
   </div>
 </template>

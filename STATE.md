@@ -76,4 +76,27 @@
 - The first 0.65s is plain black since the seed dot went; start the name earlier?
 - Slide speed: 2400ms, tune in `GATE_DOTS` if Will wants it slower.
 
-**Next step:** the Sound HUD (dkton Leistungen-style faders), in a fresh session.
+**Sound HUD, round 1 (Will, 2026-10-03)**
+- Faders are dkton-style **vertical bands**, one per stem; the track card with album art sits underneath.
+- Drag sets a stem's volume (0 = off); a click toggles it off/on. Subtle synthesised UI sounds (grab, detent tick, release).
+- No track switching yet: Silver Linings only, until more tracks have stems.
+- Layout preview: `prototype/sound-hud.html` (throwaway, untracked), `?v=A|B|C` (A Console centred, B Edge strip full width, C Corner tower bottom-right). Real stems, DREAM and volume work.
+- **Layout locked: A · Console** (Will, 2026-10-03). B and C are dropped.
+- **Bass band = low-pass cutoff** (Will): exponential 30 Hz–8 kHz, readout in Hz, 0 cuts the stem completely. The other stems stay volume. Range is Claude's pick (placeholder until Will has listened).
+
+- Will approved the prototype by ear (2026-10-03). **Spec signed off:** `docs/specs/sound-hud.md`. No mute button (VOL at 0 is mute; entering without sound starts VOL at off, a click on VOL starts the music). The track card's right end is reserved for prev/next. Entrance: panel fades in, then the fills rise one by one (60ms stagger).
+
+**Sound HUD built (2026-10-03, not committed):** `app/components/TheSoundHud.vue` + `SoundBand.vue`; `useSound.ts` rewritten (per-stem gain, bass low-pass, DREAM chain, master = VOL, meters, UI blips; `mute`/`soundOn` removed, no other consumers). Mounted in `app.vue` 1s after the Landing starts fading up.
+- Verified in the dev pane: both Gate paths, meters live, VOL click starts the music, BASS drag + Hz readout, no console errors; `pnpm generate` passes. Not observed: the entrance stagger by eye, audio by ear, reduced motion, light theme.
+
+- **Entrance revised (Will, 2026-10-03):** the first version popped in (opacity set in the mount frame, so no transition). Will picked "Build" from `prototype/hud-entrance.html` (throwaway, uses Motion from a CDN): glass fades, bands grow up 60ms apart, fills follow, track card last (~1.7s). Built as CSS keyframes in `TheSoundHud.vue`; fills now ease on expo. Sampled mid-animation in the dev pane: sequence and end levels correct.
+
+- **Music fade tied to the entrance (Will, 2026-10-03):** on the sound path the music now starts when the HUD appears and fades from silence to VOL 80% over the entrance (1.67s), not 1s from the Gate click. `TheSoundHud` takes a `withSound` prop and calls `enableSound(entrance)`. Master gain sampled in the dev pane: 0 → 0.31 at 0.8s → 0.64 at 1.7s.
+
+- **Starting mix + VOL rise (Will, 2026-10-03), replaces the fade above:** drums off, bass cutoff 100 Hz, DREAM 50%, others 80% (`STEM_DEFAULTS` in `useSound.ts`). On the sound path VOL sits at 0 through the entrance, then the fader and music rise to 80% over 3s ease-in-out (PLACEHOLDER duration; `VOL_RISE_MS` in `TheSoundHud.vue`); touching VOL stops the rise. `enableSound` and the fade option on `setVolume` are gone. Sampled in the dev pane: gain 0 until 1.7s, 0.35 at 3.5s, 0.64 at 4.7s.
+
+- **Committed to `v3` (2026-10-03).** HUD prototypes (`prototype/sound-hud.html`, `prototype/hud-entrance.html`) stay untracked.
+
+**Open items (Sound HUD):** VOL rise duration (3s placeholder); reduced motion and light theme not yet seen; the VOL readout shows "0" for a frame as the rise starts.
+
+**Next step:** pick the next Landing piece (project strip, point cloud, or chrome: monogram/menu/filter chips), in a fresh session.

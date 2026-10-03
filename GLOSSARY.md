@@ -17,5 +17,5 @@ One separately controllable layer of a music track (e.g. drums, bass, vocals).
 _Avoid_: Channel, track (a track is the whole song)
 
 **Sound HUD**:
-The floating bar along the bottom of the Landing holding stem toggles, track switching, the DREAM slider and volume.
+The floating panel along the bottom of the Landing holding the stem faders, the DREAM and volume faders, and the track card.
 _Avoid_: Mixer, player, sound controls
