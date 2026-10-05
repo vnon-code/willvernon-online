@@ -7,11 +7,13 @@ Branch `v3` is a from-scratch rebuild: only assets and content were carried over
 - Build slowly, one piece at a time, starting with the landing page.
 - Will chooses and approves every visual decision: palette, type, layout, motion, copy placement. Propose 2–3 concrete options with a visual preview, take Will's pick, then build. Treat any unapproved visual choice as a placeholder and label it so.
 - Each piece: concept → plan → Will signs off → build → Will verifies in the browser.
+- Work follows the wayfinder map in `.scratch/v1-launch/MAP.md`: one ticket per session, time-boxed to that session. Leftover tweaks go to `LATER.md`.
+- Prototypes are built in Nuxt as real pages with real components and content, not as standalone HTML files (Will, 2026-10-05).
 - Stack (decided 2026-10-03, docs/adr/0001-stack.md): Nuxt prerendered, Three.js, GSAP + Lenis, native Web Audio, plain CSS tokens. Other design choices still get decided with Will when the work needs them.
 
 ## Content
 - `content/*.json` holds every project, copy block, credit, link and media reference, extracted from the original site. Read it; never retype copy.
-- `content/INVENTORY.md` is the parity checklist: everything in it must exist somewhere on the finished site.
+- `content/INVENTORY.md` is reference only, not a parity checklist (Will, 2026-10-05): keep projects, bio, links and media; old-site scaffolding can go.
 - `public/` holds local assets plus `_headers` / `_redirects` for Cloudflare.
 
 ## Hard rules
