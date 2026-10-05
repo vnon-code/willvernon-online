@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { FIELD_PRESETS } from '~/composables/useProtoFx'
 // The Landing background (docs/specs/landing-background.md; reference prototype/backgrounds.html).
 // A full-screen grid of round dots; a warped fbm field sets each dot's size and colour. The centred project's teaser
 // sets the palette only: teaser/still → source (½ res, crossfades between projects) → ⅛ → 1/32 → 5 stops → dots.
@@ -7,28 +6,33 @@ import { FIELD_PRESETS } from '~/composables/useProtoFx'
 const props = defineProps<{
   // The strip's centred card: its still, and its teaser (video or .gif; a .gif has no frames for WebGL)
   project?: { poster: string, teaser?: string | null }
+  // The latest step: the new centre card and when it arrived (performance.now()); the pulse starts at its border
+  pulse?: { el: Element, at: number }
 }>()
 
 // Grid, dot sizes, zoom, warp, speed and brightness come live from useVisuals (the Visuals HUD); DREAM blends
 // zoom, warp and speed from those towards FULL (docs/specs/landing-background.md).
 const { v: visuals } = useVisuals()
-// Dots shrink to 40% of their size under every [data-dot-clear] element (Will, 2026-10-04), so text reads over them
-// Will, 2026-10-04: subtler (was pad 12, feather 48, shrink to the smallest dot). PLACEHOLDER values
-const CLEAR = { max: 12, pad: 4, feather: 28, keep: 0.4 } // elements, px around each, px to full size, size kept under UI
-const EASE = 0.35 // s, palette ease (dream off and full alike)
+// Dots shrink under every [data-dot-clear] element so text reads over them (Will, 2026-10-04). Will, 2026-10-05
+// ("soft", picked on a live trial): the clear follows each element's own corner radius, with a wider feather and a
+// gentler shrink, so it reads as part of the field rather than a box cut out of it
+const CLEAR = { max: 12, pad: 4, feather: 56, keep: 0.6 } // elements, px around each, px to full size, size kept under UI
 const MONO = 0.55 // brightness × for a grey palette (saturation ≤ .08), easing to ×1 by saturation .30. PLACEHOLDER
 const FULL = { scale: 0.85, warp: 3.35, speed: 0.55 }
-const CROSSFADE = 1.2 // s, between projects
-// PROTOTYPE 'smooth' colour (rounds 13–14): responds at once, then settles softly. A longer crossfade on an ease-out
-// curve, the palette through two short eases in a row (no jump, no lag), a slower still → video
-const SMOOTH = { crossfade: 1.8, pre: 0.06, ease: 0.4, readback: 0.05, videoFade: 0.8 }
-const READBACK = 0.15 // s between palette reads
-const VIDEO_FADE = 2 // per second: still → live teaser
+// Colour "smooth" (Will, 2026-10-05): responds at once, then settles softly. Crossfade between projects (s) on an
+// ease-out curve; the palette is read every `readback` s and carried through two short eases in a row (s: no jump,
+// no lag); still → live teaser at `videoFade` per second
+const COLOUR = { crossfade: 1.8, pre: 0.06, ease: 0.4, readback: 0.05, videoFade: 0.8 }
+// Colour wash (Will, 2026-10-05; picked from 14 scored variants on a live trial): on each step the new palette spreads
+// out from the centre card's border, reaching the far corner in `ms` (ease-out). Its soft front (`feather` px) is
+// pushed in and out by the field (`push` px), so it follows the field's own shapes. The Breath Bright band rides on the
+// front: it lights only dots that are already lit (black stays black, sizes stay put) and its crest tips towards white.
+// Band strength, width (px), whiteness at the crest (0–1), fade (× the distance to the far corner). Reduced motion: no
+// wave and no band; the colour crossfades in place.
+const WASH = { ms: 3000, feather: 240, push: 120, amp: 0.75, w: 140, white: 0.7, fall: 0.6 }
 
 const canvas = ref<HTMLCanvasElement>()
 const { dream } = useSound()
-// PROTOTYPE (/proto): the field's reactions (row "Field" in the switcher, useProtoFx.ts). Remove with useProto.
-const fx = useProtoFx()
 
 // CSS-style cubic-bezier(x1, y1, x2, y2): solve x(u) = x by Newton steps, return y(u)
 function bezier(x1: number, y1: number, x2: number, y2: number) {
@@ -67,8 +71,9 @@ const FS_DOTS = `precision highp float;
   uniform vec2 uRes; uniform vec3 uP[5];
   uniform float uCell, uTime, uMin, uMax, uScale, uWarp, uPad, uFeather, uKeep;
   uniform vec4 uRect[${CLEAR.max}]; uniform float uRectW[${CLEAR.max}];   // centre + half size (px), weight
-  uniform float uMode, uDpr; uniform vec4 uCard; // PROTOTYPE Behind: how the field meets what's in front of it; the centre card's rect
-  uniform vec4 uBox; uniform vec2 uEcho[3]; uniform vec4 uPul; uniform vec2 uLit; // PROTOTYPE: card centre + half size, echo front/strength, width/fall/-/warp, crest white + bloom
+  uniform float uRectR[${CLEAR.max}];                                        // corner radius (px)
+  uniform vec3 uP0[5]; // the old palette, held ahead of the wash front
+  uniform vec4 uBox, uWash; uniform vec3 uPul; // centre card: centre + half size; front, feather, push, fall (px); band width (px), strength, white per strength
   float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
   float noise(vec2 p){ vec2 i=floor(p),f=fract(p),u=f*f*(3.-2.*f);
     return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y); }
@@ -76,7 +81,9 @@ const FS_DOTS = `precision highp float;
   vec3 pal(float t){ t = clamp(t, 0., 1.)*4.;
     vec3 c = mix(uP[0], uP[1], clamp(t, 0., 1.)); c = mix(c, uP[2], clamp(t-1., 0., 1.));
     c = mix(c, uP[3], clamp(t-2., 0., 1.)); return mix(c, uP[4], clamp(t-3., 0., 1.)); }
-  float sdBox(vec2 p, vec4 r){ vec2 q = abs(p - r.xy) - r.zw; return length(max(q, 0.)) + min(max(q.x, q.y), 0.); }
+  vec3 pal0(float t){ t = clamp(t, 0., 1.)*4.;
+    vec3 c = mix(uP0[0], uP0[1], clamp(t, 0., 1.)); c = mix(c, uP0[2], clamp(t-1., 0., 1.));
+    c = mix(c, uP0[3], clamp(t-2., 0., 1.)); return mix(c, uP0[4], clamp(t-3., 0., 1.)); }
   vec3 grade(vec3 c){ float l = dot(c, vec3(.299,.587,.114)); return max(mix(vec3(l), c, 1.2), 0.); }
   float field(vec2 px){
     vec2 p = (px - .5*uRes)/uRes.y*uScale; float t = uTime*.05;
@@ -87,52 +94,30 @@ const FS_DOTS = `precision highp float;
     vec2 px = gl_FragCoord.xy;
     vec2 c = (floor(px/uCell) + .5)*uCell;
     float v = field(c);
-    // PROTOTYPE pulse: soft bands travel out from the centre card's border (rect distance, wobbled by noise) and fade
-    // with distance. It only lights dots that are already lit (Will, 2026-10-05): black stays black, sizes stay put.
-    float pb = 0.;
-    if (uBox.z > 0.) {
-      vec2 bq = abs(c - uBox.xy) - uBox.zw;
-      float d = max(length(max(bq, 0.)) + min(max(bq.x, bq.y), 0.), 0.) + (noise(c/uCell*.12 + uTime*.08) - .5)*uPul.w;
-      for (int k = 0; k < 3; k++) { float x = (d - uEcho[k].x)/uPul.x; pb += uEcho[k].y*exp(-x*x); }
-      pb *= exp(-max(d, 0.)/uPul.y);
-    }
-    // 1 in the open, 0 under UI: the distance from the cell centre to each clear rect, feathered
+    // Pulse: a soft band travels out from the centre card's border (rect distance, wobbled by noise) and fades with
+    // distance
+    // Wash: the distance from the centre card's border, pushed by the field; k = 1 behind the front (new colour), 0 ahead
+    // (old). The band rides just behind the front and fades with distance
+    vec2 wq = abs(c - uBox.xy) - uBox.zw;
+    float dw = max(length(max(wq, 0.)) + min(max(wq.x, wq.y), 0.), 0.) + (v - .5)*uWash.z;
+    float k = 1. - smoothstep(uWash.x - uWash.y, uWash.x, dw);
+    float x = (dw - (uWash.x - .3*uWash.y))/uPul.x;
+    float pb = uPul.y*exp(-x*x)*exp(-dw/uWash.w);
+    // 1 in the open, 0 under UI: the distance from the cell centre to each clear rect (rounded), feathered
     float open = 1.;
     for (int i = 0; i < ${CLEAR.max}; i++) {
-      vec2 q = abs(c - uRect[i].xy) - uRect[i].zw;
-      float sd = length(max(q, 0.)) + min(max(q.x, q.y), 0.);
+      float rr = min(uRectR[i], min(uRect[i].z, uRect[i].w));
+      vec2 q = abs(c - uRect[i].xy) - (uRect[i].zw - rr);
+      float sd = length(max(q, 0.)) + min(max(q.x, q.y), 0.) - rr;
       open = min(open, mix(1., smoothstep(uPad, uPad + uFeather, sd), uRectW[i]));
     }
-    // PROTOTYPE Behind: the nearest element edge (sd, card included) and a soft shadow cast down from each element
-    // sh: a soft shadow 14px below (shadow); ht: a tighter one 8px below, drawn in dot size (halftone)
-    float sd = 1e5, sh = 0., ht = 0.;
-    for (int i = 0; i < ${CLEAR.max}; i++) {
-      if (uRectW[i] <= 0.) continue;
-      sd = min(sd, sdBox(c, uRect[i]));
-      sh = max(sh, uRectW[i]*(1. - smoothstep(-6.*uDpr, 26.*uDpr, sdBox(c + vec2(0., 14.*uDpr), uRect[i]))));
-      ht = max(ht, uRectW[i]*(1. - smoothstep(-4.*uDpr, 16.*uDpr, sdBox(c + vec2(0., 8.*uDpr), uRect[i]))));
-    }
-    float sdc = sd;
-    if (uCard.z > 0.) {
-      sdc = min(sd, sdBox(c, uCard));
-      sh = max(sh, 1. - smoothstep(-10.*uDpr, 44.*uDpr, sdBox(c + vec2(0., 22.*uDpr), uCard)));
-      ht = max(ht, 1. - smoothstep(-4.*uDpr, 16.*uDpr, sdBox(c + vec2(0., 18.*uDpr), uCard)));
-    }
-    float keep = uMode == 1. ? 1. : mix(uKeep, 1., open); // halo keeps the dots' size
-    if (uMode == 4.) keep *= mix(1., .55, ht); // halftone: the shadow is smaller dots
-    float r = min(mix(uMin, uMax, v), .5)*keep*uCell;
+    float r = min(mix(uMin, uMax, v), .5)*mix(uKeep, 1., open)*uCell;
     float a = 1. - smoothstep(r - 1., r + 1., length(px - c));
     // Lit dots brighten in their own colour, in proportion to how lit they are; the crest tips towards white
-    // (uLit.x: how far at the band's peak). Bloom (uLit.y): a faint glow just around lit dots, never in empty field.
-    float lit = smoothstep(.15, .7, v), l = pb*lit;
-    vec3 col = grade(pal(v));
-    col = mix(col*(1. + l*1.2), vec3(1.), min(l*uPul.z, uLit.x));
-    if (uMode == 1.) col *= mix(.25, 1., smoothstep(0., 24.*uDpr, sdc)); // halo: a pool of shade around everything
-    if (uMode == 2. && sd > 0.) { float ring = lit*exp(-pow((sd - 6.*uDpr)/(9.*uDpr), 2.)); col *= 1. + 1.15*ring; } // rim: lit dots catch light at each edge
-    if (uMode == 3.) col *= 1. - .35*sh; // shadow: elements float above the field
-    if (uMode == 4.) col *= mix(1., .5, ht)*mix(.7, 1., smoothstep(0., 24.*uDpr, sdc)); // halftone, over a little occlusion
-    float halo = uLit.y*l*.35*smoothstep(r*2.4, r, length(px - c));
-    gl_FragColor = vec4(mix(vec3(10./255.) + halo*col, col, a), 1.);
+    float l = pb*smoothstep(.15, .7, v);
+    vec3 col = grade(mix(pal0(v), pal(v), k));
+    col = mix(col*(1. + l*1.2), vec3(1.), min(l*uPul.z, ${WASH.white.toFixed(2)}));
+    gl_FragColor = vec4(mix(vec3(10./255.), col, a), 1.);
   }`
 
 let stop = () => {}
@@ -268,9 +253,8 @@ onMounted(() => {
   // Palette: every 150ms the 1/32 frame is reduced to 5 stops — four luminance quartiles (each a saturation-weighted
   // mean, so a small strong colour isn't averaged into grey) and the most saturated 15% as the accent at stop 4.
   // Auto-level: the lightest stop is scaled to ~0.85 luminance (×0.7–2.2). Stops ease with the palette time constant.
-  const cur = new Float32Array(15).fill(0.1), tgt = new Float32Array(15).fill(0.1), pre = new Float32Array(15).fill(0.1)
-  let since = READBACK, first = true
-  let lastField = ''
+  const cur = new Float32Array(15).fill(0.1), old = new Float32Array(15).fill(0.1), tgt = new Float32Array(15).fill(0.1), pre = new Float32Array(15).fill(0.1)
+  let since = COLOUR.readback, first = true
   let pixels = new Uint8Array(0)
   function extract() {
     const n = low.w * low.h
@@ -307,14 +291,11 @@ onMounted(() => {
     const mono = MONO + (1 - MONO) * Math.min(1, Math.max(0, (sat - 0.08) / 0.22))
     const lift = Math.min(2.2, Math.max(0.7, 0.85 / Math.max(top, 0.01))) * visuals.value.level / 0.85 * mono
     ;[q[0]!, q[1]!, q[2]!, accent, q[3]!].forEach((c, k) => tgt.set(c.map(v => Math.min(1, v * lift)), k * 3))
-    // PROTOTYPE Edges 'tint': the accent, lifted to a readable lightness, for hairlines (eased by CSS, @property)
-    const ac = [tgt[9]!, tgt[10]!, tgt[11]!], al = Math.max(...ac, 0.01), k8 = Math.min(3, 0.9 / al)
-    const field = `rgb(${ac.map(v => Math.round(Math.min(1, v * k8) * 255)).join(' ')})`
-    if (field !== lastField) document.documentElement.style.setProperty('--c-field', (lastField = field))
   }
 
-  const rects = new Float32Array(CLEAR.max * 4), weights = new Float32Array(CLEAR.max)
+  const rects = new Float32Array(CLEAR.max * 4), weights = new Float32Array(CLEAR.max), radii = new Float32Array(CLEAR.max)
   let t = 0, last = performance.now(), raf = 0
+  let washAt = -1, washEase = 1 // the step the wash belongs to, how far it has travelled (0–1)
   function frame(now: number) {
     const dt = Math.min(0.1, (now - last) / 1000)
     last = now
@@ -325,10 +306,10 @@ onMounted(() => {
     const scale = OFF.scale * (FULL.scale / OFF.scale) ** d
     const warp = OFF.warp + (FULL.warp - OFF.warp) * d
     const speed = OFF.speed + (FULL.speed - OFF.speed) * d
-    if (!reduced && fx.field.hold < 0) t += dt * speed // (PROTOTYPE: the loop freezes it to capture the pulse) reduced motion: a still field; the palette still follows the project
+    if (!reduced) t += dt * speed // reduced motion: a still field; the palette still follows the project
 
-    const smooth = fx.on.value && fx.opt.value.colour === 'smooth'
-    mix = Math.min(1, mix + dt / (smooth ? SMOOTH.crossfade : CROSSFADE))
+    // With the wash the teaser (the palette's source) crossfades in half its time; reduced motion keeps the plain fade
+    mix = Math.min(1, mix + dt / (reduced ? COLOUR.crossfade : WASH.ms / 2000))
     if (mix >= 1 && slots[0].video) clear(slots[0])
     for (const s of slots) {
       const ready = !!s.video && s.video.readyState >= 2
@@ -337,7 +318,7 @@ onMounted(() => {
         gl!.texImage2D(gl!.TEXTURE_2D, 0, gl!.RGBA, gl!.RGBA, gl!.UNSIGNED_BYTE, s.video!)
         s.vidA = s.video!.videoWidth / s.video!.videoHeight
       }
-      s.on += ((ready ? 1 : 0) - s.on) * (1 - Math.exp(-dt * (smooth ? SMOOTH.videoFade : VIDEO_FADE)))
+      s.on += ((ready ? 1 : 0) - s.on) * (1 - Math.exp(-dt * COLOUR.videoFade))
     }
 
     // source → mid → low
@@ -352,7 +333,7 @@ onMounted(() => {
     bind(pSrc, 'uV1', slots[1].vid, 3)
     gl!.uniform2f(U(pSrc, 'uRes'), src.w, src.h)
     const f: [string, number][] = [['uA0', slots[0].stillA], ['uA1', slots[1].stillA], ['uVA0', slots[0].vidA],
-      ['uVA1', slots[1].vidA], ['uVid0', slots[0].on], ['uVid1', slots[1].on], ['uMix', smooth ? 1 - (1 - mix) ** 3 : mix * mix * (3 - 2 * mix)]]
+      ['uVA1', slots[1].vidA], ['uVid0', slots[0].on], ['uVid1', slots[1].on], ['uMix', 1 - (1 - mix) ** 3]]
     for (const [n, v] of f) gl!.uniform1f(U(pSrc, n), v)
     fullscreen(pSrc)
     for (const [from, to] of [[src, mid], [mid, low]] as const) {
@@ -364,31 +345,28 @@ onMounted(() => {
       fullscreen(pDown)
     }
 
-    if ((since += dt) >= (smooth ? SMOOTH.readback : READBACK)) { // smooth reads 3× as often: smaller steps, less wait
+    if ((since += dt) >= COLOUR.readback) {
       since = 0
       extract()
       if (first) {
         cur.set(tgt)
         pre.set(tgt)
+        old.set(tgt)
         first = false
       }
     }
-    if (smooth) {
-      // a short ease takes the edge off each new reading, a second one carries the colour; together they move
-      // within a frame or two of the change but never jump
-      const a = 1 - Math.exp(-dt / SMOOTH.pre), e = 1 - Math.exp(-dt / SMOOTH.ease)
-      for (let k = 0; k < 15; k++) {
-        pre[k]! += (tgt[k]! - pre[k]!) * a
-        cur[k]! += (pre[k]! - cur[k]!) * e
-      }
-    } else {
-      const e = 1 - Math.exp(-dt / EASE)
-      for (let k = 0; k < 15; k++) cur[k]! += (tgt[k]! - cur[k]!) * e
+    // A short ease takes the edge off each new reading, a second one carries the colour; together they move within
+    // a frame or two of the change but never jump
+    const ea = 1 - Math.exp(-dt / COLOUR.pre), eb = 1 - Math.exp(-dt / COLOUR.ease)
+    for (let k = 0; k < 15; k++) {
+      pre[k]! += (tgt[k]! - pre[k]!) * ea
+      cur[k]! += (pre[k]! - cur[k]!) * eb
     }
 
     // Clear rects, in drawing-buffer pixels with y up; weight follows the element's opacity (the HUD fades)
     rects.fill(0)
     weights.fill(0)
+    radii.fill(0)
     let k = 0
     for (const node of document.querySelectorAll<HTMLElement>('[data-dot-clear]')) {
       if (k >= CLEAR.max) break
@@ -397,6 +375,9 @@ onMounted(() => {
       const cs = getComputedStyle(node)
       if (cs.visibility === 'hidden') continue
       rects.set([(b.left + b.width / 2) * dpr, (innerHeight - b.top - b.height / 2) * dpr, b.width / 2 * dpr, b.height / 2 * dpr], k * 4)
+      // The element's corner radius, or its glass layer's (HugBox draws its plate on a child)
+      const rad = parseFloat(cs.borderTopLeftRadius) || parseFloat(node.firstElementChild ? getComputedStyle(node.firstElementChild).borderTopLeftRadius : '') || 0
+      radii[k] = rad * dpr
       weights[k++] = parseFloat(cs.opacity)
     }
 
@@ -404,6 +385,7 @@ onMounted(() => {
     gl!.useProgram(pDots)
     gl!.uniform4fv(U(pDots, 'uRect'), rects)
     gl!.uniform1fv(U(pDots, 'uRectW'), weights)
+    gl!.uniform1fv(U(pDots, 'uRectR'), radii)
     gl!.uniform1f(U(pDots, 'uPad'), CLEAR.pad * dpr)
     gl!.uniform1f(U(pDots, 'uFeather'), CLEAR.feather * dpr)
     gl!.uniform1f(U(pDots, 'uKeep'), CLEAR.keep)
@@ -412,28 +394,21 @@ onMounted(() => {
     const g: [string, number][] = [['uCell', visuals.value.cell * dpr], ['uTime', t], ['uMin', visuals.value.dmin], ['uMax', visuals.value.dmax],
       ['uScale', scale], ['uWarp', warp]]
     for (const [n, v] of g) gl!.uniform1f(U(pDots, n), v)
-    // PROTOTYPE pulse; off the switcher (and with reduced motion) it is zero. A field option names a preset.
-    const P = { ...fx.params, ...FIELD_PRESETS[fx.opt.value.field as keyof typeof FIELD_PRESETS] }
-    const live = fx.on.value && !reduced && fx.field.el?.isConnected
-    const age = ((fx.field.hold >= 0 ? fx.field.hold : now - fx.field.at) - P.pulseDelay) / 1000
-    const echo = new Float32Array(6)
-    for (let k = 0; live && k < Math.min(3, P.pulseEchoes); k++) {
-      const p = (age - k * P.pulseGap / 1000) / (P.pulseMs / 1000)
-      if (p < 0 || p >= 1) continue
-      echo[k * 2] = P.pulseReach * dpr * p * p * (3 - 2 * p) // eased travel: it drifts, it doesn't shoot out
-      echo[k * 2 + 1] = P.pulseAmp * 0.6 ** k * Math.sin(Math.PI * p ** 0.6) ** 1.2 // swells soon after the change, fades slowly
+    // Wash: on each step the held palette becomes what the outside shows now (part-way if a wave was still running)
+    const pl = props.pulse, card = !reduced && pl?.el.isConnected ? pl.el : null
+    if (pl && pl.at !== washAt) {
+      const p = washAt < 0 ? 1 : washEase
+      for (let k = 0; k < 15; k++) old[k]! += (cur[k]! - old[k]!) * p
+      washAt = pl.at
     }
-    const b = live && echo.some(Boolean) ? fx.field.el!.getBoundingClientRect() : null
+    const wa = card ? Math.min(1, (now - pl!.at) / WASH.ms) : 1
+    washEase = 1 - (1 - wa) ** 2
+    const b = wa < 1 ? card!.getBoundingClientRect() : null
+    const far = b ? Math.hypot(Math.max(b.left, innerWidth - b.right), Math.max(b.top, innerHeight - b.bottom)) : 1
+    gl!.uniform3fv(U(pDots, 'uP0'), old)
     gl!.uniform4f(U(pDots, 'uBox'), b ? (b.left + b.width / 2) * dpr : 0, b ? (innerHeight - b.top - b.height / 2) * dpr : 0, b ? b.width / 2 * dpr : 0, b ? b.height / 2 * dpr : 0)
-    gl!.uniform2fv(U(pDots, 'uEcho'), echo)
-    gl!.uniform4f(U(pDots, 'uPul'), P.pulseW * dpr, P.pulseFall * dpr, P.pulseWhite / P.pulseAmp, P.pulseWarp * dpr)
-    gl!.uniform2f(U(pDots, 'uLit'), P.pulseWhite, P.pulseBloom)
-    // PROTOTYPE Behind (the switcher's row; off /proto it reads 'shrink', today's look)
-    const BEHIND = ['shrink', 'halo', 'rim', 'shadow', 'halftone']
-    gl!.uniform1f(U(pDots, 'uMode'), fx.on.value ? Math.max(0, BEHIND.indexOf(String(fx.opt.value.behind))) : 0)
-    gl!.uniform1f(U(pDots, 'uDpr'), dpr)
-    const cb = fx.on.value ? document.querySelector('.card--centre')?.getBoundingClientRect() : null
-    gl!.uniform4f(U(pDots, 'uCard'), cb ? (cb.left + cb.width / 2) * dpr : 0, cb ? (innerHeight - cb.top - cb.height / 2) * dpr : 0, cb ? cb.width / 2 * dpr : 0, cb ? cb.height / 2 * dpr : 0)
+    gl!.uniform4f(U(pDots, 'uWash'), b ? washEase * (far + WASH.feather + WASH.push / 2) * dpr : 1e6, WASH.feather * dpr, WASH.push * dpr, far * WASH.fall * dpr)
+    gl!.uniform3f(U(pDots, 'uPul'), WASH.w * dpr, b ? WASH.amp * Math.sin(Math.PI * wa ** 0.6) ** 1.2 : 0, WASH.white / WASH.amp)
     fullscreen(pDots)
 
     raf = requestAnimationFrame(frame)

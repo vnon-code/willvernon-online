@@ -16,9 +16,9 @@ const hz = (v: number) => {
 }
 const hzText = (v: number) => `cutoff ${hz(v)} hertz`
 
-// Entrance "Build" (Will, 2026-10-03; prototype/hud-entrance.html?o=2): the glass fades in, each band grows up
-// from its bottom edge 60ms apart, its fill follows, and the track card slides up last. HudDrawer runs the
-// keyframes on the first open; the fills are a transition, so they're held at 0 until FILL_START.
+// First-open entrance: HudDrawer fades the glass in and rises the bands one after another (as on every open);
+// then the fills rise to their levels 60ms apart (from "Build", Will, 2026-10-03). The fills are a transition, so
+// they're held at 0 until FILL_START.
 const FILL_START = 450 // ms
 const revealed = ref(false)
 const entering = ref(true)

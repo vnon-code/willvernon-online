@@ -1,20 +1,16 @@
 <script setup lang="ts">
-import type { ProtoCard } from '~/composables/useProto'
+import type { ProjectCard } from '~/types/project'
+
 const gateOpen = ref(true)
 const landingVisible = ref(false)
 const hudVisible = ref(false)
 const enteredWithSound = ref(false)
 const centreCard = ref<{ poster: string, teaser?: string | null }>()
-
-// PROTOTYPE (/proto): skip the Gate (entered without sound; stems still load, so VOL/mute work), show the switcher,
-// and open expanded projects. Remove with useProto.
-const proto = useProto()
-const expanded = ref<{ card: ProtoCard, from: DOMRect } | null>(null)
-onMounted(() => {
-  if (!proto.on.value) return
-  useLoader().startLoading()
-  onEnter(false)
-})
+// The dot field's pulse starts at the new centre card's border on each step
+const pulse = shallowRef<{ el: Element, at: number }>()
+const onStep = (el: Element) => (pulse.value = { el, at: performance.now() })
+// The open project (the Sheet), grown out of the centre card's rect
+const expanded = shallowRef<{ card: ProjectCard, from: DOMRect } | null>(null)
 
 // Step 2 of the Gate transition: the Landing fades up from black. The music fades in later, with the Sound HUD's entrance.
 function onEnter(withSound: boolean) {
@@ -30,20 +26,22 @@ function onEnter(withSound: boolean) {
 <template>
   <div>
     <NuxtRouteAnnouncer />
-    <main class="landing" :class="{ 'landing--visible': landingVisible }" :inert="gateOpen">
+    <main class="landing" :class="{ 'landing--visible': landingVisible }" :inert="gateOpen || !!expanded">
       <!-- Mounted with the fade-up, so it costs nothing behind the Gate -->
-      <TheDotField v-if="landingVisible" :project="centreCard" />
+      <TheDotField v-if="landingVisible" :project="centreCard" :pulse="pulse" />
       <TheHeader />
       <!-- PLACEHOLDER entrance: the strip fades up with the Landing -->
-      <TheProjectStrip :active="!gateOpen && !expanded" @centre="centreCard = $event" @expand="expanded = $event" />
+      <TheProjectStrip
+        :active="!gateOpen && !expanded"
+        @centre="centreCard = $event"
+        @step="onStep"
+        @expand="expanded = $event"
+      />
     </main>
-    <TheVisualHud v-if="hudVisible" />
-    <TheSoundHud v-if="hudVisible" :with-sound="enteredWithSound" />
-    <TheGate v-if="gateOpen && !proto.on.value" @enter="onEnter" />
-    <template v-if="proto.on.value">
-      <ProtoExpand v-if="expanded" :card="expanded.card" :from="expanded.from" @close="expanded = null" />
-      <ProtoPanel />
-    </template>
+    <TheVisualHud v-if="hudVisible" :inert="!!expanded" />
+    <TheSoundHud v-if="hudVisible" :with-sound="enteredWithSound" :inert="!!expanded" />
+    <ProjectSheet v-if="expanded" :card="expanded.card" :from="expanded.from" @close="expanded = null" />
+    <TheGate v-if="gateOpen" @enter="onEnter" />
   </div>
 </template>
 

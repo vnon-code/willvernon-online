@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import type { ProtoCard } from '~/composables/useProto'
+import type { ProjectCard } from '~/types/project'
 
-// PROTOTYPE (/proto) — throwaway. The expanded project as a Sheet (Will's pick, 2026-10-04): the info block grows
-// into a tall centred sheet over the dimmed Landing, with a clip-path from the rect it came from, and closes back
-// into it (Escape, ✕ or the backdrop).
-const props = defineProps<{ card: ProtoCard, from: DOMRect }>()
+// The open project, as a Sheet (Will, 2026-10-04; picked on /proto): it grows out of the centre card into a tall
+// centred sheet over the dimmed Landing (a clip-path from the card's rect) and closes back into it (Escape, ✕ or
+// the backdrop). Focus moves to ✕ and returns to the card on close.
+const props = defineProps<{ card: ProjectCard, from: DOMRect }>()
 const emit = defineEmits<{ close: [] }>()
 
 const OPEN_MS = 520
 const CLOSE_MS = 340
-const EASE = 'cubic-bezier(0.32, 0.72, 0, 1)' // --ease-drawer (iOS-like); not a site token yet
+const EASE = 'cubic-bezier(0.32, 0.72, 0, 1)' // the drawers' curve (iOS-like)
 
 const layer = ref<HTMLElement>()
 const backdrop = ref<HTMLElement>()
@@ -17,7 +17,9 @@ const closeBtn = ref<HTMLButtonElement>()
 const video = computed(() => props.card.teaser && !props.card.teaser.endsWith('.gif') ? props.card.teaser : null)
 const still = computed(() => props.card.teaser?.endsWith('.gif') ? props.card.teaser : props.card.poster)
 const reduced = import.meta.client && matchMedia('(prefers-reduced-motion: reduce)').matches
+const { sfx } = useSound()
 let closing = false
+let opener: HTMLElement | null = null
 
 // The `from` rect as a clip-path inset of the layer's own box
 function fromInset() {
@@ -28,14 +30,12 @@ function fromInset() {
 
 function animate(open: boolean) {
   const ms = reduced ? 200 : open ? OPEN_MS : CLOSE_MS
-  const clip = [fromInset(), 'inset(0px 0px 0px 0px round 0px)']
-  const frames = reduced ? { opacity: [0, 1] } : { clipPath: clip }
+  const frames = reduced ? { opacity: [0, 1] } : { clipPath: [fromInset(), 'inset(0px 0px 0px 0px round 0px)'] }
   const opts = { duration: ms, easing: reduced ? 'ease' : EASE, fill: 'forwards' as const, direction: open ? 'normal' as const : 'reverse' as const }
   backdrop.value?.animate({ opacity: [0, 1] }, opts)
   return layer.value!.animate(frames, opts).finished
 }
 
-const { sfx } = useProtoFx() // PROTOTYPE: sheet close sound
 async function close() {
   if (closing) return
   closing = true
@@ -43,6 +43,8 @@ async function close() {
   layer.value!.scrollTop = 0 // close from the top, so the media folds back into the card
   await animate(false)
   emit('close')
+  await nextTick() // the Landing is inert until the parent drops the Sheet
+  opener?.focus({ preventScroll: true })
 }
 
 function onKey(e: KeyboardEvent) {
@@ -50,6 +52,7 @@ function onKey(e: KeyboardEvent) {
 }
 
 onMounted(() => {
+  opener = document.activeElement as HTMLElement | null
   animate(true)
   closeBtn.value?.focus({ preventScroll: true })
   addEventListener('keydown', onKey)
@@ -70,6 +73,7 @@ onBeforeUnmount(() => removeEventListener('keydown', onKey))
         <video v-if="video && !reduced" :src="video" :poster="card.poster" autoplay muted loop playsinline />
         <img v-else :src="still" alt="">
       </div>
+      <!-- PLACEHOLDER: AI and experiment entries have no case study yet, so they show the summary and tools only -->
       <div class="ex__body">
         <p class="ex__eyebrow">
           {{ card.discipline }}
@@ -93,9 +97,6 @@ onBeforeUnmount(() => removeEventListener('keydown', onKey))
           <h3>{{ s.title }}</h3>
           <p>{{ s.text }}</p>
         </section>
-        <p v-if="!card.long && !card.process.length" class="ex__note">
-          PROTOTYPE: AI and experiment entries have no case study yet; this is all the content they carry.
-        </p>
       </div>
     </article>
   </div>
@@ -118,22 +119,20 @@ onBeforeUnmount(() => removeEventListener('keydown', onKey))
   -webkit-backdrop-filter: blur(6px);
 }
 
-.ex__layer {
-  position: absolute;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  background: var(--c-bg);
-  color: var(--c-fg);
-}
-
 /* Centred, from under the header to the bottom edge */
 .ex__layer {
+  position: absolute;
   left: 50%;
   bottom: 0;
   width: min(880px, 100vw - 32px);
   height: calc(100dvh - var(--header-h));
   translate: -50% 0;
-  border: 1px solid var(--line);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--c-bg);
+  color: var(--c-fg);
+  border: 1px solid;
+  border-color: var(--edges);
   border-bottom: 0;
 }
 
@@ -151,7 +150,8 @@ onBeforeUnmount(() => removeEventListener('keydown', onKey))
   background: color-mix(in srgb, var(--c-bg) 72%, transparent);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border: 1px solid var(--line);
+  border: 1px solid;
+  border-color: var(--edges);
   border-radius: 999px;
   cursor: pointer;
 }
@@ -205,8 +205,7 @@ onBeforeUnmount(() => removeEventListener('keydown', onKey))
 }
 
 .ex__text,
-.ex__step p,
-.ex__note {
+.ex__step p {
   margin: 0;
   font: 400 15px/1.6 var(--font-ui);
   color: var(--muted);
@@ -239,9 +238,5 @@ onBeforeUnmount(() => removeEventListener('keydown', onKey))
 .ex__step h3 {
   margin: 0;
   font: 600 20px/1.2 var(--font-ui);
-}
-
-.ex__note {
-  font-style: italic;
 }
 </style>
