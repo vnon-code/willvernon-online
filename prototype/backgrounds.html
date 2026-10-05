@@ -1,0 +1,353 @@
+<!doctype html>
+<!--
+  PROTOTYPE — throwaway. The Landing background: the Gate's dot grid carried on (Will's pick, 2026-10-03, over
+  liquid / contours / threads). The centred project's live teaser sets the colour PALETTE only, never the shapes:
+  a 5-stop palette is pulled from it, and a warped noise field makes the dots.
+  Sliders (yellow panel) tune every number; values live in the URL hash, so a reload or a shared link keeps them.
+  "Copy values" puts them on the clipboard. Wheel or ← → turns the strip stand-in. DREAM melts the dots into the field.
+  Pipeline: teaser/still → source (½ res, crossfades between projects) → mid (⅛) → low (1/32) → palette → dots.
+  PLACEHOLDERS: every default; the label and Dream slider stand in for the real strip and Sound HUD.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PROTOTYPE — dot background</title>
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300..800&display=swap" rel="stylesheet">
+<style>
+  :root { --black:#0A0A0A; --white:#F2F2EF; --red:#E10600; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html,body { height:100%; background:var(--black); color:var(--white); font-family:"Host Grotesk",sans-serif; overflow:hidden; }
+  #c { position:fixed; inset:0; width:100%; height:100%; display:block; }
+  button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
+  .proj { position:fixed; left:24px; bottom:80px; z-index:5; pointer-events:none; }
+  .proj .n { font-size:12px; letter-spacing:.1em; opacity:.6; font-variant-numeric:tabular-nums; }
+  .proj .t { font-size:28px; font-weight:500; }
+  .proj .h { font-size:12px; opacity:.5; margin-top:4px; }
+  .bar { position:fixed; left:24px; bottom:24px; z-index:5; display:flex; gap:10px; align-items:center; font-size:12px; letter-spacing:.06em; text-transform:uppercase; }
+  .bar input { accent-color:var(--red); width:140px; }
+  .panel { position:fixed; top:12px; right:12px; z-index:30; width:300px; max-height:calc(100% - 24px); overflow:auto; background:#ffe94d; color:#000; border-radius:12px; padding:10px 12px; font:500 12px system-ui; display:grid; gap:5px; box-shadow:0 4px 18px rgba(0,0,0,.5); }
+  .panel b { font-weight:700; }
+  .panel .row { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+  .panel .sl { display:grid; grid-template-columns:104px 1fr 34px; align-items:center; gap:6px; }
+  .panel .sl input { width:100%; accent-color:#000; }
+  .panel .sl output { text-align:right; font-variant-numeric:tabular-nums; }
+  .panel button { color:#000; border:1px solid #000; border-radius:999px; padding:2px 9px; font:600 12px system-ui; }
+  .panel button.on { background:#000; color:#ffe94d; }
+  .panel .info { opacity:.7; font-size:11px; }
+  .panel .sw { display:flex; gap:3px; } .panel .sw i { flex:1; height:14px; border-radius:3px; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<div class="proj"><div class="n" id="pn"></div><div class="t" id="pt"></div><div class="h">Wheel or ← → turns the strip (stand-in)</div></div>
+<div class="bar"><label>Dream <input id="dream" type="range" min="0" max="1" step="0.01" value="0"></label></div>
+<div class="panel">
+  <b>Dot background (prototype)</b>
+  <div class="seg" id="presets" style="flex-wrap:wrap"></div>
+  <div id="sliders"></div>
+  <div class="row">Live teaser colour <button id="teaser"></button></div>
+  <div class="sw" id="sw"></div>
+  <div class="row"><button id="copy">Copy values</button><button id="reset">Reset</button></div>
+  <div class="info" id="info"></div>
+</div>
+
+<script>
+// ---------- sliders: [key, label, min, max, step, default] ----------
+const SL = [
+  ['cell',   'Grid (px)',   4,   40,  1,    6],
+  ['dmin',   'Smallest',    0,   .5,  .01,  .08],   // dot radius as a fraction of the cell
+  ['dmax',   'Largest',     .05, .75, .01,  .46],   // above .5 neighbours touch and merge
+  ['scale',  'Zoom',        .2,  8,   .05,  3.9],   // noise features per screen height
+  ['warp',   'Warp',        0,   5,   .05,  2.15],
+  ['speed',  'Speed',       0,   4,   .05,  2.35],
+  ['ease',   'Palette ease (s)', .05, 4, .05, .35],
+];
+const DEF = Object.fromEntries(SL.map(r => [r[0], r[5]]));
+const V = { ...DEF };
+try { new URLSearchParams(location.hash.slice(1)).forEach((v, k) => { if (k in V && isFinite(+v)) V[k] = +v; }); } catch {}
+const slEl = document.getElementById('sliders'), inputs = {};
+SL.forEach(([k, label, min, max, step]) => {
+  const row = document.createElement('label'); row.className = 'sl';
+  row.innerHTML = `<span>${label}</span><input type="range" min="${min}" max="${max}" step="${step}"><output></output>`;
+  const inp = row.querySelector('input'), out = row.querySelector('output');
+  inp.value = V[k]; out.textContent = V[k];
+  inp.oninput = () => { V[k] = +inp.value; out.textContent = inp.value; saveHash(); };
+  inputs[k] = { inp, out }; slEl.appendChild(row);
+});
+function saveHash() { history.replaceState(null, '', '#' + new URLSearchParams(Object.entries(V).map(([k, v]) => [k, String(v)]))); }
+function apply(vals) { Object.assign(V, DEF, vals); SL.forEach(([k]) => { inputs[k].inp.value = V[k]; inputs[k].out.textContent = V[k]; }); saveHash(); }
+document.getElementById('reset').onclick = () => apply({});
+// presets: only the keys that differ from the defaults
+const PRESETS = {
+  Default:  {},   // Will's dream-off look, 2026-10-04
+  Halftone: { cell: 20, dmin: 0, dmax: .56, scale: 1.1, warp: 1, speed: .5 },
+  Grain:    { cell: 5, dmin: 0, dmax: .5, scale: 2.6, warp: 3.6, speed: 2.2 },
+  Lava:     { cell: 9, dmin: 0, dmax: .75, scale: .8, warp: 4, speed: .6 },
+  Atlas:    { cell: 16, dmin: 0, dmax: .22, scale: 5, warp: 3, speed: .4 },
+  // Will's own slider session (found in the URL hash, 2026-10-04)
+  Will:     { cell: 10, dmin: .13, dmax: .32, scale: 5.65, warp: 3.7, speed: 2.2, ease: 1.6 },
+  Tide:     { cell: 14, dmin: .04, dmax: .48, scale: .45, warp: .6, speed: 3, ease: 2 },
+};
+// DREAM is a preset too: the slider blends every value from the current settings towards this one
+// (Will, 2026-10-04: "dream should be a preset of the dot background sliders so that it transitions smoothly")
+// Will's two screenshots, 2026-10-04: DREAM moves only zoom, warp, speed and palette ease
+const DREAM = { scale: .85, warp: 3.35, speed: .55, ease: .35 };
+const preEl = document.getElementById('presets');
+Object.entries(PRESETS).forEach(([name, vals]) => { const b = document.createElement('button'); b.textContent = name; b.onclick = () => apply(vals); preEl.appendChild(b); });
+document.getElementById('copy').onclick = e => {
+  const txt = SL.map(([k, l]) => `${l}: ${V[k]}`).join('\n');
+  navigator.clipboard.writeText(txt).then(() => { e.target.textContent = 'Copied'; setTimeout(() => e.target.textContent = 'Copy values', 1200); }, () => prompt('Copy these values:', txt));
+};
+
+const Q = new URLSearchParams(location.search);
+const opt = { teaser: Q.get('teaser') !== '0' };
+const teaserBtn = document.getElementById('teaser');
+const paintTeaser = () => { teaserBtn.textContent = opt.teaser ? 'on' : 'off'; teaserBtn.classList.toggle('on', opt.teaser); };
+teaserBtn.onclick = () => { opt.teaser = !opt.teaser; paintTeaser(); refreshVideo(); };
+paintTeaser();
+let dream = 0;
+// CSS-style cubic-bezier(x1, y1, x2, y2): solve x(u) = x by Newton steps, return y(u)
+function bezier(x1, y1, x2, y2) {
+  const f = (u, a, b) => 3*a*u*(1-u)*(1-u) + 3*b*u*u*(1-u) + u*u*u;
+  const df = (u, a, b) => 3*a*(1-u)*(1-u) + 6*(b-a)*u*(1-u) + 3*(1-b)*u*u;
+  return x => { let u = x; for (let i = 0; i < 8; i++) { const d = df(u, x1, x2); if (Math.abs(d) < 1e-6) break; u = Math.min(1, Math.max(0, u - (f(u, x1, x2) - x)/d)); } return f(u, y1, y2); };
+}
+const DREAM_CURVE = bezier(.65, 0, .35, 1);   // ease-in-out: little change at the ends of the slider, most of it mid-travel
+const E = { ...V };   // what is drawn: V blended towards DREAM by the Dream slider
+document.getElementById('dream').oninput = e => { dream = +e.target.value; };
+
+// ---------- projects (content/strip.json order and stills, as in point-cloud.html) ----------
+const R2 = 'https://assets.willvernon.online/';
+const P = [
+  ["Smuggler's Outpost",   'posters/assets-vidsmugglersoutpost-1.webp', 'projects/06_smugglers-outpost/assets/VIDSmugglersOutpost_1.mp4'],
+  ['Monolith Survival',    'posters/ai-monolith-preview-v2.webp', 'ai/monolith_preview_v2.mp4'],
+  ['Amplified Spaces',     'posters/video-trailers-b17av2-1.webp', 'projects/01_amplified-spaces/video_trailers/B17AV2_1.mp4'],
+  ['Topography AV Test',   'posters/experiments-topographyav-test2.webp', 'experiments/TopographyAV_Test2.mp4'],
+  ['The World Plays Here', 'posters/assets-theworldplayshere2-1.webp', 'projects/07_the-world-plays-here/assets/TheWorldPlaysHere2_1.mp4'],
+  ['DREDGE',               'posters/ai-dredge-preview-1.webp', 'ai/Dredge_preview_1.mp4'],
+  ['Remnants',             'posters/assets-remnants-outcome-1.webp', 'projects/03_remnants/assets/Remnants%20Outcome_1.mp4'],
+  ['Handheld Stories',     'posters/assets-vernon-handheldstories-gdes6004.webp', 'projects/02_handheld-stories/assets/Vernon_HandheldStories_GDES6004.mp4'],
+  ['Synthetic Corals',     'posters/ai-coral-rotate.webp', null],
+  ['Marimekko Exhibition', 'posters/assets-vernon-gdes50014-animation-1.webp', 'projects/05_marimekko-exhibition/assets/Vernon_GDES50014_animation_1.mp4'],
+  ['Powersurge',           'powersurge/PowerSurgeSS.png', null],   // GIF teaser: no frames for WebGL
+].map(([title, img, teaser]) => ({ title, img: '/public/img/' + img, teaser: teaser && R2 + teaser }));
+
+// ---------- WebGL helpers ----------
+const canvas = document.getElementById('c');
+const gl = canvas.getContext('webgl', { antialias:false });
+const dpr = Math.min(devicePixelRatio, 2);
+let W = 0, H = 0;
+function resize() { W = canvas.width = Math.round(innerWidth*dpr); H = canvas.height = Math.round(innerHeight*dpr); }
+addEventListener('resize', resize); resize();
+function program(vs, fs) {
+  const p = gl.createProgram();
+  [[gl.VERTEX_SHADER,vs],[gl.FRAGMENT_SHADER,fs]].forEach(([t,src]) => {
+    const s = gl.createShader(t); gl.shaderSource(s, src); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) console.error(gl.getShaderInfoLog(s));
+    gl.attachShader(p, s);
+  });
+  gl.linkProgram(p);
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) console.error(gl.getProgramInfoLog(p));
+  p.u = {}; return p;
+}
+const U = (p, n) => p.u[n] ?? (p.u[n] = gl.getUniformLocation(p, n));
+function makeTex() {
+  const t = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, t);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([10,10,10,255]));
+  [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T].forEach(w => gl.texParameteri(gl.TEXTURE_2D, w, gl.CLAMP_TO_EDGE));
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  return t;
+}
+// an off-screen render target, (re)allocated when its size changes
+function target() { return { fb: gl.createFramebuffer(), tex: makeTex(), w: 0, h: 0 }; }
+function ensure(tg, w, h) {
+  w = Math.max(1, Math.ceil(w)); h = Math.max(1, Math.ceil(h));
+  if (tg.w === w && tg.h === h) return;
+  gl.bindTexture(gl.TEXTURE_2D, tg.tex);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+  gl.bindFramebuffer(gl.FRAMEBUFFER, tg.fb);
+  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tg.tex, 0);
+  tg.w = w; tg.h = h;
+}
+function into(tg) { gl.bindFramebuffer(gl.FRAMEBUFFER, tg ? tg.fb : null); gl.viewport(0, 0, tg ? tg.w : W, tg ? tg.h : H); }
+const tri = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, tri);
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,3,-1,-1,3]), gl.STATIC_DRAW);
+function fullscreen(p) {
+  const a = gl.getAttribLocation(p, 'a'); gl.bindBuffer(gl.ARRAY_BUFFER, tri);
+  gl.enableVertexAttribArray(a); gl.vertexAttribPointer(a, 2, gl.FLOAT, false, 0, 0);
+  gl.drawArrays(gl.TRIANGLES, 0, 3); gl.disableVertexAttribArray(a);
+}
+function tex(p, name, t, unit) { gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, t); gl.uniform1i(U(p, name), unit); }
+const VS = `attribute vec2 a; void main(){ gl_Position = vec4(a, 0., 1.); }`;
+
+// ---------- sources: stills + live teasers ----------
+P.forEach(p => {
+  p.tex = makeTex(); p.aspect = 1;
+  const img = new Image();
+  img.onload = () => { gl.bindTexture(gl.TEXTURE_2D, p.tex); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img); p.aspect = img.width / img.height; };
+  img.src = p.img;
+});
+// video slots: [0] follows project A (outgoing), [1] follows B (current)
+const slots = [0,1].map(() => ({ el:null, tex:makeTex(), a:1, on:0 }));
+function attach(slot, i) {
+  if (slot.el) { slot.el.pause(); slot.el.removeAttribute('src'); slot.el.load(); }
+  slot.el = null; slot.on = 0;
+  if (i < 0 || !P[i].teaser || !opt.teaser) return;
+  const v = document.createElement('video');
+  v.muted = true; v.loop = true; v.playsInline = true; v.crossOrigin = 'anonymous'; v.preload = 'auto';
+  v.src = P[i].teaser + '?cors';   // a no-CORS copy cached by the strip's <video> would block WebGL
+  v.play().catch(() => {});
+  slot.el = v;
+}
+let A = 0, B = 0, mix = 1;
+function morph(to) {
+  if (to === B) return;
+  if (mix >= .5) { A = B; slots.reverse(); }
+  B = to; mix = 0; attach(slots[1], B); label();
+}
+function refreshVideo() { attach(slots[0], -1); attach(slots[1], opt.teaser ? B : -1); }
+attach(slots[1], 0);
+
+const pSrc = program(VS, `precision highp float;
+  uniform vec2 uRes; uniform sampler2D uS0,uS1,uV0,uV1; uniform float uA0,uA1,uVA0,uVA1,uVid0,uVid1,uMix;
+  vec2 cover(vec2 uv, float ia){ float a = uRes.x/uRes.y; vec2 s = a>ia ? vec2(1., ia/a) : vec2(a/ia, 1.); return clamp((uv-.5)*s+.5, 0., 1.); }
+  void main(){
+    vec2 uv = gl_FragCoord.xy/uRes; uv.y = 1.-uv.y;   // image rows run top-down
+    vec3 c0 = mix(texture2D(uS0, cover(uv,uA0)).rgb, texture2D(uV0, cover(uv,uVA0)).rgb, uVid0);
+    vec3 c1 = mix(texture2D(uS1, cover(uv,uA1)).rgb, texture2D(uV1, cover(uv,uVA1)).rgb, uVid1);
+    gl_FragColor = vec4(mix(c0, c1, smoothstep(0.,1.,uMix)), 1.);
+  }`);
+// 4× shrink as a true 4×4 box average: four bilinear taps, each averaging 2×2 source texels
+const pDown = program(VS, `precision highp float;
+  uniform sampler2D uT; uniform vec2 uRes, uTexel;
+  void main(){ vec2 uv = gl_FragCoord.xy/uRes;
+    gl_FragColor = .25*(texture2D(uT, uv + uTexel*vec2(-1.,-1.)) + texture2D(uT, uv + uTexel*vec2(1.,-1.))
+                      + texture2D(uT, uv + uTexel*vec2(-1., 1.)) + texture2D(uT, uv + uTexel*vec2(1., 1.))); }`);
+const src = target(), mid = target(), low = target();
+
+// ---------- palette: the teaser sets colour only, never shape (Will, 2026-10-03) ----------
+// Every 150ms the 1/32 frame is read back and reduced to 5 stops: 4 luminance quartiles (dark -> light, each a
+// saturation-weighted mean so a red visor isn't averaged into grey) with the most saturated 15% as the accent at stop 3.
+const palette = (() => {
+  const cur = new Float32Array(15).fill(.1), tgt = new Float32Array(15).fill(.1); let since = 1, first = true;
+  const sw = document.getElementById('sw'), chips = [0,1,2,3,4].map(() => sw.appendChild(document.createElement('i')));
+  function extract() {
+    const n = low.w*low.h, b = new Uint8Array(n*4);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, low.fb); gl.readPixels(0, 0, low.w, low.h, gl.RGBA, gl.UNSIGNED_BYTE, b);
+    const px = [];
+    for (let k = 0; k < n; k++) { const r = b[k*4]/255, g = b[k*4+1]/255, bl = b[k*4+2]/255, mx = Math.max(r,g,bl), mn = Math.min(r,g,bl);
+      px.push({ c: [r,g,bl], l: .299*r + .587*g + .114*bl, s: mx > .02 ? (mx-mn)/mx : 0 }); }
+    const mean = (list, w) => { const m = [0,0,0]; let ws = 0; list.forEach(q => { const x = w(q); ws += x; for (let c = 0; c < 3; c++) m[c] += q.c[c]*x; }); return m.map(v => v/(ws || 1)); };
+    px.sort((a, z) => a.l - z.l);
+    const q = [0,1,2,3].map(k => mean(px.slice(Math.floor(k*n/4), Math.floor((k+1)*n/4)), x => (.15 + x.s)**2));
+    const accent = mean([...px].sort((a, z) => z.s - a.s).slice(0, Math.max(1, Math.floor(n*.15))), x => x.s*x.s + 1e-4);
+    const top = .299*q[3][0] + .587*q[3][1] + .114*q[3][2], lift = Math.min(2.2, Math.max(.7, .85/Math.max(top, .01)));
+    [q[0], q[1], q[2], accent, q[3]].forEach((c, k) => tgt.set(c.map(v => Math.min(1, v*lift)), k*3));
+  }
+  return {
+    update(dt) {
+      if ((since += dt) > .15) {
+        since = 0; extract(); if (first) { cur.set(tgt); first = false; }
+        chips.forEach((ch, k) => ch.style.background = `rgb(${[0,1,2].map(c => Math.round(cur[k*3+c]*255))})`);
+      }
+      const e = 1 - Math.exp(-dt/E.ease); for (let k = 0; k < 15; k++) cur[k] += (tgt[k] - cur[k])*e;
+    },
+    set(prog) { gl.uniform3fv(U(prog, 'uP'), cur); },
+    cur,
+  };
+})();
+
+// ---------- the dots ----------
+const pDots = program(VS, `precision highp float;
+  uniform vec2 uRes; uniform vec3 uP[5];
+  uniform float uCell, uTime, uMin, uMax, uScale, uWarp;
+  float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
+  float noise(vec2 p){ vec2 i=floor(p),f=fract(p),u=f*f*(3.-2.*f);
+    return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y); }
+  float fbm(vec2 p){ float v=0.,a=.5; for(int i=0;i<5;i++){ v+=a*noise(p); p*=2.02; a*=.5; } return v; }
+  vec3 pal(float t){ t = clamp(t, 0., 1.)*4.;
+    vec3 c = mix(uP[0], uP[1], clamp(t, 0., 1.)); c = mix(c, uP[2], clamp(t-1., 0., 1.));
+    c = mix(c, uP[3], clamp(t-2., 0., 1.)); return mix(c, uP[4], clamp(t-3., 0., 1.)); }
+  vec3 grade(vec3 c){ float l = dot(c, vec3(.299,.587,.114)); return max(mix(vec3(l), c, 1.2), 0.); }
+  float field(vec2 px){
+    vec2 p = (px - .5*uRes)/uRes.y*uScale; float t = uTime*.05;   // zoom about the screen centre
+    vec2 q = vec2(fbm(p + t), fbm(p + vec2(5.2,1.3) - t));
+    return smoothstep(.35, .65, fbm(p + uWarp*q + vec2(1.7,9.2) + t*1.3));
+  }
+  void main(){
+    vec2 px = gl_FragCoord.xy, c = (floor(px/uCell) + .5)*uCell, d = abs(px - c);
+    float v = field(c);
+    float r = mix(uMin, uMax, v) * uCell;
+    float dist = length(d);
+    float a = 1. - smoothstep(r - 1., r + 1., dist);
+    vec3 dots = mix(vec3(.039), grade(pal(v)), a);
+    gl_FragColor = vec4(dots, 1.);
+  }`);
+
+// ---------- strip stand-in ----------
+const pn = document.getElementById('pn'), pt = document.getElementById('pt'), info = document.getElementById('info');
+function label() { pn.textContent = String(B+1).padStart(2,'0') + ' / ' + P.length; pt.textContent = P[B].title; }
+let wheelAcc = 0, lastStep = 0;
+addEventListener('wheel', e => {
+  if (e.target.closest('.panel')) return;
+  wheelAcc += e.deltaY; const now = performance.now();
+  if (Math.abs(wheelAcc) > 60 && now - lastStep > 450) { morph((B + Math.sign(wheelAcc) + P.length) % P.length); wheelAcc = 0; lastStep = now; }
+}, { passive:true });
+addEventListener('keydown', e => {
+  if (e.target.matches('input')) return;
+  if (e.key === 'ArrowRight') morph((B + 1) % P.length);
+  if (e.key === 'ArrowLeft') morph((B - 1 + P.length) % P.length);
+});
+label();
+window.__bg = { opt, V, E, morph, slots, palette, curve: x => DREAM_CURVE(x) };
+
+// ---------- loop ----------
+let t = 0, last = performance.now(), fpsN = 0, fpsT = last;
+(function frame() {
+  const now = performance.now(), dt = Math.min(.1, (now - last)/1000); last = now;
+  const dm = DREAM_CURVE(dream);
+  for (const k in V) {
+    const a = V[k], b = DREAM[k] ?? a;
+    // zoom blends in log space, so every step of the slider zooms by the same ratio instead of rushing at one end
+    E[k] = k === 'scale' ? a * Math.pow(b / a, dm) : a + (b - a)*dm;
+  }
+  t += dt * E.speed;
+  mix = Math.min(1, mix + dt/1.2);
+  if (mix >= 1 && slots[0].el) attach(slots[0], -1);
+  slots.forEach(s => {
+    const ready = s.el && s.el.readyState >= 2;
+    if (ready) { gl.bindTexture(gl.TEXTURE_2D, s.tex); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, s.el); s.a = s.el.videoWidth / s.el.videoHeight; }
+    s.on += ((ready && opt.teaser ? 1 : 0) - s.on) * (1 - Math.exp(-dt*2));
+  });
+
+  // source → mid → low → palette
+  ensure(src, W/2, H/2); ensure(mid, src.w/4, src.h/4); ensure(low, mid.w/4, mid.h/4);
+  into(src); gl.useProgram(pSrc);
+  const pa = P[A], pb = P[B];
+  [[pa.tex,'uS0'],[pb.tex,'uS1'],[slots[0].tex,'uV0'],[slots[1].tex,'uV1']].forEach(([tx,n],u) => tex(pSrc, n, tx, u));
+  gl.uniform2f(U(pSrc,'uRes'), src.w, src.h);
+  [['uA0',pa.aspect],['uA1',pb.aspect],['uVA0',slots[0].a],['uVA1',slots[1].a],['uVid0',slots[0].on],['uVid1',slots[1].on],['uMix',mix]]
+    .forEach(([n,v]) => gl.uniform1f(U(pSrc,n), v));
+  fullscreen(pSrc);
+  [[src, mid], [mid, low]].forEach(([from, to]) => {
+    into(to); gl.useProgram(pDown); tex(pDown, 'uT', from.tex, 0);
+    gl.uniform2f(U(pDown,'uRes'), to.w, to.h); gl.uniform2f(U(pDown,'uTexel'), 1/from.w, 1/from.h); fullscreen(pDown);
+  });
+  palette.update(dt);
+
+  into(null); gl.useProgram(pDots); palette.set(pDots);
+  gl.uniform2f(U(pDots,'uRes'), W, H);
+  [['uCell', E.cell*dpr], ['uTime', t], ['uMin', E.dmin], ['uMax', E.dmax], ['uScale', E.scale], ['uWarp', E.warp]]
+    .forEach(([n, v]) => gl.uniform1f(U(pDots, n), v));
+  fullscreen(pDots);
+
+  fpsN++; if (now - fpsT > 1000) {
+    info.textContent = `${fpsN} fps · teaser: ${!P[B].teaser ? 'none (still)' : slots[1].on > .5 ? 'live' : opt.teaser ? 'loading' : 'off (still)'}`;
+    fpsN = 0; fpsT = now;
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

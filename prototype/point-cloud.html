@@ -1,0 +1,542 @@
+<!doctype html>
+<!--
+  PROTOTYPE — throwaway. Question: which creative ideas does the Landing's point cloud get?
+  Base = approved variant C (prototype/landing-bg.html on branch prototype/landing-bg), now with the 11 strip projects.
+  Decided (Will, 2026-10-03): posters for the 7 without picks, dolly moves with the strip, flat depth maps get faked depth,
+  colours sampled from the image, DREAM melts the cloud into the gradient field.
+  Ideas under test (yellow panel, also ?teaser&cursor&focus&orbit&lidar=0|1&trans=scatter|scan|dust|fold|card):
+    live teaser colour · cursor parts the cloud · transition styles
+    round 3 (Will, 2026-10-03): card bursts into cloud (trans=card) · focus pull · grab to orbit · LiDAR sweep (L key = sweep now)
+  Audio reactivity was tried (5 modes, measured) and dropped by Will (2026-10-03).
+  DREAM melts the cloud into the project's own image, heavily blurred and warped along a slow flow, so its colours hold.
+  PLACEHOLDERS: the project label + bottom bar are stand-ins for the real strip and Sound HUD; every number is untuned.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PROTOTYPE — point cloud ideas</title>
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300..800&display=swap" rel="stylesheet">
+<style>
+  :root { --black:#0A0A0A; --white:#F2F2EF; --red:#E10600; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html,body { height:100%; background:var(--black); color:var(--white); font-family:"Host Grotesk",sans-serif; overflow:hidden; }
+  #c { position:fixed; inset:0; width:100%; height:100%; display:block; }
+  button { font:inherit; color:inherit; background:none; border:0; cursor:pointer; }
+
+  .proj { position:fixed; left:24px; bottom:96px; z-index:5; pointer-events:none; }
+  .proj .n { font-size:12px; letter-spacing:.1em; opacity:.6; font-variant-numeric:tabular-nums; }
+  .proj .t { font-size:28px; font-weight:500; }
+  .proj .h { font-size:12px; opacity:.5; margin-top:4px; }
+
+  .bar { position:fixed; left:0; right:0; bottom:0; z-index:5; display:flex; align-items:center; gap:18px; padding:14px 24px; border-top:1px solid rgba(242,242,239,.15); background:rgba(10,10,10,.5); backdrop-filter:blur(8px); font-size:12px; letter-spacing:.06em; text-transform:uppercase; flex-wrap:wrap; }
+  .bar .stem { padding:6px 10px; border:1px solid rgba(242,242,239,.25); border-radius:999px; opacity:.45; }
+  .bar .stem.on { opacity:1; border-color:var(--white); }
+  .bar label { display:flex; align-items:center; gap:8px; }
+  .bar input { accent-color:var(--red); width:110px; }
+  #sound { padding:6px 14px; border-radius:999px; background:var(--white); color:var(--black); font-weight:600; }
+
+  /* prototype panel — not part of the design */
+  .panel { position:fixed; top:12px; right:12px; z-index:30; background:#ffe94d; color:#000; border-radius:12px; padding:10px 12px; font:500 12px system-ui; display:grid; gap:6px; min-width:220px; box-shadow:0 4px 18px rgba(0,0,0,.5); }
+  .panel b { font-weight:700; }
+  .panel .row { display:flex; justify-content:space-between; align-items:center; gap:8px; }
+  .panel button { color:#000; border:1px solid #000; border-radius:999px; padding:2px 9px; font:600 12px system-ui; }
+  .panel button.on { background:#000; color:#ffe94d; }
+  .panel .seg { display:flex; gap:3px; }
+  .panel .info { opacity:.7; font-size:11px; }
+</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+
+<div class="proj"><div class="n" id="pn"></div><div class="t" id="pt"></div><div class="h">Wheel or ← → turns the strip (stand-in)</div></div>
+
+<div class="bar">
+  <button id="sound">Start sound</button>
+  <span id="stems"></span>
+  <label>Dream <input id="dream" type="range" min="0" max="1" step="0.01" value="0"></label>
+  <label>Vol <input id="vol" type="range" min="0" max="1" step="0.01" value="0.8"></label>
+</div>
+
+<div class="panel">
+  <b>Ideas (prototype)</b>
+  <div class="row">Live teaser colour <button data-opt="teaser"></button></div>
+  <div class="row">Cursor parts the cloud <button data-opt="cursor"></button></div>
+  <div class="row">Focus pull <button data-opt="focus"></button></div>
+  <div class="row">Grab to orbit <button data-opt="orbit"></button></div>
+  <div class="row">LiDAR sweep <button data-opt="lidar"></button></div>
+  <div class="row">Transition <span class="seg" id="trans"></span></div>
+  <div class="info" id="info"></div>
+</div>
+
+<script>
+// ---------- options ----------
+const Q = new URLSearchParams(location.search);
+const TRANS = ['scatter','scan','dust','fold','card'];
+const opt = {
+  teaser: Q.get('teaser') !== '0', cursor: Q.get('cursor') !== '0',
+  focus: Q.get('focus') !== '0', orbit: Q.get('orbit') !== '0', lidar: Q.get('lidar') !== '0',
+  trans: TRANS.includes(Q.get('trans')) ? Q.get('trans') : 'scan',
+};
+const FAKE_STD = +Q.get('fake') || 0.15;   // depth maps flatter than this get faked depth (catches Amplified Spaces, std .145)
+function saveOpts() {
+  const u = new URL(location);
+  ['teaser','cursor','focus','orbit','lidar'].forEach(k => u.searchParams.set(k, opt[k] ? 1 : 0));
+  u.searchParams.set('trans', opt.trans); history.replaceState(null, '', u);
+}
+document.querySelectorAll('[data-opt]').forEach(b => {
+  const k = b.dataset.opt, paint = () => { b.textContent = opt[k] ? 'on' : 'off'; b.classList.toggle('on', opt[k]); };
+  b.onclick = () => { opt[k] = !opt[k]; paint(); saveOpts(); if (k === 'teaser') cloud.refreshVideo(); };
+  paint();
+});
+const transEl = document.getElementById('trans');
+TRANS.forEach(n => {
+  const b = document.createElement('button'); b.textContent = n;
+  b.onclick = () => { opt.trans = n; [...transEl.children].forEach(c => c.classList.toggle('on', c === b)); saveOpts(); };
+  b.classList.toggle('on', n === opt.trans); transEl.appendChild(b);
+});
+
+// ---------- projects (content/strip.json order; the 4 cloud images Will picked override the poster) ----------
+const R2 = 'https://assets.willvernon.online/';
+const P = [
+  ["Smuggler's Outpost",   'posters/assets-vidsmugglersoutpost-1.webp', 'projects/06_smugglers-outpost/assets/VIDSmugglersOutpost_1.mp4'],
+  ['Monolith Survival',    'posters/ai-monolith-preview-v2.webp', 'ai/monolith_preview_v2.mp4'],
+  ['Amplified Spaces',     'posters/video-trailers-b17av2-1.webp', 'projects/01_amplified-spaces/video_trailers/B17AV2_1.mp4'],
+  // Will's pick is a still from a different render than this card's teaser, so no live colour (it wouldn't line up)
+  ['Topography AV Test',   'posters/renders-cinematic-trailer-upscaled.webp', null],
+  ['The World Plays Here', 'posters/assets-theworldplayshere2-1.webp', 'projects/07_the-world-plays-here/assets/TheWorldPlaysHere2_1.mp4'],
+  ['DREDGE',               'posters/ai-dredge-preview-1.webp', 'ai/Dredge_preview_1.mp4'],
+  ['Remnants',             'posters/assets-remnants-outcome-1.webp', 'projects/03_remnants/assets/Remnants%20Outcome_1.mp4'],
+  ['Handheld Stories',     'posters/assets-vernon-handheldstories-gdes6004.webp', 'projects/02_handheld-stories/assets/Vernon_HandheldStories_GDES6004.mp4'],
+  ['Synthetic Corals',     'posters/ai-coral-rotate.webp', null],
+  ['Marimekko Exhibition', 'posters/assets-vernon-gdes50014-animation-1.webp', 'projects/05_marimekko-exhibition/assets/Vernon_GDES50014_animation_1.mp4'],
+  ['Powersurge',           'powersurge/PowerSurgeSS.png', null],   // its teaser is a GIF: no frames for WebGL
+].map(([title, img, teaser]) => ({
+  title, img: '/public/img/' + img, teaser: teaser && R2 + teaser,
+  depth: '/public/img/depth/' + img.split('/').pop().replace(/\.[^.]+$/, '') + '.png',
+}));
+
+// ---------- WebGL setup ----------
+const canvas = document.getElementById('c');
+const gl = canvas.getContext('webgl', { antialias:true });
+const dpr = Math.min(devicePixelRatio, 2);
+function resize() { canvas.width = innerWidth*dpr; canvas.height = innerHeight*dpr; }
+addEventListener('resize', resize); resize();
+function program(vs, fs) {
+  const p = gl.createProgram();
+  [[gl.VERTEX_SHADER,vs],[gl.FRAGMENT_SHADER,fs]].forEach(([t,src]) => {
+    const s = gl.createShader(t); gl.shaderSource(s, src); gl.compileShader(s);
+    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) console.error(gl.getShaderInfoLog(s));
+    gl.attachShader(p, s);
+  });
+  gl.linkProgram(p);
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) console.error(gl.getProgramInfoLog(p));
+  return p;
+}
+const U = (p,n) => gl.getUniformLocation(p,n);
+function makeTex() {
+  const t = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, t);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([10,10,10,255]));
+  [gl.TEXTURE_WRAP_S, gl.TEXTURE_WRAP_T].forEach(w => gl.texParameteri(gl.TEXTURE_2D, w, gl.CLAMP_TO_EDGE));
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  return t;
+}
+const loadImg = src => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = no; i.src = src; });
+function pixels(img, n) {
+  const c = document.createElement('canvas'); c.width = c.height = n;
+  const x = c.getContext('2d', { willReadFrequently:true }); x.drawImage(img, 0, 0, n, n);
+  return x.getImageData(0, 0, n, n).data;
+}
+const lum = c => .299*c[0] + .587*c[1] + .114*c[2];
+// The DREAM gradient's source: the image averaged down to 32px wide (via 256px, so the browser's filter averages
+// rather than skips pixels). Upscaled with linear filtering it becomes soft colour regions that keep the picture's layout.
+function blurred(img) {
+  let src = img;
+  for (const w of [256, 32]) {
+    const c = document.createElement('canvas'); c.width = w; c.height = Math.max(1, Math.round(w * img.height / img.width));
+    const x = c.getContext('2d'); x.imageSmoothingQuality = 'high'; x.drawImage(src, 0, 0, c.width, c.height); src = c;
+  }
+  return src;
+}
+function centreDepth(img) {   // mean depth of the middle third of the frame
+  const d = pixels(img, 48); let s = 0, n = 0;
+  for (let y = 16; y < 32; y++) for (let x = 16; x < 32; x++) { s += d[(y*48 + x)*4]/255; n++; }
+  return s / n;
+}
+function depthStd(img) {
+  const d = pixels(img, 64); let s = 0, s2 = 0, n = 0;
+  for (let i = 0; i < d.length; i += 4) { const v = d[i]/255; s += v; s2 += v*v; n++; }
+  return Math.sqrt(Math.max(0, s2/n - (s/n)**2));
+}
+
+P.forEach(p => {
+  p.tex = makeTex(); p.dtex = makeTex(); p.btex = makeTex(); p.focus = .5; p.aspect = 1; p.hasD = 0; p.fake = 0; p.std = null;
+  loadImg(p.img).then(img => {
+    gl.bindTexture(gl.TEXTURE_2D, p.tex); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+    p.aspect = img.width / img.height;
+    gl.bindTexture(gl.TEXTURE_2D, p.btex); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, blurred(img));
+  });
+  loadImg(p.depth).then(img => {
+    gl.bindTexture(gl.TEXTURE_2D, p.dtex); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+    p.std = depthStd(img); p.fake = p.std < FAKE_STD ? 1 : 0; p.hasD = 1; p.focus = p.fake ? .5 : centreDepth(img);
+  }).catch(() => {});   // no map yet: depth is faked from brightness
+});
+
+// ---------- audio ----------
+const STEMS = [['drums','Drums'],['bass','Bass 2'],['melody','Melody'],['atmos','Atmos'],['vocals','Vocals 2']];
+const stemOn = Object.fromEntries(STEMS.map(([id]) => [id, true]));
+let ac, master, lp, dry, wet, dsend, bus, els = [], stemGain = {}, dream = 0;
+const stemsEl = document.getElementById('stems');
+STEMS.forEach(([id]) => {
+  const b = document.createElement('button'); b.className = 'stem on'; b.textContent = id;
+  b.onclick = () => { stemOn[id] = !stemOn[id]; b.classList.toggle('on', stemOn[id]);
+    if (stemGain[id]) stemGain[id].gain.setTargetAtTime(stemOn[id] ? 1 : 0, ac.currentTime, .05); };
+  stemsEl.appendChild(b);
+});
+function impulse(sec, decay) {
+  const len = ac.sampleRate*sec, b = ac.createBuffer(2, len, ac.sampleRate);
+  for (let c = 0; c < 2; c++) { const d = b.getChannelData(c);
+    for (let i = 0; i < len; i++) d[i] = (Math.random()*2-1) * Math.pow(1 - i/len, decay) * Math.min(1, i/(ac.sampleRate*.04)); }
+  return b;
+}
+function applyDream() {   // same shape as the Sound HUD's DREAM (docs/specs/sound-hud.md)
+  if (!ac) return;
+  const t = ac.currentTime, d = dream;
+  lp.frequency.setTargetAtTime(20000 * Math.pow(700/20000, d), t, .1);
+  dry.gain.setTargetAtTime(1 - .35*d, t, .1); wet.gain.setTargetAtTime(.7*d, t, .1); dsend.gain.setTargetAtTime(.32*d, t, .1);
+  els.forEach(a => { a.preservesPitch = false; a.playbackRate = 1 - .08*d; });
+}
+document.getElementById('dream').oninput = e => { dream = +e.target.value; applyDream(); };
+document.getElementById('vol').oninput = e => { if (master) master.gain.value = +e.target.value; };
+document.getElementById('sound').onclick = e => {
+  if (ac) return;
+  e.target.remove();
+  ac = new AudioContext();
+  master = ac.createGain(); master.gain.value = +document.getElementById('vol').value; master.connect(ac.destination);
+  bus = ac.createGain();
+  lp = ac.createBiquadFilter(); lp.type = 'lowpass'; dry = ac.createGain(); bus.connect(lp).connect(dry).connect(master);
+  const verb = ac.createConvolver(); verb.buffer = impulse(3.2, 2.4); wet = ac.createGain(); verb.connect(wet).connect(master);
+  const dl = ac.createDelay(2); dl.delayTime.value = .42; const fb = ac.createGain(); fb.gain.value = .45;
+  dsend = ac.createGain(); lp.connect(dsend).connect(dl).connect(fb).connect(dl); dl.connect(verb); lp.connect(verb);
+  els = STEMS.map(([id, file]) => {
+    const a = new Audio('/public/audio/' + encodeURIComponent('Silver Linings Bootleg ' + file + '.mp3')); a.loop = true;
+    const g = ac.createGain(); g.gain.value = stemOn[id] ? 1 : 0; stemGain[id] = g;
+    ac.createMediaElementSource(a).connect(g).connect(bus);
+    return a;
+  });
+  applyDream();
+  Promise.all(els.map(a => new Promise(r => a.addEventListener('canplaythrough', r, { once:true })))).then(() => els.forEach(a => a.play()));
+};
+
+// ---------- gradient field: the project's own image, blurred and melted along a slow flow (rendered off-screen) ----------
+const field = (() => {
+  const p = program(`attribute vec2 a; void main(){ gl_Position=vec4(a,0.,1.); }`, `
+    precision highp float;
+    uniform vec2 uRes; uniform float uTime, uMix, uA0, uA1; uniform sampler2D uB0, uB1;
+    float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
+    float noise(vec2 p){ vec2 i=floor(p),f=fract(p),u=f*f*(3.-2.*f);
+      return mix(mix(hash(i),hash(i+vec2(1,0)),u.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),u.x),u.y); }
+    float fbm(vec2 p){ float v=0.,a=.5; for(int i=0;i<5;i++){ v+=a*noise(p); p*=2.02; a*=.5; } return v; }
+    vec2 cover(vec2 uv, float ia){ float a = uRes.x/uRes.y; vec2 s = a>ia ? vec2(1., ia/a) : vec2(a/ia, 1.); return clamp((uv-.5)*s+.5, 0., 1.); }
+    void main(){
+      vec2 uv = gl_FragCoord.xy/uRes; uv.y = 1.-uv.y;                       // image space, y down
+      vec2 p = uv*vec2(uRes.x/uRes.y, 1.)*1.6; float t = uTime*.06;
+      vec2 q = vec2(fbm(p+t), fbm(p+vec2(5.2,1.3)-t));
+      vec2 r = vec2(fbm(p+2.5*q+vec2(1.7,9.2)+t*1.3), fbm(p+2.5*q+vec2(8.3,2.8)-t));
+      vec2 w = uv + (r-.5)*.35;                                               // melt: drag the image along the flow
+      vec3 col = mix(texture2D(uB0, cover(w,uA0)).rgb, texture2D(uB1, cover(w,uA1)).rgb, smoothstep(0.,1.,uMix));
+      float l = dot(col, vec3(.299,.587,.114));
+      col = max(mix(vec3(l), col, 1.5), 0.);                                  // saturation up so the hue survives the blur
+      col *= .85 + .4*smoothstep(.4,.85, fbm(p*1.3 + r*2. - t));              // soft light ridges along the flow
+      gl_FragColor = vec4(col, 1.);
+    }`);
+  const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,3,-1,-1,3]), gl.STATIC_DRAW);
+  const fbo = { fb: gl.createFramebuffer(), tex: makeTex(), w: 0, h: 0 };
+  return {
+    tex: fbo.tex,
+    draw(t, pa, pb, mix) {
+      const w = canvas.width >> 2, h = canvas.height >> 2;
+      if (w !== fbo.w || h !== fbo.h) {
+        gl.bindTexture(gl.TEXTURE_2D, fbo.tex);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+        gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.fb);
+        gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, fbo.tex, 0);
+        fbo.w = w; fbo.h = h;
+      }
+      gl.bindFramebuffer(gl.FRAMEBUFFER, fbo.fb); gl.viewport(0, 0, w, h);
+      gl.useProgram(p); gl.disable(gl.BLEND); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+      const a = gl.getAttribLocation(p,'a'); gl.enableVertexAttribArray(a); gl.vertexAttribPointer(a,2,gl.FLOAT,false,0,0);
+      [[pa.btex,'uB0'],[pb.btex,'uB1']].forEach(([tx,n],u) => { gl.activeTexture(gl.TEXTURE0+u); gl.bindTexture(gl.TEXTURE_2D, tx); gl.uniform1i(U(p,n), u); });
+      gl.uniform2f(U(p,'uRes'), w, h); gl.uniform1f(U(p,'uTime'), t); gl.uniform1f(U(p,'uMix'), mix);
+      gl.uniform1f(U(p,'uA0'), pa.aspect); gl.uniform1f(U(p,'uA1'), pb.aspect);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+      gl.disableVertexAttribArray(a); gl.activeTexture(gl.TEXTURE0);
+      gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.viewport(0, 0, canvas.width, canvas.height);
+    },
+  };
+})();
+
+// ---------- point cloud ----------
+const mouse = { x:0, y:0, px:0, py:0, vx:0, vy:0, a:0, target:0, in:false, cx:0, cy:0 };
+addEventListener('pointermove', e => {
+  mouse.x = e.clientX/innerWidth*2-1; mouse.y = 1 - e.clientY/innerHeight*2; mouse.target = 1; mouse.in = true;
+  mouse.cx = e.clientX/innerWidth*2-1; mouse.cy = e.clientY/innerHeight*2-1;
+});
+document.addEventListener('pointerleave', () => { mouse.in = false; });
+const fx = { f: .5, v: 0, target: .5, dof: 0 };
+const orbit = { x:0, y:0, vx:0, vy:0, tx:0, ty:0, drag:null };
+const lidar = { t: 0, next: 3 };   // first sweep 3s in
+canvas.addEventListener('pointerdown', e => {
+  if (!opt.orbit) return;
+  orbit.drag = { x: e.clientX, y: e.clientY }; canvas.setPointerCapture(e.pointerId); canvas.style.cursor = 'grabbing';
+});
+canvas.addEventListener('pointermove', e => {
+  if (!orbit.drag) return;
+  orbit.tx = Math.max(-.9, Math.min(.9, (e.clientX - orbit.drag.x) / innerWidth * 2.2));
+  orbit.ty = Math.max(-.45, Math.min(.45, (e.clientY - orbit.drag.y) / innerHeight * 1.2));
+});
+const release = () => { orbit.drag = null; orbit.tx = orbit.ty = 0; canvas.style.cursor = ''; };
+canvas.addEventListener('pointerup', release); canvas.addEventListener('pointercancel', release);
+window.__pc = { opt, fx, orbit, lidar };
+
+const cloud = (() => {
+  const PTS = +Q.get('pts') || Math.min(700000, Math.round(innerWidth*innerHeight/3));
+  const COLS = Math.round(Math.sqrt(PTS*innerWidth/innerHeight)), ROWS = Math.round(PTS/COLS), N = COLS*ROWS;
+  const OS = .1;
+  const p = program(`
+    attribute vec2 aUV; attribute vec3 aR;
+    uniform sampler2D uT0,uT1,uV0,uV1,uD0,uD1,uField;
+    uniform float uI0,uI1,uVA0,uVA1,uVid0,uVid1,uHasD0,uHasD1,uFake0,uFake1;
+    uniform float uTime,uMix,uTrans,uDream,uAspect,uPx,uFoc;
+    uniform vec3 uCam; uniform vec2 uLook;
+    uniform vec2 uMouse; uniform float uMouseA;
+    uniform float uFocus, uDof, uLidar; uniform vec2 uOrbit; uniform vec4 uCard;
+    varying vec3 vCol; varying float vA, vSoft;
+    const float PI = 3.14159265;
+    vec2 cover(vec2 uv, float ia){ vec2 s = uAspect>ia ? vec2(1., ia/uAspect) : vec2(uAspect/ia, 1.); return clamp((uv-.5)*s+.5, 0., 1.); }
+    float lum(vec3 c){ return dot(c, vec3(.299,.587,.114)); }
+    float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
+    // 0 far .. 1 near. Flat maps (and missing ones) are faked: brightness plus a soft dome.
+    float srcNear(sampler2D D, float ia, float hasD, float fake, vec2 uv, vec3 still){
+      float d = texture2D(D, cover(uv, ia)).r;
+      float dome = 1. - clamp(length((uv-.5)*vec2(uAspect,1.))*.9, 0., 1.);
+      return mix(d, .55*lum(still) + .45*dome, max(fake*.8, 1.-hasD));
+    }
+    void main(){
+      vec2 uv = aUV + (aR.xy-.5)/vec2(${COLS}.,${ROWS}.)*${(1+2*OS).toFixed(2)};
+      vec3 s0 = texture2D(uT0, cover(uv,uI0)).rgb, s1 = texture2D(uT1, cover(uv,uI1)).rgb;
+      vec3 col0 = mix(s0, texture2D(uV0, cover(uv,uVA0)).rgb, uVid0);
+      vec3 col1 = mix(s1, texture2D(uV1, cover(uv,uVA1)).rgb, uVid1);
+      float n0 = srcNear(uD0,uI0,uHasD0,uFake0,uv,s0), n1 = srcNear(uD1,uI1,uHasD1,uFake1,uv,s1);
+
+      // transition: per-point progress m
+      float m = smoothstep(0.,1.,uMix), burst = 0., flare = 0., fold = 0.;
+      vec3 dir = aR - .5;
+      if (uTrans < .5) { burst = sin(m*PI)*1.2; }                                  // scatter
+      else if (uTrans < 1.5) {                                                       // scan: a plane sweeps front to back
+        float key = 1. - n0, front = uMix*1.3 - .15;
+        m = clamp((front - key)/.12 + .5, 0., 1.);
+        flare = exp(-pow((front-key)/.05, 2.)) * step(.001, uMix) * step(uMix, .999);
+      } else if (uTrans < 2.5) {                                                     // dust: blows out, reforms
+        float lm = clamp(uMix*1.6 - aR.z*.6, 0., 1.);
+        m = smoothstep(0.,1.,lm); burst = sin(lm*PI)*2.2;
+        dir = normalize(vec3(.8,.25,.1) + (aR-.5)*1.4);
+      } else if (uTrans < 3.5) { fold = sin(m*PI); }                                 // fold through the gradient
+      else { m = smoothstep(0.,1., clamp((uMix - aR.z*.08)/.33, 0., 1.)); }        // card: colour turns over as points gather
+      vec3 col = mix(col0, col1, m);
+      float near = mix(n0, n1, m);
+
+      // DREAM (and fold) melt the cloud into the flat gradient field
+      float fl = max(smoothstep(.1, .95, uDream), fold);
+      col = mix(col, texture2D(uField, clamp(vec2(uv.x, 1.-uv.y), 0., 1.)).rgb, fl);
+      near = mix(near, .5, fl);
+
+      vec2 ndc = vec2(uv.x*2.-1., 1.-uv.y*2.);
+      float dist = mix(3.4, 1.15, near);
+      vec3 pos = vec3(ndc.x*uAspect/uFoc*dist, ndc.y/uFoc*dist, -dist);
+      float cardPhase = 0.;
+      if (uTrans > 3.5) {   // card: the old cloud gathers into the centred card, which then bursts out into the new cloud
+        float e1 = smoothstep(0.,1., clamp((uMix - aR.z*.08)/.33, 0., 1.));
+        float e2 = smoothstep(0.,1., clamp((uMix - .42 - length(ndc)*.1 - aR.z*.12)/.4, 0., 1.));
+        float dA = mix(3.4, 1.15, mix(n0, .5, fl)), dB = mix(3.4, 1.15, mix(n1, .5, fl)), dC = 1.25;
+        vec2 cn = uCard.xy + ndc*uCard.zw;
+        vec3 pA = vec3(ndc.x*uAspect/uFoc*dA, ndc.y/uFoc*dA, -dA), pB = vec3(ndc.x*uAspect/uFoc*dB, ndc.y/uFoc*dB, -dB);
+        vec3 pC = vec3(cn.x*uAspect/uFoc*dC, cn.y/uFoc*dC, -dC);
+        pos = mix(mix(pA, pC, e1), pB, e2) + dir*sin(e2*PI)*.3;
+        dist = mix(mix(dA, dC, e1), dB, e2);
+        cardPhase = e1*(1.-e2);
+      }
+      pos += dir*(burst + uDream*.06)*(1.-fl*.7);
+      pos += .006*(1.+uDream*5.)*vec3(sin(uTime*.8+aR.x*40.), cos(uTime*.7+aR.y*40.), sin(uTime*.5+aR.z*40.));
+
+      // LiDAR: a scan line falls down the screen along the surface; a thin bright edge, then a fading trail
+      float ly = ndc.y - uLidar;
+      float lead = exp(-pow(ly/.012, 2.)), trail = step(0., ly) * exp(-ly*5.) * .5;
+      pos.z += lead*.05;
+
+      // grab to orbit: turn the scene around a pivot inside the cloud
+      vec3 o = pos - vec3(0., 0., -2.2);
+      o.xz = mat2(cos(uOrbit.x), -sin(uOrbit.x), sin(uOrbit.x), cos(uOrbit.x)) * o.xz;
+      o.yz = mat2(cos(uOrbit.y), -sin(uOrbit.y), sin(uOrbit.y), cos(uOrbit.y)) * o.yz;
+      pos = o + vec3(0., 0., -2.2);
+
+      vec3 v = pos - uCam;
+      float c = cos(uLook.x), s = sin(uLook.x); v.xz = mat2(c,-s,s,c)*v.xz;
+      c = cos(uLook.y); s = sin(uLook.y); v.yz = mat2(c,-s,s,c)*v.yz;
+      float w = -v.z;
+      // cursor parts the cloud: points near the cursor on screen are pushed back and outward
+      vec2 dm = (vec2(v.x*uFoc/uAspect, v.y*uFoc)/max(w,.05) - uMouse) * vec2(uAspect, 1.);
+      float infl = uMouseA * exp(-dot(dm,dm)/.03);
+      v.z -= infl*.5;
+      v.xy += normalize(dm + 1e-5) * infl * .08 * w / uFoc;
+      w = -v.z;
+
+      gl_Position = vec4(v.x*uFoc/uAspect, v.y*uFoc, 0., w);
+      // focus pull: points off the focal depth grow, soften and fade like bokeh
+      float blur = uDof * smoothstep(.04, .45, abs(near - uFocus)) * (1. - fl) * (1. - cardPhase);
+      float inCard = step(0., uv.x) * step(uv.x, 1.) * step(0., uv.y) * step(uv.y, 1.);
+      float size = (1. + uDream*.6 + fl*1.8 + flare*1.5 + lead*1.5 + blur*2.2) * (1. - cardPhase*.45);
+      gl_PointSize = uPx * dist / max(w,.05) * size;
+      vSoft = blur;
+      col = mix(col, vec3(.88,.02,0.), flare*.5) + flare*.15;                       // scan plane glows Race red
+      col = mix(col, vec3(.95), lead*.8) + trail*.12;
+      vCol = mix(col, vec3(.039), smoothstep(2.,5.,w)*.6*(1.-fl));                 // no depth fog once flat
+      vA = .92 * (1.-uDream*.08) * smoothstep(.12,.45,w)   // stays opaque: dimming over black made the gradient muddy
+         / (1. + blur*1.6) * (1. - cardPhase*(1.-inCard));   // outside the card's rectangle, points fade while it's formed
+    }`, `
+    precision mediump float; varying vec3 vCol; varying float vA, vSoft;
+    void main(){ float d=length(gl_PointCoord-.5); if(d>.5) discard;
+      gl_FragColor=vec4(vCol, vA * (1. - smoothstep(.5 - .45*vSoft - .02, .5, d))); }`);   // soft edge when out of focus
+
+  const uvs = new Float32Array(N*2), rnd = new Float32Array(N*3);
+  for (let y = 0, k = 0; y < ROWS; y++) for (let x = 0; x < COLS; x++, k++) {
+    uvs[k*2] = -OS + (x+.5)/COLS*(1+2*OS); uvs[k*2+1] = -OS + (y+.5)/ROWS*(1+2*OS);
+    rnd[k*3] = Math.random(); rnd[k*3+1] = Math.random(); rnd[k*3+2] = Math.random();
+  }
+  const bUV = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, bUV); gl.bufferData(gl.ARRAY_BUFFER, uvs, gl.STATIC_DRAW);
+  const bR = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, bR); gl.bufferData(gl.ARRAY_BUFFER, rnd, gl.STATIC_DRAW);
+
+  // video slots: [0] follows project A (outgoing), [1] follows B (current)
+  const slots = [0,1].map(() => ({ el:null, tex:makeTex(), a:1, on:0 }));
+  function attach(slot, i) {
+    if (slot.el) { slot.el.pause(); slot.el.removeAttribute('src'); slot.el.load(); }
+    slot.el = null; slot.on = 0;
+    if (i < 0 || !P[i].teaser || !opt.teaser) return;
+    const v = document.createElement('video');
+    v.muted = true; v.loop = true; v.playsInline = true; v.crossOrigin = 'anonymous'; v.preload = 'auto';
+    v.src = P[i].teaser + '?cors';   // a no-CORS copy cached by the strip's <video> would block WebGL
+    v.play().catch(() => {});
+    slot.el = v;
+  }
+
+  let A = 0, B = 0, mix = 1, kick = 0;
+  const cam = { x:0, y:0, z:0, yaw:0, pitch:0 };
+  attach(slots[1], 0);
+  return {
+    get cur() { return B; },
+    get pair() { return [P[A], P[B], mix]; },
+    morph(to) {
+      if (to === B) return;
+      if (mix >= .5) { A = B; slots.reverse(); }   // the current project becomes the outgoing one, video and all
+      B = to; mix = 0; kick = 1;
+      attach(slots[1], B);
+    },
+    refreshVideo() { attach(slots[0], -1); attach(slots[1], opt.teaser ? B : -1); },
+    draw(t, dt) {
+      mix = Math.min(1, mix + dt / (opt.trans === 'card' ? 2.4 : opt.trans === 'dust' ? 2.0 : 1.5));
+      if (mix >= 1 && slots[0].el) attach(slots[0], -1);
+      kick *= Math.exp(-dt*1.6);
+      // focus rack: a spring towards the current project's subject depth, plus a slow breathing drift
+      fx.target = P[B].focus + .04*Math.sin(t*.25);
+      fx.v += (fx.target - fx.f) * 22 * dt; fx.v *= Math.exp(-dt*6.5); fx.f += fx.v * dt;
+      fx.dof += ((opt.focus ? 1 : 0) - fx.dof) * (1 - Math.exp(-dt*4));
+      // orbit: a spring towards the drag target (0 once released, so it swings back with a little overshoot)
+      ['x','y'].forEach(k => { orbit['v'+k] += (orbit['t'+k] - orbit[k]) * 40 * dt; orbit['v'+k] *= Math.exp(-dt*7); orbit[k] += orbit['v'+k] * dt; });
+      // LiDAR: a sweep every 12s, 2.6s top to bottom
+      lidar.t += dt;
+      if (opt.lidar && lidar.t > lidar.next) { lidar.t = 0; lidar.next = 12; }
+      const ly = lidar.t < 2.6 && opt.lidar ? 1.25 - lidar.t/2.6*2.5 : -9;
+      const e = 1 - Math.exp(-dt*1.8);
+      // camera: slow loop + mouse parallax; the strip turning pushes it in, then it settles back
+      const tx = Math.sin(t*.07)*.22 + mouse.cx*.15, ty = Math.cos(t*.05)*.1 - mouse.cy*.1;
+      const tz = -(.25 + Math.sin(t*.04)*.12 + kick*.35);
+      cam.x += (tx-cam.x)*e; cam.y += (ty-cam.y)*e; cam.z += (tz-cam.z)*e*2;
+      cam.yaw += (-cam.x*.22 - cam.yaw)*e; cam.pitch += (cam.y*.2 - cam.pitch)*e;
+
+      // cursor: a damped spring follows the pointer, so the parting lags and wobbles back
+      mouse.vx += (mouse.x - mouse.px) * 70 * dt; mouse.vy += (mouse.y - mouse.py) * 70 * dt;
+      const damp = Math.exp(-dt*9); mouse.vx *= damp; mouse.vy *= damp;
+      mouse.px += mouse.vx * dt; mouse.py += mouse.vy * dt;
+      mouse.target += ((mouse.in ? .35 : 0) - mouse.target) * (1 - Math.exp(-dt*1.5));   // a moving cursor parts more
+      mouse.a += ((opt.cursor ? mouse.target : 0) - mouse.a) * (1 - Math.exp(-dt*6));
+
+      slots.forEach(s => {
+        const ready = s.el && s.el.readyState >= 2;
+        if (ready) { gl.bindTexture(gl.TEXTURE_2D, s.tex); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, s.el); s.a = s.el.videoWidth / s.el.videoHeight; }
+        s.on += ((ready ? 1 : 0) - s.on) * (1 - Math.exp(-dt*2));
+      });
+
+      const pa = P[A], pb = P[B];
+      gl.viewport(0, 0, canvas.width, canvas.height);
+      gl.clearColor(.039,.039,.039,1); gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.useProgram(p); gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+      const aUV = gl.getAttribLocation(p,'aUV'), aR = gl.getAttribLocation(p,'aR');
+      gl.bindBuffer(gl.ARRAY_BUFFER, bUV); gl.enableVertexAttribArray(aUV); gl.vertexAttribPointer(aUV,2,gl.FLOAT,false,0,0);
+      gl.bindBuffer(gl.ARRAY_BUFFER, bR); gl.enableVertexAttribArray(aR); gl.vertexAttribPointer(aR,3,gl.FLOAT,false,0,0);
+      [[pa.tex,'uT0'],[pb.tex,'uT1'],[slots[0].tex,'uV0'],[slots[1].tex,'uV1'],[pa.dtex,'uD0'],[pb.dtex,'uD1'],[field.tex,'uField']]
+        .forEach(([tx,n],u) => { gl.activeTexture(gl.TEXTURE0+u); gl.bindTexture(gl.TEXTURE_2D, tx); gl.uniform1i(U(p,n), u); });
+      const f1 = (n,v) => gl.uniform1f(U(p,n), v);
+      f1('uI0', pa.aspect); f1('uI1', pb.aspect); f1('uVA0', slots[0].a); f1('uVA1', slots[1].a);
+      f1('uVid0', opt.teaser ? slots[0].on : 0); f1('uVid1', opt.teaser ? slots[1].on : 0);
+      f1('uHasD0', pa.hasD); f1('uHasD1', pb.hasD); f1('uFake0', pa.fake); f1('uFake1', pb.fake);
+      f1('uFocus', fx.f); f1('uDof', fx.dof); f1('uLidar', ly); gl.uniform2f(U(p,'uOrbit'), orbit.x, orbit.y);
+      gl.uniform4f(U(p,'uCard'), 0, .27, .5, .45);   // the strip's centre card at 1280x800: 645x363px, centred 293px from the top
+      f1('uTime', t); f1('uMix', mix); f1('uTrans', TRANS.indexOf(opt.trans)); f1('uDream', dream);
+      f1('uAspect', canvas.width/canvas.height); f1('uFoc', 1.6);
+      f1('uPx', Math.max(2, Math.max(canvas.width/COLS, canvas.height/ROWS)*(1+2*OS)*1.55));
+      gl.uniform2f(U(p,'uMouse'), mouse.px, mouse.py); f1('uMouseA', mouse.a);
+      gl.uniform3f(U(p,'uCam'), cam.x, cam.y, cam.z); gl.uniform2f(U(p,'uLook'), cam.yaw, cam.pitch);
+      gl.drawArrays(gl.POINTS, 0, N);
+      gl.disableVertexAttribArray(aR); gl.disableVertexAttribArray(aUV); gl.activeTexture(gl.TEXTURE0);
+    },
+    needsField() { return dream > .01 || (opt.trans === 'fold' && mix < 1); },
+  };
+})();
+// pointermove sets the target to 1 (moving); it relaxes to .35 while the cursor rests
+addEventListener('pointermove', () => { mouse.target = 1; });
+
+// ---------- strip stand-in ----------
+const pn = document.getElementById('pn'), pt = document.getElementById('pt'), info = document.getElementById('info');
+function label() {
+  const i = cloud.cur, p = P[i];
+  pn.textContent = String(i+1).padStart(2,'0') + ' / ' + P.length; pt.textContent = p.title;
+}
+function step(d) { cloud.morph((cloud.cur + d + P.length) % P.length); label(); }
+let acc = 0, lastStep = 0;
+addEventListener('wheel', e => {
+  acc += e.deltaY; const now = performance.now();
+  if (Math.abs(acc) > 60 && now - lastStep > 450) { step(Math.sign(acc)); acc = 0; lastStep = now; }
+}, { passive:true });
+addEventListener('keydown', e => {
+  if (e.target.matches('input')) return;
+  if (e.key === 'l' || e.key === 'L') { lidar.t = 0; lidar.next = 12; }
+  if (e.key === 'ArrowRight') step(1); if (e.key === 'ArrowLeft') step(-1);
+});
+label();
+
+// ---------- loop ----------
+let t = 0, last = performance.now(), fpsN = 0, fpsT = last, fps = 0;
+(function frame() {
+  const now = performance.now(), dt = Math.min(.1, (now-last)/1000); last = now;
+  t += dt * (1 - .6*dream);   // DREAM slows the visuals too
+  if (cloud.needsField()) field.draw(t, ...cloud.pair);
+  cloud.draw(t, dt);
+  fpsN++; if (now - fpsT > 1000) { fps = fpsN; fpsN = 0; fpsT = now;
+    const p = P[cloud.cur];
+    info.textContent = `${fps} fps · depth: ${!p.hasD ? 'none (faked)' : p.fake ? `flat (std ${p.std.toFixed(2)}), faked` : `map (std ${p.std.toFixed(2)})`} · teaser: ${p.teaser ? 'yes' : 'none'}`; }
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>

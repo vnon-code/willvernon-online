@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sound HUD — layouts</title>
+<!-- THROWAWAY prototype: three layouts of the Sound HUD for Will to pick from. Rebuild properly in Nuxt; don't promote. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --c-black: #0a0a0a; --c-white: #f2f2ef; --c-red: #e10600;
+    --c-bg: var(--c-black); --c-fg: var(--c-white);
+    --line: color-mix(in srgb, var(--c-fg) 18%, transparent);
+    --muted: color-mix(in srgb, var(--c-fg) 55%, transparent);
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    color-scheme: dark light;
+  }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme='dark']) { --c-bg: var(--c-white); --c-fg: var(--c-black); }
+  }
+  :root[data-theme='light'] { --c-bg: var(--c-white); --c-fg: var(--c-black); }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--c-bg); color: var(--c-fg);
+    font-family: 'Host Grotesk', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow: hidden; }
+
+  /* Stand-in landing: dimmed poster + strip placeholder, only to judge fit */
+  .bg { position: fixed; inset: 0; background: url('/public/img/posters/assets-vidsmugglersoutpost-1.webp') center/cover; opacity: .35; filter: saturate(.6); }
+  .strip { position: fixed; left: 50%; top: 50%; translate: -50% -50%; display: flex; gap: 16px; align-items: center; pointer-events: none; }
+  .strip i { width: 180px; height: 110px; border: 1px dashed var(--line); }
+  .strip i.on { width: 300px; height: 180px; }
+  .switch { position: fixed; top: 16px; left: 50%; translate: -50% 0; display: flex; gap: 4px; z-index: 5; font-size: 12px; }
+  .switch button, .start { white-space: nowrap; font: inherit; color: var(--c-fg); background: color-mix(in srgb, var(--c-bg) 70%, transparent);
+    border: 1px solid var(--line); padding: 6px 10px; cursor: pointer; letter-spacing: .04em; text-transform: uppercase; }
+  .switch button[aria-pressed='true'] { background: var(--c-fg); color: var(--c-bg); }
+  .note { position: fixed; top: 52px; left: 50%; translate: -50% 0; font-size: 12px; color: var(--muted); text-align: center; max-width: 92vw; }
+  .start { position: fixed; left: 50%; top: 50%; translate: -50% -50%; z-index: 6; padding: 14px 22px; font-size: 13px; }
+
+  /* ---------- HUD ---------- */
+  .hud { position: fixed; z-index: 4; display: flex; flex-direction: column; gap: 6px;
+    padding: 8px; background: color-mix(in srgb, var(--c-bg) 72%, transparent);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid var(--line); }
+  .bands { display: flex; gap: 4px; }
+  .sep { width: 1px; background: var(--line); margin: 0 4px; }
+
+  .band { position: relative; width: var(--bw); height: var(--bh); border: 1px solid var(--line);
+    cursor: ns-resize; touch-action: none; user-select: none; outline: none; overflow: hidden; }
+  .band:focus-visible { outline: 1px solid var(--c-fg); outline-offset: 2px; }
+  .layer { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between;
+    padding: 6px 6px 7px; font-size: 10px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; }
+  .layer .val { font-variant-numeric: tabular-nums; color: inherit; opacity: .7; }
+  .fill { position: absolute; inset: 0; background: var(--fillc, var(--c-fg)); color: var(--c-bg);
+    clip-path: inset(calc((1 - var(--l)) * 100%) 0 0 0); transition: clip-path .12s var(--ease-out); }
+  .band.dragging .fill { transition: none; }
+  .band.dream { --fillc: var(--c-red); }
+  .band.dream .fill { color: var(--c-white); }
+  .band.off .layer.base { color: var(--muted); }
+  /* live level: a thin line on the band's left edge */
+  .meter { position: absolute; left: 0; bottom: 0; width: 2px; height: calc(var(--m, 0) * 100%); background: var(--c-red); opacity: .9; }
+  .band.dream .meter { display: none; }
+
+  .track { display: flex; align-items: center; gap: 10px; padding-top: 6px; border-top: 1px solid var(--line); min-width: 0; }
+  .track img { width: var(--art); height: var(--art); object-fit: cover; flex: none; display: block; }
+  .track .meta { min-width: 0; width: 0; flex: 1; display: flex; flex-direction: column; gap: 2px; }
+  .track b { font-size: 12px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .track small { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .track button { font: inherit; font-size: 11px; letter-spacing: .06em; text-transform: uppercase; color: var(--c-fg);
+    background: none; border: 1px solid var(--line); padding: 6px 9px; cursor: pointer; flex: none; }
+  .track button:hover { border-color: var(--c-fg); }
+
+  /* A · Console: compact, centred */
+  .hud[data-v='A'] { left: 50%; bottom: 16px; translate: -50% 0; --bw: 52px; --bh: 128px; --art: 40px; }
+  /* B · Edge strip: full width, short bands */
+  .hud[data-v='B'] { left: 16px; right: 16px; bottom: 16px; --bw: auto; --bh: 84px; --art: 48px; }
+  .hud[data-v='B'] .band { flex: 1; }
+  .hud[data-v='B'] .band.dream, .hud[data-v='B'] .band.vol { flex: .7; }
+  .hud[data-v='B'] .layer { flex-direction: row; align-items: flex-end; }
+  /* C · Corner tower: bottom-right, tall thin bands, rotated labels */
+  .hud[data-v='C'] { right: 16px; bottom: 16px; --bw: 30px; --bh: 176px; --art: 64px; width: max-content; }
+  .hud[data-v='C'] .layer { align-items: center; padding: 8px 0; }
+  .hud[data-v='C'] .layer .lbl { writing-mode: vertical-rl; rotate: 180deg; }
+  .hud[data-v='C'] .track { max-width: calc(8 * 34px + 10px); }
+
+  @media (max-width: 640px) {
+    .hud[data-v='A'], .hud[data-v='C'] { left: 16px; right: 16px; translate: none; width: auto; --bw: auto; }
+    .hud[data-v='A'] .band, .hud[data-v='C'] .band { flex: 1; }
+    .hud[data-v='C'] .track { max-width: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { .fill { transition: none; } }
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="strip" aria-hidden="true"><i></i><i class="on"></i><i></i></div>
+
+<div class="switch" role="group" aria-label="Layout">
+  <button data-set="A">A · Console</button><button data-set="B">B · Edge strip</button><button data-set="C">C · Corner tower</button>
+  <button data-theme-toggle>Theme</button>
+</div>
+<p class="note">Drag a band up/down · click toggles a stem off/on · arrow keys work · red edge line = live level</p>
+<button class="start" id="start">Enter with sound</button>
+
+<section class="hud" data-v="A" aria-label="Sound controls">
+  <div class="bands" id="bands"></div>
+  <div class="track">
+    <img id="art" alt="">
+    <div class="meta"><b id="title"></b><small id="desc"></small></div>
+    <button id="mute" type="button">Mute</button>
+  </div>
+</section>
+
+<script type="module">
+const stemsCfg = (await (await fetch('/content/stems.json')).json()).stemsConfig
+const track = (await (await fetch('/content/tracks.json')).json()).tracks.find(t => t.title.includes('Silver Linings'))
+document.getElementById('art').src = '/public' + track.artwork
+document.getElementById('art').alt = track.title + ' artwork'
+document.getElementById('title').textContent = track.title
+document.getElementById('desc').textContent = track.desc
+
+// ---------- audio ----------
+let ctx, master, mix, lp, dry, revWet, dlyWet, dly, ui
+const stems = {} // id -> { gain, analyser, data, level, src }
+let sources = []
+
+function impulse(sec = 3.2) {
+  const len = ctx.sampleRate * sec, buf = ctx.createBuffer(2, len, ctx.sampleRate)
+  for (let c = 0; c < 2; c++) { const d = buf.getChannelData(c); for (let i = 0; i < len; i++) d[i] = (Math.random() * 2 - 1) * (1 - i / len) ** 2.5 }
+  return buf
+}
+
+async function start() {
+  ctx = new AudioContext()
+  master = ctx.createGain(); master.connect(ctx.destination)
+  ui = ctx.createGain(); ui.gain.value = 0.5; ui.connect(ctx.destination) // UI ticks skip DREAM
+  mix = ctx.createGain()
+  lp = ctx.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 20000; lp.Q.value = 0.4
+  dry = ctx.createGain()
+  const rev = ctx.createConvolver(); rev.buffer = impulse(); revWet = ctx.createGain(); revWet.gain.value = 0
+  dly = ctx.createDelay(2); dly.delayTime.value = 0.42; const fb = ctx.createGain(); fb.gain.value = 0.42
+  const dlyTone = ctx.createBiquadFilter(); dlyTone.type = 'lowpass'; dlyTone.frequency.value = 2400
+  dlyWet = ctx.createGain(); dlyWet.gain.value = 0
+  mix.connect(lp); lp.connect(dry).connect(master)
+  lp.connect(rev).connect(revWet).connect(master)
+  lp.connect(dly); dly.connect(dlyTone).connect(fb).connect(dly); dlyTone.connect(dlyWet).connect(master)
+
+  const bufs = await Promise.all(Object.entries(stemsCfg).map(async ([id, s]) =>
+    [id, await ctx.decodeAudioData(await (await fetch(encodeURI('/public/' + s.file))).arrayBuffer())]))
+  const at = ctx.currentTime + 0.1
+  for (const [id, buf] of bufs) {
+    const st = stems[id]
+    st.gain = ctx.createGain(); st.gain.gain.value = 0
+    st.analyser = ctx.createAnalyser(); st.analyser.fftSize = 512; st.data = new Float32Array(512)
+    const src = ctx.createBufferSource(); src.buffer = buf; src.loop = true
+    let head = src
+    if (FILTER_STEMS.has(id)) { // this stem's band sweeps a low-pass instead of its volume
+      st.filter = ctx.createBiquadFilter(); st.filter.type = 'lowpass'; st.filter.Q.value = 0.7
+      head = src.connect(st.filter)
+    }
+    head.connect(st.gain).connect(st.analyser).connect(mix); src.start(at); sources.push(src)
+    setStem(id)
+  }
+  applyDream(); applyVol(); meterLoop()
+}
+
+const tc = 0.04
+// Bass (Will, 2026-10-03): the band is a low-pass cutoff, exponential 30 Hz–8 kHz; 0 cuts the stem completely
+const FILTER_STEMS = new Set(['bass'])
+const cutoff = v => 30 * Math.pow(8000 / 30, v)
+const hz = v => { const f = cutoff(v); return f >= 1000 ? (f / 1000).toFixed(1) + 'k' : Math.round(f) + '' }
+function setStem(id) {
+  const s = stems[id], t = ctx.currentTime
+  if (s.filter) {
+    s.filter.frequency.setTargetAtTime(cutoff(s.level), t, tc)
+    s.gain.gain.setTargetAtTime(s.level === 0 ? 0 : 1, t, tc)
+  } else s.gain?.gain.setTargetAtTime(s.level ** 2, t, tc)
+}
+let dream = 0, vol = 0.8, muted = false
+function applyDream() {
+  if (!ctx) return
+  const t = ctx.currentTime, d = dream
+  lp.frequency.setTargetAtTime(20000 * Math.pow(700 / 20000, d), t, 0.08)
+  dry.gain.setTargetAtTime(1 - d * 0.35, t, 0.08)
+  revWet.gain.setTargetAtTime(d * 0.7, t, 0.08)
+  dlyWet.gain.setTargetAtTime(d * 0.32, t, 0.08)
+  for (const s of sources) s.playbackRate.setTargetAtTime(1 - d * 0.08, t, 0.3) // same rate on every stem keeps them in sync
+}
+function applyVol() { if (ctx) master.gain.setTargetAtTime(muted ? 0 : vol ** 2, ctx.currentTime, tc) }
+
+// UI sounds: synthesised, quiet, only when sound is running
+function blip(freq, dur = 0.03, amp = 0.05, type = 'sine') {
+  if (!ctx || muted) return
+  const t = ctx.currentTime, o = ctx.createOscillator(), g = ctx.createGain()
+  o.type = type; o.frequency.value = freq
+  g.gain.setValueAtTime(amp, t); g.gain.exponentialRampToValueAtTime(0.0001, t + dur)
+  o.connect(g).connect(ui); o.start(t); o.stop(t + dur + 0.01)
+}
+const grab = () => blip(1400, 0.025, 0.04)
+const tick = (strong) => blip(strong ? 2600 : 3400, strong ? 0.02 : 0.008, strong ? 0.05 : 0.018, 'triangle')
+const release = () => blip(900, 0.04, 0.035)
+
+// ---------- bands ----------
+const host = document.getElementById('bands')
+function makeBand({ id, label, value, cls = '', format = v => Math.round(v * 100), onChange }) {
+  const el = document.createElement('div')
+  el.className = 'band ' + cls
+  el.tabIndex = 0
+  el.setAttribute('role', 'slider'); el.setAttribute('aria-label', label)
+  el.setAttribute('aria-valuemin', 0); el.setAttribute('aria-valuemax', 100)
+  const face = `<span class="lbl">${label}</span><span class="val"></span>`
+  el.innerHTML = `<div class="layer base">${face}</div><div class="fill"><div class="layer">${face}</div></div><i class="meter"></i>`
+  let v = value, last = value > 0 ? value : 0.8
+  const set = (nv, fromUser = true) => {
+    nv = Math.min(1, Math.max(0, nv))
+    const step = Math.floor(nv * 10), prevStep = Math.floor(v * 10)
+    if (fromUser && step !== prevStep) tick(nv === 0 || nv === 1 || step === 5)
+    v = nv; if (v > 0) last = v
+    el.style.setProperty('--l', v)
+    el.classList.toggle('off', v === 0)
+    const pct = Math.round(v * 100)
+    el.querySelectorAll('.val').forEach(n => n.textContent = v === 0 ? 'off' : format(v))
+    el.setAttribute('aria-valuenow', pct); el.setAttribute('aria-valuetext', v === 0 ? 'off' : FILTER_STEMS.has(id) ? 'cutoff ' + hz(v) + ' hertz' : pct + '%')
+    onChange(v)
+  }
+  let startY, startV, moved
+  el.addEventListener('pointerdown', e => {
+    el.setPointerCapture(e.pointerId); startY = e.clientY; startV = v; moved = false
+    el.classList.add('dragging'); grab()
+  })
+  el.addEventListener('pointermove', e => {
+    if (!el.hasPointerCapture(e.pointerId)) return
+    const dy = startY - e.clientY
+    if (Math.abs(dy) > 3) moved = true
+    if (moved) set(startV + dy / el.clientHeight)
+  })
+  const end = e => {
+    if (!el.hasPointerCapture?.(e.pointerId)) return
+    el.releasePointerCapture(e.pointerId); el.classList.remove('dragging')
+    if (!moved) set(v === 0 ? last : 0) // click = toggle off/on, back to the last level
+    release()
+  }
+  el.addEventListener('pointerup', end); el.addEventListener('pointercancel', end)
+  el.addEventListener('keydown', e => {
+    const k = { ArrowUp: .05, ArrowRight: .05, ArrowDown: -.05, ArrowLeft: -.05, PageUp: .2, PageDown: -.2 }[e.key]
+    if (k !== undefined) { e.preventDefault(); set(v + k) }
+    else if (e.key === 'Home') { e.preventDefault(); set(0) }
+    else if (e.key === 'End') { e.preventDefault(); set(1) }
+    else if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); set(v === 0 ? last : 0) }
+  })
+  set(value, false)
+  return el
+}
+
+for (const [id, s] of Object.entries(stemsCfg)) {
+  stems[id] = { level: 0.8 }
+  const el = makeBand({ id, label: s.name, value: 0.8, format: FILTER_STEMS.has(id) ? hz : undefined, onChange: v => { stems[id].level = v; if (ctx) setStem(id) } })
+  stems[id].el = el
+  host.append(el)
+}
+host.append(Object.assign(document.createElement('span'), { className: 'sep' }))
+host.append(makeBand({ id: 'dream', label: 'Dream', value: 0, cls: 'dream', onChange: v => { dream = v; applyDream() } }))
+host.append(makeBand({ id: 'vol', label: 'Vol', value: 0.8, cls: 'vol', onChange: v => { vol = v; applyVol() } }))
+
+function meterLoop() {
+  for (const s of Object.values(stems)) {
+    s.analyser.getFloatTimeDomainData(s.data)
+    let sum = 0; for (const x of s.data) sum += x * x
+    const rms = Math.min(1, Math.sqrt(sum / s.data.length) * 3.2)
+    s.m = Math.max(rms, (s.m ?? 0) * 0.9)
+    s.el.style.setProperty('--m', s.m)
+  }
+  requestAnimationFrame(meterLoop)
+}
+
+// ---------- chrome ----------
+const muteBtn = document.getElementById('mute')
+muteBtn.onclick = () => { muted = !muted; muteBtn.textContent = muted ? 'Unmute' : 'Mute'; applyVol() }
+document.getElementById('start').onclick = async e => { e.currentTarget.remove(); await start() }
+const hud = document.querySelector('.hud')
+const setV = v => { hud.dataset.v = v; document.querySelectorAll('[data-set]').forEach(b => b.setAttribute('aria-pressed', b.dataset.set === v)); history.replaceState(null, '', '?v=' + v) }
+document.querySelectorAll('[data-set]').forEach(b => b.onclick = () => setV(b.dataset.set))
+setV(new URLSearchParams(location.search).get('v') || 'A')
+document.querySelector('[data-theme-toggle]').onclick = () => {
+  const r = document.documentElement
+  r.dataset.theme = r.dataset.theme === 'light' ? 'dark' : 'light'
+}
+</script>
+</body>
+</html>

@@ -9,7 +9,7 @@ The first screen of every visit, where the visitor chooses to enter with or with
 _Avoid_: Splash, intro screen, preloader
 
 **Landing**:
-The screen behind the Gate: the point-cloud background, the project strip and the sound HUD.
+The screen behind the Gate: the dot background, the project strip and the sound HUD.
 _Avoid_: Home, homepage
 
 **Stem**:

@@ -1,0 +1,359 @@
+<!doctype html>
+<!-- THROWAWAY prototype: project strip variants, round 2. Not production code. ?v=arc|ring|wave|tunnel|slivers&auto=drift|step|off -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project strip · preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0A0A; --fg: #F2F2EF; --red: #E10600;
+    --muted: color-mix(in srgb, var(--fg) 50%, transparent);
+    --line: color-mix(in srgb, var(--fg) 14%, transparent);
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: var(--bg); color: var(--fg);
+    font-family: 'Host Grotesk', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  body { overscroll-behavior: none; touch-action: none; }
+
+  .stage { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; }
+
+  .chips { display: flex; gap: 6px; position: relative; z-index: 5000; }
+  .chip { font: 500 12px/1 'Host Grotesk'; letter-spacing: .06em; text-transform: uppercase; color: var(--muted);
+    background: none; border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; cursor: pointer;
+    transition: color .3s var(--ease), border-color .3s var(--ease), background .3s var(--ease); }
+  .chip:hover { color: var(--fg); }
+  .chip[aria-pressed="true"] { color: var(--bg); background: var(--fg); border-color: var(--fg); }
+  .chip sup { font-size: 9px; margin-left: 3px; opacity: .6; }
+
+  .strip { position: relative; width: 100vw; height: var(--strip-h); perspective: 1600px; }
+  .world { position: absolute; inset: 0; }
+  .card { position: absolute; left: 50%; top: 50%; overflow: hidden; background: #151515; cursor: pointer;
+    will-change: transform, width, opacity; border-radius: 2px; backface-visibility: hidden; }
+  .card img, .card video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card video { opacity: 0; transition: opacity .6s var(--ease); }
+  .card video.on { opacity: 1; }
+  .card::after { content: ''; position: absolute; inset: 0; background: var(--bg); opacity: var(--dim, 0); pointer-events: none; }
+  /* Side-card treatments. --side: 0 centred -> 1 one card or more away */
+  .card::before { content: ''; position: absolute; inset: 0; z-index: 1; background: var(--red); mix-blend-mode: multiply; opacity: 0; pointer-events: none; }
+  body[data-sides="none"] .card::after { opacity: 0; }
+  body[data-sides="dark"] .card::after { opacity: calc(var(--side) * .7); }
+  body[data-sides="mono"] .card::after { opacity: 0; }
+  body[data-sides="mono"] :is(.card img, .card video),
+  body[data-sides="monodark"] :is(.card img, .card video) { filter: grayscale(var(--side)) contrast(calc(1 + var(--side) * .1)); }
+  body[data-sides="monodark"] .card::after { opacity: calc(var(--side) * .55); }
+  body[data-sides="red"] :is(.card img, .card video) { filter: grayscale(var(--side)) contrast(calc(1 + var(--side) * .25)); }
+  body[data-sides="red"] .card::before { opacity: calc(var(--side) * .9); }
+  body[data-sides="red"] .card::after { opacity: calc(var(--side) * .25); }
+  body[data-sides="blur"] :is(.card img, .card video) { filter: blur(calc(var(--side) * 6px)); }
+  body[data-sides="blur"] .card::after { opacity: calc(var(--side) * .45); }
+
+  .caption { display: grid; justify-items: center; gap: 6px; min-height: 64px; text-align: center; position: relative; z-index: 5000; }
+  .count { font: 500 12px/1 'Host Grotesk'; letter-spacing: .08em; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .count b { color: var(--red); font-weight: 500; }
+  .title { font: 600 clamp(22px, 2.4vw, 34px)/1.05 'Host Grotesk'; letter-spacing: -.02em; overflow: hidden; height: 1.1em; }
+  .title span, .cat span { display: block; animation: roll .55s var(--ease); }
+  .cat { font: 500 12px/1 'Host Grotesk'; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); overflow: hidden; height: 1.2em; }
+  @keyframes roll { from { transform: translateY(100%); opacity: 0; } to { transform: none; opacity: 1; } }
+
+  /* Preview chrome (not part of the design) */
+  .proto { position: fixed; left: 16px; bottom: 16px; display: grid; gap: 6px; font: 500 11px/1 'Host Grotesk'; color: var(--muted); z-index: 400; }
+  .proto .row { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+  .proto button { font: inherit; color: var(--muted); background: #141414; border: 1px solid var(--line); padding: 7px 10px; cursor: pointer; border-radius: 3px; }
+  .proto button[aria-pressed="true"] { color: var(--fg); border-color: var(--fg); }
+  .proto .name { margin-left: 4px; }
+  .note { position: fixed; right: 16px; bottom: 16px; max-width: 340px; font: 400 11px/1.4 'Host Grotesk'; color: var(--muted); text-align: right; z-index: 400; }
+  .toast { position: fixed; left: 50%; top: 24px; transform: translate(-50%, -8px); opacity: 0; font: 500 12px/1 'Host Grotesk';
+    background: var(--fg); color: var(--bg); padding: 9px 14px; border-radius: 3px; transition: .35s var(--ease); pointer-events: none; z-index: 500; }
+  .toast.on { opacity: 1; transform: translate(-50%, 0); }
+  .hint { position: fixed; left: 50%; top: 20px; transform: translateX(-50%); font: 500 11px/1 'Host Grotesk'; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; text-align: center; }
+</style>
+</head>
+<body>
+<div class="hint">Scroll, drag or ← → · click a side card to jump · it loops forever and drifts when left alone</div>
+<main class="stage">
+  <div class="chips" id="chips"></div>
+  <div class="strip" id="strip"><div class="world" id="world"></div></div>
+  <div class="caption" aria-live="polite">
+    <div class="count" id="count"></div>
+    <div class="title" id="title"></div>
+    <div class="cat" id="cat"></div>
+  </div>
+</main>
+<div class="proto" id="proto"></div>
+<div class="note">PLACEHOLDERS: card order (Claude's "strongest first"), drift speed, background is plain black (point cloud goes behind).</div>
+<div class="toast" id="toast">Project page: not built yet</div>
+
+<script>
+const R2 = 'https://assets.willvernon.online';
+const P = '/public/img/posters/';
+// k = chip (PLACEHOLDER mapping), c = discipline shown under the title
+const PROJECTS = [
+  { t: "Smuggler's Outpost",   k: 'Project',    c: 'Design', img: P + 'assets-vidsmugglersoutpost-1.webp',       vid: R2 + '/projects/06_smugglers-outpost/assets/VIDSmugglersOutpost_1.mp4' },
+  { t: 'Monolith Survival',    k: 'Experiment', c: 'AI',     img: P + 'ai-monolith-preview-v2.webp',             vid: R2 + '/ai/monolith_preview_v2.mp4' },
+  { t: 'Amplified Spaces',     k: 'Project',    c: 'Design', img: P + 'video-trailers-b17av2-1.webp',            vid: R2 + '/projects/01_amplified-spaces/video_trailers/B17AV2_1.mp4' },
+  { t: 'Topography AV Test',   k: 'Experiment', c: 'Experiment', img: P + 'experiments-topographyav-test2.webp', vid: R2 + '/experiments/TopographyAV_Test2.mp4' },
+  { t: 'The World Plays Here', k: 'Project',    c: 'Design', img: P + 'assets-theworldplayshere2-1.webp',        vid: R2 + '/projects/07_the-world-plays-here/assets/TheWorldPlaysHere2_1.mp4' },
+  { t: 'DREDGE',               k: 'Experiment', c: 'AI',     img: P + 'ai-dredge-preview-1.webp',                vid: R2 + '/ai/Dredge_preview_1.mp4' },
+  { t: 'Remnants',             k: 'Project',    c: 'Design', img: P + 'assets-remnants-outcome-1.webp',          vid: R2 + '/projects/03_remnants/assets/Remnants%20Outcome_1.mp4' },
+  { t: 'Handheld Stories',     k: 'Project',    c: 'Design', img: P + 'assets-vernon-handheldstories-gdes6004.webp', vid: R2 + '/projects/02_handheld-stories/assets/Vernon_HandheldStories_GDES6004.mp4' },
+  { t: 'Synthetic Corals',     k: 'Experiment', c: 'AI',     img: P + 'ai-coral-rotate.webp' },
+  { t: 'Marimekko Exhibition', k: 'Project',    c: 'Design', img: P + 'assets-vernon-gdes50014-animation-1.webp', vid: R2 + '/projects/05_marimekko-exhibition/assets/Vernon_GDES50014_animation_1.mp4' },
+  { t: 'Powersurge',           k: 'Project',    c: 'Design', img: '/public/img/powersurge/PowerSurgeSS.png',     gif: '/public/img/powersurge/powersurgegif.gif' },
+];
+const CHIPS = ['All', 'Project', 'Experiment'];
+const VARIANTS = {
+  arc:     'Arc — cards ride a wide circle, tilting along the curve',
+  ring:     'Ring — fixed: back half ghosted, cards stack strictly by depth (no pop)',
+  ringhigh: 'Ring high — steeper view; the back row rides clearly above the front',
+  orbit:    'Orbit — flat cards on a merry-go-round seen from above',
+  inside:   'Inside — you stand inside the ring; the wall curves around you',
+  insidebig: 'Inside, big centre — same wall, centre card grows 1.6x and pushes neighbours out',
+  slivers: 'Slivers — thin slices, centre opens wide (round 1, now endless)',
+};
+const SIDES = {
+  depth: 'Depth dim (current): darker the further round the ring',
+  none: 'None: every card full colour',
+  dark: 'Dark: sides at 30% brightness',
+  mono: 'Mono: sides black and white, full brightness',
+  monodark: 'Mono + dark: black and white, dimmed',
+  red: 'Red duotone: sides tinted Race red',
+  blur: 'Blur: sides soft-focus and dimmed',
+};
+const AUTO = { drift: 'Drift: slow continuous glide', step: 'Step: rest 10s, glide to next', off: 'Off' };
+const DRIFT_SPEED = 1 / 7;   // cards per second (PLACEHOLDER)
+const STEP_REST = 10000;     // ms (Will, 2026-10-03)
+const IDLE_RESUME = 3000;    // ms after the last input before auto resumes
+
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const qs = new URLSearchParams(location.search);
+let variant = VARIANTS[qs.get('v')] ? qs.get('v') : 'insidebig';
+let sides = SIDES[qs.get('sides')] ? qs.get('sides') : 'mono';
+document.body.dataset.sides = sides;
+let auto = AUTO[qs.get('auto')] ? qs.get('auto') : 'step';   // Will picked step, 10s rest
+let filter = 'All';
+let list = PROJECTS, n = list.length;
+let target = 0, current = 0, centre = -1;
+let lastInput = -Infinity, stepAt = 0, hovering = false;
+const strip = document.getElementById('strip'), world = document.getElementById('world');
+let cards = [];
+
+function build() {
+  list = filter === 'All' ? PROJECTS : PROJECTS.filter(p => p.k === filter);
+  n = list.length;
+  world.innerHTML = '';
+  cards = list.map((p, i) => {
+    const el = document.createElement('div');
+    el.className = 'card';
+    el.innerHTML = `<img src="${p.img}" alt="" draggable="false">`;
+    el.addEventListener('click', () => {
+      if (moved) return;
+      if (i === centre) { toast(); return; }
+      target = Math.round(current) + wrap(i - Math.round(current));
+      touch();
+    });
+    el.addEventListener('pointerenter', () => { if (i === centre) hovering = true; });
+    el.addEventListener('pointerleave', () => hovering = false);
+    world.appendChild(el);
+    return { el, p, video: null };
+  });
+  target = current = 0; centre = -1; stepAt = performance.now() + STEP_REST;
+}
+
+// shortest signed distance on the loop, in (-n/2, n/2]
+const wrap = d => n < 2 ? 0 : ((d % n) + n * 1.5) % n - n / 2;
+const mod = (v, m) => ((v % m) + m) % m;
+const easeInOut = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+
+/* ---------- layout per variant ---------- */
+// Ring-family variants project 3D -> 2D by hand and stack cards strictly by depth.
+// (CSS preserve-3d sorted intersecting card planes itself, which made the back row pop forward.)
+const FOCAL = 1600;
+const smooth = (a, b, v) => { const t = Math.max(0, Math.min(1, (v - a) / (b - a))); return t * t * (3 - 2 * t); };
+function layout() {
+  const W = innerWidth, H = innerHeight;
+  const cw = Math.min(W * .32, H * .40 * 16 / 9), ch = cw * 9 / 16;
+  const hFor = { arc: 1.6, ring: 1.7, ringhigh: 2.6, orbit: 2.6, inside: 1.5, insidebig: 2.0, slivers: 1.4 };
+  strip.style.setProperty('--strip-h', ch * (hFor[variant] || 1.5) + 'px');
+
+  if (variant === 'slivers') return layoutSlivers(W, H);
+
+  cards.forEach((c, i) => {
+    const d = wrap(i - current), a = Math.abs(d), near = easeInOut(Math.max(0, 1 - a));
+    let x = 0, y = 0, z = 0, ry = 0, rz = 0, sc = 1, op = 1, dim = Math.min(a * .3, .7), zi = 200 - Math.round(a * 10);
+
+    if (variant === 'arc') {
+      const R = W * 1.25, step = (cw * .78) / R;           // radians between cards
+      const th = d * step;
+      x = R * Math.sin(th); y = R * (1 - Math.cos(th)) - ch * .1;
+      rz = th * 180 / Math.PI;
+      sc = .78 + .32 * near;
+      op = a > n / 2 - .5 ? 0 : 1;
+    } else {
+      let X, Y, Z, turn = 0;
+      const ang = (d / n) * Math.PI * 2, cosA = Math.cos(ang);
+      if (variant === 'ring' || variant === 'ringhigh') {
+        const R = Math.max(cw * 1.2, (n * cw * 1.08) / (2 * Math.PI));
+        X = R * Math.sin(ang); Z = R * (cosA - 1);
+        Y = Z * (variant === 'ring' ? .10 : .32);            // Z < 0 behind, so the far side sits higher
+        turn = ang * .3;                                      // part-turn: far side stays readable, not mirrored
+        op = .16 + .84 * smooth(-.35, .75, cosA);            // back half ghosted, fades up through the sides
+        dim = .75 * (1 - smooth(-.2, 1, cosA)) + .12 * Math.min(a, 1);
+      }
+      if (variant === 'orbit') {
+        const Rx = W * .36, Rz = cw * 1.6;
+        X = Rx * Math.sin(ang); Z = Rz * (cosA - 1); Y = Z * .42;
+        op = .2 + .8 * smooth(-.5, .7, cosA);
+        dim = .7 * (1 - smooth(-.3, 1, cosA)) + .1 * Math.min(a, 1);
+      }
+      if (variant === 'inside' || variant === 'insidebig') {
+        // camera inside the ring: the wall curves around you, sides come closer
+        const R = W * .55, step = (cw * 1.04) / R, th = d * step;
+        X = R * Math.sin(th); Z = R * (1 - Math.cos(th)) * .85; Y = 0;
+        turn = -th;
+        op = 1 - smooth(1.0, 1.35, Math.abs(th));
+        dim = Math.min(a * .22, .6);
+      }
+      const p = FOCAL / (FOCAL - Z);
+      // ring-high and orbit lean back, so drop them to keep the back row clear of the chips
+      const drop = { ringhigh: ch * .5, orbit: ch * .55 }[variant] || 0;
+      x = X * p; y = Y * p + drop; sc = p * (1 + .1 * near);
+      if (variant === 'insidebig') {
+        // centre grows; neighbours slide out by the extra width so nothing overlaps
+        sc = p * (1 + .6 * near);
+        x += Math.sign(d) * Math.min(a, 1) * cw * .3 * p;
+      } ry = turn * 180 / Math.PI;
+      zi = Math.round(2000 + Z);
+    }
+    c.el.style.width = cw + 'px'; c.el.style.height = ch + 'px';
+    c.el.style.transform = `translate(-50%,-50%) translate(${x}px,${y}px) rotateZ(${rz}deg) scale(${sc}) perspective(${FOCAL}px) rotateY(${ry}deg)`;
+    c.el.style.zIndex = zi;
+    c.el.style.opacity = op;
+    c.el.style.setProperty('--dim', dim);
+    c.el.style.setProperty('--side', Math.min(a, 1));
+    c.el.style.visibility = op <= 0.01 ? 'hidden' : 'visible';
+  });
+}
+function layoutSlivers(W, H) {
+  const ch = Math.min(H * .5, W * .5 * 9 / 16), big = ch * 16 / 9, s = Math.max(18, W * .028), gap = 8;
+  const k0 = Math.floor(current), f = current - k0;
+  const width = d => s + (big - s) * easeInOut(Math.max(0, 1 - Math.abs(d)));
+  // lay cards out from k0 in both directions along the loop
+  const pos = new Map();
+  let right = 0, left = 0;
+  const w0 = width(k0 - current); pos.set(mod(k0, n), { c: 0, w: w0 });
+  right = w0 / 2; left = -w0 / 2;
+  const half = Math.floor((n - 1) / 2);
+  for (let m = 1; m <= n - 1 - half; m++) { const w = width(k0 + m - current); pos.set(mod(k0 + m, n), { c: right + gap + w / 2, w }); right += gap + w; }
+  for (let m = 1; m <= half; m++)         { const w = width(k0 - m - current); pos.set(mod(k0 - m, n), { c: left - gap - w / 2, w }); left -= gap + w; }
+  const next = pos.get(mod(k0 + 1, n)) || pos.get(mod(k0, n));
+  const anchor = f * next.c;
+  cards.forEach((c, i) => {
+    const p = pos.get(i), a = Math.abs(wrap(i - current));
+    c.el.style.width = p.w + 'px'; c.el.style.height = ch + 'px';
+    c.el.style.transform = `translate(-50%,-50%) translate3d(${p.c - anchor}px,0,0)`;
+    c.el.style.zIndex = 1; c.el.style.opacity = 1; c.el.style.visibility = 'visible';
+    c.el.style.setProperty('--dim', Math.min(a, 1) * .35);
+    c.el.style.setProperty('--side', Math.min(a, 1));
+  });
+}
+
+/* ---------- centre card: caption + teaser ---------- */
+function setCentre(i) {
+  if (i === centre) return;
+  centre = i;
+  const p = list[i];
+  document.getElementById('count').innerHTML = `<b>${String(i + 1).padStart(2, '0')}</b> / ${String(n).padStart(2, '0')}`;
+  document.getElementById('title').innerHTML = `<span>${p.t}</span>`;
+  document.getElementById('cat').innerHTML = `<span>${p.c}</span>`;
+  cards.forEach((c, j) => j === i ? play(c) : stop(c));
+}
+let playTimer;
+function play(c) {
+  clearTimeout(playTimer);
+  playTimer = setTimeout(() => {
+    if (c.p.gif) { c.el.querySelector('img').src = c.p.gif; return; }
+    if (!c.p.vid) return;
+    if (!c.video) {
+      c.video = Object.assign(document.createElement('video'), { muted: true, loop: true, playsInline: true, preload: 'auto', src: c.p.vid });
+      c.el.appendChild(c.video);
+      c.video.addEventListener('playing', () => c.video.classList.add('on'));
+    }
+    c.video.play().catch(() => {});
+  }, 250);
+}
+function stop(c) {
+  if (c.p.gif) c.el.querySelector('img').src = c.p.img;
+  if (c.video) { c.video.pause(); c.video.classList.remove('on'); }
+}
+
+/* ---------- input: vertical scroll drives the loop ---------- */
+let snapTimer, moved = false;
+function touch() { lastInput = performance.now(); stepAt = lastInput + IDLE_RESUME + STEP_REST; }
+function scheduleSnap(ms = 140) { clearTimeout(snapTimer); snapTimer = setTimeout(() => target = Math.round(target), ms); }
+addEventListener('wheel', e => {
+  e.preventDefault();
+  const d = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+  target += d * (e.deltaMode ? 0.33 : 0.0028);
+  touch(); scheduleSnap();
+}, { passive: false });
+let drag = null;
+addEventListener('pointerdown', e => { if (e.target.closest('.chips, .proto')) return; drag = { x: e.clientX, y: e.clientY, t: target }; moved = false; touch(); });
+addEventListener('pointermove', e => {
+  if (!drag) return;
+  const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+  const d = Math.abs(dx) > Math.abs(dy) ? -dx : -dy;
+  if (Math.abs(d) > 6) moved = true;
+  target = drag.t + d / (innerWidth * .28); touch();
+});
+addEventListener('pointerup', () => { if (drag) { drag = null; target = Math.round(target); setTimeout(() => moved = false, 0); } });
+addEventListener('keydown', e => {
+  if (['ArrowRight', 'ArrowDown'].includes(e.key)) { target = Math.round(target) + 1; touch(); }
+  if (['ArrowLeft', 'ArrowUp'].includes(e.key)) { target = Math.round(target) - 1; touch(); }
+});
+
+let last = performance.now();
+function tick(now) {
+  const dt = Math.min(.05, (now - last) / 1000); last = now;
+  const idle = now - lastInput > IDLE_RESUME && !drag && !hovering && n > 1 && !reduce;
+  if (idle && auto === 'drift') target += DRIFT_SPEED * dt;
+  if (idle && auto === 'step' && now >= stepAt) { target = Math.round(target) + 1; stepAt = now + STEP_REST; }
+  current = reduce ? target : current + (target - current) * (auto === 'drift' && idle ? 0.04 : 0.085);
+  if (Math.abs(target - current) < 0.0005) current = target;
+  // keep numbers small; the loop is endless either way
+  if (Math.abs(current) > n * 50) { const s = Math.round(current / n) * n; current -= s; target -= s; }
+  layout();
+  setCentre(mod(Math.round(current), n));
+  requestAnimationFrame(tick);
+}
+
+/* ---------- chips + preview switcher ---------- */
+function renderChips() {
+  const el = document.getElementById('chips');
+  el.innerHTML = CHIPS.map(c => {
+    const k = c === 'All' ? PROJECTS.length : PROJECTS.filter(p => p.k === c).length;
+    return `<button class="chip" aria-pressed="${c === filter}" data-c="${c}">${c}<sup>${k}</sup></button>`;
+  }).join('');
+  el.querySelectorAll('.chip').forEach(b => b.onclick = () => { filter = b.dataset.c; renderChips(); build(); });
+}
+function renderProto() {
+  const el = document.getElementById('proto');
+  el.innerHTML =
+    `<div class="row">${Object.keys(VARIANTS).map(k => `<button aria-pressed="${k === variant}" data-v="${k}">${k}</button>`).join('')}<span class="name">${VARIANTS[variant]}</span></div>` +
+    `<div class="row">Auto: ${Object.keys(AUTO).map(k => `<button aria-pressed="${k === auto}" data-a="${k}">${k}</button>`).join('')}<span class="name">${AUTO[auto]}</span></div>` +
+    `<div class="row">Sides: ${Object.keys(SIDES).map(k => `<button aria-pressed="${k === sides}" data-s="${k}">${k}</button>`).join('')}<span class="name">${SIDES[sides]}</span></div>`;
+  el.querySelectorAll('[data-v]').forEach(b => b.onclick = () => { variant = b.dataset.v; sync(); });
+  el.querySelectorAll('[data-s]').forEach(b => b.onclick = () => { sides = b.dataset.s; document.body.dataset.sides = sides; sync(); });
+  el.querySelectorAll('[data-a]').forEach(b => b.onclick = () => { auto = b.dataset.a; stepAt = performance.now() + STEP_REST; sync(); });
+}
+function sync() { history.replaceState(null, '', `?v=${variant}&auto=${auto}&sides=${sides}`); renderProto(); }
+let toastTimer;
+function toast() { const t = document.getElementById('toast'); t.classList.add('on'); clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('on'), 1400); }
+
+renderChips(); renderProto(); build(); requestAnimationFrame(tick);
+</script>
+</body>
+</html>

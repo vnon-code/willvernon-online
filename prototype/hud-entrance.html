@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HUD entrance — options</title>
+<!-- THROWAWAY: three entrance options for the Sound HUD. Visuals match TheSoundHud.vue; no audio. -->
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --c-black:#0a0a0a; --c-white:#f2f2ef; --c-red:#e10600; --c-bg:var(--c-black); --c-fg:var(--c-white);
+    --line: color-mix(in srgb, var(--c-fg) 18%, transparent); --muted: color-mix(in srgb, var(--c-fg) 55%, transparent);
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1); --ease-expo: cubic-bezier(0.16, 1, 0.3, 1); --ease-io: cubic-bezier(0.77, 0, 0.175, 1); }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; background: var(--c-bg); color: var(--c-fg); font-family: 'Host Grotesk', system-ui, sans-serif; overflow: hidden; }
+  .bg { position: fixed; inset: 0; background: url('/public/img/posters/assets-vidsmugglersoutpost-1.webp') center/cover; }
+  .ui { position: fixed; top: 16px; left: 50%; translate: -50% 0; display: flex; gap: 4px; z-index: 5; }
+  .ui button { font: inherit; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; white-space: nowrap; color: var(--c-fg);
+    background: color-mix(in srgb, var(--c-bg) 70%, transparent); border: 1px solid var(--line); padding: 6px 10px; cursor: pointer; }
+  .ui button[aria-pressed='true'] { background: var(--c-fg); color: var(--c-bg); }
+  .desc { position: fixed; top: 52px; left: 50%; translate: -50% 0; font-size: 12px; color: var(--c-fg); background: color-mix(in srgb, var(--c-bg) 70%, transparent); padding: 4px 8px; max-width: 92vw; text-align: center; }
+
+  .hud { position: fixed; left: 50%; bottom: 16px; translate: -50% 0; display: flex; flex-direction: column; gap: 6px; padding: 8px; }
+  .panel { position: absolute; inset: 0; background: color-mix(in srgb, var(--c-bg) 72%, transparent);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid var(--line); }
+  .bands { position: relative; display: flex; gap: 4px; }
+  .sep { width: 1px; background: var(--line); margin: 0 4px; }
+  .band { position: relative; width: 52px; height: 128px; border: 1px solid var(--line); overflow: hidden; }
+  .face { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 6px 6px 7px;
+    font-size: 10px; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; }
+  .face span:last-child { opacity: .7; }
+  .fill { position: absolute; inset: 0; background: var(--c-fg); color: var(--c-bg); clip-path: inset(calc((1 - var(--l)) * 100%) 0 0 0); }
+  .band.dream .fill { background: var(--c-red); color: var(--c-white); }
+  .track { position: relative; display: flex; align-items: center; gap: 10px; padding-top: 6px; border-top: 1px solid var(--line); }
+  .track img { width: 40px; height: 40px; object-fit: cover; }
+  .meta { width: 0; flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .meta b { font-size: 12px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .meta small { font-size: 11px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  @media (max-width: 640px) { .hud { left: 16px; right: 16px; translate: none; } .band { flex: 1; width: auto; } }
+</style>
+</head>
+<body>
+<div class="bg"></div>
+<div class="ui">
+  <button data-o="1">1 · Rise</button><button data-o="2">2 · Build</button><button data-o="3">3 · Trace</button><button id="replay">Replay</button>
+</div>
+<p class="desc" id="desc"></p>
+
+<section class="hud" id="hud">
+  <div class="panel"></div>
+  <div class="bands" id="bands"></div>
+  <div class="track">
+    <img src="/public/img/artwork/catching-flies-bootleg.jpg" alt="">
+    <div class="meta"><b>Catching Flies - Silver Linings (vnon Bootleg)</b><small>A rich cinematic bootleg rework of Catching Flies' 'Silver Linings', blending rolling percussion with deep atmosphere.</small></div>
+  </div>
+</section>
+
+<script type="module">
+import { animate, stagger } from 'https://cdn.jsdelivr.net/npm/motion@11.18.2/+esm'
+const bandsEl = document.getElementById('bands')
+const defs = [['Drums','80',.8],['Bass','2.6k',.8],['Melody','80',.8],['Atmos','80',.8],['Vocals','80',.8],null,['Dream','off',0,'dream'],['Vol','80',.8]]
+for (const d of defs) {
+  if (!d) { bandsEl.insertAdjacentHTML('beforeend', '<span class="sep"></span>'); continue }
+  const [l, v, lv, c = ''] = d, f = `<div class="face"><span>${l}</span><span>${lv ? v : 'off'}</span></div>`
+  bandsEl.insertAdjacentHTML('beforeend', `<div class="band ${c}" data-l="${lv}" style="--l:${lv}">${f}<div class="fill">${f}</div></div>`)
+}
+const $ = s => [...document.querySelectorAll(s)]
+const hud = document.getElementById('hud'), panel = $('.panel')[0], track = $('.track')[0]
+const bands = $('.band'), fills = $('.fill'), seps = $('.sep')
+const E = [0.16, 1, 0.3, 1], IO = [0.77, 0, 0.175, 1]
+
+const DESC = {
+  1: 'Rise — the whole panel slides up 24px from below while fading and un-blurring (700ms), then the fills rise left to right.',
+  2: 'Build — the glass panel fades in, each band grows up from the bottom edge one by one, its fill following, then the track card slides up last.',
+  3: 'Trace — a 1px outline draws around the panel (like the Gate button loader), the glass fades in, then bands and fills rise. Ties back to the Gate.',
+}
+
+function reset() {
+  for (const el of [hud, panel, track, ...bands, ...seps]) { el.getAnimations().forEach(a => a.cancel()); el.style.cssText = el.classList.contains('band') ? `--l:${el.dataset.l}` : '' }
+  document.querySelector('svg.trace')?.remove()
+  fills.forEach(f => f.parentElement.style.setProperty('--l', 0))
+}
+const fillUp = (delay) => bands.forEach((b, i) => animate(b, { '--l': [0, +b.dataset.l] }, { duration: .8, delay: delay + i * .06, ease: E }))
+
+const OPTIONS = {
+  1() {
+    animate(hud, { opacity: [0, 1], y: [24, 0], filter: ['blur(8px)', 'blur(0px)'] }, { duration: .7, ease: E })
+    fillUp(.35)
+  },
+  2() {
+    animate(panel, { opacity: [0, 1] }, { duration: .5, ease: 'easeOut' })
+    seps.forEach(s => animate(s, { opacity: [0, 1] }, { duration: .4, delay: .3 }))
+    animate(bands, { clipPath: ['inset(100% 0 0 0)', 'inset(0% 0 0 0)'] }, { duration: .6, delay: stagger(.06, { startDelay: .15 }), ease: E })
+    fillUp(.45)
+    animate(track, { opacity: [0, 1], y: [10, 0] }, { duration: .6, delay: .7, ease: E })
+  },
+  3() {
+    const r = hud.getBoundingClientRect()
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+    svg.classList.add('trace')
+    svg.setAttribute('style', `position:fixed;left:${r.left}px;top:${r.top}px;overflow:visible;pointer-events:none`)
+    svg.setAttribute('width', r.width); svg.setAttribute('height', r.height)
+    svg.innerHTML = `<rect x=".5" y=".5" width="${r.width - 1}" height="${r.height - 1}" fill="none" stroke="var(--c-fg)" stroke-width="1" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>`
+    document.body.append(svg)
+    const rect = svg.firstChild
+    animate(rect, { strokeDashoffset: [1, 0] }, { duration: .9, ease: IO })
+    animate(rect, { opacity: [1, 0] }, { duration: .5, delay: 1.1 })
+    animate(panel, { opacity: [0, 1] }, { duration: .5, delay: .7 })
+    for (const el of [...bands, ...seps, track]) el.style.opacity = 0
+    animate(bands, { opacity: [0, 1], y: [8, 0] }, { duration: .5, delay: stagger(.05, { startDelay: .8 }), ease: E })
+    animate(seps, { opacity: [0, 1] }, { duration: .4, delay: .9 })
+    fillUp(1.0)
+    animate(track, { opacity: [0, 1] }, { duration: .5, delay: 1.2 })
+  },
+}
+
+let current = new URLSearchParams(location.search).get('o') || '1'
+function play() {
+  reset()
+  $('[data-o]').forEach(b => b.setAttribute('aria-pressed', b.dataset.o === current))
+  document.getElementById('desc').textContent = DESC[current]
+  history.replaceState(null, '', '?o=' + current)
+  requestAnimationFrame(() => OPTIONS[current]())
+}
+$('[data-o]').forEach(b => b.onclick = () => { current = b.dataset.o; play() })
+document.getElementById('replay').onclick = play
+CSS.registerProperty?.({ name: '--l', syntax: '<number>', inherits: true, initialValue: '0' })
+play()
+</script>
+</body>
+</html>

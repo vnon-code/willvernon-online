@@ -1,0 +1,526 @@
+<!doctype html>
+<!-- THROWAWAY prototype: dot → WILL VERNON → the other letters squeeze shut → W + V morph into the monogram → name and PORTFOLIO unfold either side. Not site code.
+     Glyph outlines: Host Grotesk (OFL) at wght 600, extracted with fontTools. Morphing: flubber (MIT). -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gate intro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300..800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/flubber@0.4.2/build/flubber.min.js"></script>
+<style>
+  :root { --bg:#0A0A0A; --fg:#F2F2EF; --mute:color-mix(in srgb,var(--fg) 65%,var(--bg)); --ease-out:cubic-bezier(0.23,1,0.32,1); --ease-btn:cubic-bezier(0.16,1,0.3,1); }
+  @media (prefers-color-scheme: light) { :root { --bg:#F2F2EF; --fg:#0A0A0A; } }
+  * { box-sizing:border-box; margin:0; }
+  html,body { height:100%; background:var(--bg); color:var(--fg); font-family:"Host Grotesk",system-ui,sans-serif; overflow:hidden; }
+
+  .picker { position:fixed; top:12px; left:50%; transform:translateX(-50%); z-index:10; display:flex; gap:6px 10px; flex-wrap:wrap; justify-content:center; align-items:center;
+    font-size:12px; background:#1a1a1a; color:#aaa; padding:6px 10px; border-radius:6px; width:max-content; max-width:calc(100% - 24px); }
+  .picker button { background:none; border:1px solid #333; color:#aaa; padding:4px 10px; border-radius:4px; cursor:pointer; font:inherit; }
+  .picker button.on { color:#F2F2EF; border-color:#F2F2EF; }
+  .picker label { display:flex; align-items:center; gap:6px; }
+  .picker input { accent-color:#F2F2EF; width:80px; }
+  .picker output { color:#F2F2EF; font-variant-numeric:tabular-nums; min-width:3em; }
+
+  canvas, .stage { position:fixed; inset:0; width:100%; height:100%; }
+  .stage { z-index:1; pointer-events:none; fill:var(--fg); }
+  .gate { position:fixed; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:44px; padding:16px; transition:opacity .6s ease; }
+  .gate.leaving { opacity:0; pointer-events:none; }
+  /* mark pinned to the exact viewport centre; the button hangs below it */
+  .gate.centred .choices { position:absolute; left:0; right:0; top:calc(50% + 24px * var(--ms,1) + 44px); }
+  .gate > * { position:relative; }
+
+  /* lockup: name | mark | PORTFOLIO, the mark always dead centre */
+  .lockup { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:calc(16px * var(--ms,1)); width:100%; }
+  .side { font-size:13px; font-weight:var(--w,600); letter-spacing:.16em; text-transform:uppercase; white-space:nowrap; }
+  .side.left { justify-self:end; margin-right:-.16em; }
+  .side.right { justify-self:start; display:inline-flex; letter-spacing:0; }
+  .side.right .m { display:inline-block; overflow:hidden; vertical-align:top; }
+  .side.right .c { display:inline-block; white-space:pre; }
+  .side.right.flip .m { perspective:200px; overflow:visible; }
+  .side.right .caret { display:inline-block; width:1px; height:1em; background:currentColor; margin-left:2px; animation:blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity:0; } }
+  .wordpanel { position:fixed; left:12px; bottom:12px; z-index:10; display:flex; flex-direction:column; gap:6px; font-size:12px; background:#1a1a1a; color:#aaa; padding:8px 10px; border-radius:6px; max-width:calc(100% - 24px); }
+  .wordpanel .row { display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
+  .wordpanel button { background:none; border:1px solid #333; color:#aaa; padding:3px 8px; border-radius:4px; cursor:pointer; font:inherit; }
+  .wordpanel button.on { color:#F2F2EF; border-color:#F2F2EF; }
+  .wordpanel label { display:flex; align-items:center; gap:6px; }
+  .wordpanel input[type=range] { accent-color:#F2F2EF; width:80px; }
+  .wordpanel output { color:#F2F2EF; font-variant-numeric:tabular-nums; min-width:3.2em; }
+  .wordpanel input[type=text] { width:220px; background:#111; border:1px solid #333; color:#F2F2EF; padding:3px 6px; border-radius:4px; font:inherit; }
+  .side.right.muted { color:var(--mute); }
+  .mark { position:relative; display:block; aspect-ratio:808/577; height:calc(48px * var(--ms,1)); opacity:0; }
+  .mark svg { position:absolute; inset:0; width:100%; height:100%; fill:currentColor; }
+  .mark svg:first-child { transition:opacity .5s ease; }
+  .mark.dim svg:first-child { opacity:.15; }
+  .mark svg:last-child { clip-path:inset(calc(100% - var(--p,0%)) 0 0 0); }
+
+  /* bracket button (after dkton.at) */
+  .choices { display:flex; flex-direction:column; align-items:center; gap:10px; opacity:0; transform:translateY(12px); transition:opacity .7s var(--ease-out), transform .7s var(--ease-out); }
+  .choices.in { opacity:1; transform:none; }
+  [data-b="B"] .choices { flex-direction:row; flex-wrap:wrap; justify-content:center; }
+  .bk { position:relative; background:none; border:0; color:var(--fg); cursor:pointer; padding:1.1em 2em; font:600 calc(11px * var(--bs,1.15)) "Host Grotesk"; letter-spacing:.14em; text-transform:uppercase; display:inline-flex; align-items:center; }
+  .bk .plate { position:absolute; inset:0; background:var(--fg); opacity:0; transition:opacity .34s var(--ease-btn), inset .34s var(--ease-btn); }
+  .bk .lbl { position:relative; transition:color .1s; }
+  .bk i { position:absolute; width:.82em; height:.82em; border:1px solid currentColor; transition:transform .34s var(--ease-btn); }
+  .bk i:nth-of-type(1) { top:0; left:0; border-right:0; border-bottom:0; } .bk i:nth-of-type(2) { top:0; right:0; border-left:0; border-bottom:0; }
+  .bk i:nth-of-type(3) { bottom:0; left:0; border-right:0; border-top:0; } .bk i:nth-of-type(4) { bottom:0; right:0; border-left:0; border-top:0; }
+  .bk.quiet { color:var(--mute); font-weight:500; padding:.75em 1.3em; }
+  .bk.quiet i { display:none; }
+  [data-b="B"] .bk.quiet i { display:block; opacity:.5; }
+  [data-b="C"] .bk.quiet { position:fixed; left:50%; bottom:28px; translate:-50% 0; }
+  @media (hover:hover) and (pointer:fine) {
+    .bk:hover .plate { opacity:.1; inset:4px; }
+    .bk:hover i:nth-of-type(1) { transform:translate(-3px,-3px); } .bk:hover i:nth-of-type(2) { transform:translate(3px,-3px); }
+    .bk:hover i:nth-of-type(3) { transform:translate(-3px,3px); } .bk:hover i:nth-of-type(4) { transform:translate(3px,3px); }
+    .bk.quiet:hover { color:var(--fg); }
+  }
+  .bk:active .plate { opacity:1; inset:0; transition-duration:.1s; }
+  .bk:active .lbl { color:var(--bg); }
+
+  .done { position:fixed; inset:0; display:grid; place-items:center; font-size:13px; opacity:0; transition:opacity 1s ease; color:var(--mute); cursor:pointer; pointer-events:none; }
+  .done.in { opacity:1; pointer-events:auto; }
+</style>
+</head>
+<body data-b="C">
+<div class="picker">
+  <label>Weight <input id="w" type="range" min="300" max="800" step="50" value="600"><output id="wo">600</output></label>
+  <label>Mark <input id="ms" type="range" min="0.6" max="2" step="0.05" value="1"><output id="mso">1.00×</output></label>
+  <label>Button <input id="bs" type="range" min="0.7" max="1.6" step="0.05" value="1.15"><output id="bso">1.15×</output></label>
+  <label>Speed <input id="spd" type="range" min="0.25" max="1.5" step="0.05" value="1"><output id="spdo">1.00×</output></label>
+  <button id="void" class="on">Logo void</button>
+  <label>Void size <input id="vs" type="range" min="0.3" max="1.4" step="0.05" value="1"><output id="vso"></output></label>
+  <label>Margin <input id="vm" type="range" min="0" max="40" step="2" value="0"><output id="vmo"></output></label>
+  <label>Void Y <input id="vy" type="range" min="-50" max="50" step="1" value="0"><output id="vyo"></output></label>
+  <button id="centre" class="on">Mark on centre</button>
+  <button id="replay">↻ replay</button>
+  <span style="flex-basis:100%;height:0"></span>
+  <button id="fx-spot" class="on">Spotlight</button><button id="fx-lens" class="on">Lens</button><button id="fx-repel" class="on">Repel</button><button id="fx-ripple" class="on">Ripple (click)</button>
+  <label>Dots slide <input id="ddur" type="range" min="300" max="3000" step="50" value="1600"><output id="dduro"></output></label>
+  <label>Piece stagger <input id="dstag" type="range" min="0" max="300" step="10" value="0"><output id="dstago"></output></label>
+  <label>Curve <input id="dbez" type="text" value="0.77, 0, 0.175, 1" style="width:130px;background:#111;border:1px solid #333;color:#F2F2EF;padding:3px 6px;border-radius:4px;font:inherit"></label>
+  <label>Radius <input id="mr" type="range" min="40" max="400" step="10" value="140"><output id="mro"></output></label>
+  <label>Glow <input id="mg" type="range" min="0" max="0.8" step="0.02" value="0.8"><output id="mgo"></output></label>
+  <label>Lens <input id="ml" type="range" min="1" max="3" step="0.1" value="1.5"><output id="mlo"></output></label>
+  <label>Ring speed <input id="rv" type="range" min="200" max="2000" step="50" value="550"><output id="rvo"></output></label>
+  <label>Ring width <input id="rw" type="range" min="10" max="80" step="2" value="30"><output id="rwo"></output></label>
+  <label>Ring life <input id="rl" type="range" min="0.4" max="3" step="0.1" value="1"><output id="rlo"></output></label>
+  <label>Push <input id="mp" type="range" min="0" max="60" step="1" value="1"><output id="mpo"></output></label>
+  <label>Spring <input id="mk" type="range" min="0.03" max="0.4" step="0.01" value="0.4"><output id="mko"></output></label>
+</div>
+
+<div class="wordpanel">
+  <div class="row"><span>Word change</span>
+    <button data-ws="roll" class="on">Roll</button><button data-ws="flip">Flip</button><button data-ws="blur">Blur</button>
+    <button data-ws="slide">Slide</button><button data-ws="scramble">Scramble</button><button data-ws="type">Type</button><button data-ws="fold">Fold</button>
+  </div>
+  <div class="row">
+    <label>Hold <input id="hold" type="range" min="0.8" max="5" step="0.1" value="3"><output id="holdo"></output></label>
+    <label>Duration <input id="wdur" type="range" min="150" max="1500" step="10" value="490"><output id="wduro"></output></label>
+    <label>Stagger <input id="stag" type="range" min="0" max="120" step="2" value="60"><output id="stago"></output></label>
+  </div>
+  <div class="row">
+    <label>Words <input id="words" type="text" value="Portfolio, Designer, AI + Digital, Creative Tech"></label>
+    <button id="fit" class="on">Match name width</button><button id="grey" class="on">Grey</button><button id="next">Next →</button>
+  </div>
+</div>
+
+<canvas id="dots"></canvas>
+
+<section class="gate centred" id="gate">
+  <div class="lockup">
+    <span class="side left" id="left">Will Vernon</span>
+    <span class="mark" id="mark">
+      <svg viewBox="136 251 808 577" aria-hidden="true"><polygon points="136,251 338,251 424,406 540,251 655,406 741,251 944,251 770,587 944,828 655,828 540,635 424,828 136,828 294,587"/></svg>
+      <svg viewBox="136 251 808 577" aria-hidden="true"><polygon points="136,251 338,251 424,406 540,251 655,406 741,251 944,251 770,587 944,828 655,828 540,635 424,828 136,828 294,587"/></svg>
+    </span>
+    <span class="side right muted" id="right" aria-live="off"></span>
+  </div>
+  <div class="choices" id="choices">
+    <button class="bk" type="button"><span class="plate"></span><i></i><i></i><i></i><i></i><span class="lbl">Enter with sound</span></button>
+    <button class="bk quiet" type="button"><span class="plate"></span><i></i><i></i><i></i><i></i><span class="lbl">Enter without sound</span></button>
+  </div>
+</section>
+
+<!-- everything that moves in the intro is drawn here, in screen pixels -->
+<svg class="stage" id="stage" aria-hidden="true">
+  <circle id="seed" r="4" opacity="0"/>
+  <g id="name"></g>
+  <path id="morph" d=""/>
+</svg>
+<div class="done" id="done">→ Landing would fade up here · click to replay</div>
+
+<script>
+const GLYPHS = {"upm": 1000, "cap": 700, "glyphs": {"W": {"d": "M216.1424560546875 700.0 29.99969482421875 0.0H157.85748291015625L304.57147216796875 633.4282836914062H270.57135009765625L441.14251708984375 0.0H573.4288940429688L739.71435546875 634.4282836914062H705.7142333984375L852.7139282226562 0.0H982.0003051757812L791.1432495117188 700.0H649.571044921875L493.28570556640625 127.14361572265625H517.0L356.428955078125 700.0Z", "adv": 1012}, "I": {"d": "M56.99969482421875 700.0V0.0H177.00030517578125V700.0Z", "adv": 234}, "L": {"d": "M55.85687255859375 700.0V0.0H175.85748291015625V605.856689453125H489.0001220703125V700.0Z", "adv": 521}, "V": {"d": "M282.1424560546875 700.0 24.99969482421875 0.0H153.1431884765625L355.0 576.1422729492188L558.1425170898438 0.0H685.0003051757812L427.8575439453125 700.0Z", "adv": 710}, "E": {"d": "M52.714111328125 700.0V0.0H504.8572998046875V97.28619384765625H172.7147216796875V298.28546142578125H474.8572998046875V392.7144775390625H172.7147216796875V602.7138061523438H504.8572998046875V700.0Z", "adv": 539}, "R": {"d": "M55.85687255859375 700.0V0.0H344.5714111328125Q428.4285888671875 0.0 482.7857666015625 28.071441650390625Q537.1429443359375 56.14288330078125 563.6429748535156 104.50006103515625Q590.1430053710938 152.85723876953125 590.1430053710938 213.71441650390625Q590.1430053710938 263.71435546875 568.285888671875 305.7857360839844Q546.4287719726562 347.85711669921875 506.85748291015625 376.28570556640625Q548.8573608398438 401.4285888671875 569.7859191894531 443.5714111328125Q590.7144775390625 485.7142333984375 593.285888671875 541.5712890625L601.285888671875 700.0H483.7138671875L473.856689453125 544.7140502929688Q471.57098388671875 503.7142333984375 458.92816162109375 477.7857666015625Q446.28533935546875 451.8572998046875 418.85687255859375 439.42877197265625Q391.42840576171875 427.000244140625 343.857177734375 427.000244140625H175.85748291015625V700.0ZM175.85748291015625 329.999755859375H336.7142333984375Q405.5711669921875 329.999755859375 436.8567810058594 298.1427307128906Q468.14239501953125 266.28570556640625 468.14239501953125 213.71441650390625Q468.14239501953125 159.857421875 437.1424865722656 129.07180786132812Q406.142578125 98.28619384765625 336.42852783203125 98.28619384765625H175.85748291015625Z", "adv": 640}, "N": {"d": "M56.99969482421875 700.0V0.0H177.00030517578125L513.9996948242188 505.57049560546875V0.0H634.0003051757812V700.0H513.9996948242188L177.00030517578125 195.5723876953125V700.0Z", "adv": 691}, "O": {"d": "M379.9965493022532 712.0Q276.28570556640625 712.0 197.49996948242188 666.1428527832031Q118.7142333984375 620.2857055664062 74.64279174804688 538.939713493226Q30.57135009765625 457.5937214200459 30.57135009765625 349.7978055439298Q30.57135009765625 243.0 74.59517211914063 161.5Q118.618994140625 80.0 197.4523498535156 34.0Q276.28570556640625 -12.0 379.9965493022532 -12.0Q484.71429443359375 -12.0 563.1428833007812 34.0Q641.5714721679688 80.0 685.5000610351562 161.5Q729.4286499023438 243.0 729.4286499023438 349.7978055439298Q729.4286499023438 457.5937214200459 685.5000610351562 538.939713493226Q641.5714721679688 620.2857055664062 563.1428833007812 666.1428527832031Q484.71429443359375 712.0 379.9965493022532 712.0ZM380.43035130471173 604.5708618164062Q449.5712890625 604.5708618164062 500.25161421926396 574.0367670473845Q550.9319393760279 543.5026722783628 579.1799894634046 486.251244586447Q607.4280395507812 428.99981689453125 607.4280395507812 350.0Q607.4280395507812 271.00018310546875 579.1799894634046 213.98990282966093Q550.9319393760279 156.97962255385312 500.25161421926396 126.34723315192656Q449.5712890625 95.71484375 380.43035130471173 95.71484375Q312.14300537109375 95.71484375 260.99279513533827 126.34723315192656Q209.8425848995828 156.97962255385312 181.56441989119764 213.98990282966093Q153.2862548828125 271.00018310546875 153.2862548828125 350.0Q153.2862548828125 428.99981689453125 181.56441989119764 486.251244586447Q209.8425848995828 543.5026722783628 260.99279513533827 574.0367670473845Q312.14300537109375 604.5708618164062 380.43035130471173 604.5708618164062Z", "adv": 760}, " ": {"d": "", "adv": 307}}};
+const MARK_PTS = [[136,251],[338,251],[424,406],[540,251],[655,406],[741,251],[944,251],[770,587],[944,828],[655,828],[540,635],[424,828],[136,828],[294,587]];
+const $ = id => document.getElementById(id);
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const NAME = 'WILL VERNON', KEEP = 'WV', TRACK = -20; // tracking in font units (-0.02em)
+
+/* ---------- easing ---------- */
+const clamp = v => Math.min(Math.max(v, 0), 1);
+const outCubic = t => 1 - (1 - t) ** 3;
+const inOut = t => t < .5 ? 4 * t * t * t : 1 - (-2 * t + 2) ** 3 / 2;
+const lerp = (a, b, t) => a + (b - a) * t;
+// progress of a phase that starts at `from` ms and lasts `dur` ms
+const phase = (t, from, dur) => clamp((t - from) / dur);
+
+/* ---------- timeline (ms, before the speed slider) ---------- */
+const T = { seed: 100, rise: 650, squeeze: 1900, morph: 2700, swap: 3500, unfold: 3550, choices: 4200 };
+const DUR = { rise: 700, squeeze: 800, morph: 800, unfold: 800 };
+
+/* ---------- dot matrix bloom ---------- */
+const cv = $('dots'), cx = cv.getContext('2d'), GAP = 18, BASE = .12;
+let dots = [], W, H, origin = { x: 0, y: 0 };
+function layoutDots() {
+  const dpr = Math.min(devicePixelRatio, 2); W = innerWidth; H = innerHeight;
+  cv.width = W * dpr; cv.height = H * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0); dots = [];
+  const ox = (W % GAP) / 2 + GAP / 2, oy = (H % GAP) / 2 + GAP / 2;
+  for (let y = oy; y < H; y += GAP) for (let x = ox; x < W; x += GAP) dots.push({ x, y });
+}
+// dots inside a big monogram silhouette, centred on the mark, are never drawn
+let voidOn = true;
+// the dot matrix arrives after the morph: each piece around the void slides in from its own edge
+const PIECES = ['l', 'r', 'tl', 'tr', 'b']; // slide order
+let slide = {};
+// cubic-bezier(x1, y1, x2, y2) as a function of progress, like CSS (Newton steps, then bisection)
+function bezier(x1, y1, x2, y2) {
+  const c = (a, b, t) => ((1 - 3 * b + 3 * a) * t + (3 * b - 6 * a)) * t * t + 3 * a * t;
+  const dc = (a, b, t) => 3 * (1 - 3 * b + 3 * a) * t * t + 2 * (3 * b - 6 * a) * t + 3 * a;
+  return x => {
+    if (x <= 0) return 0; if (x >= 1) return 1;
+    let t = x;
+    for (let i = 0; i < 6; i++) { const d = dc(x1, x2, t); if (Math.abs(d) < 1e-6) break; t -= (c(x1, x2, t) - x) / d; }
+    if (t < 0 || t > 1 || Math.abs(c(x1, x2, t) - x) > 1e-4) { let lo = 0, hi = 1; t = x; for (let i = 0; i < 30; i++) { c(x1, x2, t) < x ? lo = t : hi = t; t = (lo + hi) / 2; } }
+    return c(y1, y2, t);
+  };
+}
+let slideEase = bezier(0.77, 0, 0.175, 1);
+function carve() {
+  const h = H * +$('vs').value, k = h / 577, m = +$('vm').value, path = new Path2D();
+  MARK_PTS.forEach(([x, y], i) => path[i ? 'lineTo' : 'moveTo'](origin.x + (x - 540) * k, origin.y + H * +$('vy').value / 100 + (y - 539.5) * k));
+  path.closePath();
+  cx.save(); cx.setTransform(1, 0, 0, 1, 0, 0); cx.lineWidth = m * 2; cx.lineJoin = 'miter';
+  for (const p of dots) p.hole = voidOn && (cx.isPointInPath(path, p.x, p.y) || (m > 0 && cx.isPointInStroke(path, p.x, p.y)));
+  // which piece each dot belongs to, in the mark's own units (box 136..944 × 251..828):
+  // side notches by x first, then the two top V notches and the bottom notch by y
+  const cy = origin.y + H * +$('vy').value / 100;
+  for (const p of dots) {
+    const u = (p.x - origin.x) / k + 540, v = (p.y - cy) / k + 539.5;
+    p.piece = u <= 294 ? 'l' : u >= 770 ? 'r' : v <= 406 ? (u < 540 ? 'tl' : 'tr') : v >= 635 ? 'b' : (u < 540 ? 'l' : 'r');
+  }
+  // how far each piece travels: just enough to start fully off-screen
+  slide = {};
+  for (const id of PIECES) {
+    const ps = dots.filter(p => !p.hole && p.piece === id);
+    if (!ps.length) continue;
+    const xs = ps.map(p => p.x), ys = ps.map(p => p.y);
+    slide[id] = id === 'l' ? { x: -(Math.max(...xs) + GAP), y: 0 } : id === 'r' ? { x: W - Math.min(...xs) + GAP, y: 0 }
+              : id === 'b' ? { x: 0, y: H - Math.min(...ys) + GAP } : { x: 0, y: -(Math.max(...ys) + GAP) };
+  }
+  cx.restore();
+}
+/* ---------- mouse: spotlight, lens, repel, ripple on click (mouse only; off for touch and reduced motion) ---------- */
+const MOUSE_OK = !reduced && matchMedia('(hover: hover) and (pointer: fine)').matches;
+const mouse = { x: 0, y: 0, tx: 0, ty: 0, a: 0, on: false };
+const fx = { spot: true, lens: true, repel: true, ripple: true };
+// ripples: rings sent out by clicks
+const ripples = [];
+function addRipple(x, y, amp) { ripples.push({ x, y, t: performance.now(), amp }); if (ripples.length > 6) ripples.shift(); }
+if (MOUSE_OK) {
+  addEventListener('pointerdown', e => { if (e.pointerType === 'mouse' && fx.ripple) addRipple(e.clientX, e.clientY, 1); });
+  addEventListener('pointermove', e => { if (e.pointerType !== 'mouse') return; mouse.tx = e.clientX; mouse.ty = e.clientY; if (!mouse.a) { mouse.x = e.clientX; mouse.y = e.clientY; } mouse.on = true; });
+  document.documentElement.addEventListener('pointerleave', () => { mouse.on = false; });
+}
+const mv = id => +$(id).value;
+
+function drawDots(t) {
+  // cursor eases toward the pointer; influence fades in/out when it enters/leaves the window
+  mouse.x += (mouse.tx - mouse.x) * .25; mouse.y += (mouse.ty - mouse.y) * .25;
+  mouse.a += ((mouse.on ? 1 : 0) - mouse.a) * .08;
+  const R = mv('mr'), glow = mv('mg'), lens = mv('ml'), push = mv('mp'), stiff = mv('mk'), now = performance.now();
+  const rSpeed = mv('rv'), rWidth = mv('rw'), rLife = mv('rl') * 1000;
+  while (ripples.length && now - ripples[0].t > rLife) ripples.shift();
+  cx.clearRect(0, 0, W, H); cx.fillStyle = getComputedStyle(document.body).color;
+  for (const p of dots) {
+    if (p.hole) continue;
+    // slide in from the piece's edge once the morph is done; reduced motion: a 200ms fade
+    const pi = PIECES.indexOf(p.piece), go = phase(t, T.swap + pi * mv('dstag'), reduced ? 200 : mv('ddur'));
+    if (go <= 0) continue;
+    const e = slideEase(go), sl = slide[p.piece] || { x: 0, y: 0 }, m = reduced ? 0 : 1 - e;
+    const bloomed = go >= 1 ? 1 : 0; // mouse effects wait until the piece has landed
+    const sx = sl.x * m, sy = sl.y * m;
+    // f: 1 under the cursor, 0 at radius R (smooth falloff), only once the bloom has reached the dot
+    const dx = p.x - mouse.x, dy = p.y - mouse.y, d = Math.hypot(dx, dy);
+    const f = MOUSE_OK ? (1 - Math.min(1, d / R)) ** 2 * mouse.a * bloomed : 0;
+    // repel: spring toward an offset pointing away from the cursor
+    if (MOUSE_OK) {
+      const tx = fx.repel && d > .01 ? dx / d * push * f : 0, ty = fx.repel && d > .01 ? dy / d * push * f : 0;
+      p.vx = ((p.vx || 0) + (tx - (p.ox || 0)) * stiff) * .72; p.vy = ((p.vy || 0) + (ty - (p.oy || 0)) * stiff) * .72;
+      p.ox = (p.ox || 0) + p.vx; p.oy = (p.oy || 0) + p.vy;
+    }
+    // ripple: a bright ring like the bloom's wavefront, fading as it travels
+    let ring = 0;
+    for (const rp of ripples) {
+      const age = now - rp.t, dist = Math.hypot(p.x - rp.x, p.y - rp.y);
+      ring += rp.amp * Math.max(0, 1 - Math.abs(dist - age / 1000 * rSpeed) / rWidth) * (1 - age / rLife);
+    }
+    ring *= bloomed;
+    cx.globalAlpha = BASE * (reduced ? go : Math.min(1, e * 2.5));
+    if (fx.spot) cx.globalAlpha += glow * f;
+    cx.globalAlpha += .45 * ring;
+    const r = (fx.lens ? 1 + (lens - 1) * f : 1) + .5 * Math.min(1, ring);
+    cx.fillRect(p.x + sx + (p.ox || 0) - r, p.y + sy + (p.oy || 0) - r, r * 2, r * 2);
+  }
+  cx.globalAlpha = 1;
+}
+
+/* ---------- the big name, as real glyph outlines ---------- */
+const letters = [...NAME].map((ch, i) => ({ ch, i, keep: KEEP.includes(ch), adv: GLYPHS.glyphs[ch].adv }));
+const ns = 'http://www.w3.org/2000/svg';
+$('name').innerHTML = '';
+for (const L of letters) {
+  const g = document.createElementNS(ns, 'g'), p = document.createElementNS(ns, 'path');
+  p.setAttribute('d', GLYPHS.glyphs[L.ch].d); g.appendChild(p); $('name').appendChild(g); L.el = g; L.path = p;
+}
+let S = 1, markRect, morphFn = null;
+
+function measure() {
+  layoutDots();
+  $('stage').setAttribute('viewBox', `0 0 ${W} ${H}`);
+  markRect = $('mark').getBoundingClientRect();
+  origin = { x: markRect.left + markRect.width / 2, y: markRect.top + markRect.height / 2 };
+  carve();
+  S = Math.min(Math.max(innerWidth * .06, 34), 72) / GLYPHS.upm; // font size clamp(34px, 6vw, 72px)
+  morphFn = null;
+}
+
+// x of every letter for a given squeeze amount e (0 = full name, 1 = only W V left)
+function layoutName(e) {
+  let x = 0; const xs = [];
+  letters.forEach((L, i) => {
+    const k = L.keep ? 1 : 1 - e;
+    xs.push({ x, sx: k });
+    if (i < letters.length - 1) x += L.adv * k + TRACK * k; else x += L.adv * k;
+  });
+  return { xs, width: x };
+}
+
+function sampleRing(pathEl, tx, ty, s, n = 160) {
+  // first contour only: W and V are single contours in Host Grotesk
+  const d = pathEl.getAttribute('d').split(/(?=M)/)[0];
+  const tmp = document.createElementNS(ns, 'path'); tmp.setAttribute('d', d);
+  $('stage').appendChild(tmp);
+  const len = tmp.getTotalLength(), ring = [];
+  for (let k = 0; k < n; k++) { const pt = tmp.getPointAtLength(len * k / n); ring.push([tx + pt.x * s, ty + pt.y * s]); }
+  tmp.remove(); return ring;
+}
+
+function buildMorph() {
+  const { xs, width } = layoutName(1);
+  const left = origin.x - width * S / 2, top = origin.y - GLYPHS.cap * S / 2;
+  const rings = letters.filter(L => L.keep).map(L => sampleRing(L.path, left + xs[L.i].x * S, top, S));
+  const target = MARK_PTS.map(([x, y]) => [markRect.left + (x - 136) / 808 * markRect.width, markRect.top + (y - 251) / 577 * markRect.height]);
+  morphFn = flubber.combine(rings, target, { single: true, maxSegmentLength: 4 });
+}
+
+/* ---------- render the whole intro for time t ---------- */
+let t0 = 0, spd = 1, raf = 0, progress = 0, lastTick = 0;
+function render(now) {
+  const t = reduced ? 1e6 : (now - t0) * spd;
+  drawDots(t);
+
+  // 1. seed dot
+  const seed = $('seed');
+  seed.setAttribute('cx', origin.x); seed.setAttribute('cy', origin.y);
+  seed.setAttribute('opacity', 0); // removed: no seed dot
+
+  // 2–3. name rises letter by letter, then the non-initials squeeze shut
+  const e = inOut(phase(t, T.squeeze, DUR.squeeze));
+  const { xs, width } = layoutName(e);
+  const left = origin.x - width * S / 2, top = origin.y - GLYPHS.cap * S / 2;
+  const showName = t < T.morph;
+  $('name').style.display = showName ? '' : 'none';
+  if (showName) letters.forEach(L => {
+    const r = outCubic(phase(t, T.rise + L.i * 35, DUR.rise));
+    const dy = (1 - r) * GLYPHS.cap * S * .9;
+    const { x, sx } = xs[L.i];
+    L.el.setAttribute('transform', `translate(${left + x * S} ${top + dy}) scale(${S * Math.max(sx, .0001)} ${S})`);
+    L.el.setAttribute('opacity', r * (L.keep ? 1 : Math.min(1, sx * 1.6)));
+  });
+
+  // 4. W + V morph into the monogram
+  const m = phase(t, T.morph, DUR.morph);
+  if (t >= T.morph && t < T.swap) {
+    if (!morphFn) buildMorph();
+    $('morph').setAttribute('d', morphFn(inOut(m)));
+  } else $('morph').setAttribute('d', '');
+
+  // 5. the real mark (with the loader fill) takes over; the unloaded part dims to a ghost
+  const mark = $('mark');
+  mark.style.opacity = t >= T.swap ? 1 : 0;
+  mark.classList.toggle('dim', t >= T.swap + 150);
+
+  // 6. name and PORTFOLIO unfold out of either side of the mark
+  const u = outCubic(phase(t, T.unfold, DUR.unfold));
+  $('left').style.clipPath = `inset(0 0 0 ${(1 - u) * 100}%)`;
+  $('left').style.transform = `translateX(${(1 - u) * 24}px)`;
+  $('right').style.clipPath = `inset(0 ${(1 - u) * 100}% 0 0)`;
+  $('right').style.transform = `translateX(${(1 - u) * -24}px)`;
+
+  // 7. the choices
+  $('choices').classList.toggle('in', t >= T.choices);
+
+  // fake loading, from the start
+  if (now - lastTick > 70 && progress < 100) { progress = Math.min(100, progress + Math.random() * 3); lastTick = now; mark.style.setProperty('--p', progress + '%'); }
+
+  raf = requestAnimationFrame(render);
+}
+
+function play() {
+  cancelAnimationFrame(raf);
+  $('gate').classList.remove('leaving'); $('done').classList.remove('in');
+  progress = 0; $('mark').style.setProperty('--p', '0%');
+  measure(); t0 = performance.now(); raf = requestAnimationFrame(render);
+  rotate((T.choices + 600) / spd);
+}
+document.querySelectorAll('.bk').forEach(b => b.onclick = () => { $('gate').classList.add('leaving'); setTimeout(() => $('done').classList.add('in'), 600); });
+$('done').onclick = play;
+addEventListener('resize', measure);
+
+/* ---------- the rotating word: a slot as wide as WILL VERNON ---------- */
+const right = $('right'), meter = document.createElement('span');
+meter.className = 'side'; meter.style.cssText = 'position:absolute;visibility:hidden;letter-spacing:0';
+document.body.appendChild(meter);
+let words = [], wi = 0, fit = true, style = 'roll', run = 0;
+const opt = () => ({ dur: +$('wdur').value, stag: +$('stag').value, hold: +$('hold').value * 1000 });
+const readWords = () => $('words').value.split(',').map(w => w.trim()).filter(Boolean);
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const EASE = 'cubic-bezier(0.23, 1, 0.32, 1)';
+const SCRAMBLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#*+';
+
+function spacingFor(word) {
+  // letter-spacing that makes `word` exactly as wide as the name on the left
+  const L = $('left'), lsL = parseFloat(getComputedStyle(L).letterSpacing);
+  meter.textContent = L.textContent; const nameW = meter.getBoundingClientRect().width + lsL * (L.textContent.length - 1);
+  meter.textContent = word; const wordW = meter.getBoundingClientRect().width;
+  // capped: long words match the name exactly, short ones stop at 4px and fall a little short
+  return fit ? Math.min(4, Math.max(1.5, (nameW - wordW) / Math.max(word.length - 1, 1))) : lsL;
+}
+function renderWord(word) {
+  const ls = spacingFor(word);
+  right.getAnimations().forEach(a => a.cancel());
+  right.innerHTML = [...word].map((ch, i) => `<span class="m"><span class="c" style="margin-right:${i < word.length - 1 ? ls : 0}px">${ch}</span></span>`).join('');
+  right.setAttribute('aria-label', word);
+  return [...right.querySelectorAll('.c')];
+}
+// one keyframe animation per letter, staggered; resolves when the last one ends
+function each(cs, frames, { dur, stag }) {
+  return Promise.all(cs.map((c, i) => c.animate(frames, { duration: dur, delay: i * stag, easing: EASE, fill: 'both' }).finished));
+}
+
+const STYLES = {
+  // letters roll up out of their masks, new ones roll up from below
+  roll: { out: (cs, o) => each(cs, [{ transform: 'none' }, { transform: 'translateY(-105%)' }], o),
+          in: (cs, o) => each(cs, [{ transform: 'translateY(105%)' }, { transform: 'none' }], o) },
+  // split-flap: each letter flips over its horizontal axis
+  flip: { out: (cs, o) => each(cs, [{ transform: 'rotateX(0)', opacity: 1 }, { transform: 'rotateX(90deg)', opacity: .2 }], { ...o, dur: o.dur / 2 }),
+          in: (cs, o) => each(cs, [{ transform: 'rotateX(-90deg)', opacity: .2 }, { transform: 'rotateX(0)', opacity: 1 }], { ...o, dur: o.dur / 2 }) },
+  // soft: letters blur and drift up, new ones sharpen in
+  blur: { out: (cs, o) => each(cs, [{ filter: 'blur(0)', opacity: 1, transform: 'none' }, { filter: 'blur(8px)', opacity: 0, transform: 'translateY(-30%)' }], o),
+          in: (cs, o) => each(cs, [{ filter: 'blur(8px)', opacity: 0, transform: 'translateY(30%)' }, { filter: 'blur(0)', opacity: 1, transform: 'none' }], o) },
+  // the whole word moves as one (stagger ignored)
+  slide: { out: (cs, o) => each(cs, [{ transform: 'none' }, { transform: 'translateY(-105%)' }], { ...o, stag: 0 }),
+           in: (cs, o) => each(cs, [{ transform: 'translateY(105%)' }, { transform: 'none' }], { ...o, stag: 0 }) },
+  // no exit: letters cycle through glyphs and lock in left to right
+  scramble: { out: () => Promise.resolve(),
+    in: (cs, o, word) => new Promise(done => {
+      const t0 = performance.now();
+      (function tick(now) {
+        let all = true;
+        cs.forEach((c, i) => {
+          const lockAt = i * Math.max(o.stag, 20) + o.dur * .6;
+          if (now - t0 < lockAt) { all = false; if (word[i] !== ' ') c.textContent = SCRAMBLE[(Math.random() * SCRAMBLE.length) | 0]; }
+          else c.textContent = word[i];
+        });
+        all ? done() : requestAnimationFrame(tick);
+      })(t0);
+    }) },
+  // backspace to the mark, then type the next word (stagger sets the typing speed)
+  type: { out: async (cs, o) => { const step = Math.max(o.stag, 15) * 1.2; for (let i = cs.length - 1; i >= 0; i--) { cs[i].style.visibility = 'hidden'; await sleep(step); } },
+          in: async (cs, o) => { const step = Math.max(o.stag, 15) * 2; cs.forEach(c => c.style.visibility = 'hidden'); for (const c of cs) { await sleep(step); c.style.visibility = ''; } } },
+  // the word folds back into the mark and the next one unfolds out of it, like the intro
+  fold: { out: (cs, o) => right.animate([{ clipPath: 'inset(0 0 0 0)', transform: 'none' }, { clipPath: 'inset(0 100% 0 0)', transform: 'translateX(-12px)' }], { duration: o.dur, easing: 'cubic-bezier(0.77, 0, 0.175, 1)', fill: 'both' }).finished,
+          in: (cs, o) => right.animate([{ clipPath: 'inset(0 100% 0 0)', transform: 'translateX(-12px)' }, { clipPath: 'inset(0 0 0 0)', transform: 'none' }], { duration: o.dur, easing: EASE, fill: 'both' }).finished },
+};
+
+let busy = false;
+async function change(word) {
+  busy = true;
+  const o = opt(), S = STYLES[style];
+  right.classList.toggle('flip', style === 'flip');
+  const old = [...right.querySelectorAll('.c')];
+  if (old.length) await S.out(old, o);
+  const cs = renderWord(word);
+  if (style === 'fold') right.animate([{ clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 100% 0 0)' }], { duration: 1, fill: 'forwards' });
+  if (style === 'type') right.insertAdjacentHTML('beforeend', '<span class="caret"></span>');
+  await S.in(cs, o, word);
+  right.querySelector('.caret')?.remove();
+  busy = false;
+}
+// loops: hold, change, hold, change… A newer call cancels an older loop.
+async function rotate(delay, keepWord = false) {
+  const my = ++run;
+  words = readWords();
+  if (!keepWord) { wi = 0; renderWord(words[0] || ''); }
+  await sleep(delay);
+  while (my === run && words.length > 1) {
+    await sleep(opt().hold); if (my !== run) return;
+    wi = (wi + 1) % words.length; await change(words[wi]);
+  }
+}
+async function changeNow() {
+  if (busy) return;
+  run++; words = readWords(); wi = (wi + 1) % words.length;
+  await change(words[wi]); rotate(0, true);
+}
+$('words').onchange = () => rotate(0);
+$('fit').onclick = () => { fit = !fit; $('fit').classList.toggle('on', fit); renderWord(words[wi] || ''); };
+$('grey').onclick = () => { $('grey').classList.toggle('on'); right.classList.toggle('muted'); };
+$('next').onclick = changeNow;
+document.querySelectorAll('[data-ws]').forEach(b => b.onclick = () => {
+  document.querySelectorAll('[data-ws]').forEach(x => x.classList.toggle('on', x === b));
+  style = b.dataset.ws; changeNow();
+});
+for (const [id, f] of [['hold', v => v + 's'], ['wdur', v => v + 'ms'], ['stag', v => v + 'ms']]) {
+  const upd = () => $(id + 'o').value = f($(id).value); $(id).addEventListener('input', upd); upd();
+}
+
+/* controls */
+$('dbez').onchange = () => { const v = $('dbez').value.split(',').map(Number); if (v.length === 4 && v.every(isFinite)) slideEase = bezier(...v); };
+for (const k of ['spot', 'lens', 'repel', 'ripple']) $('fx-' + k).onclick = () => { fx[k] = !fx[k]; $('fx-' + k).classList.toggle('on', fx[k]); };
+for (const [id, f] of [['ddur', v => v + 'ms'], ['dstag', v => v + 'ms'], ['mr', v => v + 'px'], ['mg', v => '+' + Math.round(v * 100) + '%'], ['ml', v => (+v).toFixed(1) + '×'], ['rv', v => v + 'px/s'], ['rw', v => v + 'px'], ['rl', v => v + 's'], ['mp', v => v + 'px'], ['mk', v => (+v).toFixed(2)]]) {
+  const upd = () => $(id + 'o').value = f($(id).value); $(id).addEventListener('input', upd); upd();
+}
+const revoid = () => { $('vso').value = (+$('vs').value).toFixed(2) + '× vh'; $('vmo').value = $('vm').value + 'px'; $('vyo').value = $('vy').value + '% vh'; carve(); drawDots(1e6); };
+$('vs').oninput = $('vm').oninput = $('vy').oninput = revoid;
+$('centre').onclick = () => { $('gate').classList.toggle('centred'); $('centre').classList.toggle('on'); measure(); revoid(); };
+$('void').onclick = () => { voidOn = !voidOn; $('void').classList.toggle('on', voidOn); revoid(); };
+$('vso').value = '1.00× vh'; $('vmo').value = '0px'; $('vyo').value = '0% vh';
+const root = document.documentElement;
+function sync() {
+  root.style.setProperty('--w', $('w').value); $('wo').value = $('w').value;
+  root.style.setProperty('--ms', $('ms').value); $('mso').value = (+$('ms').value).toFixed(2) + '×';
+  root.style.setProperty('--bs', $('bs').value); $('bso').value = (+$('bs').value).toFixed(2) + '×';
+  spd = +$('spd').value; $('spdo').value = spd.toFixed(2) + '×';
+}
+$('w').oninput = () => { sync(); renderWord(words[wi] || ''); };
+$('bs').oninput = $('spd').oninput = sync;
+$('ms').oninput = () => { sync(); measure(); };
+$('replay').onclick = play;
+sync();
+document.fonts.ready.then(play);
+</script>
+</body>
+</html>

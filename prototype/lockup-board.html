@@ -1,0 +1,124 @@
+<!doctype html>
+<!-- THROWAWAY board: lockups 3 (primary) and 4 (secondary) with weight, size and button-scale controls, for iterating with Will. Not site code. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lockup board</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300..800&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#0A0A0A; --fg:#F2F2EF; --mute:color-mix(in srgb,var(--fg) 65%,var(--bg)); --ease-btn:cubic-bezier(0.16,1,0.3,1); }
+  * { box-sizing:border-box; margin:0; }
+  body { background:#000; color:var(--fg); font-family:"Host Grotesk",system-ui,sans-serif; padding:24px 16px 64px; }
+  .controls { position:sticky; top:0; z-index:5; display:flex; flex-wrap:wrap; gap:8px 24px; align-items:center; background:#111; padding:10px 14px; margin:0 0 16px; border-radius:6px; font-size:12px; color:#aaa; }
+  .controls label { display:flex; align-items:center; gap:8px; }
+  .controls output { color:#F2F2EF; font-variant-numeric:tabular-nums; min-width:3.5em; }
+  .controls input { accent-color:#F2F2EF; width:120px; }
+  .controls button { background:none; border:1px solid #333; color:#aaa; padding:4px 10px; border-radius:4px; cursor:pointer; font:inherit; }
+  h2 { font-size:13px; font-weight:500; color:#888; margin:8px 0 12px; letter-spacing:.04em; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:12px; margin-bottom:40px; }
+  .card { position:relative; aspect-ratio:4/3; background:var(--bg); color:var(--fg); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:30px; overflow:hidden;
+    background-image:radial-gradient(color-mix(in srgb,var(--fg) 12%,transparent) 1px,transparent 1.2px); background-size:18px 18px; background-position:center; }
+  .card.light { --bg:#F2F2EF; --fg:#0A0A0A; }
+  .no { position:absolute; top:10px; left:12px; font-size:12px; color:var(--mute); }
+
+  .mark { display:block; aspect-ratio:808/577; flex:none; }
+  .mark svg { width:100%; height:100%; display:block; fill:currentColor; }
+  .word { text-transform:uppercase; white-space:nowrap; line-height:1; }
+  .lockup { display:flex; align-items:center; --s:var(--ls,1); }
+  .tag { font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--mute); margin-right:-.16em; }
+  .head { display:flex; flex-direction:column; align-items:center; gap:16px; }
+
+  /* 3 · Two-line (primary): mark height = the WILL / VERNON block */
+  .l3 { gap:calc(10px * var(--s)); }
+  .l3 .mark { height:calc(36px * var(--s)); }
+  .l3 .word { font-weight:var(--w3,600); font-size:calc(17px * var(--s)); line-height:.92; letter-spacing:.02em; }
+  .l3 .word span { display:block; }
+
+  /* 4 · Rule (secondary): small mark, hairline, widely tracked caps */
+  .l4 { gap:calc(14px * var(--s)); }
+  .l4 .mark { height:calc(20px * var(--s)); }
+  .l4 .rule { width:1px; height:calc(24px * var(--s)); background:currentColor; opacity:.35; }
+  .l4 .word { font-weight:var(--w4,500); font-size:calc(13px * var(--s)); letter-spacing:.18em; margin-right:-.18em; }
+
+  /* secondary in use: fixed size in the corner, as on the Landing */
+  .corner { position:absolute; top:16px; left:16px; --s:1; }
+  .card .fake { position:absolute; inset:0; background:radial-gradient(60% 50% at 60% 60%, #3b2a1e, transparent 70%), radial-gradient(40% 40% at 30% 30%, #2a2a28, transparent 70%); }
+  .card .menu { position:absolute; top:16px; right:16px; font-size:11px; letter-spacing:.14em; text-transform:uppercase; }
+
+  /* bracket button (after dkton.at) */
+  .choices { display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .row { flex-direction:row; gap:10px; }
+  .bk { position:relative; background:none; border:0; color:var(--fg); cursor:pointer; padding:1.1em 2em; font:600 calc(11px * var(--bs,1)) "Host Grotesk"; letter-spacing:.14em; text-transform:uppercase; display:inline-flex; align-items:center; }
+  .bk .plate { position:absolute; inset:0; background:var(--fg); opacity:0; transition:opacity .34s var(--ease-btn), inset .34s var(--ease-btn); }
+  .bk .lbl { position:relative; }
+  .bk i { position:absolute; width:.82em; height:.82em; border:1px solid currentColor; transition:transform .34s var(--ease-btn); }
+  .bk i:nth-of-type(1) { top:0; left:0; border-right:0; border-bottom:0; } .bk i:nth-of-type(2) { top:0; right:0; border-left:0; border-bottom:0; }
+  .bk i:nth-of-type(3) { bottom:0; left:0; border-right:0; border-top:0; } .bk i:nth-of-type(4) { bottom:0; right:0; border-left:0; border-top:0; }
+  .bk.quiet { color:var(--mute); font-weight:500; padding:.75em 1.3em; }
+  .bk.quiet.link i { display:none; }
+  .bk.quiet:not(.link) i { opacity:.5; }
+  .bottom { position:absolute; bottom:14px; left:50%; transform:translateX(-50%); }
+  @media (hover:hover) and (pointer:fine) {
+    .bk:hover .plate { opacity:.1; inset:4px; }
+    .bk:hover i:nth-of-type(1) { transform:translate(-3px,-3px); } .bk:hover i:nth-of-type(2) { transform:translate(3px,-3px); }
+    .bk:hover i:nth-of-type(3) { transform:translate(-3px,3px); } .bk:hover i:nth-of-type(4) { transform:translate(3px,3px); }
+    .bk.quiet:hover { color:var(--fg); }
+  }
+</style>
+</head>
+<body>
+<div class="controls">
+  <label>Weight · 3 <input id="w3" type="range" min="300" max="800" step="50"><output id="w3o"></output></label>
+  <label>Weight · 4 <input id="w4" type="range" min="300" max="800" step="50"><output id="w4o"></output></label>
+  <label>Lockup size <input id="ls" type="range" min="0.8" max="2.2" step="0.05"><output id="lso"></output></label>
+  <label>Button size <input id="bs" type="range" min="0.7" max="1.6" step="0.05"><output id="bso"></output></label>
+  <button id="reset" type="button">reset to recommended</button>
+</div>
+<h2>GATE — 3 primary vs 4 (dark / light)</h2>
+<div class="grid" id="lockups"></div>
+<h2>BUTTONS — hover them (lockup 3 in each)</h2>
+<div class="grid" id="buttons"></div>
+<h2>SECONDARY IN USE — 4 as the Landing's top-left logo (fixed size)</h2>
+<div class="grid" id="inuse"></div>
+
+<script>
+const MARK = '<span class="mark"><svg viewBox="136 251 808 577" aria-hidden="true"><polygon points="136,251 338,251 424,406 540,251 655,406 741,251 944,251 770,587 944,828 655,828 540,635 424,828 136,828 294,587"/></svg></span>';
+const TAG = '<span class="tag">Design · Music · AI</span>';
+const L3 = `<div class="lockup l3">${MARK}<span class="word"><span>Will</span><span>Vernon</span></span></div>`;
+const L4 = `<div class="lockup l4">${MARK}<span class="rule"></span><span class="word">Will Vernon</span></div>`;
+const card = (no, inner, cls = '') => `<div class="card ${cls}"><span class="no">${no}</span>${inner}</div>`;
+const head = l => `<div class="head">${l}${TAG}</div>`;
+const bk = (label, cls = '') => `<button class="bk ${cls}" type="button"><span class="plate"></span><i></i><i></i><i></i><i></i><span class="lbl">${label}</span></button>`;
+const A = `<div class="choices">${bk('Enter with sound')}${bk('Enter without sound', 'quiet link')}</div>`;
+
+document.getElementById('lockups').innerHTML = [
+  card('3 · Two-line', head(L3) + A), card('4 · Rule', head(L4) + A),
+  card('3 · Two-line', head(L3) + A, 'light'), card('4 · Rule', head(L4) + A, 'light'),
+].join('');
+
+document.getElementById('buttons').innerHTML = [
+  card('A · Bracket + link', head(L3) + A),
+  card('B · Two brackets', head(L3) + `<div class="choices row">${bk('Enter with sound')}${bk('Without sound', 'quiet')}</div>`),
+  card('C · Link at bottom edge', head(L3) + `<div class="choices">${bk('Enter with sound')}</div><div class="bottom">${bk('Enter without sound', 'quiet link')}</div>`),
+].join('');
+
+const corner = `<div class="fake"></div><div class="lockup l4 corner">${MARK}<span class="rule"></span><span class="word">Will Vernon</span></div><span class="menu">Menu</span>`;
+document.getElementById('inuse').innerHTML = [card('', corner), card('', corner, 'light')].join('');
+
+const RECOMMENDED = { w3: 600, w4: 500, ls: 1.4, bs: 1.15 };
+const fmt = { w3: v => v, w4: v => v, ls: v => (+v).toFixed(2) + '×', bs: v => (+v).toFixed(2) + '×' };
+const root = document.documentElement;
+const sync = () => Object.keys(RECOMMENDED).forEach(k => {
+  const v = document.getElementById(k).value;
+  root.style.setProperty('--' + k, v);
+  document.getElementById(k + 'o').value = fmt[k](v);
+});
+const reset = () => { Object.entries(RECOMMENDED).forEach(([k, v]) => document.getElementById(k).value = v); sync(); };
+Object.keys(RECOMMENDED).forEach(k => document.getElementById(k).oninput = sync);
+document.getElementById('reset').onclick = reset;
+reset();
+</script>
+</body>
+</html>

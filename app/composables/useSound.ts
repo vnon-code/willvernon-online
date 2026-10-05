@@ -15,7 +15,10 @@ const STEM_DEFAULTS: Record<string, number> = { drums: 0, bass: Math.log(100 / 3
 const defaultLevel = (id: string) => STEM_DEFAULTS[id] ?? 0.8
 const dream = ref(0)
 const volume = ref(0) // 0 = muted; the Sound HUD raises it after its entrance on the sound path
-const playing = ref(false) // stems started and VOL above 0
+const playing = ref(false) // stems started, VOL above 0 and not muted
+// Mute (Will, 2026-10-05): the header's button silences everything; VOL is the music's level only, so UI sounds
+// play whatever VOL is set to. Starts muted; entering with sound (or unmuting) lifts it.
+const muted = ref(true)
 
 // Bass (Will, 2026-10-03): its fader sweeps a low-pass, exponential 30 Hz–8 kHz; 0 cuts it completely
 const FILTER_STEMS = new Set(['bass'])
@@ -63,7 +66,7 @@ function unlock() {
     master.gain.value = 0
     master.connect(ctx.destination)
     ui = ctx.createGain()
-    ui.gain.value = 0.5
+    ui.gain.value = 1 // Will, 2026-10-04: louder (was 0.5, so +6 dB)
     ui.connect(ctx.destination)
 
     mix = ctx.createGain()
@@ -149,16 +152,26 @@ function startStems() {
   applyDream()
 }
 
-// Master volume, level². Above 0 also starts the stems (needs a user gesture, or unlock() earlier in one).
+// Music volume, level². Above 0 also starts the stems (needs a user gesture, or unlock() earlier in one).
 function setVolume(v: number) {
   volume.value = v
   if (v > 0) {
     unlock()
     startStems()
   }
+  applyMute()
+}
+// Mute covers both buses: the music (master) and the UI sounds (ui)
+function setMuted(m: boolean) {
+  muted.value = m
+  if (!m) unlock()
+  applyMute()
+}
+function applyMute() {
   if (!ctx) return
-  master.gain.setTargetAtTime(v * v, ctx.currentTime, GLIDE)
-  playing.value = started && v > 0
+  master.gain.setTargetAtTime(muted.value ? 0 : volume.value ** 2, ctx.currentTime, GLIDE)
+  ui.gain.setTargetAtTime(muted.value ? 0 : 1, ctx.currentTime, 0.01)
+  playing.value = started && volume.value > 0 && !muted.value
 }
 
 function setLevel(id: string, v: number) {
@@ -184,9 +197,9 @@ function readMeters(out: Record<string, number>) {
   return out
 }
 
-// Quiet synthesised fader sounds; silent until the music is playing
+// Quiet synthesised fader sounds; silent while muted (VOL doesn't touch them)
 function blip(freq: number, dur: number, amp: number, type: OscillatorType = 'sine') {
-  if (!ctx || !playing.value) return
+  if (!ctx || muted.value) return
   const t = ctx.currentTime
   const osc = ctx.createOscillator()
   const env = ctx.createGain()
@@ -198,6 +211,10 @@ function blip(freq: number, dur: number, amp: number, type: OscillatorType = 'si
   osc.start(t)
   osc.stop(t + dur + 0.01)
 }
+// PROTOTYPE (/proto UI sounds): run a voice into the UI bus; silent while muted, whatever VOL is set to
+function voice(play: (c: AudioContext, out: AudioNode, t: number) => void) {
+  if (ctx && !muted.value) play(ctx, ui, ctx.currentTime)
+}
 const uiSound = {
   grab: () => blip(1400, 0.025, 0.04),
   release: () => blip(900, 0.04, 0.035),
@@ -206,8 +223,8 @@ const uiSound = {
 
 export function useSound() {
   return {
-    addStem, unlock, setVolume, defaultLevel, setLevel, setDream, readMeters, uiSound, cutoff,
+    addStem, unlock, setVolume, setMuted, defaultLevel, setLevel, setDream, readMeters, uiSound, voice, cutoff,
     isFilterStem: (id: string) => FILTER_STEMS.has(id),
-    levels: readonly(levels), dream: readonly(dream), volume: readonly(volume), playing: readonly(playing),
+    levels: readonly(levels), dream: readonly(dream), volume: readonly(volume), muted: readonly(muted), playing: readonly(playing),
   }
 }

@@ -21,7 +21,7 @@ function choose(withSound: boolean) {
   if (choice.value !== null || slot.value !== 'live') return
   choice.value = withSound
   // The AudioContext has to start inside the click; the music itself fades in later, with the Landing
-  if (withSound) useSound().unlock()
+  if (withSound) useSound().setMuted(false) // unlocks the audio in this click
 }
 
 // Fires once the gate has faded out (step 1 of the transition)

@@ -1,7 +1,7 @@
 import stems from '~~/content/stems.json'
 
 // Real load progress for the Gate (docs/specs/gate.md, "Loading"):
-// fonts, the first project's poster (the Landing placeholder until the dot background is built), and the opening track's stems.
+// fonts, the first project's poster (the dot background's first palette until its teaser plays), and the opening track's stems.
 // A failed asset counts as done, so the site can always be entered.
 
 export const FIRST_PROJECT = {

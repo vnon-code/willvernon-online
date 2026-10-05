@@ -1,0 +1,244 @@
+<!doctype html>
+<!-- THROWAWAY prototype: gate entrance concepts × name typefaces × dot matrix, for Will to pick from. Not site code. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gate entrance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Instrument+Serif&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#0A0A0A; --fg:#F2F2EF; --red:#E10600; --ease-out:cubic-bezier(0.23,1,0.32,1); }
+  @media (prefers-color-scheme: light) { :root { --bg:#F2F2EF; --fg:#0A0A0A; } }
+  * { box-sizing:border-box; margin:0; }
+  html,body { height:100%; background:var(--bg); color:var(--fg); font-family:"Host Grotesk",system-ui,sans-serif; overflow:hidden; }
+
+  /* picker (prototype chrome only) */
+  .picker { position:fixed; top:12px; left:50%; transform:translateX(-50%); z-index:10; display:flex; gap:6px; flex-wrap:wrap; justify-content:center;
+    font-size:12px; background:#1a1a1a; padding:6px; border-radius:6px; max-width:calc(100% - 24px); }
+  .picker button { background:none; border:1px solid #333; color:#aaa; padding:4px 10px; border-radius:4px; cursor:pointer; font:inherit; }
+  .picker button.on { color:#F2F2EF; border-color:#F2F2EF; }
+  .picker span { color:#666; padding:4px 4px 4px 10px; }
+
+  canvas { position:fixed; inset:0; width:100%; height:100%; }
+
+  .gate { position:fixed; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:28px; padding:16px; text-align:center;
+    transition:opacity .6s ease; }
+  .gate.leaving { opacity:0; pointer-events:none; }
+
+  .loader { display:flex; flex-direction:column; align-items:center; gap:8px; font-size:13px; font-variant-numeric:tabular-nums; }
+  .logo { position:relative; width:44px; height:44px; }
+  .logo i { position:absolute; inset:0; background:var(--fg);
+    -webkit-mask:url(../public/img/monogram-white-trans.png) center/contain no-repeat; mask:url(../public/img/monogram-white-trans.png) center/contain no-repeat; }
+  .logo i:first-child { opacity:.15; }
+  .logo i:last-child { clip-path:inset(calc(100% - var(--p,0%)) 0 0 0); }
+
+  /* the name: typeface swapped by the picker */
+  .name { font-size:clamp(32px,4.4vw,56px); line-height:1; white-space:nowrap; }
+  .name .ch { display:inline-block; }
+  .name .mask { display:inline-block; overflow:hidden; vertical-align:top; padding:.08em 0; }
+  body[data-type="host"]  .name { font-family:"Host Grotesk"; font-weight:500; letter-spacing:-.02em; }
+  body[data-type="mono"]  .name { font-family:"Geist Mono"; font-weight:400; letter-spacing:.04em; font-size:clamp(26px,3.4vw,44px); }
+  body[data-type="serif"] .name { font-family:"Instrument Serif"; font-weight:400; letter-spacing:0; font-size:clamp(38px,5.4vw,68px); }
+
+  .tag { color:var(--red); font-size:24px; font-weight:500; margin-top:14px; }
+
+  .choices { display:flex; flex-direction:column; align-items:center; gap:12px; }
+  .primary { border:1px solid var(--fg); color:var(--fg); background:none; padding:13px 24px; font:500 15px "Host Grotesk"; cursor:pointer; transition:background-color .2s,color .2s; }
+  .quiet { background:none; border:none; color:color-mix(in srgb,var(--fg) 60%,var(--bg)); font:400 13px "Host Grotesk"; cursor:pointer; padding:4px; }
+  @media (hover:hover) and (pointer:fine) {
+    .primary:hover { background:var(--fg); color:var(--bg); }
+    .quiet:hover { color:var(--fg); text-decoration:underline; }
+  }
+
+  /* entrance building blocks: elements start hidden, .in reveals them */
+  .rise { opacity:0; transform:translateY(12px); transition:opacity .7s var(--ease-out), transform .7s var(--ease-out); }
+  .rise.in { opacity:1; transform:none; }
+  .name .mask .ch { transform:translateY(110%); transition:transform .8s var(--ease-out); }
+  .name.in .mask .ch { transform:none; }
+
+  /* concept A: the dot that becomes the logo */
+  .seed { position:absolute; width:8px; height:8px; border-radius:50%; background:var(--fg); opacity:0; transform:scale(.6);
+    transition:opacity .5s var(--ease-out), transform .5s var(--ease-out); }
+  .seed.in { opacity:1; transform:none; }
+  .seed.out { opacity:0; transform:scale(1.6); }
+
+  .done { position:fixed; inset:0; display:grid; place-items:center; font-size:13px; opacity:0; transition:opacity 1s ease; color:color-mix(in srgb,var(--fg) 60%,var(--bg)); }
+  .done.in { opacity:1; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rise, .name .mask .ch, .seed { transition-duration:.2s; transform:none !important; }
+  }
+</style>
+</head>
+<body data-type="host">
+<div class="picker">
+  <span>Entrance</span>
+  <button data-c="A" class="on">A · Dot bloom</button>
+  <button data-c="B">B · Matrix fill</button>
+  <button data-c="C">C · Decode</button>
+  <span>Name</span>
+  <button data-t="host" class="on">1 Host Grotesk</button>
+  <button data-t="mono">2 Geist Mono</button>
+  <button data-t="serif">3 Instrument Serif</button>
+  <span>Dots</span>
+  <button data-d="1" class="on">on</button>
+  <button data-d="0">off</button>
+  <button id="replay">↻ replay</button>
+</div>
+
+<canvas id="dots"></canvas>
+
+<section class="gate" id="gate">
+  <div class="seed" id="seed"></div>
+  <div class="loader rise" id="loader"><div class="logo" id="logo"><i></i><i></i></div><span id="pct">000</span></div>
+  <div><h1 class="name" id="name">WILL VERNON</h1><p class="tag rise" id="tag">Design · Music · AI</p></div>
+  <div class="choices rise" id="choices"><button class="primary">Enter with sound</button><button class="quiet">Enter without sound</button></div>
+</section>
+<div class="done" id="done">→ Landing would fade up here · ↻ replay</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const NAME = 'WILL VERNON';
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let concept = 'A', dotsOn = true, timers = [], progress = 0, start = 0;
+
+/* ---------- dot matrix (canvas) ---------- */
+const cv = $('dots'), cx = cv.getContext('2d');
+const GAP = 18, BASE = 0.12;
+let dots = [], W, H, dpr;
+function layout() {
+  dpr = Math.min(devicePixelRatio, 2); W = innerWidth; H = innerHeight;
+  cv.width = W * dpr; cv.height = H * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  dots = [];
+  const ox = (W % GAP) / 2 + GAP / 2, oy = (H % GAP) / 2 + GAP / 2;
+  for (let y = oy; y < H; y += GAP) for (let x = ox; x < W; x += GAP)
+    dots.push({ x, y, d: Math.hypot(x - W / 2, y - H / 2), r: Math.random() });
+}
+addEventListener('resize', layout); layout();
+const fg = () => getComputedStyle(document.documentElement).getPropertyValue('--fg').trim();
+const ease = t => 1 - Math.pow(1 - Math.min(Math.max(t, 0), 1), 3);
+
+function draw(now) {
+  const t = (now - start) / 1000;
+  cx.clearRect(0, 0, W, H);
+  if (dotsOn) {
+    cx.fillStyle = fg();
+    const maxD = Math.hypot(W, H) / 2;
+    for (const p of dots) {
+      let a = BASE;
+      if (reduced) a = BASE * ease(t / 0.3);
+      else if (concept === 'A') {
+        // radial bloom out from the seed dot, with a brighter wavefront
+        const k = t - 0.5 - (p.d / maxD) * 1.1;
+        a = BASE * ease(k / 0.5) + 0.35 * Math.max(0, 1 - Math.abs(k) * 6);
+      } else if (concept === 'B') {
+        // the grid is the loader: rows light from the bottom with progress, then settle
+        const lit = (H - p.y) / H <= progress / 100;
+        if (!doneAt) a = 0.05 + (lit ? 0.3 : 0);
+        else { const s = ease((t - doneAt) / 0.9); a = 0.35 * (1 - s) + BASE * s; }
+      } else {
+        // random flicker-on, like a display powering up
+        const k = t - p.r * 1.4;
+        a = k < 0 ? 0 : k < 0.12 ? (Math.floor(k * 50) % 2 ? 0.4 : 0.05) : BASE;
+      }
+      cx.globalAlpha = a;
+      cx.fillRect(p.x - 1, p.y - 1, 2, 2);
+    }
+    cx.globalAlpha = 1;
+  }
+  requestAnimationFrame(draw);
+}
+requestAnimationFrame(draw);
+
+/* ---------- name markup per concept ---------- */
+function setName(mode) {
+  const el = $('name');
+  if (mode === 'mask') el.innerHTML = [...NAME].map(c => `<span class="mask"><span class="ch">${c === ' ' ? '&nbsp;' : c}</span></span>`).join('');
+  else el.textContent = NAME;
+}
+function scramble(el, delay) {
+  const glyphs = '▪▫·:+*#01';
+  const chars = [...NAME];
+  const t0 = performance.now() + delay;
+  el.textContent = '';
+  (function tick(now) {
+    const k = (now - t0) / 55; // one letter resolves every 55ms
+    el.textContent = chars.map((c, i) => c === ' ' ? ' ' : now < t0 ? ' ' : i < k - 4 ? c : glyphs[(Math.random() * glyphs.length) | 0]).join('');
+    if (k < chars.length + 4) timers.push(requestAnimationFrame(tick));
+    else el.textContent = NAME;
+  })(performance.now());
+}
+
+/* ---------- fake load ---------- */
+let doneAt = 0;
+function load(onDone) {
+  const id = setInterval(() => {
+    progress = Math.min(100, progress + Math.random() * 5);
+    $('logo').style.setProperty('--p', progress + '%');
+    $('pct').textContent = String(Math.floor(progress)).padStart(3, '0');
+    if (progress >= 100) { clearInterval(id); doneAt = (performance.now() - start) / 1000; onDone && onDone(); }
+  }, 80);
+  timers.push(id);
+}
+const at = (ms, fn) => timers.push(setTimeout(fn, reduced ? Math.min(ms, 100) : ms));
+
+/* ---------- play ---------- */
+function play() {
+  timers.forEach(t => { clearTimeout(t); clearInterval(t); cancelAnimationFrame(t); }); timers = [];
+  progress = 0; doneAt = 0; start = performance.now();
+  $('gate').classList.remove('leaving'); $('done').classList.remove('in');
+  ['seed', 'loader', 'tag', 'choices', 'name'].forEach(id => $(id).classList.remove('in', 'out'));
+  $('logo').style.setProperty('--p', '0%'); $('pct').textContent = '000';
+  $('seed').style.display = concept === 'A' ? '' : 'none';
+  $('logo').style.display = concept === 'B' ? 'none' : '';
+  $('name').style.opacity = '';
+
+  if (concept === 'A') {
+    // dot appears → grid blooms out of it → dot becomes the logo loader → name rises letter by letter → choices
+    setName('mask');
+    at(100, () => $('seed').classList.add('in'));
+    at(900, () => { $('seed').classList.add('out'); $('loader').classList.add('in'); load(); });
+    at(1300, () => $('name').classList.add('in'));
+    at(1800, () => $('tag').classList.add('in'));
+    at(2000, () => $('choices').classList.add('in'));
+  } else if (concept === 'B') {
+    // only the counter at first; the grid fills bottom-up with progress; at 100 the grid settles and the type rises
+    setName('mask');
+    at(100, () => { $('loader').classList.add('in'); load(() => {
+      at(300, () => $('name').classList.add('in'));
+      at(800, () => $('tag').classList.add('in'));
+      at(1000, () => $('choices').classList.add('in'));
+    }); });
+  } else {
+    // grid flickers on; logo loader; the name decodes from glyphs, left to right
+    setName('text'); $('name').textContent = '';
+    at(200, () => { $('loader').classList.add('in'); load(); });
+    at(500, () => scramble($('name'), 0));
+    at(1400, () => $('tag').classList.add('in'));
+    at(1600, () => $('choices').classList.add('in'));
+  }
+}
+
+/* exit: type fades out, then the landing would fade up */
+document.querySelectorAll('.primary,.quiet').forEach(b => b.onclick = () => {
+  $('gate').classList.add('leaving');
+  at(600, () => $('done').classList.add('in'));
+});
+$('done').onclick = play;
+
+/* ---------- picker ---------- */
+function pick(attr, fn) {
+  document.querySelectorAll(`[data-${attr}]`).forEach(b => b.onclick = () => {
+    document.querySelectorAll(`[data-${attr}]`).forEach(x => x.classList.toggle('on', x === b));
+    fn(b.dataset[attr]);
+  });
+}
+pick('c', v => { concept = v; play(); });
+pick('t', v => { document.body.dataset.type = v; });
+pick('d', v => { dotsOn = v === '1'; });
+$('replay').onclick = play;
+play();
+</script>
+</body>
+</html>

@@ -14,14 +14,23 @@
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1); /* strong ease-out for entrances */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1); /* hover and press on the Gate's bracket button */
 
-  /* Layout: the Landing's stack centres in the space above the Sound HUD (197px tall + 16px from the bottom) */
-  --hud-clear: 213px;
+  /* Layout: the Landing's stack centres between the header row and the bottom row: the summary panel (Will,
+     2026-10-04) with 16px air above and below. Under 1100px the summary sits above the drawer tabs (+28px). */
+  --header-h: 64px;
+  --summary-h: 196px; /* = the drawer panels */
+  --hud-clear: 228px;
 
   /* PLACEHOLDER: dark by default; light follows the OS setting */
   --c-bg: var(--c-black);
   --c-fg: var(--c-white);
   --c-accent: var(--c-red);
   color-scheme: dark light;
+}
+
+@media (max-width: 1099px) {
+  :root {
+    --hud-clear: 256px;
+  }
 }
 
 @media (prefers-color-scheme: light) {

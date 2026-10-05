@@ -1,9 +1,20 @@
 <script setup lang="ts">
+import type { ProtoCard } from '~/composables/useProto'
 const gateOpen = ref(true)
 const landingVisible = ref(false)
 const hudVisible = ref(false)
 const enteredWithSound = ref(false)
-const { objectUrls } = useLoader()
+const centreCard = ref<{ poster: string, teaser?: string | null }>()
+
+// PROTOTYPE (/proto): skip the Gate (entered without sound; stems still load, so VOL/mute work), show the switcher,
+// and open expanded projects. Remove with useProto.
+const proto = useProto()
+const expanded = ref<{ card: ProtoCard, from: DOMRect } | null>(null)
+onMounted(() => {
+  if (!proto.on.value) return
+  useLoader().startLoading()
+  onEnter(false)
+})
 
 // Step 2 of the Gate transition: the Landing fades up from black. The music fades in later, with the Sound HUD's entrance.
 function onEnter(withSound: boolean) {
@@ -19,19 +30,20 @@ function onEnter(withSound: boolean) {
 <template>
   <div>
     <NuxtRouteAnnouncer />
-    <!-- PLACEHOLDER Landing: the first project's still stands in for the point cloud until the Landing is built -->
     <main class="landing" :class="{ 'landing--visible': landingVisible }" :inert="gateOpen">
-      <img
-        v-if="objectUrls[FIRST_PROJECT.image]"
-        class="landing__placeholder"
-        :src="objectUrls[FIRST_PROJECT.image]"
-        alt=""
-      >
+      <!-- Mounted with the fade-up, so it costs nothing behind the Gate -->
+      <TheDotField v-if="landingVisible" :project="centreCard" />
+      <TheHeader />
       <!-- PLACEHOLDER entrance: the strip fades up with the Landing -->
-      <TheProjectStrip :active="!gateOpen" />
+      <TheProjectStrip :active="!gateOpen && !expanded" @centre="centreCard = $event" @expand="expanded = $event" />
     </main>
+    <TheVisualHud v-if="hudVisible" />
     <TheSoundHud v-if="hudVisible" :with-sound="enteredWithSound" />
-    <TheGate v-if="gateOpen" @enter="onEnter" />
+    <TheGate v-if="gateOpen && !proto.on.value" @enter="onEnter" />
+    <template v-if="proto.on.value">
+      <ProtoExpand v-if="expanded" :card="expanded.card" :from="expanded.from" @close="expanded = null" />
+      <ProtoPanel />
+    </template>
   </div>
 </template>
 
@@ -39,18 +51,13 @@ function onEnter(withSound: boolean) {
 .landing {
   position: fixed;
   inset: 0;
+  isolation: isolate; /* keeps the dot field's z-index: -1 inside the Landing */
   opacity: 0;
   transition: opacity 1s ease;
 }
 
 .landing--visible {
   opacity: 1;
-}
-
-.landing__placeholder {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }
 
 @media (prefers-reduced-motion: reduce) {

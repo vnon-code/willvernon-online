@@ -1,0 +1,221 @@
+<!doctype html>
+<!-- THROWAWAY prototype: gate entrance with lockup 3 or 4 — the seed dot becomes the mark at the centre, then the mark slides left as the wordmark unfolds. Not site code. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gate lockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300..800&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#0A0A0A; --fg:#F2F2EF; --mute:color-mix(in srgb,var(--fg) 65%,var(--bg));
+    --ease-out:cubic-bezier(0.23,1,0.32,1); --ease-in-out:cubic-bezier(0.77,0,0.175,1); --ease-btn:cubic-bezier(0.16,1,0.3,1); }
+  @media (prefers-color-scheme: light) { :root { --bg:#F2F2EF; --fg:#0A0A0A; } }
+  * { box-sizing:border-box; margin:0; }
+  html,body { height:100%; background:var(--bg); color:var(--fg); font-family:"Host Grotesk",system-ui,sans-serif; overflow:hidden; }
+
+  .picker { position:fixed; top:12px; left:50%; transform:translateX(-50%); z-index:10; display:flex; gap:6px 10px; flex-wrap:wrap; justify-content:center; align-items:center;
+    font-size:12px; background:#1a1a1a; color:#aaa; padding:6px 10px; border-radius:6px; width:max-content; max-width:calc(100% - 24px); }
+  .picker button { background:none; border:1px solid #333; color:#aaa; padding:4px 10px; border-radius:4px; cursor:pointer; font:inherit; }
+  .picker button.on { color:#F2F2EF; border-color:#F2F2EF; }
+  .picker label { display:flex; align-items:center; gap:6px; }
+  .picker input { accent-color:#F2F2EF; width:90px; }
+  .picker output { color:#F2F2EF; font-variant-numeric:tabular-nums; min-width:3em; }
+
+  canvas { position:fixed; inset:0; width:100%; height:100%; }
+  .gate { position:fixed; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:40px; padding:16px; text-align:center; transition:opacity .6s ease; }
+  .gate.leaving { opacity:0; pointer-events:none; }
+  .gate > * { position:relative; }
+  .head { display:flex; flex-direction:column; align-items:center; gap:16px; }
+
+  /* lockups (same values as lockup-board.html) */
+  .mark { position:relative; display:block; aspect-ratio:808/577; flex:none; }
+  .mark svg { position:absolute; inset:0; width:100%; height:100%; fill:currentColor; }
+  .mark svg:first-child { opacity:.15; }
+  .mark svg:last-child { clip-path:inset(calc(100% - var(--p,0%)) 0 0 0); }
+  .lockup { display:flex; align-items:center; --s:var(--ls,1.4); }
+  .word { text-transform:uppercase; white-space:nowrap; line-height:1; text-align:left; }
+  .rule { display:none; }
+  [data-l="3"] .lockup { gap:calc(10px * var(--s)); }
+  [data-l="3"] .mark { height:calc(36px * var(--s)); }
+  [data-l="3"] .word { font-weight:var(--w3,600); font-size:calc(17px * var(--s)); line-height:.92; letter-spacing:.02em; }
+  [data-l="3"] .word span { display:block; }
+  [data-l="4"] .lockup { gap:calc(14px * var(--s)); }
+  [data-l="4"] .mark { height:calc(20px * var(--s)); }
+  [data-l="4"] .rule { display:block; width:1px; height:calc(24px * var(--s)); background:currentColor; opacity:.35; }
+  [data-l="4"] .word { font-weight:var(--w4,500); font-size:calc(13px * var(--s)); letter-spacing:.18em; margin-right:-.18em; }
+  [data-l="4"] .word span + span::before { content:' '; }
+
+  .count { font-size:12px; font-variant-numeric:tabular-nums; color:var(--mute); }
+  .tag { font-size:11px; font-weight:500; letter-spacing:.16em; text-transform:uppercase; color:var(--mute); margin-right:-.16em; }
+
+  /* bracket button (after dkton.at) */
+  .choices { display:flex; flex-direction:column; align-items:center; gap:10px; }
+  [data-b="B"] .choices { flex-direction:row; flex-wrap:wrap; justify-content:center; }
+  .bk { position:relative; background:none; border:0; color:var(--fg); cursor:pointer; padding:1.1em 2em; font:600 calc(11px * var(--bs,1.15)) "Host Grotesk"; letter-spacing:.14em; text-transform:uppercase; display:inline-flex; align-items:center; }
+  .bk .plate { position:absolute; inset:0; background:var(--fg); opacity:0; transition:opacity .34s var(--ease-btn), inset .34s var(--ease-btn); }
+  .bk .lbl { position:relative; transition:color .1s; }
+  .bk i { position:absolute; width:.82em; height:.82em; border:1px solid currentColor; transition:transform .34s var(--ease-btn); }
+  .bk i:nth-of-type(1) { top:0; left:0; border-right:0; border-bottom:0; } .bk i:nth-of-type(2) { top:0; right:0; border-left:0; border-bottom:0; }
+  .bk i:nth-of-type(3) { bottom:0; left:0; border-right:0; border-top:0; } .bk i:nth-of-type(4) { bottom:0; right:0; border-left:0; border-top:0; }
+  .bk.quiet { color:var(--mute); font-weight:500; padding:.75em 1.3em; }
+  .bk.quiet i { display:none; }
+  [data-b="B"] .bk.quiet i { display:block; opacity:.5; }
+  [data-b="C"] .bk.quiet { position:fixed; left:50%; bottom:28px; translate:-50% 0; }
+  @media (hover:hover) and (pointer:fine) {
+    .bk:hover .plate { opacity:.1; inset:4px; }
+    .bk:hover i:nth-of-type(1) { transform:translate(-3px,-3px); } .bk:hover i:nth-of-type(2) { transform:translate(3px,-3px); }
+    .bk:hover i:nth-of-type(3) { transform:translate(-3px,3px); } .bk:hover i:nth-of-type(4) { transform:translate(3px,3px); }
+    .bk.quiet:hover { color:var(--fg); }
+  }
+  .bk:active .plate { opacity:1; inset:0; transition-duration:.1s; }
+  .bk:active .lbl { color:var(--bg); }
+
+  /* ---------- entrance ---------- */
+  .seed { position:fixed; width:8px; height:8px; margin:-4px; border-radius:50%; background:var(--fg); opacity:0; transform:scale(.6); z-index:1;
+    transition:opacity .5s var(--ease-out), transform .5s var(--ease-out); }
+  .seed.in { opacity:1; transform:none; }
+  .seed.out { opacity:0; transform:scale(1.6); }
+  /* the mark starts dead centre (translate set from JS), then slides home */
+  .markwrap { opacity:0; scale:.96; translate:var(--dx,0) 0; transition:opacity .6s var(--ease-out), scale .6s var(--ease-out); }
+  .markwrap.in { opacity:1; scale:1; }
+  .lockup.open .markwrap { translate:0 0; transition:opacity .6s var(--ease-out), scale .6s var(--ease-out), translate .9s var(--ease-in-out); }
+  /* the wordmark unfolds from behind the mark */
+  .unfold { clip-path:inset(0 100% 0 0); transition:clip-path .9s var(--ease-in-out) .08s; }
+  .lockup.open .unfold { clip-path:inset(0 -1em 0 0); }
+  .rise { opacity:0; transform:translateY(12px); transition:opacity .7s var(--ease-out), transform .7s var(--ease-out); }
+  .rise.in { opacity:1; transform:none; }
+
+  .done { position:fixed; inset:0; display:grid; place-items:center; font-size:13px; opacity:0; transition:opacity 1s ease; color:var(--mute); cursor:pointer; }
+  .done.in { opacity:1; }
+  @media (prefers-reduced-motion: reduce) {
+    .rise, .seed, .markwrap, .unfold { transition-duration:.2s !important; transform:none !important; }
+    .markwrap { translate:0 0 !important; }
+  }
+</style>
+</head>
+<body data-l="3" data-b="A">
+<div class="picker">
+  <button data-pl="3" class="on">Lockup 3</button><button data-pl="4">Lockup 4</button>
+  <button data-pb="A" class="on">A</button><button data-pb="B">B</button><button data-pb="C">C</button>
+  <label>Weight <input id="w" type="range" min="300" max="800" step="50" value="600"><output id="wo">600</output></label>
+  <label>Lockup <input id="ls" type="range" min="0.8" max="2.2" step="0.05" value="1.4"><output id="lso">1.40×</output></label>
+  <label>Button <input id="bs" type="range" min="0.7" max="1.6" step="0.05" value="1.15"><output id="bso">1.15×</output></label>
+  <button id="replay">↻ replay</button>
+</div>
+
+<canvas id="dots"></canvas>
+<div class="seed" id="seed"></div>
+
+<section class="gate" id="gate">
+  <div class="head">
+    <div class="lockup" id="lockup">
+      <span class="markwrap" id="markwrap"><span class="mark" id="mark">
+        <svg viewBox="136 251 808 577" aria-hidden="true"><polygon points="136,251 338,251 424,406 540,251 655,406 741,251 944,251 770,587 944,828 655,828 540,635 424,828 136,828 294,587"/></svg>
+        <svg viewBox="136 251 808 577" aria-hidden="true"><polygon points="136,251 338,251 424,406 540,251 655,406 741,251 944,251 770,587 944,828 655,828 540,635 424,828 136,828 294,587"/></svg>
+      </span></span>
+      <span class="rule unfold"></span>
+      <span class="word unfold"><span>Will</span><span>Vernon</span></span>
+    </div>
+    <span class="count rise" id="count">000</span>
+    <p class="tag rise" id="tag">Design · Music · AI</p>
+  </div>
+  <div class="choices rise" id="choices">
+    <button class="bk" type="button"><span class="plate"></span><i></i><i></i><i></i><i></i><span class="lbl">Enter with sound</span></button>
+    <button class="bk quiet" type="button"><span class="plate"></span><i></i><i></i><i></i><i></i><span class="lbl">Enter without sound</span></button>
+  </div>
+</section>
+<div class="done" id="done">→ Landing would fade up here · click to replay</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let timers = [], start = 0, origin = { x: innerWidth / 2, y: innerHeight / 2 };
+
+/* dot matrix: same bloom as GateDots.vue, but it blooms from wherever the mark starts */
+const cv = $('dots'), cx = cv.getContext('2d'), GAP = 18, BASE = .12;
+let dots = [], W, H;
+function layoutDots() {
+  const dpr = Math.min(devicePixelRatio, 2); W = innerWidth; H = innerHeight;
+  cv.width = W * dpr; cv.height = H * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0); dots = [];
+  const ox = (W % GAP) / 2 + GAP / 2, oy = (H % GAP) / 2 + GAP / 2;
+  for (let y = oy; y < H; y += GAP) for (let x = ox; x < W; x += GAP) dots.push({ x, y });
+}
+addEventListener('resize', layoutDots); layoutDots();
+const ease = t => 1 - Math.pow(1 - Math.min(Math.max(t, 0), 1), 3);
+(function draw(now) {
+  const t = (now - start) / 1000, maxD = Math.hypot(W, H) * .6;
+  cx.clearRect(0, 0, W, H); cx.fillStyle = getComputedStyle(document.body).color;
+  for (const p of dots) {
+    const k = t - .5 - (Math.hypot(p.x - origin.x, p.y - origin.y) / maxD) * 1.1;
+    cx.globalAlpha = reduced ? BASE : BASE * ease(k / .5) + .35 * Math.max(0, 1 - Math.abs(k) * 6);
+    cx.fillRect(p.x - 1, p.y - 1, 2, 2);
+  }
+  cx.globalAlpha = 1; requestAnimationFrame(draw);
+})(0);
+
+/* where the mark has to start so it sits dead centre of the lockup */
+function measure() {
+  const lk = $('lockup'), mw = $('markwrap');
+  mw.style.setProperty('--dx', '0px');
+  const L = lk.getBoundingClientRect(), M = mw.getBoundingClientRect();
+  const dx = (L.left + L.width / 2) - (M.left + M.width / 2);
+  mw.style.setProperty('--dx', dx + 'px');
+  origin = { x: L.left + L.width / 2, y: M.top + M.height / 2 };
+  $('seed').style.left = origin.x + 'px'; $('seed').style.top = origin.y + 'px';
+}
+
+const at = (ms, fn) => timers.push(setTimeout(fn, reduced ? Math.min(ms, 100) : ms));
+function play() {
+  timers.forEach(t => { clearTimeout(t); clearInterval(t); }); timers = [];
+  $('gate').classList.remove('leaving'); $('done').classList.remove('in');
+  ['seed', 'markwrap', 'count', 'tag', 'choices'].forEach(id => $(id).classList.remove('in', 'out'));
+  $('lockup').classList.remove('open');
+  // jump back to the start state without animating
+  document.querySelectorAll('.markwrap,.unfold').forEach(el => el.style.transition = 'none');
+  measure(); document.body.offsetWidth;
+  document.querySelectorAll('.markwrap,.unfold').forEach(el => el.style.transition = '');
+  start = performance.now();
+  let p = 0; $('mark').style.setProperty('--p', '0%'); $('count').textContent = '000';
+
+  at(100, () => $('seed').classList.add('in'));                       // a dot
+  at(900, () => {                                                      // it becomes the mark, which fills with progress
+    $('seed').classList.add('out'); $('markwrap').classList.add('in'); $('count').classList.add('in');
+    const id = setInterval(() => {
+      p = Math.min(100, p + Math.random() * 6);
+      $('mark').style.setProperty('--p', p + '%'); $('count').textContent = String(Math.floor(p)).padStart(3, '0');
+      if (p >= 100) clearInterval(id);
+    }, 70); timers.push(id);
+  });
+  at(1700, () => $('lockup').classList.add('open'));                   // mark slides left, wordmark unfolds
+  at(2400, () => $('tag').classList.add('in'));
+  at(2600, () => $('choices').classList.add('in'));
+}
+document.querySelectorAll('.bk').forEach(b => b.onclick = () => { $('gate').classList.add('leaving'); at(600, () => $('done').classList.add('in')); });
+$('done').onclick = play;
+addEventListener('resize', () => { if ($('lockup').classList.contains('open')) measure(); });
+
+/* controls */
+function pick(attr, key) {
+  document.querySelectorAll(`[data-${attr}]`).forEach(b => b.onclick = () => {
+    document.querySelectorAll(`[data-${attr}]`).forEach(x => x.classList.toggle('on', x === b));
+    document.body.dataset[key] = b.dataset[attr];
+    if (key === 'l') { $('w').value = b.dataset[attr] === '3' ? 600 : 500; sync(); }
+    play();
+  });
+}
+pick('pl', 'l'); pick('pb', 'b');
+const root = document.documentElement;
+function sync() {
+  root.style.setProperty(document.body.dataset.l === '3' ? '--w3' : '--w4', $('w').value); $('wo').value = $('w').value;
+  root.style.setProperty('--ls', $('ls').value); $('lso').value = (+$('ls').value).toFixed(2) + '×';
+  root.style.setProperty('--bs', $('bs').value); $('bso').value = (+$('bs').value).toFixed(2) + '×';
+}
+$('w').oninput = $('bs').oninput = sync;
+$('ls').oninput = () => { sync(); if ($('lockup').classList.contains('open')) measure(); };
+$('replay').onclick = play;
+sync();
+document.fonts.ready.then(play);
+</script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!doctype html>
+<!-- THROWAWAY prototype: the strip's open items. ?frame=full|short|phone&short=squeeze|fit|overlay&phone=peek|full|ring&fx=cut|fade|sweep|fold&order=claude|grouped|alternate -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strip open items · preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --bg: #0A0A0A; --fg: #F2F2EF; --red: #E10600;
+    --muted: color-mix(in srgb, var(--fg) 50%, transparent); --line: color-mix(in srgb, var(--fg) 14%, transparent);
+    --ease: cubic-bezier(0.16, 1, 0.3, 1); }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #000; color: var(--fg);
+    font-family: 'Host Grotesk', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  body { overscroll-behavior: none; }
+
+  /* The simulated viewport: full window, or a fixed-size frame */
+  .vp { position: absolute; left: 50%; top: 50%; translate: -50% -50%; background: var(--bg); overflow: hidden; outline: 1px solid #333; }
+  .stack { position: absolute; left: 0; right: 0; top: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 28px; }
+  .chips { display: flex; gap: 6px; position: relative; z-index: 3000; }
+  .chip { font: 500 12px/1 'Host Grotesk'; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: none;
+    border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; cursor: pointer; transition: .3s var(--ease); }
+  .chip[aria-pressed="true"] { color: var(--bg); background: var(--fg); border-color: var(--fg); }
+  .chip sup { font-size: 9px; margin-left: 3px; opacity: .6; }
+  .strip { position: relative; width: 100%; touch-action: none; user-select: none; }
+  .world { position: absolute; inset: 0; transform-origin: 50% 50%; }
+  .card { position: absolute; left: 50%; top: 50%; overflow: hidden; background: #151515; border-radius: 2px; cursor: pointer; will-change: transform, opacity; }
+  .card img, .card video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;
+    filter: grayscale(var(--side, 0)) contrast(calc(1 + var(--side, 0) * .1)); }
+  .caption { display: grid; justify-items: center; gap: 6px; min-height: 64px; text-align: center; position: relative; z-index: 3000; }
+  .caption.over { position: absolute; left: 0; right: 0; min-height: 0; text-shadow: 0 1px 12px rgba(0,0,0,.6); }
+  .count { font: 500 12px/1 'Host Grotesk'; letter-spacing: .08em; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .count b { color: var(--red); font-weight: 500; }
+  .title { font: 600 clamp(22px, 2.4vw, 34px)/1.05 'Host Grotesk'; letter-spacing: -.02em; overflow: hidden; height: 1.1em; }
+  .title span, .cat span { display: block; animation: roll .55s var(--ease); }
+  .cat { font: 500 12px/1 'Host Grotesk'; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); overflow: hidden; height: 1.2em; }
+  @keyframes roll { from { transform: translateY(100%); opacity: 0; } }
+
+  /* Stand-in for the Sound HUD: 417 × 197, 16px from the bottom */
+  .hud { position: absolute; left: 50%; bottom: 16px; translate: -50% 0; width: min(417px, calc(100% - 16px)); height: 197px; z-index: 4000;
+    border: 1px dashed color-mix(in srgb, var(--fg) 35%, transparent); background: color-mix(in srgb, var(--bg) 70%, transparent);
+    display: grid; place-items: center; font: 500 11px/1 'Host Grotesk'; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+
+  .proto { position: fixed; left: 12px; top: 12px; display: grid; gap: 5px; font: 500 11px/1 'Host Grotesk'; color: #888; z-index: 9000; }
+  .proto .row { display: flex; gap: 4px; align-items: center; flex-wrap: wrap; }
+  .proto .k { width: 52px; }
+  .proto button { font: inherit; color: #888; background: #141414; border: 1px solid #2a2a2a; padding: 6px 9px; cursor: pointer; border-radius: 3px; }
+  .proto button[aria-pressed="true"] { color: var(--fg); border-color: var(--fg); }
+  .proto .name { margin-left: 6px; color: #aaa; max-width: 420px; }
+</style>
+</head>
+<body>
+<div class="vp" id="vp">
+  <div class="stack" id="stack">
+    <div class="chips" id="chips"></div>
+    <div class="strip" id="strip"><div class="world" id="world"></div></div>
+    <div class="caption" id="caption" aria-live="polite">
+      <div class="count" id="count"></div><div class="title" id="title"></div><div class="cat" id="cat"></div>
+    </div>
+  </div>
+  <div class="hud">Sound HUD (stand-in)</div>
+</div>
+<div class="proto" id="proto"></div>
+
+<script>
+const R2 = 'https://assets.willvernon.online', P = '/public/img/posters/';
+const ALL = {
+  smug:  { t: "Smuggler's Outpost",   k: 'Project',    c: 'Design', img: P + 'assets-vidsmugglersoutpost-1.webp' },
+  mono:  { t: 'Monolith Survival',    k: 'Experiment', c: 'AI',     img: P + 'ai-monolith-preview-v2.webp' },
+  amp:   { t: 'Amplified Spaces',     k: 'Project',    c: 'Design', img: P + 'video-trailers-b17av2-1.webp' },
+  topo:  { t: 'Topography AV Test',   k: 'Experiment', c: 'Experiment', img: P + 'experiments-topographyav-test2.webp' },
+  world: { t: 'The World Plays Here', k: 'Project',    c: 'Design', img: P + 'assets-theworldplayshere2-1.webp' },
+  dredge:{ t: 'DREDGE',               k: 'Experiment', c: 'AI',     img: P + 'ai-dredge-preview-1.webp' },
+  rem:   { t: 'Remnants',             k: 'Project',    c: 'Design', img: P + 'assets-remnants-outcome-1.webp' },
+  hand:  { t: 'Handheld Stories',     k: 'Project',    c: 'Design', img: P + 'assets-vernon-handheldstories-gdes6004.webp' },
+  coral: { t: 'Synthetic Corals',     k: 'Experiment', c: 'AI',     img: P + 'ai-coral-rotate.webp' },
+  mari:  { t: 'Marimekko Exhibition', k: 'Project',    c: 'Design', img: P + 'assets-vernon-gdes50014-animation-1.webp' },
+  power: { t: 'Powersurge',           k: 'Project',    c: 'Design', img: '/public/img/powersurge/PowerSurgeSS.png' },
+};
+const ORDERS = {
+  claude:    { d: 'Current: strongest first, mixed', ids: 'smug mono amp topo world dredge rem hand coral mari power' },
+  grouped:   { d: 'Projects first (strongest first), then experiments', ids: 'smug amp world rem hand mari power mono topo dredge coral' },
+  alternate: { d: 'Strict alternation: project, experiment, project…', ids: 'smug mono amp topo world dredge rem coral hand mari power' },
+};
+const OPTS = {
+  frame: { full: 'Your window', short: '1280 × 700 (short laptop)', phone: '390 × 844 (phone)' },
+  short: { squeeze: 'Squeeze (built now): strip area shrinks, cards stay; touches the edges below ~800px',
+           fit: 'Fit: cards shrink with height so the stack always has 24px air top and bottom',
+           overlay: 'Overlay: on short screens the caption sits on the centre card\'s lower edge, cards stay big' },
+  phone: { peek: 'Peek: card 72% wide, neighbours peek 14% at each edge, flatter ring',
+           full: 'Full: card 88% wide, one at a time, neighbours off-screen',
+           ring:  'Ring: the desktop wall shrunk; side cards curl in hard at the edges' },
+  fx:    { cut: 'Cut (built now): instant rebuild', fade: 'Fade: out 180ms, rebuild, in 320ms',
+           sweep: 'Sweep: old set fades, new set spins in from the right and settles on 01',
+           fold: 'Fold: cards fold into the centre, new set unfolds outward' },
+  order: Object.fromEntries(Object.entries(ORDERS).map(([k, v]) => [k, v.d])),
+};
+const qs = new URLSearchParams(location.search);
+const S = {};
+for (const k in OPTS) S[k] = OPTS[k][qs.get(k)] ? qs.get(k) : Object.keys(OPTS[k])[k === 'short' ? 1 : 0];
+
+const HUD_CLEAR = 213, AIR = 24, REST = 160, FOCAL = 1600;
+const vp = document.getElementById('vp'), stack = document.getElementById('stack'), stripEl = document.getElementById('strip'),
+      world = document.getElementById('world'), caption = document.getElementById('caption');
+let filter = 'All', list = [], n = 0, cards = [], target = 0, current = 0, centre = -1, busy = false;
+const wrap = d => n < 2 ? 0 : ((d % n) + n * 1.5) % n - n / 2;
+const mod = (v, m) => ((v % m) + m) % m;
+const smooth = (a, b, v) => { const t = Math.max(0, Math.min(1, (v - a) / (b - a))); return t * t * (3 - 2 * t); };
+const inOut = t => t < .5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
+const order = () => ORDERS[S.order].ids.split(' ').map(id => ALL[id]);
+
+function size() {
+  const f = { full: [innerWidth, innerHeight], short: [1280, 700], phone: [390, 844] }[S.frame];
+  const W = Math.min(f[0], innerWidth), H = Math.min(f[1], innerHeight);
+  vp.style.width = W + 'px'; vp.style.height = H + 'px';
+  stack.style.height = (H - HUD_CLEAR) + 'px';
+  return [W, H];
+}
+
+function geometry(W, H) {
+  const phone = W < 640;
+  let cw = Math.min(W * .32, H * .4 * 16 / 9), grow = .6, push = .3, R = W * .55, fade = [1.0, 1.35], over = false;
+  if (phone) {
+    if (S.phone === 'peek') { cw = W * .72; grow = 0; push = 0; R = W * 1.6; fade = [.55, .8]; }
+    if (S.phone === 'full') { cw = W * .88; grow = 0; push = 0; R = W * 2.2; fade = [.3, .42]; }
+    if (S.phone === 'ring') { cw = W * .5; grow = .35; push = .2; R = W * .55; fade = [1.0, 1.35]; }
+  }
+  const room = H - HUD_CLEAR - REST;
+  let stripH;
+  if (S.short === 'fit' || phone) {
+    const fitCh = (room - 2 * AIR - 16) / (1 + grow);
+    cw = Math.min(cw, fitCh * 16 / 9);
+    stripH = Math.min(cw * 9 / 16 * 2, room - 2 * AIR);
+  } else if (S.short === 'overlay' && cw * 9 / 16 * 2 > room) {
+    over = true; stripH = Math.max(cw * 9 / 16 * (1 + grow) + 16, Math.min(cw * 9 / 16 * 2, room + 64 + 28));
+  } else {
+    stripH = Math.max(cw * 9 / 16 * (1 + grow) + 16, Math.min(cw * 9 / 16 * 2, room));
+  }
+  return { cw, ch: cw * 9 / 16, grow, push, R, fade, stripH, over };
+}
+
+function layout() {
+  const [W, H] = size(), g = geometry(W, H);
+  stripEl.style.height = g.stripH + 'px';
+  caption.classList.toggle('over', g.over);
+  caption.style.top = g.over ? (stripEl.offsetTop + g.stripH / 2 + g.ch * (1 + g.grow) / 2 - 78) + 'px' : '';
+  const step = (g.cw * 1.04) / g.R;
+  cards.forEach((c, i) => {
+    const d = wrap(i - current), a = Math.abs(d), near = inOut(Math.max(0, 1 - a)), th = d * step;
+    const X = g.R * Math.sin(th), Z = g.R * (1 - Math.cos(th)) * .85, p = FOCAL / (FOCAL - Z);
+    const x = X * p + Math.sign(d) * Math.min(a, 1) * g.cw * g.push * p;
+    const op = 1 - smooth(g.fade[0], g.fade[1], Math.abs(th));
+    Object.assign(c.el.style, { width: g.cw + 'px', height: g.ch + 'px', zIndex: Math.round(2000 + Z), opacity: op,
+      visibility: op <= .01 ? 'hidden' : 'visible',
+      transform: `translate(-50%,-50%) translate(${x}px,0) scale(${p * (1 + g.grow * near)}) perspective(${FOCAL}px) rotateY(${-th}rad)` });
+    c.el.style.setProperty('--side', Math.min(a, 1));
+  });
+}
+
+function build() {
+  list = filter === 'All' ? order() : order().filter(p => p.k === filter); n = list.length;
+  world.innerHTML = '';
+  cards = list.map((p, i) => {
+    const el = document.createElement('div'); el.className = 'card';
+    el.innerHTML = `<img src="${p.img}" alt="" draggable="false">`;
+    el.onclick = () => { if (!moved) target = Math.round(current) + wrap(i - Math.round(current)); };
+    world.appendChild(el); return { el, p };
+  });
+  centre = -1;
+}
+function setCentre(i) {
+  if (i === centre || !list[i]) return; centre = i; const p = list[i];
+  document.getElementById('count').innerHTML = `<b>${String(i + 1).padStart(2, '0')}</b> / ${String(n).padStart(2, '0')}`;
+  document.getElementById('title').innerHTML = `<span>${p.t}</span>`;
+  document.getElementById('cat').innerHTML = `<span>${p.c}</span>`;
+}
+
+/* ---------- filter transitions ---------- */
+const wait = ms => new Promise(r => setTimeout(r, ms));
+const anim = (el, kf, ms, ease = 'cubic-bezier(0.16, 1, 0.3, 1)') => el.animate(kf, { duration: ms, easing: ease, fill: 'forwards' }).finished;
+async function setFilter(k) {
+  if (k === filter || busy) return; busy = true;
+  const swap = () => { filter = k; renderChips(); build(); target = current = 0; };
+  if (S.fx === 'cut') swap();
+  if (S.fx === 'fade') {
+    await anim(world, [{ opacity: 1 }, { opacity: 0 }], 180, 'ease-in');
+    swap(); layout();
+    await anim(world, [{ opacity: 0 }, { opacity: 1 }], 320, 'ease-out');
+  }
+  if (S.fx === 'sweep') {
+    target = current + .6;
+    await anim(world, [{ opacity: 1 }, { opacity: 0 }], 220, 'ease-in');
+    swap(); current = -2.2; target = 0; layout();
+    await anim(world, [{ opacity: 0 }, { opacity: 1 }], 380, 'ease-out');
+  }
+  if (S.fx === 'fold') {
+    await anim(world, [{ transform: 'scaleX(1)', opacity: 1 }, { transform: 'scaleX(.15)', opacity: 0 }], 260, 'cubic-bezier(.7,0,.84,0)');
+    swap(); layout();
+    await anim(world, [{ transform: 'scaleX(.15)', opacity: 0 }, { transform: 'scaleX(1)', opacity: 1 }], 520);
+  }
+  world.getAnimations().forEach(a => a.cancel());
+  busy = false;
+}
+
+/* ---------- input ---------- */
+let snap, moved = false, drag = null;
+addEventListener('wheel', e => { if (e.target.closest('.proto')) return; e.preventDefault();
+  const d = Math.abs(e.deltaY) > Math.abs(e.deltaX) ? e.deltaY : e.deltaX;
+  target += d * (e.deltaMode ? .33 : 1 / 360); clearTimeout(snap); snap = setTimeout(() => target = Math.round(target), 140); }, { passive: false });
+stripEl.addEventListener('pointerdown', e => { drag = { x: e.clientX, y: e.clientY, t: target }; moved = false; });
+addEventListener('pointermove', e => { if (!drag) return; const dx = e.clientX - drag.x, dy = e.clientY - drag.y;
+  const d = Math.abs(dx) > Math.abs(dy) ? -dx : -dy; if (Math.abs(d) > 6) moved = true;
+  target = drag.t + d / (vp.clientWidth * .28); });
+addEventListener('pointerup', () => { if (drag) { drag = null; target = Math.round(target); setTimeout(() => moved = false); } });
+addEventListener('keydown', e => { const by = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key]; if (by) target = Math.round(target) + by; });
+addEventListener('resize', layout);
+
+let last = performance.now();
+function tick(now) {
+  const dt = Math.min(.05, (now - last) / 1000); last = now;
+  current += (target - current) * (1 - (1 - .085) ** (dt * 60));
+  if (Math.abs(target - current) < .0005) current = target;
+  layout(); setCentre(mod(Math.round(current), n));
+  requestAnimationFrame(tick);
+}
+
+function renderChips() {
+  const el = document.getElementById('chips');
+  el.innerHTML = ['All', 'Project', 'Experiment'].map(c => {
+    const k = c === 'All' ? 11 : Object.values(ALL).filter(p => p.k === c).length;
+    return `<button class="chip" aria-pressed="${c === filter}" data-c="${c}">${c}<sup>${k}</sup></button>`; }).join('');
+  el.querySelectorAll('.chip').forEach(b => b.onclick = () => setFilter(b.dataset.c));
+}
+function renderProto() {
+  const el = document.getElementById('proto');
+  el.innerHTML = Object.entries(OPTS).map(([k, o]) =>
+    `<div class="row"><span class="k">${k}</span>${Object.keys(o).map(v => `<button aria-pressed="${S[k] === v}" data-k="${k}" data-v="${v}">${v}</button>`).join('')}<span class="name">${o[S[k]]}</span></div>`).join('');
+  el.querySelectorAll('button').forEach(b => b.onclick = () => {
+    S[b.dataset.k] = b.dataset.v;
+    history.replaceState(null, '', '?' + new URLSearchParams(S));
+    if (b.dataset.k === 'order') { build(); target = current = 0; }
+    renderProto(); layout();
+  });
+}
+renderChips(); renderProto(); build(); requestAnimationFrame(tick);
+</script>
+</body>
+</html>
