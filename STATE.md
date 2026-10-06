@@ -33,5 +33,17 @@
 - CSP vs Nuxt inline scripts: decided (post-build hash step), not built. Ticket: Hash inline scripts at build.
 - Cloudflare Workers Builds with pnpm 12 is untested.
 
+## Project Sheets (ticket 08, branch `overnight/project-sheets`, 2026-10-06/07)
+- Every project has a winning Sheet body (default in `app/components/sheets/<slug>/meta.json`): Smuggler's SF, Monolith MB, Amplified Spaces T2b, Topography TB, World Plays Here WE, Dredge DA, Remnants RD, Handheld HD, Synthetic Corals CD, Marimekko MkD, Powersurge PwB. Cargo 5015 (Ko) is a curated page behind `?proto`.
+- Shared on every Sheet (Will): title, info rail, contents, "03 / 05" numbering, credits (`app/components/sheets/_shared/`). Bodies vary per project.
+- Copy rule (Will): minimal, brutalist, through `no-ai-slop`. All Sheet copy is PLACEHOLDER until Will approves.
+- Media is local only (`public/proto-media/`, gitignored); each project's `UPLOAD.md` lists what goes to R2.
+- Tools: scorer `.scratch/v1-launch/overnight/tools/score.cjs`, rules `.scratch/v1-launch/overnight/BRIEF.md` + `TOOLS.md`, per-project `matrix.md` and `SUMMARY.md`.
+- Review page (private): https://claude.ai/artifact/ETpgD1mB3qLj6AgToH8EdD
+- Favicon is now the monogram (commit 4c59dc5).
+
 ## Next
-Will listens to the new scroll-page sounds (enter with sound: Learn More, scroll a Section, scroll home) and verifies the shell, then commits it. Next on the map: **Project Sheet rework**, or a Section ticket. Open question: Design and Tools aren't Sections any more; decide what happens to the Tools Section ticket (17). The round-1 morph variants are on local branch `prototype/scroll-shell-morph-abc`.
+1. Will reviews the Sheets live (`corepack pnpm dev`, open each card) with the review page: approve copy, decisions, R2 uploads.
+2. Decide on scrubbing the PC address and employer name from the branch's git history (needs a force push).
+3. Then fold the winners into the real code (karpathy-loop "Final pick": delete losers, the options panel and PROTOTYPE markers) and merge into `v3`.
+Still open from before: Will hasn't heard the scroll-page sounds; the Tools Section ticket (17) question.
