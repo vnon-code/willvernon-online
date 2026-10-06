@@ -86,3 +86,15 @@ chips number + first word (AsLead's optional `short`, T2 unaffected), a 44px sli
 Copy (T2b only): hook shortened, intro and brief rows dropped from the lead, phase texts cut to one line, track facts
 trimmed, problems cut 6 → 4 (4-column grid), outcome one line. Sticky offset: T2/T2b already pin at `top: -16px`;
 not affected.
+
+## Rescore 2026-10-07 (mains power, new copy rule: minimal, brutalist, no-ai-slop)
+
+| Variant | Machine /23 | Eye /7 (T2 first · T2b first) | Total /30 |
+|---|---|---|---|
+| T2b | 23 | 7 · 6 | **29.5**, new default |
+| T2 | 23 | 5 · 5 | 28 |
+
+Both judges pick T2b: short copy, varied beats. T2 loses c10 on padded copy (standfirst, field rows, 3-line Develop paragraph, "The idea: …").
+The battery-throttled runs earlier (19/23 each) are void. The scorer writes stills to a doubled `.scratch/` path when `--out` is a path, not a label.
+Agreed fixes for T2b: raise inactive B17 tab contrast; unique tile labels (two "Particles GPU", two "Topographic colours"), cut to ~8 tiles; name what broke in "The CRT look for B17 was a struggle." or cut it; phone thumbnail clips "02 FADING".
+Split: the closing big type behind the crit video. Judge (T2b first) says cut it (the repeated device, clipped at the edge); judge (T2 first) says keep it (used once). Will decides.
