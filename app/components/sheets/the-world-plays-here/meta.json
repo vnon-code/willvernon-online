@@ -1,0 +1,9 @@
+{
+  "_about": "PROTOTYPE (overnight run). The World Plays Here's Sheet variants; see .scratch/v1-launch/overnight/TOOLS.md. Ids WA–WC (not A–C: those are shared bodies, TOOLS.md §1).",
+  "default": "WA",
+  "variants": {
+    "WA": { "name": "Entry board: brief beside the key frame with loop, subway and shelter tiles, the shortlist struck through on scroll, four numbered build frames, a media plan table", "score": 28, "of": 30 },
+    "WB": { "name": "Brand book: mark / line / colour / frame as a numbered spec spread, the slogans as a ballot with one green cross, a snag-to-fix ledger, placements stacking on scroll", "score": 27, "of": 30 },
+    "WC": { "name": "Orbit: the loop as a planet with eight placements on its orbit, the slogans as a fanned hand, the build as a circle cut in four, the grade as a drag-to-compare", "score": 28, "of": 30 }
+  }
+}

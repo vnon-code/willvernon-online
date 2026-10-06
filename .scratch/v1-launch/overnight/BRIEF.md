@@ -37,6 +37,12 @@ The card-to-Sheet grow and close (`useSheetMotion`, `easeGrow`, the 20ms-capped 
 away, the dots visible in the margins, no blur, the Sections' docked header while open, the Sections panel's edges,
 no gaps between blocks, the close button, a credits block, all accessibility and `/work/<slug>` URL behaviour, the
 harness hooks. Only the body inside varies per project.
+WILL, 2026-10-07: also the SAME on every Sheet, for consistency: the title, the project info block (year, module/
+client, role, tools, collaborators), section numbering (one format, e.g. "03 / 05 Define") and the contents (the
+index of sections). Use the shared components in `app/components/sheets/_shared/` (see TOOLS.md) — never restyle or
+re-implement them per project. The diversity stays in how the content itself is shown between them; Will loves that.
+Builders use them; judges mark c9 down if a variant's title, info, numbering or contents differ from the shared
+ones; finalize agents check the winner uses them.
 
 ## The bodies (what varies)
 Each project gets its own layout, chosen by its own Karpathy loop. Will: "Type stage had the best, but having the
