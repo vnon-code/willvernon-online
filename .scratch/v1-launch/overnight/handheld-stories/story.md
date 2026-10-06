@@ -20,3 +20,35 @@ Written by the r1 builder (no story.md existed). Sources: Will's PC `C:\Users\wv
 - projects.json: "I didn't know how to write code ... so I animated a walkthrough video".
 - Film (R2, the strip teaser): 1280×720, 30 fps, 99.97 s. Chapters read off it: Landing 0:00, Catalogue 0:09, Object 0:24, Database 1:09, back 1:27.
 - Database list names (storyboard): Coiled Snake, Goldfish, Sleeping Rat, Mermaid and young with jewel and ball, Meditating Skeleton, Mikoshi Nyudo and a scarecrow.
+
+## Re-verified 2026-10-06 (research pass, from the same sources)
+### Brief / module / date
+GDES6004 Professional Practice, ISTD brief "Interactions" (type and interaction), 3rd year, process book dated Apr 2025. Solo.
+
+### The idea
+A British Museum netsuke catalogue as an interactive exhibition. Will couldn't code it, so he animated the walkthrough
+as a film (After Effects, Premiere Pro, Photoshop): landing ring of netsuke, catalogue rows, object viewer, database.
+Black and white only, so the carvings carry the page. Type: Osake logotype, Noto Sans.
+
+### Process beats (short)
+Mindmap and space-type ideas (Gravity, Eclipse, Pulsar) -> Oxford museum visit (static, dense panels) -> netsuke as 3D scans
+on Sketchfab -> catalogue drafts (radial, grids, wireframes, dark test) -> layered PSDs -> rotoscoped turntable
+(Coiled Snake, 150 frames) -> button states and hand-keyframed cursor -> seven H.264 exports -> SFX and music in Premiere.
+
+### Problems met (Will's words, p37, p43)
+- Weeks lost bouncing between ideas before the netsuke concept (p43); time management.
+- Minor but time-consuming fixes that "wouldn't translate clearly in a process book" (p37).
+- Wanted a subtle dynamic gradient background; ran out of time (p37).
+
+### Outcome
+Film, 1280x720, 30 fps, 99.97 s, on R2 (the strip teaser). Chapters: Landing 0:00, Catalogue 0:09, Object 0:24, Database 1:09, back 1:27.
+
+### Collaborators and credits (exactly as sources give them)
+No collaborators credited. Music credited on p36: "Ujigami Shrine", "The Kyoto Connection". Models: British Museum netsuke, Sketchfab scans (model authors not named in the book; check p9 before crediting).
+
+### Hasn writeup
+hasWriteup = true (process book, 43 pp).
+
+### Media manifest
+`public/proto-media/handheld-stories/`: 4 clips (clip-landing/-catalogue/-object/-database.mp4, 8 s, 960x540), poster-*.webp,
+storyboards sb-*.webp, catalogue drafts dr-1..6, Oxford photos oxf-00..11, netsuke-row, sketchfab(+snake), roto-grid(-k), turn-sprite, logotype, rows. See UPLOAD.md.

@@ -1,10 +1,10 @@
 {
   "_about": "PROTOTYPE (overnight run; .scratch/v1-launch/overnight/TOOLS.md). Amplified Spaces' Sheet variants: ids name a .vue in this folder or a shared body (app/components/Sheet<Id>.vue). Scores: round 2 was /28 (criteria 1-14); tonight's are /30 (criterion 15 added).",
-  "default": "T2b",
+  "default": "T1",
   "variants": {
     "T": {
       "name": "Type stage (Will's round-2 favourite)",
-      "score": 27,
+      "score": 26.5,
       "of": 30
     },
     "R": {
@@ -29,17 +29,17 @@
     },
     "T1": {
       "name": "T polished: stage and swap",
-      "score": 29.5,
+      "score": 29,
       "of": 30
     },
     "T2": {
       "name": "T polished: track switcher",
-      "score": 28,
+      "score": 29,
       "of": 30
     },
     "T3": {
       "name": "T polished: double-diamond chapters",
-      "score": 28.5,
+      "score": 29,
       "of": 30
     },
     "T2b": {

@@ -24,3 +24,21 @@ Copies live in gitignored `public/proto-media/remnants/` (`_processbook.pdf`, `_
 - Premiere Pro (p39): glyph section slowed to 60% with optical flow; sound effects; music "Ambi Drift", Bliss Signal, Mumdance, Wife; end credits.
 - Film: 1920×1080, 60 fps, 61 s, with audio. Title 0–9 s, then Haa'sk 0:09, Cra'sk 0:14, Spheed 0:19, Griin 0:24, Saa'sk 0:30,
   T'per 0:36, Corash 0:42, Sree'sk 0:48, Ir'wei 0:54 (read off frames, ±1 s).
+
+## Outcome
+Nine AI-built stone structures, one per glyph, in a 61 s film (title, then nine glyph sections, end credits). Solo project.
+
+## Collaborators
+None credited; solo. Music credited in the book (p39): "Ambi Drift", Bliss Signal, Mumdance, Wife.
+
+## Tools
+Pitt Rivers Museum visit, Glyphs app, Stable Diffusion + ControlNet, Photoshop, After Effects, Premiere Pro.
+
+## Media manifest (public/proto-media/remnants/, gitignored; see UPLOAD.md there)
+- stone-1..9 (+ -sm, -xs): the nine outcome renders. obj/line/grid/glyph-1..9: object, line pictogram, grid, glyph alpha mask (-c = cleaned).
+- seed-0..5 (+ -sm): ControlNet seed renders. test-00..11: first tests. decrypt-0..3: title-decrypt frames.
+- _outcome.mp4 (film, also on R2), _processbook.pdf, _portfolio.pdf: source copies, not for upload.
+Count is ~120 small webps (all under 35 KB), well over the 40-file lean target; kept because RD (the winning Sheet) uses them.
+
+## Gaps / for Will
+Kept seed 665821143 inferred from p34; module code GDES4002 vs GDES5002/GDES4005; old-site glyph captions 3-9 mis-paired.

@@ -109,3 +109,29 @@ Will approved six fixes, all in `T2b.vue` (phone chip CSS also in `AsLead.vue`).
 5. Phone chip: full title ("Fading Away") with the number on its own line (`.ld__label b` block, max-width 100% - 12px). T2b no longer passes `short`; AsLead's `short` support is now unused. The same phone CSS applies to T2/T3/T1.
 6. Rail: the phase marker now turns on when a phase's heading is in view (view bottom - 80px) instead of at the view's middle, so it agrees with the "03 / 05 Define" caption under the mosaic.
 Scores: runs under load from the parallel workflow read 20-23; criterion 8 (slow frames) is the noisy one. Saved r3 run: 23/23 (open 632ms, close 411ms, 1 slow frame). Judged criteria not rerun.
+
+## Round 1 (rescore, overnight 2026-10-06): scores (machine /23 + eye /7)
+
+Stills: `stills/r1/`. Best T1 29/30; stop: continue (no gain over baseline recorded). T1 is now the default in meta.json.
+
+| Variant | Machine /23 | Eye /7 | Total /30 | Wins |
+|---|---|---|---|---|
+| T1 | 23 | 6 | 29 | 2 |
+| T2 | 23 | 6 | 29 | 2 |
+| T3 | 23 | 6 | 29 | 1 |
+| T (baseline) | 21 | 5.5 | 26.5 | 0 |
+
+### Results log
+
+- r1 T1 (Stage and swap: room-strip index under the hero, Develop film strip panning while pinned under huge type, Define as two lines of big type over the Blender hand-off, one pinned stage with the room and its visual inset swapping per track, counted problems list, outcome): 29/30. Inspiration: Kenta Toshikura's drift, Apple-style scrollytelling, Lusion/Obys film strips.
+- r1 T2 (Track switcher: visual strip index, Discover question beside Tom and album art, edge-to-edge contact sheet, B17 pinned wipe network/visual/room, tabbed room switcher with before/after slider, counted problem cells, outcome): 29/30. Inspiration: Obys/Rejouice case studies, before/after product pages.
+- r1 T3 (Double diamond: phase-strip index, sticky rail with huge chapter number, Discover type list, Develop swipe strip, Define TD/Blender halves, Deliver one-open room columns, Problems, T's huge type crossing behind the B17 crit video): 29/30. Inspiration: the process book, Rejouice-style chapter rails.
+- r1 T (baseline): 26.5/30.
+
+### Judges' notes
+
+**Judge 1 (T1 best):** T reads as the site but uses the old SheetT head, no Contents nav, and repeats one device per track. T1: 'NN / TT' numbering ok, but AsLead info (Beats/Working title/Question) and missing Contents nav don't match shared SheetHead; Develop paragraph ~5 lines; most motion-led; ~230px dead space above the pinned stage in d2. T2: numbering ok, non-shared info, inactive Define steps dimmed not blurred; most work shown but leans on grids and tabs hide two rooms; empty left half beside album art. T3: most conceptual, but its own rail and phase marker break TOOLS.md, section labels off-pattern, Discover text-heavy, plain Develop strip.
+Next round (T1): 1 swap AsLead for shared SheetHead (as T2b.vue), room-strip in #before, info Year/Module/Client/Role/Tools, SheetContents + SheetSectionNo via useSheetSections; 2 short numbered Discover beat (01-05); 3 Develop copy to 2 lines; 4 close the ~230px void above the pinned stage and dead band under the film strip; 5 crop hero room thumbnails to fill tiles (tiny on desktop, label-only on phone); 6 end on the B17 final-crit video after problems; 7 borrow T2's before/after slider for one track in the pinned stage. Videos play only in view; film-strip pin transform only.
+
+**Judge 2 (T2 best):** T2 strongest storytelling, different device per beat, most media-led; loses c9 for non-shared AsLead info and no SheetContents. T1: pinned film strip and stage impressive; same AsLead issue; phone hero index tiles hidden behind labels. T3: best story structure, but own rail and phase marker (TOOLS.md forbids), '04 DELIVER' without '/ 05', 240px rail shrinks media, near-black Develop tiles, licence cap repeated. T: closest to shared head, but repeats one sequence per track, process strip last, phone type clipped.
+Next round (T2): 1 move onto shared SheetHead/SheetContents/SheetSectionNo (T2b.vue already does; check it carries all T2's beats); 2 trim contact sheet to 8 tiles, network screenshots half-height or into the B17 wipe; 3 room-with-inset-visual from T1 as default tab; 4 close with T3's huge type behind B17 crit video once; 5 phone: taller hero index tiles or labels under thumbnails; 6 licence cap and beat-detection fix once, in Problems only; 1-3 lines per beat, rerun no-ai-slop.

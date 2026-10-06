@@ -383,7 +383,7 @@ onBeforeUnmount(() => clearInterval(tick))
 .ln__keys button[aria-pressed=true] { color: var(--c-bg); background: var(--c-fg); }
 .ln__row {
   display: grid;
-  grid-template-columns: 0.8fr 1fr 1fr 1fr 2fr;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 2fr);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -406,7 +406,7 @@ onBeforeUnmount(() => clearInterval(tick))
   object-fit: cover;
   animation: rd-in 280ms ease-out;
 }
-.ln__c--stone { aspect-ratio: 16 / 9; }
+.ln__c--stone { aspect-ratio: 16 / 9; justify-self: stretch; }
 .ln__c--obj img { object-fit: contain; padding: 16px 12px 36px; }
 .ln__mk { width: 70%; aspect-ratio: 1; animation: rd-in 280ms ease-out; }
 .ln__c--line .ln__mk { color: #e03a2f; }
