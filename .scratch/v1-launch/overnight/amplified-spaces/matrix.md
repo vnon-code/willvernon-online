@@ -177,3 +177,7 @@ Next round (T4 to 30): 1 room render fills the stage (object-fit cover or match 
 Next round (T6): machine timing fails (open 771ms, 4 slow frames): lazy-load 25 media elements, start hero videos after the grow; remove the ~170px band before the crit video and show the full 'Final crit' word; fill the B17 tab frame and show the inset by default; tighten the '04 Blender particles: low' cell; leave copy, head and devices unchanged.
 
 Plateau: gain 0.3 over baseline, stop.
+
+## Note 2026-10-06 22:55: round 2 above was an accidental re-run
+A resume meant to retry only QA and the review page replayed Amplified Spaces instead. Its best, T4 (29.3), scored
+below T2b (29.5, Will's polish round), so T2b is restored as the default. T4, T5 and T6 stay selectable.
