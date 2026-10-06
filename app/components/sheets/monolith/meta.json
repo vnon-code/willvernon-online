@@ -1,0 +1,21 @@
+{
+  "_about": "PROTOTYPE (overnight run). Monolith Survival's Sheet variants; see .scratch/v1-launch/overnight/TOOLS.md. Ids MA\u2013MC (not A\u2013C: those are shared bodies, TOOLS.md \u00a71).",
+  "default": "MB",
+  "variants": {
+    "MA": {
+      "name": "White-out: film between two stills on a white band, eight opening slices, world grid, stomp clip beside its prompt",
+      "score": 29.5,
+      "of": 30
+    },
+    "MB": {
+      "name": "Turnaround: film and trailer side by side, pinned flipbook of the eight portraits, timestamped night log, world ticker",
+      "score": 30,
+      "of": 30
+    },
+    "MC": {
+      "name": "Product page: film in a main viewer with views and a hang tag, sampled colourway swatches, clips as field tests",
+      "score": 29.5,
+      "of": 30
+    }
+  }
+}
