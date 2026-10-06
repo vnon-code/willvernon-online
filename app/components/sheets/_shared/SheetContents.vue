@@ -15,7 +15,8 @@ function go(id: string) {
   goToSection(id, s)
 }
 
-// The rail names the last section whose top (plus ~80px) has come into view; read on scroll, once a frame
+// The rail names the last section whose heading has reached the upper 40% of the view (r2 fix, Remnants judges: the
+// old edge, the view's bottom less 80px, lit the next section while the current heading was still on screen)
 const nav = ref<HTMLElement>()
 const active = ref(-1)
 let layer: HTMLElement | null = null
@@ -24,7 +25,8 @@ let raf = 0
 function mark() {
   raf = 0
   if (!layer) return
-  const edge = layer.getBoundingClientRect().bottom - 80
+  const r = layer.getBoundingClientRect()
+  const edge = r.top + r.height * 0.4
   active.value = marks.reduce((a, el) => el.getBoundingClientRect().top < edge ? list.value.findIndex(x => x.id === el.dataset.sheetSection) : a, -1)
 }
 const onScroll = () => (raf ||= requestAnimationFrame(mark))

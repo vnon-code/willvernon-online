@@ -42,3 +42,27 @@ Next round (RC): 1 align ControlNet guide with the stone (same box and object-fi
 
 **Judge 2:** RB: fits the shell; the pinned dig is the strongest device in the round; beats vary; copy short and matches story.md. Gaps: no ControlNet seed or first-tests beat; Happy-mask object layer (d2) is an upscaled pixelated photo; at 375px timecodes print over glyphs (RB-p0). RA: type-specimen frame suits inventing a script; most story coverage (tester, object-to-stone table, seed log, first tests, decrypting title). Polish: d3 decrypted title row runs past the right edge and the last glyph clips; glyph PNGs show faint lighter squares; 9-row table long and image-dense; at 375px table spills sideways. RC: clean collection framing, film chapter rail matches story.md; reads image-text-image-text; same Haa'sk stone twice in a row; light-table red guide offset (d2); large empty black band before the film (d2); phone sound.
 Next round (RB, best by this judge): 1 phone hero: move timecodes above/below glyph rows or give solid chips; 2 add the missing AI beat as its own 'Stone' beat (ControlNet guide over the stone, 12 first tests, kept seed 665821143) using a device other than the dig; 3 swap the pixelated Happy-mask crop for a higher-res photo or show smaller with object-fit: contain; 4 check the pinned dig is jank-free on a trackpad and no large cream panel flashes mid-wipe (dark-ground line variant); 5 keep the parts list, number parts on the plate IKEA-style with leader lines; optionally borrow RA's live decrypt, keeping the title row inside the body width.
+
+## Round 2: scores (machine /23 + judged /7)
+
+| Variant | Machine /23 | Eye /7 | Total /30 | Wins |
+|---|---|---|---|---|
+| RD | 23 | 6.75 | 29.8 | 2 |
+| RE | 23 | 6.5 | 29.5 | 1 |
+| RA (r1 baseline) | 23 | 5.5 | 28.5 | 0 |
+| RF | 23 | 4.75 | 27.8 | 1 |
+
+## Results log (r2)
+
+- r2 RD (Specimen, refined: RA plus the judges' notes. Nine stone slices under the hero, a type tester, one object-to-stone lineage picked by key (stone and glyph first on phones), a seed log with the ControlNet guide laid exactly over each render plus the 12 first tests, then the film under a caption band that decrypts 'remnants' live during the title and names each glyph as it appears): 29.8/30. Inspiration: Klim and Grilli Type specimen pages, Pentagram type case studies, closed-caption bands.
+- r2 RE (Decipher: three stones as plates, a matching game of the nine glyphs against the nine Pitt Rivers objects (3x3 on phones), a before/after wipe from the ControlNet guide to six prompt renders with the 12 first tests struck out in red, then the film with a 60%/100% speed switch): 29.5/30. Inspiration: The Pudding and NYT play-along explainers, Alice Kober's Linear B cards, Knight Lab JuxtaposeJS, player speed menus.
+- r2 RF (Lexicon: three stones as numbered plates, the nine glyphs as dictionary entries, the derivation as a chain with the method on each link, the prompt's variant forms with the kept seed marked, the film over a 61-second ruler with glyph ticks): 27.8/30. Inspiration: OED and Merriam-Webster entries, Omniglot, etymology stemma diagrams, edit-timeline rulers.
+- Best RD 29.8/30; gain +0.3 over r1 best (29.5); stop: plateau.
+
+## Judges' notes (r2)
+
+**Judge 1:** RA (baseline): clean, but one device (9x6 table) repeated nine times; at 375px the table runs off the right edge. RD: each beat a different device; facts match story.md (7 seeds, kept 665821143 last, 60% optical flow, music credit). Flaws: ~200px dead space under the seed render (d2); sticky QWERTYUIO key row on phones runs under the shared close button (p1). RE: most playful; on desktop the object strip has mismatched photo heights and Spear head is a sliver (d1/d2); empty block under the wipe (d2); red strikes a bit loud. RF: best storytelling but Georgia serif and italic throughout (RF.vue:254, 288, 298, 307, 468) breaks the Host Grotesk rule.
+Next-round changes for RD: (1) a render per seed (Host Grotesk), guide toggle across all, kept seed 665821143 outlined red; (2) 61s ruler with glyph ticks and playhead plus RE's 60/100 switch; (3) caption band populated at rest; (4) inset the phone key row clear of the 56px close zone; (5) method written on each lineage link; (6) leave the type tester and hero strip alone. RF: replace every Georgia rule. RE: uniform aspect-ratio tiles.
+
+**Judge 2:** RE best by eye (7/7): shared shell intact, red only as accents, each beat a new device; weak: ~200px empty black under the wipe (d2), film in 2/3 width (d3). RD: fixes RA's r1 faults (film in, phone lineage stone and glyph first, title row no longer clips, guide is a toggle); still mostly image-grid beats; empty band below the seed render (d2). RF: most inventive but Georgia breaks Host Grotesk. RA: unchanged baseline; no film; title row clips (d3).
+Next-round: for RE close the band under the wipe, full-width film with 60/100 switch, optional 61s ruler in Host Grotesk, check wipe by touch and keyboard at 375px, visible 9/9 done state, crop baked-in plate labels, run no-ai-slop. Facts verified against process book p34 and p39.

@@ -89,3 +89,23 @@ export const RM = {
 }
 
 export const INFO = { year: '2023', module: 'GDES4002, Year 1', tools: 'Photoshop, Illustrator, Glyphs, Stable Diffusion (ControlNet), After Effects, Premiere Pro' }
+
+// r2 (RD–RF): glyph and line masks with the stray 1/255 alpha cleared (the faint squares judges saw), and where the
+// ControlNet guide sits in the seed renders (p34). Measured by overlaying glyph-1 on seed-0…5: all six renders put
+// Haa'sk's 322px-of-360px glyph box at 66% of the frame's height, centred. The film frames don't match: the pieces
+// float apart in After Effects, so the guide is only laid over the renders.
+export const mask = (g: Glyph) => g.glyph.replace('.webp', '-c.webp')
+export const lineMask = (g: Glyph) => g.line.replace('.webp', '-c.webp')
+export const GUIDE = { h: 0.66 * 360 / 322 } // the mask square's height as a share of the 16:9 render
+export const RENDERS = SEEDS.filter(s => !s.pick)
+export const KEPT = SEEDS.find(s => s.pick)!
+export const tc = (t: number) => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, '0')}`
+// Film order (Griin comes before Saa'sk in the film)
+export const FILM_ORDER = GLYPHS.slice().sort((a, b) => a.t - b.t)
+
+export const RM2 = {
+  _status: 'PLACEHOLDER copy, not approved by Will',
+  guide: 'Each glyph went into Stable Diffusion as a ControlNet guide. Change the prompt and the shape stays.',
+  kept: 'Seed 665821143 made all nine, so they read as one set.',
+  match: 'Pick a glyph, then the object it was drawn from.',
+}
