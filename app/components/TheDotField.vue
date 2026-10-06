@@ -73,6 +73,7 @@ const FS_DOTS = `precision highp float;
   uniform vec4 uRect[${CLEAR.max}]; uniform float uRectW[${CLEAR.max}];   // centre + half size (px), weight
   uniform float uRectR[${CLEAR.max}];                                        // corner radius (px)
   uniform vec3 uP0[5]; // the old palette, held ahead of the wash front
+  uniform float uOff; // page scroll (px): the dots and the colour scroll with the page (Will, 2026-10-05)
   uniform vec4 uBox, uWash; uniform vec3 uPul; // centre card: centre + half size; front, feather, push, fall (px); band width (px), strength, white per strength
   float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
   float noise(vec2 p){ vec2 i=floor(p),f=fract(p),u=f*f*(3.-2.*f);
@@ -91,14 +92,16 @@ const FS_DOTS = `precision highp float;
     return smoothstep(.35, .65, fbm(p + uWarp*q + vec2(1.7,9.2) + t*1.3));
   }
   void main(){
-    vec2 px = gl_FragCoord.xy;
+    // px and c live on the page (scrolled); s is c on screen, for the clears and the wash
+    vec2 px = gl_FragCoord.xy - vec2(0., uOff);
     vec2 c = (floor(px/uCell) + .5)*uCell;
+    vec2 s = c + vec2(0., uOff);
     float v = field(c);
     // Pulse: a soft band travels out from the centre card's border (rect distance, wobbled by noise) and fades with
     // distance
     // Wash: the distance from the centre card's border, pushed by the field; k = 1 behind the front (new colour), 0 ahead
     // (old). The band rides just behind the front and fades with distance
-    vec2 wq = abs(c - uBox.xy) - uBox.zw;
+    vec2 wq = abs(s - uBox.xy) - uBox.zw;
     float dw = max(length(max(wq, 0.)) + min(max(wq.x, wq.y), 0.), 0.) + (v - .5)*uWash.z;
     float k = 1. - smoothstep(uWash.x - uWash.y, uWash.x, dw);
     float x = (dw - (uWash.x - .3*uWash.y))/uPul.x;
@@ -107,7 +110,7 @@ const FS_DOTS = `precision highp float;
     float open = 1.;
     for (int i = 0; i < ${CLEAR.max}; i++) {
       float rr = min(uRectR[i], min(uRect[i].z, uRect[i].w));
-      vec2 q = abs(c - uRect[i].xy) - (uRect[i].zw - rr);
+      vec2 q = abs(s - uRect[i].xy) - (uRect[i].zw - rr);
       float sd = length(max(q, 0.)) + min(max(q.x, q.y), 0.) - rr;
       open = min(open, mix(1., smoothstep(uPad, uPad + uFeather, sd), uRectW[i]));
     }
@@ -391,6 +394,7 @@ onMounted(() => {
     gl!.uniform1f(U(pDots, 'uKeep'), CLEAR.keep)
     gl!.uniform3fv(U(pDots, 'uP'), cur)
     gl!.uniform2f(U(pDots, 'uRes'), W, H)
+    gl!.uniform1f(U(pDots, 'uOff'), scrollY * dpr)
     const g: [string, number][] = [['uCell', visuals.value.cell * dpr], ['uTime', t], ['uMin', visuals.value.dmin], ['uMax', visuals.value.dmax],
       ['uScale', scale], ['uWarp', warp]]
     for (const [n, v] of g) gl!.uniform1f(U(pDots, n), v)

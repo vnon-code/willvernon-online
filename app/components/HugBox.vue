@@ -61,9 +61,7 @@ watch(() => props.k, async () => {
 .hug__bg {
   position: absolute;
   inset: -1px;
-  background: var(--hug-fill, color-mix(in srgb, var(--c-bg) 72%, transparent));
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: var(--hug-fill, var(--fill));
   border: 1px solid;
   border-color: var(--edges);
   border-radius: var(--hug-r, 8px);

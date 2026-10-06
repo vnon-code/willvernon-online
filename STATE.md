@@ -1,6 +1,6 @@
 # State — v3
 
-**Goal:** willvernon.online v1 is live: Gate, Landing, Project Sheets, the Design / Music / AI deep-dives, About, Contact and a 404.
+**Goal:** willvernon.online v1 is live: the Gate, then one scrolling page (Landing on top, Sections below), Project Sheets at `/work/<slug>`, and a 404.
 **Plan:** `.scratch/v1-launch/MAP.md` (wayfinder map, local only). Each session works one ticket, time-boxed to that session.
 **History:** every round from 2026-10-02 to 10-05 is in `docs/history/state-2026-10-02_to_05.md`. Look there for why a value is what it is.
 
@@ -14,10 +14,12 @@
 - Drawers: Visuals bottom left, Music (Sound HUD) bottom right, 420ms iOS curve with a band cascade.
 - Header: monogram, icon (burger) nav, mute button. Mute covers music and UI sounds; VOL covers music only.
 - UI sounds: the Tactile palette via `useSound.sfx`.
-- Clicking the centre card opens the Project Sheet (`ProjectSheet.vue`, layout not designed yet).
+- Clicking the centre card opens the Project Sheet (`ProjectSheet.vue`; full rework ticketed).
+- Navigation (2026-10-05/06, `docs/adr/0002-one-scrolling-page.md`): one page, built (Scroll page shell, uncommitted). The Landing is scroll-locked on top; Learn More (bottom centre) scrolls the whole Landing up to the Sections: About me, Music, AI, Contact, on a solid panel with the dots scrolling in the margins. On the way the header docks early (links inline, solid background fading in with the scroll over the last 240px). The Landing falls behind at 0.6×, shrinking up to 8%, its side cards parting out of the margins; the filter and info plates tuck behind the centre card. Scrolling back up is free, then the last 120px glides home; the plates deal back out from the card and Learn More rises. Rounds 5–7 scored in `.scratch/v1-launch/scroll-back-matrix.md`. No glass. `/<section>` and `/work/<slug>` URLs, Gate first on deep links, all paths prerendered. Logic: `useScrollPage.ts`.
 
 ## Placeholders still in the build
-- Nav links go to `#` until pages exist.
+- Section contents are placeholders (real titles only); the Learn More look, the scroll timings (1.2s down and home, 0.45s glide), the depth factors, the plate timings and the 5px monogram inset.
+- Scroll-page sounds (`depart`, `arrive` as tactile tick runs, `deal`; no section ticks, no hover on Learn More or the filter chips) and the monogram/link clicks: built, not yet heard by Will.
 - Music/UI balance (`MUSIC_TRIM`, `UI_GAIN`), VOL rise 3s, tag weight 600, tool hover caption gap/timing.
 - Theme: dark by default, light follows the OS; never reviewed in light.
 
@@ -32,4 +34,4 @@
 - Cloudflare Workers Builds with pnpm 12 is untested.
 
 ## Next
-Run the next frontier ticket on the map. **Site navigation** unblocks most of the remaining pages.
+Will listens to the new scroll-page sounds (enter with sound: Learn More, scroll a Section, scroll home) and verifies the shell, then commits it. Next on the map: **Project Sheet rework**, or a Section ticket. Open question: Design and Tools aren't Sections any more; decide what happens to the Tools Section ticket (17). The round-1 morph variants are on local branch `prototype/scroll-shell-morph-abc`.

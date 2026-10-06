@@ -110,9 +110,7 @@ onBeforeUnmount(() => {
   margin-bottom: -1px; /* shares the panel's top border */
   padding: 0;
   color: var(--c-fg);
-  background: color-mix(in srgb, var(--c-bg) 72%, transparent);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: var(--c-bg); /* dark like the buttons, not grey (Will, 2026-10-06) */
   border: 1px solid;
   border-color: var(--edges);
   border-bottom: 0;
@@ -166,9 +164,7 @@ onBeforeUnmount(() => {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: color-mix(in srgb, var(--c-bg) 72%, transparent);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: var(--c-bg); /* dark like the buttons, not grey (Will, 2026-10-06) */
   border: 1px solid;
   border-color: var(--edges);
 }

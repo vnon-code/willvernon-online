@@ -7,6 +7,7 @@ import type { ProjectCard, ProjectText } from '~/types/project'
 // Layout and interaction picked by Will on /proto (2026-10-05): chips, strip and an info row (tag | name | tools)
 // form one block, centred between the header and the screen's foot; clicking the centre card opens the Sheet.
 const props = defineProps<{ active: boolean }>()
+const { mode } = useScrollPage() // the plates tuck behind the centre card while the Landing isn't home
 const emit = defineEmits<{
   centre: [card: { poster: string, teaser?: string | null }] // the Landing background's palette
   step: [el: Element] // a new centre card (not the first): the background pulses out of its border
@@ -169,6 +170,7 @@ function layout() {
     el.style.opacity = String(op)
     el.style.visibility = op <= 0.01 ? 'hidden' : 'visible'
     el.style.setProperty('--side', Math.min(a, 1).toFixed(3))
+    el.style.setProperty('--dir', String(Math.sign(Math.round(d)))) // which side of the centre: -1, 0, 1
   })
 }
 
@@ -377,7 +379,7 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div ref="stackEl" class="stack">
+  <div ref="stackEl" class="stack" :class="{ 'stack--away': mode !== 'landing' }">
     <div class="chips" role="group" aria-label="Filter projects" data-dot-clear>
       <span class="chips__pill" :class="{ on: pill.on }" :style="{ clipPath: `inset(0 ${pill.r}px 0 ${pill.l}px round 999px)` }" aria-hidden="true" />
       <button
@@ -387,7 +389,6 @@ onBeforeUnmount(() => {
         class="chip"
         :aria-pressed="k === picked"
         @click="setChip(k)"
-        @pointerenter="(e) => { if (e.pointerType === 'mouse' && k !== picked) sound.sfx('hover') }"
       >
         {{ k }}<sup>{{ countFor(k) }}</sup>
       </button>
@@ -472,12 +473,11 @@ onBeforeUnmount(() => {
 /* Chips (Will, 2026-10-05: "pill"): the row is one glass capsule and the chips inside it are bare, so no chip's own
    blur softens the pill sliding beneath it */
 .chips {
+  translate: 0 calc(var(--sy, 0px) * var(--plx-chips));
   position: relative;
   z-index: 3000;
   display: flex;
-  background: color-mix(in srgb, var(--c-bg) 72%, transparent);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: var(--fill);
   border: 1px solid;
   border-color: var(--edges);
   border-radius: 999px;
@@ -551,6 +551,75 @@ onBeforeUnmount(() => {
   inset: 0;
 }
 
+/* Depth layers (Will, 2026-10-06): as the Landing falls behind the panel (the stage scrolls at 0.6×, app.vue), each
+   layer adds its own offset, so the side cards sink deepest and the chips stay nearest. Net speeds: side cards 0.35×,
+   centre card 0.6×, info row 0.7×, chips 0.75×. The side cards also part outward (Will, 2026-10-06: "part + recede"),
+   so they leave the margins beside the rising panel without being cut. `translate` stacks on the projected
+   `transform` the ring sets per frame. PLACEHOLDER: the factors */
+.stack {
+  --plx-side: 0.25;
+  --plx-row: -0.1;
+  --plx-chips: -0.15;
+  --plx-out: 0.7;
+}
+
+.card:not(.card--centre) {
+  translate: calc(var(--dir, 0) * var(--sy, 0px) * var(--plx-out)) calc(var(--sy, 0px) * var(--plx-side));
+}
+
+/* The plates come back from the card (Will, 2026-10-06: "Deal"). Off the Landing they wait behind the centre card
+   (under it in z), the tag and tools gathered under the name. Back home the chips and the row slide out from the
+   card's edges, rising over it once clear, then the tag and tools fan out to their sides. Leaving, they tuck back in
+   160ms. PLACEHOLDER: the timings */
+.chips,
+.row {
+  transition: translate 520ms var(--ease-drawer), z-index 0s 520ms;
+}
+
+.row {
+  transition-duration: 340ms, 0s;
+  transition-delay: 0ms, 340ms;
+}
+
+.row > * {
+  transition: translate 360ms var(--ease-drawer) 200ms;
+}
+
+.row > :nth-child(2) {
+  position: relative;
+  z-index: 1; /* the tag and tools gather under the name */
+}
+
+.row > :last-child {
+  transition-delay: 240ms;
+}
+
+.stack--away .chips,
+.stack--away .row {
+  z-index: 1;
+  transition: translate 160ms var(--ease-out), z-index 0s;
+}
+
+.stack--away .chips {
+  translate: 0 calc(100% + 16px);
+}
+
+.stack--away .row {
+  translate: -50% calc(-100% - 16px);
+}
+
+.stack--away .row > * {
+  transition: translate 0s;
+}
+
+.stack--away .row > :first-child {
+  translate: calc(var(--row-w, 600px) / 2 - 50%) 0;
+}
+
+.stack--away .row > :last-child {
+  translate: calc(50% - var(--row-w, 600px) / 2) 0;
+}
+
 .card {
   position: absolute;
   left: 50%;
@@ -560,9 +629,7 @@ onBeforeUnmount(() => {
   border-color: var(--edges);
   border-radius: 8px; /* Will, 2026-10-05: no glass frame, the teaser runs to the lit edge, rounded like the plates */
   overflow: hidden;
-  background: color-mix(in srgb, var(--c-bg) 72%, transparent);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: var(--fill);
   cursor: pointer;
   will-change: transform, opacity;
   backface-visibility: hidden;
@@ -638,7 +705,7 @@ onBeforeUnmount(() => {
   position: fixed;
   left: 50%;
   bottom: var(--row-b, 16px);
-  translate: -50% 0;
+  translate: -50% calc(var(--sy, 0px) * var(--plx-row));
   z-index: 3000;
   display: grid;
   grid-template-columns: 1fr auto 1fr;

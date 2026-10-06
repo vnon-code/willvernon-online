@@ -13,6 +13,7 @@
   /* Motion */
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1); /* strong ease-out for entrances */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1); /* hover and press on the Gate's bracket button */
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1); /* the drawers' curve (iOS-like): drawers, Learn More, the plates */
 
   /* Layout: the header row; the Landing's stack centres below it (TheProjectStrip sets the rest) */
   --header-h: 64px;
@@ -24,6 +25,8 @@
     color-mix(in srgb, var(--c-fg) 28%, transparent)
     color-mix(in srgb, var(--c-fg) 12%, transparent)
     color-mix(in srgb, var(--c-fg) 3%, transparent);
+  /* No glass (Will, 2026-10-06): drawers, tabs, buttons and plates are filled solid. PLACEHOLDER: the 6% lift */
+  --fill: color-mix(in srgb, var(--c-fg) 6%, var(--c-bg));
   /* Solid plate fill for the info row's side plates: tag and tool tiles (Will, 2026-10-05) */
   --plate-solid: color-mix(in srgb, var(--c-fg) 10%, var(--c-bg));
 
@@ -59,4 +62,18 @@ body {
   color: var(--c-fg);
   font-family: var(--font-ui);
   -webkit-font-smoothing: antialiased;
+}
+
+/* One scrolling page (docs/adr/0002-one-scrolling-page.md): the Landing locks the document's scroll. PLACEHOLDER:
+   the scrollbar is hidden so unlocking doesn't shift the layout */
+html {
+  scrollbar-width: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
+
+html.page-locked {
+  overflow: hidden;
 }

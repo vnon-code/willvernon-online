@@ -237,7 +237,7 @@ function tone(t: number, f: number, dur: number, amp: number, type: OscillatorTy
 }
 // A band-passed noise burst; at a few ms it is a tick
 let noiseBuf: AudioBuffer | null = null
-function noise(t: number, dur: number, amp: number, freq: number, q: number) {
+function noiseBuffer() {
   if (!noiseBuf) {
     noiseBuf = ctx!.createBuffer(1, ctx!.sampleRate, ctx!.sampleRate)
     const d = noiseBuf.getChannelData(0)
@@ -245,8 +245,11 @@ function noise(t: number, dur: number, amp: number, freq: number, q: number) {
     let seed = 1
     for (let i = 0; i < d.length; i++) d[i] = ((seed = (seed * 16807) % 2147483647) / 2147483647) * 2 - 1
   }
+  return noiseBuf
+}
+function noise(t: number, dur: number, amp: number, freq: number, q: number) {
   const s = ctx!.createBufferSource(), f = ctx!.createBiquadFilter(), g = ctx!.createGain()
-  s.buffer = noiseBuf
+  s.buffer = noiseBuffer()
   f.type = 'bandpass'
   f.frequency.value = freq
   f.Q.value = q
@@ -269,11 +272,17 @@ const tickRun = (t: number, f0: number, ratio: number) => {
   for (let j = 0; j < 4; j++) tick(t + j * 0.05, f0 * ratio ** j, j === 3 ? 0.14 : 0.1)
 }
 const SFX = {
+  // The scroll page (Will, 2026-10-06: "sound effects for all the stuff we worked on"; ticks, not whooshes: "more tactile"). PLACEHOLDER.
+  // Ticks spaced like the scroll's own ease-out (bunched, then spreading), pitch falling as the Landing drops away and
+  // rising on the glide home
+  depart: (t: number) => [0, 0.06, 0.14, 0.26].forEach((d, j) => tick(t + d, 2600 * 0.85 ** j, 0.08 - j * 0.012)),
+  arrive: (t: number) => [0, 0.07, 0.17].forEach((d, j) => tick(t + d, 1700 * 1.18 ** j, 0.06 + j * 0.01)),
+  deal: (t: number) => [0.3, 0.5, 0.56].forEach((d, j) => tick(t + d, j ? 2800 : 2000, j ? 0.05 : 0.07)), // the plates land: the row, then tag and tools
   step: (t: number) => tick(t, 2400, 0.07), // a card passing the centre
   chip: (t: number) => blipTicks(t, [1320, 1760], 0.035, 0.05, 0.02, 2), // a filter chip: two quick notes up
   menu: (t: number) => blipTicks(t, [1320, 1760], 0.035, 0.05, 0.02, 2), // the menu clicks like a chip
   mute: (t: number) => noise(t, 0.01, 0.08, 2800, 2.5), // a dry press
-  hover: (t: number) => noise(t, 0.006, 0.04, 1800, 2), // pointer onto a chip or nav link (mouse only)
+  hover: (t: number) => noise(t, 0.006, 0.04, 1800, 2), // pointer onto a nav link or the monogram (mouse only)
   hoverCard: (t: number) => noise(t, 0.004, 0.036, 3200, 3), // pointer onto a strip card: shorter, brighter
   drawerOpen: (t: number) => blipTicks(t, [880, 1320], 0.05, 0.07, 0.03, 3),
   drawerClose: (t: number) => blipTicks(t, [1320, 880], 0.05, 0.07, 0.03, 3),

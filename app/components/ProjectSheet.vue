@@ -63,7 +63,7 @@ onBeforeUnmount(() => removeEventListener('keydown', onKey))
 <template>
   <div class="ex">
     <div ref="backdrop" class="ex__backdrop" @click="close" />
-    <article ref="layer" class="ex__layer" role="dialog" aria-modal="true" :aria-label="card.title">
+    <article ref="layer" class="ex__layer" data-lenis-prevent role="dialog" aria-modal="true" :aria-label="card.title">
       <button ref="closeBtn" class="ex__close" type="button" aria-label="Close project" @click="close">
         <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
           <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
@@ -147,9 +147,7 @@ onBeforeUnmount(() => removeEventListener('keydown', onKey))
   margin: 16px 16px -52px auto;
   padding: 0;
   color: var(--c-fg);
-  background: color-mix(in srgb, var(--c-bg) 72%, transparent);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: var(--fill);
   border: 1px solid;
   border-color: var(--edges);
   border-radius: 999px;
