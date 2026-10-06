@@ -1,0 +1,104 @@
+{
+  "slug": "cargo-5015",
+  "variant": "Ko",
+  "resolved": "Ko",
+  "points": {
+    "1": 2,
+    "2": 2,
+    "3": 2,
+    "4": 2,
+    "5": 2,
+    "6": 2,
+    "7": 2,
+    "8": 2,
+    "11": 2,
+    "12": 2,
+    "13": 2,
+    "15m": 1
+  },
+  "machineTotal": 23,
+  "of": 23,
+  "raw": {
+    "slug": "cargo-5015",
+    "variant": "Ko",
+    "desktop": {
+      "variant": "Ko",
+      "slug": "cargo-5015",
+      "opened": {
+        "slug": "cargo-5015",
+        "variant": "Ko"
+      },
+      "mediaMaxStep": 47,
+      "closeMaxStep": 97,
+      "videoRestarted": false,
+      "cardT": 5.397143,
+      "sheetT0": 5.419435,
+      "bodyStartPct": 93,
+      "landingGoneMs": 330,
+      "mediaLandMs": 513,
+      "landingLeftovers": 0,
+      "marginPx": 200,
+      "backdropFilter": [],
+      "overlayAlpha": 0.2,
+      "mediaShare": 0.66,
+      "mediaCount": 16,
+      "closeOffPx": 0,
+      "landingBack": true,
+      "openMs": 621,
+      "closeMs": 418,
+      "slowFrames": 1,
+      "url": "/work/cargo-5015",
+      "focusIn": true,
+      "focusBack": true,
+      "backCloses": true,
+      "scrollH": 5407
+    },
+    "r2": {
+      "headerDocked": true,
+      "headerInline": true,
+      "edgesMatch": {
+        "border": true,
+        "radius": true,
+        "width": true,
+        "sheet": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        },
+        "panel": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        }
+      },
+      "maxGapPx": 0,
+      "gapAt": "",
+      "blocks": 5
+    },
+    "phone": {
+      "opened": true,
+      "resolved": {
+        "slug": "cargo-5015",
+        "variant": "Ko"
+      },
+      "hOverflowPx": 0,
+      "minFontPx": 11,
+      "scrollH": 4520,
+      "closed": true
+    }
+  },
+  "stills": [
+    "cargo-5015/stills/r1/Ko-d0.png",
+    "cargo-5015/stills/r1/Ko-d1.png",
+    "cargo-5015/stills/r1/Ko-d2.png",
+    "cargo-5015/stills/r1/Ko-d3.png",
+    "cargo-5015/stills/r1/Ko-p0.png",
+    "cargo-5015/stills/r1/Ko-p1.png"
+  ],
+  "errors": {
+    "count": 0,
+    "first": []
+  }
+}

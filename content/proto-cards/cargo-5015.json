@@ -1,0 +1,16 @@
+{
+  "_about": "PROTOTYPE (overnight curation run, 2026-10-06). A strip card for work not on the live site yet. Shown only in dev or when the URL has ?proto (TheProjectStrip.vue). Facts from Will's GDES5015 process book V2 (his PC, read-only). Media is dev-only under /proto-media (gitignored); public/proto-media/cargo-5015/UPLOAD.md lists it for R2.",
+  "_status": "PLACEHOLDER copy, not approved by Will",
+  "from": "proto",
+  "id": "cargo-5015",
+  "chip": "Project",
+  "discipline": "Design",
+  "poster": "/proto-media/cargo-5015/poster.webp",
+  "teaser": "/proto-media/cargo-5015/teaser-360.mp4",
+  "title": "Monogram",
+  "summary": "A personal mark built from triangles, and the business card it went on.",
+  "tools": ["Illustrator", "After Effects", "Blender", "Photoshop", "InDesign"],
+  "long": "",
+  "process": [],
+  "gallery": []
+}
