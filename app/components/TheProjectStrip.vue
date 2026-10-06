@@ -453,6 +453,7 @@ onBeforeUnmount(() => {
           :ref="(el) => { if (el) cardEls[c.id] = el as HTMLElement }"
           class="card"
           :class="{ 'card--centre': c.id === current?.id }"
+          :data-slug="c.id"
           type="button"
           :aria-label="c.id === current?.id ? `Open ${c.title}` : c.title"
           @click="onCardClick(i)"

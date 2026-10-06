@@ -3,42 +3,42 @@ import type { ProjectCard, SheetMediaItem, SheetOpen, SheetStory } from '~/types
 
 // PROTOTYPE (Project Sheet rework; scored in .scratch/v1-launch/project-sheet-matrix.md). Round 1: A, B, C beside
 // today's (0). Round 2 builds on A: A (baseline, Will's notes 2 and 3), R "Rooms", S "Signal chain", T "Type stage",
-// U "Double diamond", switched from the options panel (SheetProtoPanel.vue) or `?sheet=R`. B, C and 0 stay reachable
-// by `?sheet=` until the final pick. Everything here goes once Will picks: the winner is folded into ProjectSheet.vue.
+// U "Double diamond". These are the shared bodies; since the overnight run each project lists its own variants, default
+// and scores (sheetRegistry.ts, app/components/sheets/<slug>/meta.json), switched from the options panel
+// (SheetProtoPanel.vue) or `?sheet=<id>`. Everything here goes once Will picks: the winners fold into ProjectSheet.vue.
 export const SHEET_VARIANTS = ['0', 'A', 'B', 'C', 'R', 'S', 'T', 'U'] as const
 export type SheetVariant = (typeof SHEET_VARIANTS)[number]
-export const PANEL_VARIANTS: SheetVariant[] = ['A', 'R', 'S', 'T', 'U'] // round 2
 export const SHEET_NAMES: Record<SheetVariant, string> = {
   0: 'Current', A: 'Hero column', B: 'Stage and plates', C: 'Split',
   R: 'Rooms', S: 'Signal chain', T: 'Type stage', U: 'Double diamond',
 }
-// Matrix totals, filled in after each scored round. Round 1 was /20; round 2 is /28 (criteria 11–14 added)
-export const SCORES: Partial<Record<SheetVariant, number>> = { A: 24, R: 27, S: 27, T: 27, U: 25 } // round 2, /28 (project-sheet-matrix.md)
 
-const isVariant = (v: unknown): v is SheetVariant => SHEET_VARIANTS.includes(v as SheetVariant)
+const isId = (v: unknown): v is string => typeof v === 'string' && /^[\w-]{1,24}$/.test(v)
 
+// `variant` is the picked id (`?sheet=`), null for each project's default; `opened` is what the open Sheet resolved to
 export function useSheetVariant() {
-  const variant = useState<SheetVariant>('sheet-variant', () => 'A')
+  const variant = useState<string | null>('sheet-variant', () => null)
+  const opened = useState<{ slug: string, variant: string } | null>('sheet-opened', () => null)
   // Keeps the pick in the URL (`?sheet=A`), whatever the path, so a reload keeps it
-  function setVariant(v: SheetVariant) {
-    if (!isVariant(v)) return
+  function setVariant(v: string) {
+    if (!isId(v)) return
     variant.value = v
     const q = new URLSearchParams(location.search)
     q.set('sheet', v)
     history.replaceState(history.state, '', `${location.pathname}?${q}`)
   }
-  return { variant, setVariant }
+  return { variant, opened, setVariant }
 }
 
 // Reads `?sheet=` once on the client; the harness hook `window.__sheet` exists in dev and with `?proto`
 export function initSheetVariant() {
-  const { variant, setVariant } = useSheetVariant()
+  const { variant, opened, setVariant } = useSheetVariant()
   const q = new URLSearchParams(location.search)
   const v = q.get('sheet')
-  if (isVariant(v)) variant.value = v
+  if (isId(v)) variant.value = v
   const panel = import.meta.dev || q.has('proto')
   if (panel) {
-    Object.assign(window, { __sheet: { get variant() { return variant.value }, setVariant } })
+    Object.assign(window, { __sheet: { get variant() { return variant.value }, get opened() { return opened.value }, setVariant } })
   }
   return panel
 }

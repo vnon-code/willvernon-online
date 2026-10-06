@@ -1,0 +1,104 @@
+{
+  "slug": "amplified-spaces",
+  "variant": "A",
+  "resolved": "A",
+  "points": {
+    "1": 2,
+    "2": 1,
+    "3": 2,
+    "4": 2,
+    "5": 1,
+    "6": 2,
+    "7": 2,
+    "8": 2,
+    "11": 2,
+    "12": 2,
+    "13": 2,
+    "15m": 0
+  },
+  "machineTotal": 20,
+  "of": 23,
+  "raw": {
+    "slug": "amplified-spaces",
+    "variant": "A",
+    "desktop": {
+      "variant": "A",
+      "slug": "amplified-spaces",
+      "opened": {
+        "slug": "amplified-spaces",
+        "variant": "A"
+      },
+      "mediaMaxStep": 47,
+      "closeMaxStep": 96,
+      "videoRestarted": false,
+      "cardT": 4.953903,
+      "sheetT0": 4.966241,
+      "bodyStartPct": 53,
+      "landingGoneMs": 325,
+      "mediaLandMs": 558,
+      "landingLeftovers": 0,
+      "marginPx": 200,
+      "backdropFilter": [],
+      "overlayAlpha": 0.2,
+      "mediaShare": 0.48,
+      "mediaCount": 13,
+      "closeOffPx": 0,
+      "landingBack": true,
+      "openMs": 652,
+      "closeMs": 419,
+      "slowFrames": 2,
+      "url": "/work/amplified-spaces",
+      "focusIn": true,
+      "focusBack": true,
+      "backCloses": true,
+      "scrollH": 5290
+    },
+    "r2": {
+      "headerDocked": true,
+      "headerInline": true,
+      "edgesMatch": {
+        "border": true,
+        "radius": true,
+        "width": true,
+        "sheet": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        },
+        "panel": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        }
+      },
+      "maxGapPx": 0,
+      "gapAt": "",
+      "blocks": 8
+    },
+    "phone": {
+      "opened": true,
+      "resolved": {
+        "slug": "amplified-spaces",
+        "variant": "A"
+      },
+      "hOverflowPx": 2,
+      "minFontPx": 11.5,
+      "scrollH": 3177,
+      "closed": true
+    }
+  },
+  "stills": [
+    "amplified-spaces/stills/setup-check/A-d0.png",
+    "amplified-spaces/stills/setup-check/A-d1.png",
+    "amplified-spaces/stills/setup-check/A-d2.png",
+    "amplified-spaces/stills/setup-check/A-d3.png",
+    "amplified-spaces/stills/setup-check/A-p0.png",
+    "amplified-spaces/stills/setup-check/A-p1.png"
+  ],
+  "errors": {
+    "count": 0,
+    "first": []
+  }
+}

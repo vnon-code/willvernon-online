@@ -1,20 +1,27 @@
 <script setup lang="ts">
 import type { ProjectCard, SheetOpen } from '~/types/project'
-import type { SheetVariant } from '~/composables/useSheetProto'
 
 const gateOpen = ref(true)
 const landingVisible = ref(false)
 const hudVisible = ref(false)
 const enteredWithSound = ref(false)
-const centreCard = ref<{ poster: string, teaser?: string | null }>()
+const centreCard = ref<{ id?: string, poster: string, teaser?: string | null }>()
 // The dot field's pulse starts at the new centre card's border on each step
 const pulse = shallowRef<{ el: Element, at: number }>()
 const onStep = (el: Element) => (pulse.value = { el, at: performance.now() })
 // The open project (the Sheet), grown out of the card it was opened from. PROTOTYPE (Project Sheet rework): the
-// Sheet variant is fixed when it opens; `sheet` is the open Sheet, for Back to close it
-const expanded = shallowRef<(SheetOpen & { variant: SheetVariant }) | null>(null)
+// Sheet variant is fixed when it opens, per project (sheetRegistry.ts); `sheet` is the open Sheet, for Back to close it
+const expanded = shallowRef<(SheetOpen & { variant: string }) | null>(null)
 const sheet = ref<{ close: () => void }>()
-const { variant } = useSheetVariant()
+const { variant, opened } = useSheetVariant()
+const body = computed(() => expanded.value && sheetBody(expanded.value.card.id, expanded.value.variant))
+// The options panel lists the open project's variants, or the centre card's
+const panelSlug = computed(() => expanded.value?.card.id ?? centreCard.value?.id)
+function withVariant(e: SheetOpen) {
+  const v = resolveSheet(e.card.id, variant.value)
+  opened.value = { slug: e.card.id, variant: v }
+  return { ...e, variant: v }
+}
 const protoPanel = ref(false)
 
 // One scrolling page (docs/adr/0002-one-scrolling-page.md): the Landing on top, the Sections below
@@ -42,7 +49,7 @@ function learnMore() {
 let pushed = false // the Sheet's URL is a history entry of its own
 let ignorePop = false // the Back the close itself makes
 function openSheet(e: SheetOpen) {
-  expanded.value = { ...e, variant: variant.value }
+  expanded.value = withVariant(e)
   history.pushState(history.state, '', `/work/${e.card.id}${location.search}`)
   pushed = true
 }
@@ -76,7 +83,7 @@ function onEnter(withSound: boolean) {
     const card = target.work && cards.value?.find(c => c.id === target.work)
     if (card) {
       const w = Math.min(innerWidth * 0.5, 640), h = w * 9 / 16
-      expanded.value = { card, from: new DOMRect((innerWidth - w) / 2, (innerHeight - h) / 2, w, h), variant: variant.value }
+      expanded.value = withVariant({ card, from: new DOMRect((innerWidth - w) / 2, (innerHeight - h) / 2, w, h) })
     }
   }, reduced ? 300 : 1000)
 }
@@ -120,17 +127,10 @@ function onEnter(withSound: boolean) {
     </div>
     <TheVisualHud v-if="hudVisible" :inert="!!expanded" />
     <TheSoundHud v-if="hudVisible" :with-sound="enteredWithSound" :inert="!!expanded" />
-    <ProjectSheet v-if="expanded?.variant === '0'" ref="sheet" :card="expanded.card" :from="expanded.from" @close="closeSheet" />
-    <!-- PROTOTYPE (Project Sheet rework, round 1): the variants and their options panel -->
-    <SheetA v-else-if="expanded?.variant === 'A'" ref="sheet" :sheet="expanded" @close="closeSheet" />
-    <SheetB v-else-if="expanded?.variant === 'B'" ref="sheet" :sheet="expanded" @close="closeSheet" />
-    <SheetC v-else-if="expanded?.variant === 'C'" ref="sheet" :sheet="expanded" @close="closeSheet" />
-    <!-- PROTOTYPE (Project Sheet rework, round 2) -->
-    <SheetR v-else-if="expanded?.variant === 'R'" ref="sheet" :sheet="expanded" @close="closeSheet" />
-    <SheetS v-else-if="expanded?.variant === 'S'" ref="sheet" :sheet="expanded" @close="closeSheet" />
-    <SheetT v-else-if="expanded?.variant === 'T'" ref="sheet" :sheet="expanded" @close="closeSheet" />
-    <SheetU v-else-if="expanded?.variant === 'U'" ref="sheet" :sheet="expanded" @close="closeSheet" />
-    <SheetProtoPanel v-if="protoPanel" />
+    <ProjectSheet v-if="expanded && !body" ref="sheet" :card="expanded.card" :from="expanded.from" @close="closeSheet" />
+    <!-- PROTOTYPE (Project Sheet rework): the open project's variant body, and the options panel -->
+    <component :is="body" v-else-if="expanded" ref="sheet" :sheet="expanded" @close="closeSheet" />
+    <SheetProtoPanel v-if="protoPanel" :slug="panelSlug" />
     <TheGate v-if="gateOpen" @enter="onEnter" />
   </div>
 </template>

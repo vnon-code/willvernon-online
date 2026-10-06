@@ -1,38 +1,39 @@
 <script setup lang="ts">
-import { PANEL_VARIANTS, SCORES } from '~/composables/useSheetProto'
-
-// PROTOTYPE (Project Sheet rework): the options panel. One control, "Sheet"; each option shows its matrix score
-// (SCORES in useSheetProto.ts) and the top scorer is marked recommended. Round 2 shows A, R, S, T, U (B, C and 0 stay
-// reachable by `?sheet=`). Dev and `?proto` only.
+// PROTOTYPE (Project Sheet rework): the options panel. One control, "Sheet": the variants of the open project (or the
+// centre card's), from sheetRegistry.ts; each shows its matrix score and the top scorer is marked recommended. A pick
+// applies from the next open. Dev and `?proto` only.
+const props = defineProps<{ slug?: string }>()
 const { variant, setVariant } = useSheetVariant()
+const opts = computed(() => (props.slug ? sheetOptions(props.slug) : []))
+const current = computed(() => (props.slug ? resolveSheet(props.slug, variant.value) : null))
 const top = computed(() => {
-  const scored = PANEL_VARIANTS.filter(v => SCORES[v] != null)
-  return scored.length ? scored.reduce((a, b) => (SCORES[b]! > SCORES[a]! ? b : a)) : null
+  const scored = opts.value.filter(o => o.score != null)
+  return scored.length ? scored.reduce((a, b) => (b.score! > a.score! ? b : a)).id : null
 })
 </script>
 
 <template>
   <div class="proto" role="group" aria-label="Prototype options">
     <p class="proto__head">
-      Prototype · Sheet
+      Prototype · Sheet · {{ slug ?? '–' }}
     </p>
     <div class="proto__opts">
       <button
-        v-for="v in PANEL_VARIANTS"
-        :key="v"
+        v-for="o in opts"
+        :key="o.id"
         type="button"
         class="proto__opt"
-        :aria-pressed="v === variant"
-        :title="SHEET_NAMES[v]"
-        @click="setVariant(v)"
+        :aria-pressed="o.id === current"
+        :title="o.name"
+        @click="setVariant(o.id)"
       >
-        <b>{{ v }}</b>
-        <span class="proto__score">{{ SCORES[v] ?? '–' }}</span>
-        <span v-if="v === top" class="proto__rec">rec</span>
+        <b>{{ o.id }}</b>
+        <span class="proto__score">{{ o.score ?? '–' }}</span>
+        <span v-if="o.id === top" class="proto__rec">rec</span>
       </button>
     </div>
     <p class="proto__name">
-      {{ SHEET_NAMES[variant] }}
+      {{ opts.find(o => o.id === current)?.name }}
     </p>
   </div>
 </template>
