@@ -4,7 +4,7 @@ import SheetShell from '~/components/SheetShell.vue'
 import AsLead from './AsLead.vue'
 
 // PROTOTYPE T2b "Track switcher, polished" (overnight run, Amplified Spaces): T2 plus round 1's six next-round changes
-// (matrix.md): a closing beat (T's huge type crossing behind the B17 crit video once), Define's B17 stage at full
+// (matrix.md): a closing beat (the B17 crit video full-bleed under the problems), Define's B17 stage at full
 // view height with the wipe as the event, the question big in Discover's left cell, a contact sheet with varied spans
 // and a staggered reveal, a slim sticky 01–05 phase marker in the left margin, and phone fixes (short index chips,
 // a 44px slider handle, smaller problem numerals). T2 itself is unchanged.
@@ -41,7 +41,7 @@ const COPY = {
   problems: [
     'Built-in beat detection missed kicks. I built my own.',
     'The free TouchDesigner licence caps output at 1280×1280.',
-    'The CRT look for B17 was a struggle.',
+    'The CRT build for B17 was the hardest part: RGB split, hexagon pixels, lens distort, bloom.',
     'Cut mirror and text overlays. Too generic.',
   ],
   outcome: 'A splash and four renders per track. B17 got a video for the final crit.',
@@ -65,7 +65,7 @@ const phase = (id: string) => s.value.process.find(p => p.id === id)
 const discover = computed(() => phase('discover'))
 const develop = computed(() => phase('develop'))
 const define = computed(() => phase('define'))
-const lead = computed(() => tracks.value.map(t => ({ m: t.frames[0] ?? t.splash!, label: t.title, short: t.title.split(' ')[0], to: 'as2b-tracks' })))
+const lead = computed(() => tracks.value.map(t => ({ m: t.frames[0] ?? t.splash!, label: t.title, to: 'as2b-tracks' })))
 const question = COPY.question
 // The wipe: B17's network, then its CRT frame, then the room
 const b17 = computed(() => tracks.value.find(t => t.id === 'b17'))
@@ -79,15 +79,19 @@ const wipe = computed(() => {
   ].filter(Boolean) as { m: NonNullable<typeof t.splash>, k: string, v: string }[]
 })
 
-// The contact sheet's spans: the networks two columns wide, the GPU particles two rows tall (dense flow packs the
-// 4-column sheet with no holes)
-const span = (src: string) => /p16-0|p31-0/.test(src) ? 'cs__cell--wide' : /p23-[12]/.test(src) ? 'cs__cell--tall' : ''
+// The contact sheet: eight tiles, one caption each, in reading order (the sheet's other process-book pictures are cut:
+// a second Blender particles and Particles GPU frame, the second topographic colours). Spans: the two networks and the
+// topographic render two columns wide (the render only above 720px), the GPU particles two rows tall (dense flow packs
+// the 4-column sheet with no holes; on phones the 2-column sheet has no holes either: area 10)
+const SHEET = ['p13-2', 'p16-0', 'p23-1', 'p24-0', 'p27-1', 'p33-0', 'p29-0', 'p31-0']
+const tiles = computed(() => SHEET.map(k => develop.value?.media.find(m => m.src.includes(`/${k}.`))).filter(Boolean) as NonNullable<typeof develop.value>['media'])
+const span = (src: string) => /p16-0|p31-0/.test(src) ? 'cs__cell--wide' : /p29-0/.test(src) ? 'cs__cell--wide cs__cell--wide-d' : /p23-1/.test(src) ? 'cs__cell--tall' : ''
 
 // The closing beat: the crit video, the rooms after it
 const crit = computed(() => s.value.outcome?.media.find(m => m.type === 'video'))
 const rooms = computed(() => s.value.outcome?.media.filter(m => m.type !== 'video') ?? [])
 
-// The phase marker (left margin) shows the last phase whose top has passed the view's middle (read on scroll, once a
+// The phase marker (left margin) shows the last phase whose heading has come into view (read on scroll, once a
 // frame, so a jump lands on the right one); the contact sheet's cells rise in once
 const phases = ['Discover', 'Develop', 'Define', 'Deliver', 'Problems']
 const active = ref(-1)
@@ -98,8 +102,9 @@ function mark() {
   raf = 0
   if (!layerEl) return
   const r = layerEl.getBoundingClientRect()
-  const mid = r.top + r.height / 2
-  active.value = marks.reduce((a, el) => el.getBoundingClientRect().top < mid ? Number(el.dataset.phase) : a, -1)
+  // A phase is on once its heading (its top plus ~80px) is in view, so the rail names the phase whose caption shows
+  const edge = r.bottom - 80
+  active.value = marks.reduce((a, el) => el.getBoundingClientRect().top < edge ? Number(el.dataset.phase) : a, -1)
 }
 const onScroll = () => (raf ||= requestAnimationFrame(mark))
 let rio: IntersectionObserver | undefined
@@ -197,7 +202,7 @@ onBeforeUnmount(() => {
         </p>
       </div>
       <ol class="cs__grid">
-        <li v-for="(m, i) in develop.media" :key="m.src" class="cs__cell" :class="span(m.src)" :style="{ '--d': `${(i % 4) * 70}ms` }">
+        <li v-for="(m, i) in tiles" :key="m.src" class="cs__cell" :class="span(m.src)" :style="{ '--d': `${(i % 4) * 70}ms` }">
           <SheetPic :m="m" />
           <p class="cs__cap">
             <b>{{ pad(i) }}</b> {{ m.caption }}
@@ -307,19 +312,12 @@ onBeforeUnmount(() => {
       </ol>
     </section>
 
-    <!-- The close: T's huge type crosses behind the B17 crit video once; then the three rooms -->
+    <!-- The close: the B17 crit video full-bleed under the problems; then the outcome line and the three rooms -->
     <section v-if="s.outcome" class="cb" data-sheet-block="outcome" aria-label="Outcome">
-      <div v-if="crit" class="cb__run" data-progress>
-        <div class="cb__stage">
-          <p class="cb__type" aria-hidden="true">
-            Final crit
-          </p>
-          <SheetPic class="cb__screen" :m="crit" cap />
-          <p class="cb__foot">
-            <b>Outcome</b> {{ s.outcome.text }}
-          </p>
-        </div>
-      </div>
+      <SheetPic v-if="crit" class="cb__screen" :m="crit" cap />
+      <p class="cb__foot">
+        <b>Outcome</b> {{ s.outcome.text }}
+      </p>
       <div v-if="rooms.length" class="cb__rooms" :style="{ '--n': rooms.length }">
         <SheetPic v-for="m in rooms" :key="m.src" :m="m" cap />
       </div>
@@ -541,7 +539,7 @@ onBeforeUnmount(() => {
   gap: 3px;
   padding-left: 12px;
   border-left: 2px solid var(--c-accent);
-  opacity: calc(0.3 + 0.7 * clamp(0, 1 - abs(var(--p, 0) * 2.4 - var(--i)), 1));
+  opacity: calc(0.62 + 0.38 * clamp(0, 1 - abs(var(--p, 0) * 2.4 - var(--i)), 1));
 }
 
 .rv__steps b {
@@ -592,7 +590,7 @@ onBeforeUnmount(() => {
   .rv__layer:nth-child(3) { animation-range: contain 55% contain 85%; }
 
   .rv__steps li {
-    opacity: 0.3;
+    opacity: 0.62;
     animation: rv-step linear both;
     animation-timeline: --rv;
   }
@@ -607,13 +605,13 @@ onBeforeUnmount(() => {
 }
 
 @keyframes rv-step {
-  0%, 100% { opacity: 0.3; }
+  0%, 100% { opacity: 0.62; }
   20%, 80% { opacity: 1; }
 }
 
 /* The last step stays lit once the room is in */
 @keyframes rv-step-last {
-  from { opacity: 0.3; }
+  from { opacity: 0.62; }
   to { opacity: 1; }
 }
 
@@ -910,74 +908,19 @@ onBeforeUnmount(() => {
   color: var(--c-accent);
 }
 
-/* The close: T's stage, once */
+/* The close: the crit video edge to edge */
 .cb {
   border-top: 1px solid var(--rule);
 }
 
-.cb__run {
-  height: calc(var(--view-h) + 70svh);
-}
-
-.cb__stage {
-  position: sticky;
-  top: -16px; /* as .rv__stage */
-  height: var(--view-h);
-  overflow: hidden;
-}
-
-.cb__type {
-  position: absolute;
-  top: 44%;
-  left: 0;
-  margin: 0;
-  font: 700 clamp(130px, 18vw, 260px)/0.9 var(--font-ui);
-  letter-spacing: -0.045em;
-  white-space: nowrap;
-  translate: calc(30% - var(--p, 0) * 110%) -50%;
-  will-change: translate;
-  pointer-events: none;
-}
-
-@supports (animation-timeline: view()) {
-  .cb__run {
-    view-timeline: --cb block;
-    view-timeline-inset: var(--header-h) 0;
-  }
-
-  .cb__type {
-    animation: cb-type linear both;
-    animation-timeline: --cb;
-    animation-range: contain 0% contain 100%;
-  }
-}
-
-@keyframes cb-type {
-  from { translate: 30% -50%; }
-  to { translate: -80% -50%; }
-}
-
 .cb__screen {
-  position: absolute;
-  top: 44%;
-  left: 50%;
-  width: min(62%, calc(var(--view-h) * 0.58 * 16 / 9));
   aspect-ratio: 16 / 9;
-  translate: -50% -50%;
-  border: 1px solid;
-  border-color: var(--edges);
-  border-radius: 10px;
 }
 
 .cb__foot {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  left: 0;
   margin: 0;
   padding: 16px 24px 20px;
   font: 400 15px/1.5 var(--font-ui);
-  background: var(--c-bg);
   border-top: 1px solid var(--rule);
 }
 
@@ -1106,6 +1049,14 @@ onBeforeUnmount(() => {
     grid-auto-rows: calc((100cqi - 1px) / 2 * 0.75);
   }
 
+  .cs__cell--tall {
+    grid-row: auto;
+  }
+
+  .cs__cell--wide-d {
+    grid-column: auto;
+  }
+
   /* Phones: no pin; the three frames stack with their words */
   .rv__intro {
     grid-template-columns: minmax(0, 1fr);
@@ -1210,37 +1161,7 @@ onBeforeUnmount(() => {
     line-height: 1.15;
   }
 
-  .cb__run {
-    height: auto;
-  }
-
-  .cb__stage {
-    position: static;
-    display: grid;
-    height: auto;
-    overflow: clip;
-  }
-
-  .cb__type {
-    position: static;
-    padding: 18px 16px 10px;
-    font-size: 64px;
-    white-space: normal;
-    translate: none;
-    animation: none;
-  }
-
-  .cb__screen {
-    position: relative;
-    top: auto;
-    left: auto;
-    width: auto;
-    margin: 0 16px 16px;
-    translate: none;
-  }
-
   .cb__foot {
-    position: static;
     padding: 14px 16px 16px;
   }
 

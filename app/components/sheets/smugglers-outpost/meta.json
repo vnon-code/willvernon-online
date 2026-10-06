@@ -1,10 +1,10 @@
 {
-  "_about": "PROTOTYPE (overnight run). Smuggler's Outpost's Sheet variants; see .scratch/v1-launch/overnight/TOOLS.md. Ids SA\u2013SC (not A\u2013C: those are shared bodies, TOOLS.md \u00a71).",
-  "default": "SA",
+  "_about": "PROTOTYPE (overnight run). Smuggler's Outpost's Sheet variants; see .scratch/v1-launch/overnight/TOOLS.md. Ids SA–SC (not A–C: those are shared bodies, TOOLS.md §1).",
+  "default": "SE",
   "variants": {
     "SA": {
       "name": "Concept to canyon: diptych, prompt type, build filmstrip, pinned render, fix ledger",
-      "score": 28,
+      "score": 26.5,
       "of": 30
     },
     "SB": {
@@ -15,6 +15,21 @@
     "SC": {
       "name": "Scene breakdown: annotated passes, sticky build log, atmosphere stack, shot list",
       "score": 27,
+      "of": 30
+    },
+    "SA2": {
+      "name": "Concept to canyon, refined: concept/render wipe, prompt type, cropped build filmstrip, pins with their problems, scroll-built shot",
+      "score": 29,
+      "of": 30
+    },
+    "SD": {
+      "name": "X-ray: wireframe loupe over the render, prompt-to-place crops, scroll-driven build reel, two tries, bento outcome",
+      "score": 27,
+      "of": 30
+    },
+    "SE": {
+      "name": "One frame: spec sheet, pinned stage that morphs concept to render with a stage rail, prompt quote, margin snags, shot reel",
+      "score": 29.5,
       "of": 30
     }
   }

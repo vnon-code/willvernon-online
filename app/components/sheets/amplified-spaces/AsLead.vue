@@ -209,7 +209,13 @@ function go(to: string, i: number) {
   .ld__label {
     left: 6px;
     bottom: 6px;
+    max-width: calc(100% - 12px);
     padding: 3px 6px;
+  }
+
+  /* The number on its own line, so a two-word title ("Fading Away") fits the tile */
+  .ld__label b {
+    display: block;
   }
 }
 </style>

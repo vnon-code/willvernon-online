@@ -48,6 +48,10 @@ Toshikura, studios doing case studies for 3D/AV/AI/print work); never re-suggest
 performance are hard requirements (Avoid list: jank, heavy pages). Media lazy-loads; videos play only in view.
 
 ## Copy
+WILL, 2026-10-07 (overrides anything below and any earlier build): minimal and brutalist. Only the interesting
+stuff worth showing, never a full write-up. Cut every beat that isn't interesting; let the work carry the page.
+Run every string through the `no-ai-slop` skill (invoke it with the Skill tool) before you finish. Judges: long or
+padded copy, or AI tells, cost points on c10 and c14.
 Short and plain, in Will's voice from his process books, 1–3 lines per beat, facts only from the sources, every
 string marked PLACEHOLDER (`"_status": "PLACEHOLDER copy, not approved by Will"`). Tom Vernon may be called Will's
 brother. Collaborators are credited as the sources credit them. Work with no write-up: the Sheet opens to the

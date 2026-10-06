@@ -101,3 +101,73 @@ export const SO = {
     after: 'After it: a clearer pull toward 3D, film and dynamic work.',
   },
 }
+
+// ---------------------------------------------------------------------------------------------------------------
+// Round 2 (SA2, SD, SE): the clean Blender renders (Blender\Renders\Dune*.png, no burned-in poster title), the clean
+// AI concept (Images\ConceptGeneration.png) and process-book pages cropped to the image inside the page (pb/cNNN).
+// Each still carries its pixel size so the <img> reserves its box (width/height) and decodes off the main thread.
+export interface SoPic { src: string, w: number, h: number, alt: string, cap?: string }
+const pic = (f: string, w: number, h: number, alt: string, cap?: string): SoPic => ({ src: B + f, w, h, alt, cap })
+const crop = (n: string, w: number, h: number, cap: string): SoPic =>
+  pic(`pb/c${n}.webp`, w, h, `Process book, page ${Number(n)}: ${cap}`, cap)
+
+export const SO2 = {
+  concept: pic('concept-clean.webp', 1216, 832, 'The Stable Diffusion concept: an outpost carved into a canyon wall', 'Stable Diffusion concept'),
+  render: pic('clean-1.webp', 1600, 900, 'The Blender render: the outpost, an ornithopter on the landing pad, a sandstorm behind', 'Blender render'),
+  solid: pic('clean-solid.webp', 1600, 900, 'The same shot in Blender, solid shading', 'Solid'),
+  wire: pic('clean-wire.webp', 1600, 900, 'The same shot in Blender, wireframe', 'Wireframe'),
+  renders: [
+    pic('clean-1.webp', 1600, 900, 'Wide establishing shot of the outpost', 'Wide establishing'),
+    pic('clean-2.webp', 1600, 900, 'Low angle on the ornithopter', 'Low angle, the ornithopter'),
+    pic('clean-3.webp', 1600, 900, 'Tilted shot, the ornithopter landing', 'Tilted, landing and take-off'),
+    pic('clean-4.webp', 1600, 900, 'Pull back, the ornithopter flying away', 'Pull back, flying away'),
+  ],
+  pages: {
+    structure: crop('053', 1400, 634, 'Structure prompts, p.53'),
+    generations: crop('058', 934, 691, 'Generations, p.58'),
+    shortlist: crop('061', 1229, 829, 'The shortlist of four, p.61'),
+    inpaint: crop('063', 1400, 642, 'Inpainting tries, p.63'),
+    pick: crop('064', 1085, 740, 'The selected concept, p.64'),
+    terrain: crop('067', 1254, 803, 'Terrain, p.67'),
+    cliffs: crop('074', 1055, 800, 'Cliffs, p.74'),
+    measure: crop('079', 994, 680, 'Measurements, p.79'),
+    arch: crop('086', 1248, 667, 'The arch, p.86'),
+    assembly: crop('092', 1228, 820, 'Final assembly, p.92'),
+    hdri: crop('093', 1400, 437, 'HDRI options, p.93'),
+    sandstorm: crop('096', 1400, 610, 'Sandstorm, p.96'),
+    dust: crop('100', 1400, 561, 'Volumetric dust, p.100'),
+    camera: crop('102', 1400, 615, 'Camera and depth of field, p.102'),
+  },
+  // Pins on clean-1 (percent of the frame), each with the problem met there (crit slides, pp.85-86, p.93)
+  pins: [
+    { k: 'Sky', v: 'An HDRI behind the haze.', p: 'Good desert HDRIs were hard to find.', x: 50, y: 12 },
+    { k: 'Sandstorm', v: 'Procedural, from a YouTube tutorial.', x: 14, y: 44 },
+    { k: 'Ornithopter', v: 'A sourced model, parked on the landing pad.', x: 27, y: 54 },
+    { k: 'Building', v: 'Arch, windows, roof.', p: 'The arch failed first. Inset plus bevel worked.', x: 60, y: 54 },
+    { k: 'Crates', v: 'Contraband, from the final prompt.', x: 69, y: 58 },
+    { k: 'Cliffs', v: 'Modelled and sculpted, twice, to learn it.', p: 'Object scaling. Measurements taken over the concept in Photoshop.', x: 74, y: 30 },
+    { k: 'Terrain', v: 'Displacement and colour ramps.', p: 'Stretched materials and UVs, slow renders. Depth of field hides the flaws left.', x: 40, y: 82 },
+  ] as { k: string, v: string, p?: string, x: number, y: number }[],
+  inpaint: 'Inpainting a landing pad and dunes into the concept looked disconnected, so I built them in 3D instead.',
+  roadmap: 'An ambitious plan with no clear roadmap. I would move to 3D earlier next time.',
+}
+
+// SD: the final prompt's phrases, each with a crop of the render (and of the concept where the source says what it
+// lacked). Crops are cut from clean-1 and concept-clean (720×540).
+export const SO_PLACE = [
+  { phrase: 'carved directly into the rock face', note: 'In the concept. Rebuilt with sculpted cliffs and an arch.', c: pic('x-rock-c.webp', 720, 540, 'Crop of the concept: the building cut into the rock'), r: pic('x-rock-r.webp', 720, 540, 'Crop of the render: the building in the cliff') },
+  { phrase: 'Crates of contraband', note: 'Modelled into a second building with crates.', r: pic('x-crates-r.webp', 720, 540, 'Crop of the render: yellow crates by the door') },
+  { phrase: 'rust-covered landing pad', note: 'Missing from the concept. Built in 3D, with the ornithopter on it.', c: pic('x-pad-c.webp', 720, 540, 'Crop of the concept: open sand where a landing pad would be'), r: pic('x-pad-r.webp', 720, 540, 'Crop of the render: the ornithopter on the landing pad') },
+  { phrase: 'shifting dunes in background', note: 'Deeper dunes were missing too. Built in 3D, under a sandstorm.', c: pic('x-dunes-c.webp', 720, 540, 'Crop of the concept: a canyon with no dunes'), r: pic('x-dunes-r.webp', 720, 540, 'Crop of the render: sand haze behind the ridge') },
+] as { phrase: string, note: string, c?: SoPic, r: SoPic }[]
+
+// SD: problems crossed off: struck through where the sources say what fixed it, left open where they don't
+export const SO_TRIES = [
+  { a: 'Inpainting a landing pad and dunes into the concept', b: 'Looked disconnected. Dropped for time and built in 3D.' },
+  { a: 'The arch, first try', b: 'Failed. Inset plus bevel worked.' },
+  { a: 'Object scaling', b: 'Measurements taken over the concept in Photoshop.' },
+  { a: 'Stretched materials and UVs', b: 'Depth of field hides the modelling flaws left.' },
+  { a: 'Good desert HDRIs', b: 'Hard to find.', open: true },
+  { a: 'Slow renders and a messy scene', b: '', open: true },
+  { a: 'An ambitious plan with no clear roadmap', b: 'Shifted from AI to 3D. I would move to 3D earlier next time.' },
+] as { a: string, b: string, open?: boolean }[]

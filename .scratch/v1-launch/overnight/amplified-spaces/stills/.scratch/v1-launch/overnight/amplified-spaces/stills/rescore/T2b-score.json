@@ -1,0 +1,104 @@
+{
+  "slug": "amplified-spaces",
+  "variant": "T2b",
+  "resolved": "T2b",
+  "points": {
+    "1": 2,
+    "2": 2,
+    "3": 2,
+    "4": 2,
+    "5": 2,
+    "6": 2,
+    "7": 2,
+    "8": 2,
+    "11": 2,
+    "12": 2,
+    "13": 2,
+    "15m": 1
+  },
+  "machineTotal": 23,
+  "of": 23,
+  "raw": {
+    "slug": "amplified-spaces",
+    "variant": "T2b",
+    "desktop": {
+      "variant": "T2b",
+      "slug": "amplified-spaces",
+      "opened": {
+        "slug": "amplified-spaces",
+        "variant": "T2b"
+      },
+      "mediaMaxStep": 48,
+      "closeMaxStep": 96,
+      "videoRestarted": false,
+      "cardT": 5.011021,
+      "sheetT0": 5.031939,
+      "bodyStartPct": 92,
+      "landingGoneMs": 328,
+      "mediaLandMs": 528,
+      "landingLeftovers": 0,
+      "marginPx": 200,
+      "backdropFilter": [],
+      "overlayAlpha": 0.2,
+      "mediaShare": 0.62,
+      "mediaCount": 33,
+      "closeOffPx": 0,
+      "landingBack": true,
+      "openMs": 616,
+      "closeMs": 422,
+      "slowFrames": 2,
+      "url": "/work/amplified-spaces",
+      "focusIn": true,
+      "focusBack": true,
+      "backCloses": true,
+      "scrollH": 7330
+    },
+    "r2": {
+      "headerDocked": true,
+      "headerInline": true,
+      "edgesMatch": {
+        "border": true,
+        "radius": true,
+        "width": true,
+        "sheet": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        },
+        "panel": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        }
+      },
+      "maxGapPx": 0,
+      "gapAt": "",
+      "blocks": 8
+    },
+    "phone": {
+      "opened": true,
+      "resolved": {
+        "slug": "amplified-spaces",
+        "variant": "T2b"
+      },
+      "hOverflowPx": 0,
+      "minFontPx": 10.5,
+      "scrollH": 5936,
+      "closed": true
+    }
+  },
+  "stills": [
+    "amplified-spaces/stills/.scratch/v1-launch/overnight/amplified-spaces/stills/rescore/T2b-d0.png",
+    "amplified-spaces/stills/.scratch/v1-launch/overnight/amplified-spaces/stills/rescore/T2b-d1.png",
+    "amplified-spaces/stills/.scratch/v1-launch/overnight/amplified-spaces/stills/rescore/T2b-d2.png",
+    "amplified-spaces/stills/.scratch/v1-launch/overnight/amplified-spaces/stills/rescore/T2b-d3.png",
+    "amplified-spaces/stills/.scratch/v1-launch/overnight/amplified-spaces/stills/rescore/T2b-p0.png",
+    "amplified-spaces/stills/.scratch/v1-launch/overnight/amplified-spaces/stills/rescore/T2b-p1.png"
+  ],
+  "errors": {
+    "count": 0,
+    "first": []
+  }
+}
