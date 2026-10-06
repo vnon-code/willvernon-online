@@ -1,0 +1,29 @@
+# Marimekko Exhibition: matrix (overnight run)
+
+Criteria: base matrix `.scratch/v1-launch/project-sheet-matrix.md` (1-14, plus 15). Machine /23 from `score.cjs`; judged 9, 14 and 15 readability.
+
+## Round 1: scores (machine /23 + judged /7)
+
+| Variant | Machine /23 | Eye /7 | Total /30 | Wins |
+|---|---|---|---|---|
+| MkC | 23 | 6.25 | 29.3 | 1 |
+| MkB | 23 | 5.5 | 28.5 | 1 |
+| MkA | 23 | 5.25 | 28.3 | 0 |
+
+## Results log (r1)
+
+- r1 MkC (Rulebook: the A3 visual-system sheet beside a 2x2 of the billboards, then four rules set as huge typewriter numerals, each with four pieces of evidence; a problem/fix ledger with the problem struck through in red, the loop's four beats as a numbered track over its frames and the process page, and a full-bleed triptych of mural, flags and wall): 29.3/30. Inspiration: the reissued NASA Graphics Standards Manual, Experimental Jetset's identity pages, Will's own A3 sheet.
+- r1 MkB (Follow the tape: the mural over the four floor tapes, then four full-width colour rooms, each with its tape drawing down the left edge as the room scrolls into view and the poster, billboard and ticket hung on its wall; book pages pinned to a grey board with problem tags; a green EXIT sign over the wall and flags): 28.5/30. Inspiration: the orange tape in 'Later Came Early' at Fabrica, the Powerhouse Museum's one colour per level, Will's field-trip note, Son Daven.
+- r1 MkA (Colourway: the four A3 posters side by side, a swatch picker for the four designers that switches billboard, floor tape and ticket, the process as a hover list with the book page beside it (inline on phones), a bento of mural, flags, wall and leaflets): 28.3/30. Inspiration: marimekko.com colourway swatches, Pentagram identity case studies, Obys/Rejouice hover lists.
+- Best MkC 29.3/30; gain n/a (first round); stop: continue.
+
+## Judges' notes (r1)
+
+**Judge 1:** MkA uses the shared shell; section devices vary (swatch picker, hover list, bento). Problems: large lime swatch panel; chips and list keys in typewriter, not Host Grotesk; at 1440 the desktop hover viewer is an empty white box (d2) because the viewer has #fff background and its stacked opacity-0 images are loading=lazy (MkA.vue:114, :333); process beat is mostly text rows; 'Field trip' row text starts 'Field trip:' (repeat). Phone layout sound. MkB has the best story (colour as wayfinding: rooms, back office, EXIT) with a different device per beat. Problems: green EXIT bar (#0b7a3e), warm grey board and cream tilted notes break monochrome + red; desktop posters cropped ('arimekk', 'chi Gallery | Opens 05.01.2') by grid-row 1/3 with object-fit:cover (MkB.vue:248-250); 'Field trip:' repeat. MkC is closest to the site (black, red numerals, red strikes); ledger and loop track are good. Problems: four rule rows share one device and rule 4's tiles are padding; ledger on cream; full-bleed wall crops its text ('arimekko', 'urney with'); book-page tiles tiny at 375.
+Next round (push MkB, highest c14, cheap c9/c10 fixes): (1) recolour EXIT to site black with a race-red arrow/rule, or keep green only as a small pictogram in the EXIT image; (2) neutral near-black board (#141414), notes white or transparent with 1px rule, no tilt or shadows, red pin dots the only accent; (3) fix poster crop at MkB.vue:248-250 (object-fit:contain or size billboard/ticket to poster height); (4) room labels and note tags in Host Grotesk, typewriter only for designer names; (5) drop the 'Field trip:' prefix, map 'problem' notes to the story's three problems (low-res patterns, posters redone at A3, logo ideas respecting all four designers); add the missing A3 poster redo; (6) optional: the 22s loop in the EXIT section, playing only in view. MkA: hover viewer needs eager loading or no white background on the is-on image.
+
+**Judge 2:** MkC fix first. All three use the shared shell correctly. MkC changes device on every beat (typewriter rule numerals with evidence, strike-through ledger, numbered loop track, triptych), looks like the work itself, stays monochrome + red; copy matches story.md (16 motifs, 22 s loop, posters redone at A3, Olivetti logotype). Defects: object-fit cover crops the work (rule-1 lime ticket clipped at left, triptych wall cuts logotype to 'arimekko', rule-4 poster tops lost at 375px); rule-3 book thumbnails too small; ledger on cream; orphan 'Brief:' line under the contents bar. MkB: strongest idea but posters cropped through the logotype ('arimekk', 'ikka rimala', 'chi Gallery'); four rooms repeat one device; green EXIT outside palette; rotated paper notes with shadows read skeuomorphic; logotype note wrongly tagged 'problem'; 'Field trip:' repeat. MkA: good swatch picker but reads panel/list/bento; hover preview an empty white box on desktop (lazy-load gap or broken image, needs live check); pills in typewriter on a large lime panel; 'Field trip' twice; plain bento. Unverified: MkA's blank preview judged from the still only.
+Next round (MkC, in order): (1) show the work uncropped (object-fit:contain, or crop only the pattern side) for posters, tickets, wall; (2) rule 3: one legible page (e.g. exhibition-identity at full width) or tap-to-enlarge thumbnails; (3) make rule 2 (one colour per room) the moment: MkB's four floor-tape stills at full width or a tape line across the row; (4) ledger on the site's dark or neutral grey, not cream; (5) remove the orphan 'Brief:' line or fold into one small line in rule 1; (6) highlight the loop-track beat matching the video's current time. Keep the strike-through ledger and giant red numerals.
+
+## Decision for r2 (recorded)
+Judges split: Judge 1 pushes MkB, Judge 2 pushes MkC. MkC leads on total (29.3 vs 28.5) and both lists are cheap fixes; default stays MkC. Judge 1's MkB fixes are worth borrowing (floor-tape stills, EXIT idea) per Judge 2's item 3.

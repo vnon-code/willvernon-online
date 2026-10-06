@@ -1,0 +1,21 @@
+{
+  "_about": "PROTOTYPE (overnight run). Marimekko Exhibition's Sheet variants; see .scratch/v1-launch/overnight/TOOLS.md. Ids MkA–MkC (not A–C: those are shared bodies, TOOLS.md §1).",
+  "default": "MkC",
+  "variants": {
+    "MkA": {
+      "name": "Colourway: the four posters side by side, a designer swatch picker that re-skins billboard, tape and ticket on that designer's ground, the process as a hover index with the book page beside it, a mock-up bento",
+      "score": 28.3,
+      "of": 30
+    },
+    "MkB": {
+      "name": "Follow the tape: the mural over the four floor tapes, four colour-band rooms each led by its tape drawing down the edge, book pages pinned on a board with problem tags, an EXIT sign over the wall and flags",
+      "score": 28.5,
+      "of": 30
+    },
+    "MkC": {
+      "name": "Rulebook: the A3 system sheet beside the four billboards, four rules as huge typewriter numerals with evidence in fours, a struck-through problem/fix ledger, the loop's four beats over its frames, a full-bleed triptych",
+      "score": 29.3,
+      "of": 30
+    }
+  }
+}
