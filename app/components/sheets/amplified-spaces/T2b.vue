@@ -83,7 +83,7 @@ const wipe = computed(() => {
 // a second Blender particles and Particles GPU frame, the second topographic colours). Spans: the two networks and the
 // topographic render two columns wide (the render only above 720px), the GPU particles two rows tall (dense flow packs
 // the 4-column sheet with no holes; on phones the 2-column sheet has no holes either: area 10)
-const SHEET = ['p13-2', 'p16-0', 'p23-1', 'p24-0', 'p27-1', 'p33-0', 'p29-0', 'p31-0']
+const SHEET = ['p13-2', 'p23-1', 'p16-0', 'p24-0', 'p27-1', 'p33-0', 'p29-0', 'p31-0']
 const tiles = computed(() => SHEET.map(k => develop.value?.media.find(m => m.src.includes(`/${k}.`))).filter(Boolean) as NonNullable<typeof develop.value>['media'])
 const span = (src: string) => /p16-0|p31-0/.test(src) ? 'cs__cell--wide' : /p29-0/.test(src) ? 'cs__cell--wide cs__cell--wide-d' : /p23-1/.test(src) ? 'cs__cell--tall' : ''
 
@@ -550,7 +550,7 @@ onBeforeUnmount(() => {
 
 .rv__steps span {
   font: 400 13.5px/1.45 var(--font-ui);
-  color: var(--muted);
+  color: color-mix(in srgb, var(--c-fg) 85%, transparent);
 }
 
 .rv__frame {

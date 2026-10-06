@@ -98,3 +98,14 @@ Both judges pick T2b: short copy, varied beats. T2 loses c10 on padded copy (sta
 The battery-throttled runs earlier (19/23 each) are void. The scorer writes stills to a doubled `.scratch/` path when `--out` is a path, not a label.
 Agreed fixes for T2b: raise inactive B17 tab contrast; unique tile labels (two "Particles GPU", two "Topographic colours"), cut to ~8 tiles; name what broke in "The CRT look for B17 was a struggle." or cut it; phone thumbnail clips "02 FADING".
 Split: the closing big type behind the crit video. Judge (T2b first) says cut it (the repeated device, clipped at the edge); judge (T2 first) says keep it (used once). Will decides.
+
+## T2b fixes from the rescore, 2026-10-07 (r3: machine 23/23, mains power)
+
+Will approved six fixes, all in `T2b.vue` (phone chip CSS also in `AsLead.vue`). Stills `stills/r3/`, grid `T2b-grid.png`.
+1. Cut the giant "Final crit" scroll type and its scroll code (`cb__type`, the `--cb` view-timeline, the sticky stage). The crit video now runs full-bleed under the problems, then the outcome line, then the three rooms.
+2. B17 wipe steps (Network / Visual): inactive opacity 0.3 -> 0.62, step text from `--muted` to `--c-fg` at 85%.
+3. Contact sheet: 12 tiles -> 8, every caption unique, in reading order 01-08 (Blender particles: high, Particles GPU, first TD network, generative tests, topographic colours, mycelium, topographic render, own kick detection). Spans: GPU 2 rows tall, network, render and kick 2 columns wide, no holes at 4 columns; on phones the render and GPU are single cells (2 columns, area 10, no holes).
+4. "The CRT look for B17 was a struggle." -> "The CRT build for B17 was the hardest part: RGB split, hexagon pixels, lens distort, bloom." (the Define wipe's Visual step lists the same effects, so the line repeats it; cut it if that reads as padding).
+5. Phone chip: full title ("Fading Away") with the number on its own line (`.ld__label b` block, max-width 100% - 12px). T2b no longer passes `short`; AsLead's `short` support is now unused. The same phone CSS applies to T2/T3/T1.
+6. Rail: the phase marker now turns on when a phase's heading is in view (view bottom - 80px) instead of at the view's middle, so it agrees with the "03 / 05 Define" caption under the mosaic.
+Scores: runs under load from the parallel workflow read 20-23; criterion 8 (slow frames) is the noisy one. Saved r3 run: 23/23 (open 632ms, close 411ms, 1 slow frame). Judged criteria not rerun.
