@@ -24,3 +24,12 @@ now moves without a visual jump, and it is the strongest moving asset. Poster un
 - Tools: ai.json says ComfyUI / HiDream / Flux.1 Dev (+ Ultrasharp 4x); the old card tag said AntiGravity.
 - Year 2026 from file dates only; "Module: Personal experiment".
 - Whether to say anything about run 3 (all three variants show it as missing).
+
+## Build decisions (r2)
+- Teaser unchanged since r1 (already `ai/coral_rotate.mp4`).
+- The shell's hero is the 10 s clip (`coral_rotate.mp4`, the teaser). Each r2 variant shows the 5 s clip once more at most and
+  never puts the 10 s clip in the body (CD shows six frames of it instead).
+- CE's map positions are a judgement from the run names (story.md's two contrasts), labelled "Placed by eye" on the page.
+- CF's "May 2026" is the file date; "Lot" is framing only (no estimates, no provenance invented).
+- CF uses `content-visibility: auto` on its two lower sections: criterion 8 read 3–4 slow frames without it, 2 with it.
+- New copy checked with no-ai-slop (detect pass: no patterns found). Media: nothing new; all files already in UPLOAD.md.
