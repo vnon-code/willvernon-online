@@ -5,8 +5,9 @@ import type { SheetMediaItem, SheetStory } from '~/types/project'
 // in meta.json). A strip of media meeting the hero edge to edge (an index: each tile jumps to its beat), then T's
 // intro: the hook large beside the metadata rail (brief + credits). The block fades in a beat later than the
 // shell's build (a CSS delay on the outer element; the shell's own [data-build] fade sits on the inner one, so the
-// close still fades it), so the words arrive once the hero has landed. PLACEHOLDER: the strip, the delay.
-defineProps<{ story: SheetStory, items: { m: SheetMediaItem, label: string, to: string }[], count?: string }>()
+// close still fades it), so the words arrive once the hero has landed. An item's optional `short` (T2b) replaces its
+// label on phones, so the chip stays one line. PLACEHOLDER: the strip, the delay.
+defineProps<{ story: SheetStory, items: { m: SheetMediaItem, label: string, to: string, short?: string }[], count?: string }>()
 const emit = defineEmits<{ go: [i: number] }>()
 
 function go(to: string, i: number) {
@@ -24,7 +25,7 @@ function go(to: string, i: number) {
       <nav class="ld__strip" :style="{ '--n': items.length }" aria-label="Jump to">
         <a v-for="(it, i) in items" :key="it.to" class="ld__tile" :href="`#${it.to}`" @click.prevent="go(it.to, i)">
           <SheetPic :m="it.m" />
-          <span class="ld__label"><b>{{ pad(i) }}</b> {{ it.label }}</span>
+          <span class="ld__label"><b>{{ pad(i) }}</b> <template v-if="it.short"><span class="ld__full">{{ it.label }}</span><span class="ld__short">{{ it.short }}</span></template><template v-else>{{ it.label }}</template></span>
         </a>
       </nav>
       <div class="ld__intro">
@@ -110,6 +111,10 @@ function go(to: string, i: number) {
   border-radius: 6px;
 }
 
+.ld__short {
+  display: none;
+}
+
 .ld__label b {
   color: var(--c-accent);
   font-weight: 600;
@@ -190,6 +195,15 @@ function go(to: string, i: number) {
 
   .ld__meta div {
     padding-left: 0;
+  }
+
+  .ld__full {
+    display: none;
+  }
+
+  .ld__short {
+    display: inline;
+    white-space: nowrap;
   }
 
   .ld__label {

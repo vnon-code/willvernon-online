@@ -52,7 +52,6 @@
     {
       "id": "onjuku",
       "title": "Onjuku",
-      "light": "Warm",
       "sound": "Ambient, no kicks. Nothing for a visual to hit on.",
       "visual": "The album art, displaced and slowly turning. Time drives the rotation, not the audio.",
       "room": "The visual wrapped round a sphere above a ring. It ended up looking like a planet.",
@@ -245,7 +244,7 @@
       "title": "B17",
       "subtitle": "Overseas Edit",
       "light": "Blue",
-      "sound": "Lo-fi and dusty.",
+      "sound": "Lo-fi.",
       "visual": "Circles that swell with the volume, inside a CRT: RGB split, hexagon pixels, noise, lens distortion and bloom.",
       "room": "A narrower room with blue light and a brighter screen.",
       "video": {
