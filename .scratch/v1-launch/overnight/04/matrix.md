@@ -30,3 +30,36 @@ Next round (from TC): 1 cap hue near 25-30 deg or use brightness/saturate (TC.vu
 
 **Judge 2 (TB best, TA weakest wow):** TB: survey-map idea comes from the subject (topography); monochrome and red only. Weak: A/B/C key still image-text rows; still grid 10+ tiles feels padded; cinematic proof captured on a near-black frame (d3). Phone stacks cleanly. TC: most interactive; TC.vue:43 hue up to 120 deg breaks the palette; desktop lanes still image-plus-text rows; default lens bubble sits awkwardly at the bottom edge in d0. TA: clean, on-brand, chain strip and ruler nice, but beats conventional (hero, text+network, swatches, full-bleed, ruler); chain stacks into a tall box list on phone.
 Next round (from TB): 1 merge A/B/C key into the map: each network still inside a grid cell keyed A1/B2/C3 with 1-3 line caption; 2 cut tiles from 10+ to about 6, no near-duplicates; 3 bright poster and start offset for the crop-mark cinematic proof; 4 contour rings interactive: hover/tap shows that version's still (Test 2 = the outcome, others "not shown"), draw rings in on scroll; 5 check hero poster paints before video on phone; if TC carried, clamp hue near 30 deg.
+
+## Round 2: machine (scorer, stills `stills/r2/`)
+
+| Variant | Round | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 11 | 12 | 13 | 15m | Machine /23 | Raw |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| TD | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 1 | 23 | media 0.61, 602/420ms, 1 slow (2 runs, both 23) |
+| TE | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 1 | 23 | media 1.03, 603/412ms, 0 slow (2 runs, both 23) |
+| TF | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 1 | 23 | media 0.57, 613/408ms, 0 slow (2 runs, both 23) |
+
+Baseline TB (29.8) unchanged. Judged criteria pending. Last runs came after phone-only CSS fixes; copy edits after that are text only.
+- r2 TD (Survey sheet, keyed): TB with the networks as captioned map squares, six picture tiles, bright cut in crop marks, contour rings that draw in and show each version. Inspiration: Swisstopo/OS sheets, print proofs, elevation-tint maps.
+- r2 TE (Arrangement, tuned): TC with all six judge fixes. Inspiration: Ableton arrangement view, Apple/Lusion loupe reveals.
+- r2 TF (Waveform): frame bars sized by measured loudness, exploded network stack, letterbox cut with timecode, date numerals beside the grey terrain. Inspiration: SoundCloud waveform player, Apple exploded product views / Stripe layered diagrams, cinema letterbox, Swiss poster numerals.
+
+## Round 2: scores (machine /23 + judged /7)
+
+| Variant | Machine /23 | Judged /7 | Total /30 | Wins |
+|---|---|---|---|---|
+| TB (baseline, unchanged) | 23 | 6.75 | 29.8 | 0 |
+| TD | 23 | 0 (no judge scores recorded) | 23 | 0 |
+| TE | 23 | 0 (no judge scores recorded) | 23 | 0 |
+| TF | 23 | 0 (no judge scores recorded) | 23 | 0 |
+
+## Results log (r2)
+
+- r2 TD (Survey sheet, keyed: TB refined, one lettered map grid with the three networks as captioned squares among six picture tiles, legend and cover panel, bright-poster cut in crop marks, contour rings that draw in and show each version): 23/30 (machine only). Inspiration: Swisstopo/OS map sheets, print proofs, elevation-tint maps, Kenta Toshikura's tiled grids.
+- r2 TE (Arrangement, tuned: TC with all six judge fixes, transform-only lens, three DAW lanes under a version ruler, 0-30 deg hue fader beside a still): 23/30 (machine only). Inspiration: Ableton arrangement view, Apple/Lusion loupe reveals.
+- r2 TF (Waveform: 16 frame bars sized by measured loudness, exploded network stack, letterbox cut with timecode, date numerals beside the grey terrain): 23/30 (machine only). Inspiration: SoundCloud waveform player, Apple exploded product views, Stripe layered diagrams, cinema letterbox, Swiss poster numerals.
+- Best TB 29.8/30; gain 0; stop: plateau. TB stays the default Sheet in meta.json.
+
+## Judges' notes (r2)
+
+No judge notes were recorded for round 2 (judged criteria not scored; eye = 0 for TD, TE, TF). The round-2 variants are therefore unranked against TB; TB's 29.8 stands.

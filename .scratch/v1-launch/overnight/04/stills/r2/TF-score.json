@@ -1,0 +1,104 @@
+{
+  "slug": "04",
+  "variant": "TF",
+  "resolved": "TF",
+  "points": {
+    "1": 2,
+    "2": 2,
+    "3": 2,
+    "4": 2,
+    "5": 2,
+    "6": 2,
+    "7": 2,
+    "8": 2,
+    "11": 2,
+    "12": 2,
+    "13": 2,
+    "15m": 1
+  },
+  "machineTotal": 23,
+  "of": 23,
+  "raw": {
+    "slug": "04",
+    "variant": "TF",
+    "desktop": {
+      "variant": "TF",
+      "slug": "04",
+      "opened": {
+        "slug": "04",
+        "variant": "TF"
+      },
+      "mediaMaxStep": 47,
+      "closeMaxStep": 96,
+      "videoRestarted": false,
+      "cardT": 5.129153,
+      "sheetT0": 5.14098,
+      "bodyStartPct": 97,
+      "landingGoneMs": 308,
+      "mediaLandMs": 491,
+      "landingLeftovers": 0,
+      "marginPx": 200,
+      "backdropFilter": [],
+      "overlayAlpha": 0.2,
+      "mediaShare": 0.57,
+      "mediaCount": 27,
+      "closeOffPx": 0,
+      "landingBack": true,
+      "openMs": 599,
+      "closeMs": 414,
+      "slowFrames": 0,
+      "url": "/work/04",
+      "focusIn": true,
+      "focusBack": true,
+      "backCloses": true,
+      "scrollH": 2987
+    },
+    "r2": {
+      "headerDocked": true,
+      "headerInline": true,
+      "edgesMatch": {
+        "border": true,
+        "radius": true,
+        "width": true,
+        "sheet": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        },
+        "panel": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        }
+      },
+      "maxGapPx": 0,
+      "gapAt": "",
+      "blocks": 6
+    },
+    "phone": {
+      "opened": true,
+      "resolved": {
+        "slug": "04",
+        "variant": "TF"
+      },
+      "hOverflowPx": 0,
+      "minFontPx": 10,
+      "scrollH": 3207,
+      "closed": true
+    }
+  },
+  "stills": [
+    "04/stills/r2/TF-d0.png",
+    "04/stills/r2/TF-d1.png",
+    "04/stills/r2/TF-d2.png",
+    "04/stills/r2/TF-d3.png",
+    "04/stills/r2/TF-p0.png",
+    "04/stills/r2/TF-p1.png"
+  ],
+  "errors": {
+    "count": 0,
+    "first": []
+  }
+}

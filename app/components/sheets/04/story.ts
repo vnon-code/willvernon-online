@@ -60,3 +60,12 @@ export const VERSIONS = [
   { d: '13', m: 'Mar', k: 'Static Gens', v: 'A stills spin-off.' },
   { d: '25', m: 'Apr', k: 'Final crit', v: 'Last export.' },
 ]
+
+// Round 2 (TD–TF): additions only, so TA–TC read exactly as scored. PLACEHOLDER copy, not approved by Will.
+// The cut's brightest stretch is ~3.5–5 s (the rest is thin lines on black): its poster is that frame and it starts there.
+export const TRAILER_BRIGHT = { ...TRAILER, src: `${B}trailer-1080.mp4#t=3.4`, poster: `${B}poster-trailer-bright.webp` }
+export const CAP = {
+  audio: 'Two inputs: the track, and a copy with the lows and highs cut in Ableton. The copy makes the beat easier to detect.',
+  colour: 'Volume drives the first colour, so the hue shifts as the track gets louder or quieter.',
+  visual: 'Count and lag CHOPs hold the outputs back in sequence. Each drives a part of the visual through feedback.',
+}

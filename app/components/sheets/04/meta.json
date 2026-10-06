@@ -1,5 +1,5 @@
 {
-  "_about": "PROTOTYPE (overnight run). 04 Topography AV Test's Sheet variants; see .scratch/v1-launch/overnight/TOOLS.md. Ids TA\u2013TC (not A\u2013C: those are shared bodies, TOOLS.md \u00a71).",
+  "_about": "PROTOTYPE (overnight run). 04 Topography AV Test's Sheet variants; see .scratch/v1-launch/overnight/TOOLS.md. Ids TA–TF (not A–C: those are shared bodies, TOOLS.md §1).",
   "default": "TB",
   "variants": {
     "TA": {
@@ -15,6 +15,21 @@
     "TC": {
       "name": "Arrangement: transport-bar slate, DAW lanes with a scroll playhead, x-ray lens over the output, volume-to-hue demo, takes row, cut beside the grey terrain",
       "score": 29,
+      "of": 30
+    },
+    "TD": {
+      "name": "Survey sheet, keyed: TB with the networks as captioned map squares, six picture tiles, a bright cut in crop marks, contour rings that draw in and show each version",
+      "score": 23,
+      "of": 30
+    },
+    "TE": {
+      "name": "Arrangement, tuned: TC with a red-to-orange hue fader beside the colour network, three lanes, phone clips 2-up, a transform-only lens",
+      "score": 23,
+      "of": 30
+    },
+    "TF": {
+      "name": "Waveform: the piece as 16 frame bars sized by its loudness, the network as an exploded stack, the cut in a letterbox with running timecode, date numerals beside the grey terrain",
+      "score": 23,
       "of": 30
     }
   }
