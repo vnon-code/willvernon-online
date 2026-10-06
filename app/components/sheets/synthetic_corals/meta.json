@@ -1,0 +1,21 @@
+{
+  "_about": "PROTOTYPE (overnight run). Synthetic Corals' Sheet variants; see .scratch/v1-launch/overnight/TOOLS.md. Ids CA–CC (not A–C: those are shared bodies, TOOLS.md §1).",
+  "default": "CA",
+  "variants": {
+    "CA": {
+      "name": "Plate: four runs round the short clip on one black plate with a legend (run 3 an empty line), settings as a node canvas, the long clip on white with label cards",
+      "score": 29,
+      "of": 30
+    },
+    "CB": {
+      "name": "Re-roll: one frame you run again through the runs, the settings as a printed ticket, a lights switch from bleached to glowing",
+      "score": 29,
+      "of": 30
+    },
+    "CC": {
+      "name": "Spectrum: a run bento, each run as a colour-share bar, a drag turntable of the clip, the prompt as tagged tokens",
+      "score": 28,
+      "of": 30
+    }
+  }
+}

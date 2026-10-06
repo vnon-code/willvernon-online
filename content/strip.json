@@ -10,7 +10,7 @@
     { "from": "ai", "id": "dredge", "chip": "Experiment", "discipline": "AI", "poster": "/img/posters/ai-dredge-preview-1.webp", "teaser": "https://assets.willvernon.online/ai/Dredge_preview_1.mp4" },
     { "from": "projects", "id": "remnants", "chip": "Project", "discipline": "Design", "poster": "/img/posters/assets-remnants-outcome-1.webp", "teaser": "https://assets.willvernon.online/projects/03_remnants/assets/Remnants%20Outcome_1.mp4" },
     { "from": "projects", "id": "handheld-stories", "chip": "Project", "discipline": "Design", "poster": "/img/posters/assets-vernon-handheldstories-gdes6004.webp", "teaser": "https://assets.willvernon.online/projects/02_handheld-stories/assets/Vernon_HandheldStories_GDES6004.mp4" },
-    { "from": "ai", "id": "synthetic_corals", "chip": "Experiment", "discipline": "AI", "poster": "/img/posters/ai-coral-rotate.webp", "teaser": null },
+    { "from": "ai", "id": "synthetic_corals", "chip": "Experiment", "discipline": "AI", "poster": "/img/posters/ai-coral-rotate.webp", "teaser": "https://assets.willvernon.online/ai/coral_rotate.mp4" },
     { "from": "projects", "id": "marimekko-exhibition", "chip": "Project", "discipline": "Design", "poster": "/img/posters/assets-vernon-gdes50014-animation-1.webp", "teaser": "https://assets.willvernon.online/projects/05_marimekko-exhibition/assets/Vernon_GDES50014_animation_1.mp4" },
     { "from": "projects", "id": "powersurge", "chip": "Project", "discipline": "Design", "poster": "/img/powersurge/PowerSurgeSS.png", "teaser": "/img/powersurge/powersurgegif.gif" }
   ]
