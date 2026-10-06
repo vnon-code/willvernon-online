@@ -1,0 +1,21 @@
+{
+  "_about": "PROTOTYPE (overnight run). Smuggler's Outpost's Sheet variants; see .scratch/v1-launch/overnight/TOOLS.md. Ids SA\u2013SC (not A\u2013C: those are shared bodies, TOOLS.md \u00a71).",
+  "default": "SA",
+  "variants": {
+    "SA": {
+      "name": "Concept to canyon: diptych, prompt type, build filmstrip, pinned render, fix ledger",
+      "score": 28,
+      "of": 30
+    },
+    "SB": {
+      "name": "Process book: cinemascope viewport, contents, spreads, model table, footnotes",
+      "score": 28,
+      "of": 30
+    },
+    "SC": {
+      "name": "Scene breakdown: annotated passes, sticky build log, atmosphere stack, shot list",
+      "score": 27,
+      "of": 30
+    }
+  }
+}

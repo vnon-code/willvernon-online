@@ -1,0 +1,104 @@
+{
+  "slug": "smugglers-outpost",
+  "variant": "SA",
+  "resolved": "SA",
+  "points": {
+    "1": 2,
+    "2": 2,
+    "3": 2,
+    "4": 2,
+    "5": 2,
+    "6": 2,
+    "7": 2,
+    "8": 2,
+    "11": 2,
+    "12": 2,
+    "13": 2,
+    "15m": 1
+  },
+  "machineTotal": 23,
+  "of": 23,
+  "raw": {
+    "slug": "smugglers-outpost",
+    "variant": "SA",
+    "desktop": {
+      "variant": "SA",
+      "slug": "smugglers-outpost",
+      "opened": {
+        "slug": "smugglers-outpost",
+        "variant": "SA"
+      },
+      "mediaMaxStep": 52,
+      "closeMaxStep": 96,
+      "videoRestarted": false,
+      "cardT": 0.164317,
+      "sheetT0": 0.186232,
+      "bodyStartPct": 92,
+      "landingGoneMs": 322,
+      "mediaLandMs": 522,
+      "landingLeftovers": 0,
+      "marginPx": 200,
+      "backdropFilter": [],
+      "overlayAlpha": 0.2,
+      "mediaShare": 0.65,
+      "mediaCount": 19,
+      "closeOffPx": 0,
+      "landingBack": true,
+      "openMs": 615,
+      "closeMs": 421,
+      "slowFrames": 2,
+      "url": "/work/smugglers-outpost",
+      "focusIn": true,
+      "focusBack": true,
+      "backCloses": true,
+      "scrollH": 5421
+    },
+    "r2": {
+      "headerDocked": true,
+      "headerInline": true,
+      "edgesMatch": {
+        "border": true,
+        "radius": true,
+        "width": true,
+        "sheet": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        },
+        "panel": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        }
+      },
+      "maxGapPx": 0,
+      "gapAt": "",
+      "blocks": 8
+    },
+    "phone": {
+      "opened": true,
+      "resolved": {
+        "slug": "smugglers-outpost",
+        "variant": "SA"
+      },
+      "hOverflowPx": 0,
+      "minFontPx": 11,
+      "scrollH": 5057,
+      "closed": true
+    }
+  },
+  "stills": [
+    "smugglers-outpost/stills/r1b/SA-d0.png",
+    "smugglers-outpost/stills/r1b/SA-d1.png",
+    "smugglers-outpost/stills/r1b/SA-d2.png",
+    "smugglers-outpost/stills/r1b/SA-d3.png",
+    "smugglers-outpost/stills/r1b/SA-p0.png",
+    "smugglers-outpost/stills/r1b/SA-p1.png"
+  ],
+  "errors": {
+    "count": 0,
+    "first": []
+  }
+}
