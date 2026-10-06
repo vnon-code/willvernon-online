@@ -38,6 +38,9 @@ export interface SheetStory {
   tracks: StoryTrack[]
   process: StoryPhase[]
   outcome?: { text: string, media: SheetMediaItem[] } | null
+  brief?: { k: string, v: string }[] // overnight run: the brief, as label / value lines
+  problems?: string[] // overnight run: problems met, from the process book
+  context?: string[] // overnight run: the work looked at first
 }
 
 // A strip card's text, looked up from content/*.json at prerender. `long`, `process`, `outcome` and `gallery` feed

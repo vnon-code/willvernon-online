@@ -1,11 +1,46 @@
 {
   "_about": "PROTOTYPE (overnight run; .scratch/v1-launch/overnight/TOOLS.md). Amplified Spaces' Sheet variants: ids name a .vue in this folder or a shared body (app/components/Sheet<Id>.vue). Scores: round 2 was /28 (criteria 1-14); tonight's are /30 (criterion 15 added).",
-  "default": "T",
+  "default": "T2",
   "variants": {
-    "T": { "name": "Type stage (Will's round-2 favourite)", "score": 27, "of": 28 },
-    "R": { "name": "Rooms", "score": 27, "of": 28 },
-    "S": { "name": "Signal chain", "score": 27, "of": 28 },
-    "U": { "name": "Double diamond", "score": 25, "of": 28 },
-    "A": { "name": "Hero column", "score": 24, "of": 28 }
+    "T": {
+      "name": "Type stage (Will's round-2 favourite)",
+      "score": 27,
+      "of": 30
+    },
+    "R": {
+      "name": "Rooms",
+      "score": 27,
+      "of": 28
+    },
+    "S": {
+      "name": "Signal chain",
+      "score": 27,
+      "of": 28
+    },
+    "U": {
+      "name": "Double diamond",
+      "score": 25,
+      "of": 28
+    },
+    "A": {
+      "name": "Hero column",
+      "score": 24,
+      "of": 28
+    },
+    "T1": {
+      "name": "T polished: stage and swap",
+      "score": 29.5,
+      "of": 30
+    },
+    "T2": {
+      "name": "T polished: track switcher",
+      "score": 30,
+      "of": 30
+    },
+    "T3": {
+      "name": "T polished: double-diamond chapters",
+      "score": 28.5,
+      "of": 30
+    }
   }
 }

@@ -23,6 +23,26 @@
       "v": "TouchDesigner, Blender"
     }
   ],
+  "brief": [
+    {
+      "k": "Working title",
+      "v": "Soundscapes in Motion: a visual exploration of music"
+    },
+    {
+      "k": "Question",
+      "v": "How can a visual carry a track's mood and atmosphere?"
+    },
+    {
+      "k": "Client",
+      "v": "A real artist: Tom Vernon. We picked the tracks together."
+    }
+  ],
+  "context": [
+    "klsr.av",
+    "Portable Reef",
+    "Odyssey, an AV show set in a virtual space",
+    "Shreyas Jayaraman's virtual gallery"
+  ],
   "stats": [
     "3 tracks",
     "3 rooms",
@@ -509,6 +529,14 @@
         }
       ]
     }
+  ],
+  "problems": [
+    "The first test track was too energetic to learn on.",
+    "TouchDesigner's built-in beat detection missed kicks, so I built my own.",
+    "I didn’t fully understand the topographic setup I used.",
+    "The free TouchDesigner licence caps output at 1280×1280.",
+    "The CRT look for B17 was a struggle to build.",
+    "Mirror and text overlays were cut: too generic."
   ],
   "outcome": {
     "text": "Per track: a splash and four renders. B17 got a final video for the crit.",
