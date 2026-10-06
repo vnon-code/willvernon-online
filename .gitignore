@@ -37,4 +37,6 @@ references/shots/
 
 # Trial / personal-use fonts (licence forbids redistribution)
 references/trial-fonts/
-.scratch/
+# Scratch work stays local, except the v1-launch map and tickets (synced across devices, Will 2026-10-06)
+.scratch/*
+!.scratch/v1-launch/
