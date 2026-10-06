@@ -1,6 +1,6 @@
 {
   "_about": "PROTOTYPE (overnight run; .scratch/v1-launch/overnight/TOOLS.md). Amplified Spaces' Sheet variants: ids name a .vue in this folder or a shared body (app/components/Sheet<Id>.vue). Scores: round 2 was /28 (criteria 1-14); tonight's are /30 (criterion 15 added).",
-  "default": "T1",
+  "default": "T4",
   "variants": {
     "T": {
       "name": "Type stage (Will's round-2 favourite)",
@@ -45,6 +45,21 @@
     "T2b": {
       "name": "T2 polished: closing beat, phase marker, varied contact sheet",
       "score": 29.5,
+      "of": 30
+    },
+    "T4": {
+      "name": "T1 refined: shared head, Discover, filled stage with slider, crit-video close",
+      "score": 29.3,
+      "of": 30
+    },
+    "T5": {
+      "name": "Deck and matrix: stacked experiment cards, signal matrix, rooms carousel",
+      "score": 26.5,
+      "of": 30
+    },
+    "T6": {
+      "name": "T2b raised: image-led contact sheet, room-first switcher, Final crit type close",
+      "score": 27.8,
       "of": 30
     }
   }

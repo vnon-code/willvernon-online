@@ -30,3 +30,24 @@ Kept: `B17AV2_1.mp4` (the final crit video, poster `video-trailers-b17av2-1.webp
 - Tom Vernon is credited as "Tom Vernon, house producer" (as before); not called your brother anywhere yet.
 - Album-art mapping (p36-1 Onjuku, p36-2 Fading Away) is still a guess.
 - Upload list: `public/proto-media/amplified-spaces/UPLOAD.md`.
+
+## Round 2 build (2026-10-07): T4 (T1 refined), T5, T6 (challengers). Baseline T1 (29/30) unchanged.
+Files: `app/components/sheets/amplified-spaces/{T4,T5,T6}.vue`, the slider part `AsCompare.vue` (not a variant).
+All three use the shared SheetHead / SheetContents / SheetSectionNo (01–05: Discover, Develop, Define, Three rooms or
+Deliver, Problems); info = Year 2024, Module GDES5006 Integrated Projects 2, Client, Role, Tools from the story credits.
+Copy is per variant (a COPY const, `_status` PLACEHOLDER), run through no-ai-slop; the licence cap and the beat fix
+appear once, in Problems.
+
+| Id | Layout | Machine /23 (r2) |
+|---|---|---|
+| T4 | rooms strip (cropped to the lit room; phone: 3:4 tiles, label under) → Discover: Tom + the question → Develop: two-row film strip filling the pinned view, 2-line copy → Define: two lines of big type over the Blender hand-off → one pinned stage filling the view, Fading Away's turn swaps the inset video for the visual/room slider → counted problems → B17 crit video last | 23 (slow 2) |
+| T5 | visuals strip crossfading to the room on hover → Discover: the question huge over Tom + album art → Develop: a deck of sticky cards that stack → Define: a signal matrix (In / Visual / Room per track) → Deliver: rooms in a native scroll-snap carousel, visual inset → counted problems → B17 crit video last | 23 (slow 2) |
+| T6 | T2b + judge 2: contact sheet of 7 stills (networks out; the kick network sits with its problem), Deliver opens on room + inset visual with a Compare toggle, taller phone tiles with labels under, close = "Final crit" crossing once behind the pinned crit video | 23 (slow 2) |
+
+Decisions: T4 picks Fading Away for the slider (its visual frame and room are both 16:9). T1's 230px void came from a
+centred stage shorter than the view; T4's stage is a 3-row grid (count / room / name) filling the view. The single-row
+film strip with cells at full height panned ~10px per scroll px, so it became two rows. T6 keeps T3's crossing type
+although one rescore judge wanted it cut (split vote; Will decides).
+
+## Teaser (round 2)
+Kept `B17AV2_1.mp4`. old -> new: none. The pulled media are stills; the crit video is still the only moving outcome.

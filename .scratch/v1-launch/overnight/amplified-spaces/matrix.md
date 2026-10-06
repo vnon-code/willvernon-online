@@ -135,3 +135,45 @@ Next round (T1): 1 swap AsLead for shared SheetHead (as T2b.vue), room-strip in 
 
 **Judge 2 (T2 best):** T2 strongest storytelling, different device per beat, most media-led; loses c9 for non-shared AsLead info and no SheetContents. T1: pinned film strip and stage impressive; same AsLead issue; phone hero index tiles hidden behind labels. T3: best story structure, but own rail and phase marker (TOOLS.md forbids), '04 DELIVER' without '/ 05', 240px rail shrinks media, near-black Develop tiles, licence cap repeated. T: closest to shared head, but repeats one sequence per track, process strip last, phone type clipped.
 Next round (T2): 1 move onto shared SheetHead/SheetContents/SheetSectionNo (T2b.vue already does; check it carries all T2's beats); 2 trim contact sheet to 8 tiles, network screenshots half-height or into the B17 wipe; 3 room-with-inset-visual from T1 as default tab; 4 close with T3's huge type behind B17 crit video once; 5 phone: taller hero index tiles or labels under thumbnails; 6 licence cap and beat-detection fix once, in Problems only; 1-3 lines per beat, rerun no-ai-slop.
+
+## Round 2 (overnight 2026-10-07): build. Baseline T1 29/30 (unchanged)
+
+Stills `stills/r2/`. Machine scores only; judged 9, 14, 15-readability pending the reviewer.
+
+| Variant | Machine /23 | Raw |
+|---|---|---|
+| T4 (T1 refined) | 23 | open 670 / close 431ms, slow 2, phone overflow 0, min font 10.5 |
+| T5 (deck and matrix) | 23 | open 660 / close 416ms, slow 2, overflow 0, min font 10.5 |
+| T6 (T2b raised) | 23 | open 664 / close 424ms, slow 2, overflow 0, min font 10.5 |
+
+### Results log
+- r2 T4: T1 with all seven judge-1 changes (shared head, Discover beat, Develop 2 lines + two-row strip filling the pin, stage fills the view, cropped hero rooms, crit video last, Fading Away slider on the stage).
+- r2 T5: new devices per beat: hover-crossfade index, stacked sticky deck, signal matrix, scroll-snap rooms carousel. Inspiration: Awwwards stacked-card case studies, signal-flow diagrams, Lusion/Rejouice carousels.
+- r2 T6: T2b plus judge 2's list (image-led contact sheet, room-first switcher, T3's crossing type once at the close, phone tiles, facts said once).
+
+## Round 2 (final scores): machine /23 + eye /7
+
+Best T4 29.3/30. Gain over baseline 0.3. Stop: plateau. T4 is now the default in meta.json.
+
+| Variant | Machine /23 | Eye /7 | Total /30 | Wins |
+|---|---|---|---|---|
+| T4 | 23 | 6.25 | 29.3 | 2 |
+| T6 | 21 | 6.75 | 27.8 | 3 |
+| T5 | 21 | 5.5 | 26.5 | 1 |
+| T1 (baseline) | 22 | 3 | 25 | 0 |
+
+### Results log
+- r2 T4 (T1 refined): 29.3/30. Shared SheetHead with the cropped rooms strip, Discover beside the question, 2-line Develop plus two-row strip filling the pin, Define as big type over the Blender hand-off, one pinned stage per track with Fading Away's slider, counted problems, ends on the B17 crit video. Inspiration: Kenta Toshikura, Apple-style scrollytelling, Lusion/Obys film strips.
+- r2 T6 (T2b raised): 27.8/30. 4x3 gapless contact sheet, B17 network/visual/room wipe, room-first tabs plus Compare toggle, problems grid, 'Final crit' crossing type at the close. Inspiration: Obys/Rejouice case studies, T3's type stage.
+- r2 T5 (deck and matrix): 26.5/30. Hover-crossfade strip, sticky card deck, signal matrix, scroll-snap rooms carousel. Inspiration: Awwwards stacked cards, signal-flow diagrams, Lusion/Rejouice carousels.
+- r2 T1 (baseline): 25/30.
+
+### Judges' notes
+
+**Judge 1 (T4 best, 29.5):** T1 breaks the shared head, long Develop copy, ~170px dead band above the pinned stage. T4 uses the shared head, short accurate copy, and the two-row strip fills the pin (best beat of the round); loses 0.5 on c14: ~200px black band inside the stage (d2, d3), track name shown twice, empty space above 'TRACK 01', orphaned 'A fourth track... dropped' line. T5: carousel strong, but the Develop deck is one image then one caption repeated, empty right columns with giant red numerals, near-black cards. T6: most varied beats, leanest copy; loses 0.5 on c10 (crossing 'Final crit' clips, the device Will called repetitive), empty cells under problems 02-04, ~170px dead band before the crit video, near-black room at the end of the wipe.
+Next round (T4 to 30): 1 room render fills the stage (object-fit cover or match aspect); 2 track name once, top-align right column; 3 cut or fold the orphaned 'fourth track' line; 4 B17 shows the network/visual/room wipe in the stage; 5 closing video fills its band, no crossing type; rescore on mains power (criterion 8 noisy).
+
+**Judge 2 (T6 best presented, 'fix T6 first'):** T6 uses the shared head, short accurate copy, a different device per beat; weak: ~170px empty above the crit video (d3), 'crit' clipped, B17 room ~60% near-black, phone tiles good. T5: Develop deck is the same unit seven times with a mostly empty 200px side column, big red numerals push red past accent, carousel good, phone numbering differs from desktop. T4: strong strip and big Develop type, but the stage still has ~200px black at top, empty right column above 'Track 01', same stage+field rows+thumbnail grid per track, two tiles labelled 'PARTICLES GPU', phone kick-detection tile cut at the left edge. T1: old lead head, 5-line Develop, ~230px dead space above the stage, hidden phone hero tiles.
+Next round (T6): machine timing fails (open 771ms, 4 slow frames): lazy-load 25 media elements, start hero videos after the grow; remove the ~170px band before the crit video and show the full 'Final crit' word; fill the B17 tab frame and show the inset by default; tighten the '04 Blender particles: low' cell; leave copy, head and devices unchanged.
+
+Plateau: gain 0.3 over baseline, stop.
