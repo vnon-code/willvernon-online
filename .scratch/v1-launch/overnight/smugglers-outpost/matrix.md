@@ -125,3 +125,55 @@ Best SE 29.5 (gain +1.5 over r1's 28). Stop: continue.
 
 ### Fallback for SA2 (if SE regresses)
 Borrow prompt-to-place (4 numbered phrases matching pins); fill filmstrip cells (cover); hero to ~55vh; trim copy; crop scrub to subject, end on full-colour render; non-breaking hyphen in "mega-structure".
+
+## Round 3 build (2026-10-07): SE kept as baseline (29.5), unchanged
+Machine scores (frozen scorer, run one after another, stills in `stills/r3/`). Judged 9, 14, 15-readability pending.
+
+| Variant | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 11 | 12 | 13 | 15m | Machine /23 | Raw |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| SE2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 1 | 23 | 2 slow frames, 602/429ms (2 runs, both 23) |
+| SA3 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 1 | 23 | 2 slow, 648/412ms, media 0.84 |
+| SF | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 2 | 1 | 23 | 2 slow, 647/421ms; try 1 scored 22 (c5 media 0.47), split frame moved into the lead: 1.03 |
+
+- SE2: SE plus all six "Next-round changes for SE" above.
+- SA3: SA2 plus the fallback list, except the hero height: the shell owns the hero (BRIEF), so the wipe became a 21:9 band instead.
+- SF (new): split-pass frame + prompt headline with inline render crops → scroll-panned horizontal build track (swipe rail on phones) → 2×2 shots and slate.
+
+## Round 3 scores (judged, final)
+
+Baseline SE kept unchanged. Machine /23 from the frozen scorer; Eye /7 is the mean of the judges' reads.
+
+| Variant | Layout | Machine /23 | Eye /7 | Total /30 | Judge wins |
+|---|---|---|---|---|---|
+| SF | New. Lead is one frame split in 3 bands (solid / wireframe / render); final prompt as headline with a render crop inline after each phrase; build is a horizontal track panned by scroll, red progress bar and red snags (phones: swipe rail); outcome is a 2x2 of four shots plus the slate. Inspiration: Obys Agency scroll carousel (keeper), Awwwards Creative Pass horizontal scroll (Oscar Bravo, Tim Dunk), inline-image headlines, VFX split-pass frames | 23 | 6.75 | 29.8 | 3 |
+| SE2 | SE refined: spec-sheet lead, pinned one-frame morph (opacity only); 1:1 phone stage with per-frame object-position; Air is a full-bleed dust crop; 4 red-underlined pull-quote phrases with stage numbers scroll the stage; outcome opens on pull-back; one-clause snags. Inspiration: Apple scroll-scrubbed pages, Figure Film, Archi Malin, SD prompt-to-place | 23 | 6.5 | 29.5 | 1 |
+| SA3 | SA2 refined: 21:9 concept/render wipe; prompt lit word by word, 4 numbered underlined phrases linked to pins; full-cell crops; 8th legend cell removed; trimmed copy; closing build-up from one camera. Inspiration: BlenderNation sliders, OKTO/NIKI word-lit type, Apple scroll sequences | 23 | 6.25 | 29.3 | 0 |
+| SE | baseline | 23 | 5.75 | 28.8 | 0 |
+
+Best: SF 29.8 (gain +0.3 over SE2's 29.5 in r2). Stop: plateau. SF is the default Sheet.
+
+### Results log
+
+| Variant | Try | Score | Kept | Why |
+|---|---|---|---|---|
+| SF | final | 29.8 | kept, default | lean copy, red only on snags and progress; four distinct devices; loses on dead black spacers, empty Solid band, near-identical 2x2 renders |
+| SE2 | final | 29.5 | kept | fixes SE; still one pinned stage carrying the middle; crates/pad links land on the wrong frame |
+| SA3 | final | 29.3 | kept | most varied but heaviest copy; four numbering systems; one claim not in the sources |
+| SE | final | 28.8 | kept | baseline, superseded by SE2 |
+
+### Judges' notes
+
+**Judge 1 (SF > SE2 > SA3 > SE; fix SF first):** SE: one device carries every beat; Air frame letterboxed; padded model list; phone gap above the strip. SE2: real fix on SE; still mostly one stage; "Crates of contraband" and "landing pad" both map to stage 05 (Wireframe) though crates came with the second building; phone ornithopter clipped left. SA3: most varied but copy-heavy for minimal/brutalist; four numbering systems; phone PROBLEM line above title; "so I built them in 3D instead" is not in the sources (story p.63: dropped for time); about 150px dead black in the build frame. SF: lean copy, red kept to snags, bar and the struck-through Lore Keeper's Vault; all devices different. Weak: dead spacers 150-200px around the pinned track, mostly empty grey Solid third, four near-identical renders in the 2x2, phone title twice and inline thumbs about 45px.
+
+**Judge 2 (SF > SA3 > SE2 > SE; SF 6.5 judged):** SF: most impressive and least repetitive; monochrome plus red, Host Grotesk, no blur, one line per card true to story.md. Loses c9 half: 01 SOLID band empty grey at fold (d0), about 150px dead black above the track and between track and grid (d1, d3), prompt-grid crops keep white gutters. Phone readable, rail peeks correctly. SA3: reads as the site, word-lit prompt strong, but piles up devices; heaviest copy; numbering clashes; wipe pairs concept and render that do not line up; scrub stage flat grey under an empty black band. SE2: clear fix of SE; one device carries the middle; SE2.vue:40-41 sends both phrases to Wireframe, whose caption does not show them; phone black bands. SE: baseline, letterboxed Air stage, run-on nine-model caption, small phone stage; SE2 supersedes it.
+
+### Next-round changes for SF (not built; run stopped on plateau)
+1. Remove dead black spacers around the pinned track (about 150px above "01 PROMPT TO PIXELS", 200px above and 140px below the track, 140px before the outcome grid): size the pin to the track or centre the heading inside the pinned viewport.
+2. Lead bands (SF.vue ~line 419, .bd__img--0): per-band object-position so Solid shows the ornithopter, or shrink the hero so all three bands fit the 900px fold.
+3. Prompt-grid crops: crop past the white gutters or set on black.
+4. Outcome: lead with the 10s film large (sound toggle) and one hero render plus three tight crops; phones use the same swipe rail.
+5. Phones: drop the duplicate "SMUGGLER'S OUTPOST", shorten meta to "GDES6001, 3rd year, Jan-Apr 2025", inline thumbs at least 1.2x cap height or a row under the prompt; add a step counter or progress bar to the rail.
+6. Track: each card's snag text fully in view at rest ("The arch failed u..." is clipped at right in d2).
+7. Facts: "Object scaling" is a general crit-slide problem; move it to the Camera/renders card or word it generally.
+8. Optional: inline thumbs scroll the track to their card (SE2's underline-to-frame link).
+9. If SE2 stays as fallback: link "Crates of contraband" and "rust-covered landing pad" to the assembly frame, not Wireframe (SE2.vue:40-41).

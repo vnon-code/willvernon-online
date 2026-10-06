@@ -38,3 +38,13 @@ to render) is a process beat, so it lives inside the Sheet instead (SA outcome, 
 - Shared shell: on phones the floating ✕ covers body copy as it scrolls past. Bodies here pad their text columns
   (52px right) as a stopgap; a shell-level top-right safe area would fix it for every Sheet.
 - SD's crop pairs (which part of the concept and render stands for each prompt phrase) are placed by eye.
+
+## Round 3 (2026-10-07)
+- Teaser kept (old = new, R2 `VIDSmugglersOutpost_1.mp4`): still the strongest piece; the viewport build lives in the Sheets.
+- New media (gitignored, in UPLOAD.md): `vp-solid/vp-wire.webp` (clean passes cropped to the subject), `vp-render.webp`
+  (frame 4.5s of viewport-build.mp4, same camera and crop, so solid > wireframe > render lands in one frame),
+  `x-dust.webp` (dust render cut from p.100; Blender's 3D-cursor dot filled in, it is viewport UI, not the render).
+- SA3 can't shorten the hero: the shell owns it. The wipe is a 21:9 band so it shows sooner.
+- SE2's quote phrases scroll the Sheet to the stage's slot on the pinned run (computed from the view-timeline range).
+- Copy run through no-ai-slop; all PLACEHOLDER.
+- Seen in devserver.log, not from these variants: amplified-spaces T2b throws "reading 'title'" in SheetShell during SSR.
