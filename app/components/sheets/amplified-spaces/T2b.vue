@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { SheetOpen } from '~/types/project'
 import SheetShell from '~/components/SheetShell.vue'
+import SheetCredits from '../_shared/SheetCredits.vue'
 import SheetHead from '../_shared/SheetHead.vue'
 import SheetSectionNo from '../_shared/SheetSectionNo.vue'
 import { goToSection, useSheetSections } from '../_shared/useSheetSections'
@@ -328,6 +329,7 @@ onBeforeUnmount(() => {
       </div>
     </section>
 
+    <SheetCredits :items="story.credits" />
   </SheetShell>
 </template>
 

@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import type { SheetOpen } from '~/types/project'
 import SheetShell from '~/components/SheetShell.vue'
-import MoCredits from './MoCredits.vue'
+import SheetCredits from '../_shared/SheetCredits.vue'
+import SheetHead from '../_shared/SheetHead.vue'
+import SheetSectionNo from '../_shared/SheetSectionNo.vue'
+import { useSheetSections } from '../_shared/useSheetSections'
 import { B, CLIPS, FIGURE, FILM, MO, NIGHT, TRAILER, WORLD } from './story'
 import { useOpenPlay } from './useOpenPlay'
 
@@ -21,6 +24,18 @@ defineExpose({ close: () => shell.value?.close() })
 useOpenPlay(root)
 void props
 
+// 2026-10-07: the title, info, contents, numbering and credits are the shared ones (sheets/_shared, TOOLS.md)
+const { sec } = useSheetSections('mb', [
+  { id: 'figure', label: 'Turnaround' },
+  { id: 'night', label: 'One night' },
+  { id: 'world', label: 'The world' },
+])
+const info = {
+  year: MO.year,
+  role: MO.credits[0]?.k,
+  tools: MO.specs.find(x => x.k === 'Tools')?.v,
+}
+
 const cuts = [FILM, TRAILER]
 const thumbs = [
   { pic: WORLD.concrete },
@@ -35,51 +50,35 @@ const ticker = [WORLD.spires, WORLD.gateway, WORLD.storm, WORLD.pillar, WORLD.st
 <template>
   <SheetShell ref="shell" :sheet="sheet" @close="$emit('close')">
     <div ref="root" class="mb">
-      <!-- Outcome: the film and the trailer side by side, the slate under them -->
-      <section class="cu" data-sheet-body data-sheet-block="outcome" aria-label="Outcome">
-        <div data-build>
-        <div class="cu__pair">
-          <figure v-for="c in cuts" :key="c.src" class="cu__cut">
-            <video
-              :src="c.src"
-              :poster="c.poster"
-              :width="c.w"
-              :height="c.h"
-              muted
-              loop
-              playsinline
-              preload="none"
-              data-play
-              :aria-label="`Monolith Survival, ${c.label}`"
-            />
-            <figcaption>{{ c.label }}</figcaption>
-          </figure>
-        </div>
-        <div class="cu__slate">
-          <h2 class="cu__title">
-            {{ MO.title }}<span>{{ MO.year }}</span>
-          </h2>
-          <p class="mb__text cu__line">
-            {{ MO.line }}
-          </p>
-          <dl class="cu__specs">
-            <div v-for="s in MO.specs" :key="s.k">
-              <dt>{{ s.k }}</dt>
-              <dd>{{ s.v }}</dd>
-            </div>
-          </dl>
-        </div>
-        </div>
-      </section>
+      <!-- Lead: the film and the trailer side by side, then the shared title, info and contents -->
+      <SheetHead :title="MO.title" :hook="MO.line" :info="info">
+        <template #before>
+          <div class="cu__pair">
+            <figure v-for="c in cuts" :key="c.src" class="cu__cut">
+              <video
+                :src="c.src"
+                :poster="c.poster"
+                :width="c.w"
+                :height="c.h"
+                muted
+                loop
+                playsinline
+                preload="none"
+                data-play
+                :aria-label="`Monolith Survival, ${c.label}`"
+              />
+              <figcaption>{{ c.label }}</figcaption>
+            </figure>
+          </div>
+        </template>
+      </SheetHead>
 
       <!-- 01 Turnaround: a pinned flipbook, one portrait per stretch of scroll -->
-      <section class="ta" data-sheet-block="figure" aria-label="The figure, eight portraits">
+      <section class="ta" v-bind="sec('figure')" data-sheet-block="figure">
         <div class="ta__run">
           <div class="ta__stage">
             <div class="ta__copy">
-              <p class="mb__count">
-                <b>01</b> Turnaround
-              </p>
+              <SheetSectionNo id="figure" />
               <div class="ta__num" aria-hidden="true">
                 <ol>
                   <li v-for="(f, i) in FIGURE" :key="f.src">
@@ -104,11 +103,9 @@ const ticker = [WORLD.spires, WORLD.gateway, WORLD.storm, WORLD.pillar, WORLD.st
       </section>
 
       <!-- 02 One night: the file dates as a log -->
-      <section class="nt" data-sheet-block="night" aria-label="One night, from the file dates">
+      <section class="nt" v-bind="sec('night')" data-sheet-block="night">
         <div class="mb__head">
-          <p class="mb__count">
-            <b>02</b> One night
-          </p>
+          <SheetSectionNo id="night" />
           <p class="mb__text">
             {{ MO.clips }}
           </p>
@@ -139,11 +136,9 @@ const ticker = [WORLD.spires, WORLD.gateway, WORLD.storm, WORLD.pillar, WORLD.st
       </section>
 
       <!-- 03 The world: a slow ticker (two copies for the loop) -->
-      <section class="mq" data-sheet-block="world" aria-label="The world">
+      <section class="mq" v-bind="sec('world')" data-sheet-block="world">
         <div class="mb__head">
-          <p class="mb__count">
-            <b>03</b> The world
-          </p>
+          <SheetSectionNo id="world" />
           <p class="mb__text">
             {{ MO.look }}
           </p>
@@ -156,7 +151,7 @@ const ticker = [WORLD.spires, WORLD.gateway, WORLD.storm, WORLD.pillar, WORLD.st
         </div>
       </section>
 
-      <MoCredits />
+      <SheetCredits :items="MO.credits" />
     </div>
   </SheetShell>
 </template>
@@ -170,22 +165,6 @@ const ticker = [WORLD.spires, WORLD.gateway, WORLD.storm, WORLD.pillar, WORLD.st
   padding: 28px 24px;
 }
 
-.mb__count {
-  margin: 0;
-  font: 500 12px/1 var(--font-ui);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.mb__count b {
-  margin-right: 8px;
-  font-size: 24px;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  color: var(--c-accent);
-}
-
 .mb__text {
   margin: 0;
   max-width: 54ch;
@@ -193,15 +172,7 @@ const ticker = [WORLD.spires, WORLD.gateway, WORLD.storm, WORLD.pillar, WORLD.st
   color: var(--muted);
 }
 
-/* Outcome: two cuts, then the slate */
-.cu {
-  animation: mb-in 300ms cubic-bezier(0.23, 1, 0.32, 1) 420ms both;
-}
-
-@keyframes mb-in {
-  from { opacity: 0; }
-}
-
+/* Lead: two cuts, side by side */
 .cu__pair {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -233,61 +204,6 @@ const ticker = [WORLD.spires, WORLD.gateway, WORLD.storm, WORLD.pillar, WORLD.st
   text-transform: uppercase;
   color: #fff;
   background: rgb(0 0 0 / 0.55);
-}
-
-.cu__slate {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 18px 32px;
-  padding: 28px 24px 32px;
-  border-top: 1px solid var(--rule);
-}
-
-.cu__title {
-  grid-column: 1 / -1;
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 16px;
-  margin: 0;
-  font: 600 clamp(32px, 5.6vw, 68px)/1 var(--font-ui);
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-}
-
-.cu__title span {
-  font-weight: 400;
-  font-variant-numeric: tabular-nums;
-  color: var(--c-accent);
-}
-
-.cu__line {
-  font-size: 17px;
-  color: var(--c-fg);
-}
-
-.cu__specs {
-  display: grid;
-  gap: 10px;
-  margin: 0;
-}
-
-.cu__specs div {
-  display: grid;
-  grid-template-columns: 64px minmax(0, 1fr);
-  gap: 12px;
-}
-
-.cu__specs dt {
-  font: 500 11px/1.6 var(--font-ui);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.cu__specs dd {
-  margin: 0;
-  font: 400 14px/1.5 var(--font-ui);
 }
 
 /* 01 Turnaround. Default (phones, no scroll timelines): a swipe rail */
@@ -519,8 +435,6 @@ html[data-sheet='open'] .mq__track {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cu { animation-duration: 1ms; }
-
   html[data-sheet='open'] .mq__track { animation: none; }
 
   .mq__clip { overflow-x: auto; }
@@ -531,15 +445,6 @@ html[data-sheet='open'] .mq__track {
     grid-template-columns: minmax(0, 1fr);
     gap: 12px;
     padding: 22px 52px 22px 16px;
-  }
-
-  .cu__slate {
-    grid-template-columns: minmax(0, 1fr);
-    padding: 22px 16px 26px;
-  }
-
-  .cu__line {
-    font-size: 16px;
   }
 
   .ta__copy {

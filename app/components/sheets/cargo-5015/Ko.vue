@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { SheetOpen } from '~/types/project'
 import SheetShell from '~/components/SheetShell.vue'
+import SheetCredits from '../_shared/SheetCredits.vue'
 import SheetHead from '../_shared/SheetHead.vue'
 import SheetSectionNo from '../_shared/SheetSectionNo.vue'
 import { useSheetSections } from '../_shared/useSheetSections'
@@ -24,6 +25,9 @@ const { sec } = useSheetSections('ko', [
   { id: 'mask', label: 'Mark as mask' },
   { id: 'fronts', label: 'Five fronts' },
 ])
+
+// The credits come from the story's own info (no separate credits exist yet for this project)
+const credits = [{ k: 'Module', v: INFO.module }, { k: 'Tools', v: INFO.tools }]
 
 // 01 The round in view is lit
 const lit = ref(0)
@@ -144,6 +148,8 @@ const g = computed(() => GROUNDS.find(x => x.id === ground.value)!)
           </figure>
         </div>
       </section>
+
+      <SheetCredits :items="credits" />
     </div>
   </SheetShell>
 </template>
