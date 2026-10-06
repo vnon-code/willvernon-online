@@ -36,7 +36,8 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <div ref="dockEl" class="dock" :class="[`dock--${side}`, { 'dock--open': open }]">
+  <!-- PROTOTYPE data-drop (Project Sheet rework): the drawer drops away while a Sheet is open -->
+  <div ref="dockEl" class="dock" :class="[`dock--${side}`, { 'dock--open': open }]" :data-drop="open ? 'hud' : 'hud-closed'">
     <button
       class="dock__tab"
       type="button"

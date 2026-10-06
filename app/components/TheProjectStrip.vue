@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import strip from '~~/content/strip.json'
-import type { ProjectCard, ProjectText } from '~/types/project'
+import type { ProjectText, SheetMediaItem, SheetOpen, SheetStory } from '~/types/project'
 
 // The project strip (docs/specs/project-strip.md; reference prototype/project-strip.html?v=insidebig&auto=step&sides=mono).
 // An endless ring of cards seen from inside. Scroll, drag, keys or a click turn it; left alone it steps every 10s.
@@ -11,7 +11,7 @@ const { mode } = useScrollPage() // the plates tuck behind the centre card while
 const emit = defineEmits<{
   centre: [card: { poster: string, teaser?: string | null }] // the Landing background's palette
   step: [el: Element] // a new centre card (not the first): the background pulses out of its border
-  expand: [e: { card: ProjectCard, from: DOMRect }] // open the Sheet from the centre card
+  expand: [e: SheetOpen] // open the Sheet from the centre card
 }>()
 const sound = useSound()
 
@@ -21,19 +21,59 @@ type Card = (typeof strip.cards)[number] & ProjectText
 const { data: allCards } = await useAsyncData('strip-cards', async () => {
   // Server only: the client reads the payload, and this branch (with the content chunks) is dropped from its build
   if (import.meta.client) return []
-  const [{ caseStudies }, { projects }, { items }] = await Promise.all([
+  const [{ caseStudies }, { projects }, { items }, media] = await Promise.all([
     import('~~/content/projects.json'),
     import('~~/content/ai.json'),
     import('~~/content/experiments.json'),
+    import('~~/content/media.json'),
   ])
-  // Title, short description and tools (software; tags for AI work); `long` and `process` feed the Sheet
+  // PROTOTYPE (Project Sheet rework): the Sheet's media. A still shows its local derived webp when there is one; a
+  // video carries its poster. Groups show their first item (the rest are the renders, which the gallery holds);
+  // iframes are skipped.
+  type Raw = { type: string, src?: string, alt?: string, items?: Raw[] } | null | undefined
+  const images = media.images as Record<string, { derived?: { src: string } }>
+  const posters = media.posters as Record<string, { src: string, w?: number, h?: number }>
+  const toItem = (m: Raw): SheetMediaItem | undefined => {
+    if (m?.type === 'group') return toItem(m.items?.[0])
+    if (!m?.src) return
+    if (m.type === 'video') return { type: 'video', src: m.src, poster: posters[m.src]?.src }
+    if (m.type === 'image') return { type: 'image', src: images[m.src]?.derived?.src ?? m.src, alt: m.alt }
+  }
+  // The renders: every image in media.json under the project's asset folder, minus those a step already shows
+  const galleryFor = (p: (typeof caseStudies)[number], used: (string | undefined)[]) => {
+    const folder = JSON.stringify(p).match(/\/projects\/\d+_[^/]+\//)?.[0]
+    if (!folder) return []
+    return Object.entries(images)
+      .filter(([k]) => k.includes(folder))
+      .map(([k, v]) => ({ type: 'image' as const, src: v.derived?.src ?? k }))
+      .filter(m => !used.includes(m.src))
+  }
+  // PROTOTYPE (Project Sheet rework, round 2): the stories (content/stories/<slug>.json), each video given its poster
+  // and aspect
+  const withPosters = (o: unknown): unknown => {
+    if (Array.isArray(o)) return o.map(withPosters)
+    if (!o || typeof o !== 'object') return o
+    const m = Object.fromEntries(Object.entries(o).map(([k, v]) => [k, withPosters(v)])) as Record<string, unknown>
+    const p = m.type === 'video' ? posters[m.src as string] : undefined
+    if (p) Object.assign(m, { poster: m.poster ?? p.src, aspect: m.aspect ?? (p.w && p.h ? +(p.w / p.h).toFixed(3) : undefined) })
+    return m
+  }
+  const storyFiles = import.meta.glob('../../content/stories/*.json', { import: 'default' })
+  const stories: Record<string, SheetStory> = Object.fromEntries(await Promise.all(Object.entries(storyFiles).map(async ([k, load]) =>
+    [k.replace(/^.*\/|\.json$/g, ''), withPosters(await load()) as SheetStory])))
+  // Title, short description and tools (software; tags for AI work); `long`, `process`, `outcome` and `gallery`
+  // feed the Sheet
   const info: Record<string, Record<string, ProjectText>> = {
-    projects: Object.fromEntries(caseStudies.map(p => [p.slug, {
-      title: p.title, summary: p.descShort, tools: p.software, long: p.descLong,
-      process: p.process.map(s => ({ title: s.title, text: s.text })),
-    }])),
-    ai: Object.fromEntries(projects.map(p => [p.key, { title: p.title, summary: p.desc, tools: p.tags, long: '', process: [] }])),
-    experiments: Object.fromEntries(items.map(p => [p.id, { title: p.title, summary: p.descShort, tools: p.software, long: '', process: [] }])),
+    projects: Object.fromEntries(caseStudies.map((p) => {
+      const process = p.process.map(s => ({ title: s.title, text: s.text, media: toItem(s.media as Raw) }))
+      const outcome = toItem((p.outcome as { media?: Raw } | undefined)?.media) ?? null
+      return [p.slug, {
+        title: p.title, summary: p.descShort, tools: p.software, long: p.descLong, process, outcome,
+        gallery: galleryFor(p, process.map(s => s.media?.src)), story: stories[p.slug] ?? null,
+      }]
+    })),
+    ai: Object.fromEntries(projects.map(p => [p.key, { title: p.title, summary: p.desc, tools: p.tags, long: '', process: [], gallery: [] }])),
+    experiments: Object.fromEntries(items.map(p => [p.id, { title: p.title, summary: p.descShort, tools: p.software, long: '', process: [], gallery: [] }])),
   }
   return strip.cards.map(c => ({ ...c, ...info[c.from]![c.id]! }))
 })
@@ -258,7 +298,8 @@ function onCardClick(i: number) {
   const c = current.value
   if (!c) return
   sound.sfx('sheetOpen')
-  emit('expand', { card: c, from: cardEls[c.id]!.getBoundingClientRect() })
+  const el = cardEls[c.id]!
+  emit('expand', { card: c, from: el.getBoundingClientRect(), el })
 }
 
 function onWheel(e: WheelEvent) {
@@ -380,7 +421,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div ref="stackEl" class="stack" :class="{ 'stack--away': mode !== 'landing' }">
-    <div class="chips" role="group" aria-label="Filter projects" data-dot-clear>
+    <div class="chips" role="group" aria-label="Filter projects" data-dot-clear data-drop="chips">
       <span class="chips__pill" :class="{ on: pill.on }" :style="{ clipPath: `inset(0 ${pill.r}px 0 ${pill.l}px round 999px)` }" aria-hidden="true" />
       <button
         v-for="k in strip.chips"
@@ -403,7 +444,9 @@ onBeforeUnmount(() => {
       @keydown="onKey"
       @pointerdown="onPointerDown"
     >
-      <div ref="worldEl" class="world">
+      <!-- PROTOTYPE data-drop (Project Sheet rework): the side cards drop away as one; the centre card hides under the
+           Sheet's growing media meanwhile -->
+      <div ref="worldEl" class="world" data-drop="cards">
         <button
           v-for="(c, i) in cards"
           :key="c.id"
@@ -444,7 +487,7 @@ onBeforeUnmount(() => {
 
     <!-- The info row under the centre card (Will, 2026-10-05): the tag at its left edge, the name centred, the tools
          at its right edge -->
-    <div v-if="current" ref="rowEl" class="row">
+    <div v-if="current" ref="rowEl" class="row" data-drop="row">
       <HugBox :k="current.from" pin="left" class="row__tag" data-dot-clear>
         <span class="row__tag-text">{{ TAG[current.from] ?? current.chip }}</span>
       </HugBox>

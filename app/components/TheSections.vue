@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { ProjectCard } from '~/types/project'
+import type { ProjectCard, SheetOpen } from '~/types/project'
 
 // The Sections under the Landing (docs/adr/0002-one-scrolling-page.md; Scroll page shell, Will 2026-10-05): one
 // solid panel, with the dot background scrolling in the margins. Each Section is a placeholder built from real
 // content titles; its design is its own ticket.
-const emit = defineEmits<{ expand: [{ card: ProjectCard, from: DOMRect }] }>()
+const emit = defineEmits<{ expand: [SheetOpen] }>()
 
 const { data: cards } = useNuxtData<ProjectCard[]>('strip-cards')
 const aiCards = computed(() => (cards.value ?? []).filter(c => c.discipline === 'AI'))
@@ -27,7 +27,8 @@ const { sfx } = useSound()
 
 function openCard(c: ProjectCard, e: MouseEvent) {
   sfx('sheetOpen')
-  emit('expand', { card: c, from: (e.currentTarget as HTMLElement).getBoundingClientRect() })
+  const el = e.currentTarget as HTMLElement
+  emit('expand', { card: c, from: el.getBoundingClientRect(), el })
 }
 </script>
 

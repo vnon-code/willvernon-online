@@ -40,3 +40,6 @@ references/trial-fonts/
 # Scratch work stays local, except the v1-launch map and tickets (synced across devices, Will 2026-10-06)
 .scratch/*
 !.scratch/v1-launch/
+
+# Prototype media pulled from Will's PC (dev only, not deployed; R2 upload pending Will)
+public/proto-media/

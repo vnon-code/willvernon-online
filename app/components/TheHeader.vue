@@ -141,6 +141,12 @@ onBeforeUnmount(() => {
   transition: opacity 400ms var(--ease-out);
 }
 
+/* PROTOTYPE (Project Sheet rework, round 2): a Sheet opening docks the header; its background fades in with the open */
+:global(html[data-sheet='opening'] .header::before),
+:global(html[data-sheet='opening'] .header__home::before) {
+  transition: opacity 300ms var(--ease-out);
+}
+
 /* The monogram (bigger in its circle, Will, 2026-10-05; PLACEHOLDER: the 5px inset). Its circle lives on the link's
    ::before, so it can fade against the header's background: out with --hdr, back in once home */
 .header__logo {

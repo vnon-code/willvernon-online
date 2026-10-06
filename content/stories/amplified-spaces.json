@@ -1,0 +1,544 @@
+{
+  "_status": "PLACEHOLDER copy, not approved by Will",
+  "_media": "Renders and process-book images are /proto-media (dev only, gitignored; R2 upload needs Will). Album-art mapping (p36-1 Onjuku, p36-2 Fading Away) is a guess from the process book.",
+  "slug": "amplified-spaces",
+  "title": "Amplified Spaces",
+  "hook": "Three of Tom Vernon's tracks, each turned into a visual and given a room to be shown in.",
+  "intro": "A second-year uni project about how a visual can carry a track's mood. TouchDesigner made the visuals. Blender built the rooms they play in.",
+  "credits": [
+    {
+      "k": "Module",
+      "v": "GDES5006 Integrated Projects 2, 2024"
+    },
+    {
+      "k": "Client",
+      "v": "Tom Vernon, house producer"
+    },
+    {
+      "k": "Role",
+      "v": "Concept, visuals and 3D"
+    },
+    {
+      "k": "Tools",
+      "v": "TouchDesigner, Blender"
+    }
+  ],
+  "stats": [
+    "3 tracks",
+    "3 rooms",
+    "2 programs"
+  ],
+  "tracks": [
+    {
+      "id": "onjuku",
+      "title": "Onjuku",
+      "light": "Warm",
+      "sound": "Ambient, no kicks. Nothing for a visual to hit on.",
+      "visual": "The album art, displaced and slowly turning. Time drives the rotation, not the audio.",
+      "room": "The visual wrapped round a sphere above a ring. It ended up looking like a planet.",
+      "video": {
+        "type": "video",
+        "src": "https://assets.willvernon.online/projects/01_amplified-spaces/video_trailers/Onjuku_1.mp4",
+        "caption": "Onjuku, the visual"
+      },
+      "art": {
+        "type": "image",
+        "src": "/proto-media/amplified-spaces/pb/p36-1.webp",
+        "aspect": 1.0,
+        "caption": "The album art",
+        "alt": "The album art"
+      },
+      "frames": [
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p42-0.webp",
+          "aspect": 1.0,
+          "caption": "Displaced album art",
+          "alt": "Displaced album art"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p42-1.webp",
+          "aspect": 1.0,
+          "caption": "Displaced album art",
+          "alt": "Displaced album art"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p42-2.webp",
+          "aspect": 1.0,
+          "caption": "Displaced album art",
+          "alt": "Displaced album art"
+        }
+      ],
+      "network": [],
+      "build": {
+        "type": "image",
+        "src": "/proto-media/amplified-spaces/pb/p62-1.webp",
+        "aspect": 1.792,
+        "caption": "Setting up the sphere in Blender",
+        "alt": "Setting up the sphere in Blender"
+      },
+      "splash": {
+        "type": "image",
+        "src": "/proto-media/amplified-spaces/onjukusplash.webp",
+        "aspect": 1.778,
+        "caption": "Onjuku, the room",
+        "alt": "Onjuku, the room"
+      },
+      "renders": [
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/onjuku1.webp",
+          "aspect": 1.778,
+          "caption": "Onjuku, render 1",
+          "alt": "Onjuku, render 1"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/onjuku2.webp",
+          "aspect": 1.778,
+          "caption": "Onjuku, render 2",
+          "alt": "Onjuku, render 2"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/onjuku3.webp",
+          "aspect": 1.778,
+          "caption": "Onjuku, render 3",
+          "alt": "Onjuku, render 3"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/onjuku4.webp",
+          "aspect": 1.778,
+          "caption": "Onjuku, render 4",
+          "alt": "Onjuku, render 4"
+        }
+      ]
+    },
+    {
+      "id": "fading-away",
+      "title": "Fading Away",
+      "light": "Yellow",
+      "sound": "A steady kick all the way through.",
+      "visual": "The track's spectrum run through a gradient sampled from the album art, with noise over it.",
+      "room": "One long, wide screen that shows the whole spectrum, under yellow light.",
+      "video": {
+        "type": "video",
+        "src": "https://assets.willvernon.online/projects/01_amplified-spaces/video_trailers/FadingAwayAV_1.mp4",
+        "caption": "Fading Away, the visual"
+      },
+      "art": {
+        "type": "image",
+        "src": "/proto-media/amplified-spaces/pb/p36-2.webp",
+        "aspect": 1.0,
+        "caption": "The album art",
+        "alt": "The album art"
+      },
+      "frames": [
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p45-0.webp",
+          "aspect": 1.778,
+          "caption": "Spectrum frame",
+          "alt": "Spectrum frame"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p45-1.webp",
+          "aspect": 1.778,
+          "caption": "Spectrum frame",
+          "alt": "Spectrum frame"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p45-2.webp",
+          "aspect": 1.778,
+          "caption": "Spectrum frame",
+          "alt": "Spectrum frame"
+        }
+      ],
+      "network": [
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p44-2.webp",
+          "aspect": 2.485,
+          "caption": "A gradient sampled from the album art",
+          "alt": "A gradient sampled from the album art"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p44-1.webp",
+          "aspect": 3.653,
+          "caption": "The spectrum, before the gradient",
+          "alt": "The spectrum, before the gradient"
+        }
+      ],
+      "build": {
+        "type": "image",
+        "src": "/proto-media/amplified-spaces/pb/p55-0.webp",
+        "aspect": 1.78,
+        "caption": "Laying out the long room",
+        "alt": "Laying out the long room"
+      },
+      "splash": {
+        "type": "image",
+        "src": "/proto-media/amplified-spaces/fadingawaysplash.webp",
+        "aspect": 1.778,
+        "caption": "Fading Away, the room",
+        "alt": "Fading Away, the room"
+      },
+      "renders": [
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/fadingaway1.webp",
+          "aspect": 1.778,
+          "caption": "Fading Away, render 1",
+          "alt": "Fading Away, render 1"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/fadingaway2.webp",
+          "aspect": 1.778,
+          "caption": "Fading Away, render 2",
+          "alt": "Fading Away, render 2"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/fadingaway3.webp",
+          "aspect": 1.778,
+          "caption": "Fading Away, render 3",
+          "alt": "Fading Away, render 3"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/fadingaway4.webp",
+          "aspect": 1.778,
+          "caption": "Fading Away, render 4",
+          "alt": "Fading Away, render 4"
+        }
+      ]
+    },
+    {
+      "id": "b17",
+      "title": "B17",
+      "subtitle": "Overseas Edit",
+      "light": "Blue",
+      "sound": "Lo-fi and dusty.",
+      "visual": "Circles that swell with the volume, inside a CRT: RGB split, hexagon pixels, noise, lens distortion and bloom.",
+      "room": "A narrower room with blue light and a brighter screen.",
+      "video": {
+        "type": "video",
+        "src": "https://assets.willvernon.online/projects/01_amplified-spaces/video_trailers/B17AV2_1.mp4",
+        "caption": "B17, the final crit video"
+      },
+      "art": null,
+      "frames": [
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p50-0.webp",
+          "aspect": 1.778,
+          "caption": "CRT frame",
+          "alt": "CRT frame"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p50-1.webp",
+          "aspect": 1.778,
+          "caption": "CRT frame",
+          "alt": "CRT frame"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p50-2.webp",
+          "aspect": 1.778,
+          "caption": "CRT frame",
+          "alt": "CRT frame"
+        }
+      ],
+      "network": [
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p47-0.webp",
+          "aspect": 2.649,
+          "caption": "The B17 network",
+          "alt": "The B17 network"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p47-1.webp",
+          "aspect": 1.509,
+          "caption": "The CRT chain",
+          "alt": "The CRT chain"
+        }
+      ],
+      "build": {
+        "type": "image",
+        "src": "/proto-media/amplified-spaces/pb/p49-0.webp",
+        "aspect": 1.504,
+        "caption": "Building the CRT look",
+        "alt": "Building the CRT look"
+      },
+      "splash": {
+        "type": "image",
+        "src": "/proto-media/amplified-spaces/b17splash.webp",
+        "aspect": 1.778,
+        "caption": "B17, the room",
+        "alt": "B17, the room"
+      },
+      "renders": [
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/b172.webp",
+          "aspect": 1.778,
+          "caption": "B17, render 1",
+          "alt": "B17, render 1"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/b173.webp",
+          "aspect": 1.778,
+          "caption": "B17, render 2",
+          "alt": "B17, render 2"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/b174.webp",
+          "aspect": 1.778,
+          "caption": "B17, render 3",
+          "alt": "B17, render 3"
+        }
+      ]
+    }
+  ],
+  "process": [
+    {
+      "id": "discover",
+      "title": "Discover",
+      "text": "Mindmaps on maps, music and taking part led to audiovisual design. I looked at klsr.av, Portable Reef and Odyssey, an AV show set in a virtual space. Tom and I picked the tracks together.",
+      "media": [
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p36-0.webp",
+          "aspect": 1.35,
+          "caption": "The client: Tom Vernon",
+          "alt": "The client: Tom Vernon"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p36-1.webp",
+          "aspect": 1.0,
+          "caption": "Album art",
+          "alt": "Album art"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p36-2.webp",
+          "aspect": 1.0,
+          "caption": "Album art",
+          "alt": "Album art"
+        }
+      ]
+    },
+    {
+      "id": "develop",
+      "title": "Develop",
+      "text": "Experiments first. Audio-reactive particles in Blender, split into low, mid and high. Then TouchDesigner: GPU particles, topographic noise, mycelium. The built-in beat detection missed kicks, so I built my own.",
+      "media": [
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p13-0.webp",
+          "aspect": 1.778,
+          "caption": "Blender particles: low",
+          "alt": "Blender particles: low"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p13-1.webp",
+          "aspect": 1.778,
+          "caption": "Blender particles: mid",
+          "alt": "Blender particles: mid"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p13-2.webp",
+          "aspect": 1.778,
+          "caption": "Blender particles: high",
+          "alt": "Blender particles: high"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p16-0.webp",
+          "aspect": 1.605,
+          "caption": "The first TouchDesigner network",
+          "alt": "The first TouchDesigner network"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p23-1.webp",
+          "aspect": 1.778,
+          "caption": "Particles GPU",
+          "alt": "Particles GPU"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p23-2.webp",
+          "aspect": 1.778,
+          "caption": "Particles GPU",
+          "alt": "Particles GPU"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p24-0.webp",
+          "aspect": 1.624,
+          "caption": "Generative tests",
+          "alt": "Generative tests"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p27-0.webp",
+          "aspect": 1.0,
+          "caption": "Topographic colours",
+          "alt": "Topographic colours"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p27-1.webp",
+          "aspect": 1.0,
+          "caption": "Topographic colours",
+          "alt": "Topographic colours"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p29-0.webp",
+          "aspect": 1.778,
+          "caption": "Topographic render",
+          "alt": "Topographic render"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p31-0.webp",
+          "aspect": 1.885,
+          "caption": "My own kick detection",
+          "alt": "My own kick detection"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p33-0.webp",
+          "aspect": 1.0,
+          "caption": "Mycelium",
+          "alt": "Mycelium"
+        }
+      ]
+    },
+    {
+      "id": "define",
+      "title": "Define",
+      "text": "The idea: TouchDesigner makes each visual, Blender builds the room it's shown in. One track, one room. A fourth track, Healing Process, was made and dropped.",
+      "media": [
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p42-0.webp",
+          "aspect": 1.0,
+          "caption": "Onjuku: the album art, displaced",
+          "alt": "Onjuku: the album art, displaced"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p44-2.webp",
+          "aspect": 2.485,
+          "caption": "Fading Away: a gradient from the album art",
+          "alt": "Fading Away: a gradient from the album art"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p47-0.webp",
+          "aspect": 2.649,
+          "caption": "B17: the network",
+          "alt": "B17: the network"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p53-0.webp",
+          "aspect": 2.404,
+          "caption": "Taking it into Blender",
+          "alt": "Taking it into Blender"
+        }
+      ]
+    },
+    {
+      "id": "deliver",
+      "title": "Deliver",
+      "text": "Three dark concrete rooms, lit only by the screen and one area light, with scanned people standing in for a crowd. The free TouchDesigner licence capped the output at 1280×1280.",
+      "media": [
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p54-0.webp",
+          "aspect": 1.787,
+          "caption": "Concrete from noise layers",
+          "alt": "Concrete from noise layers"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p55-1.webp",
+          "aspect": 1.783,
+          "caption": "Scene layout",
+          "alt": "Scene layout"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p62-0.webp",
+          "aspect": 1.85,
+          "caption": "The Onjuku scene",
+          "alt": "The Onjuku scene"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p49-0.webp",
+          "aspect": 1.504,
+          "caption": "The CRT build",
+          "alt": "The CRT build"
+        },
+        {
+          "type": "image",
+          "src": "/proto-media/amplified-spaces/pb/p55-2.webp",
+          "aspect": 1.79,
+          "caption": "Scene layout",
+          "alt": "Scene layout"
+        }
+      ]
+    }
+  ],
+  "outcome": {
+    "text": "Per track: a splash and four renders. B17 got a final video for the crit.",
+    "media": [
+      {
+        "type": "video",
+        "src": "https://assets.willvernon.online/projects/01_amplified-spaces/video_trailers/B17AV2_1.mp4",
+        "caption": "B17, the final crit video"
+      },
+      {
+        "type": "image",
+        "src": "/proto-media/amplified-spaces/onjukusplash.webp",
+        "aspect": 1.778,
+        "caption": "Onjuku",
+        "alt": "Onjuku"
+      },
+      {
+        "type": "image",
+        "src": "/proto-media/amplified-spaces/fadingawaysplash.webp",
+        "aspect": 1.778,
+        "caption": "Fading Away",
+        "alt": "Fading Away"
+      },
+      {
+        "type": "image",
+        "src": "/proto-media/amplified-spaces/b17splash.webp",
+        "aspect": 1.778,
+        "caption": "B17",
+        "alt": "B17"
+      }
+    ]
+  }
+}

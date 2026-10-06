@@ -39,6 +39,7 @@ function animate(open: boolean) {
 async function close() {
   if (closing) return
   closing = true
+  setSheetPhase('closing')
   sfx('sheetClose')
   layer.value!.scrollTop = 0 // close from the top, so the media folds back into the card
   await animate(false)
@@ -53,28 +54,34 @@ function onKey(e: KeyboardEvent) {
 
 onMounted(() => {
   opener = document.activeElement as HTMLElement | null
-  animate(true)
+  setSheetPhase('opening')
+  animate(true).then(() => !closing && setSheetPhase('open'))
   closeBtn.value?.focus({ preventScroll: true })
   addEventListener('keydown', onKey)
 })
-onBeforeUnmount(() => removeEventListener('keydown', onKey))
+onBeforeUnmount(() => {
+  removeEventListener('keydown', onKey)
+  setSheetPhase('') // PROTOTYPE hook (Project Sheet rework): the harness reads the phase
+})
+defineExpose({ close }) // Browser Back closes it (app.vue)
 </script>
 
 <template>
   <div class="ex">
-    <div ref="backdrop" class="ex__backdrop" @click="close" />
-    <article ref="layer" class="ex__layer" data-lenis-prevent role="dialog" aria-modal="true" :aria-label="card.title">
+    <!-- PROTOTYPE hooks (Project Sheet rework): data-sheet-* for the harness; the Sheet is otherwise today's -->
+    <div ref="backdrop" class="ex__backdrop" data-sheet-overlay @click="close" />
+    <article ref="layer" class="ex__layer" data-lenis-prevent data-sheet-layer role="dialog" aria-modal="true" :aria-label="card.title">
       <button ref="closeBtn" class="ex__close" type="button" aria-label="Close project" @click="close">
         <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true">
           <path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
         </svg>
       </button>
-      <div class="ex__media">
+      <div class="ex__media" data-sheet-media>
         <video v-if="video && !reduced" :src="video" :poster="card.poster" autoplay muted loop playsinline />
         <img v-else :src="still" alt="">
       </div>
       <!-- PLACEHOLDER: AI and experiment entries have no case study yet, so they show the summary and tools only -->
-      <div class="ex__body">
+      <div class="ex__body" data-sheet-body>
         <p class="ex__eyebrow">
           {{ card.discipline }}
         </p>

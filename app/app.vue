@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { ProjectCard } from '~/types/project'
+import type { ProjectCard, SheetOpen } from '~/types/project'
+import type { SheetVariant } from '~/composables/useSheetProto'
 
 const gateOpen = ref(true)
 const landingVisible = ref(false)
@@ -9,8 +10,12 @@ const centreCard = ref<{ poster: string, teaser?: string | null }>()
 // The dot field's pulse starts at the new centre card's border on each step
 const pulse = shallowRef<{ el: Element, at: number }>()
 const onStep = (el: Element) => (pulse.value = { el, at: performance.now() })
-// The open project (the Sheet), grown out of the card it was opened from
-const expanded = shallowRef<{ card: ProjectCard, from: DOMRect } | null>(null)
+// The open project (the Sheet), grown out of the card it was opened from. PROTOTYPE (Project Sheet rework): the
+// Sheet variant is fixed when it opens; `sheet` is the open Sheet, for Back to close it
+const expanded = shallowRef<(SheetOpen & { variant: SheetVariant }) | null>(null)
+const sheet = ref<{ close: () => void }>()
+const { variant } = useSheetVariant()
+const protoPanel = ref(false)
 
 // One scrolling page (docs/adr/0002-one-scrolling-page.md): the Landing on top, the Sections below
 const { mode, current, settled, goTo } = useScrollPage()
@@ -18,7 +23,12 @@ const { sfx } = useSound()
 let target: ReturnType<typeof initScrollPage> = {}
 const { data: cards } = useNuxtData<ProjectCard[]>('strip-cards')
 
-onMounted(() => (target = initScrollPage()))
+onMounted(() => {
+  target = initScrollPage()
+  protoPanel.value = initSheetVariant()
+  addEventListener('popstate', onPop)
+})
+onBeforeUnmount(() => removeEventListener('popstate', onPop))
 
 // Learn More (Will, 2026-10-05): straight down to the first Section, no menu
 function learnMore() {
@@ -26,14 +36,30 @@ function learnMore() {
   goTo(SECTIONS[0].id)
 }
 
-// `/work/<slug>` gets a URL while its Sheet is open; closing it returns the URL to where you were
-function openSheet(e: { card: ProjectCard, from: DOMRect }) {
-  expanded.value = e
+// `/work/<slug>` gets a URL while its Sheet is open (from the strip or a Section); closing it returns the URL to where
+// you were: a Sheet opened here steps Back out of its own entry, a deep-linked one swaps its URL. Browser Back while
+// it's open closes it.
+let pushed = false // the Sheet's URL is a history entry of its own
+let ignorePop = false // the Back the close itself makes
+function openSheet(e: SheetOpen) {
+  expanded.value = { ...e, variant: variant.value }
   history.pushState(history.state, '', `/work/${e.card.id}${location.search}`)
+  pushed = true
 }
 function closeSheet() {
   expanded.value = null
-  history.replaceState(history.state, '', `/${current.value ?? ''}${location.search}`)
+  if (pushed) {
+    pushed = false
+    ignorePop = true
+    history.back()
+  }
+  else history.replaceState(history.state, '', `/${current.value ?? ''}${location.search}`)
+}
+function onPop() {
+  if (ignorePop) return void (ignorePop = false)
+  if (!expanded.value) return
+  pushed = false // Back has already left the Sheet's entry
+  sheet.value?.close()
 }
 
 // Step 2 of the Gate transition: the Landing fades up from black. The music fades in later, with the Sound HUD's entrance.
@@ -50,7 +76,7 @@ function onEnter(withSound: boolean) {
     const card = target.work && cards.value?.find(c => c.id === target.work)
     if (card) {
       const w = Math.min(innerWidth * 0.5, 640), h = w * 9 / 16
-      expanded.value = { card, from: new DOMRect((innerWidth - w) / 2, (innerHeight - h) / 2, w, h) }
+      expanded.value = { card, from: new DOMRect((innerWidth - w) / 2, (innerHeight - h) / 2, w, h), variant: variant.value }
     }
   }, reduced ? 300 : 1000)
 }
@@ -68,7 +94,7 @@ function onEnter(withSound: boolean) {
           :active="!gateOpen && !expanded && mode === 'landing' && settled"
           @centre="centreCard = $event"
           @step="onStep"
-          @expand="expanded = $event"
+          @expand="openSheet"
         />
         <!-- PLACEHOLDER look: the drawers' tab, centred -->
         <button
@@ -77,6 +103,7 @@ function onEnter(withSound: boolean) {
           :class="{ 'learn-more--away': !settled }"
           type="button"
           :data-dot-clear="settled ? '' : undefined"
+          data-drop="learn-more"
           :inert="!settled"
           @click="learnMore"
         >
@@ -86,12 +113,24 @@ function onEnter(withSound: boolean) {
       </div>
     </main>
     <TheSections v-if="landingVisible" :inert="!!expanded" @expand="openSheet" />
-    <div class="landing landing--header" :class="{ 'landing--visible': landingVisible }" :inert="gateOpen || !!expanded">
+    <!-- PROTOTYPE (Project Sheet rework, round 2): over an open Sheet the header stays live, docked (useSheetMotion);
+         its links close the Sheet first -->
+    <div class="landing landing--header" :class="{ 'landing--visible': landingVisible, 'landing--over': !!expanded }" :inert="gateOpen">
       <TheHeader />
     </div>
     <TheVisualHud v-if="hudVisible" :inert="!!expanded" />
     <TheSoundHud v-if="hudVisible" :with-sound="enteredWithSound" :inert="!!expanded" />
-    <ProjectSheet v-if="expanded" :card="expanded.card" :from="expanded.from" @close="closeSheet" />
+    <ProjectSheet v-if="expanded?.variant === '0'" ref="sheet" :card="expanded.card" :from="expanded.from" @close="closeSheet" />
+    <!-- PROTOTYPE (Project Sheet rework, round 1): the variants and their options panel -->
+    <SheetA v-else-if="expanded?.variant === 'A'" ref="sheet" :sheet="expanded" @close="closeSheet" />
+    <SheetB v-else-if="expanded?.variant === 'B'" ref="sheet" :sheet="expanded" @close="closeSheet" />
+    <SheetC v-else-if="expanded?.variant === 'C'" ref="sheet" :sheet="expanded" @close="closeSheet" />
+    <!-- PROTOTYPE (Project Sheet rework, round 2) -->
+    <SheetR v-else-if="expanded?.variant === 'R'" ref="sheet" :sheet="expanded" @close="closeSheet" />
+    <SheetS v-else-if="expanded?.variant === 'S'" ref="sheet" :sheet="expanded" @close="closeSheet" />
+    <SheetT v-else-if="expanded?.variant === 'T'" ref="sheet" :sheet="expanded" @close="closeSheet" />
+    <SheetU v-else-if="expanded?.variant === 'U'" ref="sheet" :sheet="expanded" @close="closeSheet" />
+    <SheetProtoPanel v-if="protoPanel" />
     <TheGate v-if="gateOpen" @enter="onEnter" />
   </div>
 </template>
@@ -113,6 +152,11 @@ function onEnter(withSound: boolean) {
 .landing--header {
   z-index: 3000;
   pointer-events: none;
+}
+
+/* Over an open Sheet (z-index 5000) */
+.landing--over {
+  z-index: 5100;
 }
 
 /* Depth (Will, 2026-10-06: "part + recede"): the Landing falls behind the rising panel, scrolling at 0.6× and shrinking
