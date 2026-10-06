@@ -1,6 +1,6 @@
 {
   "_about": "PROTOTYPE (overnight run). Marimekko Exhibition's Sheet variants; see .scratch/v1-launch/overnight/TOOLS.md. Ids MkA–MkC (not A–C: those are shared bodies, TOOLS.md §1).",
-  "default": "MkC",
+  "default": "MkD",
   "variants": {
     "MkA": {
       "name": "Colourway: the four posters side by side, a designer swatch picker that re-skins billboard, tape and ticket on that designer's ground, the process as a hover index with the book page beside it, a mock-up bento",
@@ -15,6 +15,21 @@
     "MkC": {
       "name": "Rulebook: the A3 system sheet beside the four billboards, four rules as huge typewriter numerals with evidence in fours, a struck-through problem/fix ledger, the loop's four beats over its frames, a full-bleed triptych",
       "score": 29.3,
+      "of": 30
+    },
+    "MkC2": {
+      "name": "Rulebook, refined: MkC with every piece uncropped, the brief inside rule 1, rule 2 as four full-width floor tapes over a drawn four-colour tape line, one legible book page for rule 3, the ledger on near-black, the loop video over a lit six-beat timeline",
+      "score": 29.3,
+      "of": 30
+    },
+    "MkB2": {
+      "name": "Follow the tape, refined: rooms sized by their posters (nothing cropped), a near-black back office with plain ruled notes and the three real problems, a black EXIT bar with a red arrow over the 22 s loop, the wall and the flags",
+      "score": 28.4,
+      "of": 30
+    },
+    "MkD": {
+      "name": "Catalogue: a 16-piece system matrix that re-sorts by designer or by piece, research pages hung on a line with wall labels, the problems as an errata slip beside the four A3 posters, the loop full width, the mural, flags and wall uncropped",
+      "score": 29.6,
       "of": 30
     }
   }

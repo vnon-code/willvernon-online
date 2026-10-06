@@ -1,0 +1,104 @@
+{
+  "slug": "marimekko-exhibition",
+  "variant": "MkD",
+  "resolved": "MkD",
+  "points": {
+    "1": 2,
+    "2": 2,
+    "3": 2,
+    "4": 2,
+    "5": 2,
+    "6": 2,
+    "7": 2,
+    "8": 2,
+    "11": 2,
+    "12": 2,
+    "13": 2,
+    "15m": 1
+  },
+  "machineTotal": 23,
+  "of": 23,
+  "raw": {
+    "slug": "marimekko-exhibition",
+    "variant": "MkD",
+    "desktop": {
+      "variant": "MkD",
+      "slug": "marimekko-exhibition",
+      "opened": {
+        "slug": "marimekko-exhibition",
+        "variant": "MkD"
+      },
+      "mediaMaxStep": 52,
+      "closeMaxStep": 96,
+      "videoRestarted": false,
+      "cardT": 5.056013,
+      "sheetT0": 5.068997,
+      "bodyStartPct": 92,
+      "landingGoneMs": 326,
+      "mediaLandMs": 526,
+      "landingLeftovers": 0,
+      "marginPx": 200,
+      "backdropFilter": [],
+      "overlayAlpha": 0.2,
+      "mediaShare": 0.65,
+      "mediaCount": 28,
+      "closeOffPx": 0,
+      "landingBack": true,
+      "openMs": 624,
+      "closeMs": 410,
+      "slowFrames": 2,
+      "url": "/work/marimekko-exhibition",
+      "focusIn": true,
+      "focusBack": true,
+      "backCloses": true,
+      "scrollH": 5417
+    },
+    "r2": {
+      "headerDocked": true,
+      "headerInline": true,
+      "edgesMatch": {
+        "border": true,
+        "radius": true,
+        "width": true,
+        "sheet": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        },
+        "panel": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        }
+      },
+      "maxGapPx": 0,
+      "gapAt": "",
+      "blocks": 7
+    },
+    "phone": {
+      "opened": true,
+      "resolved": {
+        "slug": "marimekko-exhibition",
+        "variant": "MkD"
+      },
+      "hOverflowPx": 0,
+      "minFontPx": 11,
+      "scrollH": 4505,
+      "closed": true
+    }
+  },
+  "stills": [
+    "marimekko-exhibition/stills/r2/MkD-d0.png",
+    "marimekko-exhibition/stills/r2/MkD-d1.png",
+    "marimekko-exhibition/stills/r2/MkD-d2.png",
+    "marimekko-exhibition/stills/r2/MkD-d3.png",
+    "marimekko-exhibition/stills/r2/MkD-p0.png",
+    "marimekko-exhibition/stills/r2/MkD-p1.png"
+  ],
+  "errors": {
+    "count": 0,
+    "first": []
+  }
+}

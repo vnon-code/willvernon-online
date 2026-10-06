@@ -27,3 +27,44 @@ Next round (MkC, in order): (1) show the work uncropped (object-fit:contain, or 
 
 ## Decision for r2 (recorded)
 Judges split: Judge 1 pushes MkB, Judge 2 pushes MkC. MkC leads on total (29.3 vs 28.5) and both lists are cheap fixes; default stays MkC. Judge 1's MkB fixes are worth borrowing (floor-tape stills, EXIT idea) per Judge 2's item 3.
+
+## Round 2: build (machine scored; judged criteria pending)
+
+| Variant | Machine /23 | Notes |
+|---|---|---|
+| MkC (baseline, unchanged) | 23 | 29.3 in r1 |
+| MkC2 | 23 | MkC + judge 2's fixes 1–6 |
+| MkB2 | 23 | MkB + judge 1's fixes 1–6 |
+| MkD | 23 | new: Catalogue |
+
+- r2 MkC2 (Rulebook, refined): every piece uncropped; brief inside rule 1; rule 2 = four floor tapes full width over a four-colour tape line drawn by scroll (CSS view timeline); rule 3 = one legible p.28; ledger on #141414; loop video (in view only) over a six-beat timeline lit by currentTime; triptych at native ratios.
+- r2 MkB2 (Follow the tape, refined): room walls sized by the poster (poster | billboard over ticket at native ratios); near-black board, ruled notes, no tilt/shadow, red pins only; Problem tags = low-res patterns, A3 poster redo, logotype for four; Host Grotesk labels; black EXIT bar with red arrow over the loop, wall and flags.
+- r2 MkD (Catalogue): 16-piece matrix re-sorting by designer or piece (TransitionGroup FLIP); research pages hung on a line with wall labels; errata slip ("for … read …") beside the four A3 posters; loop full width; mural, then flags and wall uncropped.
+
+## Round 2: scores (machine /23 + judged /7)
+
+| Variant | Machine /23 | Eye /7 | Total /30 | Wins |
+|---|---|---|---|---|
+| MkD | 23 | 6.625 | 29.6 | 2 |
+| MkC2 | 23 | 6.25 | 29.3 | 1 |
+| MkB2 | 23 | 5.375 | 28.4 | 1 |
+| MkC (baseline) | 23 | 5.125 | 28.1 | 0 |
+
+## Results log (r2)
+
+- r2 MkD (Catalogue: a 16-piece system matrix, designers x poster/tape/billboard/ticket, that re-sorts by designer or by piece with FLIP moves; research pages hung on a line with museum wall labels; the problems as an errata slip ('for ... read ...') beside the four A3 posters; the loop full width, then the mural, flags and wall uncropped): 29.6/30. Inspiration: Pentagram 'Mushrooms' identity, Mucho MACBA, Grafik 'Human Nature', museum tombstone labels.
+- r2 MkC2 (Rulebook, refined: the A3 system sheet beside the billboards; four rules as big red typewriter numerals with every piece uncropped: tickets 2x2, four floor tapes full width over a four-colour tape line drawn on scroll, one legible p.28 page, the four posters; strike-through ledger on #141414; loop video, playing only in view, over a six-beat timeline that lights the current beat; triptych at native ratios): 29.3/30. Inspiration: NASA Graphics Standards Manual reissue, Experimental Jetset identity pages, video-editor timelines.
+- r2 MkB2 (Follow the tape, refined: the mural over four uncropped floor tapes; four colour rooms, each with its tape drawing down the edge and a wall sized by its poster; near-black back office with plain ruled notes and red pins, the three Problem tags are the story's three problems; black EXIT bar with a red arrow over the 22 s loop, the wall and the flags): 28.4/30. Inspiration: 'Later Came Early' at Fabrica, Powerhouse Museum's one colour per level, Will's field-trip note.
+- r2 MkC (baseline, unchanged): 28.1/30 (r1: 29.3; eye score varies by judge panel).
+- Best MkD 29.6/30; gain +0.3 over r1 best (29.3); stop: plateau. Default set to MkD.
+
+## Judges' notes (r2)
+
+**Judge 1:** MkC (r1 baseline): shared shell; tickets/tapes cropped to strips, process pages too small, cream ledger breaks dark monochrome, all rules the same numeral+text+image row. MkC2 fixes these (2x2 uncropped tickets, legible p.28, dark ledger, good six-beat timeline); still four same-layout rules, p.28 shown twice, and story.md has no source for the timeline timestamps. MkB2: most striking (full-bleed mural, colour rooms, full-size posters) but lime, peach and pink room backgrounds are site UI in the work's colours, breaking monochrome + race-red-only; pin cards clean; phone holds. MkD: a different device per beat (interactive 16-piece matrix, research pages with wall labels, errata slip with facts matching story.md beside uncropped posters, full-width mural); feels like an app and invites interaction. One catch: matrix row rules use designers' colours. Phone readable.
+Next round: MkD is best; MkB2 most striking but breaks the colour rule; MkC2 safe runner-up. To raise MkD: (1) matrix row rules neutral grey, race red only on active row/hover (MkD-d0, MkD-p0); (2) research rows: wall label sits at the bottom of a tall empty dark box, ~120px dead space (MkD-d1, d2), top-align or make sticky; (3) errata slip in light ink on #141414, not a white card; (4) at 375px matrix thumbnails ~85px wide: 2-column layout or tap-to-enlarge; (5) cut the helper line 'Rows: designers. Columns: ...'; (6) borrow MkC2's six-beat timeline under the loop, with timestamps from the real video only; (7) check FLIP re-sort at 60fps on a phone with 16 lazy images. Stills: .scratch/v1-launch/overnight/marimekko-exhibition/stills/r2/
+
+**Judge 2:** MkC2 closest to the site (near-black, red numerals and strikes, shared shell); r1 faults fixed (dark ledger, uncropped triptych and posters, legible p.28); different device per beat. Copy repeats in beat 03: story.ts:76 ('so it loops cleanly') and :111 ('so it loops'). Rules rows share one numeral+evidence layout; the 1.7 s beat shows as '00:01'. MkD: matrix and errata are the cleverest devices, copy short and factual; matrix rows underlined yellow, blue, orange, pink (non-red UI accents); errata on a white card; research beat reads image/text/image/text with a big empty black panel above a small label; readable at 375. MkB2: strongest narrative idea, r1 fixes landed (black EXIT with red arrow, ruled notes, nothing cropped) but four full-width lime/blue/peach/pink fields pull away from monochrome + red; four rooms share one device; back office a 2-up card grid; phone sound. MkC: r1 baseline, cream ledger, cropped wall type, tiny book pages; superseded by MkC2.
+Next round (MkC2 fixes, if pursued): merge the two 'loops' lines in beat 03; round the timeline label or set the beat to t: 2; run the loop full width with the timeline under it and move the p.29 page; borrow MkD's re-sort for rule 1; use errata wording in the ledger and drop the repeated p.28 thumbnail; keep the #141414 ledger and native-ratio triptych, no coloured UI rules.
+
+## Decision (recorded)
+Plateau: gain +0.3 over r1 best, MkD leads the panel. Final: MkD default. Open items for LATER.md: MkD matrix row rules neutral grey, research label top-align, errata on #141414, 2-col matrix on phones, drop helper line, add loop timeline from real video timestamps, check FLIP perf on phone.

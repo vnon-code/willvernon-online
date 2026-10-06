@@ -1,4 +1,5 @@
 import PROJECTS from '~~/content/projects.json'
+import STRIP from '~~/content/strip.json'
 
 // PROTOTYPE (overnight run, Marimekko Exhibition MkA–MkC): the facts every variant here shows, drawn from
 // .scratch/v1-launch/overnight/marimekko-exhibition/story.md (Will's GDES5014 process book, Dec 2023, the A3 visual
@@ -85,3 +86,34 @@ export const INFO = { year: '2024', module: 'GDES5014 Visual Systems', role: 'So
 
 // The project's own typeface (on Macs); a typewriter fallback elsewhere
 export const TYPEWRITER = '\'American Typewriter\', \'Courier New\', ui-monospace, monospace'
+
+// ---- Round 2 (MkC2, MkB2, MkD). Added below so r1's MkA–MkC render exactly as scored. PLACEHOLDER copy, not approved
+// by Will, checked with no-ai-slop.
+
+const CARD = (STRIP as unknown as { cards: { id: string, teaser: string }[] }).cards.find(c => c.id === 'marimekko-exhibition')!
+// The 22 s loop (on R2, the strip teaser), shown in the body with the end frame as its poster
+export const LOOP = { src: CARD.teaser, poster: OUT.frameLogo.src, w: 1920, h: 1080, dur: 22, alt: 'The 22 second loop: each designer\'s name and pattern strip, then the logotype and dates' }
+// The loop's beats, read off the video's frames at 1.5 s steps (2026-10-06): logo, one designer per ~4 s, logo + dates
+export const BEATS = [
+  { t: 0, l: 'Logotype' },
+  { t: 1.7, l: 'Maija Isola' },
+  { t: 6, l: 'Antti Kekki' },
+  { t: 10, l: 'Anikka Rimala' },
+  { t: 14, l: 'Fujiwo Ishimoto' },
+  { t: 18, l: 'Logotype and dates' },
+]
+
+export const MK2 = {
+  trip: 'A skate show used two yellow lines, like a road, to lead people round.',
+  tripWhere: 'Design Museum, Natural Science Museum',
+  wayfinding: 'Colour-coded floor tape and a map with arrows.',
+  typeAgainst: 'Tried against Computer Modern and Incognitype.',
+  loop: 'One designer at a time, then the logo. The last frame matches the first, so it loops.',
+  errata: [
+    { p: 'p.27', for: 'low-resolution source patterns', read: '16 motifs, traced and redrawn' },
+    { p: 'p.32', for: 'small posters, hard to read', read: 'four A3 posters, more pattern, clearer info' },
+    { p: 'p.28', for: 'four designers, one logotype', read: 'a repeating pattern from each, above and below the word' },
+  ],
+  byArtist: 'Rows: designers. Columns: poster, floor tape, billboard, ticket.',
+  byPiece: 'Rows: poster, floor tape, billboard, ticket. Columns: designers.',
+}
