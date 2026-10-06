@@ -1,0 +1,104 @@
+{
+  "slug": "powersurge",
+  "variant": "PwC",
+  "resolved": "PwC",
+  "points": {
+    "1": 2,
+    "2": 2,
+    "3": 2,
+    "4": 2,
+    "5": 2,
+    "6": 2,
+    "7": 2,
+    "8": 2,
+    "11": 2,
+    "12": 2,
+    "13": 2,
+    "15m": 1
+  },
+  "machineTotal": 23,
+  "of": 23,
+  "raw": {
+    "slug": "powersurge",
+    "variant": "PwC",
+    "desktop": {
+      "variant": "PwC",
+      "slug": "powersurge",
+      "opened": {
+        "slug": "powersurge",
+        "variant": "PwC"
+      },
+      "mediaMaxStep": 47,
+      "closeMaxStep": 97,
+      "videoRestarted": false,
+      "cardT": 5.256317,
+      "sheetT0": 5.28958,
+      "bodyStartPct": 93,
+      "landingGoneMs": 335,
+      "mediaLandMs": 518,
+      "landingLeftovers": 0,
+      "marginPx": 200,
+      "backdropFilter": [],
+      "overlayAlpha": 0.2,
+      "mediaShare": 1.08,
+      "mediaCount": 17,
+      "closeOffPx": 0,
+      "landingBack": true,
+      "openMs": 624,
+      "closeMs": 421,
+      "slowFrames": 1,
+      "url": "/work/powersurge",
+      "focusIn": true,
+      "focusBack": true,
+      "backCloses": true,
+      "scrollH": 3749
+    },
+    "r2": {
+      "headerDocked": true,
+      "headerInline": true,
+      "edgesMatch": {
+        "border": true,
+        "radius": true,
+        "width": true,
+        "sheet": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        },
+        "panel": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        }
+      },
+      "maxGapPx": 0,
+      "gapAt": "",
+      "blocks": 7
+    },
+    "phone": {
+      "opened": true,
+      "resolved": {
+        "slug": "powersurge",
+        "variant": "PwC"
+      },
+      "hOverflowPx": 0,
+      "minFontPx": 11,
+      "scrollH": 3904,
+      "closed": true
+    }
+  },
+  "stills": [
+    "powersurge/stills/r1/PwC-d0.png",
+    "powersurge/stills/r1/PwC-d1.png",
+    "powersurge/stills/r1/PwC-d2.png",
+    "powersurge/stills/r1/PwC-d3.png",
+    "powersurge/stills/r1/PwC-p0.png",
+    "powersurge/stills/r1/PwC-p1.png"
+  ],
+  "errors": {
+    "count": 0,
+    "first": []
+  }
+}

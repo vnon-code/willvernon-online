@@ -1,0 +1,21 @@
+{
+  "_about": "PROTOTYPE (overnight run). Powersurge's Sheet variants; see .scratch/v1-launch/overnight/TOOLS.md. Ids PwA–PwC (not A–C: those are shared bodies, TOOLS.md §1).",
+  "default": "PwB",
+  "variants": {
+    "PwA": {
+      "name": "Datasheet: the film written up as a chip's datasheet, four frames over a part-number bar, a Moore's Law curve with a Linear/Log toggle, a pin table under the network, a revision-history table that opens each version's page, the climax and the signal chain",
+      "score": 29.0,
+      "of": 30
+    },
+    "PwB": {
+      "name": "Curve: a sticky Moore's Law chart whose dot climbs as the film's years scroll past, Blender vs TouchDesigner as a two-column ledger, the four drives as sparkline cards, the climax over a 5:35 runtime bar",
+      "score": 29.8,
+      "of": 30
+    },
+    "PwC": {
+      "name": "Control surface: a preset bank that swaps the big render, version pads that set range bars, a pin-matrix patch of data to parameters, the edit as DAW lanes across 5:35, the climax beside the slider tool",
+      "score": 29.3,
+      "of": 30
+    }
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "slug": "powersurge",
+  "variant": "PwA",
+  "resolved": "PwA",
+  "points": {
+    "1": 2,
+    "2": 2,
+    "3": 2,
+    "4": 2,
+    "5": 2,
+    "6": 2,
+    "7": 2,
+    "8": 2,
+    "11": 2,
+    "12": 2,
+    "13": 2,
+    "15m": 1
+  },
+  "machineTotal": 23,
+  "of": 23,
+  "raw": {
+    "slug": "powersurge",
+    "variant": "PwA",
+    "desktop": {
+      "variant": "PwA",
+      "slug": "powersurge",
+      "opened": {
+        "slug": "powersurge",
+        "variant": "PwA"
+      },
+      "mediaMaxStep": 47,
+      "closeMaxStep": 97,
+      "videoRestarted": false,
+      "cardT": 5.253359,
+      "sheetT0": 5.271984,
+      "bodyStartPct": 93,
+      "landingGoneMs": 312,
+      "mediaLandMs": 495,
+      "landingLeftovers": 0,
+      "marginPx": 200,
+      "backdropFilter": [],
+      "overlayAlpha": 0.2,
+      "mediaShare": 0.58,
+      "mediaCount": 12,
+      "closeOffPx": 0,
+      "landingBack": true,
+      "openMs": 600,
+      "closeMs": 425,
+      "slowFrames": 0,
+      "url": "/work/powersurge",
+      "focusIn": true,
+      "focusBack": true,
+      "backCloses": true,
+      "scrollH": 4851
+    },
+    "r2": {
+      "headerDocked": true,
+      "headerInline": true,
+      "edgesMatch": {
+        "border": true,
+        "radius": true,
+        "width": true,
+        "sheet": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        },
+        "panel": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        }
+      },
+      "maxGapPx": 0,
+      "gapAt": "",
+      "blocks": 8
+    },
+    "phone": {
+      "opened": true,
+      "resolved": {
+        "slug": "powersurge",
+        "variant": "PwA"
+      },
+      "hOverflowPx": 0,
+      "minFontPx": 11,
+      "scrollH": 5401,
+      "closed": true
+    }
+  },
+  "stills": [
+    "powersurge/stills/r1/PwA-d0.png",
+    "powersurge/stills/r1/PwA-d1.png",
+    "powersurge/stills/r1/PwA-d2.png",
+    "powersurge/stills/r1/PwA-d3.png",
+    "powersurge/stills/r1/PwA-p0.png",
+    "powersurge/stills/r1/PwA-p1.png"
+  ],
+  "errors": {
+    "count": 0,
+    "first": []
+  }
+}
