@@ -1,0 +1,104 @@
+{
+  "slug": "remnants",
+  "variant": "RC",
+  "resolved": "RC",
+  "points": {
+    "1": 2,
+    "2": 2,
+    "3": 2,
+    "4": 2,
+    "5": 2,
+    "6": 2,
+    "7": 2,
+    "8": 2,
+    "11": 2,
+    "12": 2,
+    "13": 2,
+    "15m": 1
+  },
+  "machineTotal": 23,
+  "of": 23,
+  "raw": {
+    "slug": "remnants",
+    "variant": "RC",
+    "desktop": {
+      "variant": "RC",
+      "slug": "remnants",
+      "opened": {
+        "slug": "remnants",
+        "variant": "RC"
+      },
+      "mediaMaxStep": 47,
+      "closeMaxStep": 96,
+      "videoRestarted": false,
+      "cardT": 0,
+      "sheetT0": 0,
+      "bodyStartPct": 93,
+      "landingGoneMs": 318,
+      "mediaLandMs": 502,
+      "landingLeftovers": 0,
+      "marginPx": 200,
+      "backdropFilter": [],
+      "overlayAlpha": 0.2,
+      "mediaShare": 0.6,
+      "mediaCount": 35,
+      "closeOffPx": 0,
+      "landingBack": true,
+      "openMs": 619,
+      "closeMs": 421,
+      "slowFrames": 0,
+      "url": "/work/remnants",
+      "focusIn": true,
+      "focusBack": true,
+      "backCloses": true,
+      "scrollH": 3256
+    },
+    "r2": {
+      "headerDocked": true,
+      "headerInline": true,
+      "edgesMatch": {
+        "border": true,
+        "radius": true,
+        "width": true,
+        "sheet": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        },
+        "panel": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        }
+      },
+      "maxGapPx": 0,
+      "gapAt": "",
+      "blocks": 6
+    },
+    "phone": {
+      "opened": true,
+      "resolved": {
+        "slug": "remnants",
+        "variant": "RC"
+      },
+      "hOverflowPx": 0,
+      "minFontPx": 11,
+      "scrollH": 3538,
+      "closed": true
+    }
+  },
+  "stills": [
+    "remnants/stills/r1/RC-d0.png",
+    "remnants/stills/r1/RC-d1.png",
+    "remnants/stills/r1/RC-d2.png",
+    "remnants/stills/r1/RC-d3.png",
+    "remnants/stills/r1/RC-p0.png",
+    "remnants/stills/r1/RC-p1.png"
+  ],
+  "errors": {
+    "count": 0,
+    "first": []
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "_about": "PROTOTYPE (overnight run). Remnants' Sheet variants; see .scratch/v1-launch/overnight/TOOLS.md. Ids RA–RC (not A–C: those are shared bodies, TOOLS.md §1).",
+  "default": "RA",
+  "variants": {
+    "RA": {
+      "name": "Specimen: the glyph set as stone slices, a type tester, the object-to-stone lineage table, a seed log, the title decrypting live",
+      "score": null,
+      "of": 30
+    },
+    "RB": {
+      "name": "Strata: the title as four frames, a pinned dig down five strata of a chosen glyph with a depth gauge, the Photoshop cut as a parts list, the film with a 60%/100% speed switch",
+      "score": null,
+      "of": 30
+    },
+    "RC": {
+      "name": "Collection: the nine objects in a vitrine row, a catalogue of glyph cards opening one object record, a light table with the ControlNet guide over the stone, the film as glyph chapters",
+      "score": null,
+      "of": 30
+    }
+  }
+}
