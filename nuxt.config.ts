@@ -21,7 +21,11 @@ export default defineNuxtConfig({
   app: {
     head: {
       htmlAttrs: { lang: 'en' },
-      link: [{ rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
+      link: [
+        // The monogram on a dark circle (Will, 2026-10-07)
+        { rel: 'icon', type: 'image/png', sizes: '48x48', href: '/favicon-48.png' },
+        { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
+      ],
     },
   },
 })
