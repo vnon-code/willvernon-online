@@ -156,3 +156,8 @@ const info = { year: '2025', module: STORY.meta..., role: ..., tools: ... } // f
 ## Measuring fixes
 
 (none yet)
+
+## Portability (handoff to Will's Windows desktop, 2026-10-07)
+Not a measuring change. `score.cjs` finds playwright-core from `PLAYWRIGHT_CORE`, else `require.resolve('playwright-core')`
+(on the PC: `npm i --no-save playwright-core` inside `.scratch/v1-launch/overnight/tools/`), else the Mac path; Chrome
+from `CHROME_PATH`, else the platform default.

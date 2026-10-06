@@ -5,11 +5,15 @@
 // 15m at 0–1), machineTotal /23. Writes 4 desktop stills (1440×900 dark) and 2 phone stills (375×812) to
 // .scratch/v1-launch/overnight/<slug>/stills/<label>/<variant>-*.png (default label "latest"; an absolute --out is
 // used as the folder itself), plus <variant>-score.json beside them. Needs the dev server on :3000.
-const { chromium } = require('/Users/williamvernon/code/site-intelligence-tool/app/node_modules/playwright-core')
+// Portable (handoff 2026-10-07): PLAYWRIGHT_CORE / CHROME_PATH env vars, else a local install, else Will's Mac paths
+const PW = process.env.PLAYWRIGHT_CORE || (() => { try { return require.resolve('playwright-core') } catch { return '/Users/williamvernon/code/site-intelligence-tool/app/node_modules/playwright-core' } })()
+const { chromium } = require(PW)
 const fs = require('fs'), path = require('path')
 
 const BASE = 'http://localhost:3000'
-const CHROME = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome'
+const CHROME = process.env.CHROME_PATH || (process.platform === 'win32'
+  ? 'C:/Program Files/Google/Chrome/Application/chrome.exe'
+  : '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome')
 const OVERNIGHT = path.resolve(__dirname, '..')
 const HARNESS = fs.readFileSync(path.join(__dirname, 'harness.js'), 'utf8')
 

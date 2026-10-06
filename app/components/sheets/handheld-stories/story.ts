@@ -41,6 +41,25 @@ export const HS = {
   circle: 'The landing page: the netsuke strung on a ring, the way they hung on a cord. It turns.',
   rows: 'The catalogue: two rows sliding opposite ways.',
   film: 'The walkthrough, 1:40.',
+  // r2 (HA2, HD, HE)
+  spark2: 'Then a trip to the Oxford University Museum of Natural History, where the displays were static and the text panels dense.',
+  turn2: 'I turned the Coiled Snake in Sketchfab and screen-recorded it.',
+  exports2: 'I exported seven versions from After Effects, in H.264.',
+  ideas: ['Gravity', 'Eclipse', 'Pulsar'],
+  brief2: 'ISTD brief: Interactions. My first ideas were space typefaces. None of them stuck.',
+  still: 'Every page started as a still in Photoshop.',
+  onion: 'I turned the snake in Sketchfab and screen-recorded it.',
+  stops: [
+    { k: 'Museum', line: 'At the Oxford University Museum of Natural History, the displays were static and the text panels dense.' },
+    { k: 'Netsuke', line: 'The British Museum has its netsuke on Sketchfab as 3D scans.' },
+    { k: 'Draft', line: 'The first catalogue draft sat under the British Museum\'s own header.' },
+    { k: 'Roto', line: 'I cut out 150 frames with Roto Brush.' },
+    { k: 'Buttons', line: 'Every button is an idle layer, a hover layer and one opacity keyframe.' },
+    { k: 'Film', line: 'After seven exports, I added a sound in Premiere Pro to every click, scroll and hover.' },
+  ],
+  index: 'The database page is a searchable list of the netsuke.',
+  rows2: 'On the catalogue page, two rows slide opposite ways.',
+  sound: 'Then Premiere Pro: a sound on every click, scroll and hover, ambient music under it.',
 }
 
 export const INFO = { year: '2025', module: 'GDES6004 Professional Practice', role: 'Solo', tools: 'Photoshop, After Effects, Premiere Pro' }
@@ -94,6 +113,9 @@ export const PICS = {
   rowTop: { src: `${B}row-top.webp`, w: 1800, h: 144, alt: '' },
   rowBot: { src: `${B}row-bot.webp`, w: 1800, h: 120, alt: '' },
   logo: { src: `${B}logotype.webp`, w: 860, h: 380, alt: 'Handheld Stories logotype in Osake, the kanji for netsuke behind it' },
+  rotoK: { src: `${B}roto-grid-k.webp`, w: 1530, h: 580, alt: 'All 150 frames of the rotoscoped Coiled Snake, cut out, in a grid' },
+  rowTopC: { src: `${B}row-top-c.webp`, w: 1800, h: 131, alt: '' },
+  rowBotC: { src: `${B}row-bot-c.webp`, w: 1800, h: 110, alt: '' },
   roto: { src: `${B}roto-grid.webp`, w: 1530, h: 580, alt: 'All 150 frames of the rotoscoped Coiled Snake, in a grid' },
 }
 

@@ -1,9 +1,36 @@
 {
   "_about": "PROTOTYPE (overnight run). Handheld Stories' Sheet variants; see .scratch/v1-launch/overnight/TOOLS.md. Ids HA–HC (not A–C: those are shared bodies, TOOLS.md §1).",
-  "default": "HA",
+  "default": "HD",
   "variants": {
-    "HA": { "name": "Walkthrough: the film in a browser frame with the four pages as chapters, the museum visit as a photo strip, a drag-to-turn Coiled Snake, the 150 roto frames", "score": 29, "of": 30 },
-    "HB": { "name": "Collection record: the turning ring and film as the object, a museum label, a slider through six drafts, two catalogue rows sliding with the scroll", "score": 28.3, "of": 30 },
-    "HC": { "name": "UI kit: four screens as a 2x2, the type scale as a ladder, live hover and info-box components, linear vs eased cursor, the film", "score": 28.8, "of": 30 }
+    "HA": {
+      "name": "Walkthrough: the film in a browser frame with the four pages as chapters, the museum visit as a photo strip, a drag-to-turn Coiled Snake, the 150 roto frames",
+      "score": 28,
+      "of": 30
+    },
+    "HB": {
+      "name": "Collection record: the turning ring and film as the object, a museum label, a slider through six drafts, two catalogue rows sliding with the scroll",
+      "score": 28.3,
+      "of": 30
+    },
+    "HC": {
+      "name": "UI kit: four screens as a 2x2, the type scale as a ladder, live hover and info-box components, linear vs eased cursor, the film",
+      "score": 28.8,
+      "of": 30
+    },
+    "HA2": {
+      "name": "Walkthrough, refined: the browser frame opens on Catalogue, museum strip, drag-to-turn snake, 150 roto frames on black, a live two-layer hover and the seven exports",
+      "score": 29.3,
+      "of": 30
+    },
+    "HD": {
+      "name": "Still / Moving: drag between each page's Photoshop still and its animated cut, the visit as a dealt deck, drafts on a light table, the roto as onion skin",
+      "score": 29.6,
+      "of": 30
+    },
+    "HE": {
+      "name": "Audio guide: a handset keypad steps through six stops of the making, the catalogue rows sliding with the scroll, the database list driving the film",
+      "score": 26.5,
+      "of": 30
+    }
   }
 }

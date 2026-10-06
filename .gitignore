@@ -43,3 +43,4 @@ references/trial-fonts/
 
 # Prototype media pulled from Will's PC (dev only, not deployed; R2 upload pending Will)
 public/proto-media/
+.scratch/v1-launch/overnight/_src/
