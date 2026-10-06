@@ -128,3 +128,32 @@ export function moorePoint(year: number, w: number, h: number, log = false) {
   const v = log ? Math.log2(moore(year)) / Math.log2(max) : moore(year) / max
   return { x: w * (year - YEARS.from) / (YEARS.to - YEARS.from), y: h - v * h }
 }
+
+// Round 2 (PwB2, PwD, PwE). PLACEHOLDER copy, not approved by Will.
+// What the film shows in a year (story.md: Outcome; the film frames at 1:00, 4:45, 5:00). Not process facts.
+export const SEEN: Record<number, string> = {
+  1997: 'A small blue sphere, barely moving.',
+  2005: 'Eight years on, the same quiet sphere.',
+  2015: 'Three quarters in, still almost flat.',
+  2018: 'It bursts into purple strands.',
+  2020: 'Red and white feedback chaos.',
+}
+
+// The patch: what the FLOPs curve drives (p.12–13), as a pin matrix (after PwC)
+export const PATCH = {
+  sources: ['FLOPs data', 'Fixed'],
+  params: ['Size', 'Chaos', 'Red', 'Green', 'Blue'],
+  pins: {
+    'FLOPs data/Size': { op: 'Math, multiply', does: 'Size grows with the data.' },
+    'FLOPs data/Chaos': { op: 'Post Add', does: 'A renamed parameter. Post Add inverts the shape.' },
+    'FLOPs data/Red': { op: 'Level', does: 'Red rises first: a red tint.' },
+    'FLOPs data/Green': { op: 'Level', does: 'Green follows, so the end goes white and the bloom shows.' },
+    'Fixed/Blue': { op: 'Level', does: 'Blue stays fixed the whole film.' },
+  } as Record<string, { op: string, does: string }>,
+}
+
+// "×16" etc.: the model's multiple of 1997
+export const times = (year: number) => {
+  const v = moore(year)
+  return `×${v < 10 ? v.toFixed(0) : Math.round(v).toLocaleString('en-GB')}`
+}

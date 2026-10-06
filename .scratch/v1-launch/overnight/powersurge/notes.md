@@ -24,3 +24,11 @@
 ## For Will
 - OK the teaser swap and its R2 upload; upload the full 1080p film if the Sheet should play it whole.
 - Your role on the project, for the info rail.
+
+## Round 2 build (machine scores, `stills/r2/`)
+- Teaser: already `/proto-media/powersurge/teaser-360.mp4` in `content/strip.json` since r1 (old `/img/powersurge/powersurgegif.gif`, 15.6MB gif); kept, same reasons as above. Still needs the R2 upload.
+- Baseline PwB unchanged (29.8/30).
+- PwB2 (PwB refined, 23/23 machine; open 609ms, close 419ms, 1 slow frame): years on the opening frames; steps say what the film shows that year (`SEEN` in story.ts), process facts moved to 02 (data line, "normalising → sphere"); PwA's Linear/Log toggle on the sticky chart; dashed 75% knee on the curve, repeated on the runtime bar ("Quiet 75%"); each step carries the model multiple of 1997 and steps are shorter (46vh); the drives are PwC's pin matrix; phones ≤600px: compact strip (frames 2.4:1, curve 120px, HTML ticks 12px), only the step crossing the reading line shows, active year read on scroll (rAF) so jumps land right. Frames say "Film, m:ss" or "Render". Climax video preload none + data-in-view; frames lazy.
+- PwD "To scale" (23/23; 619/414ms, 1 slow frame after deferring row media until the section is near; first try 19/23, 8 slow frames). Refs: Matt Korostoff "Wealth, shown to scale", The Pudding scale pieces, GitHub split diff.
+- PwE "Explorable" (23/23; 643/421ms, 2 slow frames; frames mount on first pick). Refs: Bret Victor "Explorable Explanations"/Tangle and "Up and Down the Ladder of Abstraction", Nicky Case explorables.
+- Decisions: film time in PwE is interpolated between the frames read on the film (1997 1:00, 2018 4:45, 2020 5:00), shown as a time, not claimed exact; PwE colour swatch is a sketch from the book's description (blue fixed, red and green rise), labelled so. Copy checked with no-ai-slop ("Three quarters in. Still almost flat." → one sentence).
