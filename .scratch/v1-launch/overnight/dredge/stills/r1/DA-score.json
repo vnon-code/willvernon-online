@@ -1,0 +1,104 @@
+{
+  "slug": "dredge",
+  "variant": "DA",
+  "resolved": "DA",
+  "points": {
+    "1": 2,
+    "2": 2,
+    "3": 2,
+    "4": 2,
+    "5": 2,
+    "6": 2,
+    "7": 2,
+    "8": 2,
+    "11": 2,
+    "12": 2,
+    "13": 2,
+    "15m": 1
+  },
+  "machineTotal": 23,
+  "of": 23,
+  "raw": {
+    "slug": "dredge",
+    "variant": "DA",
+    "desktop": {
+      "variant": "DA",
+      "slug": "dredge",
+      "opened": {
+        "slug": "dredge",
+        "variant": "DA"
+      },
+      "mediaMaxStep": 47,
+      "closeMaxStep": 97,
+      "videoRestarted": false,
+      "cardT": 0,
+      "sheetT0": 0,
+      "bodyStartPct": 93,
+      "landingGoneMs": 319,
+      "mediaLandMs": 502,
+      "landingLeftovers": 0,
+      "marginPx": 200,
+      "backdropFilter": [],
+      "overlayAlpha": 0.2,
+      "mediaShare": 1.01,
+      "mediaCount": 24,
+      "closeOffPx": 0,
+      "landingBack": true,
+      "openMs": 614,
+      "closeMs": 415,
+      "slowFrames": 1,
+      "url": "/work/dredge",
+      "focusIn": true,
+      "focusBack": true,
+      "backCloses": true,
+      "scrollH": 3517
+    },
+    "r2": {
+      "headerDocked": true,
+      "headerInline": true,
+      "edgesMatch": {
+        "border": true,
+        "radius": true,
+        "width": true,
+        "sheet": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        },
+        "panel": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        }
+      },
+      "maxGapPx": 0,
+      "gapAt": "",
+      "blocks": 5
+    },
+    "phone": {
+      "opened": true,
+      "resolved": {
+        "slug": "dredge",
+        "variant": "DA"
+      },
+      "hOverflowPx": 0,
+      "minFontPx": 11,
+      "scrollH": 3579,
+      "closed": true
+    }
+  },
+  "stills": [
+    "dredge/stills/r1/DA-d0.png",
+    "dredge/stills/r1/DA-d1.png",
+    "dredge/stills/r1/DA-d2.png",
+    "dredge/stills/r1/DA-d3.png",
+    "dredge/stills/r1/DA-p0.png",
+    "dredge/stills/r1/DA-p1.png"
+  ],
+  "errors": {
+    "count": 0,
+    "first": []
+  }
+}
