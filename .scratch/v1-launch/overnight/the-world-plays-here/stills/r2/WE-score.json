@@ -1,0 +1,104 @@
+{
+  "slug": "the-world-plays-here",
+  "variant": "WE",
+  "resolved": "WE",
+  "points": {
+    "1": 2,
+    "2": 2,
+    "3": 2,
+    "4": 2,
+    "5": 2,
+    "6": 2,
+    "7": 2,
+    "8": 2,
+    "11": 2,
+    "12": 2,
+    "13": 2,
+    "15m": 1
+  },
+  "machineTotal": 23,
+  "of": 23,
+  "raw": {
+    "slug": "the-world-plays-here",
+    "variant": "WE",
+    "desktop": {
+      "variant": "WE",
+      "slug": "the-world-plays-here",
+      "opened": {
+        "slug": "the-world-plays-here",
+        "variant": "WE"
+      },
+      "mediaMaxStep": 47,
+      "closeMaxStep": 97,
+      "videoRestarted": false,
+      "cardT": 5.114795,
+      "sheetT0": 5.129719,
+      "bodyStartPct": 91,
+      "landingGoneMs": 304,
+      "mediaLandMs": 487,
+      "landingLeftovers": 0,
+      "marginPx": 200,
+      "backdropFilter": [],
+      "overlayAlpha": 0.2,
+      "mediaShare": 0.79,
+      "mediaCount": 12,
+      "closeOffPx": 0,
+      "landingBack": true,
+      "openMs": 594,
+      "closeMs": 418,
+      "slowFrames": 0,
+      "url": "/work/the-world-plays-here",
+      "focusIn": true,
+      "focusBack": true,
+      "backCloses": true,
+      "scrollH": 4957
+    },
+    "r2": {
+      "headerDocked": true,
+      "headerInline": true,
+      "edgesMatch": {
+        "border": true,
+        "radius": true,
+        "width": true,
+        "sheet": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        },
+        "panel": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        }
+      },
+      "maxGapPx": 0,
+      "gapAt": "",
+      "blocks": 7
+    },
+    "phone": {
+      "opened": true,
+      "resolved": {
+        "slug": "the-world-plays-here",
+        "variant": "WE"
+      },
+      "hOverflowPx": 0,
+      "minFontPx": 10,
+      "scrollH": 3025,
+      "closed": true
+    }
+  },
+  "stills": [
+    "the-world-plays-here/stills/r2/WE-d0.png",
+    "the-world-plays-here/stills/r2/WE-d1.png",
+    "the-world-plays-here/stills/r2/WE-d2.png",
+    "the-world-plays-here/stills/r2/WE-d3.png",
+    "the-world-plays-here/stills/r2/WE-p0.png",
+    "the-world-plays-here/stills/r2/WE-p1.png"
+  ],
+  "errors": {
+    "count": 0,
+    "first": []
+  }
+}

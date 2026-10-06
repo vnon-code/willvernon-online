@@ -31,3 +31,12 @@ the strip sets `loop`). It is also already on R2. The loop goes into every body 
 - Credits say solo work and "Brief: D&AD, for Xbox"; no collaborators in the sources.
 - The colour swatches in WB are named (Space, Xbox green, White), not quoted from the book; the hexes are placeholders.
 - Grade slider (WC) pairs bp9 (bright green) with bp10 (toned); the two captures aren't framed identically.
+
+## Round 2 build (WC2, WD, WE)
+- Teaser: still no change (r1 reasoning holds). `content/strip.json` untouched.
+- Shared facts added to `story.ts`: `INFO` (from `TW.specs`) and `POLISH` (one AE/Premiere line). New `useSeen.ts` (once-in-view flag, true at once under reduced motion).
+- Grade fix (WC2): measured both captures; the sphere sits at x ≈ 662px in bp9 and bp10, so the old mismatch came from `object-fit: cover` on frames of different widths. Now a shared 1196px window, each frame at its own aspect, max 1196px wide. Sharper sources: none found; the bp files are the book's embedded captures at native size.
+- WD's edit track times were read off the final cut (frames at 1 s; audio by silence detection, sound 0–6.2 s), ±0.5 s.
+- WE zoom: the scroll timeline's fill didn't hold past its range in Chrome until `animation-fill-mode: both` was set explicitly (MB uses the same pattern with 0–100% ranges, so it's unaffected).
+- Copy through `no-ai-slop` (detect): one fragment stack fixed ("Rises with the AI voiceover. Startup sound, dust." -> "Rises with the AI voiceover, over the Xbox startup sound.").
+- No new media: WD/WE use files already on UPLOAD.md (outcome.mp4, subway1/2, the loop and its poster).

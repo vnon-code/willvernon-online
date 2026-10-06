@@ -1,9 +1,36 @@
 {
   "_about": "PROTOTYPE (overnight run). The World Plays Here's Sheet variants; see .scratch/v1-launch/overnight/TOOLS.md. Ids WA–WC (not A–C: those are shared bodies, TOOLS.md §1).",
-  "default": "WA",
+  "default": "WE",
   "variants": {
-    "WA": { "name": "Entry board: brief beside the key frame with loop, subway and shelter tiles, the shortlist struck through on scroll, four numbered build frames, a media plan table", "score": 28, "of": 30 },
-    "WB": { "name": "Brand book: mark / line / colour / frame as a numbered spec spread, the slogans as a ballot with one green cross, a snag-to-fix ledger, placements stacking on scroll", "score": 27, "of": 30 },
-    "WC": { "name": "Orbit: the loop as a planet with eight placements on its orbit, the slogans as a fanned hand, the build as a circle cut in four, the grade as a drag-to-compare", "score": 28, "of": 30 }
+    "WA": {
+      "name": "Entry board: brief beside the key frame with loop, subway and shelter tiles, the shortlist struck through on scroll, four numbered build frames, a media plan table",
+      "score": 28,
+      "of": 30
+    },
+    "WB": {
+      "name": "Brand book: mark / line / colour / frame as a numbered spec spread, the slogans as a ballot with one green cross, a snag-to-fix ledger, placements stacking on scroll",
+      "score": 27,
+      "of": 30
+    },
+    "WC": {
+      "name": "Orbit: the loop as a planet with eight placements on its orbit, the slogans as a fanned hand, the build as a circle cut in four, the grade as a drag-to-compare",
+      "score": 26,
+      "of": 30
+    },
+    "WC2": {
+      "name": "Orbit, refined: shared head and numbering, the orbit clear of the wordmark, the hand dealt with red strikes, captures in the four quarters, an aligned grade slider, ending on a subway frame",
+      "score": 29.3,
+      "of": 30
+    },
+    "WD": {
+      "name": "Transit: the slogans on a split-flap departures board, the film as its own edit (five tracks under a playhead that follows it), the four channels as stations on a line diagram",
+      "score": 29.3,
+      "of": 30
+    },
+    "WE": {
+      "name": "Zoom out: a pinned zoom from the key visual out to the subway platform, the slogans typed and deleted on one line, the comp as an exploded stack of five layers, the loop to close",
+      "score": 30,
+      "of": 30
+    }
   }
 }

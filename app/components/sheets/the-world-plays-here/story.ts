@@ -97,3 +97,10 @@ export const SNAGS = [
   { k: 'The logo came out grey.', fix: 'Masked and corrected back to white.', pic: BP.grey },
   { k: 'Green too bright for the brand.', fix: 'Toned down.', pic: BP.toned },
 ]
+
+// r2 (WC2, WD, WE): the shared head's info, from TW.specs; never retyped
+const spec = (k: string) => TW.specs.find(s => s.k === k)?.v
+export const INFO = { year: TW.year, module: spec('Module'), tools: spec('Tools') }
+
+// The After Effects / Premiere pass (pp.18–19), one line
+export const POLISH = 'Then After Effects and Premiere: the grey logo masked back to white, a dust pass, the Xbox startup sound and an AI voiceover.'
