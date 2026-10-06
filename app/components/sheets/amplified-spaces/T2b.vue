@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import type { SheetOpen } from '~/types/project'
 import SheetShell from '~/components/SheetShell.vue'
-import AsLead from './AsLead.vue'
+import SheetHead from '../_shared/SheetHead.vue'
+import SheetSectionNo from '../_shared/SheetSectionNo.vue'
+import { goToSection, useSheetSections } from '../_shared/useSheetSections'
 
 // PROTOTYPE T2b "Track switcher, polished" (overnight run, Amplified Spaces): T2 plus round 1's six next-round changes
 // (matrix.md): a closing beat (the B17 crit video full-bleed under the problems), Define's B17 stage at full
@@ -17,6 +19,8 @@ import AsLead from './AsLead.vue'
 // the rooms in one track switcher (tabs 01–03: the visual playing, a visual / room comparison slider, the renders,
 // sound / visual / room) → the problems as a grid of counted cells → the outcome.
 // PLACEHOLDER: every size, the wipe's ranges, the copy.
+// 2026-10-07: the title, info, contents, numbering and phase marker are the shared ones (sheets/_shared, TOOLS.md);
+// the track strip under the hero stays T2b's own.
 const props = defineProps<{ sheet: SheetOpen }>()
 defineEmits<{ close: [] }>()
 const shell = ref<InstanceType<typeof SheetShell>>()
@@ -65,7 +69,27 @@ const phase = (id: string) => s.value.process.find(p => p.id === id)
 const discover = computed(() => phase('discover'))
 const develop = computed(() => phase('develop'))
 const define = computed(() => phase('define'))
-const lead = computed(() => tracks.value.map(t => ({ m: t.frames[0] ?? t.splash!, label: t.title, to: 'as2b-tracks' })))
+const lead = computed(() => tracks.value.map(t => ({ m: t.frames[0] ?? t.splash!, label: t.title })))
+
+// The shared head and numbering: the sections in order, and the info from the story's credits (the module's
+// trailing year split off as the year)
+const S = useSheetSections('as2b', [
+  { id: 'discover', label: 'Discover' },
+  { id: 'develop', label: 'Develop' },
+  { id: 'define', label: 'Define' },
+  { id: 'deliver', label: 'Deliver' },
+  { id: 'problems', label: 'Problems' },
+])
+const sec = S.sec
+const info = computed(() => {
+  const c = (k: string) => story.value.credits.find(x => x.k === k)?.v
+  const [module, year] = (c('Module') ?? '').split(/,\s*(?=\d{4}$)/)
+  return { year, module: module || undefined, client: c('Client'), role: c('Role'), tools: c('Tools') }
+})
+function goTrack(i: number) {
+  pick(i)
+  goToSection('deliver', S)
+}
 const question = COPY.question
 // The wipe: B17's network, then its CRT frame, then the room
 const b17 = computed(() => tracks.value.find(t => t.id === 'b17'))
@@ -91,22 +115,7 @@ const span = (src: string) => /p16-0|p31-0/.test(src) ? 'cs__cell--wide' : /p29-
 const crit = computed(() => s.value.outcome?.media.find(m => m.type === 'video'))
 const rooms = computed(() => s.value.outcome?.media.filter(m => m.type !== 'video') ?? [])
 
-// The phase marker (left margin) shows the last phase whose heading has come into view (read on scroll, once a
-// frame, so a jump lands on the right one); the contact sheet's cells rise in once
-const phases = ['Discover', 'Develop', 'Define', 'Deliver', 'Problems']
-const active = ref(-1)
-let marks: HTMLElement[] = []
-let layerEl: HTMLElement | null = null
-let raf = 0
-function mark() {
-  raf = 0
-  if (!layerEl) return
-  const r = layerEl.getBoundingClientRect()
-  // A phase is on once its heading (its top plus ~80px) is in view, so the rail names the phase whose caption shows
-  const edge = r.bottom - 80
-  active.value = marks.reduce((a, el) => el.getBoundingClientRect().top < edge ? Number(el.dataset.phase) : a, -1)
-}
-const onScroll = () => (raf ||= requestAnimationFrame(mark))
+// The contact sheet's cells rise in once
 let rio: IntersectionObserver | undefined
 
 // The switcher: one track at a time; one <video>, its source swapped, playing only while on screen
@@ -148,10 +157,6 @@ onMounted(() => {
     play()
   }, { root: layer, threshold: 0.25 })
   if (stage.value) io.observe(stage.value)
-  layerEl = layer
-  marks = [...layer?.querySelectorAll<HTMLElement>('[data-phase]') ?? []]
-  layer?.addEventListener('scroll', onScroll, { passive: true })
-  mark()
   rio = new IntersectionObserver((es) => {
     for (const e of es) {
       if (!e.isIntersecting) continue
@@ -163,22 +168,28 @@ onMounted(() => {
 })
 onBeforeUnmount(() => {
   io?.disconnect()
-  cancelAnimationFrame(raf)
-  layerEl?.removeEventListener('scroll', onScroll)
   rio?.disconnect()
 })
 </script>
 
 <template>
   <SheetShell ref="shell" :sheet="sheet" @close="$emit('close')">
-    <AsLead :story="s" :items="lead" @go="pick" />
+    <SheetHead :title="s.title" :hook="s.hook" :info="info">
+      <!-- T2b's own: the three visuals meeting the hero edge to edge; a tile opens its track in Deliver -->
+      <template #before>
+        <nav class="ld__strip" :style="{ '--n': lead.length }" aria-label="Tracks">
+          <a v-for="(it, i) in lead" :key="it.label" class="ld__tile" :href="`#${S.anchor('deliver')}`" @click.prevent="goTrack(i)">
+            <SheetPic :m="it.m" />
+            <span class="ld__label"><b>{{ pad(i) }}</b> {{ it.label }}</span>
+          </a>
+        </nav>
+      </template>
+    </SheetHead>
 
     <!-- 01 Discover: the brief's question, Tom and the album art -->
-    <section v-if="discover" class="ds" data-sheet-block="discover" data-phase="0" aria-label="Discover">
+    <section v-if="discover" class="ds" v-bind="sec('discover')" data-sheet-block="discover">
       <div class="ds__words">
-        <p class="t2__count">
-          <b>01</b> / 05 <span>Discover</span>
-        </p>
+        <SheetSectionNo id="discover" />
         <p class="ds__q">
           {{ question }}
         </p>
@@ -192,11 +203,9 @@ onBeforeUnmount(() => {
     </section>
 
     <!-- 02 Develop: a contact sheet of the experiments -->
-    <section v-if="develop" class="cs" data-sheet-block="develop" data-phase="1" aria-label="Develop">
+    <section v-if="develop" class="cs" v-bind="sec('develop')" data-sheet-block="develop">
       <div class="cs__head">
-        <p class="t2__count">
-          <b>02</b> / 05 <span>Develop</span>
-        </p>
+        <SheetSectionNo id="develop" />
         <p class="t2__text">
           {{ develop.text }}
         </p>
@@ -212,11 +221,9 @@ onBeforeUnmount(() => {
     </section>
 
     <!-- 03 Define: B17 wipes from the network to the visual to the room as you scroll -->
-    <section v-if="wipe.length" class="rv" data-sheet-block="define" data-phase="2" aria-label="Define">
+    <section v-if="wipe.length" class="rv" v-bind="sec('define')" data-sheet-block="define">
       <div class="rv__intro">
-        <p class="t2__count">
-          <b>03</b> / 05 <span>Define</span>
-        </p>
+        <SheetSectionNo id="define" />
         <p v-if="define" class="t2__text">
           {{ define.text }}
         </p>
@@ -242,11 +249,9 @@ onBeforeUnmount(() => {
     </section>
 
     <!-- 04 Deliver: the rooms, one track at a time -->
-    <section id="as2b-tracks" class="tw" data-sheet-block="tracks" data-phase="3" aria-label="Deliver">
+    <section class="tw" v-bind="sec('deliver')" data-sheet-block="tracks">
       <div class="tw__top">
-        <p class="t2__count">
-          <b>04</b> / 05 <span>Deliver</span>
-        </p>
+        <SheetSectionNo id="deliver" />
       </div>
       <div class="tw__tabs" role="tablist" aria-label="Tracks" @keydown="key">
         <button
@@ -301,10 +306,10 @@ onBeforeUnmount(() => {
     </section>
 
     <!-- 05 Problems: a grid of counted cells -->
-    <section v-if="s.problems?.length" class="pg" data-sheet-block="problems" data-phase="4" aria-label="Problems">
-      <p class="t2__count pg__count">
-        <b>05</b> / 05 <span>Problems</span>
-      </p>
+    <section v-if="s.problems?.length" class="pg" v-bind="sec('problems')" data-sheet-block="problems">
+      <div class="pg__count">
+        <SheetSectionNo id="problems" />
+      </div>
       <ol class="pg__grid">
         <li v-for="(p, i) in s.problems" :key="p">
           <b>{{ pad(i) }}</b>{{ p }}
@@ -323,36 +328,10 @@ onBeforeUnmount(() => {
       </div>
     </section>
 
-    <Teleport to="body">
-      <ol class="pm" aria-hidden="true">
-        <li v-for="(p, i) in phases" :key="p" :class="{ 'is-on': i === active }">
-          <span>{{ p }}</span><b>{{ pad(i) }}</b>
-        </li>
-      </ol>
-    </Teleport>
   </SheetShell>
 </template>
 
 <style scoped>
-.t2__count {
-  margin: 0;
-  font: 500 14px/1 var(--font-ui);
-  letter-spacing: 0.08em;
-  color: var(--muted);
-}
-
-.t2__count b {
-  font-size: 28px;
-  font-weight: 600;
-  color: var(--c-accent);
-}
-
-.t2__count span {
-  margin-left: 10px;
-  font-size: 11px;
-  text-transform: uppercase;
-}
-
 .t2__text {
   margin: 0;
   font: 400 15px/1.6 var(--font-ui);
@@ -944,71 +923,53 @@ onBeforeUnmount(() => {
   aspect-ratio: 16 / 9;
 }
 
-/* The phase marker: a slim plate in the left margin, level with the view's middle, shown while the Sheet is open */
-.pm {
-  position: fixed;
-  top: 50%;
-  right: calc(50% + min(520px, 50% - 16px) + 20px);
-  z-index: 5001;
+/* The track strip under the hero (was AsLead's): each tile jumps to its track */
+.ld__strip {
   display: grid;
-  gap: 2px;
-  margin: 0;
-  padding: 8px 10px;
-  list-style: none;
+  grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+}
+
+.ld__tile {
+  position: relative;
+  display: block;
+  aspect-ratio: 16 / 9;
+  color: var(--c-fg);
+  text-decoration: none;
+  outline-offset: -3px;
+}
+
+.ld__tile + .ld__tile {
+  border-left: 1px solid var(--rule);
+}
+
+.ld__tile .pic {
+  position: absolute;
+  inset: 0;
+  transition: opacity 0.25s var(--ease-out);
+}
+
+.ld__tile:hover .pic,
+.ld__tile:focus-visible .pic {
+  opacity: 0.7;
+}
+
+.ld__label {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  padding: 4px 8px;
+  font: 500 11px/1.3 var(--font-ui);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   background: var(--c-bg);
   border: 1px solid;
   border-color: var(--edges);
-  border-radius: 8px;
-  translate: 0 -50%;
-  opacity: 0;
-  transition: opacity 0.15s var(--ease-out);
-  pointer-events: none;
+  border-radius: 6px;
 }
 
-:root[data-sheet='open'] .pm {
-  opacity: 1;
-  transition-duration: 0.3s;
-}
-
-.pm li {
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-  align-items: baseline;
-  font: 500 11px/1.6 var(--font-ui);
-  letter-spacing: 0.06em;
-  color: var(--muted);
-}
-
-.pm b {
-  font-weight: 600;
-}
-
-.pm span {
-  font-size: 10px;
-  text-transform: uppercase;
-  opacity: 0;
-  translate: 4px 0;
-  transition: opacity 0.2s var(--ease-out), translate 0.2s var(--ease-out);
-}
-
-.pm .is-on {
-  color: var(--c-fg);
-}
-
-.pm .is-on b {
+.ld__label b {
   color: var(--c-accent);
-}
-
-.pm .is-on span {
-  opacity: 1;
-  translate: none;
-}
-
-@media (max-width: 1199px) {
-  .pm {
-    display: none;
-  }
+  font-weight: 600;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1025,6 +986,18 @@ onBeforeUnmount(() => {
 }
 
 @media (max-width: 720px) {
+  .ld__label {
+    left: 6px;
+    bottom: 6px;
+    max-width: calc(100% - 12px);
+    padding: 3px 6px;
+  }
+
+  /* The number on its own line, so a two-word title ("Fading Away") fits the tile */
+  .ld__label b {
+    display: block;
+  }
+
   .ds,
   .cs__head,
   .tw__media {

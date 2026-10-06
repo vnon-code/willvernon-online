@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import type { SheetOpen } from '~/types/project'
 import SheetShell from '~/components/SheetShell.vue'
-import SoCredits from './SoCredits.vue'
+import SheetCredits from '../_shared/SheetCredits.vue'
+import SheetHead from '../_shared/SheetHead.vue'
+import SheetSectionNo from '../_shared/SheetSectionNo.vue'
+import { useSheetSections } from '../_shared/useSheetSections'
 import { SO, SO2, SO_PLACE } from './story'
 
 // PROTOTYPE SF "Prompt to pixels" (overnight run, Smuggler's Outpost r3 challenger).
@@ -14,6 +17,7 @@ import { SO, SO2, SO_PLACE } from './story'
 // where problems were met → the four shots as a 2×2
 // with the slate. The track only moves transforms, on a scroll timeline that attaches once the Sheet is open.
 // PLACEHOLDER: every size, the panel order, the copy.
+// 2026-10-07: the title, info, contents, numbering and credits are the shared ones (sheets/_shared, TOOLS.md).
 const props = defineProps<{ sheet: SheetOpen }>()
 defineEmits<{ close: [] }>()
 const shell = ref<InstanceType<typeof SheetShell>>()
@@ -21,6 +25,20 @@ defineExpose({ close: () => shell.value?.close() })
 void props
 
 const B = '/proto-media/smugglers-outpost/'
+
+// The shared head and numbering: the sections in order, and the info from the story (the year off the dates, the
+// role off the credits)
+const { sec } = useSheetSections('sf', [
+  { id: 'build', label: 'Prompt to pixels' },
+  { id: 'outcome', label: 'Outcome' },
+])
+const meta = (k: string) => SO.meta.find(x => x.k === k)?.v
+const info = {
+  year: meta('When')?.match(/\d{4}$/)?.[0],
+  module: meta('Module'),
+  role: SO.credits[0]?.k,
+  tools: meta('Tools'),
+}
 
 // The prompt cut into runs; a crop of the render follows each phrase it became
 const segs: { t: string, chip?: typeof SO_PLACE[number]['r'] }[] = []
@@ -62,8 +80,8 @@ const outro = 'The sound is an ornithopter start-up and Tibetan horns, after Mar
   <SheetShell ref="shell" :sheet="sheet" @close="$emit('close')">
     <!-- Lead: the shot split into its three viewport passes, then the prompt as the headline, each phrase followed
          by the crop of the render it became -->
-    <section class="hd" data-sheet-body data-sheet-block="lead">
-      <div data-build>
+    <SheetHead :title="SO.title" :info="info">
+      <template #before>
         <div class="bd__frame">
           <img
             v-for="(p, i) in passes"
@@ -80,31 +98,26 @@ const outro = 'The sound is an ornithopter start-up and Tibetan horns, after Mar
             {{ String(i + 1).padStart(2, '0') }} {{ p.k }}
           </span>
         </div>
-        <div class="hd__in txt">
-          <p class="sf__k">
-            {{ SO.title }} <span>· {{ SO.meta[0]!.v }} · {{ SO.meta[1]!.v }}</span>
-          </p>
-          <p class="hd__pivot">
-            <s>Lore Keeper's Vault</s> Smuggler's Outpost
-          </p>
-          <!-- One line on purpose: Vue would turn line breaks into spaces before the commas -->
-          <!-- eslint-disable-next-line vue/singleline-html-element-content-newline, vue/multiline-html-element-content-newline -->
-          <h2 class="hd__prompt">“<template v-for="(g, i) in segs" :key="i"><img v-if="g.chip" class="hd__chip" :src="g.chip.src" :alt="g.chip.alt" width="96" height="72" decoding="async"><template v-else>{{ g.t }}</template></template>”</h2>
-          <p class="sf__text hd__foot">
-            The final Stable Diffusion prompt, and what each phrase became in Blender. I learned 3D from scratch for it.
-          </p>
-        </div>
+      </template>
+      <div class="hd__in txt">
+        <p class="hd__pivot">
+          <s>Lore Keeper's Vault</s> Smuggler's Outpost
+        </p>
+        <!-- One line on purpose: Vue would turn line breaks into spaces before the commas -->
+        <!-- eslint-disable-next-line vue/singleline-html-element-content-newline, vue/multiline-html-element-content-newline -->
+        <p class="hd__prompt">“<template v-for="(g, i) in segs" :key="i"><img v-if="g.chip" class="hd__chip" :src="g.chip.src" :alt="g.chip.alt" width="96" height="72" decoding="async"><template v-else>{{ g.t }}</template></template>”</p>
+        <p class="sf__text hd__foot">
+          The final Stable Diffusion prompt, and what each phrase became in Blender. I learned 3D from scratch for it.
+        </p>
       </div>
-    </section>
+    </SheetHead>
 
     <!-- 01 The build: a track that pans sideways as the page scrolls down -->
-    <section class="tk" data-sheet-block="build" aria-label="The build, prompt to render">
+    <section class="tk" v-bind="sec('build')" data-sheet-block="build">
       <div class="tk__run">
         <div class="tk__stage">
           <div class="tk__head">
-            <p class="sf__count">
-              <b>01</b> Prompt to pixels
-            </p>
+            <SheetSectionNo id="build" />
             <p class="sf__text">
               From concept to camera. Problems met are in red.
             </p>
@@ -133,7 +146,7 @@ const outro = 'The sound is an ornithopter start-up and Tibetan horns, after Mar
     </section>
 
     <!-- 02 Outcome: the four shots, 2×2, and the slate -->
-    <section class="oc" data-sheet-block="outcome" aria-label="Outcome">
+    <section class="oc" v-bind="sec('outcome')" data-sheet-block="outcome">
       <div class="oc__grid">
         <figure v-for="(m, i) in SO2.renders" :key="m.src">
           <img :src="m.src" :alt="m.alt" :width="m.w" :height="m.h" loading="lazy" decoding="async">
@@ -141,9 +154,7 @@ const outro = 'The sound is an ornithopter start-up and Tibetan horns, after Mar
         </figure>
       </div>
       <div class="oc__slate">
-        <p class="sf__count">
-          <b>02</b> Outcome
-        </p>
+        <SheetSectionNo id="outcome" />
         <dl class="oc__specs">
           <div v-for="s in SO.outcome.specs" :key="s.k">
             <dt>{{ s.k }}</dt>
@@ -161,39 +172,11 @@ const outro = 'The sound is an ornithopter start-up and Tibetan horns, after Mar
       </div>
     </section>
 
-    <SoCredits />
+    <SheetCredits :items="SO.credits" />
   </SheetShell>
 </template>
 
 <style scoped>
-.sf__k {
-  margin: 0 0 14px;
-  font: 500 12px/1.4 var(--font-ui);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--c-fg);
-}
-
-.sf__k span {
-  color: var(--muted);
-}
-
-.sf__count {
-  margin: 0;
-  font: 500 12px/1 var(--font-ui);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.sf__count b {
-  margin-right: 8px;
-  font-size: 24px;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  color: var(--c-accent);
-}
-
 .sf__text {
   margin: 0;
   font: 400 15px/1.6 var(--font-ui);
@@ -206,15 +189,7 @@ img {
   height: auto;
 }
 
-/* Lead: fades in a beat after the shell's build */
-.hd {
-  animation: sf-in 300ms cubic-bezier(0.23, 1, 0.32, 1) 360ms both;
-}
-
-@keyframes sf-in {
-  from { opacity: 0; }
-}
-
+/* Lead: the prompt block, after the shared head */
 .hd__in {
   padding: 32px 24px 36px;
   border-top: 1px solid var(--rule);
@@ -531,10 +506,6 @@ img {
   margin: 6px 0 0;
   font: 600 18px/1.2 var(--font-ui);
   font-variant-numeric: tabular-nums;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hd { animation-duration: 1ms; }
 }
 
 @media (max-width: 720px) {

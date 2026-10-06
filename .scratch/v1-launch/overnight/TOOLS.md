@@ -109,6 +109,50 @@ This matches round 2 except criterion 2: round 2 logged 61–72% for these varia
 same code, with or without the warm-up open. Treat tonight's numbers as the baseline and compare variants only with
 other runs of this scorer. A has a 2px horizontal overflow on phones.
 
+## Shared head, contents, numbering (2026-10-07)
+
+Will: the title, the project info, section numbering and the contents are the SAME on every Sheet; how the content
+is shown between them stays each project's own. Use these from `app/components/sheets/_shared/`; never restyle or
+re-implement them in a variant (judges mark c9 down if they differ; finalize agents check the winner uses them).
+Reference implementations: `amplified-spaces/T2b.vue`, `smugglers-outpost/SF.vue`.
+
+```ts
+import SheetHead from '../_shared/SheetHead.vue'
+import SheetSectionNo from '../_shared/SheetSectionNo.vue'
+import SheetCredits from '../_shared/SheetCredits.vue'
+import { useSheetSections } from '../_shared/useSheetSections'
+
+// One list, in order: numbers, the total and the anchors all come from it
+const { sec } = useSheetSections('<short-prefix>', [{ id: 'build', label: 'Prompt to pixels' }, { id: 'outcome', label: 'Outcome' }])
+const info = { year: '2025', module: STORY.meta..., role: ..., tools: ... } // from story.ts / content JSON, never retyped
+```
+
+```vue
+<SheetHead :title="STORY.title" :hook="optional one line" :info="info">
+  <template #before><!-- your first-view media (keeps criterion 5) --></template>
+  <!-- optional: your own lead content after the contents -->
+</SheetHead>
+<section class="mine" v-bind="sec('build')" data-sheet-block="build">
+  <SheetSectionNo id="build" /> <!-- "01 / 02 Prompt to pixels", anywhere inside your layout -->
+  ...
+</section>
+<SheetCredits :items="STORY.credits" />
+```
+
+- `SheetHead` is the first block (`data-sheet-body`, `data-sheet-block="lead"`, `data-build`, the 360ms fade-in):
+  the `before` slot, then the title (h2, big), the optional hook, the info rail (Year, Module, Client, Role, Tools,
+  With; each optional, always that order; empty ones drop) and the contents. Don't put text above the `before`
+  media: the first view stays media-led.
+- `SheetContents` (inside the head when sections are declared): a nav "Contents" of numbered links; a click scrolls
+  the layer so the section sits under the header and focuses its heading. Also the margin rail (T2b's phase
+  marker, ≥1200px, aria-hidden) lighting the section in view. Don't add your own rail or phase marker.
+- `SheetSectionNo id="…"`: an h3 "NN / TT Label", numbers aria-hidden (read once, as the label). Bind `sec(id)` on
+  the section it heads (id anchor, `aria-labelledby`, `data-sheet-section`); don't also give it an `aria-label`.
+  Un-numbered closing blocks (an outcome reel, credits) just skip both.
+- `SheetCredits :items`: the closing credits block (replaces the per-project `*Credits.vue`, which were identical;
+  `SoCredits.vue` now delegates to it). Skip it when the info already says everything (Amplified Spaces).
+- Scores with them (`--out shared`): T2b 23/23 machine, SF 23/23, same as before.
+
 ## Measuring fixes
 
 (none yet)
