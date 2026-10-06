@@ -1,0 +1,104 @@
+{
+  "slug": "remnants",
+  "variant": "RD",
+  "resolved": "RD",
+  "points": {
+    "1": 2,
+    "2": 2,
+    "3": 2,
+    "4": 2,
+    "5": 2,
+    "6": 2,
+    "7": 2,
+    "8": 2,
+    "11": 2,
+    "12": 2,
+    "13": 2,
+    "15m": 1
+  },
+  "machineTotal": 23,
+  "of": 23,
+  "raw": {
+    "slug": "remnants",
+    "variant": "RD",
+    "desktop": {
+      "variant": "RD",
+      "slug": "remnants",
+      "opened": {
+        "slug": "remnants",
+        "variant": "RD"
+      },
+      "mediaMaxStep": 47,
+      "closeMaxStep": 96,
+      "videoRestarted": false,
+      "cardT": 0,
+      "sheetT0": 0,
+      "bodyStartPct": 93,
+      "landingGoneMs": 326,
+      "mediaLandMs": 510,
+      "landingLeftovers": 0,
+      "marginPx": 200,
+      "backdropFilter": [],
+      "overlayAlpha": 0.2,
+      "mediaShare": 0.61,
+      "mediaCount": 33,
+      "closeOffPx": 0,
+      "landingBack": true,
+      "openMs": 617,
+      "closeMs": 417,
+      "slowFrames": 1,
+      "url": "/work/remnants",
+      "focusIn": true,
+      "focusBack": true,
+      "backCloses": true,
+      "scrollH": 3698
+    },
+    "r2": {
+      "headerDocked": true,
+      "headerInline": true,
+      "edgesMatch": {
+        "border": true,
+        "radius": true,
+        "width": true,
+        "sheet": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        },
+        "panel": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        }
+      },
+      "maxGapPx": 0,
+      "gapAt": "",
+      "blocks": 7
+    },
+    "phone": {
+      "opened": true,
+      "resolved": {
+        "slug": "remnants",
+        "variant": "RD"
+      },
+      "hOverflowPx": 0,
+      "minFontPx": 10,
+      "scrollH": 4505,
+      "closed": true
+    }
+  },
+  "stills": [
+    "remnants/stills/final/RD-d0.png",
+    "remnants/stills/final/RD-d1.png",
+    "remnants/stills/final/RD-d2.png",
+    "remnants/stills/final/RD-d3.png",
+    "remnants/stills/final/RD-p0.png",
+    "remnants/stills/final/RD-p1.png"
+  ],
+  "errors": {
+    "count": 0,
+    "first": []
+  }
+}

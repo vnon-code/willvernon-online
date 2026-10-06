@@ -1,0 +1,104 @@
+{
+  "slug": "handheld-stories",
+  "variant": "HC",
+  "resolved": "HC",
+  "points": {
+    "1": 2,
+    "2": 2,
+    "3": 2,
+    "4": 2,
+    "5": 2,
+    "6": 2,
+    "7": 2,
+    "8": 2,
+    "11": 2,
+    "12": 2,
+    "13": 2,
+    "15m": 1
+  },
+  "machineTotal": 23,
+  "of": 23,
+  "raw": {
+    "slug": "handheld-stories",
+    "variant": "HC",
+    "desktop": {
+      "variant": "HC",
+      "slug": "handheld-stories",
+      "opened": {
+        "slug": "handheld-stories",
+        "variant": "HC"
+      },
+      "mediaMaxStep": 47,
+      "closeMaxStep": 97,
+      "videoRestarted": false,
+      "cardT": 3.896492,
+      "sheetT0": 3.918087,
+      "bodyStartPct": 93,
+      "landingGoneMs": 322,
+      "mediaLandMs": 505,
+      "landingLeftovers": 0,
+      "marginPx": 200,
+      "backdropFilter": [],
+      "overlayAlpha": 0.2,
+      "mediaShare": 0.65,
+      "mediaCount": 8,
+      "closeOffPx": 0,
+      "landingBack": true,
+      "openMs": 616,
+      "closeMs": 414,
+      "slowFrames": 1,
+      "url": "/work/handheld-stories",
+      "focusIn": true,
+      "focusBack": true,
+      "backCloses": true,
+      "scrollH": 3279
+    },
+    "r2": {
+      "headerDocked": true,
+      "headerInline": true,
+      "edgesMatch": {
+        "border": true,
+        "radius": true,
+        "width": true,
+        "sheet": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        },
+        "panel": {
+          "color": "color(srgb 0.94902 0.94902 0.937255 / 0.28)|color(srgb 0.94902 0.94902 0.937255 / 0.12)",
+          "width": "1px|1px",
+          "radius": "12px",
+          "w": 1040
+        }
+      },
+      "maxGapPx": 0,
+      "gapAt": "",
+      "blocks": 7
+    },
+    "phone": {
+      "opened": true,
+      "resolved": {
+        "slug": "handheld-stories",
+        "variant": "HC"
+      },
+      "hOverflowPx": 0,
+      "minFontPx": 9.92,
+      "scrollH": 3818,
+      "closed": true
+    }
+  },
+  "stills": [
+    "handheld-stories/stills/r1/HC-d0.png",
+    "handheld-stories/stills/r1/HC-d1.png",
+    "handheld-stories/stills/r1/HC-d2.png",
+    "handheld-stories/stills/r1/HC-d3.png",
+    "handheld-stories/stills/r1/HC-p0.png",
+    "handheld-stories/stills/r1/HC-p1.png"
+  ],
+  "errors": {
+    "count": 0,
+    "first": []
+  }
+}

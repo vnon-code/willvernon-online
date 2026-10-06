@@ -1,0 +1,9 @@
+{
+  "_about": "PROTOTYPE (overnight run). Handheld Stories' Sheet variants; see .scratch/v1-launch/overnight/TOOLS.md. Ids HA–HC (not A–C: those are shared bodies, TOOLS.md §1).",
+  "default": "HA",
+  "variants": {
+    "HA": { "name": "Walkthrough: the film in a browser frame with the four pages as chapters, the museum visit as a photo strip, a drag-to-turn Coiled Snake, the 150 roto frames", "score": 29, "of": 30 },
+    "HB": { "name": "Collection record: the turning ring and film as the object, a museum label, a slider through six drafts, two catalogue rows sliding with the scroll", "score": 28.3, "of": 30 },
+    "HC": { "name": "UI kit: four screens as a 2x2, the type scale as a ladder, live hover and info-box components, linear vs eased cursor, the film", "score": 28.8, "of": 30 }
+  }
+}
