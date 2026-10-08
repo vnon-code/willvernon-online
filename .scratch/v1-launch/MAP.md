@@ -39,7 +39,6 @@ willvernon.online v1 is live from `v3`: the Gate, then one scrolling page (the L
 - **Copy for Sections:** who writes the Section text, and whether old copy is reused or rewritten. Depends on each Section's design.
 - **The full Section list and order:** About me, Music, AI and Contact for now (Will, 2026-10-05); Design and Tools are not in it, and Will may add more.
 - **Header menu links:** set once the Section contents are known (Will, 2026-10-05).
-- **Project Sheet content per project:** which media and teaser each of the 11+ projects needs. Depends on Project Sheet design.
 
 ## Out of scope
 
