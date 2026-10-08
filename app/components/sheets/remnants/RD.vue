@@ -7,7 +7,7 @@ import SheetSectionNo from '../_shared/SheetSectionNo.vue'
 import { useSheetSections } from '../_shared/useSheetSections'
 import { byKey, FILM, FILM_ORDER, GLYPHS, GUIDE, INFO, lineMask, mask, RM, RM2, SEEDS, STAGES, tc, TESTS } from './story'
 
-// PROTOTYPE RD "Specimen, refined" (overnight run, Remnants r2): RA (r1 best) with the judges' notes applied.
+// RD "Specimen, refined" (Remnants r2; the overnight run's top scorer): RA (r1 best) with the judges' notes applied.
 // - the nine-row lineage table (680px wide, sideways on phones) is now one lineage you pick by key; phones show the
 //   stone and glyph first;
 // - the seed log carries the ControlNet guide, laid over each render in the same 16:9 box (measured, see story.ts);

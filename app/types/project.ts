@@ -10,7 +10,7 @@ export interface SheetMediaItem {
 }
 
 // PROTOTYPE (Project Sheet rework, round 2): a project's story, from content/stories/<slug>.json (prerender only).
-// Amplified Spaces has one; every other project falls back to its strip data (useSheetProto.ts `storyView`).
+// Amplified Spaces has one (its Sheet reads it); the other Sheets carry their facts in their own story.ts.
 export interface StoryTrack {
   id: string
   title: string

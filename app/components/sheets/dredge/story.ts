@@ -1,9 +1,9 @@
 import AI from '~~/content/ai.json'
 
-// PROTOTYPE (overnight run, Dredge DA–DC): the facts every variant here shows, drawn from
+// The Sheet's data (Dredge DA–DC, from the overnight run): the facts the Sheet shows, drawn from
 // .scratch/v1-launch/overnight/dredge/story.md (file dates on Will's PC, content/ai.json, the strip card). No write-up
 // exists, so the Sheet opens to the outcome. Media is dev-only under /proto-media (gitignored;
-// public/proto-media/dredge/UPLOAD.md lists it for R2). Not a variant (only *.vue files are).
+// public/proto-media/dredge/UPLOAD.md lists it for R2).
 // Every string is PLACEHOLDER copy, not approved by Will. Tools: the files show Midjourney (stills and video), Nano
 // Banana and Premiere Pro; the old site also names Luma Dream Machine. Will to confirm (notes.md).
 export const _status = 'PLACEHOLDER copy, not approved by Will'

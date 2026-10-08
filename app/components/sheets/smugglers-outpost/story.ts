@@ -1,9 +1,9 @@
 import type { SheetMediaItem } from '~/types/project'
 
-// PROTOTYPE (overnight run, Smuggler's Outpost SA–SC): the story every variant here tells, drawn from
+// The Sheet's data (Smuggler's Outpost SA–SC, from the overnight run): the story the Sheet tells, drawn from
 // .scratch/v1-launch/overnight/smugglers-outpost/story.md (process book V4, learning agreement, crit slides).
 // Media is dev-only under /proto-media (gitignored; public/proto-media/smugglers-outpost/UPLOAD.md lists it for R2).
-// Not a variant (only *.vue files are). Every string is PLACEHOLDER copy, not approved by Will.
+// Every string is PLACEHOLDER copy, not approved by Will.
 export const _status = 'PLACEHOLDER copy, not approved by Will'
 
 const B = '/proto-media/smugglers-outpost/'

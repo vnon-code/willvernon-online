@@ -1,50 +1,10 @@
 import type { Ref } from 'vue'
-import type { ProjectCard, SheetMediaItem, SheetOpen, SheetStory } from '~/types/project'
+import type { SheetOpen } from '~/types/project'
 
-// PROTOTYPE (Project Sheet rework; scored in .scratch/v1-launch/project-sheet-matrix.md). Round 1: A, B, C beside
-// today's (0). Round 2 builds on A: A (baseline, Will's notes 2 and 3), R "Rooms", S "Signal chain", T "Type stage",
-// U "Double diamond". These are the shared bodies; since the overnight run each project lists its own variants, default
-// and scores (sheetRegistry.ts, app/components/sheets/<slug>/meta.json), switched from the options panel
-// (SheetProtoPanel.vue) or `?sheet=<id>`. Everything here goes once Will picks: the winners fold into ProjectSheet.vue.
-export const SHEET_VARIANTS = ['0', 'A', 'B', 'C', 'R', 'S', 'T', 'U'] as const
-export type SheetVariant = (typeof SHEET_VARIANTS)[number]
-export const SHEET_NAMES: Record<SheetVariant, string> = {
-  0: 'Current', A: 'Hero column', B: 'Stage and plates', C: 'Split',
-  R: 'Rooms', S: 'Signal chain', T: 'Type stage', U: 'Double diamond',
-}
-
-const isId = (v: unknown): v is string => typeof v === 'string' && /^[\w-]{1,24}$/.test(v)
-
-// `variant` is the picked id (`?sheet=`), null for each project's default; `opened` is what the open Sheet resolved to
-export function useSheetVariant() {
-  const variant = useState<string | null>('sheet-variant', () => null)
-  const opened = useState<{ slug: string, variant: string } | null>('sheet-opened', () => null)
-  // Keeps the pick in the URL (`?sheet=A`), whatever the path, so a reload keeps it
-  function setVariant(v: string) {
-    if (!isId(v)) return
-    variant.value = v
-    const q = new URLSearchParams(location.search)
-    q.set('sheet', v)
-    history.replaceState(history.state, '', `${location.pathname}?${q}`)
-  }
-  return { variant, opened, setVariant }
-}
-
-// Reads `?sheet=` once on the client; the harness hook `window.__sheet` exists in dev and with `?proto`
-export function initSheetVariant() {
-  const { variant, opened, setVariant } = useSheetVariant()
-  const q = new URLSearchParams(location.search)
-  const v = q.get('sheet')
-  if (isId(v)) variant.value = v
-  const panel = import.meta.dev || q.has('proto')
-  if (panel) {
-    Object.assign(window, { __sheet: { get variant() { return variant.value }, get opened() { return opened.value }, setVariant } })
-  }
-  return panel
-}
+// The Project Sheets' shared motion and helpers (SheetShell.vue and each project's body in components/sheets/<slug>/).
 
 // ---------------------------------------------------------------------------------------------------------------
-// The open and close shared by A, B and C. The teaser's box is ONE element (SheetMedia.vue) laid out where it ends
+// The open and close every Sheet shares (SheetShell.vue). The teaser's box is ONE element (SheetMedia.vue) laid out where it ends
 // up; it is drawn from the card's rect to there by transform alone (FLIP), its content counter-scaled so the video
 // never stretches. The Landing's [data-drop] elements leave on Web Animations on a property their own CSS doesn't
 // use, so the close can read the card's home rect (every drop rewound for one read) and fold back into it.
@@ -331,84 +291,10 @@ export function usePlayInView(layer: Ref<HTMLElement | undefined>) {
   onBeforeUnmount(() => io?.disconnect())
 }
 
-// What a Sheet shows below the teaser: the steps, the outcome (unless a step or the teaser already shows it) and the
-// renders
-export function sheetContent(card: ProjectCard) {
-  const used = new Set([card.teaser, ...card.process.map(s => s.media?.src)])
-  const outcome = card.outcome && !used.has(card.outcome.src) ? card.outcome : null
-  return { steps: card.process, outcome, gallery: card.gallery }
-}
+// Two-digit numbering: 0 → '01'
 export const pad = (i: number) => String(i + 1).padStart(2, '0')
 
-// ---------------------------------------------------------------------------------------------------------------
-// Round 2: what the Sheets R, S, T and U show. A project with a story (content/stories/<slug>.json) tells it; one
-// without falls back to its strip data: its process steps become the chapters and phases ('steps'), or, with none
-// (the AI and experiment entries), just the intro ('thin').
-export interface SheetChapter {
-  id: string
-  title: string
-  subtitle?: string
-  facts: { k: string, v: string }[] // a track: sound → visual → room
-  screen?: SheetMediaItem // the track's visual
-  slides: SheetMediaItem[] // the room: splash, then renders
-  chain: { k: string, v: string, media: SheetMediaItem[] }[] // the signal chain: sound, visual, network, room
-}
-export interface SheetView {
-  kind: 'story' | 'steps' | 'thin'
-  title: string
-  hook: string
-  intro: string
-  credits: { k: string, v: string }[]
-  stats: string[]
-  chapters: SheetChapter[]
-  phases: { id: string, title: string, text: string, media: SheetMediaItem[] }[]
-  outcome: { text: string, media: SheetMediaItem[] } | null
-}
-const TAGS: Record<string, string> = { projects: 'Project', experiments: 'Experiment', ai: 'AI' }
-const slug = (t: string) => t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
-
-export function storyView(card: ProjectCard): SheetView {
-  const s: SheetStory | null | undefined = card.story
-  if (s) {
-    return {
-      kind: 'story', title: s.title, hook: s.hook, intro: s.intro ?? '', credits: s.credits, stats: s.stats,
-      chapters: s.tracks.map(t => ({
-        id: t.id, title: t.title, subtitle: t.subtitle,
-        facts: [{ k: 'Sound', v: t.sound }, { k: 'Visual', v: t.visual }, { k: 'Room', v: t.room }],
-        screen: t.video,
-        slides: [t.splash, ...t.renders].filter((m): m is SheetMediaItem => !!m),
-        chain: [
-          { k: 'Sound', v: t.sound, media: t.art ? [t.art] : [] },
-          { k: 'Visual', v: t.visual, media: [t.video, ...t.frames].filter((m): m is SheetMediaItem => !!m) },
-          ...(t.network.length ? [{ k: 'Network', v: t.network[0]!.caption ?? '', media: t.network }] : []),
-          { k: 'Room', v: t.room, media: t.splash ? [t.splash] : [] },
-        ],
-      })),
-      phases: s.process,
-      outcome: s.outcome ?? null,
-    }
-  }
-  const credits = [
-    { k: 'Type', v: TAGS[card.from] ?? card.discipline },
-    { k: 'Discipline', v: card.discipline },
-    ...(card.tools.length ? [{ k: card.from === 'ai' ? 'Tags' : 'Tools', v: card.tools.join(', ') }] : []),
-  ]
-  const steps = card.process.map(p => ({ id: slug(p.title), title: p.title, text: p.text, media: p.media ? [p.media] : [] }))
-  const { outcome, gallery } = sheetContent(card)
-  const out = [...(outcome ? [outcome] : []), ...gallery]
-  return {
-    kind: steps.length ? 'steps' : 'thin',
-    title: card.title, hook: card.summary, intro: card.long, credits, stats: card.tools.slice(0, 3),
-    chapters: steps.map(p => ({
-      id: p.id, title: p.title, facts: p.text ? [{ k: '', v: p.text }] : [], slides: p.media,
-      chain: [{ k: p.title, v: p.text, media: p.media }],
-    })),
-    phases: steps,
-    outcome: out.length ? { text: '', media: out } : null,
-  }
-}
-
-// Scroll-linked runs (S, T): CSS scroll-driven animations where the browser has them (compositor-driven); elsewhere
+// Scroll-linked runs: CSS scroll-driven animations where the browser has them (compositor-driven); elsewhere
 // this sets `--p` (0 → 1 across each [data-progress] element's pinned stretch) on the layer's scroll, once a frame.
 export function useLayerProgress(layer: Ref<HTMLElement | undefined>) {
   let raf = 0

@@ -1,9 +1,8 @@
 import { onBeforeUnmount, onMounted, type Ref } from 'vue'
 
-// PROTOTYPE (overnight run, Monolith): videos marked [data-play] play only in view, and only once the Sheet is fully
+// Videos marked [data-play] play only in view, and only once the Sheet is fully
 // open and settled (1.2s on), so no video starts decoding during the open or close flight (the shell's usePlayInView
 // starts them on mount; a second video decoding cost ~48 slow frames in the scorer). PLACEHOLDER: the 1.2s.
-// Not a variant (only *.vue files are).
 export function useOpenPlay(root: Ref<HTMLElement | undefined>) {
   let io: IntersectionObserver | undefined
   let mo: MutationObserver | undefined

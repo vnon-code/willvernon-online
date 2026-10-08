@@ -8,7 +8,7 @@ import { useSheetSections } from '../_shared/useSheetSections'
 import { useOpenPlay } from '../monolith/useOpenPlay'
 import { CHAPTERS, CLIPS, DRAFTS, HS, INFO, OXFORD, SB, TURN } from './story'
 
-// PROTOTYPE HD "Still / Moving" (overnight run, Handheld Stories r2). The project is static pages made to move, so the
+// HD "Still / Moving" (Handheld Stories r2; the overnight run's top scorer). The project is static pages made to move, so the
 // Sheet keeps asking still or moving. Beats, each its own device: drag a divider between a page's Photoshop still and
 // its animated cut (Catalogue, Object, Database; the shell's hero above is the landing) → the brief as struck-out
 // ideas beside the museum visit as a deck you deal through → six catalogue drafts cascaded on a light table, pick one to

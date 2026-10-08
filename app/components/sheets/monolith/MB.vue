@@ -8,7 +8,7 @@ import { useSheetSections } from '../_shared/useSheetSections'
 import { B, CLIPS, FIGURE, FILM, MO, NIGHT, TRAILER, WORLD } from './story'
 import { useOpenPlay } from './useOpenPlay'
 
-// PROTOTYPE MB "Turnaround" (overnight run, Monolith r1).
+// MB "Turnaround" (Monolith r1; the overnight run's top scorer).
 // Refs: character turnaround / model sheets from film and games pre-production, played as a flipbook the way Apple's
 // product pages scrub a still sequence with the scroll (and Lusion's pinned stages); a film call sheet / edit log for
 // the night; Rejouice's running ticker (one of Will's keepers) for the world.

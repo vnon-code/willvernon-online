@@ -7,7 +7,7 @@ import SheetSectionNo from '../_shared/SheetSectionNo.vue'
 import { useSheetSections } from '../_shared/useSheetSections'
 import { BLENDER, FRONT_FINAL, FRONTS, FRONTS_LINE, GROUNDS, HOOK, INFO, MASK, MASK_LINE, MASKED, MOCK, ROUNDS, TITLE } from './story'
 
-// PROTOTYPE Ko "Knockout" (overnight curation run, cargo-5015). An identity piece, so the page is a mark sheet:
+// Ko "Knockout" (cargo-5015; the overnight curation run's top scorer). An identity piece, so the page is a mark sheet:
 // the outcome first (the card on concrete and polystyrene) → 01 Eight to one: the mark's rounds as a ladder, a big
 // round number on the left, the round in view lit and the rest dimmed → 02 Mark as mask: one stage, five grounds
 // from page 17 (the mark on texture, red, black; then texture or a gradient map inside it) → 03 Five fronts: four

@@ -6,7 +6,7 @@ import SheetHead from '../_shared/SheetHead.vue'
 import SheetSectionNo from '../_shared/SheetSectionNo.vue'
 import { goToSection, useSheetSections } from '../_shared/useSheetSections'
 
-// PROTOTYPE T2b "Track switcher, polished" (overnight run, Amplified Spaces): T2 plus round 1's six next-round changes
+// T2b "Track switcher, polished" (Amplified Spaces; the overnight run's top scorer): T2 plus round 1's six next-round changes
 // (matrix.md): a closing beat (the B17 crit video full-bleed under the problems), Define's B17 stage at full
 // view height with the wipe as the event, the question big in Discover's left cell, a contact sheet with varied spans
 // and a staggered reveal, a slim sticky 01–05 phase marker in the left margin, and phone fixes (short index chips,

@@ -1,10 +1,10 @@
 import CARD from '~~/content/proto-cards/cargo-5015.json'
 
-// PROTOTYPE (overnight curation run, cargo-5015): the facts the Sheet shows, from Will's GDES5015 Professional
+// The Sheet's data (cargo-5015, from the overnight curation run): the facts the Sheet shows, from Will's GDES5015 Professional
 // Practice process book V2 (2024, pages 10–19 and 32, copied read-only from his PC) and the finished files in
 // 5015\Finished and \Buisness Card. Media is dev-only under /proto-media (gitignored; public/proto-media/cargo-5015/
 // UPLOAD.md lists it for R2). The card back is left out on purpose: it carries Will's phone number and email.
-// Not a variant (only *.vue files are). Every string is PLACEHOLDER copy, not approved by Will.
+// Every string is PLACEHOLDER copy, not approved by Will.
 export const _status = 'PLACEHOLDER copy, not approved by Will'
 
 export const B = '/proto-media/cargo-5015/'

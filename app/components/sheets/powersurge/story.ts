@@ -1,9 +1,9 @@
 import PROJECTS from '~~/content/projects.json'
 
-// PROTOTYPE (overnight run, Powersurge PwA–PwC): the facts every variant here shows, drawn from
+// The Sheet's data (Powersurge PwA–PwC, from the overnight run): the facts the Sheet shows, drawn from
 // .scratch/v1-launch/overnight/powersurge/story.md (Will's GDES6002 process book, Dec 2024, the final film and the
 // TouchDesigner stills, copied from his PC; content/projects.json). Media is dev-only under /proto-media (gitignored;
-// public/proto-media/powersurge/UPLOAD.md lists it for R2). Not a variant (only *.vue files are).
+// public/proto-media/powersurge/UPLOAD.md lists it for R2).
 // Every string is PLACEHOLDER copy, not approved by Will.
 export const _status = 'PLACEHOLDER copy, not approved by Will'
 

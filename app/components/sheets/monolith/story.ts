@@ -1,7 +1,7 @@
-// PROTOTYPE (overnight run, Monolith MA–MC): the facts every variant here shows, drawn from
+// The Sheet's data (Monolith MA–MC, from the overnight run): the facts the Sheet shows, drawn from
 // .scratch/v1-launch/overnight/monolith/story.md (file dates on Will's PC, content/ai.json, the strip card).
 // No write-up exists, so the Sheet opens to the outcome. Media is dev-only under /proto-media (gitignored;
-// public/proto-media/monolith/UPLOAD.md lists it for R2). Not a variant (only *.vue files are).
+// public/proto-media/monolith/UPLOAD.md lists it for R2).
 // Every string is PLACEHOLDER copy, not approved by Will. Tools: the files show Midjourney (stills and video), Nano
 // Banana and Premiere Pro; the old site said Luma Dream Machine. Will to confirm (notes.md).
 export const _status = 'PLACEHOLDER copy, not approved by Will'

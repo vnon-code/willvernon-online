@@ -9,7 +9,7 @@ import { useOpenPlay } from '../monolith/useOpenPlay'
 import { BP, CONCEPT, INFO, LOOP, M, SLOGANS, TW } from './story'
 import { useSeen } from './useSeen'
 
-// PROTOTYPE WE "Zoom out" (overnight run, The World Plays Here r2). Beats, each its own device: a pinned zoom out
+// WE "Zoom out" (The World Plays Here r2; the overnight run's top scorer). Beats, each its own device: a pinned zoom out
 // from the key visual to the subway platform it hangs in, the other placements cutting in as picture-in-picture →
 // the slogans typed and deleted on one line, the pick left standing, a log of what went → the film's comp as an
 // exploded stack of five layers, each lifting from the stack as you point at its line → the loop to close.

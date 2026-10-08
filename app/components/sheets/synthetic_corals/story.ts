@@ -1,9 +1,9 @@
 import AI from '~~/content/ai.json'
 
-// PROTOTYPE (overnight run, Synthetic Corals CA–CC): the facts every variant here shows, drawn from
+// The Sheet's data (Synthetic Corals CA–CC, from the overnight run): the facts the Sheet shows, drawn from
 // .scratch/v1-launch/overnight/synthetic_corals/story.md (content/ai.json, file dates on Will's PC). No write-up
 // exists, so the Sheet opens to the outcome. Media is dev-only under /proto-media (gitignored;
-// public/proto-media/synthetic_corals/UPLOAD.md lists it for R2). Not a variant (only *.vue files are).
+// public/proto-media/synthetic_corals/UPLOAD.md lists it for R2).
 // Every string is PLACEHOLDER copy, not approved by Will. Tools as ai.json lists them (the old card tag said
 // AntiGravity); Will to confirm (notes.md).
 export const _status = 'PLACEHOLDER copy, not approved by Will'

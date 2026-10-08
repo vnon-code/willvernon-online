@@ -1,7 +1,7 @@
-// PROTOTYPE (overnight run, Remnants RA–RC): the facts every variant here shows, from Will's process book
+// The Sheet's data (Remnants RA–RC, from the overnight run): the facts the Sheet shows, from Will's process book
 // (WilliamVernon_ProcessBook_moduleGDES4002.pdf on his PC, Dec 2023), his portfolio PDF (Apr 2024) and content/projects.json.
 // See .scratch/v1-launch/overnight/remnants/story.md. Media is dev-only under /proto-media (gitignored;
-// public/proto-media/remnants/UPLOAD.md lists it for R2); the film is already on R2. Not a variant (only *.vue files are).
+// public/proto-media/remnants/UPLOAD.md lists it for R2); the film is already on R2.
 // Every string is PLACEHOLDER copy, not approved by Will.
 export const _status = 'PLACEHOLDER copy, not approved by Will'
 

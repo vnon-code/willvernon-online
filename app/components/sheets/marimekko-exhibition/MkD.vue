@@ -7,7 +7,7 @@ import SheetSectionNo from '../_shared/SheetSectionNo.vue'
 import { useSheetSections } from '../_shared/useSheetSections'
 import { ARTISTS, INFO, LOOP, MK, MK2, OUT, PB, type Pic, TYPEWRITER } from './story'
 
-// PROTOTYPE MkD "Catalogue" (overnight run, Marimekko Exhibition r2). The Sheet reads like the show's own catalogue:
+// MkD "Catalogue" (Marimekko Exhibition r2; the overnight run's top scorer). The Sheet reads like the show's own catalogue:
 // the first view is the system as a 16-piece matrix (four designers x poster, floor tape, billboard, ticket) that
 // re-sorts by designer or by piece (Vue's TransitionGroup moves the tiles, transform only), so the "everything in
 // fours" rule reads both ways → 01 research pages hung on a line, each with a museum wall label (page, title, where,

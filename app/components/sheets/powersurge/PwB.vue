@@ -7,7 +7,7 @@ import SheetSectionNo from '../_shared/SheetSectionNo.vue'
 import { useSheetSections } from '../_shared/useSheetSections'
 import { CLIMAX, FILM, FILM_SECONDS, INFO, moorePath, moorePoint, PB, PS, TD, YEARS } from './story'
 
-// PROTOTYPE PwB "Curve" (overnight run, Powersurge r1). The data is the story, so the page rides it: the first view
+// PwB "Curve" (Powersurge r1; the overnight run's top scorer). The data is the story, so the page rides it: the first view
 // is five frames whose widths grow like the curve (quiet sphere narrow, the burst wide) → 01 The curve: a sticky
 // chart of Moore's Law with a dot that climbs to each year as its step scrolls past, the frame for that year above
 // it (1997, flat at 2005, still flat at 75%, the burst in 2018, white in 2020) → 02 Two engines: Blender and

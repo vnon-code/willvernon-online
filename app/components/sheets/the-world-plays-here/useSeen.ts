@@ -1,7 +1,7 @@
 import { onBeforeUnmount, onMounted, ref, type Ref } from 'vue'
 
-// PROTOTYPE (overnight run, The World Plays Here r2): true once the element has come into the Sheet's view (once).
-// Under reduced motion it is true at once, so nothing waits on a reveal. Not a variant (only *.vue files are).
+// True once the element has come into the Sheet's view (once).
+// Under reduced motion it is true at once, so nothing waits on a reveal.
 export function useSeen(el: Ref<HTMLElement | undefined>, threshold = 0.3) {
   const seen = ref(false)
   let io: IntersectionObserver | undefined

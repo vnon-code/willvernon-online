@@ -8,7 +8,7 @@ import { useSheetSections } from '../_shared/useSheetSections'
 import { useOpenPlay } from '../monolith/useOpenPlay'
 import { CLIPS, CO, INFO, NODES, PREVIEW, PROMPT, RUNS, SPIN } from './story'
 
-// PROTOTYPE CD "Plate, refined" (overnight run, Synthetic Corals r2): CA with the r1 judges' fixes. The plate's
+// CD "Plate, refined" (Synthetic Corals r2; the overnight run's top scorer): CA with the r1 judges' fixes. The plate's
 // centre is now the preview still (the hero already shows the clip), the plate square-centred (1fr 2fr 1fr); node
 // wires and ports white at 40%, only the hovered node's wire race red; FIG labels on solid black chips; Turning shows
 // the 5 s clip once, top-aligned with its heading, beside six frames of the 10 s clip. Copy cut to facts.

@@ -8,7 +8,7 @@ import { useSheetSections } from '../_shared/useSheetSections'
 import { useOpenPlay } from '../monolith/useOpenPlay'
 import { CLIPS, DR, FILM, INFO, KIT, STRIP } from './story'
 
-// PROTOTYPE DA "Edit bay" (overnight run, Dredge r1). Beats, each its own device: the film in an edit bay, a strip of
+// DA "Edit bay" (Dredge r1; the overnight run's top scorer). Beats, each its own device: the film in an edit bay, a strip of
 // fifteen of its frames under it as a timeline you scrub by pointing (the playhead follows the film) → the kit as a
 // product page's hotspots, four numbered points on the figure, each opening its close-up → the prompt's 2.35:1 laid
 // over the 9:16 whale clip as a framing guide you switch on and off.

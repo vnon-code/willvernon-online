@@ -7,7 +7,7 @@ import SheetSectionNo from '../_shared/SheetSectionNo.vue'
 import { useSheetSections } from '../_shared/useSheetSections'
 import { SO, SO2, SO_PLACE } from './story'
 
-// PROTOTYPE SF "Prompt to pixels" (overnight run, Smuggler's Outpost r3 challenger).
+// SF "Prompt to pixels" (Smuggler's Outpost r3 challenger; the overnight run's top scorer).
 // Refs: the inline-image headline (thumbnails set into the line of type, an Awwwards staple); Obys Agency's
 // scroll-driven project carousel (one of Will's keepers) and the Awwwards Creative Pass horizontal-scroll elements
 // (Oscar Bravo, Tim Dunk) for the build; VFX breakdown frames that split one shot into its passes (BlenderNation

@@ -8,7 +8,7 @@ import { useSheetSections } from '../_shared/useSheetSections'
 import { useOpenPlay } from '../monolith/useOpenPlay'
 import { GREY, NODES, SQ, TOPO, TRAILER, VERSIONS, WIDE } from './story'
 
-// PROTOTYPE TB "Survey sheet" (overnight run, 04 Topography r1).
+// TB "Survey sheet" (04 Topography r1; the overnight run's top scorer).
 // Refs: printed survey maps (Swisstopo and OS Explorer sheets: the cover's title panel, the lettered border, the
 // legend, grid references on every square); print proofs for the crop marks; Kenta Toshikura's quiet tiled project
 // grids (one of Will's keepers) for the mosaic. Beats, each its own device: the outcome as a lettered map grid of tiles

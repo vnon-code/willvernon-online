@@ -1,8 +1,8 @@
-// PROTOTYPE (overnight run, 04 Topography AV Test TA–TC): the facts every variant here shows, drawn from
+// The Sheet's data (04 Topography AV Test TA–TC, from the overnight run): the facts the Sheet shows, drawn from
 // .scratch/v1-launch/overnight/04/story.md (Will's 3-page Cargo slide PDF, the file dates, the strip card).
 // The hero is the strip's teaser (R2 Test 2, the finished 1:57 piece), so the bodies don't repeat it.
 // Media is dev-only under /proto-media (gitignored; public/proto-media/04/UPLOAD.md lists it for R2).
-// Every string is PLACEHOLDER copy, not approved by Will. Not a variant (only *.vue files are).
+// Every string is PLACEHOLDER copy, not approved by Will.
 export const _status = 'PLACEHOLDER copy, not approved by Will'
 
 export const B = '/proto-media/04/'
