@@ -31,6 +31,7 @@ willvernon.online v1 is live from `v3`: the Gate, then one scrolling page (the L
 - [Approve the info row](tickets/03-info-row.md): already locked in round 23 (plates + tiles, 36px, Hug) and built
 - [Site navigation](tickets/05-site-navigation.md): one scrolling page; the Landing is scroll-locked on top, the Index drawer morphs into Sections below; `/<section>` and `/work/<slug>` URLs; Gate first on deep links
 - [Scroll page shell](tickets/15-scroll-page-shell.md): built. Learn More (no menu) scrolls the whole Landing up to the Sections (About me, Music, AI, Contact for now); dots scroll in the panel's margins; past the Landing the header turns solid with a lit edge and inline links
+- [Project Sheet rework](tickets/08-project-sheet.md): a different body per project, shared title/info/numbering/contents/credits; top scorers locked in and merged into v3
 - [Hash inline scripts at build](tickets/14-csp-hash-step.md): built and merged into v3; a post-build step hashes the 2 inline scripts into the CSP
 
 ## Not yet specified

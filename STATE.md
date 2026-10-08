@@ -14,7 +14,7 @@
 - Drawers: Visuals bottom left, Music (Sound HUD) bottom right, 420ms iOS curve with a band cascade.
 - Header: monogram, icon (burger) nav, mute button. Mute covers music and UI sounds; VOL covers music only.
 - UI sounds: the Tactile palette via `useSound.sfx`.
-- Clicking the centre card opens the Project Sheet (`ProjectSheet.vue`; full rework ticketed).
+- Clicking the centre card opens that project's Project Sheet (`app/composables/sheetRegistry.ts` maps slug to its body).
 - Navigation (2026-10-05/06, `docs/adr/0002-one-scrolling-page.md`): one page, built (Scroll page shell, uncommitted). The Landing is scroll-locked on top; Learn More (bottom centre) scrolls the whole Landing up to the Sections: About me, Music, AI, Contact, on a solid panel with the dots scrolling in the margins. On the way the header docks early (links inline, solid background fading in with the scroll over the last 240px). The Landing falls behind at 0.6×, shrinking up to 8%, its side cards parting out of the margins; the filter and info plates tuck behind the centre card. Scrolling back up is free, then the last 120px glides home; the plates deal back out from the card and Learn More rises. Rounds 5–7 scored in `.scratch/v1-launch/scroll-back-matrix.md`. No glass. `/<section>` and `/work/<slug>` URLs, Gate first on deep links, all paths prerendered. Logic: `useScrollPage.ts`.
 
 ## Placeholders still in the build
@@ -30,20 +30,19 @@
 - Never observed: sounds by Will's ear, reduced motion, light theme, a low-end GPU.
 
 ## Deploy blockers
-- CSP vs Nuxt inline scripts: decided (post-build hash step), not built. Ticket: Hash inline scripts at build.
+- CSP: built (2026-10-08). `scripts/csp-hashes.mjs` hashes Nuxt's 2 inline scripts into `_headers` after `nuxt generate`.
 - Cloudflare Workers Builds with pnpm 12 is untested.
 
-## Project Sheets (ticket 08, branch `overnight/project-sheets`, 2026-10-06/07)
-- Every project has a winning Sheet body (default in `app/components/sheets/<slug>/meta.json`): Smuggler's SF, Monolith MB, Amplified Spaces T2b, Topography TB, World Plays Here WE, Dredge DA, Remnants RD, Handheld HD, Synthetic Corals CD, Marimekko MkD, Powersurge PwB. Cargo 5015 (Ko) is a curated page behind `?proto`.
+## Project Sheets (ticket 08, closed 2026-10-08, on `v3`)
+- Locked in (Will, 2026-10-08): the top scorer per project, one body each in `app/components/sheets/<slug>/`: Smuggler's SF, Monolith MB, Amplified Spaces T2b, Topography TB, World Plays Here WE, Dredge DA, Remnants RD, Handheld HD, Synthetic Corals CD, Marimekko MkD, Powersurge PwB, Cargo 5015 Ko (its strip card now shows to everyone). Losing variants archived on branch `archive/project-sheet-variants`.
 - Shared on every Sheet (Will): title, info rail, contents, "03 / 05" numbering, credits (`app/components/sheets/_shared/`). Bodies vary per project.
 - Copy rule (Will): minimal, brutalist, through `no-ai-slop`. All Sheet copy is PLACEHOLDER until Will approves.
 - Media is local only (`public/proto-media/`, gitignored); each project's `UPLOAD.md` lists what goes to R2.
-- Tools: scorer `.scratch/v1-launch/overnight/tools/score.cjs`, rules `.scratch/v1-launch/overnight/BRIEF.md` + `TOOLS.md`, per-project `matrix.md` and `SUMMARY.md`.
+- Tools (from the variant run; the scorer assumes variant switching): scorer `.scratch/v1-launch/overnight/tools/score.cjs`, rules `.scratch/v1-launch/overnight/BRIEF.md` + `TOOLS.md`, per-project `matrix.md` and `SUMMARY.md`.
 - Review page (private): https://claude.ai/artifact/ETpgD1mB3qLj6AgToH8EdD
 - Favicon is now the monogram (commit 4c59dc5).
 
 ## Next
-1. Will reviews the Sheets live (`corepack pnpm dev`, open each card) with the review page: approve copy, decisions, R2 uploads.
-2. Decide on scrubbing the PC address and employer name from the branch's git history (needs a force push).
-3. Then fold the winners into the real code (karpathy-loop "Final pick": delete losers, the options panel and PROTOTYPE markers) and merge into `v3`.
-Still open from before: Will hasn't heard the scroll-page sounds; the Tools Section ticket (17) question.
+1. Sheet detail pass (ticket 20): copy approval and R2 uploads, one or two projects per session. No page may point at `/proto-media/` at launch.
+2. New tickets (2026-10-08): Redo the Gate and the logo animation (21); Stem mixer in place of the music and visuals drawers (22), starts with a grilling round.
+Still open from before: Will hasn't heard the scroll-page sounds; the Design (09) and Tools (17) Sections stay open.
