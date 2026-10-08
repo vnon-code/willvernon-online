@@ -75,17 +75,13 @@ const { data: allCards } = await useAsyncData('strip-cards', async () => {
     ai: Object.fromEntries(projects.map(p => [p.key, { title: p.title, summary: p.desc, tools: p.tags, long: '', process: [], gallery: [] }])),
     experiments: Object.fromEntries(items.map(p => [p.id, { title: p.title, summary: p.descShort, tools: p.software, long: '', process: [], gallery: [] }])),
   }
-  // PROTOTYPE (overnight curation run): cards for work not on the live site yet, one file each in
-  // content/proto-cards/ (card and text together). Always in the payload; shown only in dev or with ?proto (below).
+  // Cards for work not on the old site, one file each in content/proto-cards/ (card and text together).
+  // Shown to everyone since Will locked in the Sheets (2026-10-08).
   const protoFiles = import.meta.glob('../../content/proto-cards/*.json', { import: 'default' })
   const proto = await Promise.all(Object.values(protoFiles).map(async load => ({ ...(await load() as object), proto: true })))
   return [...strip.cards.map(c => ({ ...c, ...info[c.from]![c.id]! })), ...proto as unknown as Card[]]
 })
-// Proto cards show in dev, or once mounted when the URL has ?proto (after mount, so a prerendered page hydrates
-// with the same cards it was built with)
-const showProto = ref(import.meta.dev)
-onMounted(() => { if (new URLSearchParams(location.search).has('proto')) showProto.value = true })
-const listed = computed(() => (allCards.value ?? []).filter(c => showProto.value || !(c as { proto?: boolean }).proto))
+const listed = computed(() => allCards.value ?? [])
 
 const chip = ref('All')
 const picked = ref('All') // the pressed chip; `chip` (the filtered set) follows after the sweep-out
